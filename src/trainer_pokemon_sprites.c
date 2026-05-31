@@ -87,6 +87,28 @@ void LoadMonFrontPicInWindow(enum Species species, bool32 isShiny, u32 personali
     Free(framePics);
 }
 
+// Set to TRUE to render Pokédex Gen 2 sprites in hand-drawn journal style grayscale.
+#define POKEDEX_GEN2_GRAYSCALE FALSE
+
+#if POKEDEX_GEN2_GRAYSCALE
+static void ConvertPaletteToGrayscale(const u16 *src, u16 *dst)
+{
+    int i;
+    dst[0] = src[0]; // Preserve transparent background color index 0
+    for (i = 1; i < 16; i++)
+    {
+        u16 color = src[i];
+        u32 r = color & 0x1F;
+        u32 g = (color >> 5) & 0x1F;
+        u32 b = (color >> 10) & 0x1F;
+        // Luminance formula (0.299R + 0.587G + 0.114B)
+        u32 gray = (r * 77 + g * 150 + b * 29) >> 8;
+        if (gray > 31) gray = 31;
+        dst[i] = gray | (gray << 5) | (gray << 10);
+    }
+}
+#endif
+
 void LoadMonFrontPicInWindowPokedex(enum Species species, bool32 isShiny, u32 personality, u8 paletteSlot, u8 windowId)
 {
     u8 *framePics = Alloc(MON_PIC_SIZE * MAX_MON_PIC_FRAMES);
@@ -119,6 +141,12 @@ void LoadMonFrontPicInWindowPokedex(enum Species species, bool32 isShiny, u32 pe
     {
         paletteData = GetMonSpritePalFromSpeciesAndPersonality(species, isShiny, personality);
     }
+
+#if POKEDEX_GEN2_GRAYSCALE
+    u16 grayscalePal[16];
+    ConvertPaletteToGrayscale(paletteData, grayscalePal);
+    paletteData = grayscalePal;
+#endif
 
     LoadPalette(paletteData, BG_PLTT_ID(paletteSlot), PLTT_SIZE_4BPP);
     Free(framePics);
@@ -208,6 +236,12 @@ static void LoadMonPicPaletteByTagOrSlotPokedex(enum Species species, bool32 isS
     {
         paletteData = GetMonSpritePalFromSpeciesAndPersonality(species, isShiny, personality);
     }
+
+#if POKEDEX_GEN2_GRAYSCALE
+    u16 grayscalePal[16];
+    ConvertPaletteToGrayscale(paletteData, grayscalePal);
+    paletteData = grayscalePal;
+#endif
 
     if (paletteTag == TAG_NONE)
     {
