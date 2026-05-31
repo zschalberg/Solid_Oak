@@ -4160,10 +4160,8 @@ void Task_DisplayCaughtMonDexPageHGSS(u8 taskId)
     case 4:
     {
         u32 personality = ((u16)gTasks[taskId].tPersonalityHi << 16) | (u16)gTasks[taskId].tPersonalityLo;
-        const u16 *paletteData = GetMonSpritePalFromSpeciesAndPersonality(species, FALSE, personality);
 
-        spriteId = Pokedex_CreateCaughtMonSprite(species, MON_PAGE_X, MON_PAGE_Y);
-        LoadPalette(paletteData, OBJ_PLTT_ID(gSprites[spriteId].oam.paletteNum), PLTT_SIZE_4BPP);
+        spriteId = CreateMonFrontPicSpritePokedex(species, FALSE, personality, MON_PAGE_X, MON_PAGE_Y, 0, TAG_NONE);
         BeginNormalPaletteFade(PALETTES_ALL, 0, 0x10, 0, RGB_BLACK);
         SetVBlankCallback(gPokedexVBlankCB);
         gTasks[taskId].tMonSpriteId = spriteId;
@@ -4250,6 +4248,7 @@ static void Task_ExitCaughtMonPage(u8 taskId)
             sPokedexView = NULL;
         }
 
+        FreeAndDestroyMonPicSprite(gTasks[taskId].tMonSpriteId);
         DestroyTask(taskId);
     }
 }
@@ -4549,7 +4548,7 @@ static u32 GetPokedexMonPersonality(enum Species species)
 static u16 CreateMonSpriteFromNationalDexNumberHGSS(u16 nationalNum, s16 x, s16 y, u16 paletteSlot)
 {
     u32 species = NationalPokedexNumToSpeciesHGSS(nationalNum);
-    return CreateMonFrontPicSprite(species, FALSE, GetPokedexMonPersonality(species), x, y, paletteSlot, TAG_NONE);
+    return CreateMonFrontPicSpritePokedex(species, FALSE, GetPokedexMonPersonality(species), x, y, paletteSlot, TAG_NONE);
 }
 
 static u16 GetPokemonScaleFromNationalDexNumber(u16 nationalNum)

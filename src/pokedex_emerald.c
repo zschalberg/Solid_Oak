@@ -4823,7 +4823,7 @@ u16 CreateMonSpriteFromNationalDexNumber(enum NationalDexOrder nationalNum, s16 
 {
     enum Species species = NationalPokedexNumToSpecies(nationalNum);
 
-    return CreateMonFrontPicSprite(species, FALSE, GetPokedexMonPersonality(species), x, y, paletteSlot, TAG_NONE);
+    return CreateMonFrontPicSpritePokedex(species, FALSE, GetPokedexMonPersonality(species), x, y, paletteSlot, TAG_NONE);
 }
 
 static u16 GetPokemonScaleFromNationalDexNumber(u16 nationalNum)
