@@ -43,6 +43,7 @@ static const u8 sText_CannotSendMonToBoxHM[] = _("Cannot send that mon to the bo
 static const u8 sText_PauseUntilPress[] = _("{PAUSE_UNTIL_PRESS}");
 static const u8 sText_CantSwitchWithAlly[] = _("You can't switch {STR_VAR_1}'s\nPOKéMON with one of yours!{PAUSE_UNTIL_PRESS}");
 static const u8 sText_EggCantBattle[] = _("An EGG can't battle!{PAUSE_UNTIL_PRESS}");
+static const u8 sText_ResearchBallCantBattle[] = _("{STR_VAR_1} is in a Research Ball\nand cannot be opened in the field!{PAUSE_UNTIL_PRESS}");
 static const u8 sText_CantUseUntilNewBadge[] = _("This can't be used until a new\nBADGE is obtained.{PAUSE_UNTIL_PRESS}");
 static const u8 sText_NoMoreThanVar1Pkmn[] = _("No more than {STR_VAR_1} POKéMON\nmay enter.{PAUSE_UNTIL_PRESS}");
 static const u8 sText_SendMailToPC[] = _("Send the removed MAIL to\nyour PC?");

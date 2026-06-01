@@ -812,5 +812,6 @@ extern const u8 BattleScript_OldMan_Pokedude_CaughtMessage[];
 extern const u8 BattleScript_WatchesCarefully[];
 extern const u8 BattleScript_ThrowRock[];
 extern const u8 BattleScript_ThrowBait[];
+extern const u8 BattleScript_ProtoBallFailed[];
 
 #endif // GUARD_BATTLE_SCRIPTS_H

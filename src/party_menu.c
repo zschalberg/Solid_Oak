@@ -1459,7 +1459,8 @@ static void HandleChooseMonSelection(u8 taskId, s8 *slotPtr)
 
 static bool8 IsSelectedMonNotEgg(u8 *slotPtr)
 {
-    if (GetMonData(&gPlayerParty[*slotPtr], MON_DATA_IS_EGG) == TRUE)
+    if (GetMonData(&gPlayerParty[*slotPtr], MON_DATA_IS_EGG) == TRUE
+     || GetMonData(&gPlayerParty[*slotPtr], MON_DATA_POKEBALL) == BALL_RESEARCH)
     {
         PlaySE(SE_FAILURE);
         return FALSE;
@@ -3276,7 +3277,7 @@ static u8 GetPartyMenuActionsType(struct Pokemon *mon)
     switch (gPartyMenu.menuType)
     {
     case PARTY_MENU_TYPE_FIELD:
-        if (GetMonData(mon, MON_DATA_IS_EGG))
+        if (GetMonData(mon, MON_DATA_IS_EGG) || GetMonData(mon, MON_DATA_POKEBALL) == BALL_RESEARCH)
             actionType = ACTIONS_SWITCH;
         else
             actionType = ACTIONS_NONE; // actions populated by SetPartyMonFieldSelectionActions
@@ -3299,7 +3300,7 @@ static u8 GetPartyMenuActionsType(struct Pokemon *mon)
         }
         break;
     case PARTY_MENU_TYPE_DAYCARE:
-        actionType = (GetMonData(mon, MON_DATA_IS_EGG)) ? ACTIONS_SUMMARY_ONLY : ACTIONS_STORE;
+        actionType = (GetMonData(mon, MON_DATA_IS_EGG) || GetMonData(mon, MON_DATA_POKEBALL) == BALL_RESEARCH) ? ACTIONS_SUMMARY_ONLY : ACTIONS_STORE;
         break;
     case PARTY_MENU_TYPE_UNION_ROOM_REGISTER:
         actionType = ACTIONS_REGISTER;
@@ -7052,6 +7053,12 @@ static bool8 TrySwitchInPokemon(void)
     if (GetMonData(&gPlayerParty[slot], MON_DATA_IS_EGG))
     {
         StringExpandPlaceholders(gStringVar4, sText_EggCantBattle);
+        return FALSE;
+    }
+    if (GetMonData(&gPlayerParty[slot], MON_DATA_POKEBALL) == BALL_RESEARCH)
+    {
+        GetMonNickname(&gPlayerParty[slot], gStringVar1);
+        StringExpandPlaceholders(gStringVar4, sText_ResearchBallCantBattle);
         return FALSE;
     }
     if (GetPartyIdFromBattleSlot(slot) == gBattleStruct->prevSelectedPartySlot)

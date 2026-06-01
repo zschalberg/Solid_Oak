@@ -148,7 +148,7 @@ static u8 BattlePyramidRetireYesNoCallback(void);
 static u8 BattlePyramidRetireInputCallback(void);
 
 // Start menu option descriptions
-static const u8 sStartMenuDesc_Pokedex[] = _("A device that records POKéMON secrets\nupon meeting or catching them.");
+static const u8 sStartMenuDesc_Pokedex[] = _("A journal that records POKéMON secrets\nupon meeting or catching them.");
 static const u8 sStartMenuDesc_Pokemon[] = _("Check and organize POKéMON that are\ntraveling with you in your party.");
 static const u8 sStartMenuDesc_Bag[] = _("Equipped with pockets for storing items\nyou bought, received, or found.");
 static const u8 sStartMenuDesc_Player[] = _("Check your money and other game data.");
@@ -701,8 +701,6 @@ static void StartMenu_FadeScreenIfLeavingOverworld(void)
 
 static bool8 StartMenuPokedexSanityCheck(void)
 {
-    if (sStartMenuActionTable[sCurrentStartMenuActions[sStartMenuCursorPos]].func.u8_void == StartMenuPokedexCallback && GetNationalPokedexCount(FLAG_GET_SEEN) == 0)
-        return FALSE;
     return TRUE;
 }
 

@@ -174,7 +174,7 @@ static void HideAllMonTypeIcons(void);
 static void DestroyAllTypeIcons(void);
 static void OrdererdListCursorMoveFunc(s32 itemIndex, bool8 onInit, struct ListMenu *list);
 
-static const u8 sText_PokedexTableOfContents[] = _("POKéDEX   TABLE OF CONTENTS");
+static const u8 sText_PokedexTableOfContents[] = _("JOURNAL   TABLE OF CONTENTS");
 static const u8 sText_PickOK[] = _("{DPAD_UPDOWN}PICK {A_BUTTON}OK");
 static const u8 sText_Seen[] = _("Seen:");
 static const u8 sText_Owned[] = _("Owned:");
@@ -192,7 +192,7 @@ static const u8 sText_Search[] = _("{COLOR DYNAMIC_COLOR6}{SHADOW DYNAMIC_COLOR5
 static const u8 sText_NumericalMode[] = _("NUMERICAL MODE");
 static const u8 sText_AToZMode[] = _("A TO Z MODE");
 static const u8 sText_PokedexOther[] = _("{COLOR DYNAMIC_COLOR6}{SHADOW DYNAMIC_COLOR5}OTHER");
-static const u8 sText_ClosePokedex[] = _("CLOSE POKéDEX");
+static const u8 sText_ClosePokedex[] = _("CLOSE JOURNAL");
 static const u8 sText_TypeMode[] = _("TYPE MODE");
 static const u8 sText_LightestMode[] = _("LIGHTEST MODE");
 static const u8 sText_SmallestMode[] = _("SMALLEST MODE");

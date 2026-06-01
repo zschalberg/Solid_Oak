@@ -36,6 +36,8 @@ enum __attribute__((packed)) Item
     ITEM_PARK_BALL = 25,
     ITEM_BEAST_BALL = 26,
     ITEM_CHERISH_BALL = 27,
+#define ITEM_RESEARCH_BALL ITEM_CHERISH_BALL
+
 
     // Medicine
     ITEM_POTION = 28,

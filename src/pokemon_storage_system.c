@@ -35,6 +35,7 @@
 #include "trig.h"
 #include "constants/help_system.h"
 #include "constants/items.h"
+#include "constants/pokeball.h"
 #include "constants/party_menu.h"
 #include "constants/pokemon_icon.h"
 #include "constants/songs.h"
@@ -1455,7 +1456,8 @@ u32 CountPartyNonEggMons(void)
     for (i = 0, count = 0; i < PARTY_SIZE; i++)
     {
         if (GetMonData(&gPlayerParty[i], MON_DATA_SPECIES) != SPECIES_NONE
-                && !GetMonData(&gPlayerParty[i], MON_DATA_IS_EGG))
+                && !GetMonData(&gPlayerParty[i], MON_DATA_IS_EGG)
+                && GetMonData(&gPlayerParty[i], MON_DATA_POKEBALL) != BALL_RESEARCH)
             count++;
     }
 
@@ -1471,6 +1473,7 @@ u8 CountPartyAliveNonEggMonsExcept(u8 slotToIgnore)
         if (i != slotToIgnore
                 && GetMonData(&gPlayerParty[i], MON_DATA_SPECIES) != SPECIES_NONE
                 && !GetMonData(&gPlayerParty[i], MON_DATA_IS_EGG)
+                && GetMonData(&gPlayerParty[i], MON_DATA_POKEBALL) != BALL_RESEARCH
                 && GetMonData(&gPlayerParty[i], MON_DATA_HP) != 0)
             count++;
     }

@@ -32,6 +32,7 @@
 #include "trainer_tower.h"
 #include "union_room_chat.h"
 #include "wild_encounter.h"
+#include "save_location.h"
 #include "constants/maps.h"
 
 // this file's functions
@@ -94,7 +95,7 @@ static void ClearFrontierRecord(void)
 
 static void WarpToPlayersRoom(void)
 {
-    SetWarpDestination(MAP_GROUP(MAP_PALLET_TOWN_PLAYERS_HOUSE_2F), MAP_NUM(MAP_PALLET_TOWN_PLAYERS_HOUSE_2F), WARP_ID_NONE, 6, 6);
+    SetWarpDestination(MAP_GROUP(MAP_SSANNE_1F_ROOM6), MAP_NUM(MAP_SSANNE_1F_ROOM6), WARP_ID_NONE, 3, 4);
     WarpIntoMap();
 }
 
@@ -153,6 +154,10 @@ void NewGameInitData(void)
     gSaveBlock1Ptr->registeredItem = 0;
     ClearBag();
     NewGameInitPCItems();
+    AddBagItem(ITEM_SS_TICKET, 1);
+    FlagSet(FLAG_SYS_POKEDEX_GET);
+    FlagSet(FLAG_GOT_SS_TICKET);
+    SetUnlockedPokedexFlags();
     // ClearEnigmaBerries();
     InitEasyChatPhrases();
     ResetTrainerFanClub();

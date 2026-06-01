@@ -4461,7 +4461,8 @@ static u32 CountAliveMonsForBattlerSide(enum BattlerId battler)
     {
         if (GetMonData(&party[partyMon], MON_DATA_SPECIES)
          && GetMonData(&party[partyMon], MON_DATA_HP) > 0
-         && !GetMonData(&party[partyMon], MON_DATA_IS_EGG))
+         && !GetMonData(&party[partyMon], MON_DATA_IS_EGG)
+         && GetMonData(&party[partyMon], MON_DATA_POKEBALL) != BALL_RESEARCH)
             aliveMons++;
     }
 
@@ -4487,12 +4488,13 @@ bool32 NoAliveMonsForPlayer(void)
     for (i = 0; i < maxI; i++)
     {
         if (GetMonData(&gPlayerParty[i], MON_DATA_SPECIES) && !GetMonData(&gPlayerParty[i], MON_DATA_IS_EGG)
+            && GetMonData(&gPlayerParty[i], MON_DATA_POKEBALL) != BALL_RESEARCH
             && (!(gBattleTypeFlags & BATTLE_TYPE_ARENA) || !(gBattleStruct->arenaLostPlayerMons & (1u << i))))
         {
             HP_count += GetMonData(&gPlayerParty[i], MON_DATA_HP);
         }
         // Get the number of fainted mons or eggs (not empty slots) in the first three party slots.
-        if (i < 3 && ((GetMonData(&gPlayerParty[i], MON_DATA_SPECIES) && !GetMonData(&gPlayerParty[i], MON_DATA_HP))
+        if (i < 3 && ((GetMonData(&gPlayerParty[i], MON_DATA_SPECIES) && (!GetMonData(&gPlayerParty[i], MON_DATA_HP) || GetMonData(&gPlayerParty[i], MON_DATA_POKEBALL) == BALL_RESEARCH))
          || GetMonData(&gPlayerParty[i], MON_DATA_IS_EGG)))
             ineligibleMonsCount++;
     }
@@ -4504,7 +4506,8 @@ bool32 NoAliveMonsForPlayer(void)
         {
             if (!GetMonData(GetSavedPlayerPartyMon(i), MON_DATA_SPECIES)
              || !GetMonData(GetSavedPlayerPartyMon(i), MON_DATA_HP)
-             || GetMonData(GetSavedPlayerPartyMon(i), MON_DATA_IS_EGG))
+             || GetMonData(GetSavedPlayerPartyMon(i), MON_DATA_IS_EGG)
+             || GetMonData(GetSavedPlayerPartyMon(i), MON_DATA_POKEBALL) == BALL_RESEARCH)
                 ineligibleMonsCount++;
         }
 
@@ -10598,11 +10601,7 @@ static void FinalizeCapture(void)
         gBattleMons[gBattlerTarget].hp = gBattleMons[gBattlerTarget].maxHP;
         SetMonData(caughtMon, MON_DATA_HP, &gBattleMons[gBattlerTarget].hp);
     }
-    else if (ballId == BALL_FRIEND)
-    {
-        u32 friendship = (B_FRIEND_BALL_MODIFIER >= GEN_8 ? 150 : 200);
-        SetMonData(caughtMon, MON_DATA_FRIENDSHIP, &friendship);
-    }
+
 }
 
 struct BallData
@@ -10699,23 +10698,7 @@ static void ComputeBallData(u32 wildMonBattler, u32 playerBattler, struct BallDa
             ball->multiplier = (B_REPEAT_BALL_MODIFIER >= GEN_7 ? 350 : 300);
         break;
     case BALL_LEVEL:
-        if (gBattleMons[playerBattler].level >= 4 * battleMon->level)
-            ball->multiplier = 800;
-        else if (gBattleMons[playerBattler].level > 2 * battleMon->level)
-            ball->multiplier = 400;
-        else if (gBattleMons[playerBattler].level > battleMon->level)
-            ball->multiplier = 200;
-        break;
     case BALL_LURE:
-        if (gIsFishingEncounter)
-        {
-            if (B_LURE_BALL_MODIFIER >= GEN_8)
-                ball->multiplier = 400;
-            else if (B_LURE_BALL_MODIFIER >= GEN_7)
-                ball->multiplier = 500;
-            else
-                ball->multiplier = 300;
-        }
         break;
     case BALL_MOON:
     {
@@ -10745,42 +10728,6 @@ static void ComputeBallData(u32 wildMonBattler, u32 playerBattler, struct BallDa
             ball->multiplier = 400;
         break;
     case BALL_HEAVY:
-        i = GetSpeciesWeight(battleMon->species);
-        if (B_HEAVY_BALL_MODIFIER >= GEN_7)
-        {
-            if (i < 1000)
-                ball->flatBonus = -20;
-            else if (i < 2000)
-                ball->flatBonus = 0;
-            else if (i < 3000)
-                ball->flatBonus = 20;
-            else
-                ball->flatBonus = 30;
-        }
-        else if (B_HEAVY_BALL_MODIFIER >= GEN_4)
-        {
-            if (i < 2048)
-                ball->flatBonus = -20;
-            else if (i < 3072)
-                ball->flatBonus = 20;
-            else if (i < 4096)
-                ball->flatBonus = 30;
-            else
-                ball->flatBonus = 40;
-        }
-        else
-        {
-            if (i < 1024)
-                ball->flatBonus = -20;
-            else if (i < 2048)
-                ball->flatBonus = 0;
-            else if (i < 3072)
-                ball->flatBonus = 20;
-            else if (i < 4096)
-                ball->flatBonus = 30;
-            else
-                ball->flatBonus = 40;
-        }
         break;
     case BALL_DREAM:
         if (B_DREAM_BALL_MODIFIER >= GEN_8 && (battleMon->status1 & STATUS1_SLEEP || (GetBattlerAbilityIgnoreMoldBreaker(wildMonBattler) == ABILITY_COMATOSE)))
@@ -10799,6 +10746,9 @@ static void ComputeBallData(u32 wildMonBattler, u32 playerBattler, struct BallDa
     case BALL_BEAST:
         ball->multiplier = 410;
         ball->divider = 4096;
+        break;
+    case BALL_RESEARCH:
+        ball->multiplier = 150;
         break;
     }
 
@@ -10949,6 +10899,17 @@ static void Cmd_handleballthrow(void)
     else
     {
         gBallToDisplay = gLastThrownBall = gLastUsedItem;
+        // Check protoball level caps
+        if ((gLastUsedItem == ITEM_LEVEL_BALL && gBattleMons[gBattlerTarget].level > 10)
+            || (gLastUsedItem == ITEM_LURE_BALL && gBattleMons[gBattlerTarget].level > 20)
+            || (gLastUsedItem == ITEM_FRIEND_BALL && gBattleMons[gBattlerTarget].level > 30)
+            || (gLastUsedItem == ITEM_HEAVY_BALL && gBattleMons[gBattlerTarget].level > 40))
+        {
+            BtlController_EmitBallThrowAnim(gBattlerAttacker, B_COMM_TO_CONTROLLER, BALL_NO_SHAKES);
+            MarkBattlerForControllerExec(gBattlerAttacker);
+            gBattlescriptCurrInstr = BattleScript_ProtoBallFailed;
+            return;
+        }
         u32 odds = ComputeCaptureOdds(gBattlerTarget, gBattlerAttacker);
         if (gTestRunnerEnabled)
             TestRunner_Battle_RecordCatchChance(odds);

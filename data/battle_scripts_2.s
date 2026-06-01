@@ -312,3 +312,11 @@ BattleScript_GhostBallDodge::
 	printstring STRINGID_ITDODGEDBALL
 	waitmessage B_WAIT_TIME_LONG
 	finishaction
+
+BattleScript_ProtoBallFailed::
+	animatewildpokemonafterfailedpokeball BS_TARGET
+	waitmessage B_WAIT_TIME_LONG
+	printstring STRINGID_PROTOBALL_FAILED
+	waitmessage B_WAIT_TIME_LONG
+	finishaction
+

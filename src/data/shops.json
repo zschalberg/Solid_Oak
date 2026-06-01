@@ -3,8 +3,7 @@
         {
             "label": "SevenIsland",
             "items": [
-                "ITEM_ULTRA_BALL",
-                "ITEM_GREAT_BALL",
+                "ITEM_POKE_BALL",
                 "ITEM_FULL_RESTORE",
                 "ITEM_MAX_POTION",
                 "ITEM_HYPER_POTION",
@@ -85,7 +84,7 @@
             "stages": [
                 {
                     "items": [
-                        "ITEM_GREAT_BALL",
+                        "ITEM_POKE_BALL",
                         "ITEM_SUPER_POTION",
                         "ITEM_REVIVE",
                         "ITEM_ANTIDOTE",
@@ -103,7 +102,7 @@
             "stages": [
                 {
                     "items": [
-                        "ITEM_GREAT_BALL",
+                        "ITEM_POKE_BALL",
                         "ITEM_SUPER_POTION",
                         "ITEM_REVIVE",
                         "ITEM_ANTIDOTE",
@@ -182,8 +181,7 @@
             "stages": [
                 {
                     "items": [
-                        "ITEM_ULTRA_BALL",
-                        "ITEM_GREAT_BALL",
+                        "ITEM_POKE_BALL",
                         "ITEM_SUPER_POTION",
                         "ITEM_REVIVE",
                         "ITEM_FULL_HEAL",
@@ -197,7 +195,7 @@
             "stages": [
                 {
                     "items": [
-                        "ITEM_GREAT_BALL",
+                        "ITEM_POKE_BALL",
                         "ITEM_HYPER_POTION",
                         "ITEM_REVIVE",
                         "ITEM_FULL_HEAL",
@@ -212,8 +210,7 @@
             "stages": [
                 {
                     "items": [
-                        "ITEM_ULTRA_BALL",
-                        "ITEM_GREAT_BALL",
+                        "ITEM_POKE_BALL",
                         "ITEM_HYPER_POTION",
                         "ITEM_REVIVE",
                         "ITEM_FULL_HEAL",
@@ -228,8 +225,7 @@
             "stages": [
                 {
                     "items": [
-                        "ITEM_ULTRA_BALL",
-                        "ITEM_GREAT_BALL",
+                        "ITEM_POKE_BALL",
                         "ITEM_FULL_RESTORE",
                         "ITEM_MAX_POTION",
                         "ITEM_REVIVE",
@@ -244,15 +240,14 @@
             "stages": [
                 {
                     "items": [
-                        "ITEM_GREAT_BALL",
+                        "ITEM_POKE_BALL",
                         "ITEM_FRESH_WATER"
                     ]
                 },
                 {
                     "isUnlockedFunc": "IsTwoIslandMartExpanded1",
                     "items": [
-                        "ITEM_ULTRA_BALL",
-                        "ITEM_GREAT_BALL",
+                        "ITEM_POKE_BALL",
                         "ITEM_SODA_POP",
                         "ITEM_FRESH_WATER"
                     ]
@@ -260,8 +255,7 @@
                 {
                     "isUnlockedFunc": "IsTwoIslandMartExpanded2",
                     "items": [
-                        "ITEM_ULTRA_BALL",
-                        "ITEM_GREAT_BALL",
+                        "ITEM_POKE_BALL",
                         "ITEM_LEMONADE",
                         "ITEM_SODA_POP",
                         "ITEM_FRESH_WATER",
@@ -271,9 +265,7 @@
                 {
                     "isUnlockedFunc": "IsTwoIslandMartExpanded3",
                     "items": [
-                        "ITEM_ULTRA_BALL",
-                        "ITEM_REPEAT_BALL",
-                        "ITEM_TIMER_BALL",
+                        "ITEM_POKE_BALL",
                         "ITEM_LEMONADE",
                         "ITEM_SODA_POP",
                         "ITEM_FRESH_WATER",
@@ -288,7 +280,7 @@
             "stages": [
                 {
                     "items": [
-                        "ITEM_ULTRA_BALL",
+                        "ITEM_POKE_BALL",
                         "ITEM_HYPER_POTION",
                         "ITEM_REVIVE",
                         "ITEM_FULL_HEAL",
@@ -303,7 +295,7 @@
             "stages": [
                 {
                     "items": [
-                        "ITEM_ULTRA_BALL",
+                        "ITEM_POKE_BALL",
                         "ITEM_FULL_RESTORE",
                         "ITEM_MAX_POTION",
                         "ITEM_REVIVE",
@@ -320,7 +312,7 @@
             "stages": [
                 {
                     "items": [
-                        "ITEM_ULTRA_BALL",
+                        "ITEM_POKE_BALL",
                         "ITEM_FULL_RESTORE",
                         "ITEM_MAX_POTION",
                         "ITEM_REVIVE",
@@ -353,7 +345,7 @@
             "stages": [
                 {
                     "items": [
-                        "ITEM_ULTRA_BALL",
+                        "ITEM_POKE_BALL",
                         "ITEM_HYPER_POTION",
                         "ITEM_MAX_POTION",
                         "ITEM_FULL_RESTORE",

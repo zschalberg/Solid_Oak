@@ -152,6 +152,13 @@ static const u8 sText_SaveFileHasBeenDeleted[] = _("The save file has been\ndele
 static const u8 sText_1MSubCircuitBoardNotInstalled[] = _("The 1M sub-circuit board is\nnot installed.");
 static const u8 sText_BatteryRunDry[] = _("The internal battery has run dry.\nThe game can be played.\pHowever, clock-based events will\nno longer occur.");
 
+static const u8 sDefaultPlayerName[] = _("Samuel");
+#if defined(FIRERED)
+static const u8 sDefaultRivalName[] = _("Gary");
+#elif defined(LEAFGREEN)
+static const u8 sDefaultRivalName[] = _("Red");
+#endif
+
 static void CB2_MainMenu(void)
 {
     RunTasks();
@@ -542,7 +549,11 @@ static void Task_ExecuteMainMenuSelection(u8 taskId)
             gExitStairsMovementDisabled = FALSE;
             FreeAllWindowBuffers();
             DestroyTask(taskId);
-            StartNewGameScene();
+            gSaveBlock2Ptr->playerGender = MALE;
+            StringCopy(gSaveBlock2Ptr->playerName, sDefaultPlayerName);
+            StringCopy(gSaveBlock1Ptr->rivalName, sDefaultRivalName);
+            gMain.state = 0;
+            SetMainCallback2(CB2_NewGame);
             break;
         case MAIN_MENU_CONTINUE:
             gPlttBufferUnfaded[0] = RGB_BLACK;

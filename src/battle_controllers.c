@@ -404,7 +404,8 @@ bool32 IsValidForBattle(struct Pokemon *mon)
     return (species != SPECIES_NONE
          && species != SPECIES_EGG
          && GetMonData(mon, MON_DATA_HP) != 0
-         && GetMonData(mon, MON_DATA_IS_EGG) == FALSE);
+         && GetMonData(mon, MON_DATA_IS_EGG) == FALSE
+         && GetMonData(mon, MON_DATA_POKEBALL) != BALL_RESEARCH);
 }
 
 bool32 IsValidForBattleButDead(struct Pokemon *mon)
@@ -412,7 +413,8 @@ bool32 IsValidForBattleButDead(struct Pokemon *mon)
     u32 species = GetMonData(mon, MON_DATA_SPECIES_OR_EGG);
     return (species != SPECIES_NONE
          && species != SPECIES_EGG
-         && GetMonData(mon, MON_DATA_IS_EGG) == FALSE);
+         && GetMonData(mon, MON_DATA_IS_EGG) == FALSE
+         && GetMonData(mon, MON_DATA_POKEBALL) != BALL_RESEARCH);
 }
 
 static inline bool32 IsControllerPlayer(enum BattlerId battler)
