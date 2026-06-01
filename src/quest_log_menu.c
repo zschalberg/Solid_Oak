@@ -23,6 +23,7 @@
 #include "constants/items.h"
 #include "pokemon_icon.h"
 #include "constants/species.h"
+#include "region_map.h"
 
 struct QuestLogMenuResources
 {
@@ -59,6 +60,7 @@ struct Quest
     u16 itemId;
     bool8 isPokemonIcon;
     u8 group;
+    u16 mapsec;
 };
 
 #define TAG_QUEST_ITEM_ICON 0x5400
@@ -89,6 +91,8 @@ static void Task_QuestLogMenuTurnOff2(u8 taskId);
 static void Task_QuestLogMenuMain(u8 taskId);
 static void QuestLogMenu_InitWindows(void);
 static void QuestLogMenu_AddTextPrinterParameterized(u8 windowId, u8 fontId, const u8 *str, u8 x, u8 y, u8 letterSpacing, u8 lineSpacing, u8 speed, u8 colorIdx);
+static void Task_QuestLogMenuFadeToMap(u8 taskId);
+static void CB2_ReturnToQuestLogFromMap(void);
 
 static const struct Quest sQuests[] = {
     {
@@ -98,7 +102,8 @@ static const struct Quest sQuests[] = {
         .completeFlag = FLAG_QUEST_1_COMPLETED,
         .itemId = ITEM_OAKS_PARCEL,
         .isPokemonIcon = FALSE,
-        .group = QUEST_GROUP_MAIN
+        .group = QUEST_GROUP_MAIN,
+        .mapsec = MAPSEC_PALLET_TOWN
     },
     {
         .name = COMPOUND_STRING("POKéDEX COMPLETION"),
@@ -107,7 +112,8 @@ static const struct Quest sQuests[] = {
         .completeFlag = FLAG_QUEST_2_COMPLETED,
         .itemId = ITEM_TOWN_MAP,
         .isPokemonIcon = FALSE,
-        .group = QUEST_GROUP_RESEARCH
+        .group = QUEST_GROUP_RESEARCH,
+        .mapsec = MAPSEC_PALLET_TOWN
     },
     {
         .name = COMPOUND_STRING("PEWTER GYM CHALLENGE"),
@@ -116,7 +122,8 @@ static const struct Quest sQuests[] = {
         .completeFlag = FLAG_QUEST_3_COMPLETED,
         .itemId = ITEM_DOME_FOSSIL,
         .isPokemonIcon = FALSE,
-        .group = QUEST_GROUP_MAIN
+        .group = QUEST_GROUP_MAIN,
+        .mapsec = MAPSEC_PEWTER_CITY
     },
     {
         .name = COMPOUND_STRING("CERULEAN GYM CHALLENGE"),
@@ -125,7 +132,8 @@ static const struct Quest sQuests[] = {
         .completeFlag = FLAG_QUEST_4_COMPLETED,
         .itemId = ITEM_BICYCLE,
         .isPokemonIcon = FALSE,
-        .group = QUEST_GROUP_MAIN
+        .group = QUEST_GROUP_MAIN,
+        .mapsec = MAPSEC_CERULEAN_CITY
     },
     {
         .name = COMPOUND_STRING("POKéMON CHAMPIONSHIP"),
@@ -134,7 +142,8 @@ static const struct Quest sQuests[] = {
         .completeFlag = FLAG_QUEST_5_COMPLETED,
         .itemId = ITEM_POKE_FLUTE,
         .isPokemonIcon = FALSE,
-        .group = QUEST_GROUP_MAIN
+        .group = QUEST_GROUP_MAIN,
+        .mapsec = MAPSEC_INDIGO_PLATEAU
     },
     {
         .name = COMPOUND_STRING("DUMMY SIDE QUEST"),
@@ -143,7 +152,8 @@ static const struct Quest sQuests[] = {
         .completeFlag = FLAG_QUEST_6_COMPLETED,
         .itemId = ITEM_POKE_BALL,
         .isPokemonIcon = FALSE,
-        .group = QUEST_GROUP_SIDE
+        .group = QUEST_GROUP_SIDE,
+        .mapsec = MAPSEC_PALLET_TOWN
     },
     {
         .name = COMPOUND_STRING("GENGAR EVOLUTION"),
@@ -152,7 +162,8 @@ static const struct Quest sQuests[] = {
         .completeFlag = FLAG_QUEST_7_COMPLETED,
         .itemId = SPECIES_GENGAR,
         .isPokemonIcon = TRUE,
-        .group = QUEST_GROUP_RESEARCH
+        .group = QUEST_GROUP_RESEARCH,
+        .mapsec = MAPSEC_LAVENDER_TOWN
     }
 };
 
@@ -670,8 +681,55 @@ static void Task_QuestLogMenuTurnOff2(u8 taskId)
         QuestLogMenu_RemoveScrollIndicatorArrowPair();
         QuestLogMenu_FreeResources();
         sQuestLogListMenuState.initialized = 0;
-        DestroyTask(taskId);
     }
+}
+
+static void Task_QuestLogMenuFadeToMap(u8 taskId)
+{
+    s16 *data = gTasks[taskId].data;
+
+    if (data[2] == 0)
+    {
+        BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
+        data[2] = 1;
+    }
+    else if (!gPaletteFade.active)
+    {
+        u16 mapsec = (u16)data[1];
+        DestroyListMenuTask(data[0], &sQuestLogListMenuState.scroll, &sQuestLogListMenuState.row);
+        QuestLogMenu_RemoveScrollIndicatorArrowPair();
+        QuestLogMenu_FreeResources();
+        DestroyTask(taskId);
+
+        gRegionMapSelectedMapsecOverride = mapsec;
+        gRegionMapHasOverride = TRUE;
+        InitRegionMapWithExitCB(REGIONMAP_TYPE_NORMAL, CB2_ReturnToQuestLogFromMap);
+    }
+}
+
+static void CB2_ReturnToQuestLogFromMap(void)
+{
+    gRegionMapSelectedMapsecOverride = 0;
+    gRegionMapHasOverride = FALSE;
+
+    if ((sQuestLogMenuState = AllocZeroed(sizeof(struct QuestLogMenuResources))) == NULL)
+    {
+        SetMainCallback2(sQuestLogListMenuState.savedCallback);
+        return;
+    }
+
+    sQuestItemIconSpriteId = SPRITE_NONE;
+    sIsQuestIconMon = FALSE;
+
+    sQuestLogMenuState->nQuests = ARRAY_COUNT(sQuests);
+    sQuestLogMenuState->nQuestsInGroup = 0;
+    sQuestLogMenuState->maxShowed = 6;
+    sQuestLogMenuState->scrollIndicatorArrowPairId = 0xFF;
+
+    sQuestLogListMenuState.initialized = 1;
+
+    gMain.state = 0;
+    SetMainCallback2(QuestLogMenu_RunSetup);
 }
 
 static void Task_QuestLogMenuMain(u8 taskId)
@@ -713,7 +771,21 @@ static void Task_QuestLogMenuMain(u8 taskId)
             gTasks[taskId].func = Task_QuestLogMenuTurnOff1;
             break;
         default:
-            PlaySE(SE_SELECT);
+            if (input >= 0 && input < ARRAY_COUNT(sQuests))
+            {
+                if ((FlagGet(sQuests[input].unlockFlag) || sQuests[input].unlockFlag == 0)
+                    && sQuests[input].mapsec != MAPSEC_NONE)
+                {
+                    PlaySE(SE_SELECT);
+                    data[1] = sQuests[input].mapsec;
+                    data[2] = 0;
+                    gTasks[taskId].func = Task_QuestLogMenuFadeToMap;
+                }
+                else
+                {
+                    PlaySE(SE_SELECT);
+                }
+            }
             break;
         }
     }

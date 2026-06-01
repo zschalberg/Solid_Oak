@@ -34,6 +34,7 @@
 #include "wild_encounter.h"
 #include "save_location.h"
 #include "constants/maps.h"
+#include "constants/heal_locations.h"
 
 // this file's functions
 static void ResetMiniGamesResults(void);
@@ -158,6 +159,7 @@ void NewGameInitData(void)
     FlagSet(FLAG_SYS_POKEDEX_GET);
     FlagSet(FLAG_GOT_SS_TICKET);
     SetUnlockedPokedexFlags();
+    SetLastHealLocationWarp(HEAL_LOCATION_VERMILION_CITY);
     // ClearEnigmaBerries();
     InitEasyChatPhrases();
     ResetTrainerFanClub();

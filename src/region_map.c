@@ -290,6 +290,11 @@ static EWRAM_DATA struct MapIcons *sMapIcons = NULL;
 static EWRAM_DATA struct RegionMapGpuRegs *sRegionMapGpuRegs[3] = {};
 static EWRAM_DATA struct FlyMap *sFlyMap = NULL;
 
+EWRAM_DATA u16 gRegionMapSelectedMapsecOverride = 0;
+EWRAM_DATA bool8 gRegionMapHasOverride = FALSE;
+static EWRAM_DATA u16 sPlayerActualX = 0;
+static EWRAM_DATA u16 sPlayerActualY = 0;
+
 static void InitRegionMapType(void);
 static void CB2_OpenRegionMap(void);
 static bool8 LoadRegionMapGfx(void);
@@ -1070,8 +1075,32 @@ static void InitRegionMapType(void)
             j++;
         }
     }
-    sRegionMap->selectedRegion = region;
     sRegionMap->playersRegion = region;
+    if (gRegionMapHasOverride)
+    {
+        region = REGIONMAP_KANTO;
+        j = REGIONMAP_KANTO;
+        if (gRegionMapSelectedMapsecOverride >= SEVII_MAPSEC_START)
+        {
+            while (region == REGIONMAP_KANTO)
+            {
+                for (i = 0; sSeviiMapsecs[j][i] != MAPSEC_NONE; i++)
+                {
+                    if (gRegionMapSelectedMapsecOverride == sSeviiMapsecs[j][i])
+                    {
+                        region = j + 1;
+                        break;
+                    }
+                }
+                j++;
+            }
+        }
+        sRegionMap->selectedRegion = region;
+    }
+    else
+    {
+        sRegionMap->selectedRegion = sRegionMap->playersRegion;
+    }
 }
 
 static void CB2_OpenRegionMap(void)
@@ -3365,6 +3394,15 @@ static void GetPlayerPositionOnRegionMap_HandleOverrides(void)
         break;
     }
     sMapCursor->selectedMapsec = GetSelectedMapSection(GetSelectedRegionMap(), LAYER_MAP, sMapCursor->y, sMapCursor->x);
+    sPlayerActualX = sMapCursor->x;
+    sPlayerActualY = sMapCursor->y;
+
+    if (gRegionMapHasOverride)
+    {
+        sMapCursor->selectedMapsec = gRegionMapSelectedMapsecOverride;
+        sMapCursor->x = gRegionMapEntries[sMapCursor->selectedMapsec].x + gRegionMapEntries[sMapCursor->selectedMapsec].width / 2;
+        sMapCursor->y = gRegionMapEntries[sMapCursor->selectedMapsec].y + gRegionMapEntries[sMapCursor->selectedMapsec].height / 2;
+    }
 }
 
 static u8 GetSelectedMapSection(u8 whichMap, u8 layer, s16 y, s16 x)
@@ -3389,8 +3427,16 @@ static void CreatePlayerIcon(u16 tileTag, u16 palTag)
     sPlayerIcon = AllocZeroed(sizeof(struct PlayerIcon));
     sPlayerIcon->tileTag = tileTag;
     sPlayerIcon->palTag = palTag;
-    sPlayerIcon->x = GetMapCursorX();
-    sPlayerIcon->y = GetMapCursorY();
+    if (gRegionMapHasOverride)
+    {
+        sPlayerIcon->x = sPlayerActualX;
+        sPlayerIcon->y = sPlayerActualY;
+    }
+    else
+    {
+        sPlayerIcon->x = GetMapCursorX();
+        sPlayerIcon->y = GetMapCursorY();
+    }
     CreatePlayerIconSprite();
 }
 
@@ -3574,6 +3620,16 @@ static void CreateFlyIcons(void)
 {
     u16 i, y, x;
     u8 numIcons = 0;
+
+    if (gRegionMapHasOverride)
+    {
+        u8 targetMapsec = gRegionMapSelectedMapsecOverride;
+        x = gRegionMapEntries[targetMapsec].x + gRegionMapEntries[targetMapsec].width / 2;
+        y = gRegionMapEntries[targetMapsec].y + gRegionMapEntries[targetMapsec].height / 2;
+        CreateFlyIconSprite(sRegionMap->selectedRegion, 0, x, y, 10, 10);
+        return;
+    }
+
     if (GetRegionMapPermission(MAPPERM_HAS_FLY_DESTINATIONS))
     {
         for (i = 0; i < REGIONMAP_COUNT; i++)
