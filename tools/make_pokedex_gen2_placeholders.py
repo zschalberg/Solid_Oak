@@ -43,29 +43,36 @@ def parse_families(file_path):
         lines = f.readlines()
     
     current_family = None
-    if_stack = []
+    family_stack = [] # List of (family, depth)
+    depth = 0
     
     for line in lines:
-        # Check for family macro
-        m_if = re.match(r"^\s*#\s*if\s+(P_FAMILY_[A-Z0-9_]+)", line)
-        m_elif = re.match(r"^\s*#\s*elif\s+(P_FAMILY_[A-Z0-9_]+)", line)
-        m_else = re.match(r"^\s*#\s*else", line)
-        m_endif = re.match(r"^\s*#\s*endif", line)
+        # Check for preprocessor conditionals
+        m_if = re.match(r"^\s*#\s*(if|ifdef|ifndef)\b", line)
+        m_elif = re.match(r"^\s*#\s*elif\b", line)
+        m_endif = re.match(r"^\s*#\s*endif\b", line)
         
         if m_if:
-            current_family = m_if.group(1)
-            if_stack.append(current_family)
+            depth += 1
+            # Check if this line activates a family macro
+            m_fam = re.search(r"P_FAMILY_[A-Z0-9_]+", line)
+            if m_fam:
+                current_family = m_fam.group(0)
+                family_stack.append((current_family, depth))
         elif m_elif:
-            if if_stack:
-                if_stack.pop()
-            current_family = m_elif.group(1)
-            if_stack.append(current_family)
-        elif m_else:
-            pass
+            # Check if this line switches the family macro at the current depth
+            m_fam = re.search(r"P_FAMILY_[A-Z0-9_]+", line)
+            if m_fam:
+                if family_stack and family_stack[-1][1] == depth:
+                    family_stack.pop()
+                current_family = m_fam.group(0)
+                family_stack.append((current_family, depth))
         elif m_endif:
-            if if_stack:
-                if_stack.pop()
-            current_family = if_stack[-1] if if_stack else None
+            # Check if we are exiting a family block
+            if family_stack and family_stack[-1][1] == depth:
+                family_stack.pop()
+                current_family = family_stack[-1][0] if family_stack else None
+            depth -= 1
             
         # Check for species definition
         m_spec = re.search(r"\[(SPECIES_[A-Z0-9_]+)\]\s*=", line)
@@ -87,9 +94,19 @@ os.makedirs(GEN2_GFX_DIR, exist_ok=True)
 
 for name, val in species_list:
     folder_name = name.replace("SPECIES_", "").lower()
+    # Nidoran folder name fixes
+    if folder_name == "nidoran_f":
+        folder_name = "nidoran_f"
+    elif folder_name == "nidoran_m":
+        folder_name = "nidoran_m"
+        
     src_dir = os.path.join(POKEMON_GFX_DIR, folder_name)
     dst_dir = os.path.join(GEN2_GFX_DIR, folder_name)
     os.makedirs(dst_dir, exist_ok=True)
+    
+    # If custom files already exist, do not overwrite them
+    if os.path.exists(os.path.join(dst_dir, "front.png")):
+        continue
     
     # Files to copy:
     # 1. Front Pic (anim_front_gba.png or anim_front.png)

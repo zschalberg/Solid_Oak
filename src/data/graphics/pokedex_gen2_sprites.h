@@ -12,11 +12,11 @@ const u16 gPokedexGen2Palette_Ivysaur[] = INCBIN_U16("graphics/pokedex_gen2/ivys
 const u16 gPokedexGen2ShinyPalette_Ivysaur[] = INCBIN_U16("graphics/pokedex_gen2/ivysaur/shiny.gbapal");
 #endif // P_FAMILY_BULBASAUR
 
-#if P_FAMILY_VENUSAUR
+#if P_FAMILY_BULBASAUR
 const u32 gPokedexGen2FrontPic_Venusaur[] = INCBIN_U32("graphics/pokedex_gen2/venusaur/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Venusaur[] = INCBIN_U16("graphics/pokedex_gen2/venusaur/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Venusaur[] = INCBIN_U16("graphics/pokedex_gen2/venusaur/shiny.gbapal");
-#endif // P_FAMILY_VENUSAUR
+#endif // P_FAMILY_BULBASAUR
 
 #if P_FAMILY_CHARMANDER
 const u32 gPokedexGen2FrontPic_Charmander[] = INCBIN_U32("graphics/pokedex_gen2/charmander/front.4bpp.smol");
@@ -30,11 +30,11 @@ const u16 gPokedexGen2Palette_Charmeleon[] = INCBIN_U16("graphics/pokedex_gen2/c
 const u16 gPokedexGen2ShinyPalette_Charmeleon[] = INCBIN_U16("graphics/pokedex_gen2/charmeleon/shiny.gbapal");
 #endif // P_FAMILY_CHARMANDER
 
-#if P_FAMILY_CHARIZARD
+#if P_FAMILY_CHARMANDER
 const u32 gPokedexGen2FrontPic_Charizard[] = INCBIN_U32("graphics/pokedex_gen2/charizard/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Charizard[] = INCBIN_U16("graphics/pokedex_gen2/charizard/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Charizard[] = INCBIN_U16("graphics/pokedex_gen2/charizard/shiny.gbapal");
-#endif // P_FAMILY_CHARIZARD
+#endif // P_FAMILY_CHARMANDER
 
 #if P_FAMILY_SQUIRTLE
 const u32 gPokedexGen2FrontPic_Squirtle[] = INCBIN_U32("graphics/pokedex_gen2/squirtle/front.4bpp.smol");
@@ -48,11 +48,11 @@ const u16 gPokedexGen2Palette_Wartortle[] = INCBIN_U16("graphics/pokedex_gen2/wa
 const u16 gPokedexGen2ShinyPalette_Wartortle[] = INCBIN_U16("graphics/pokedex_gen2/wartortle/shiny.gbapal");
 #endif // P_FAMILY_SQUIRTLE
 
-#if P_FAMILY_BLASTOISE
+#if P_FAMILY_SQUIRTLE
 const u32 gPokedexGen2FrontPic_Blastoise[] = INCBIN_U32("graphics/pokedex_gen2/blastoise/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Blastoise[] = INCBIN_U16("graphics/pokedex_gen2/blastoise/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Blastoise[] = INCBIN_U16("graphics/pokedex_gen2/blastoise/shiny.gbapal");
-#endif // P_FAMILY_BLASTOISE
+#endif // P_FAMILY_SQUIRTLE
 
 #if P_FAMILY_CATERPIE
 const u32 gPokedexGen2FrontPic_Caterpie[] = INCBIN_U32("graphics/pokedex_gen2/caterpie/front.4bpp.smol");
@@ -66,11 +66,11 @@ const u16 gPokedexGen2Palette_Metapod[] = INCBIN_U16("graphics/pokedex_gen2/meta
 const u16 gPokedexGen2ShinyPalette_Metapod[] = INCBIN_U16("graphics/pokedex_gen2/metapod/shiny.gbapal");
 #endif // P_FAMILY_CATERPIE
 
-#if P_FAMILY_BUTTERFREE
+#if P_FAMILY_CATERPIE
 const u32 gPokedexGen2FrontPic_Butterfree[] = INCBIN_U32("graphics/pokedex_gen2/butterfree/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Butterfree[] = INCBIN_U16("graphics/pokedex_gen2/butterfree/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Butterfree[] = INCBIN_U16("graphics/pokedex_gen2/butterfree/shiny.gbapal");
-#endif // P_FAMILY_BUTTERFREE
+#endif // P_FAMILY_CATERPIE
 
 #if P_FAMILY_WEEDLE
 const u32 gPokedexGen2FrontPic_Weedle[] = INCBIN_U32("graphics/pokedex_gen2/weedle/front.4bpp.smol");
@@ -96,17 +96,17 @@ const u16 gPokedexGen2Palette_Pidgey[] = INCBIN_U16("graphics/pokedex_gen2/pidge
 const u16 gPokedexGen2ShinyPalette_Pidgey[] = INCBIN_U16("graphics/pokedex_gen2/pidgey/shiny.gbapal");
 #endif // P_FAMILY_PIDGEY
 
-#if P_FAMILY_PIDGEOTTO
+#if P_FAMILY_PIDGEY
 const u32 gPokedexGen2FrontPic_Pidgeotto[] = INCBIN_U32("graphics/pokedex_gen2/pidgeotto/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Pidgeotto[] = INCBIN_U16("graphics/pokedex_gen2/pidgeotto/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Pidgeotto[] = INCBIN_U16("graphics/pokedex_gen2/pidgeotto/shiny.gbapal");
-#endif // P_FAMILY_PIDGEOTTO
+#endif // P_FAMILY_PIDGEY
 
-#if P_FAMILY_PIDGEOT
+#if P_FAMILY_PIDGEY
 const u32 gPokedexGen2FrontPic_Pidgeot[] = INCBIN_U32("graphics/pokedex_gen2/pidgeot/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Pidgeot[] = INCBIN_U16("graphics/pokedex_gen2/pidgeot/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Pidgeot[] = INCBIN_U16("graphics/pokedex_gen2/pidgeot/shiny.gbapal");
-#endif // P_FAMILY_PIDGEOT
+#endif // P_FAMILY_PIDGEY
 
 #if P_FAMILY_RATTATA
 const u32 gPokedexGen2FrontPic_Rattata[] = INCBIN_U32("graphics/pokedex_gen2/rattata/front.4bpp.smol");
@@ -114,11 +114,11 @@ const u16 gPokedexGen2Palette_Rattata[] = INCBIN_U16("graphics/pokedex_gen2/ratt
 const u16 gPokedexGen2ShinyPalette_Rattata[] = INCBIN_U16("graphics/pokedex_gen2/rattata/shiny.gbapal");
 #endif // P_FAMILY_RATTATA
 
-#if P_FAMILY_RATICATE
+#if P_FAMILY_RATTATA
 const u32 gPokedexGen2FrontPic_Raticate[] = INCBIN_U32("graphics/pokedex_gen2/raticate/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Raticate[] = INCBIN_U16("graphics/pokedex_gen2/raticate/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Raticate[] = INCBIN_U16("graphics/pokedex_gen2/raticate/shiny.gbapal");
-#endif // P_FAMILY_RATICATE
+#endif // P_FAMILY_RATTATA
 
 #if P_FAMILY_SPEAROW
 const u32 gPokedexGen2FrontPic_Spearow[] = INCBIN_U32("graphics/pokedex_gen2/spearow/front.4bpp.smol");
@@ -150,11 +150,11 @@ const u16 gPokedexGen2Palette_Pikachu[] = INCBIN_U16("graphics/pokedex_gen2/pika
 const u16 gPokedexGen2ShinyPalette_Pikachu[] = INCBIN_U16("graphics/pokedex_gen2/pikachu/shiny.gbapal");
 #endif // P_FAMILY_PIKACHU
 
-#if P_FAMILY_RAICHU
+#if P_FAMILY_PIKACHU
 const u32 gPokedexGen2FrontPic_Raichu[] = INCBIN_U32("graphics/pokedex_gen2/raichu/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Raichu[] = INCBIN_U16("graphics/pokedex_gen2/raichu/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Raichu[] = INCBIN_U16("graphics/pokedex_gen2/raichu/shiny.gbapal");
-#endif // P_FAMILY_RAICHU
+#endif // P_FAMILY_PIKACHU
 
 #if P_FAMILY_SANDSHREW
 const u32 gPokedexGen2FrontPic_Sandshrew[] = INCBIN_U32("graphics/pokedex_gen2/sandshrew/front.4bpp.smol");
@@ -174,35 +174,35 @@ const u16 gPokedexGen2Palette_NidoranF[] = INCBIN_U16("graphics/pokedex_gen2/nid
 const u16 gPokedexGen2ShinyPalette_NidoranF[] = INCBIN_U16("graphics/pokedex_gen2/nidoran_f/shiny.gbapal");
 #endif // P_FAMILY_NIDORAN
 
-#if P_FAMILY_NIDORINA
+#if P_FAMILY_NIDORAN
 const u32 gPokedexGen2FrontPic_Nidorina[] = INCBIN_U32("graphics/pokedex_gen2/nidorina/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Nidorina[] = INCBIN_U16("graphics/pokedex_gen2/nidorina/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Nidorina[] = INCBIN_U16("graphics/pokedex_gen2/nidorina/shiny.gbapal");
-#endif // P_FAMILY_NIDORINA
+#endif // P_FAMILY_NIDORAN
 
-#if P_FAMILY_NIDOQUEEN
+#if P_FAMILY_NIDORAN
 const u32 gPokedexGen2FrontPic_Nidoqueen[] = INCBIN_U32("graphics/pokedex_gen2/nidoqueen/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Nidoqueen[] = INCBIN_U16("graphics/pokedex_gen2/nidoqueen/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Nidoqueen[] = INCBIN_U16("graphics/pokedex_gen2/nidoqueen/shiny.gbapal");
-#endif // P_FAMILY_NIDOQUEEN
+#endif // P_FAMILY_NIDORAN
 
-#if P_FAMILY_NIDORAN_M
+#if P_FAMILY_NIDORAN
 const u32 gPokedexGen2FrontPic_NidoranM[] = INCBIN_U32("graphics/pokedex_gen2/nidoran_m/front.4bpp.smol");
 const u16 gPokedexGen2Palette_NidoranM[] = INCBIN_U16("graphics/pokedex_gen2/nidoran_m/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_NidoranM[] = INCBIN_U16("graphics/pokedex_gen2/nidoran_m/shiny.gbapal");
-#endif // P_FAMILY_NIDORAN_M
+#endif // P_FAMILY_NIDORAN
 
-#if P_FAMILY_NIDORINO
+#if P_FAMILY_NIDORAN
 const u32 gPokedexGen2FrontPic_Nidorino[] = INCBIN_U32("graphics/pokedex_gen2/nidorino/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Nidorino[] = INCBIN_U16("graphics/pokedex_gen2/nidorino/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Nidorino[] = INCBIN_U16("graphics/pokedex_gen2/nidorino/shiny.gbapal");
-#endif // P_FAMILY_NIDORINO
+#endif // P_FAMILY_NIDORAN
 
-#if P_FAMILY_NIDOKING
+#if P_FAMILY_NIDORAN
 const u32 gPokedexGen2FrontPic_Nidoking[] = INCBIN_U32("graphics/pokedex_gen2/nidoking/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Nidoking[] = INCBIN_U16("graphics/pokedex_gen2/nidoking/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Nidoking[] = INCBIN_U16("graphics/pokedex_gen2/nidoking/shiny.gbapal");
-#endif // P_FAMILY_NIDOKING
+#endif // P_FAMILY_NIDORAN
 
 #if P_FAMILY_CLEFAIRY
 const u32 gPokedexGen2FrontPic_Clefairy[] = INCBIN_U32("graphics/pokedex_gen2/clefairy/front.4bpp.smol");
@@ -210,11 +210,11 @@ const u16 gPokedexGen2Palette_Clefairy[] = INCBIN_U16("graphics/pokedex_gen2/cle
 const u16 gPokedexGen2ShinyPalette_Clefairy[] = INCBIN_U16("graphics/pokedex_gen2/clefairy/shiny.gbapal");
 #endif // P_FAMILY_CLEFAIRY
 
-#if P_FAMILY_CLEFABLE
+#if P_FAMILY_CLEFAIRY
 const u32 gPokedexGen2FrontPic_Clefable[] = INCBIN_U32("graphics/pokedex_gen2/clefable/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Clefable[] = INCBIN_U16("graphics/pokedex_gen2/clefable/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Clefable[] = INCBIN_U16("graphics/pokedex_gen2/clefable/shiny.gbapal");
-#endif // P_FAMILY_CLEFABLE
+#endif // P_FAMILY_CLEFAIRY
 
 #if P_FAMILY_VULPIX
 const u32 gPokedexGen2FrontPic_Vulpix[] = INCBIN_U32("graphics/pokedex_gen2/vulpix/front.4bpp.smol");
@@ -234,11 +234,11 @@ const u16 gPokedexGen2Palette_Jigglypuff[] = INCBIN_U16("graphics/pokedex_gen2/j
 const u16 gPokedexGen2ShinyPalette_Jigglypuff[] = INCBIN_U16("graphics/pokedex_gen2/jigglypuff/shiny.gbapal");
 #endif // P_FAMILY_JIGGLYPUFF
 
-#if P_FAMILY_WIGGLYTUFF
+#if P_FAMILY_JIGGLYPUFF
 const u32 gPokedexGen2FrontPic_Wigglytuff[] = INCBIN_U32("graphics/pokedex_gen2/wigglytuff/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Wigglytuff[] = INCBIN_U16("graphics/pokedex_gen2/wigglytuff/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Wigglytuff[] = INCBIN_U16("graphics/pokedex_gen2/wigglytuff/shiny.gbapal");
-#endif // P_FAMILY_WIGGLYTUFF
+#endif // P_FAMILY_JIGGLYPUFF
 
 #if P_FAMILY_ZUBAT
 const u32 gPokedexGen2FrontPic_Zubat[] = INCBIN_U32("graphics/pokedex_gen2/zubat/front.4bpp.smol");
@@ -246,11 +246,11 @@ const u16 gPokedexGen2Palette_Zubat[] = INCBIN_U16("graphics/pokedex_gen2/zubat/
 const u16 gPokedexGen2ShinyPalette_Zubat[] = INCBIN_U16("graphics/pokedex_gen2/zubat/shiny.gbapal");
 #endif // P_FAMILY_ZUBAT
 
-#if P_FAMILY_GOLBAT
+#if P_FAMILY_ZUBAT
 const u32 gPokedexGen2FrontPic_Golbat[] = INCBIN_U32("graphics/pokedex_gen2/golbat/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Golbat[] = INCBIN_U16("graphics/pokedex_gen2/golbat/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Golbat[] = INCBIN_U16("graphics/pokedex_gen2/golbat/shiny.gbapal");
-#endif // P_FAMILY_GOLBAT
+#endif // P_FAMILY_ZUBAT
 
 #if P_FAMILY_ODDISH
 const u32 gPokedexGen2FrontPic_Oddish[] = INCBIN_U32("graphics/pokedex_gen2/oddish/front.4bpp.smol");
@@ -264,11 +264,11 @@ const u16 gPokedexGen2Palette_Gloom[] = INCBIN_U16("graphics/pokedex_gen2/gloom/
 const u16 gPokedexGen2ShinyPalette_Gloom[] = INCBIN_U16("graphics/pokedex_gen2/gloom/shiny.gbapal");
 #endif // P_FAMILY_ODDISH
 
-#if P_FAMILY_VILEPLUME
+#if P_FAMILY_ODDISH
 const u32 gPokedexGen2FrontPic_Vileplume[] = INCBIN_U32("graphics/pokedex_gen2/vileplume/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Vileplume[] = INCBIN_U16("graphics/pokedex_gen2/vileplume/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Vileplume[] = INCBIN_U16("graphics/pokedex_gen2/vileplume/shiny.gbapal");
-#endif // P_FAMILY_VILEPLUME
+#endif // P_FAMILY_ODDISH
 
 #if P_FAMILY_PARAS
 const u32 gPokedexGen2FrontPic_Paras[] = INCBIN_U32("graphics/pokedex_gen2/paras/front.4bpp.smol");
@@ -276,11 +276,11 @@ const u16 gPokedexGen2Palette_Paras[] = INCBIN_U16("graphics/pokedex_gen2/paras/
 const u16 gPokedexGen2ShinyPalette_Paras[] = INCBIN_U16("graphics/pokedex_gen2/paras/shiny.gbapal");
 #endif // P_FAMILY_PARAS
 
-#if P_FAMILY_PARASECT
+#if P_FAMILY_PARAS
 const u32 gPokedexGen2FrontPic_Parasect[] = INCBIN_U32("graphics/pokedex_gen2/parasect/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Parasect[] = INCBIN_U16("graphics/pokedex_gen2/parasect/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Parasect[] = INCBIN_U16("graphics/pokedex_gen2/parasect/shiny.gbapal");
-#endif // P_FAMILY_PARASECT
+#endif // P_FAMILY_PARAS
 
 #if P_FAMILY_VENONAT
 const u32 gPokedexGen2FrontPic_Venonat[] = INCBIN_U32("graphics/pokedex_gen2/venonat/front.4bpp.smol");
@@ -288,11 +288,11 @@ const u16 gPokedexGen2Palette_Venonat[] = INCBIN_U16("graphics/pokedex_gen2/veno
 const u16 gPokedexGen2ShinyPalette_Venonat[] = INCBIN_U16("graphics/pokedex_gen2/venonat/shiny.gbapal");
 #endif // P_FAMILY_VENONAT
 
-#if P_FAMILY_VENOMOTH
+#if P_FAMILY_VENONAT
 const u32 gPokedexGen2FrontPic_Venomoth[] = INCBIN_U32("graphics/pokedex_gen2/venomoth/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Venomoth[] = INCBIN_U16("graphics/pokedex_gen2/venomoth/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Venomoth[] = INCBIN_U16("graphics/pokedex_gen2/venomoth/shiny.gbapal");
-#endif // P_FAMILY_VENOMOTH
+#endif // P_FAMILY_VENONAT
 
 #if P_FAMILY_DIGLETT
 const u32 gPokedexGen2FrontPic_Diglett[] = INCBIN_U32("graphics/pokedex_gen2/diglett/front.4bpp.smol");
@@ -312,11 +312,11 @@ const u16 gPokedexGen2Palette_Meowth[] = INCBIN_U16("graphics/pokedex_gen2/meowt
 const u16 gPokedexGen2ShinyPalette_Meowth[] = INCBIN_U16("graphics/pokedex_gen2/meowth/shiny.gbapal");
 #endif // P_FAMILY_MEOWTH
 
-#if P_FAMILY_PERSIAN
+#if P_FAMILY_MEOWTH
 const u32 gPokedexGen2FrontPic_Persian[] = INCBIN_U32("graphics/pokedex_gen2/persian/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Persian[] = INCBIN_U16("graphics/pokedex_gen2/persian/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Persian[] = INCBIN_U16("graphics/pokedex_gen2/persian/shiny.gbapal");
-#endif // P_FAMILY_PERSIAN
+#endif // P_FAMILY_MEOWTH
 
 #if P_FAMILY_PSYDUCK
 const u32 gPokedexGen2FrontPic_Psyduck[] = INCBIN_U32("graphics/pokedex_gen2/psyduck/front.4bpp.smol");
@@ -336,11 +336,11 @@ const u16 gPokedexGen2Palette_Mankey[] = INCBIN_U16("graphics/pokedex_gen2/manke
 const u16 gPokedexGen2ShinyPalette_Mankey[] = INCBIN_U16("graphics/pokedex_gen2/mankey/shiny.gbapal");
 #endif // P_FAMILY_MANKEY
 
-#if P_FAMILY_PRIMEAPE
+#if P_FAMILY_MANKEY
 const u32 gPokedexGen2FrontPic_Primeape[] = INCBIN_U32("graphics/pokedex_gen2/primeape/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Primeape[] = INCBIN_U16("graphics/pokedex_gen2/primeape/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Primeape[] = INCBIN_U16("graphics/pokedex_gen2/primeape/shiny.gbapal");
-#endif // P_FAMILY_PRIMEAPE
+#endif // P_FAMILY_MANKEY
 
 #if P_FAMILY_GROWLITHE
 const u32 gPokedexGen2FrontPic_Growlithe[] = INCBIN_U32("graphics/pokedex_gen2/growlithe/front.4bpp.smol");
@@ -366,11 +366,11 @@ const u16 gPokedexGen2Palette_Poliwhirl[] = INCBIN_U16("graphics/pokedex_gen2/po
 const u16 gPokedexGen2ShinyPalette_Poliwhirl[] = INCBIN_U16("graphics/pokedex_gen2/poliwhirl/shiny.gbapal");
 #endif // P_FAMILY_POLIWAG
 
-#if P_FAMILY_POLIWRATH
+#if P_FAMILY_POLIWAG
 const u32 gPokedexGen2FrontPic_Poliwrath[] = INCBIN_U32("graphics/pokedex_gen2/poliwrath/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Poliwrath[] = INCBIN_U16("graphics/pokedex_gen2/poliwrath/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Poliwrath[] = INCBIN_U16("graphics/pokedex_gen2/poliwrath/shiny.gbapal");
-#endif // P_FAMILY_POLIWRATH
+#endif // P_FAMILY_POLIWAG
 
 #if P_FAMILY_ABRA
 const u32 gPokedexGen2FrontPic_Abra[] = INCBIN_U32("graphics/pokedex_gen2/abra/front.4bpp.smol");
@@ -378,17 +378,17 @@ const u16 gPokedexGen2Palette_Abra[] = INCBIN_U16("graphics/pokedex_gen2/abra/no
 const u16 gPokedexGen2ShinyPalette_Abra[] = INCBIN_U16("graphics/pokedex_gen2/abra/shiny.gbapal");
 #endif // P_FAMILY_ABRA
 
-#if P_FAMILY_KADABRA
+#if P_FAMILY_ABRA
 const u32 gPokedexGen2FrontPic_Kadabra[] = INCBIN_U32("graphics/pokedex_gen2/kadabra/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Kadabra[] = INCBIN_U16("graphics/pokedex_gen2/kadabra/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Kadabra[] = INCBIN_U16("graphics/pokedex_gen2/kadabra/shiny.gbapal");
-#endif // P_FAMILY_KADABRA
+#endif // P_FAMILY_ABRA
 
-#if P_FAMILY_ALAKAZAM
+#if P_FAMILY_ABRA
 const u32 gPokedexGen2FrontPic_Alakazam[] = INCBIN_U32("graphics/pokedex_gen2/alakazam/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Alakazam[] = INCBIN_U16("graphics/pokedex_gen2/alakazam/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Alakazam[] = INCBIN_U16("graphics/pokedex_gen2/alakazam/shiny.gbapal");
-#endif // P_FAMILY_ALAKAZAM
+#endif // P_FAMILY_ABRA
 
 #if P_FAMILY_MACHOP
 const u32 gPokedexGen2FrontPic_Machop[] = INCBIN_U32("graphics/pokedex_gen2/machop/front.4bpp.smol");
@@ -396,17 +396,17 @@ const u16 gPokedexGen2Palette_Machop[] = INCBIN_U16("graphics/pokedex_gen2/macho
 const u16 gPokedexGen2ShinyPalette_Machop[] = INCBIN_U16("graphics/pokedex_gen2/machop/shiny.gbapal");
 #endif // P_FAMILY_MACHOP
 
-#if P_FAMILY_MACHOKE
+#if P_FAMILY_MACHOP
 const u32 gPokedexGen2FrontPic_Machoke[] = INCBIN_U32("graphics/pokedex_gen2/machoke/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Machoke[] = INCBIN_U16("graphics/pokedex_gen2/machoke/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Machoke[] = INCBIN_U16("graphics/pokedex_gen2/machoke/shiny.gbapal");
-#endif // P_FAMILY_MACHOKE
+#endif // P_FAMILY_MACHOP
 
-#if P_FAMILY_MACHAMP
+#if P_FAMILY_MACHOP
 const u32 gPokedexGen2FrontPic_Machamp[] = INCBIN_U32("graphics/pokedex_gen2/machamp/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Machamp[] = INCBIN_U16("graphics/pokedex_gen2/machamp/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Machamp[] = INCBIN_U16("graphics/pokedex_gen2/machamp/shiny.gbapal");
-#endif // P_FAMILY_MACHAMP
+#endif // P_FAMILY_MACHOP
 
 #if P_FAMILY_BELLSPROUT
 const u32 gPokedexGen2FrontPic_Bellsprout[] = INCBIN_U32("graphics/pokedex_gen2/bellsprout/front.4bpp.smol");
@@ -420,11 +420,11 @@ const u16 gPokedexGen2Palette_Weepinbell[] = INCBIN_U16("graphics/pokedex_gen2/w
 const u16 gPokedexGen2ShinyPalette_Weepinbell[] = INCBIN_U16("graphics/pokedex_gen2/weepinbell/shiny.gbapal");
 #endif // P_FAMILY_BELLSPROUT
 
-#if P_FAMILY_VICTREEBEL
+#if P_FAMILY_BELLSPROUT
 const u32 gPokedexGen2FrontPic_Victreebel[] = INCBIN_U32("graphics/pokedex_gen2/victreebel/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Victreebel[] = INCBIN_U16("graphics/pokedex_gen2/victreebel/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Victreebel[] = INCBIN_U16("graphics/pokedex_gen2/victreebel/shiny.gbapal");
-#endif // P_FAMILY_VICTREEBEL
+#endif // P_FAMILY_BELLSPROUT
 
 #if P_FAMILY_TENTACOOL
 const u32 gPokedexGen2FrontPic_Tentacool[] = INCBIN_U32("graphics/pokedex_gen2/tentacool/front.4bpp.smol");
@@ -444,17 +444,17 @@ const u16 gPokedexGen2Palette_Geodude[] = INCBIN_U16("graphics/pokedex_gen2/geod
 const u16 gPokedexGen2ShinyPalette_Geodude[] = INCBIN_U16("graphics/pokedex_gen2/geodude/shiny.gbapal");
 #endif // P_FAMILY_GEODUDE
 
-#if P_FAMILY_GRAVELER
+#if P_FAMILY_GEODUDE
 const u32 gPokedexGen2FrontPic_Graveler[] = INCBIN_U32("graphics/pokedex_gen2/graveler/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Graveler[] = INCBIN_U16("graphics/pokedex_gen2/graveler/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Graveler[] = INCBIN_U16("graphics/pokedex_gen2/graveler/shiny.gbapal");
-#endif // P_FAMILY_GRAVELER
+#endif // P_FAMILY_GEODUDE
 
-#if P_FAMILY_GOLEM
+#if P_FAMILY_GEODUDE
 const u32 gPokedexGen2FrontPic_Golem[] = INCBIN_U32("graphics/pokedex_gen2/golem/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Golem[] = INCBIN_U16("graphics/pokedex_gen2/golem/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Golem[] = INCBIN_U16("graphics/pokedex_gen2/golem/shiny.gbapal");
-#endif // P_FAMILY_GOLEM
+#endif // P_FAMILY_GEODUDE
 
 #if P_FAMILY_PONYTA
 const u32 gPokedexGen2FrontPic_Ponyta[] = INCBIN_U32("graphics/pokedex_gen2/ponyta/front.4bpp.smol");
@@ -474,11 +474,11 @@ const u16 gPokedexGen2Palette_Slowpoke[] = INCBIN_U16("graphics/pokedex_gen2/slo
 const u16 gPokedexGen2ShinyPalette_Slowpoke[] = INCBIN_U16("graphics/pokedex_gen2/slowpoke/shiny.gbapal");
 #endif // P_FAMILY_SLOWPOKE
 
-#if P_FAMILY_SLOWBRO
+#if P_FAMILY_SLOWPOKE
 const u32 gPokedexGen2FrontPic_Slowbro[] = INCBIN_U32("graphics/pokedex_gen2/slowbro/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Slowbro[] = INCBIN_U16("graphics/pokedex_gen2/slowbro/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Slowbro[] = INCBIN_U16("graphics/pokedex_gen2/slowbro/shiny.gbapal");
-#endif // P_FAMILY_SLOWBRO
+#endif // P_FAMILY_SLOWPOKE
 
 #if P_FAMILY_MAGNEMITE
 const u32 gPokedexGen2FrontPic_Magnemite[] = INCBIN_U32("graphics/pokedex_gen2/magnemite/front.4bpp.smol");
@@ -504,11 +504,11 @@ const u16 gPokedexGen2Palette_Doduo[] = INCBIN_U16("graphics/pokedex_gen2/doduo/
 const u16 gPokedexGen2ShinyPalette_Doduo[] = INCBIN_U16("graphics/pokedex_gen2/doduo/shiny.gbapal");
 #endif // P_FAMILY_DODUO
 
-#if P_FAMILY_DODRIO
+#if P_FAMILY_DODUO
 const u32 gPokedexGen2FrontPic_Dodrio[] = INCBIN_U32("graphics/pokedex_gen2/dodrio/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Dodrio[] = INCBIN_U16("graphics/pokedex_gen2/dodrio/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Dodrio[] = INCBIN_U16("graphics/pokedex_gen2/dodrio/shiny.gbapal");
-#endif // P_FAMILY_DODRIO
+#endif // P_FAMILY_DODUO
 
 #if P_FAMILY_SEEL
 const u32 gPokedexGen2FrontPic_Seel[] = INCBIN_U32("graphics/pokedex_gen2/seel/front.4bpp.smol");
@@ -516,11 +516,11 @@ const u16 gPokedexGen2Palette_Seel[] = INCBIN_U16("graphics/pokedex_gen2/seel/no
 const u16 gPokedexGen2ShinyPalette_Seel[] = INCBIN_U16("graphics/pokedex_gen2/seel/shiny.gbapal");
 #endif // P_FAMILY_SEEL
 
-#if P_FAMILY_DEWGONG
+#if P_FAMILY_SEEL
 const u32 gPokedexGen2FrontPic_Dewgong[] = INCBIN_U32("graphics/pokedex_gen2/dewgong/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Dewgong[] = INCBIN_U16("graphics/pokedex_gen2/dewgong/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Dewgong[] = INCBIN_U16("graphics/pokedex_gen2/dewgong/shiny.gbapal");
-#endif // P_FAMILY_DEWGONG
+#endif // P_FAMILY_SEEL
 
 #if P_FAMILY_GRIMER
 const u32 gPokedexGen2FrontPic_Grimer[] = INCBIN_U32("graphics/pokedex_gen2/grimer/front.4bpp.smol");
@@ -540,11 +540,11 @@ const u16 gPokedexGen2Palette_Shellder[] = INCBIN_U16("graphics/pokedex_gen2/she
 const u16 gPokedexGen2ShinyPalette_Shellder[] = INCBIN_U16("graphics/pokedex_gen2/shellder/shiny.gbapal");
 #endif // P_FAMILY_SHELLDER
 
-#if P_FAMILY_CLOYSTER
+#if P_FAMILY_SHELLDER
 const u32 gPokedexGen2FrontPic_Cloyster[] = INCBIN_U32("graphics/pokedex_gen2/cloyster/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Cloyster[] = INCBIN_U16("graphics/pokedex_gen2/cloyster/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Cloyster[] = INCBIN_U16("graphics/pokedex_gen2/cloyster/shiny.gbapal");
-#endif // P_FAMILY_CLOYSTER
+#endif // P_FAMILY_SHELLDER
 
 #if P_FAMILY_GASTLY
 const u32 gPokedexGen2FrontPic_Gastly[] = INCBIN_U32("graphics/pokedex_gen2/gastly/front.4bpp.smol");
@@ -558,11 +558,11 @@ const u16 gPokedexGen2Palette_Haunter[] = INCBIN_U16("graphics/pokedex_gen2/haun
 const u16 gPokedexGen2ShinyPalette_Haunter[] = INCBIN_U16("graphics/pokedex_gen2/haunter/shiny.gbapal");
 #endif // P_FAMILY_GASTLY
 
-#if P_FAMILY_GENGAR
+#if P_FAMILY_GASTLY
 const u32 gPokedexGen2FrontPic_Gengar[] = INCBIN_U32("graphics/pokedex_gen2/gengar/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Gengar[] = INCBIN_U16("graphics/pokedex_gen2/gengar/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Gengar[] = INCBIN_U16("graphics/pokedex_gen2/gengar/shiny.gbapal");
-#endif // P_FAMILY_GENGAR
+#endif // P_FAMILY_GASTLY
 
 #if P_FAMILY_ONIX
 const u32 gPokedexGen2FrontPic_Onix[] = INCBIN_U32("graphics/pokedex_gen2/onix/front.4bpp.smol");
@@ -576,11 +576,11 @@ const u16 gPokedexGen2Palette_Drowzee[] = INCBIN_U16("graphics/pokedex_gen2/drow
 const u16 gPokedexGen2ShinyPalette_Drowzee[] = INCBIN_U16("graphics/pokedex_gen2/drowzee/shiny.gbapal");
 #endif // P_FAMILY_DROWZEE
 
-#if P_FAMILY_HYPNO
+#if P_FAMILY_DROWZEE
 const u32 gPokedexGen2FrontPic_Hypno[] = INCBIN_U32("graphics/pokedex_gen2/hypno/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Hypno[] = INCBIN_U16("graphics/pokedex_gen2/hypno/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Hypno[] = INCBIN_U16("graphics/pokedex_gen2/hypno/shiny.gbapal");
-#endif // P_FAMILY_HYPNO
+#endif // P_FAMILY_DROWZEE
 
 #if P_FAMILY_KRABBY
 const u32 gPokedexGen2FrontPic_Krabby[] = INCBIN_U32("graphics/pokedex_gen2/krabby/front.4bpp.smol");
@@ -612,11 +612,11 @@ const u16 gPokedexGen2Palette_Exeggcute[] = INCBIN_U16("graphics/pokedex_gen2/ex
 const u16 gPokedexGen2ShinyPalette_Exeggcute[] = INCBIN_U16("graphics/pokedex_gen2/exeggcute/shiny.gbapal");
 #endif // P_FAMILY_EXEGGCUTE
 
-#if P_FAMILY_EXEGGUTOR
+#if P_FAMILY_EXEGGCUTE
 const u32 gPokedexGen2FrontPic_Exeggutor[] = INCBIN_U32("graphics/pokedex_gen2/exeggutor/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Exeggutor[] = INCBIN_U16("graphics/pokedex_gen2/exeggutor/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Exeggutor[] = INCBIN_U16("graphics/pokedex_gen2/exeggutor/shiny.gbapal");
-#endif // P_FAMILY_EXEGGUTOR
+#endif // P_FAMILY_EXEGGCUTE
 
 #if P_FAMILY_CUBONE
 const u32 gPokedexGen2FrontPic_Cubone[] = INCBIN_U32("graphics/pokedex_gen2/cubone/front.4bpp.smol");
@@ -624,23 +624,23 @@ const u16 gPokedexGen2Palette_Cubone[] = INCBIN_U16("graphics/pokedex_gen2/cubon
 const u16 gPokedexGen2ShinyPalette_Cubone[] = INCBIN_U16("graphics/pokedex_gen2/cubone/shiny.gbapal");
 #endif // P_FAMILY_CUBONE
 
-#if P_FAMILY_MAROWAK
+#if P_FAMILY_CUBONE
 const u32 gPokedexGen2FrontPic_Marowak[] = INCBIN_U32("graphics/pokedex_gen2/marowak/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Marowak[] = INCBIN_U16("graphics/pokedex_gen2/marowak/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Marowak[] = INCBIN_U16("graphics/pokedex_gen2/marowak/shiny.gbapal");
-#endif // P_FAMILY_MAROWAK
+#endif // P_FAMILY_CUBONE
 
-#if P_FAMILY_HITMONLEE
+#if P_FAMILY_HITMONS
 const u32 gPokedexGen2FrontPic_Hitmonlee[] = INCBIN_U32("graphics/pokedex_gen2/hitmonlee/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Hitmonlee[] = INCBIN_U16("graphics/pokedex_gen2/hitmonlee/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Hitmonlee[] = INCBIN_U16("graphics/pokedex_gen2/hitmonlee/shiny.gbapal");
-#endif // P_FAMILY_HITMONLEE
+#endif // P_FAMILY_HITMONS
 
-#if P_FAMILY_HITMONCHAN
+#if P_FAMILY_HITMONS
 const u32 gPokedexGen2FrontPic_Hitmonchan[] = INCBIN_U32("graphics/pokedex_gen2/hitmonchan/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Hitmonchan[] = INCBIN_U16("graphics/pokedex_gen2/hitmonchan/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Hitmonchan[] = INCBIN_U16("graphics/pokedex_gen2/hitmonchan/shiny.gbapal");
-#endif // P_FAMILY_HITMONCHAN
+#endif // P_FAMILY_HITMONS
 
 #if P_FAMILY_LICKITUNG
 const u32 gPokedexGen2FrontPic_Lickitung[] = INCBIN_U32("graphics/pokedex_gen2/lickitung/front.4bpp.smol");
@@ -654,11 +654,11 @@ const u16 gPokedexGen2Palette_Koffing[] = INCBIN_U16("graphics/pokedex_gen2/koff
 const u16 gPokedexGen2ShinyPalette_Koffing[] = INCBIN_U16("graphics/pokedex_gen2/koffing/shiny.gbapal");
 #endif // P_FAMILY_KOFFING
 
-#if P_FAMILY_WEEZING
+#if P_FAMILY_KOFFING
 const u32 gPokedexGen2FrontPic_Weezing[] = INCBIN_U32("graphics/pokedex_gen2/weezing/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Weezing[] = INCBIN_U16("graphics/pokedex_gen2/weezing/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Weezing[] = INCBIN_U16("graphics/pokedex_gen2/weezing/shiny.gbapal");
-#endif // P_FAMILY_WEEZING
+#endif // P_FAMILY_KOFFING
 
 #if P_FAMILY_RHYHORN
 const u32 gPokedexGen2FrontPic_Rhyhorn[] = INCBIN_U32("graphics/pokedex_gen2/rhyhorn/front.4bpp.smol");
@@ -666,11 +666,11 @@ const u16 gPokedexGen2Palette_Rhyhorn[] = INCBIN_U16("graphics/pokedex_gen2/rhyh
 const u16 gPokedexGen2ShinyPalette_Rhyhorn[] = INCBIN_U16("graphics/pokedex_gen2/rhyhorn/shiny.gbapal");
 #endif // P_FAMILY_RHYHORN
 
-#if P_FAMILY_RHYDON
+#if P_FAMILY_RHYHORN
 const u32 gPokedexGen2FrontPic_Rhydon[] = INCBIN_U32("graphics/pokedex_gen2/rhydon/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Rhydon[] = INCBIN_U16("graphics/pokedex_gen2/rhydon/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Rhydon[] = INCBIN_U16("graphics/pokedex_gen2/rhydon/shiny.gbapal");
-#endif // P_FAMILY_RHYDON
+#endif // P_FAMILY_RHYHORN
 
 #if P_FAMILY_CHANSEY
 const u32 gPokedexGen2FrontPic_Chansey[] = INCBIN_U32("graphics/pokedex_gen2/chansey/front.4bpp.smol");
@@ -696,11 +696,11 @@ const u16 gPokedexGen2Palette_Horsea[] = INCBIN_U16("graphics/pokedex_gen2/horse
 const u16 gPokedexGen2ShinyPalette_Horsea[] = INCBIN_U16("graphics/pokedex_gen2/horsea/shiny.gbapal");
 #endif // P_FAMILY_HORSEA
 
-#if P_FAMILY_SEADRA
+#if P_FAMILY_HORSEA
 const u32 gPokedexGen2FrontPic_Seadra[] = INCBIN_U32("graphics/pokedex_gen2/seadra/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Seadra[] = INCBIN_U16("graphics/pokedex_gen2/seadra/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Seadra[] = INCBIN_U16("graphics/pokedex_gen2/seadra/shiny.gbapal");
-#endif // P_FAMILY_SEADRA
+#endif // P_FAMILY_HORSEA
 
 #if P_FAMILY_GOLDEEN
 const u32 gPokedexGen2FrontPic_Goldeen[] = INCBIN_U32("graphics/pokedex_gen2/goldeen/front.4bpp.smol");
@@ -708,11 +708,11 @@ const u16 gPokedexGen2Palette_Goldeen[] = INCBIN_U16("graphics/pokedex_gen2/gold
 const u16 gPokedexGen2ShinyPalette_Goldeen[] = INCBIN_U16("graphics/pokedex_gen2/goldeen/shiny.gbapal");
 #endif // P_FAMILY_GOLDEEN
 
-#if P_FAMILY_SEAKING
+#if P_FAMILY_GOLDEEN
 const u32 gPokedexGen2FrontPic_Seaking[] = INCBIN_U32("graphics/pokedex_gen2/seaking/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Seaking[] = INCBIN_U16("graphics/pokedex_gen2/seaking/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Seaking[] = INCBIN_U16("graphics/pokedex_gen2/seaking/shiny.gbapal");
-#endif // P_FAMILY_SEAKING
+#endif // P_FAMILY_GOLDEEN
 
 #if P_FAMILY_STARYU
 const u32 gPokedexGen2FrontPic_Staryu[] = INCBIN_U32("graphics/pokedex_gen2/staryu/front.4bpp.smol");
@@ -774,11 +774,11 @@ const u16 gPokedexGen2Palette_Magikarp[] = INCBIN_U16("graphics/pokedex_gen2/mag
 const u16 gPokedexGen2ShinyPalette_Magikarp[] = INCBIN_U16("graphics/pokedex_gen2/magikarp/shiny.gbapal");
 #endif // P_FAMILY_MAGIKARP
 
-#if P_FAMILY_GYARADOS
+#if P_FAMILY_MAGIKARP
 const u32 gPokedexGen2FrontPic_Gyarados[] = INCBIN_U32("graphics/pokedex_gen2/gyarados/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Gyarados[] = INCBIN_U16("graphics/pokedex_gen2/gyarados/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Gyarados[] = INCBIN_U16("graphics/pokedex_gen2/gyarados/shiny.gbapal");
-#endif // P_FAMILY_GYARADOS
+#endif // P_FAMILY_MAGIKARP
 
 #if P_FAMILY_LAPRAS
 const u32 gPokedexGen2FrontPic_Lapras[] = INCBIN_U32("graphics/pokedex_gen2/lapras/front.4bpp.smol");
@@ -798,23 +798,23 @@ const u16 gPokedexGen2Palette_Eevee[] = INCBIN_U16("graphics/pokedex_gen2/eevee/
 const u16 gPokedexGen2ShinyPalette_Eevee[] = INCBIN_U16("graphics/pokedex_gen2/eevee/shiny.gbapal");
 #endif // P_FAMILY_EEVEE
 
-#if P_FAMILY_VAPOREON
+#if P_FAMILY_EEVEE
 const u32 gPokedexGen2FrontPic_Vaporeon[] = INCBIN_U32("graphics/pokedex_gen2/vaporeon/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Vaporeon[] = INCBIN_U16("graphics/pokedex_gen2/vaporeon/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Vaporeon[] = INCBIN_U16("graphics/pokedex_gen2/vaporeon/shiny.gbapal");
-#endif // P_FAMILY_VAPOREON
+#endif // P_FAMILY_EEVEE
 
-#if P_FAMILY_JOLTEON
+#if P_FAMILY_EEVEE
 const u32 gPokedexGen2FrontPic_Jolteon[] = INCBIN_U32("graphics/pokedex_gen2/jolteon/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Jolteon[] = INCBIN_U16("graphics/pokedex_gen2/jolteon/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Jolteon[] = INCBIN_U16("graphics/pokedex_gen2/jolteon/shiny.gbapal");
-#endif // P_FAMILY_JOLTEON
+#endif // P_FAMILY_EEVEE
 
-#if P_FAMILY_FLAREON
+#if P_FAMILY_EEVEE
 const u32 gPokedexGen2FrontPic_Flareon[] = INCBIN_U32("graphics/pokedex_gen2/flareon/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Flareon[] = INCBIN_U16("graphics/pokedex_gen2/flareon/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Flareon[] = INCBIN_U16("graphics/pokedex_gen2/flareon/shiny.gbapal");
-#endif // P_FAMILY_FLAREON
+#endif // P_FAMILY_EEVEE
 
 #if P_FAMILY_PORYGON
 const u32 gPokedexGen2FrontPic_Porygon[] = INCBIN_U32("graphics/pokedex_gen2/porygon/front.4bpp.smol");
@@ -828,11 +828,11 @@ const u16 gPokedexGen2Palette_Omanyte[] = INCBIN_U16("graphics/pokedex_gen2/oman
 const u16 gPokedexGen2ShinyPalette_Omanyte[] = INCBIN_U16("graphics/pokedex_gen2/omanyte/shiny.gbapal");
 #endif // P_FAMILY_OMANYTE
 
-#if P_FAMILY_OMASTAR
+#if P_FAMILY_OMANYTE
 const u32 gPokedexGen2FrontPic_Omastar[] = INCBIN_U32("graphics/pokedex_gen2/omastar/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Omastar[] = INCBIN_U16("graphics/pokedex_gen2/omastar/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Omastar[] = INCBIN_U16("graphics/pokedex_gen2/omastar/shiny.gbapal");
-#endif // P_FAMILY_OMASTAR
+#endif // P_FAMILY_OMANYTE
 
 #if P_FAMILY_KABUTO
 const u32 gPokedexGen2FrontPic_Kabuto[] = INCBIN_U32("graphics/pokedex_gen2/kabuto/front.4bpp.smol");
@@ -840,11 +840,11 @@ const u16 gPokedexGen2Palette_Kabuto[] = INCBIN_U16("graphics/pokedex_gen2/kabut
 const u16 gPokedexGen2ShinyPalette_Kabuto[] = INCBIN_U16("graphics/pokedex_gen2/kabuto/shiny.gbapal");
 #endif // P_FAMILY_KABUTO
 
-#if P_FAMILY_KABUTOPS
+#if P_FAMILY_KABUTO
 const u32 gPokedexGen2FrontPic_Kabutops[] = INCBIN_U32("graphics/pokedex_gen2/kabutops/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Kabutops[] = INCBIN_U16("graphics/pokedex_gen2/kabutops/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Kabutops[] = INCBIN_U16("graphics/pokedex_gen2/kabutops/shiny.gbapal");
-#endif // P_FAMILY_KABUTOPS
+#endif // P_FAMILY_KABUTO
 
 #if P_FAMILY_AERODACTYL
 const u32 gPokedexGen2FrontPic_Aerodactyl[] = INCBIN_U32("graphics/pokedex_gen2/aerodactyl/front.4bpp.smol");
@@ -936,11 +936,11 @@ const u16 gPokedexGen2Palette_Quilava[] = INCBIN_U16("graphics/pokedex_gen2/quil
 const u16 gPokedexGen2ShinyPalette_Quilava[] = INCBIN_U16("graphics/pokedex_gen2/quilava/shiny.gbapal");
 #endif // P_FAMILY_CYNDAQUIL
 
-#if P_FAMILY_TYPHLOSION
+#if P_FAMILY_CYNDAQUIL
 const u32 gPokedexGen2FrontPic_Typhlosion[] = INCBIN_U32("graphics/pokedex_gen2/typhlosion/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Typhlosion[] = INCBIN_U16("graphics/pokedex_gen2/typhlosion/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Typhlosion[] = INCBIN_U16("graphics/pokedex_gen2/typhlosion/shiny.gbapal");
-#endif // P_FAMILY_TYPHLOSION
+#endif // P_FAMILY_CYNDAQUIL
 
 #if P_FAMILY_TOTODILE
 const u32 gPokedexGen2FrontPic_Totodile[] = INCBIN_U32("graphics/pokedex_gen2/totodile/front.4bpp.smol");
@@ -990,11 +990,11 @@ const u16 gPokedexGen2Palette_Ledyba[] = INCBIN_U16("graphics/pokedex_gen2/ledyb
 const u16 gPokedexGen2ShinyPalette_Ledyba[] = INCBIN_U16("graphics/pokedex_gen2/ledyba/shiny.gbapal");
 #endif // P_FAMILY_LEDYBA
 
-#if P_FAMILY_LEDIAN
+#if P_FAMILY_LEDYBA
 const u32 gPokedexGen2FrontPic_Ledian[] = INCBIN_U32("graphics/pokedex_gen2/ledian/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Ledian[] = INCBIN_U16("graphics/pokedex_gen2/ledian/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Ledian[] = INCBIN_U16("graphics/pokedex_gen2/ledian/shiny.gbapal");
-#endif // P_FAMILY_LEDIAN
+#endif // P_FAMILY_LEDYBA
 
 #if P_FAMILY_SPINARAK
 const u32 gPokedexGen2FrontPic_Spinarak[] = INCBIN_U32("graphics/pokedex_gen2/spinarak/front.4bpp.smol");
@@ -1008,11 +1008,11 @@ const u16 gPokedexGen2Palette_Ariados[] = INCBIN_U16("graphics/pokedex_gen2/aria
 const u16 gPokedexGen2ShinyPalette_Ariados[] = INCBIN_U16("graphics/pokedex_gen2/ariados/shiny.gbapal");
 #endif // P_FAMILY_SPINARAK
 
-#if P_FAMILY_CROBAT
+#if P_FAMILY_ZUBAT
 const u32 gPokedexGen2FrontPic_Crobat[] = INCBIN_U32("graphics/pokedex_gen2/crobat/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Crobat[] = INCBIN_U16("graphics/pokedex_gen2/crobat/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Crobat[] = INCBIN_U16("graphics/pokedex_gen2/crobat/shiny.gbapal");
-#endif // P_FAMILY_CROBAT
+#endif // P_FAMILY_ZUBAT
 
 #if P_FAMILY_CHINCHOU
 const u32 gPokedexGen2FrontPic_Chinchou[] = INCBIN_U32("graphics/pokedex_gen2/chinchou/front.4bpp.smol");
@@ -1032,17 +1032,17 @@ const u16 gPokedexGen2Palette_Pichu[] = INCBIN_U16("graphics/pokedex_gen2/pichu/
 const u16 gPokedexGen2ShinyPalette_Pichu[] = INCBIN_U16("graphics/pokedex_gen2/pichu/shiny.gbapal");
 #endif // P_FAMILY_PIKACHU
 
-#if P_FAMILY_CLEFFA
+#if P_FAMILY_CLEFAIRY
 const u32 gPokedexGen2FrontPic_Cleffa[] = INCBIN_U32("graphics/pokedex_gen2/cleffa/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Cleffa[] = INCBIN_U16("graphics/pokedex_gen2/cleffa/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Cleffa[] = INCBIN_U16("graphics/pokedex_gen2/cleffa/shiny.gbapal");
-#endif // P_FAMILY_CLEFFA
+#endif // P_FAMILY_CLEFAIRY
 
-#if P_FAMILY_IGGLYBUFF
+#if P_FAMILY_JIGGLYPUFF
 const u32 gPokedexGen2FrontPic_Igglybuff[] = INCBIN_U32("graphics/pokedex_gen2/igglybuff/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Igglybuff[] = INCBIN_U16("graphics/pokedex_gen2/igglybuff/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Igglybuff[] = INCBIN_U16("graphics/pokedex_gen2/igglybuff/shiny.gbapal");
-#endif // P_FAMILY_IGGLYBUFF
+#endif // P_FAMILY_JIGGLYPUFF
 
 #if P_FAMILY_TOGEPI
 const u32 gPokedexGen2FrontPic_Togepi[] = INCBIN_U32("graphics/pokedex_gen2/togepi/front.4bpp.smol");
@@ -1086,11 +1086,11 @@ const u16 gPokedexGen2Palette_Ampharos[] = INCBIN_U16("graphics/pokedex_gen2/amp
 const u16 gPokedexGen2ShinyPalette_Ampharos[] = INCBIN_U16("graphics/pokedex_gen2/ampharos/shiny.gbapal");
 #endif // P_FAMILY_MAREEP
 
-#if P_FAMILY_BELLOSSOM
+#if P_FAMILY_ODDISH
 const u32 gPokedexGen2FrontPic_Bellossom[] = INCBIN_U32("graphics/pokedex_gen2/bellossom/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Bellossom[] = INCBIN_U16("graphics/pokedex_gen2/bellossom/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Bellossom[] = INCBIN_U16("graphics/pokedex_gen2/bellossom/shiny.gbapal");
-#endif // P_FAMILY_BELLOSSOM
+#endif // P_FAMILY_ODDISH
 
 #if P_FAMILY_MARILL
 const u32 gPokedexGen2FrontPic_Marill[] = INCBIN_U32("graphics/pokedex_gen2/marill/front.4bpp.smol");
@@ -1098,11 +1098,11 @@ const u16 gPokedexGen2Palette_Marill[] = INCBIN_U16("graphics/pokedex_gen2/maril
 const u16 gPokedexGen2ShinyPalette_Marill[] = INCBIN_U16("graphics/pokedex_gen2/marill/shiny.gbapal");
 #endif // P_FAMILY_MARILL
 
-#if P_FAMILY_AZUMARILL
+#if P_FAMILY_MARILL
 const u32 gPokedexGen2FrontPic_Azumarill[] = INCBIN_U32("graphics/pokedex_gen2/azumarill/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Azumarill[] = INCBIN_U16("graphics/pokedex_gen2/azumarill/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Azumarill[] = INCBIN_U16("graphics/pokedex_gen2/azumarill/shiny.gbapal");
-#endif // P_FAMILY_AZUMARILL
+#endif // P_FAMILY_MARILL
 
 #if P_FAMILY_SUDOWOODO
 const u32 gPokedexGen2FrontPic_Sudowoodo[] = INCBIN_U32("graphics/pokedex_gen2/sudowoodo/front.4bpp.smol");
@@ -1110,11 +1110,11 @@ const u16 gPokedexGen2Palette_Sudowoodo[] = INCBIN_U16("graphics/pokedex_gen2/su
 const u16 gPokedexGen2ShinyPalette_Sudowoodo[] = INCBIN_U16("graphics/pokedex_gen2/sudowoodo/shiny.gbapal");
 #endif // P_FAMILY_SUDOWOODO
 
-#if P_FAMILY_POLITOED
+#if P_FAMILY_POLIWAG
 const u32 gPokedexGen2FrontPic_Politoed[] = INCBIN_U32("graphics/pokedex_gen2/politoed/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Politoed[] = INCBIN_U16("graphics/pokedex_gen2/politoed/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Politoed[] = INCBIN_U16("graphics/pokedex_gen2/politoed/shiny.gbapal");
-#endif // P_FAMILY_POLITOED
+#endif // P_FAMILY_POLIWAG
 
 #if P_FAMILY_HOPPIP
 const u32 gPokedexGen2FrontPic_Hoppip[] = INCBIN_U32("graphics/pokedex_gen2/hoppip/front.4bpp.smol");
@@ -1122,17 +1122,17 @@ const u16 gPokedexGen2Palette_Hoppip[] = INCBIN_U16("graphics/pokedex_gen2/hoppi
 const u16 gPokedexGen2ShinyPalette_Hoppip[] = INCBIN_U16("graphics/pokedex_gen2/hoppip/shiny.gbapal");
 #endif // P_FAMILY_HOPPIP
 
-#if P_FAMILY_SKIPLOOM
+#if P_FAMILY_HOPPIP
 const u32 gPokedexGen2FrontPic_Skiploom[] = INCBIN_U32("graphics/pokedex_gen2/skiploom/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Skiploom[] = INCBIN_U16("graphics/pokedex_gen2/skiploom/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Skiploom[] = INCBIN_U16("graphics/pokedex_gen2/skiploom/shiny.gbapal");
-#endif // P_FAMILY_SKIPLOOM
+#endif // P_FAMILY_HOPPIP
 
-#if P_FAMILY_JUMPLUFF
+#if P_FAMILY_HOPPIP
 const u32 gPokedexGen2FrontPic_Jumpluff[] = INCBIN_U32("graphics/pokedex_gen2/jumpluff/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Jumpluff[] = INCBIN_U16("graphics/pokedex_gen2/jumpluff/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Jumpluff[] = INCBIN_U16("graphics/pokedex_gen2/jumpluff/shiny.gbapal");
-#endif // P_FAMILY_JUMPLUFF
+#endif // P_FAMILY_HOPPIP
 
 #if P_FAMILY_AIPOM
 const u32 gPokedexGen2FrontPic_Aipom[] = INCBIN_U32("graphics/pokedex_gen2/aipom/front.4bpp.smol");
@@ -1146,11 +1146,11 @@ const u16 gPokedexGen2Palette_Sunkern[] = INCBIN_U16("graphics/pokedex_gen2/sunk
 const u16 gPokedexGen2ShinyPalette_Sunkern[] = INCBIN_U16("graphics/pokedex_gen2/sunkern/shiny.gbapal");
 #endif // P_FAMILY_SUNKERN
 
-#if P_FAMILY_SUNFLORA
+#if P_FAMILY_SUNKERN
 const u32 gPokedexGen2FrontPic_Sunflora[] = INCBIN_U32("graphics/pokedex_gen2/sunflora/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Sunflora[] = INCBIN_U16("graphics/pokedex_gen2/sunflora/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Sunflora[] = INCBIN_U16("graphics/pokedex_gen2/sunflora/shiny.gbapal");
-#endif // P_FAMILY_SUNFLORA
+#endif // P_FAMILY_SUNKERN
 
 #if P_FAMILY_YANMA
 const u32 gPokedexGen2FrontPic_Yanma[] = INCBIN_U32("graphics/pokedex_gen2/yanma/front.4bpp.smol");
@@ -1164,23 +1164,23 @@ const u16 gPokedexGen2Palette_Wooper[] = INCBIN_U16("graphics/pokedex_gen2/woope
 const u16 gPokedexGen2ShinyPalette_Wooper[] = INCBIN_U16("graphics/pokedex_gen2/wooper/shiny.gbapal");
 #endif // P_FAMILY_WOOPER
 
-#if P_FAMILY_QUAGSIRE
+#if P_FAMILY_WOOPER
 const u32 gPokedexGen2FrontPic_Quagsire[] = INCBIN_U32("graphics/pokedex_gen2/quagsire/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Quagsire[] = INCBIN_U16("graphics/pokedex_gen2/quagsire/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Quagsire[] = INCBIN_U16("graphics/pokedex_gen2/quagsire/shiny.gbapal");
-#endif // P_FAMILY_QUAGSIRE
+#endif // P_FAMILY_WOOPER
 
-#if P_FAMILY_ESPEON
+#if P_FAMILY_EEVEE
 const u32 gPokedexGen2FrontPic_Espeon[] = INCBIN_U32("graphics/pokedex_gen2/espeon/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Espeon[] = INCBIN_U16("graphics/pokedex_gen2/espeon/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Espeon[] = INCBIN_U16("graphics/pokedex_gen2/espeon/shiny.gbapal");
-#endif // P_FAMILY_ESPEON
+#endif // P_FAMILY_EEVEE
 
-#if P_FAMILY_UMBREON
+#if P_FAMILY_EEVEE
 const u32 gPokedexGen2FrontPic_Umbreon[] = INCBIN_U32("graphics/pokedex_gen2/umbreon/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Umbreon[] = INCBIN_U16("graphics/pokedex_gen2/umbreon/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Umbreon[] = INCBIN_U16("graphics/pokedex_gen2/umbreon/shiny.gbapal");
-#endif // P_FAMILY_UMBREON
+#endif // P_FAMILY_EEVEE
 
 #if P_FAMILY_MURKROW
 const u32 gPokedexGen2FrontPic_Murkrow[] = INCBIN_U32("graphics/pokedex_gen2/murkrow/front.4bpp.smol");
@@ -1188,11 +1188,11 @@ const u16 gPokedexGen2Palette_Murkrow[] = INCBIN_U16("graphics/pokedex_gen2/murk
 const u16 gPokedexGen2ShinyPalette_Murkrow[] = INCBIN_U16("graphics/pokedex_gen2/murkrow/shiny.gbapal");
 #endif // P_FAMILY_MURKROW
 
-#if P_FAMILY_SLOWKING
+#if P_FAMILY_SLOWPOKE
 const u32 gPokedexGen2FrontPic_Slowking[] = INCBIN_U32("graphics/pokedex_gen2/slowking/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Slowking[] = INCBIN_U16("graphics/pokedex_gen2/slowking/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Slowking[] = INCBIN_U16("graphics/pokedex_gen2/slowking/shiny.gbapal");
-#endif // P_FAMILY_SLOWKING
+#endif // P_FAMILY_SLOWPOKE
 
 #if P_FAMILY_MISDREAVUS
 const u32 gPokedexGen2FrontPic_Misdreavus[] = INCBIN_U32("graphics/pokedex_gen2/misdreavus/front.4bpp.smol");
@@ -1242,11 +1242,11 @@ const u16 gPokedexGen2Palette_Gligar[] = INCBIN_U16("graphics/pokedex_gen2/gliga
 const u16 gPokedexGen2ShinyPalette_Gligar[] = INCBIN_U16("graphics/pokedex_gen2/gligar/shiny.gbapal");
 #endif // P_FAMILY_GLIGAR
 
-#if P_FAMILY_STEELIX
+#if P_FAMILY_ONIX
 const u32 gPokedexGen2FrontPic_Steelix[] = INCBIN_U32("graphics/pokedex_gen2/steelix/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Steelix[] = INCBIN_U16("graphics/pokedex_gen2/steelix/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Steelix[] = INCBIN_U16("graphics/pokedex_gen2/steelix/shiny.gbapal");
-#endif // P_FAMILY_STEELIX
+#endif // P_FAMILY_ONIX
 
 #if P_FAMILY_SNUBBULL
 const u32 gPokedexGen2FrontPic_Snubbull[] = INCBIN_U32("graphics/pokedex_gen2/snubbull/front.4bpp.smol");
@@ -1254,11 +1254,11 @@ const u16 gPokedexGen2Palette_Snubbull[] = INCBIN_U16("graphics/pokedex_gen2/snu
 const u16 gPokedexGen2ShinyPalette_Snubbull[] = INCBIN_U16("graphics/pokedex_gen2/snubbull/shiny.gbapal");
 #endif // P_FAMILY_SNUBBULL
 
-#if P_FAMILY_GRANBULL
+#if P_FAMILY_SNUBBULL
 const u32 gPokedexGen2FrontPic_Granbull[] = INCBIN_U32("graphics/pokedex_gen2/granbull/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Granbull[] = INCBIN_U16("graphics/pokedex_gen2/granbull/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Granbull[] = INCBIN_U16("graphics/pokedex_gen2/granbull/shiny.gbapal");
-#endif // P_FAMILY_GRANBULL
+#endif // P_FAMILY_SNUBBULL
 
 #if P_FAMILY_QWILFISH
 const u32 gPokedexGen2FrontPic_Qwilfish[] = INCBIN_U32("graphics/pokedex_gen2/qwilfish/front.4bpp.smol");
@@ -1266,11 +1266,11 @@ const u16 gPokedexGen2Palette_Qwilfish[] = INCBIN_U16("graphics/pokedex_gen2/qwi
 const u16 gPokedexGen2ShinyPalette_Qwilfish[] = INCBIN_U16("graphics/pokedex_gen2/qwilfish/shiny.gbapal");
 #endif // P_FAMILY_QWILFISH
 
-#if P_FAMILY_SCIZOR
+#if P_FAMILY_SCYTHER
 const u32 gPokedexGen2FrontPic_Scizor[] = INCBIN_U32("graphics/pokedex_gen2/scizor/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Scizor[] = INCBIN_U16("graphics/pokedex_gen2/scizor/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Scizor[] = INCBIN_U16("graphics/pokedex_gen2/scizor/shiny.gbapal");
-#endif // P_FAMILY_SCIZOR
+#endif // P_FAMILY_SCYTHER
 
 #if P_FAMILY_SHUCKLE
 const u32 gPokedexGen2FrontPic_Shuckle[] = INCBIN_U32("graphics/pokedex_gen2/shuckle/front.4bpp.smol");
@@ -1296,11 +1296,11 @@ const u16 gPokedexGen2Palette_Teddiursa[] = INCBIN_U16("graphics/pokedex_gen2/te
 const u16 gPokedexGen2ShinyPalette_Teddiursa[] = INCBIN_U16("graphics/pokedex_gen2/teddiursa/shiny.gbapal");
 #endif // P_FAMILY_TEDDIURSA
 
-#if P_FAMILY_URSARING
+#if P_FAMILY_TEDDIURSA
 const u32 gPokedexGen2FrontPic_Ursaring[] = INCBIN_U32("graphics/pokedex_gen2/ursaring/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Ursaring[] = INCBIN_U16("graphics/pokedex_gen2/ursaring/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Ursaring[] = INCBIN_U16("graphics/pokedex_gen2/ursaring/shiny.gbapal");
-#endif // P_FAMILY_URSARING
+#endif // P_FAMILY_TEDDIURSA
 
 #if P_FAMILY_SLUGMA
 const u32 gPokedexGen2FrontPic_Slugma[] = INCBIN_U32("graphics/pokedex_gen2/slugma/front.4bpp.smol");
@@ -1320,11 +1320,11 @@ const u16 gPokedexGen2Palette_Swinub[] = INCBIN_U16("graphics/pokedex_gen2/swinu
 const u16 gPokedexGen2ShinyPalette_Swinub[] = INCBIN_U16("graphics/pokedex_gen2/swinub/shiny.gbapal");
 #endif // P_FAMILY_SWINUB
 
-#if P_FAMILY_PILOSWINE
+#if P_FAMILY_SWINUB
 const u32 gPokedexGen2FrontPic_Piloswine[] = INCBIN_U32("graphics/pokedex_gen2/piloswine/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Piloswine[] = INCBIN_U16("graphics/pokedex_gen2/piloswine/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Piloswine[] = INCBIN_U16("graphics/pokedex_gen2/piloswine/shiny.gbapal");
-#endif // P_FAMILY_PILOSWINE
+#endif // P_FAMILY_SWINUB
 
 #if P_FAMILY_CORSOLA
 const u32 gPokedexGen2FrontPic_Corsola[] = INCBIN_U32("graphics/pokedex_gen2/corsola/front.4bpp.smol");
@@ -1338,11 +1338,11 @@ const u16 gPokedexGen2Palette_Remoraid[] = INCBIN_U16("graphics/pokedex_gen2/rem
 const u16 gPokedexGen2ShinyPalette_Remoraid[] = INCBIN_U16("graphics/pokedex_gen2/remoraid/shiny.gbapal");
 #endif // P_FAMILY_REMORAID
 
-#if P_FAMILY_OCTILLERY
+#if P_FAMILY_REMORAID
 const u32 gPokedexGen2FrontPic_Octillery[] = INCBIN_U32("graphics/pokedex_gen2/octillery/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Octillery[] = INCBIN_U16("graphics/pokedex_gen2/octillery/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Octillery[] = INCBIN_U16("graphics/pokedex_gen2/octillery/shiny.gbapal");
-#endif // P_FAMILY_OCTILLERY
+#endif // P_FAMILY_REMORAID
 
 #if P_FAMILY_DELIBIRD
 const u32 gPokedexGen2FrontPic_Delibird[] = INCBIN_U32("graphics/pokedex_gen2/delibird/front.4bpp.smol");
@@ -1374,11 +1374,11 @@ const u16 gPokedexGen2Palette_Houndoom[] = INCBIN_U16("graphics/pokedex_gen2/hou
 const u16 gPokedexGen2ShinyPalette_Houndoom[] = INCBIN_U16("graphics/pokedex_gen2/houndoom/shiny.gbapal");
 #endif // P_FAMILY_HOUNDOUR
 
-#if P_FAMILY_KINGDRA
+#if P_FAMILY_HORSEA
 const u32 gPokedexGen2FrontPic_Kingdra[] = INCBIN_U32("graphics/pokedex_gen2/kingdra/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Kingdra[] = INCBIN_U16("graphics/pokedex_gen2/kingdra/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Kingdra[] = INCBIN_U16("graphics/pokedex_gen2/kingdra/shiny.gbapal");
-#endif // P_FAMILY_KINGDRA
+#endif // P_FAMILY_HORSEA
 
 #if P_FAMILY_PHANPY
 const u32 gPokedexGen2FrontPic_Phanpy[] = INCBIN_U32("graphics/pokedex_gen2/phanpy/front.4bpp.smol");
@@ -1392,11 +1392,11 @@ const u16 gPokedexGen2Palette_Donphan[] = INCBIN_U16("graphics/pokedex_gen2/donp
 const u16 gPokedexGen2ShinyPalette_Donphan[] = INCBIN_U16("graphics/pokedex_gen2/donphan/shiny.gbapal");
 #endif // P_FAMILY_PHANPY
 
-#if P_FAMILY_PORYGON2
+#if P_FAMILY_PORYGON
 const u32 gPokedexGen2FrontPic_Porygon2[] = INCBIN_U32("graphics/pokedex_gen2/porygon2/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Porygon2[] = INCBIN_U16("graphics/pokedex_gen2/porygon2/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Porygon2[] = INCBIN_U16("graphics/pokedex_gen2/porygon2/shiny.gbapal");
-#endif // P_FAMILY_PORYGON2
+#endif // P_FAMILY_PORYGON
 
 #if P_FAMILY_STANTLER
 const u32 gPokedexGen2FrontPic_Stantler[] = INCBIN_U32("graphics/pokedex_gen2/stantler/front.4bpp.smol");
@@ -1416,11 +1416,11 @@ const u16 gPokedexGen2Palette_Tyrogue[] = INCBIN_U16("graphics/pokedex_gen2/tyro
 const u16 gPokedexGen2ShinyPalette_Tyrogue[] = INCBIN_U16("graphics/pokedex_gen2/tyrogue/shiny.gbapal");
 #endif // P_FAMILY_HITMONS
 
-#if P_FAMILY_HITMONTOP
+#if P_FAMILY_HITMONS
 const u32 gPokedexGen2FrontPic_Hitmontop[] = INCBIN_U32("graphics/pokedex_gen2/hitmontop/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Hitmontop[] = INCBIN_U16("graphics/pokedex_gen2/hitmontop/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Hitmontop[] = INCBIN_U16("graphics/pokedex_gen2/hitmontop/shiny.gbapal");
-#endif // P_FAMILY_HITMONTOP
+#endif // P_FAMILY_HITMONS
 
 #if P_FAMILY_JYNX
 const u32 gPokedexGen2FrontPic_Smoochum[] = INCBIN_U32("graphics/pokedex_gen2/smoochum/front.4bpp.smol");
@@ -1446,11 +1446,11 @@ const u16 gPokedexGen2Palette_Miltank[] = INCBIN_U16("graphics/pokedex_gen2/milt
 const u16 gPokedexGen2ShinyPalette_Miltank[] = INCBIN_U16("graphics/pokedex_gen2/miltank/shiny.gbapal");
 #endif // P_FAMILY_MILTANK
 
-#if P_FAMILY_BLISSEY
+#if P_FAMILY_CHANSEY
 const u32 gPokedexGen2FrontPic_Blissey[] = INCBIN_U32("graphics/pokedex_gen2/blissey/front.4bpp.smol");
 const u16 gPokedexGen2Palette_Blissey[] = INCBIN_U16("graphics/pokedex_gen2/blissey/normal.gbapal");
 const u16 gPokedexGen2ShinyPalette_Blissey[] = INCBIN_U16("graphics/pokedex_gen2/blissey/shiny.gbapal");
-#endif // P_FAMILY_BLISSEY
+#endif // P_FAMILY_CHANSEY
 
 #if P_FAMILY_RAIKOU
 const u32 gPokedexGen2FrontPic_Raikou[] = INCBIN_U32("graphics/pokedex_gen2/raikou/front.4bpp.smol");
@@ -1515,7 +1515,7 @@ const u32 *const gPokedexGen2FrontPics[NUM_SPECIES] = {
 #if P_FAMILY_BULBASAUR
     [SPECIES_IVYSAUR] = gPokedexGen2FrontPic_Ivysaur,
 #endif
-#if P_FAMILY_VENUSAUR
+#if P_FAMILY_BULBASAUR
     [SPECIES_VENUSAUR] = gPokedexGen2FrontPic_Venusaur,
 #endif
 #if P_FAMILY_CHARMANDER
@@ -1524,7 +1524,7 @@ const u32 *const gPokedexGen2FrontPics[NUM_SPECIES] = {
 #if P_FAMILY_CHARMANDER
     [SPECIES_CHARMELEON] = gPokedexGen2FrontPic_Charmeleon,
 #endif
-#if P_FAMILY_CHARIZARD
+#if P_FAMILY_CHARMANDER
     [SPECIES_CHARIZARD] = gPokedexGen2FrontPic_Charizard,
 #endif
 #if P_FAMILY_SQUIRTLE
@@ -1533,7 +1533,7 @@ const u32 *const gPokedexGen2FrontPics[NUM_SPECIES] = {
 #if P_FAMILY_SQUIRTLE
     [SPECIES_WARTORTLE] = gPokedexGen2FrontPic_Wartortle,
 #endif
-#if P_FAMILY_BLASTOISE
+#if P_FAMILY_SQUIRTLE
     [SPECIES_BLASTOISE] = gPokedexGen2FrontPic_Blastoise,
 #endif
 #if P_FAMILY_CATERPIE
@@ -1542,7 +1542,7 @@ const u32 *const gPokedexGen2FrontPics[NUM_SPECIES] = {
 #if P_FAMILY_CATERPIE
     [SPECIES_METAPOD] = gPokedexGen2FrontPic_Metapod,
 #endif
-#if P_FAMILY_BUTTERFREE
+#if P_FAMILY_CATERPIE
     [SPECIES_BUTTERFREE] = gPokedexGen2FrontPic_Butterfree,
 #endif
 #if P_FAMILY_WEEDLE
@@ -1557,16 +1557,16 @@ const u32 *const gPokedexGen2FrontPics[NUM_SPECIES] = {
 #if P_FAMILY_PIDGEY
     [SPECIES_PIDGEY] = gPokedexGen2FrontPic_Pidgey,
 #endif
-#if P_FAMILY_PIDGEOTTO
+#if P_FAMILY_PIDGEY
     [SPECIES_PIDGEOTTO] = gPokedexGen2FrontPic_Pidgeotto,
 #endif
-#if P_FAMILY_PIDGEOT
+#if P_FAMILY_PIDGEY
     [SPECIES_PIDGEOT] = gPokedexGen2FrontPic_Pidgeot,
 #endif
 #if P_FAMILY_RATTATA
     [SPECIES_RATTATA] = gPokedexGen2FrontPic_Rattata,
 #endif
-#if P_FAMILY_RATICATE
+#if P_FAMILY_RATTATA
     [SPECIES_RATICATE] = gPokedexGen2FrontPic_Raticate,
 #endif
 #if P_FAMILY_SPEAROW
@@ -1584,7 +1584,7 @@ const u32 *const gPokedexGen2FrontPics[NUM_SPECIES] = {
 #if P_FAMILY_PIKACHU
     [SPECIES_PIKACHU] = gPokedexGen2FrontPic_Pikachu,
 #endif
-#if P_FAMILY_RAICHU
+#if P_FAMILY_PIKACHU
     [SPECIES_RAICHU] = gPokedexGen2FrontPic_Raichu,
 #endif
 #if P_FAMILY_SANDSHREW
@@ -1596,25 +1596,25 @@ const u32 *const gPokedexGen2FrontPics[NUM_SPECIES] = {
 #if P_FAMILY_NIDORAN
     [SPECIES_NIDORAN_F] = gPokedexGen2FrontPic_NidoranF,
 #endif
-#if P_FAMILY_NIDORINA
+#if P_FAMILY_NIDORAN
     [SPECIES_NIDORINA] = gPokedexGen2FrontPic_Nidorina,
 #endif
-#if P_FAMILY_NIDOQUEEN
+#if P_FAMILY_NIDORAN
     [SPECIES_NIDOQUEEN] = gPokedexGen2FrontPic_Nidoqueen,
 #endif
-#if P_FAMILY_NIDORAN_M
+#if P_FAMILY_NIDORAN
     [SPECIES_NIDORAN_M] = gPokedexGen2FrontPic_NidoranM,
 #endif
-#if P_FAMILY_NIDORINO
+#if P_FAMILY_NIDORAN
     [SPECIES_NIDORINO] = gPokedexGen2FrontPic_Nidorino,
 #endif
-#if P_FAMILY_NIDOKING
+#if P_FAMILY_NIDORAN
     [SPECIES_NIDOKING] = gPokedexGen2FrontPic_Nidoking,
 #endif
 #if P_FAMILY_CLEFAIRY
     [SPECIES_CLEFAIRY] = gPokedexGen2FrontPic_Clefairy,
 #endif
-#if P_FAMILY_CLEFABLE
+#if P_FAMILY_CLEFAIRY
     [SPECIES_CLEFABLE] = gPokedexGen2FrontPic_Clefable,
 #endif
 #if P_FAMILY_VULPIX
@@ -1626,13 +1626,13 @@ const u32 *const gPokedexGen2FrontPics[NUM_SPECIES] = {
 #if P_FAMILY_JIGGLYPUFF
     [SPECIES_JIGGLYPUFF] = gPokedexGen2FrontPic_Jigglypuff,
 #endif
-#if P_FAMILY_WIGGLYTUFF
+#if P_FAMILY_JIGGLYPUFF
     [SPECIES_WIGGLYTUFF] = gPokedexGen2FrontPic_Wigglytuff,
 #endif
 #if P_FAMILY_ZUBAT
     [SPECIES_ZUBAT] = gPokedexGen2FrontPic_Zubat,
 #endif
-#if P_FAMILY_GOLBAT
+#if P_FAMILY_ZUBAT
     [SPECIES_GOLBAT] = gPokedexGen2FrontPic_Golbat,
 #endif
 #if P_FAMILY_ODDISH
@@ -1641,19 +1641,19 @@ const u32 *const gPokedexGen2FrontPics[NUM_SPECIES] = {
 #if P_FAMILY_ODDISH
     [SPECIES_GLOOM] = gPokedexGen2FrontPic_Gloom,
 #endif
-#if P_FAMILY_VILEPLUME
+#if P_FAMILY_ODDISH
     [SPECIES_VILEPLUME] = gPokedexGen2FrontPic_Vileplume,
 #endif
 #if P_FAMILY_PARAS
     [SPECIES_PARAS] = gPokedexGen2FrontPic_Paras,
 #endif
-#if P_FAMILY_PARASECT
+#if P_FAMILY_PARAS
     [SPECIES_PARASECT] = gPokedexGen2FrontPic_Parasect,
 #endif
 #if P_FAMILY_VENONAT
     [SPECIES_VENONAT] = gPokedexGen2FrontPic_Venonat,
 #endif
-#if P_FAMILY_VENOMOTH
+#if P_FAMILY_VENONAT
     [SPECIES_VENOMOTH] = gPokedexGen2FrontPic_Venomoth,
 #endif
 #if P_FAMILY_DIGLETT
@@ -1665,7 +1665,7 @@ const u32 *const gPokedexGen2FrontPics[NUM_SPECIES] = {
 #if P_FAMILY_MEOWTH
     [SPECIES_MEOWTH] = gPokedexGen2FrontPic_Meowth,
 #endif
-#if P_FAMILY_PERSIAN
+#if P_FAMILY_MEOWTH
     [SPECIES_PERSIAN] = gPokedexGen2FrontPic_Persian,
 #endif
 #if P_FAMILY_PSYDUCK
@@ -1677,7 +1677,7 @@ const u32 *const gPokedexGen2FrontPics[NUM_SPECIES] = {
 #if P_FAMILY_MANKEY
     [SPECIES_MANKEY] = gPokedexGen2FrontPic_Mankey,
 #endif
-#if P_FAMILY_PRIMEAPE
+#if P_FAMILY_MANKEY
     [SPECIES_PRIMEAPE] = gPokedexGen2FrontPic_Primeape,
 #endif
 #if P_FAMILY_GROWLITHE
@@ -1692,25 +1692,25 @@ const u32 *const gPokedexGen2FrontPics[NUM_SPECIES] = {
 #if P_FAMILY_POLIWAG
     [SPECIES_POLIWHIRL] = gPokedexGen2FrontPic_Poliwhirl,
 #endif
-#if P_FAMILY_POLIWRATH
+#if P_FAMILY_POLIWAG
     [SPECIES_POLIWRATH] = gPokedexGen2FrontPic_Poliwrath,
 #endif
 #if P_FAMILY_ABRA
     [SPECIES_ABRA] = gPokedexGen2FrontPic_Abra,
 #endif
-#if P_FAMILY_KADABRA
+#if P_FAMILY_ABRA
     [SPECIES_KADABRA] = gPokedexGen2FrontPic_Kadabra,
 #endif
-#if P_FAMILY_ALAKAZAM
+#if P_FAMILY_ABRA
     [SPECIES_ALAKAZAM] = gPokedexGen2FrontPic_Alakazam,
 #endif
 #if P_FAMILY_MACHOP
     [SPECIES_MACHOP] = gPokedexGen2FrontPic_Machop,
 #endif
-#if P_FAMILY_MACHOKE
+#if P_FAMILY_MACHOP
     [SPECIES_MACHOKE] = gPokedexGen2FrontPic_Machoke,
 #endif
-#if P_FAMILY_MACHAMP
+#if P_FAMILY_MACHOP
     [SPECIES_MACHAMP] = gPokedexGen2FrontPic_Machamp,
 #endif
 #if P_FAMILY_BELLSPROUT
@@ -1719,7 +1719,7 @@ const u32 *const gPokedexGen2FrontPics[NUM_SPECIES] = {
 #if P_FAMILY_BELLSPROUT
     [SPECIES_WEEPINBELL] = gPokedexGen2FrontPic_Weepinbell,
 #endif
-#if P_FAMILY_VICTREEBEL
+#if P_FAMILY_BELLSPROUT
     [SPECIES_VICTREEBEL] = gPokedexGen2FrontPic_Victreebel,
 #endif
 #if P_FAMILY_TENTACOOL
@@ -1731,10 +1731,10 @@ const u32 *const gPokedexGen2FrontPics[NUM_SPECIES] = {
 #if P_FAMILY_GEODUDE
     [SPECIES_GEODUDE] = gPokedexGen2FrontPic_Geodude,
 #endif
-#if P_FAMILY_GRAVELER
+#if P_FAMILY_GEODUDE
     [SPECIES_GRAVELER] = gPokedexGen2FrontPic_Graveler,
 #endif
-#if P_FAMILY_GOLEM
+#if P_FAMILY_GEODUDE
     [SPECIES_GOLEM] = gPokedexGen2FrontPic_Golem,
 #endif
 #if P_FAMILY_PONYTA
@@ -1746,7 +1746,7 @@ const u32 *const gPokedexGen2FrontPics[NUM_SPECIES] = {
 #if P_FAMILY_SLOWPOKE
     [SPECIES_SLOWPOKE] = gPokedexGen2FrontPic_Slowpoke,
 #endif
-#if P_FAMILY_SLOWBRO
+#if P_FAMILY_SLOWPOKE
     [SPECIES_SLOWBRO] = gPokedexGen2FrontPic_Slowbro,
 #endif
 #if P_FAMILY_MAGNEMITE
@@ -1761,13 +1761,13 @@ const u32 *const gPokedexGen2FrontPics[NUM_SPECIES] = {
 #if P_FAMILY_DODUO
     [SPECIES_DODUO] = gPokedexGen2FrontPic_Doduo,
 #endif
-#if P_FAMILY_DODRIO
+#if P_FAMILY_DODUO
     [SPECIES_DODRIO] = gPokedexGen2FrontPic_Dodrio,
 #endif
 #if P_FAMILY_SEEL
     [SPECIES_SEEL] = gPokedexGen2FrontPic_Seel,
 #endif
-#if P_FAMILY_DEWGONG
+#if P_FAMILY_SEEL
     [SPECIES_DEWGONG] = gPokedexGen2FrontPic_Dewgong,
 #endif
 #if P_FAMILY_GRIMER
@@ -1779,7 +1779,7 @@ const u32 *const gPokedexGen2FrontPics[NUM_SPECIES] = {
 #if P_FAMILY_SHELLDER
     [SPECIES_SHELLDER] = gPokedexGen2FrontPic_Shellder,
 #endif
-#if P_FAMILY_CLOYSTER
+#if P_FAMILY_SHELLDER
     [SPECIES_CLOYSTER] = gPokedexGen2FrontPic_Cloyster,
 #endif
 #if P_FAMILY_GASTLY
@@ -1788,7 +1788,7 @@ const u32 *const gPokedexGen2FrontPics[NUM_SPECIES] = {
 #if P_FAMILY_GASTLY
     [SPECIES_HAUNTER] = gPokedexGen2FrontPic_Haunter,
 #endif
-#if P_FAMILY_GENGAR
+#if P_FAMILY_GASTLY
     [SPECIES_GENGAR] = gPokedexGen2FrontPic_Gengar,
 #endif
 #if P_FAMILY_ONIX
@@ -1797,7 +1797,7 @@ const u32 *const gPokedexGen2FrontPics[NUM_SPECIES] = {
 #if P_FAMILY_DROWZEE
     [SPECIES_DROWZEE] = gPokedexGen2FrontPic_Drowzee,
 #endif
-#if P_FAMILY_HYPNO
+#if P_FAMILY_DROWZEE
     [SPECIES_HYPNO] = gPokedexGen2FrontPic_Hypno,
 #endif
 #if P_FAMILY_KRABBY
@@ -1815,19 +1815,19 @@ const u32 *const gPokedexGen2FrontPics[NUM_SPECIES] = {
 #if P_FAMILY_EXEGGCUTE
     [SPECIES_EXEGGCUTE] = gPokedexGen2FrontPic_Exeggcute,
 #endif
-#if P_FAMILY_EXEGGUTOR
+#if P_FAMILY_EXEGGCUTE
     [SPECIES_EXEGGUTOR] = gPokedexGen2FrontPic_Exeggutor,
 #endif
 #if P_FAMILY_CUBONE
     [SPECIES_CUBONE] = gPokedexGen2FrontPic_Cubone,
 #endif
-#if P_FAMILY_MAROWAK
+#if P_FAMILY_CUBONE
     [SPECIES_MAROWAK] = gPokedexGen2FrontPic_Marowak,
 #endif
-#if P_FAMILY_HITMONLEE
+#if P_FAMILY_HITMONS
     [SPECIES_HITMONLEE] = gPokedexGen2FrontPic_Hitmonlee,
 #endif
-#if P_FAMILY_HITMONCHAN
+#if P_FAMILY_HITMONS
     [SPECIES_HITMONCHAN] = gPokedexGen2FrontPic_Hitmonchan,
 #endif
 #if P_FAMILY_LICKITUNG
@@ -1836,13 +1836,13 @@ const u32 *const gPokedexGen2FrontPics[NUM_SPECIES] = {
 #if P_FAMILY_KOFFING
     [SPECIES_KOFFING] = gPokedexGen2FrontPic_Koffing,
 #endif
-#if P_FAMILY_WEEZING
+#if P_FAMILY_KOFFING
     [SPECIES_WEEZING] = gPokedexGen2FrontPic_Weezing,
 #endif
 #if P_FAMILY_RHYHORN
     [SPECIES_RHYHORN] = gPokedexGen2FrontPic_Rhyhorn,
 #endif
-#if P_FAMILY_RHYDON
+#if P_FAMILY_RHYHORN
     [SPECIES_RHYDON] = gPokedexGen2FrontPic_Rhydon,
 #endif
 #if P_FAMILY_CHANSEY
@@ -1857,13 +1857,13 @@ const u32 *const gPokedexGen2FrontPics[NUM_SPECIES] = {
 #if P_FAMILY_HORSEA
     [SPECIES_HORSEA] = gPokedexGen2FrontPic_Horsea,
 #endif
-#if P_FAMILY_SEADRA
+#if P_FAMILY_HORSEA
     [SPECIES_SEADRA] = gPokedexGen2FrontPic_Seadra,
 #endif
 #if P_FAMILY_GOLDEEN
     [SPECIES_GOLDEEN] = gPokedexGen2FrontPic_Goldeen,
 #endif
-#if P_FAMILY_SEAKING
+#if P_FAMILY_GOLDEEN
     [SPECIES_SEAKING] = gPokedexGen2FrontPic_Seaking,
 #endif
 #if P_FAMILY_STARYU
@@ -1896,7 +1896,7 @@ const u32 *const gPokedexGen2FrontPics[NUM_SPECIES] = {
 #if P_FAMILY_MAGIKARP
     [SPECIES_MAGIKARP] = gPokedexGen2FrontPic_Magikarp,
 #endif
-#if P_FAMILY_GYARADOS
+#if P_FAMILY_MAGIKARP
     [SPECIES_GYARADOS] = gPokedexGen2FrontPic_Gyarados,
 #endif
 #if P_FAMILY_LAPRAS
@@ -1908,13 +1908,13 @@ const u32 *const gPokedexGen2FrontPics[NUM_SPECIES] = {
 #if P_FAMILY_EEVEE
     [SPECIES_EEVEE] = gPokedexGen2FrontPic_Eevee,
 #endif
-#if P_FAMILY_VAPOREON
+#if P_FAMILY_EEVEE
     [SPECIES_VAPOREON] = gPokedexGen2FrontPic_Vaporeon,
 #endif
-#if P_FAMILY_JOLTEON
+#if P_FAMILY_EEVEE
     [SPECIES_JOLTEON] = gPokedexGen2FrontPic_Jolteon,
 #endif
-#if P_FAMILY_FLAREON
+#if P_FAMILY_EEVEE
     [SPECIES_FLAREON] = gPokedexGen2FrontPic_Flareon,
 #endif
 #if P_FAMILY_PORYGON
@@ -1923,13 +1923,13 @@ const u32 *const gPokedexGen2FrontPics[NUM_SPECIES] = {
 #if P_FAMILY_OMANYTE
     [SPECIES_OMANYTE] = gPokedexGen2FrontPic_Omanyte,
 #endif
-#if P_FAMILY_OMASTAR
+#if P_FAMILY_OMANYTE
     [SPECIES_OMASTAR] = gPokedexGen2FrontPic_Omastar,
 #endif
 #if P_FAMILY_KABUTO
     [SPECIES_KABUTO] = gPokedexGen2FrontPic_Kabuto,
 #endif
-#if P_FAMILY_KABUTOPS
+#if P_FAMILY_KABUTO
     [SPECIES_KABUTOPS] = gPokedexGen2FrontPic_Kabutops,
 #endif
 #if P_FAMILY_AERODACTYL
@@ -1977,7 +1977,7 @@ const u32 *const gPokedexGen2FrontPics[NUM_SPECIES] = {
 #if P_FAMILY_CYNDAQUIL
     [SPECIES_QUILAVA] = gPokedexGen2FrontPic_Quilava,
 #endif
-#if P_FAMILY_TYPHLOSION
+#if P_FAMILY_CYNDAQUIL
     [SPECIES_TYPHLOSION] = gPokedexGen2FrontPic_Typhlosion,
 #endif
 #if P_FAMILY_TOTODILE
@@ -2004,7 +2004,7 @@ const u32 *const gPokedexGen2FrontPics[NUM_SPECIES] = {
 #if P_FAMILY_LEDYBA
     [SPECIES_LEDYBA] = gPokedexGen2FrontPic_Ledyba,
 #endif
-#if P_FAMILY_LEDIAN
+#if P_FAMILY_LEDYBA
     [SPECIES_LEDIAN] = gPokedexGen2FrontPic_Ledian,
 #endif
 #if P_FAMILY_SPINARAK
@@ -2013,7 +2013,7 @@ const u32 *const gPokedexGen2FrontPics[NUM_SPECIES] = {
 #if P_FAMILY_SPINARAK
     [SPECIES_ARIADOS] = gPokedexGen2FrontPic_Ariados,
 #endif
-#if P_FAMILY_CROBAT
+#if P_FAMILY_ZUBAT
     [SPECIES_CROBAT] = gPokedexGen2FrontPic_Crobat,
 #endif
 #if P_FAMILY_CHINCHOU
@@ -2025,10 +2025,10 @@ const u32 *const gPokedexGen2FrontPics[NUM_SPECIES] = {
 #if P_FAMILY_PIKACHU
     [SPECIES_PICHU] = gPokedexGen2FrontPic_Pichu,
 #endif
-#if P_FAMILY_CLEFFA
+#if P_FAMILY_CLEFAIRY
     [SPECIES_CLEFFA] = gPokedexGen2FrontPic_Cleffa,
 #endif
-#if P_FAMILY_IGGLYBUFF
+#if P_FAMILY_JIGGLYPUFF
     [SPECIES_IGGLYBUFF] = gPokedexGen2FrontPic_Igglybuff,
 #endif
 #if P_FAMILY_TOGEPI
@@ -2052,28 +2052,28 @@ const u32 *const gPokedexGen2FrontPics[NUM_SPECIES] = {
 #if P_FAMILY_MAREEP
     [SPECIES_AMPHAROS] = gPokedexGen2FrontPic_Ampharos,
 #endif
-#if P_FAMILY_BELLOSSOM
+#if P_FAMILY_ODDISH
     [SPECIES_BELLOSSOM] = gPokedexGen2FrontPic_Bellossom,
 #endif
 #if P_FAMILY_MARILL
     [SPECIES_MARILL] = gPokedexGen2FrontPic_Marill,
 #endif
-#if P_FAMILY_AZUMARILL
+#if P_FAMILY_MARILL
     [SPECIES_AZUMARILL] = gPokedexGen2FrontPic_Azumarill,
 #endif
 #if P_FAMILY_SUDOWOODO
     [SPECIES_SUDOWOODO] = gPokedexGen2FrontPic_Sudowoodo,
 #endif
-#if P_FAMILY_POLITOED
+#if P_FAMILY_POLIWAG
     [SPECIES_POLITOED] = gPokedexGen2FrontPic_Politoed,
 #endif
 #if P_FAMILY_HOPPIP
     [SPECIES_HOPPIP] = gPokedexGen2FrontPic_Hoppip,
 #endif
-#if P_FAMILY_SKIPLOOM
+#if P_FAMILY_HOPPIP
     [SPECIES_SKIPLOOM] = gPokedexGen2FrontPic_Skiploom,
 #endif
-#if P_FAMILY_JUMPLUFF
+#if P_FAMILY_HOPPIP
     [SPECIES_JUMPLUFF] = gPokedexGen2FrontPic_Jumpluff,
 #endif
 #if P_FAMILY_AIPOM
@@ -2082,7 +2082,7 @@ const u32 *const gPokedexGen2FrontPics[NUM_SPECIES] = {
 #if P_FAMILY_SUNKERN
     [SPECIES_SUNKERN] = gPokedexGen2FrontPic_Sunkern,
 #endif
-#if P_FAMILY_SUNFLORA
+#if P_FAMILY_SUNKERN
     [SPECIES_SUNFLORA] = gPokedexGen2FrontPic_Sunflora,
 #endif
 #if P_FAMILY_YANMA
@@ -2091,19 +2091,19 @@ const u32 *const gPokedexGen2FrontPics[NUM_SPECIES] = {
 #if P_FAMILY_WOOPER
     [SPECIES_WOOPER] = gPokedexGen2FrontPic_Wooper,
 #endif
-#if P_FAMILY_QUAGSIRE
+#if P_FAMILY_WOOPER
     [SPECIES_QUAGSIRE] = gPokedexGen2FrontPic_Quagsire,
 #endif
-#if P_FAMILY_ESPEON
+#if P_FAMILY_EEVEE
     [SPECIES_ESPEON] = gPokedexGen2FrontPic_Espeon,
 #endif
-#if P_FAMILY_UMBREON
+#if P_FAMILY_EEVEE
     [SPECIES_UMBREON] = gPokedexGen2FrontPic_Umbreon,
 #endif
 #if P_FAMILY_MURKROW
     [SPECIES_MURKROW] = gPokedexGen2FrontPic_Murkrow,
 #endif
-#if P_FAMILY_SLOWKING
+#if P_FAMILY_SLOWPOKE
     [SPECIES_SLOWKING] = gPokedexGen2FrontPic_Slowking,
 #endif
 #if P_FAMILY_MISDREAVUS
@@ -2130,19 +2130,19 @@ const u32 *const gPokedexGen2FrontPics[NUM_SPECIES] = {
 #if P_FAMILY_GLIGAR
     [SPECIES_GLIGAR] = gPokedexGen2FrontPic_Gligar,
 #endif
-#if P_FAMILY_STEELIX
+#if P_FAMILY_ONIX
     [SPECIES_STEELIX] = gPokedexGen2FrontPic_Steelix,
 #endif
 #if P_FAMILY_SNUBBULL
     [SPECIES_SNUBBULL] = gPokedexGen2FrontPic_Snubbull,
 #endif
-#if P_FAMILY_GRANBULL
+#if P_FAMILY_SNUBBULL
     [SPECIES_GRANBULL] = gPokedexGen2FrontPic_Granbull,
 #endif
 #if P_FAMILY_QWILFISH
     [SPECIES_QWILFISH] = gPokedexGen2FrontPic_Qwilfish,
 #endif
-#if P_FAMILY_SCIZOR
+#if P_FAMILY_SCYTHER
     [SPECIES_SCIZOR] = gPokedexGen2FrontPic_Scizor,
 #endif
 #if P_FAMILY_SHUCKLE
@@ -2157,7 +2157,7 @@ const u32 *const gPokedexGen2FrontPics[NUM_SPECIES] = {
 #if P_FAMILY_TEDDIURSA
     [SPECIES_TEDDIURSA] = gPokedexGen2FrontPic_Teddiursa,
 #endif
-#if P_FAMILY_URSARING
+#if P_FAMILY_TEDDIURSA
     [SPECIES_URSARING] = gPokedexGen2FrontPic_Ursaring,
 #endif
 #if P_FAMILY_SLUGMA
@@ -2169,7 +2169,7 @@ const u32 *const gPokedexGen2FrontPics[NUM_SPECIES] = {
 #if P_FAMILY_SWINUB
     [SPECIES_SWINUB] = gPokedexGen2FrontPic_Swinub,
 #endif
-#if P_FAMILY_PILOSWINE
+#if P_FAMILY_SWINUB
     [SPECIES_PILOSWINE] = gPokedexGen2FrontPic_Piloswine,
 #endif
 #if P_FAMILY_CORSOLA
@@ -2178,7 +2178,7 @@ const u32 *const gPokedexGen2FrontPics[NUM_SPECIES] = {
 #if P_FAMILY_REMORAID
     [SPECIES_REMORAID] = gPokedexGen2FrontPic_Remoraid,
 #endif
-#if P_FAMILY_OCTILLERY
+#if P_FAMILY_REMORAID
     [SPECIES_OCTILLERY] = gPokedexGen2FrontPic_Octillery,
 #endif
 #if P_FAMILY_DELIBIRD
@@ -2196,7 +2196,7 @@ const u32 *const gPokedexGen2FrontPics[NUM_SPECIES] = {
 #if P_FAMILY_HOUNDOUR
     [SPECIES_HOUNDOOM] = gPokedexGen2FrontPic_Houndoom,
 #endif
-#if P_FAMILY_KINGDRA
+#if P_FAMILY_HORSEA
     [SPECIES_KINGDRA] = gPokedexGen2FrontPic_Kingdra,
 #endif
 #if P_FAMILY_PHANPY
@@ -2205,7 +2205,7 @@ const u32 *const gPokedexGen2FrontPics[NUM_SPECIES] = {
 #if P_FAMILY_PHANPY
     [SPECIES_DONPHAN] = gPokedexGen2FrontPic_Donphan,
 #endif
-#if P_FAMILY_PORYGON2
+#if P_FAMILY_PORYGON
     [SPECIES_PORYGON2] = gPokedexGen2FrontPic_Porygon2,
 #endif
 #if P_FAMILY_STANTLER
@@ -2217,7 +2217,7 @@ const u32 *const gPokedexGen2FrontPics[NUM_SPECIES] = {
 #if P_FAMILY_HITMONS
     [SPECIES_TYROGUE] = gPokedexGen2FrontPic_Tyrogue,
 #endif
-#if P_FAMILY_HITMONTOP
+#if P_FAMILY_HITMONS
     [SPECIES_HITMONTOP] = gPokedexGen2FrontPic_Hitmontop,
 #endif
 #if P_FAMILY_JYNX
@@ -2232,7 +2232,7 @@ const u32 *const gPokedexGen2FrontPics[NUM_SPECIES] = {
 #if P_FAMILY_MILTANK
     [SPECIES_MILTANK] = gPokedexGen2FrontPic_Miltank,
 #endif
-#if P_FAMILY_BLISSEY
+#if P_FAMILY_CHANSEY
     [SPECIES_BLISSEY] = gPokedexGen2FrontPic_Blissey,
 #endif
 #if P_FAMILY_RAIKOU
@@ -2271,7 +2271,7 @@ const u16 *const gPokedexGen2Palettes[NUM_SPECIES] = {
 #if P_FAMILY_BULBASAUR
     [SPECIES_IVYSAUR] = gPokedexGen2Palette_Ivysaur,
 #endif
-#if P_FAMILY_VENUSAUR
+#if P_FAMILY_BULBASAUR
     [SPECIES_VENUSAUR] = gPokedexGen2Palette_Venusaur,
 #endif
 #if P_FAMILY_CHARMANDER
@@ -2280,7 +2280,7 @@ const u16 *const gPokedexGen2Palettes[NUM_SPECIES] = {
 #if P_FAMILY_CHARMANDER
     [SPECIES_CHARMELEON] = gPokedexGen2Palette_Charmeleon,
 #endif
-#if P_FAMILY_CHARIZARD
+#if P_FAMILY_CHARMANDER
     [SPECIES_CHARIZARD] = gPokedexGen2Palette_Charizard,
 #endif
 #if P_FAMILY_SQUIRTLE
@@ -2289,7 +2289,7 @@ const u16 *const gPokedexGen2Palettes[NUM_SPECIES] = {
 #if P_FAMILY_SQUIRTLE
     [SPECIES_WARTORTLE] = gPokedexGen2Palette_Wartortle,
 #endif
-#if P_FAMILY_BLASTOISE
+#if P_FAMILY_SQUIRTLE
     [SPECIES_BLASTOISE] = gPokedexGen2Palette_Blastoise,
 #endif
 #if P_FAMILY_CATERPIE
@@ -2298,7 +2298,7 @@ const u16 *const gPokedexGen2Palettes[NUM_SPECIES] = {
 #if P_FAMILY_CATERPIE
     [SPECIES_METAPOD] = gPokedexGen2Palette_Metapod,
 #endif
-#if P_FAMILY_BUTTERFREE
+#if P_FAMILY_CATERPIE
     [SPECIES_BUTTERFREE] = gPokedexGen2Palette_Butterfree,
 #endif
 #if P_FAMILY_WEEDLE
@@ -2313,16 +2313,16 @@ const u16 *const gPokedexGen2Palettes[NUM_SPECIES] = {
 #if P_FAMILY_PIDGEY
     [SPECIES_PIDGEY] = gPokedexGen2Palette_Pidgey,
 #endif
-#if P_FAMILY_PIDGEOTTO
+#if P_FAMILY_PIDGEY
     [SPECIES_PIDGEOTTO] = gPokedexGen2Palette_Pidgeotto,
 #endif
-#if P_FAMILY_PIDGEOT
+#if P_FAMILY_PIDGEY
     [SPECIES_PIDGEOT] = gPokedexGen2Palette_Pidgeot,
 #endif
 #if P_FAMILY_RATTATA
     [SPECIES_RATTATA] = gPokedexGen2Palette_Rattata,
 #endif
-#if P_FAMILY_RATICATE
+#if P_FAMILY_RATTATA
     [SPECIES_RATICATE] = gPokedexGen2Palette_Raticate,
 #endif
 #if P_FAMILY_SPEAROW
@@ -2340,7 +2340,7 @@ const u16 *const gPokedexGen2Palettes[NUM_SPECIES] = {
 #if P_FAMILY_PIKACHU
     [SPECIES_PIKACHU] = gPokedexGen2Palette_Pikachu,
 #endif
-#if P_FAMILY_RAICHU
+#if P_FAMILY_PIKACHU
     [SPECIES_RAICHU] = gPokedexGen2Palette_Raichu,
 #endif
 #if P_FAMILY_SANDSHREW
@@ -2352,25 +2352,25 @@ const u16 *const gPokedexGen2Palettes[NUM_SPECIES] = {
 #if P_FAMILY_NIDORAN
     [SPECIES_NIDORAN_F] = gPokedexGen2Palette_NidoranF,
 #endif
-#if P_FAMILY_NIDORINA
+#if P_FAMILY_NIDORAN
     [SPECIES_NIDORINA] = gPokedexGen2Palette_Nidorina,
 #endif
-#if P_FAMILY_NIDOQUEEN
+#if P_FAMILY_NIDORAN
     [SPECIES_NIDOQUEEN] = gPokedexGen2Palette_Nidoqueen,
 #endif
-#if P_FAMILY_NIDORAN_M
+#if P_FAMILY_NIDORAN
     [SPECIES_NIDORAN_M] = gPokedexGen2Palette_NidoranM,
 #endif
-#if P_FAMILY_NIDORINO
+#if P_FAMILY_NIDORAN
     [SPECIES_NIDORINO] = gPokedexGen2Palette_Nidorino,
 #endif
-#if P_FAMILY_NIDOKING
+#if P_FAMILY_NIDORAN
     [SPECIES_NIDOKING] = gPokedexGen2Palette_Nidoking,
 #endif
 #if P_FAMILY_CLEFAIRY
     [SPECIES_CLEFAIRY] = gPokedexGen2Palette_Clefairy,
 #endif
-#if P_FAMILY_CLEFABLE
+#if P_FAMILY_CLEFAIRY
     [SPECIES_CLEFABLE] = gPokedexGen2Palette_Clefable,
 #endif
 #if P_FAMILY_VULPIX
@@ -2382,13 +2382,13 @@ const u16 *const gPokedexGen2Palettes[NUM_SPECIES] = {
 #if P_FAMILY_JIGGLYPUFF
     [SPECIES_JIGGLYPUFF] = gPokedexGen2Palette_Jigglypuff,
 #endif
-#if P_FAMILY_WIGGLYTUFF
+#if P_FAMILY_JIGGLYPUFF
     [SPECIES_WIGGLYTUFF] = gPokedexGen2Palette_Wigglytuff,
 #endif
 #if P_FAMILY_ZUBAT
     [SPECIES_ZUBAT] = gPokedexGen2Palette_Zubat,
 #endif
-#if P_FAMILY_GOLBAT
+#if P_FAMILY_ZUBAT
     [SPECIES_GOLBAT] = gPokedexGen2Palette_Golbat,
 #endif
 #if P_FAMILY_ODDISH
@@ -2397,19 +2397,19 @@ const u16 *const gPokedexGen2Palettes[NUM_SPECIES] = {
 #if P_FAMILY_ODDISH
     [SPECIES_GLOOM] = gPokedexGen2Palette_Gloom,
 #endif
-#if P_FAMILY_VILEPLUME
+#if P_FAMILY_ODDISH
     [SPECIES_VILEPLUME] = gPokedexGen2Palette_Vileplume,
 #endif
 #if P_FAMILY_PARAS
     [SPECIES_PARAS] = gPokedexGen2Palette_Paras,
 #endif
-#if P_FAMILY_PARASECT
+#if P_FAMILY_PARAS
     [SPECIES_PARASECT] = gPokedexGen2Palette_Parasect,
 #endif
 #if P_FAMILY_VENONAT
     [SPECIES_VENONAT] = gPokedexGen2Palette_Venonat,
 #endif
-#if P_FAMILY_VENOMOTH
+#if P_FAMILY_VENONAT
     [SPECIES_VENOMOTH] = gPokedexGen2Palette_Venomoth,
 #endif
 #if P_FAMILY_DIGLETT
@@ -2421,7 +2421,7 @@ const u16 *const gPokedexGen2Palettes[NUM_SPECIES] = {
 #if P_FAMILY_MEOWTH
     [SPECIES_MEOWTH] = gPokedexGen2Palette_Meowth,
 #endif
-#if P_FAMILY_PERSIAN
+#if P_FAMILY_MEOWTH
     [SPECIES_PERSIAN] = gPokedexGen2Palette_Persian,
 #endif
 #if P_FAMILY_PSYDUCK
@@ -2433,7 +2433,7 @@ const u16 *const gPokedexGen2Palettes[NUM_SPECIES] = {
 #if P_FAMILY_MANKEY
     [SPECIES_MANKEY] = gPokedexGen2Palette_Mankey,
 #endif
-#if P_FAMILY_PRIMEAPE
+#if P_FAMILY_MANKEY
     [SPECIES_PRIMEAPE] = gPokedexGen2Palette_Primeape,
 #endif
 #if P_FAMILY_GROWLITHE
@@ -2448,25 +2448,25 @@ const u16 *const gPokedexGen2Palettes[NUM_SPECIES] = {
 #if P_FAMILY_POLIWAG
     [SPECIES_POLIWHIRL] = gPokedexGen2Palette_Poliwhirl,
 #endif
-#if P_FAMILY_POLIWRATH
+#if P_FAMILY_POLIWAG
     [SPECIES_POLIWRATH] = gPokedexGen2Palette_Poliwrath,
 #endif
 #if P_FAMILY_ABRA
     [SPECIES_ABRA] = gPokedexGen2Palette_Abra,
 #endif
-#if P_FAMILY_KADABRA
+#if P_FAMILY_ABRA
     [SPECIES_KADABRA] = gPokedexGen2Palette_Kadabra,
 #endif
-#if P_FAMILY_ALAKAZAM
+#if P_FAMILY_ABRA
     [SPECIES_ALAKAZAM] = gPokedexGen2Palette_Alakazam,
 #endif
 #if P_FAMILY_MACHOP
     [SPECIES_MACHOP] = gPokedexGen2Palette_Machop,
 #endif
-#if P_FAMILY_MACHOKE
+#if P_FAMILY_MACHOP
     [SPECIES_MACHOKE] = gPokedexGen2Palette_Machoke,
 #endif
-#if P_FAMILY_MACHAMP
+#if P_FAMILY_MACHOP
     [SPECIES_MACHAMP] = gPokedexGen2Palette_Machamp,
 #endif
 #if P_FAMILY_BELLSPROUT
@@ -2475,7 +2475,7 @@ const u16 *const gPokedexGen2Palettes[NUM_SPECIES] = {
 #if P_FAMILY_BELLSPROUT
     [SPECIES_WEEPINBELL] = gPokedexGen2Palette_Weepinbell,
 #endif
-#if P_FAMILY_VICTREEBEL
+#if P_FAMILY_BELLSPROUT
     [SPECIES_VICTREEBEL] = gPokedexGen2Palette_Victreebel,
 #endif
 #if P_FAMILY_TENTACOOL
@@ -2487,10 +2487,10 @@ const u16 *const gPokedexGen2Palettes[NUM_SPECIES] = {
 #if P_FAMILY_GEODUDE
     [SPECIES_GEODUDE] = gPokedexGen2Palette_Geodude,
 #endif
-#if P_FAMILY_GRAVELER
+#if P_FAMILY_GEODUDE
     [SPECIES_GRAVELER] = gPokedexGen2Palette_Graveler,
 #endif
-#if P_FAMILY_GOLEM
+#if P_FAMILY_GEODUDE
     [SPECIES_GOLEM] = gPokedexGen2Palette_Golem,
 #endif
 #if P_FAMILY_PONYTA
@@ -2502,7 +2502,7 @@ const u16 *const gPokedexGen2Palettes[NUM_SPECIES] = {
 #if P_FAMILY_SLOWPOKE
     [SPECIES_SLOWPOKE] = gPokedexGen2Palette_Slowpoke,
 #endif
-#if P_FAMILY_SLOWBRO
+#if P_FAMILY_SLOWPOKE
     [SPECIES_SLOWBRO] = gPokedexGen2Palette_Slowbro,
 #endif
 #if P_FAMILY_MAGNEMITE
@@ -2517,13 +2517,13 @@ const u16 *const gPokedexGen2Palettes[NUM_SPECIES] = {
 #if P_FAMILY_DODUO
     [SPECIES_DODUO] = gPokedexGen2Palette_Doduo,
 #endif
-#if P_FAMILY_DODRIO
+#if P_FAMILY_DODUO
     [SPECIES_DODRIO] = gPokedexGen2Palette_Dodrio,
 #endif
 #if P_FAMILY_SEEL
     [SPECIES_SEEL] = gPokedexGen2Palette_Seel,
 #endif
-#if P_FAMILY_DEWGONG
+#if P_FAMILY_SEEL
     [SPECIES_DEWGONG] = gPokedexGen2Palette_Dewgong,
 #endif
 #if P_FAMILY_GRIMER
@@ -2535,7 +2535,7 @@ const u16 *const gPokedexGen2Palettes[NUM_SPECIES] = {
 #if P_FAMILY_SHELLDER
     [SPECIES_SHELLDER] = gPokedexGen2Palette_Shellder,
 #endif
-#if P_FAMILY_CLOYSTER
+#if P_FAMILY_SHELLDER
     [SPECIES_CLOYSTER] = gPokedexGen2Palette_Cloyster,
 #endif
 #if P_FAMILY_GASTLY
@@ -2544,7 +2544,7 @@ const u16 *const gPokedexGen2Palettes[NUM_SPECIES] = {
 #if P_FAMILY_GASTLY
     [SPECIES_HAUNTER] = gPokedexGen2Palette_Haunter,
 #endif
-#if P_FAMILY_GENGAR
+#if P_FAMILY_GASTLY
     [SPECIES_GENGAR] = gPokedexGen2Palette_Gengar,
 #endif
 #if P_FAMILY_ONIX
@@ -2553,7 +2553,7 @@ const u16 *const gPokedexGen2Palettes[NUM_SPECIES] = {
 #if P_FAMILY_DROWZEE
     [SPECIES_DROWZEE] = gPokedexGen2Palette_Drowzee,
 #endif
-#if P_FAMILY_HYPNO
+#if P_FAMILY_DROWZEE
     [SPECIES_HYPNO] = gPokedexGen2Palette_Hypno,
 #endif
 #if P_FAMILY_KRABBY
@@ -2571,19 +2571,19 @@ const u16 *const gPokedexGen2Palettes[NUM_SPECIES] = {
 #if P_FAMILY_EXEGGCUTE
     [SPECIES_EXEGGCUTE] = gPokedexGen2Palette_Exeggcute,
 #endif
-#if P_FAMILY_EXEGGUTOR
+#if P_FAMILY_EXEGGCUTE
     [SPECIES_EXEGGUTOR] = gPokedexGen2Palette_Exeggutor,
 #endif
 #if P_FAMILY_CUBONE
     [SPECIES_CUBONE] = gPokedexGen2Palette_Cubone,
 #endif
-#if P_FAMILY_MAROWAK
+#if P_FAMILY_CUBONE
     [SPECIES_MAROWAK] = gPokedexGen2Palette_Marowak,
 #endif
-#if P_FAMILY_HITMONLEE
+#if P_FAMILY_HITMONS
     [SPECIES_HITMONLEE] = gPokedexGen2Palette_Hitmonlee,
 #endif
-#if P_FAMILY_HITMONCHAN
+#if P_FAMILY_HITMONS
     [SPECIES_HITMONCHAN] = gPokedexGen2Palette_Hitmonchan,
 #endif
 #if P_FAMILY_LICKITUNG
@@ -2592,13 +2592,13 @@ const u16 *const gPokedexGen2Palettes[NUM_SPECIES] = {
 #if P_FAMILY_KOFFING
     [SPECIES_KOFFING] = gPokedexGen2Palette_Koffing,
 #endif
-#if P_FAMILY_WEEZING
+#if P_FAMILY_KOFFING
     [SPECIES_WEEZING] = gPokedexGen2Palette_Weezing,
 #endif
 #if P_FAMILY_RHYHORN
     [SPECIES_RHYHORN] = gPokedexGen2Palette_Rhyhorn,
 #endif
-#if P_FAMILY_RHYDON
+#if P_FAMILY_RHYHORN
     [SPECIES_RHYDON] = gPokedexGen2Palette_Rhydon,
 #endif
 #if P_FAMILY_CHANSEY
@@ -2613,13 +2613,13 @@ const u16 *const gPokedexGen2Palettes[NUM_SPECIES] = {
 #if P_FAMILY_HORSEA
     [SPECIES_HORSEA] = gPokedexGen2Palette_Horsea,
 #endif
-#if P_FAMILY_SEADRA
+#if P_FAMILY_HORSEA
     [SPECIES_SEADRA] = gPokedexGen2Palette_Seadra,
 #endif
 #if P_FAMILY_GOLDEEN
     [SPECIES_GOLDEEN] = gPokedexGen2Palette_Goldeen,
 #endif
-#if P_FAMILY_SEAKING
+#if P_FAMILY_GOLDEEN
     [SPECIES_SEAKING] = gPokedexGen2Palette_Seaking,
 #endif
 #if P_FAMILY_STARYU
@@ -2652,7 +2652,7 @@ const u16 *const gPokedexGen2Palettes[NUM_SPECIES] = {
 #if P_FAMILY_MAGIKARP
     [SPECIES_MAGIKARP] = gPokedexGen2Palette_Magikarp,
 #endif
-#if P_FAMILY_GYARADOS
+#if P_FAMILY_MAGIKARP
     [SPECIES_GYARADOS] = gPokedexGen2Palette_Gyarados,
 #endif
 #if P_FAMILY_LAPRAS
@@ -2664,13 +2664,13 @@ const u16 *const gPokedexGen2Palettes[NUM_SPECIES] = {
 #if P_FAMILY_EEVEE
     [SPECIES_EEVEE] = gPokedexGen2Palette_Eevee,
 #endif
-#if P_FAMILY_VAPOREON
+#if P_FAMILY_EEVEE
     [SPECIES_VAPOREON] = gPokedexGen2Palette_Vaporeon,
 #endif
-#if P_FAMILY_JOLTEON
+#if P_FAMILY_EEVEE
     [SPECIES_JOLTEON] = gPokedexGen2Palette_Jolteon,
 #endif
-#if P_FAMILY_FLAREON
+#if P_FAMILY_EEVEE
     [SPECIES_FLAREON] = gPokedexGen2Palette_Flareon,
 #endif
 #if P_FAMILY_PORYGON
@@ -2679,13 +2679,13 @@ const u16 *const gPokedexGen2Palettes[NUM_SPECIES] = {
 #if P_FAMILY_OMANYTE
     [SPECIES_OMANYTE] = gPokedexGen2Palette_Omanyte,
 #endif
-#if P_FAMILY_OMASTAR
+#if P_FAMILY_OMANYTE
     [SPECIES_OMASTAR] = gPokedexGen2Palette_Omastar,
 #endif
 #if P_FAMILY_KABUTO
     [SPECIES_KABUTO] = gPokedexGen2Palette_Kabuto,
 #endif
-#if P_FAMILY_KABUTOPS
+#if P_FAMILY_KABUTO
     [SPECIES_KABUTOPS] = gPokedexGen2Palette_Kabutops,
 #endif
 #if P_FAMILY_AERODACTYL
@@ -2733,7 +2733,7 @@ const u16 *const gPokedexGen2Palettes[NUM_SPECIES] = {
 #if P_FAMILY_CYNDAQUIL
     [SPECIES_QUILAVA] = gPokedexGen2Palette_Quilava,
 #endif
-#if P_FAMILY_TYPHLOSION
+#if P_FAMILY_CYNDAQUIL
     [SPECIES_TYPHLOSION] = gPokedexGen2Palette_Typhlosion,
 #endif
 #if P_FAMILY_TOTODILE
@@ -2760,7 +2760,7 @@ const u16 *const gPokedexGen2Palettes[NUM_SPECIES] = {
 #if P_FAMILY_LEDYBA
     [SPECIES_LEDYBA] = gPokedexGen2Palette_Ledyba,
 #endif
-#if P_FAMILY_LEDIAN
+#if P_FAMILY_LEDYBA
     [SPECIES_LEDIAN] = gPokedexGen2Palette_Ledian,
 #endif
 #if P_FAMILY_SPINARAK
@@ -2769,7 +2769,7 @@ const u16 *const gPokedexGen2Palettes[NUM_SPECIES] = {
 #if P_FAMILY_SPINARAK
     [SPECIES_ARIADOS] = gPokedexGen2Palette_Ariados,
 #endif
-#if P_FAMILY_CROBAT
+#if P_FAMILY_ZUBAT
     [SPECIES_CROBAT] = gPokedexGen2Palette_Crobat,
 #endif
 #if P_FAMILY_CHINCHOU
@@ -2781,10 +2781,10 @@ const u16 *const gPokedexGen2Palettes[NUM_SPECIES] = {
 #if P_FAMILY_PIKACHU
     [SPECIES_PICHU] = gPokedexGen2Palette_Pichu,
 #endif
-#if P_FAMILY_CLEFFA
+#if P_FAMILY_CLEFAIRY
     [SPECIES_CLEFFA] = gPokedexGen2Palette_Cleffa,
 #endif
-#if P_FAMILY_IGGLYBUFF
+#if P_FAMILY_JIGGLYPUFF
     [SPECIES_IGGLYBUFF] = gPokedexGen2Palette_Igglybuff,
 #endif
 #if P_FAMILY_TOGEPI
@@ -2808,28 +2808,28 @@ const u16 *const gPokedexGen2Palettes[NUM_SPECIES] = {
 #if P_FAMILY_MAREEP
     [SPECIES_AMPHAROS] = gPokedexGen2Palette_Ampharos,
 #endif
-#if P_FAMILY_BELLOSSOM
+#if P_FAMILY_ODDISH
     [SPECIES_BELLOSSOM] = gPokedexGen2Palette_Bellossom,
 #endif
 #if P_FAMILY_MARILL
     [SPECIES_MARILL] = gPokedexGen2Palette_Marill,
 #endif
-#if P_FAMILY_AZUMARILL
+#if P_FAMILY_MARILL
     [SPECIES_AZUMARILL] = gPokedexGen2Palette_Azumarill,
 #endif
 #if P_FAMILY_SUDOWOODO
     [SPECIES_SUDOWOODO] = gPokedexGen2Palette_Sudowoodo,
 #endif
-#if P_FAMILY_POLITOED
+#if P_FAMILY_POLIWAG
     [SPECIES_POLITOED] = gPokedexGen2Palette_Politoed,
 #endif
 #if P_FAMILY_HOPPIP
     [SPECIES_HOPPIP] = gPokedexGen2Palette_Hoppip,
 #endif
-#if P_FAMILY_SKIPLOOM
+#if P_FAMILY_HOPPIP
     [SPECIES_SKIPLOOM] = gPokedexGen2Palette_Skiploom,
 #endif
-#if P_FAMILY_JUMPLUFF
+#if P_FAMILY_HOPPIP
     [SPECIES_JUMPLUFF] = gPokedexGen2Palette_Jumpluff,
 #endif
 #if P_FAMILY_AIPOM
@@ -2838,7 +2838,7 @@ const u16 *const gPokedexGen2Palettes[NUM_SPECIES] = {
 #if P_FAMILY_SUNKERN
     [SPECIES_SUNKERN] = gPokedexGen2Palette_Sunkern,
 #endif
-#if P_FAMILY_SUNFLORA
+#if P_FAMILY_SUNKERN
     [SPECIES_SUNFLORA] = gPokedexGen2Palette_Sunflora,
 #endif
 #if P_FAMILY_YANMA
@@ -2847,19 +2847,19 @@ const u16 *const gPokedexGen2Palettes[NUM_SPECIES] = {
 #if P_FAMILY_WOOPER
     [SPECIES_WOOPER] = gPokedexGen2Palette_Wooper,
 #endif
-#if P_FAMILY_QUAGSIRE
+#if P_FAMILY_WOOPER
     [SPECIES_QUAGSIRE] = gPokedexGen2Palette_Quagsire,
 #endif
-#if P_FAMILY_ESPEON
+#if P_FAMILY_EEVEE
     [SPECIES_ESPEON] = gPokedexGen2Palette_Espeon,
 #endif
-#if P_FAMILY_UMBREON
+#if P_FAMILY_EEVEE
     [SPECIES_UMBREON] = gPokedexGen2Palette_Umbreon,
 #endif
 #if P_FAMILY_MURKROW
     [SPECIES_MURKROW] = gPokedexGen2Palette_Murkrow,
 #endif
-#if P_FAMILY_SLOWKING
+#if P_FAMILY_SLOWPOKE
     [SPECIES_SLOWKING] = gPokedexGen2Palette_Slowking,
 #endif
 #if P_FAMILY_MISDREAVUS
@@ -2886,19 +2886,19 @@ const u16 *const gPokedexGen2Palettes[NUM_SPECIES] = {
 #if P_FAMILY_GLIGAR
     [SPECIES_GLIGAR] = gPokedexGen2Palette_Gligar,
 #endif
-#if P_FAMILY_STEELIX
+#if P_FAMILY_ONIX
     [SPECIES_STEELIX] = gPokedexGen2Palette_Steelix,
 #endif
 #if P_FAMILY_SNUBBULL
     [SPECIES_SNUBBULL] = gPokedexGen2Palette_Snubbull,
 #endif
-#if P_FAMILY_GRANBULL
+#if P_FAMILY_SNUBBULL
     [SPECIES_GRANBULL] = gPokedexGen2Palette_Granbull,
 #endif
 #if P_FAMILY_QWILFISH
     [SPECIES_QWILFISH] = gPokedexGen2Palette_Qwilfish,
 #endif
-#if P_FAMILY_SCIZOR
+#if P_FAMILY_SCYTHER
     [SPECIES_SCIZOR] = gPokedexGen2Palette_Scizor,
 #endif
 #if P_FAMILY_SHUCKLE
@@ -2913,7 +2913,7 @@ const u16 *const gPokedexGen2Palettes[NUM_SPECIES] = {
 #if P_FAMILY_TEDDIURSA
     [SPECIES_TEDDIURSA] = gPokedexGen2Palette_Teddiursa,
 #endif
-#if P_FAMILY_URSARING
+#if P_FAMILY_TEDDIURSA
     [SPECIES_URSARING] = gPokedexGen2Palette_Ursaring,
 #endif
 #if P_FAMILY_SLUGMA
@@ -2925,7 +2925,7 @@ const u16 *const gPokedexGen2Palettes[NUM_SPECIES] = {
 #if P_FAMILY_SWINUB
     [SPECIES_SWINUB] = gPokedexGen2Palette_Swinub,
 #endif
-#if P_FAMILY_PILOSWINE
+#if P_FAMILY_SWINUB
     [SPECIES_PILOSWINE] = gPokedexGen2Palette_Piloswine,
 #endif
 #if P_FAMILY_CORSOLA
@@ -2934,7 +2934,7 @@ const u16 *const gPokedexGen2Palettes[NUM_SPECIES] = {
 #if P_FAMILY_REMORAID
     [SPECIES_REMORAID] = gPokedexGen2Palette_Remoraid,
 #endif
-#if P_FAMILY_OCTILLERY
+#if P_FAMILY_REMORAID
     [SPECIES_OCTILLERY] = gPokedexGen2Palette_Octillery,
 #endif
 #if P_FAMILY_DELIBIRD
@@ -2952,7 +2952,7 @@ const u16 *const gPokedexGen2Palettes[NUM_SPECIES] = {
 #if P_FAMILY_HOUNDOUR
     [SPECIES_HOUNDOOM] = gPokedexGen2Palette_Houndoom,
 #endif
-#if P_FAMILY_KINGDRA
+#if P_FAMILY_HORSEA
     [SPECIES_KINGDRA] = gPokedexGen2Palette_Kingdra,
 #endif
 #if P_FAMILY_PHANPY
@@ -2961,7 +2961,7 @@ const u16 *const gPokedexGen2Palettes[NUM_SPECIES] = {
 #if P_FAMILY_PHANPY
     [SPECIES_DONPHAN] = gPokedexGen2Palette_Donphan,
 #endif
-#if P_FAMILY_PORYGON2
+#if P_FAMILY_PORYGON
     [SPECIES_PORYGON2] = gPokedexGen2Palette_Porygon2,
 #endif
 #if P_FAMILY_STANTLER
@@ -2973,7 +2973,7 @@ const u16 *const gPokedexGen2Palettes[NUM_SPECIES] = {
 #if P_FAMILY_HITMONS
     [SPECIES_TYROGUE] = gPokedexGen2Palette_Tyrogue,
 #endif
-#if P_FAMILY_HITMONTOP
+#if P_FAMILY_HITMONS
     [SPECIES_HITMONTOP] = gPokedexGen2Palette_Hitmontop,
 #endif
 #if P_FAMILY_JYNX
@@ -2988,7 +2988,7 @@ const u16 *const gPokedexGen2Palettes[NUM_SPECIES] = {
 #if P_FAMILY_MILTANK
     [SPECIES_MILTANK] = gPokedexGen2Palette_Miltank,
 #endif
-#if P_FAMILY_BLISSEY
+#if P_FAMILY_CHANSEY
     [SPECIES_BLISSEY] = gPokedexGen2Palette_Blissey,
 #endif
 #if P_FAMILY_RAIKOU
@@ -3027,7 +3027,7 @@ const u16 *const gPokedexGen2ShinyPalettes[NUM_SPECIES] = {
 #if P_FAMILY_BULBASAUR
     [SPECIES_IVYSAUR] = gPokedexGen2ShinyPalette_Ivysaur,
 #endif
-#if P_FAMILY_VENUSAUR
+#if P_FAMILY_BULBASAUR
     [SPECIES_VENUSAUR] = gPokedexGen2ShinyPalette_Venusaur,
 #endif
 #if P_FAMILY_CHARMANDER
@@ -3036,7 +3036,7 @@ const u16 *const gPokedexGen2ShinyPalettes[NUM_SPECIES] = {
 #if P_FAMILY_CHARMANDER
     [SPECIES_CHARMELEON] = gPokedexGen2ShinyPalette_Charmeleon,
 #endif
-#if P_FAMILY_CHARIZARD
+#if P_FAMILY_CHARMANDER
     [SPECIES_CHARIZARD] = gPokedexGen2ShinyPalette_Charizard,
 #endif
 #if P_FAMILY_SQUIRTLE
@@ -3045,7 +3045,7 @@ const u16 *const gPokedexGen2ShinyPalettes[NUM_SPECIES] = {
 #if P_FAMILY_SQUIRTLE
     [SPECIES_WARTORTLE] = gPokedexGen2ShinyPalette_Wartortle,
 #endif
-#if P_FAMILY_BLASTOISE
+#if P_FAMILY_SQUIRTLE
     [SPECIES_BLASTOISE] = gPokedexGen2ShinyPalette_Blastoise,
 #endif
 #if P_FAMILY_CATERPIE
@@ -3054,7 +3054,7 @@ const u16 *const gPokedexGen2ShinyPalettes[NUM_SPECIES] = {
 #if P_FAMILY_CATERPIE
     [SPECIES_METAPOD] = gPokedexGen2ShinyPalette_Metapod,
 #endif
-#if P_FAMILY_BUTTERFREE
+#if P_FAMILY_CATERPIE
     [SPECIES_BUTTERFREE] = gPokedexGen2ShinyPalette_Butterfree,
 #endif
 #if P_FAMILY_WEEDLE
@@ -3069,16 +3069,16 @@ const u16 *const gPokedexGen2ShinyPalettes[NUM_SPECIES] = {
 #if P_FAMILY_PIDGEY
     [SPECIES_PIDGEY] = gPokedexGen2ShinyPalette_Pidgey,
 #endif
-#if P_FAMILY_PIDGEOTTO
+#if P_FAMILY_PIDGEY
     [SPECIES_PIDGEOTTO] = gPokedexGen2ShinyPalette_Pidgeotto,
 #endif
-#if P_FAMILY_PIDGEOT
+#if P_FAMILY_PIDGEY
     [SPECIES_PIDGEOT] = gPokedexGen2ShinyPalette_Pidgeot,
 #endif
 #if P_FAMILY_RATTATA
     [SPECIES_RATTATA] = gPokedexGen2ShinyPalette_Rattata,
 #endif
-#if P_FAMILY_RATICATE
+#if P_FAMILY_RATTATA
     [SPECIES_RATICATE] = gPokedexGen2ShinyPalette_Raticate,
 #endif
 #if P_FAMILY_SPEAROW
@@ -3096,7 +3096,7 @@ const u16 *const gPokedexGen2ShinyPalettes[NUM_SPECIES] = {
 #if P_FAMILY_PIKACHU
     [SPECIES_PIKACHU] = gPokedexGen2ShinyPalette_Pikachu,
 #endif
-#if P_FAMILY_RAICHU
+#if P_FAMILY_PIKACHU
     [SPECIES_RAICHU] = gPokedexGen2ShinyPalette_Raichu,
 #endif
 #if P_FAMILY_SANDSHREW
@@ -3108,25 +3108,25 @@ const u16 *const gPokedexGen2ShinyPalettes[NUM_SPECIES] = {
 #if P_FAMILY_NIDORAN
     [SPECIES_NIDORAN_F] = gPokedexGen2ShinyPalette_NidoranF,
 #endif
-#if P_FAMILY_NIDORINA
+#if P_FAMILY_NIDORAN
     [SPECIES_NIDORINA] = gPokedexGen2ShinyPalette_Nidorina,
 #endif
-#if P_FAMILY_NIDOQUEEN
+#if P_FAMILY_NIDORAN
     [SPECIES_NIDOQUEEN] = gPokedexGen2ShinyPalette_Nidoqueen,
 #endif
-#if P_FAMILY_NIDORAN_M
+#if P_FAMILY_NIDORAN
     [SPECIES_NIDORAN_M] = gPokedexGen2ShinyPalette_NidoranM,
 #endif
-#if P_FAMILY_NIDORINO
+#if P_FAMILY_NIDORAN
     [SPECIES_NIDORINO] = gPokedexGen2ShinyPalette_Nidorino,
 #endif
-#if P_FAMILY_NIDOKING
+#if P_FAMILY_NIDORAN
     [SPECIES_NIDOKING] = gPokedexGen2ShinyPalette_Nidoking,
 #endif
 #if P_FAMILY_CLEFAIRY
     [SPECIES_CLEFAIRY] = gPokedexGen2ShinyPalette_Clefairy,
 #endif
-#if P_FAMILY_CLEFABLE
+#if P_FAMILY_CLEFAIRY
     [SPECIES_CLEFABLE] = gPokedexGen2ShinyPalette_Clefable,
 #endif
 #if P_FAMILY_VULPIX
@@ -3138,13 +3138,13 @@ const u16 *const gPokedexGen2ShinyPalettes[NUM_SPECIES] = {
 #if P_FAMILY_JIGGLYPUFF
     [SPECIES_JIGGLYPUFF] = gPokedexGen2ShinyPalette_Jigglypuff,
 #endif
-#if P_FAMILY_WIGGLYTUFF
+#if P_FAMILY_JIGGLYPUFF
     [SPECIES_WIGGLYTUFF] = gPokedexGen2ShinyPalette_Wigglytuff,
 #endif
 #if P_FAMILY_ZUBAT
     [SPECIES_ZUBAT] = gPokedexGen2ShinyPalette_Zubat,
 #endif
-#if P_FAMILY_GOLBAT
+#if P_FAMILY_ZUBAT
     [SPECIES_GOLBAT] = gPokedexGen2ShinyPalette_Golbat,
 #endif
 #if P_FAMILY_ODDISH
@@ -3153,19 +3153,19 @@ const u16 *const gPokedexGen2ShinyPalettes[NUM_SPECIES] = {
 #if P_FAMILY_ODDISH
     [SPECIES_GLOOM] = gPokedexGen2ShinyPalette_Gloom,
 #endif
-#if P_FAMILY_VILEPLUME
+#if P_FAMILY_ODDISH
     [SPECIES_VILEPLUME] = gPokedexGen2ShinyPalette_Vileplume,
 #endif
 #if P_FAMILY_PARAS
     [SPECIES_PARAS] = gPokedexGen2ShinyPalette_Paras,
 #endif
-#if P_FAMILY_PARASECT
+#if P_FAMILY_PARAS
     [SPECIES_PARASECT] = gPokedexGen2ShinyPalette_Parasect,
 #endif
 #if P_FAMILY_VENONAT
     [SPECIES_VENONAT] = gPokedexGen2ShinyPalette_Venonat,
 #endif
-#if P_FAMILY_VENOMOTH
+#if P_FAMILY_VENONAT
     [SPECIES_VENOMOTH] = gPokedexGen2ShinyPalette_Venomoth,
 #endif
 #if P_FAMILY_DIGLETT
@@ -3177,7 +3177,7 @@ const u16 *const gPokedexGen2ShinyPalettes[NUM_SPECIES] = {
 #if P_FAMILY_MEOWTH
     [SPECIES_MEOWTH] = gPokedexGen2ShinyPalette_Meowth,
 #endif
-#if P_FAMILY_PERSIAN
+#if P_FAMILY_MEOWTH
     [SPECIES_PERSIAN] = gPokedexGen2ShinyPalette_Persian,
 #endif
 #if P_FAMILY_PSYDUCK
@@ -3189,7 +3189,7 @@ const u16 *const gPokedexGen2ShinyPalettes[NUM_SPECIES] = {
 #if P_FAMILY_MANKEY
     [SPECIES_MANKEY] = gPokedexGen2ShinyPalette_Mankey,
 #endif
-#if P_FAMILY_PRIMEAPE
+#if P_FAMILY_MANKEY
     [SPECIES_PRIMEAPE] = gPokedexGen2ShinyPalette_Primeape,
 #endif
 #if P_FAMILY_GROWLITHE
@@ -3204,25 +3204,25 @@ const u16 *const gPokedexGen2ShinyPalettes[NUM_SPECIES] = {
 #if P_FAMILY_POLIWAG
     [SPECIES_POLIWHIRL] = gPokedexGen2ShinyPalette_Poliwhirl,
 #endif
-#if P_FAMILY_POLIWRATH
+#if P_FAMILY_POLIWAG
     [SPECIES_POLIWRATH] = gPokedexGen2ShinyPalette_Poliwrath,
 #endif
 #if P_FAMILY_ABRA
     [SPECIES_ABRA] = gPokedexGen2ShinyPalette_Abra,
 #endif
-#if P_FAMILY_KADABRA
+#if P_FAMILY_ABRA
     [SPECIES_KADABRA] = gPokedexGen2ShinyPalette_Kadabra,
 #endif
-#if P_FAMILY_ALAKAZAM
+#if P_FAMILY_ABRA
     [SPECIES_ALAKAZAM] = gPokedexGen2ShinyPalette_Alakazam,
 #endif
 #if P_FAMILY_MACHOP
     [SPECIES_MACHOP] = gPokedexGen2ShinyPalette_Machop,
 #endif
-#if P_FAMILY_MACHOKE
+#if P_FAMILY_MACHOP
     [SPECIES_MACHOKE] = gPokedexGen2ShinyPalette_Machoke,
 #endif
-#if P_FAMILY_MACHAMP
+#if P_FAMILY_MACHOP
     [SPECIES_MACHAMP] = gPokedexGen2ShinyPalette_Machamp,
 #endif
 #if P_FAMILY_BELLSPROUT
@@ -3231,7 +3231,7 @@ const u16 *const gPokedexGen2ShinyPalettes[NUM_SPECIES] = {
 #if P_FAMILY_BELLSPROUT
     [SPECIES_WEEPINBELL] = gPokedexGen2ShinyPalette_Weepinbell,
 #endif
-#if P_FAMILY_VICTREEBEL
+#if P_FAMILY_BELLSPROUT
     [SPECIES_VICTREEBEL] = gPokedexGen2ShinyPalette_Victreebel,
 #endif
 #if P_FAMILY_TENTACOOL
@@ -3243,10 +3243,10 @@ const u16 *const gPokedexGen2ShinyPalettes[NUM_SPECIES] = {
 #if P_FAMILY_GEODUDE
     [SPECIES_GEODUDE] = gPokedexGen2ShinyPalette_Geodude,
 #endif
-#if P_FAMILY_GRAVELER
+#if P_FAMILY_GEODUDE
     [SPECIES_GRAVELER] = gPokedexGen2ShinyPalette_Graveler,
 #endif
-#if P_FAMILY_GOLEM
+#if P_FAMILY_GEODUDE
     [SPECIES_GOLEM] = gPokedexGen2ShinyPalette_Golem,
 #endif
 #if P_FAMILY_PONYTA
@@ -3258,7 +3258,7 @@ const u16 *const gPokedexGen2ShinyPalettes[NUM_SPECIES] = {
 #if P_FAMILY_SLOWPOKE
     [SPECIES_SLOWPOKE] = gPokedexGen2ShinyPalette_Slowpoke,
 #endif
-#if P_FAMILY_SLOWBRO
+#if P_FAMILY_SLOWPOKE
     [SPECIES_SLOWBRO] = gPokedexGen2ShinyPalette_Slowbro,
 #endif
 #if P_FAMILY_MAGNEMITE
@@ -3273,13 +3273,13 @@ const u16 *const gPokedexGen2ShinyPalettes[NUM_SPECIES] = {
 #if P_FAMILY_DODUO
     [SPECIES_DODUO] = gPokedexGen2ShinyPalette_Doduo,
 #endif
-#if P_FAMILY_DODRIO
+#if P_FAMILY_DODUO
     [SPECIES_DODRIO] = gPokedexGen2ShinyPalette_Dodrio,
 #endif
 #if P_FAMILY_SEEL
     [SPECIES_SEEL] = gPokedexGen2ShinyPalette_Seel,
 #endif
-#if P_FAMILY_DEWGONG
+#if P_FAMILY_SEEL
     [SPECIES_DEWGONG] = gPokedexGen2ShinyPalette_Dewgong,
 #endif
 #if P_FAMILY_GRIMER
@@ -3291,7 +3291,7 @@ const u16 *const gPokedexGen2ShinyPalettes[NUM_SPECIES] = {
 #if P_FAMILY_SHELLDER
     [SPECIES_SHELLDER] = gPokedexGen2ShinyPalette_Shellder,
 #endif
-#if P_FAMILY_CLOYSTER
+#if P_FAMILY_SHELLDER
     [SPECIES_CLOYSTER] = gPokedexGen2ShinyPalette_Cloyster,
 #endif
 #if P_FAMILY_GASTLY
@@ -3300,7 +3300,7 @@ const u16 *const gPokedexGen2ShinyPalettes[NUM_SPECIES] = {
 #if P_FAMILY_GASTLY
     [SPECIES_HAUNTER] = gPokedexGen2ShinyPalette_Haunter,
 #endif
-#if P_FAMILY_GENGAR
+#if P_FAMILY_GASTLY
     [SPECIES_GENGAR] = gPokedexGen2ShinyPalette_Gengar,
 #endif
 #if P_FAMILY_ONIX
@@ -3309,7 +3309,7 @@ const u16 *const gPokedexGen2ShinyPalettes[NUM_SPECIES] = {
 #if P_FAMILY_DROWZEE
     [SPECIES_DROWZEE] = gPokedexGen2ShinyPalette_Drowzee,
 #endif
-#if P_FAMILY_HYPNO
+#if P_FAMILY_DROWZEE
     [SPECIES_HYPNO] = gPokedexGen2ShinyPalette_Hypno,
 #endif
 #if P_FAMILY_KRABBY
@@ -3327,19 +3327,19 @@ const u16 *const gPokedexGen2ShinyPalettes[NUM_SPECIES] = {
 #if P_FAMILY_EXEGGCUTE
     [SPECIES_EXEGGCUTE] = gPokedexGen2ShinyPalette_Exeggcute,
 #endif
-#if P_FAMILY_EXEGGUTOR
+#if P_FAMILY_EXEGGCUTE
     [SPECIES_EXEGGUTOR] = gPokedexGen2ShinyPalette_Exeggutor,
 #endif
 #if P_FAMILY_CUBONE
     [SPECIES_CUBONE] = gPokedexGen2ShinyPalette_Cubone,
 #endif
-#if P_FAMILY_MAROWAK
+#if P_FAMILY_CUBONE
     [SPECIES_MAROWAK] = gPokedexGen2ShinyPalette_Marowak,
 #endif
-#if P_FAMILY_HITMONLEE
+#if P_FAMILY_HITMONS
     [SPECIES_HITMONLEE] = gPokedexGen2ShinyPalette_Hitmonlee,
 #endif
-#if P_FAMILY_HITMONCHAN
+#if P_FAMILY_HITMONS
     [SPECIES_HITMONCHAN] = gPokedexGen2ShinyPalette_Hitmonchan,
 #endif
 #if P_FAMILY_LICKITUNG
@@ -3348,13 +3348,13 @@ const u16 *const gPokedexGen2ShinyPalettes[NUM_SPECIES] = {
 #if P_FAMILY_KOFFING
     [SPECIES_KOFFING] = gPokedexGen2ShinyPalette_Koffing,
 #endif
-#if P_FAMILY_WEEZING
+#if P_FAMILY_KOFFING
     [SPECIES_WEEZING] = gPokedexGen2ShinyPalette_Weezing,
 #endif
 #if P_FAMILY_RHYHORN
     [SPECIES_RHYHORN] = gPokedexGen2ShinyPalette_Rhyhorn,
 #endif
-#if P_FAMILY_RHYDON
+#if P_FAMILY_RHYHORN
     [SPECIES_RHYDON] = gPokedexGen2ShinyPalette_Rhydon,
 #endif
 #if P_FAMILY_CHANSEY
@@ -3369,13 +3369,13 @@ const u16 *const gPokedexGen2ShinyPalettes[NUM_SPECIES] = {
 #if P_FAMILY_HORSEA
     [SPECIES_HORSEA] = gPokedexGen2ShinyPalette_Horsea,
 #endif
-#if P_FAMILY_SEADRA
+#if P_FAMILY_HORSEA
     [SPECIES_SEADRA] = gPokedexGen2ShinyPalette_Seadra,
 #endif
 #if P_FAMILY_GOLDEEN
     [SPECIES_GOLDEEN] = gPokedexGen2ShinyPalette_Goldeen,
 #endif
-#if P_FAMILY_SEAKING
+#if P_FAMILY_GOLDEEN
     [SPECIES_SEAKING] = gPokedexGen2ShinyPalette_Seaking,
 #endif
 #if P_FAMILY_STARYU
@@ -3408,7 +3408,7 @@ const u16 *const gPokedexGen2ShinyPalettes[NUM_SPECIES] = {
 #if P_FAMILY_MAGIKARP
     [SPECIES_MAGIKARP] = gPokedexGen2ShinyPalette_Magikarp,
 #endif
-#if P_FAMILY_GYARADOS
+#if P_FAMILY_MAGIKARP
     [SPECIES_GYARADOS] = gPokedexGen2ShinyPalette_Gyarados,
 #endif
 #if P_FAMILY_LAPRAS
@@ -3420,13 +3420,13 @@ const u16 *const gPokedexGen2ShinyPalettes[NUM_SPECIES] = {
 #if P_FAMILY_EEVEE
     [SPECIES_EEVEE] = gPokedexGen2ShinyPalette_Eevee,
 #endif
-#if P_FAMILY_VAPOREON
+#if P_FAMILY_EEVEE
     [SPECIES_VAPOREON] = gPokedexGen2ShinyPalette_Vaporeon,
 #endif
-#if P_FAMILY_JOLTEON
+#if P_FAMILY_EEVEE
     [SPECIES_JOLTEON] = gPokedexGen2ShinyPalette_Jolteon,
 #endif
-#if P_FAMILY_FLAREON
+#if P_FAMILY_EEVEE
     [SPECIES_FLAREON] = gPokedexGen2ShinyPalette_Flareon,
 #endif
 #if P_FAMILY_PORYGON
@@ -3435,13 +3435,13 @@ const u16 *const gPokedexGen2ShinyPalettes[NUM_SPECIES] = {
 #if P_FAMILY_OMANYTE
     [SPECIES_OMANYTE] = gPokedexGen2ShinyPalette_Omanyte,
 #endif
-#if P_FAMILY_OMASTAR
+#if P_FAMILY_OMANYTE
     [SPECIES_OMASTAR] = gPokedexGen2ShinyPalette_Omastar,
 #endif
 #if P_FAMILY_KABUTO
     [SPECIES_KABUTO] = gPokedexGen2ShinyPalette_Kabuto,
 #endif
-#if P_FAMILY_KABUTOPS
+#if P_FAMILY_KABUTO
     [SPECIES_KABUTOPS] = gPokedexGen2ShinyPalette_Kabutops,
 #endif
 #if P_FAMILY_AERODACTYL
@@ -3489,7 +3489,7 @@ const u16 *const gPokedexGen2ShinyPalettes[NUM_SPECIES] = {
 #if P_FAMILY_CYNDAQUIL
     [SPECIES_QUILAVA] = gPokedexGen2ShinyPalette_Quilava,
 #endif
-#if P_FAMILY_TYPHLOSION
+#if P_FAMILY_CYNDAQUIL
     [SPECIES_TYPHLOSION] = gPokedexGen2ShinyPalette_Typhlosion,
 #endif
 #if P_FAMILY_TOTODILE
@@ -3516,7 +3516,7 @@ const u16 *const gPokedexGen2ShinyPalettes[NUM_SPECIES] = {
 #if P_FAMILY_LEDYBA
     [SPECIES_LEDYBA] = gPokedexGen2ShinyPalette_Ledyba,
 #endif
-#if P_FAMILY_LEDIAN
+#if P_FAMILY_LEDYBA
     [SPECIES_LEDIAN] = gPokedexGen2ShinyPalette_Ledian,
 #endif
 #if P_FAMILY_SPINARAK
@@ -3525,7 +3525,7 @@ const u16 *const gPokedexGen2ShinyPalettes[NUM_SPECIES] = {
 #if P_FAMILY_SPINARAK
     [SPECIES_ARIADOS] = gPokedexGen2ShinyPalette_Ariados,
 #endif
-#if P_FAMILY_CROBAT
+#if P_FAMILY_ZUBAT
     [SPECIES_CROBAT] = gPokedexGen2ShinyPalette_Crobat,
 #endif
 #if P_FAMILY_CHINCHOU
@@ -3537,10 +3537,10 @@ const u16 *const gPokedexGen2ShinyPalettes[NUM_SPECIES] = {
 #if P_FAMILY_PIKACHU
     [SPECIES_PICHU] = gPokedexGen2ShinyPalette_Pichu,
 #endif
-#if P_FAMILY_CLEFFA
+#if P_FAMILY_CLEFAIRY
     [SPECIES_CLEFFA] = gPokedexGen2ShinyPalette_Cleffa,
 #endif
-#if P_FAMILY_IGGLYBUFF
+#if P_FAMILY_JIGGLYPUFF
     [SPECIES_IGGLYBUFF] = gPokedexGen2ShinyPalette_Igglybuff,
 #endif
 #if P_FAMILY_TOGEPI
@@ -3564,28 +3564,28 @@ const u16 *const gPokedexGen2ShinyPalettes[NUM_SPECIES] = {
 #if P_FAMILY_MAREEP
     [SPECIES_AMPHAROS] = gPokedexGen2ShinyPalette_Ampharos,
 #endif
-#if P_FAMILY_BELLOSSOM
+#if P_FAMILY_ODDISH
     [SPECIES_BELLOSSOM] = gPokedexGen2ShinyPalette_Bellossom,
 #endif
 #if P_FAMILY_MARILL
     [SPECIES_MARILL] = gPokedexGen2ShinyPalette_Marill,
 #endif
-#if P_FAMILY_AZUMARILL
+#if P_FAMILY_MARILL
     [SPECIES_AZUMARILL] = gPokedexGen2ShinyPalette_Azumarill,
 #endif
 #if P_FAMILY_SUDOWOODO
     [SPECIES_SUDOWOODO] = gPokedexGen2ShinyPalette_Sudowoodo,
 #endif
-#if P_FAMILY_POLITOED
+#if P_FAMILY_POLIWAG
     [SPECIES_POLITOED] = gPokedexGen2ShinyPalette_Politoed,
 #endif
 #if P_FAMILY_HOPPIP
     [SPECIES_HOPPIP] = gPokedexGen2ShinyPalette_Hoppip,
 #endif
-#if P_FAMILY_SKIPLOOM
+#if P_FAMILY_HOPPIP
     [SPECIES_SKIPLOOM] = gPokedexGen2ShinyPalette_Skiploom,
 #endif
-#if P_FAMILY_JUMPLUFF
+#if P_FAMILY_HOPPIP
     [SPECIES_JUMPLUFF] = gPokedexGen2ShinyPalette_Jumpluff,
 #endif
 #if P_FAMILY_AIPOM
@@ -3594,7 +3594,7 @@ const u16 *const gPokedexGen2ShinyPalettes[NUM_SPECIES] = {
 #if P_FAMILY_SUNKERN
     [SPECIES_SUNKERN] = gPokedexGen2ShinyPalette_Sunkern,
 #endif
-#if P_FAMILY_SUNFLORA
+#if P_FAMILY_SUNKERN
     [SPECIES_SUNFLORA] = gPokedexGen2ShinyPalette_Sunflora,
 #endif
 #if P_FAMILY_YANMA
@@ -3603,19 +3603,19 @@ const u16 *const gPokedexGen2ShinyPalettes[NUM_SPECIES] = {
 #if P_FAMILY_WOOPER
     [SPECIES_WOOPER] = gPokedexGen2ShinyPalette_Wooper,
 #endif
-#if P_FAMILY_QUAGSIRE
+#if P_FAMILY_WOOPER
     [SPECIES_QUAGSIRE] = gPokedexGen2ShinyPalette_Quagsire,
 #endif
-#if P_FAMILY_ESPEON
+#if P_FAMILY_EEVEE
     [SPECIES_ESPEON] = gPokedexGen2ShinyPalette_Espeon,
 #endif
-#if P_FAMILY_UMBREON
+#if P_FAMILY_EEVEE
     [SPECIES_UMBREON] = gPokedexGen2ShinyPalette_Umbreon,
 #endif
 #if P_FAMILY_MURKROW
     [SPECIES_MURKROW] = gPokedexGen2ShinyPalette_Murkrow,
 #endif
-#if P_FAMILY_SLOWKING
+#if P_FAMILY_SLOWPOKE
     [SPECIES_SLOWKING] = gPokedexGen2ShinyPalette_Slowking,
 #endif
 #if P_FAMILY_MISDREAVUS
@@ -3642,19 +3642,19 @@ const u16 *const gPokedexGen2ShinyPalettes[NUM_SPECIES] = {
 #if P_FAMILY_GLIGAR
     [SPECIES_GLIGAR] = gPokedexGen2ShinyPalette_Gligar,
 #endif
-#if P_FAMILY_STEELIX
+#if P_FAMILY_ONIX
     [SPECIES_STEELIX] = gPokedexGen2ShinyPalette_Steelix,
 #endif
 #if P_FAMILY_SNUBBULL
     [SPECIES_SNUBBULL] = gPokedexGen2ShinyPalette_Snubbull,
 #endif
-#if P_FAMILY_GRANBULL
+#if P_FAMILY_SNUBBULL
     [SPECIES_GRANBULL] = gPokedexGen2ShinyPalette_Granbull,
 #endif
 #if P_FAMILY_QWILFISH
     [SPECIES_QWILFISH] = gPokedexGen2ShinyPalette_Qwilfish,
 #endif
-#if P_FAMILY_SCIZOR
+#if P_FAMILY_SCYTHER
     [SPECIES_SCIZOR] = gPokedexGen2ShinyPalette_Scizor,
 #endif
 #if P_FAMILY_SHUCKLE
@@ -3669,7 +3669,7 @@ const u16 *const gPokedexGen2ShinyPalettes[NUM_SPECIES] = {
 #if P_FAMILY_TEDDIURSA
     [SPECIES_TEDDIURSA] = gPokedexGen2ShinyPalette_Teddiursa,
 #endif
-#if P_FAMILY_URSARING
+#if P_FAMILY_TEDDIURSA
     [SPECIES_URSARING] = gPokedexGen2ShinyPalette_Ursaring,
 #endif
 #if P_FAMILY_SLUGMA
@@ -3681,7 +3681,7 @@ const u16 *const gPokedexGen2ShinyPalettes[NUM_SPECIES] = {
 #if P_FAMILY_SWINUB
     [SPECIES_SWINUB] = gPokedexGen2ShinyPalette_Swinub,
 #endif
-#if P_FAMILY_PILOSWINE
+#if P_FAMILY_SWINUB
     [SPECIES_PILOSWINE] = gPokedexGen2ShinyPalette_Piloswine,
 #endif
 #if P_FAMILY_CORSOLA
@@ -3690,7 +3690,7 @@ const u16 *const gPokedexGen2ShinyPalettes[NUM_SPECIES] = {
 #if P_FAMILY_REMORAID
     [SPECIES_REMORAID] = gPokedexGen2ShinyPalette_Remoraid,
 #endif
-#if P_FAMILY_OCTILLERY
+#if P_FAMILY_REMORAID
     [SPECIES_OCTILLERY] = gPokedexGen2ShinyPalette_Octillery,
 #endif
 #if P_FAMILY_DELIBIRD
@@ -3708,7 +3708,7 @@ const u16 *const gPokedexGen2ShinyPalettes[NUM_SPECIES] = {
 #if P_FAMILY_HOUNDOUR
     [SPECIES_HOUNDOOM] = gPokedexGen2ShinyPalette_Houndoom,
 #endif
-#if P_FAMILY_KINGDRA
+#if P_FAMILY_HORSEA
     [SPECIES_KINGDRA] = gPokedexGen2ShinyPalette_Kingdra,
 #endif
 #if P_FAMILY_PHANPY
@@ -3717,7 +3717,7 @@ const u16 *const gPokedexGen2ShinyPalettes[NUM_SPECIES] = {
 #if P_FAMILY_PHANPY
     [SPECIES_DONPHAN] = gPokedexGen2ShinyPalette_Donphan,
 #endif
-#if P_FAMILY_PORYGON2
+#if P_FAMILY_PORYGON
     [SPECIES_PORYGON2] = gPokedexGen2ShinyPalette_Porygon2,
 #endif
 #if P_FAMILY_STANTLER
@@ -3729,7 +3729,7 @@ const u16 *const gPokedexGen2ShinyPalettes[NUM_SPECIES] = {
 #if P_FAMILY_HITMONS
     [SPECIES_TYROGUE] = gPokedexGen2ShinyPalette_Tyrogue,
 #endif
-#if P_FAMILY_HITMONTOP
+#if P_FAMILY_HITMONS
     [SPECIES_HITMONTOP] = gPokedexGen2ShinyPalette_Hitmontop,
 #endif
 #if P_FAMILY_JYNX
@@ -3744,7 +3744,7 @@ const u16 *const gPokedexGen2ShinyPalettes[NUM_SPECIES] = {
 #if P_FAMILY_MILTANK
     [SPECIES_MILTANK] = gPokedexGen2ShinyPalette_Miltank,
 #endif
-#if P_FAMILY_BLISSEY
+#if P_FAMILY_CHANSEY
     [SPECIES_BLISSEY] = gPokedexGen2ShinyPalette_Blissey,
 #endif
 #if P_FAMILY_RAIKOU
