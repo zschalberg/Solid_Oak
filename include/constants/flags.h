@@ -766,7 +766,7 @@
 #define FLAG_USED_CUT_ON_RUIN_VALLEY_BRAILLE             0x2E3
 #define FLAG_FOUGHT_DEOXYS                               0x2E4
 #define FLAG_DOUBLE_BATTLE_WITH_ONE_MON                 0x2E5
-#define FLAG_0x2E6                                       0x2E6
+#define FLAG_PREVIEW_BATTLE                              0x2E6
 #define FLAG_0x2E7                                       0x2E7
 #define FLAG_0x2E8                                       0x2E8
 #define FLAG_0x2E9                                       0x2E9

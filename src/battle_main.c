@@ -1975,6 +1975,10 @@ u8 CreateNPCTrainerPartyFromTrainer(struct Pokemon *party, const struct Trainer 
             else
                 monsCount = trainer->partySize;
         }
+        else if (battleTypeFlags & BATTLE_TYPE_PREVIEW)
+        {
+            monsCount = 3;
+        }
         else
         {
             monsCount = trainer->partySize;

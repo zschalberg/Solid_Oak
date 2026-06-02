@@ -1,0 +1,189 @@
+#include "global.h"
+#include "main.h"
+#include "menu.h"
+#include "gpu_regs.h"
+#include "palette.h"
+#include "pokemon.h"
+#include "trainer_pokemon_sprites.h"
+#include "sprite.h"
+#include "sound.h"
+#include "constants/songs.h"
+#include "constants/rgb.h"
+#include "malloc.h"
+#include "decompress.h"
+#include "data.h"
+#include "party_menu.h"
+#include "battle_setup.h"
+#include "battle.h"
+#include "event_data.h"
+#include "constants/battle.h"
+#include "team_preview.h"
+#include "task.h"
+#include "string_util.h"
+#include "overworld.h"
+#include "script.h"
+
+struct TeamPreviewResources
+{
+    u16 trainerId;
+    u16 spriteIds[6];
+};
+
+static EWRAM_DATA struct Pokemon sSavedPlayerParty[PARTY_SIZE] = {0};
+static EWRAM_DATA u8 sSavedPlayerPartyCount = 0;
+static EWRAM_DATA u8 sSelectedMonOriginalSlots[3] = {0};
+static EWRAM_DATA MainCallback sOriginalBattleSavedCallback = NULL;
+
+static void Task_TeamPreviewWaitButton(u8 taskId);
+static void CB2_StartBattleAfterChooseMons(void);
+static void FieldCB_Start3v3Battle(void);
+static void CB2_End3v3PreviewBattle(void);
+
+void ShowOpponentTeamPreview(u16 trainerId, MainCallback callback)
+{
+    u8 taskId = CreateTask(Task_TeamPreviewWaitButton, 0);
+    struct TeamPreviewResources *resources = (struct TeamPreviewResources *)&gTasks[taskId].data[0];
+    const struct Trainer *trainer = GetTrainerStructFromId(trainerId);
+    u32 i;
+    
+    resources->trainerId = trainerId;
+    
+    for (i = 0; i < 6; i++)
+    {
+        resources->spriteIds[i] = 0xFFFF;
+        if (i < trainer->poolSize)
+        {
+            u16 species = trainer->party[i].species;
+            bool32 isShiny = trainer->party[i].isShiny;
+            u32 personality = 0;
+            
+            // Centers and distributes sprites cleanly with no overlap
+            s16 x = 48 + (i % 3) * 72;
+            s16 y = 35 + (i / 3) * 70; // Row 1: Y=35, Row 2: Y=105
+            
+            // OBJ palettes 10-15 to avoid conflict with standard overworld character palettes
+            u16 spriteId = CreateMonFrontPicSprite(species, isShiny, personality, x, y, 10 + i, TAG_NONE);
+            if (spriteId != 0xFFFF)
+            {
+                resources->spriteIds[i] = spriteId;
+                gSprites[spriteId].oam.priority = 0;
+            }
+        }
+    }
+}
+
+static void Task_TeamPreviewWaitButton(u8 taskId)
+{
+    struct TeamPreviewResources *resources = (struct TeamPreviewResources *)&gTasks[taskId].data[0];
+    
+    if (JOY_NEW(A_BUTTON))
+    {
+        u32 i;
+        
+        PlaySE(SE_SELECT);
+        
+        for (i = 0; i < 6; i++)
+        {
+            if (resources->spriteIds[i] != 0xFFFF)
+            {
+                FreeAndDestroyMonPicSprite(resources->spriteIds[i]);
+            }
+        }
+        
+        DestroyTask(taskId);
+        
+        gSpecialVar_0x8004 = FRONTIER_LVL_OPEN;
+        gSpecialVar_0x8005 = 3;
+        
+        gMain.savedCallback = CB2_StartBattleAfterChooseMons;
+        InitChooseMonsForBattle(0);
+    }
+}
+
+static void FieldCB_Start3v3Battle(void)
+{
+    gBattleTypeFlags |= BATTLE_TYPE_PREVIEW;
+    BattleSetup_StartTrainerBattle();
+    
+    // Wrap the saved callback so we can restore the party at the end of the battle
+    sOriginalBattleSavedCallback = gMain.savedCallback;
+    gMain.savedCallback = CB2_End3v3PreviewBattle;
+}
+
+static void CB2_StartBattleAfterChooseMons(void)
+{
+    if (gSelectedOrderFromParty[0] == 0)
+    {
+        ScriptContext_Init();
+        UnlockPlayerFieldControls();
+        SetMainCallback2(CB2_ReturnToField);
+        return;
+    }
+    
+    // 1. Save the original full party and count
+    sSavedPlayerPartyCount = gPlayerPartyCount;
+    u8 i;
+    for (i = 0; i < PARTY_SIZE; i++)
+    {
+        CopyMon(&sSavedPlayerParty[i], &gPlayerParty[i], sizeof(struct Pokemon));
+    }
+    
+    // 2. Save the original slots of selected Pokémon
+    for (i = 0; i < 3; i++)
+    {
+        sSelectedMonOriginalSlots[i] = gSelectedOrderFromParty[i] - 1;
+    }
+    
+    // 3. Reorder party to place chosen 3 Pokémon at indices 0, 1, 2
+    struct Pokemon tempParty[3];
+    for (i = 0; i < 3; i++)
+    {
+        u8 slot = sSelectedMonOriginalSlots[i];
+        CopyMon(&tempParty[i], &gPlayerParty[slot], sizeof(struct Pokemon));
+    }
+    
+    for (i = 0; i < 3; i++)
+    {
+        CopyMon(&gPlayerParty[i], &tempParty[i], sizeof(struct Pokemon));
+    }
+    
+    // 4. Zero out remaining slots and set count to 3
+    for (i = 3; i < PARTY_SIZE; i++)
+    {
+        ZeroMonData(&gPlayerParty[i]);
+    }
+    gPlayerPartyCount = 3;
+    
+    // Set field callback to initiate battle once map re-renders
+    gFieldCallback = FieldCB_Start3v3Battle;
+    SetMainCallback2(CB2_ReturnToField);
+}
+
+static void CB2_End3v3PreviewBattle(void)
+{
+    // 1. Copy the updated 3 Pokémon back to their original slots in sSavedPlayerParty
+    u8 i;
+    for (i = 0; i < 3; i++)
+    {
+        u8 slot = sSelectedMonOriginalSlots[i];
+        CopyMon(&sSavedPlayerParty[slot], &gPlayerParty[i], sizeof(struct Pokemon));
+    }
+    
+    // 2. Restore gPlayerParty from sSavedPlayerParty
+    for (i = 0; i < PARTY_SIZE; i++)
+    {
+        CopyMon(&gPlayerParty[i], &sSavedPlayerParty[i], sizeof(struct Pokemon));
+    }
+    
+    // 3. Restore player party count
+    gPlayerPartyCount = sSavedPlayerPartyCount;
+    
+    // 4. Clear preview battle flag
+    gBattleTypeFlags &= ~BATTLE_TYPE_PREVIEW;
+    
+    // 5. Call the original battle end callback
+    if (sOriginalBattleSavedCallback)
+    {
+        sOriginalBattleSavedCallback();
+    }
+}

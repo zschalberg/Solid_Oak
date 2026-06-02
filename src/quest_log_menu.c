@@ -426,6 +426,8 @@ static bool8 QuestLogMenu_LoadGraphics(void)
         break;
     case 2:
         LoadPalette(gItemPcBgPals, BG_PLTT_ID(0), 3 * PLTT_SIZE_4BPP);
+        LoadPalette(GetTextWindowPalette(2), BG_PLTT_ID(15), PLTT_SIZE_4BPP);
+        LoadPalette(GetTextWindowPalette(2), BG_PLTT_ID(13), PLTT_SIZE_4BPP);
         sQuestLogMenuState->data[0]++;
         break;
     default:

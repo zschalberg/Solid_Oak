@@ -166,3 +166,106 @@ PalletTown_RivalsHouse_EventScript_Bookshelf::
 PalletTown_RivalsHouse_EventScript_Picture::
 	msgbox PalletTown_RivalsHouse_Text_LovelyAndSweetClefairy, MSGBOX_SIGN
 	end
+
+PalletTown_RivalsHouse_EventScript_TestNPC::
+	lock
+	faceplayer
+	goto_if_set FLAG_PREVIEW_BATTLE, PalletTown_RivalsHouse_EventScript_TestNPC_FlagOn
+	msgbox PalletTown_RivalsHouse_Text_TestNPC_Greeting_FlagOff
+	goto PalletTown_RivalsHouse_EventScript_TestNPC_Menu
+	end
+
+PalletTown_RivalsHouse_EventScript_TestNPC_FlagOn::
+	msgbox PalletTown_RivalsHouse_Text_TestNPC_Greeting_FlagOn
+	goto PalletTown_RivalsHouse_EventScript_TestNPC_Menu
+	end
+
+PalletTown_RivalsHouse_EventScript_TestNPC_Menu::
+	multichoice 0, 0, MULTI_TEST_NPC_CHOICES, TRUE
+	switch VAR_RESULT
+	case 0, PalletTown_RivalsHouse_EventScript_TestNPC_Toggle
+	case 1, PalletTown_RivalsHouse_EventScript_TestNPC_GetMons
+	case 2, PalletTown_RivalsHouse_EventScript_TestNPC_Battle
+	case 3, PalletTown_RivalsHouse_EventScript_TestNPC_Exit
+	case MULTI_B_PRESSED, PalletTown_RivalsHouse_EventScript_TestNPC_Exit
+	end
+
+PalletTown_RivalsHouse_EventScript_TestNPC_Toggle::
+	goto_if_set FLAG_PREVIEW_BATTLE, PalletTown_RivalsHouse_EventScript_TestNPC_ToggleOff
+	setflag FLAG_PREVIEW_BATTLE
+	msgbox PalletTown_RivalsHouse_Text_TestNPC_ToggledOn
+	goto PalletTown_RivalsHouse_EventScript_TestNPC_Menu
+	end
+
+PalletTown_RivalsHouse_EventScript_TestNPC_ToggleOff::
+	clearflag FLAG_PREVIEW_BATTLE
+	msgbox PalletTown_RivalsHouse_Text_TestNPC_ToggledOff
+	goto PalletTown_RivalsHouse_EventScript_TestNPC_Menu
+	end
+
+PalletTown_RivalsHouse_EventScript_TestNPC_GetMons::
+	msgbox PalletTown_RivalsHouse_Text_TestNPC_GiveMons
+	givemon SPECIES_CHARIZARD, 50
+	givemon SPECIES_BLASTOISE, 50
+	givemon SPECIES_VENUSAUR, 50
+	special HealPlayerParty
+	msgbox PalletTown_RivalsHouse_Text_TestNPC_MonsGiven
+	goto PalletTown_RivalsHouse_EventScript_TestNPC_Menu
+	end
+
+PalletTown_RivalsHouse_EventScript_TestNPC_Battle::
+	msgbox PalletTown_RivalsHouse_Text_TestNPC_BattleIntro
+	trainerbattle_no_intro TRAINER_TESTER_3V3, PalletTown_RivalsHouse_Text_TestNPC_Defeat
+	msgbox PalletTown_RivalsHouse_Text_TestNPC_PostBattle
+	release
+	end
+
+PalletTown_RivalsHouse_EventScript_TestNPC_Exit::
+	msgbox PalletTown_RivalsHouse_Text_TestNPC_Goodbye
+	release
+	end
+
+EventScript_Abort3v3Battle::
+	msgbox PalletTown_RivalsHouse_Text_NotEnoughMonsFor3v3, MSGBOX_DEFAULT
+	releaseall
+	end
+
+PalletTown_RivalsHouse_Text_NotEnoughMonsFor3v3::
+	.string "You need at least 3 usable Pokémon\n"
+	.string "to battle!$"
+
+PalletTown_RivalsHouse_Text_TestNPC_Greeting_FlagOff::
+	.string "Hi! I am the 3v3 preview tester.\n"
+	.string "Currently, the preview flag is OFF.\p"
+	.string "What would you like to do?$"
+
+PalletTown_RivalsHouse_Text_TestNPC_Greeting_FlagOn::
+	.string "Hi! I am the 3v3 preview tester.\n"
+	.string "Currently, the preview flag is ON.\p"
+	.string "What would you like to do?$"
+
+PalletTown_RivalsHouse_Text_TestNPC_ToggledOn::
+	.string "Toggled the preview flag to ON.$"
+
+PalletTown_RivalsHouse_Text_TestNPC_ToggledOff::
+	.string "Toggled the preview flag to OFF.$"
+
+PalletTown_RivalsHouse_Text_TestNPC_GiveMons::
+	.string "Here, take these starter Pokémon\n"
+	.string "to fill out your party!$"
+
+PalletTown_RivalsHouse_Text_TestNPC_MonsGiven::
+	.string "Added Charizard, Blastoise, and\n"
+	.string "Venusaur. Your party is healed!$"
+
+PalletTown_RivalsHouse_Text_TestNPC_BattleIntro::
+	.string "Let's battle!$"
+
+PalletTown_RivalsHouse_Text_TestNPC_Defeat::
+	.string "Good game!$"
+
+PalletTown_RivalsHouse_Text_TestNPC_PostBattle::
+	.string "Hope that helped you test!$"
+
+PalletTown_RivalsHouse_Text_TestNPC_Goodbye::
+	.string "Come back anytime!$"

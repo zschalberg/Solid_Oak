@@ -115,7 +115,7 @@ struct PokedexCategoryPage
 EWRAM_DATA static struct PokedexScreenData *sPokedexScreenData = NULL;
 
 static void Task_PokedexScreen(u8 taskId);
-static void DexScreen_InitGfxForTopMenu(void);
+static void UNUSED DexScreen_InitGfxForTopMenu(void);
 static void Task_DexScreen_NumericalOrder(u8 taskId);
 static void DexScreen_InitGfxForNumericalOrderList(void);
 static void Task_DexScreen_CharacteristicOrder(u8 taskId);
@@ -1166,26 +1166,26 @@ void CB2_ClosePokedex(void)
 
 static void Task_PokedexScreen(u8 taskId)
 {
-    int i;
     switch (sPokedexScreenData->state)
     {
     case 0:
-        sPokedexScreenData->unlockedCategories = 0;
-        for (i = 0; i < 9; i++)
-            sPokedexScreenData->unlockedCategories |= (DexScreen_IsCategoryUnlocked(i) << i);
-        sPokedexScreenData->state = 2;
+        if (IsNationalPokedexEnabled())
+            sPokedexScreenData->dexOrderId = DEX_ORDER_NUMERICAL_NATIONAL;
+        else
+            sPokedexScreenData->dexOrderId = DEX_ORDER_NUMERICAL_KANTO;
+
+        sPokedexScreenData->orderedDexCount = DexScreen_CountMonsInOrderedList(sPokedexScreenData->dexOrderId);
+        ListMenuLoadStdPalAt(BG_PLTT_ID(1), 0);
+        ListMenuLoadStdPalAt(BG_PLTT_ID(2), 1);
+        DexScreen_InitGfxForNumericalOrderList();
+        sPokedexScreenData->state = 3;
         break;
     case 1:
         RemoveScrollIndicatorArrowPair(sPokedexScreenData->scrollArrowsTaskId);
-        DexScreen_RemoveWindow(&sPokedexScreenData->modeSelectWindowId);
-        DexScreen_RemoveWindow(&sPokedexScreenData->selectionIconWindowId);
-        DexScreen_RemoveWindow(&sPokedexScreenData->dexCountsWindowId);
         SetMainCallback2(CB2_ClosePokedex);
         DestroyTask(taskId);
         break;
     case 2:
-        DexScreen_InitGfxForTopMenu();
-        sPokedexScreenData->state = 3;
         break;
     case 3:
         CopyBgTilemapBufferToVram(3);
@@ -1209,11 +1209,8 @@ static void Task_PokedexScreen(u8 taskId)
         sPokedexScreenData->state = 5;
         break;
     case 5:
-        ListMenuGetScrollAndRow(sPokedexScreenData->modeSelectListMenuId, &sPokedexScreenData->modeSelectCursorPosBak, NULL);
-        if (IsNationalPokedexEnabled())
-            sPokedexScreenData->scrollArrowsTaskId = AddScrollIndicatorArrowPair(&sScrollArrowsTemplate_NatDex, &sPokedexScreenData->modeSelectCursorPosBak);
-        else
-            sPokedexScreenData->scrollArrowsTaskId = AddScrollIndicatorArrowPair(&sScrollArrowsTemplate_KantoDex, &sPokedexScreenData->modeSelectCursorPosBak);
+        sPokedexScreenData->scrollArrowsTaskId = DexScreen_CreateDexOrderScrollArrows();
+        gTasks[taskId].func = Task_DexScreen_NumericalOrder;
         sPokedexScreenData->state = 6;
         break;
     case 6:
@@ -1302,7 +1299,7 @@ static void Task_PokedexScreen(u8 taskId)
     }
 }
 
-static void DexScreen_InitGfxForTopMenu(void)
+static void UNUSED DexScreen_InitGfxForTopMenu(void)
 {
     struct ListMenuTemplate listMenuTemplate;
     FillBgTilemapBufferRect(3, 0x00E, 0, 0, 30, 20, 0);
@@ -1392,8 +1389,8 @@ static void Task_DexScreen_NumericalOrder(u8 taskId)
         DexScreen_DestroyDexOrderListMenu(sPokedexScreenData->dexOrderId);
         HideBg(1);
         DexScreen_RemoveWindow(&sPokedexScreenData->numericalOrderWindowId);
-        gTasks[taskId].func = Task_PokedexScreen;
-        sPokedexScreenData->state = 0;
+        SetMainCallback2(CB2_ClosePokedex);
+        DestroyTask(taskId);
         break;
     case 2:
         DexScreen_InitGfxForNumericalOrderList();
@@ -1410,13 +1407,11 @@ static void Task_DexScreen_NumericalOrder(u8 taskId)
         sPokedexScreenData->state = 5;
         break;
     case 5:
-        ListMenuGetScrollAndRow(sPokedexScreenData->modeSelectListMenuId, &sPokedexScreenData->modeSelectCursorPosBak, NULL);
         sPokedexScreenData->scrollArrowsTaskId = DexScreen_CreateDexOrderScrollArrows();
         sPokedexScreenData->state = 6;
         break;
     case 6:
         sPokedexScreenData->characteristicMenuInput = ListMenu_ProcessInput(sPokedexScreenData->orderedListMenuTaskId);
-        ListMenuGetScrollAndRow(sPokedexScreenData->modeSelectListMenuId, &sPokedexScreenData->modeSelectCursorPosBak, NULL);
         if (JOY_NEW(A_BUTTON))
         {
             if ((sPokedexScreenData->characteristicMenuInput >> 16) & 1)
@@ -1459,8 +1454,43 @@ static void DexScreen_InitGfxForNumericalOrderList(void)
     DexScreen_InitListMenuForOrderedList(&template, sPokedexScreenData->dexOrderId);
     FillWindowPixelBuffer(0, PIXEL_FILL(15));
     DexScreen_PrintStringWithAlignment(sText_PokemonListNoColor, TEXT_CENTER);
+
+    // Print Seen/Owned count in the header
+    {
+        u16 seenCount, ownedCount;
+        u8 buffer[32];
+        u8 *ptr;
+        u32 x;
+
+        if (IsNationalPokedexEnabled())
+        {
+            seenCount = sPokedexScreenData->numSeenNational;
+            ownedCount = sPokedexScreenData->numOwnedNational;
+        }
+        else
+        {
+            seenCount = sPokedexScreenData->numSeenKanto;
+            ownedCount = sPokedexScreenData->numOwnedKanto;
+        }
+
+        // Left side: "Seen: XXX"
+        ptr = StringCopy(buffer, sText_Seen);
+        *ptr++ = CHAR_SPACE;
+        ptr = ConvertIntToDecimalStringN(ptr, seenCount, STR_CONV_MODE_LEFT_ALIGN, 3);
+        DexScreen_AddTextPrinterParameterized(0, FONT_NORMAL, buffer, 8, 2, 4);
+
+        // Right side: "Owned: YYY"
+        ptr = StringCopy(buffer, sText_Owned);
+        *ptr++ = CHAR_SPACE;
+        ptr = ConvertIntToDecimalStringN(ptr, ownedCount, STR_CONV_MODE_LEFT_ALIGN, 3);
+        x = 232 - GetStringWidth(FONT_NORMAL, buffer, 0);
+        DexScreen_AddTextPrinterParameterized(0, FONT_NORMAL, buffer, x, 2, 4);
+    }
+
     FillWindowPixelBuffer(1, PIXEL_FILL(15));
     DexScreen_PrintControlInfo(gText_PickOKExit);
+    PutWindowTilemap(0);
+    PutWindowTilemap(1);
     CopyWindowToVram(0, COPYWIN_GFX);
     CopyWindowToVram(1, COPYWIN_GFX);
 }

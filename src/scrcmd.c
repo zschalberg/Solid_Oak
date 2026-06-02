@@ -1,4 +1,7 @@
 #include "global.h"
+#include "team_preview.h"
+#include "constants/flags.h"
+#include "constants/pokeball.h"
 #include "battle_setup.h"
 #include "berry.h"
 #include "clock.h"
@@ -2506,9 +2509,46 @@ bool8 ScrCmd_trainerbattle(struct ScriptContext *ctx)
     return FALSE;
 }
 
+extern const u8 EventScript_Abort3v3Battle[];
+
+static u8 GetUsable3v3PartyCount(void)
+{
+    u8 count = 0;
+    u8 i;
+    for (i = 0; i < PARTY_SIZE; i++)
+    {
+        struct Pokemon *mon = &gPlayerParty[i];
+        u16 species = GetMonData(mon, MON_DATA_SPECIES);
+        if (species != SPECIES_NONE
+            && species != SPECIES_EGG
+            && GetMonData(mon, MON_DATA_HP) != 0
+            && GetMonData(mon, MON_DATA_POKEBALL) != BALL_RESEARCH)
+        {
+            count++;
+        }
+    }
+    return count;
+}
+
 bool8 ScrCmd_dotrainerbattle(struct ScriptContext *ctx)
 {
     Script_RequestEffects(SCREFF_V1 | SCREFF_SAVE | SCREFF_HARDWARE);
+
+    if (FlagGet(FLAG_PREVIEW_BATTLE))
+    {
+        FlagClear(FLAG_PREVIEW_BATTLE);
+        if (GetUsable3v3PartyCount() < 3)
+        {
+            ctx->scriptPtr = EventScript_Abort3v3Battle;
+            return FALSE;
+        }
+        else
+        {
+            u16 trainerId = gTrainerBattleParameter.params.opponentA;
+            ShowOpponentTeamPreview(trainerId, NULL);
+            return TRUE;
+        }
+    }
 
     BattleSetup_StartTrainerBattle();
     return TRUE;

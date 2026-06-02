@@ -672,6 +672,7 @@ enum TrainerID
     TRAINER_LUCY,
     TRAINER_BRANDON,
     TRAINER_VERMILION_TESTER,
+    TRAINER_TESTER_3V3,
     TRAINERS_COUNT,
 
     // Special Trainer Ids.

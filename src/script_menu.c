@@ -656,6 +656,14 @@ static const struct MenuAction sMultichoiceList_Journal[] =
     {COMPOUND_STRING("QUEST LOG")},
 };
 
+static const struct MenuAction sMultichoiceList_TestNpc[] =
+{
+    {COMPOUND_STRING("Toggle Preview")},
+    {COMPOUND_STRING("Get Pokemon")},
+    {COMPOUND_STRING("Battle Tester")},
+    {COMPOUND_STRING("Exit")},
+};
+
 struct MultichoiceListStruct
 {
     const struct MenuAction *list;
@@ -740,6 +748,7 @@ static const struct MultichoiceListStruct sMultichoiceLists[] =
     [MULTI_LINK_LEADER]                                = MULTICHOICE(sMultichoiceList_LinkLeader),
     [MULTI_SATISFACTION]                               = MULTICHOICE(sMultichoiceList_Satisfaction),
     [MULTI_JOURNAL]                                    = MULTICHOICE(sMultichoiceList_Journal),
+    [MULTI_TEST_NPC_CHOICES]                           = MULTICHOICE(sMultichoiceList_TestNpc),
 };
 
 const u8 *const gStdStrings[] = {

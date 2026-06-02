@@ -364,6 +364,69 @@ static void PrunePool(const struct Trainer *trainer, u8 *poolIndexArray, const s
 
 void DoTrainerPartyPool(const struct Trainer *trainer, u32 *monIndices, u8 monsCount, u32 battleTypeFlags)
 {
+    if (battleTypeFlags & BATTLE_TYPE_PREVIEW)
+    {
+        s32 aceIndex = -1;
+        s32 i;
+        u8 poolSize = trainer->poolSize;
+
+        for (i = 0; i < poolSize; i++)
+        {
+            if (trainer->party[i].tags & MON_POOL_TAG_ACE)
+            {
+                aceIndex = i;
+                break;
+            }
+        }
+
+        u8 candidates[6];
+        u8 candidatesCount = 0;
+        for (i = 0; i < poolSize && i < 6; i++)
+        {
+            candidates[candidatesCount] = i;
+            candidatesCount++;
+        }
+
+        u8 chosen[3];
+        u8 chosenCount = 0;
+
+        if (aceIndex != -1 && (Random32() % 100) < 80)
+        {
+            chosen[chosenCount] = aceIndex;
+            chosenCount++;
+
+            for (i = 0; i < candidatesCount; i++)
+            {
+                if (candidates[i] == aceIndex)
+                {
+                    candidates[i] = candidates[candidatesCount - 1];
+                    candidatesCount--;
+                    break;
+                }
+            }
+        }
+
+        while (chosenCount < 3 && candidatesCount > 0)
+        {
+            u32 randIndex = Random32() % candidatesCount;
+            chosen[chosenCount] = candidates[randIndex];
+            chosenCount++;
+
+            candidates[randIndex] = candidates[candidatesCount - 1];
+            candidatesCount--;
+        }
+
+        for (i = 0; i < monsCount; i++)
+        {
+            if (i < chosenCount)
+                monIndices[i] = chosen[i];
+            else
+                monIndices[i] = i;
+        }
+        return;
+    }
+
+    {
         bool32 usingPool = FALSE;
         struct PoolRules rules = defaultPoolRules;
         if (trainer->poolSize != 0)
@@ -393,4 +456,5 @@ void DoTrainerPartyPool(const struct Trainer *trainer, u32 *monIndices, u8 monsC
         if (!usingPool)
             for (u32 i = 0; i < monsCount; i++)
                 monIndices[i] = i;
+    }
 }
