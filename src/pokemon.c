@@ -3028,7 +3028,7 @@ u8 GetMonsStateToDoubles(void)
     s32 i;
     CalculatePlayerPartyCount();
 
-    if (OW_DOUBLE_APPROACH_WITH_ONE_MON)
+    if (OW_DOUBLE_APPROACH_WITH_ONE_MON || FlagGet(FLAG_DOUBLE_BATTLE_WITH_ONE_MON))
         return PLAYER_HAS_TWO_USABLE_MONS;
 
     if (gPlayerPartyCount == 1)
@@ -3051,7 +3051,8 @@ u8 GetMonsStateToDoubles_2(void)
     s32 i;
 
     if (OW_DOUBLE_APPROACH_WITH_ONE_MON
-     || FollowerNPCIsBattlePartner())
+     || FollowerNPCIsBattlePartner()
+     || FlagGet(FLAG_DOUBLE_BATTLE_WITH_ONE_MON))
         return PLAYER_HAS_TWO_USABLE_MONS;
 
     for (i = 0; i < PARTY_SIZE; i++)

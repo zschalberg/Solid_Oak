@@ -129,3 +129,46 @@ VermilionCity_Text_Route2AideHasPackageForYou::
     .string "If you're in the ROUTE 2 area,\n"
     .string "please look for him.$"
 
+VermilionCity_Text_TesterSailor_FlagDisabledAskToggle::
+    .string "Ahoy! I can toggle the bypass flag\n"
+    .string "for entering double battles.\p"
+    .string "It is currently DISABLED.\n"
+    .string "Would you like to enable it?$"
+
+VermilionCity_Text_TesterSailor_FlagEnabledAskToggle::
+    .string "Ahoy! I can toggle the bypass flag\n"
+    .string "for entering double battles.\p"
+    .string "It is currently ENABLED.\n"
+    .string "Would you like to disable it?$"
+
+VermilionCity_Text_TesterSailor_FlagNowEnabled::
+    .string "The bypass flag has been enabled.\n"
+    .string "You can now double battle with one Mon!$"
+
+VermilionCity_Text_TesterSailor_FlagNowDisabled::
+    .string "The bypass flag has been disabled.\n"
+    .string "Normal double battle checks apply.$"
+
+VermilionCity_Text_TesterSailor_AskBattle::
+    .string "Would you like to challenge me\n"
+    .string "to a double battle?$"
+
+VermilionCity_Text_TesterSailor_NoBattle::
+    .string "Aww, alright. Smooth sailing to you!$"
+
+VermilionCity_Text_TesterSailorBattleIntro::
+    .string "Prepare yourself! Let's see how\n"
+    .string "you handle a double battle!$"
+
+VermilionCity_Text_TesterSailorBattleDefeat::
+    .string "Whoa! You washed me right out!$"
+
+VermilionCity_Text_TesterSailorNotEnoughMons::
+    .string "Wait, you need at least one Pokémon\n"
+    .string "to battle!$"
+
+VermilionCity_Text_TesterSailorPostBattle::
+    .string "That was a great match!\n"
+    .string "Good luck with your quest!$"
+
+
