@@ -1977,7 +1977,8 @@ u8 CreateNPCTrainerPartyFromTrainer(struct Pokemon *party, const struct Trainer 
         }
         else if (battleTypeFlags & BATTLE_TYPE_PREVIEW)
         {
-            monsCount = 3;
+            extern u8 gSelectCount;
+            monsCount = gSelectCount;
         }
         else
         {

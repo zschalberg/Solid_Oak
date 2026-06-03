@@ -450,7 +450,7 @@ EWRAM_DATA MainCallback gPostMenuFieldCallback = NULL;
 static EWRAM_DATA u16 *sSlot1TilemapBuffer = NULL; // for switching party slots
 static EWRAM_DATA u16 *sSlot2TilemapBuffer = NULL;
 static EWRAM_DATA struct Pokemon *sSacredAshQuestLogMonBackup = NULL;
-EWRAM_DATA u8 gSelectedOrderFromParty[MAX_FRONTIER_PARTY_SIZE] = {0};
+EWRAM_DATA u8 gSelectedOrderFromParty[PARTY_SIZE] = {0};
 static EWRAM_DATA u16 sPartyMenuItemId = ITEM_NONE;
 ALIGNED(4) EWRAM_DATA u8 gBattlePartyCurrentOrder[PARTY_SIZE / 2] = {0}; // bits 0-3 are the current pos of Slot 1, 4-7 are Slot 2, and so on
 
@@ -993,6 +993,21 @@ static void DisplayPartyPokemonDescriptionData(u8 slot, u8 stringId)
     DisplayPartyPokemonDescriptionText(stringId, &sPartyMenuBoxes[slot], DRAW_TEXT_ONLY);
 }
 
+static u8 GetPartyBoxDescForSlot(u8 orderIndex)
+{
+    static const u8 sSlotDescs[PARTY_SIZE] = {
+        PARTYBOX_DESC_FIRST,
+        PARTYBOX_DESC_SECOND,
+        PARTYBOX_DESC_THIRD,
+        PARTYBOX_DESC_FOURTH,
+        PARTYBOX_DESC_FIFTH,
+        PARTYBOX_DESC_SIXTH
+    };
+    if (orderIndex < PARTY_SIZE)
+        return sSlotDescs[orderIndex];
+    return PARTYBOX_DESC_ABLE_3;
+}
+
 static void DisplayPartyPokemonDataForChooseMultiple(u8 slot)
 {
     u8 i;
@@ -1009,7 +1024,7 @@ static void DisplayPartyPokemonDataForChooseMultiple(u8 slot)
     {
         if (order[i] != 0 && (order[i] - 1) == slot)
         {
-            DisplayPartyPokemonDescriptionData(slot, i + PARTYBOX_DESC_FIRST);
+            DisplayPartyPokemonDescriptionData(slot, GetPartyBoxDescForSlot(i));
             return;
         }
     }
@@ -4180,7 +4195,7 @@ static void CursorCB_Enter(u8 taskId)
         {
             PlaySE(SE_SELECT);
             gSelectedOrderFromParty[i] = gPartyMenu.slotId + 1;
-            DisplayPartyPokemonDescriptionText(i + PARTYBOX_DESC_FIRST, &sPartyMenuBoxes[gPartyMenu.slotId], 1);
+            DisplayPartyPokemonDescriptionText(GetPartyBoxDescForSlot(i), &sPartyMenuBoxes[gPartyMenu.slotId], 1);
             if (i == (maxBattlers - 1))
                 MoveCursorToConfirm();
             DisplayPartyMenuStdMessage(PARTY_MSG_CHOOSE_MON);
@@ -4209,31 +4224,28 @@ static void CursorCB_NoEntry(u8 taskId)
     PlaySE(SE_SELECT);
     PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[0]);
     PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[1]);
-    for (i = 0; i < 3; ++i)
+    for (i = 0; i < PARTY_SIZE; ++i)
     {
-        if (gSelectedOrderFromParty[i] ==  gPartyMenu.slotId + 1)
+        if (gSelectedOrderFromParty[i] == gPartyMenu.slotId + 1)
         {
+            u8 j;
             gSelectedOrderFromParty[i] = 0;
-            switch (i)
+            for (j = i; j < PARTY_SIZE - 1; ++j)
             {
-            case 0:
-                gSelectedOrderFromParty[0] = gSelectedOrderFromParty[1];
-                gSelectedOrderFromParty[1] = gSelectedOrderFromParty[2];
-                gSelectedOrderFromParty[2] = 0;
-                break;
-            case 1:
-                gSelectedOrderFromParty[1] = gSelectedOrderFromParty[2];
-                gSelectedOrderFromParty[2] = 0;
-                break;
+                gSelectedOrderFromParty[j] = gSelectedOrderFromParty[j + 1];
             }
+            gSelectedOrderFromParty[PARTY_SIZE - 1] = 0;
             break;
         }
     }
     DisplayPartyPokemonDescriptionText(PARTYBOX_DESC_ABLE_3, &sPartyMenuBoxes[gPartyMenu.slotId], DRAW_MENU_BOX_AND_TEXT);
-    if (gSelectedOrderFromParty[0] != 0)
-        DisplayPartyPokemonDescriptionText(PARTYBOX_DESC_FIRST, &sPartyMenuBoxes[gSelectedOrderFromParty[0] - 1], DRAW_MENU_BOX_AND_TEXT);
-    if (gSelectedOrderFromParty[1] != 0)
-        DisplayPartyPokemonDescriptionText(PARTYBOX_DESC_SECOND, &sPartyMenuBoxes[gSelectedOrderFromParty[1] - 1], DRAW_MENU_BOX_AND_TEXT);
+    for (i = 0; i < PARTY_SIZE; ++i)
+    {
+        if (gSelectedOrderFromParty[i] != 0)
+        {
+            DisplayPartyPokemonDescriptionText(GetPartyBoxDescForSlot(i), &sPartyMenuBoxes[gSelectedOrderFromParty[i] - 1], DRAW_MENU_BOX_AND_TEXT);
+        }
+    }
     DisplayPartyMenuStdMessage(PARTY_MSG_CHOOSE_MON);
     gTasks[taskId].func = Task_HandleChooseMonInput;
 }

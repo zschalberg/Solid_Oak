@@ -387,7 +387,7 @@ void DoTrainerPartyPool(const struct Trainer *trainer, u32 *monIndices, u8 monsC
             candidatesCount++;
         }
 
-        u8 chosen[3];
+        u8 chosen[6];
         u8 chosenCount = 0;
 
         if (aceIndex != -1 && (Random32() % 100) < 80)
@@ -406,7 +406,7 @@ void DoTrainerPartyPool(const struct Trainer *trainer, u32 *monIndices, u8 monsC
             }
         }
 
-        while (chosenCount < 3 && candidatesCount > 0)
+        while (chosenCount < monsCount && candidatesCount > 0)
         {
             u32 randIndex = Random32() % candidatesCount;
             chosen[chosenCount] = candidates[randIndex];

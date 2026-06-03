@@ -756,6 +756,9 @@ static const u8 *const sDescriptionStringTable[] =
     [PARTYBOX_DESC_ABLE_2]     = COMPOUND_STRING("ABLE!"),
     [PARTYBOX_DESC_NOT_ABLE_2] = COMPOUND_STRING("NOT ABLE!"),
     [PARTYBOX_DESC_LEARNED]    = COMPOUND_STRING("LEARNED"),
+    [PARTYBOX_DESC_FOURTH]     = COMPOUND_STRING("FOURTH"),
+    [PARTYBOX_DESC_FIFTH]      = COMPOUND_STRING("FIFTH"),
+    [PARTYBOX_DESC_SIXTH]      = COMPOUND_STRING("SIXTH"),
 };
 
 static const u32 sHeldItemGfx[] = INCBIN_U32("graphics/party_menu/hold_icons.4bpp");

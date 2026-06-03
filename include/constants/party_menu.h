@@ -101,6 +101,9 @@
 #define PARTYBOX_DESC_LEARNED     9
 #define PARTYBOX_DESC_HAVE        11
 #define PARTYBOX_DESC_DONT_HAVE   12
+#define PARTYBOX_DESC_FOURTH      13
+#define PARTYBOX_DESC_FIFTH       14
+#define PARTYBOX_DESC_SIXTH       15
 
 #define SELECTWINDOW_ACTIONS        0
 #define SELECTWINDOW_ITEM           1

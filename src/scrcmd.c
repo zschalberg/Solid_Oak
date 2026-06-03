@@ -2537,14 +2537,32 @@ bool8 ScrCmd_dotrainerbattle(struct ScriptContext *ctx)
     if (FlagGet(FLAG_PREVIEW_BATTLE))
     {
         FlagClear(FLAG_PREVIEW_BATTLE);
-        if (GetUsable3v3PartyCount() < 3)
+        
+        u16 trainerId = gTrainerBattleParameter.params.opponentA;
+        const struct Trainer *trainer = GetTrainerStructFromId(trainerId);
+        u8 selectCount = gSpecialVar_0x8008;
+        
+        if (selectCount == 0 || selectCount > 6)
         {
+            selectCount = 3;
+        }
+        if (selectCount > trainer->poolSize)
+        {
+            selectCount = trainer->poolSize;
+        }
+        if (selectCount > 6)
+        {
+            selectCount = 6;
+        }
+
+        if (GetUsable3v3PartyCount() < selectCount)
+        {
+            ConvertIntToDecimalStringN(gStringVar1, selectCount, STR_CONV_MODE_LEFT_ALIGN, 1);
             ctx->scriptPtr = EventScript_Abort3v3Battle;
             return FALSE;
         }
         else
         {
-            u16 trainerId = gTrainerBattleParameter.params.opponentA;
             ShowOpponentTeamPreview(trainerId, NULL);
             return TRUE;
         }

@@ -5,4 +5,6 @@
 
 void ShowOpponentTeamPreview(u16 trainerId, MainCallback callback);
 
+extern u8 gSelectCount;
+
 #endif // GUARD_TEAM_PREVIEW_H

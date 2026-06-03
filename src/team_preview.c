@@ -29,9 +29,11 @@ struct TeamPreviewResources
     u16 spriteIds[6];
 };
 
+EWRAM_DATA u8 gSelectCount = 0;
+
 static EWRAM_DATA struct Pokemon sSavedPlayerParty[PARTY_SIZE] = {0};
 static EWRAM_DATA u8 sSavedPlayerPartyCount = 0;
-static EWRAM_DATA u8 sSelectedMonOriginalSlots[3] = {0};
+static EWRAM_DATA u8 sSelectedMonOriginalSlots[6] = {0};
 static EWRAM_DATA MainCallback sOriginalBattleSavedCallback = NULL;
 
 static void Task_TeamPreviewWaitButton(u8 taskId);
@@ -47,6 +49,24 @@ void ShowOpponentTeamPreview(u16 trainerId, MainCallback callback)
     u32 i;
     
     resources->trainerId = trainerId;
+    
+    // Determine select count:
+    // If gSpecialVar_0x8008 is set (1 to 6), use it.
+    // Otherwise, default to 3 (or the trainer's pool size if it's smaller).
+    u8 selectCount = gSpecialVar_0x8008;
+    if (selectCount == 0 || selectCount > 6)
+    {
+        selectCount = 3;
+    }
+    if (selectCount > trainer->poolSize)
+    {
+        selectCount = trainer->poolSize;
+    }
+    if (selectCount > 6)
+    {
+        selectCount = 6;
+    }
+    gSelectCount = selectCount;
     
     for (i = 0; i < 6; i++)
     {
@@ -93,7 +113,7 @@ static void Task_TeamPreviewWaitButton(u8 taskId)
         DestroyTask(taskId);
         
         gSpecialVar_0x8004 = FRONTIER_LVL_OPEN;
-        gSpecialVar_0x8005 = 3;
+        gSpecialVar_0x8005 = gSelectCount; // Dynamically request gSelectCount selections
         
         gMain.savedCallback = CB2_StartBattleAfterChooseMons;
         InitChooseMonsForBattle(0);
@@ -102,8 +122,8 @@ static void Task_TeamPreviewWaitButton(u8 taskId)
 
 static void FieldCB_Start3v3Battle(void)
 {
-    gBattleTypeFlags |= BATTLE_TYPE_PREVIEW;
     BattleSetup_StartTrainerBattle();
+    gBattleTypeFlags |= BATTLE_TYPE_PREVIEW;
     
     // Wrap the saved callback so we can restore the party at the end of the battle
     sOriginalBattleSavedCallback = gMain.savedCallback;
@@ -129,30 +149,30 @@ static void CB2_StartBattleAfterChooseMons(void)
     }
     
     // 2. Save the original slots of selected Pokémon
-    for (i = 0; i < 3; i++)
+    for (i = 0; i < gSelectCount; i++)
     {
         sSelectedMonOriginalSlots[i] = gSelectedOrderFromParty[i] - 1;
     }
     
-    // 3. Reorder party to place chosen 3 Pokémon at indices 0, 1, 2
-    struct Pokemon tempParty[3];
-    for (i = 0; i < 3; i++)
+    // 3. Reorder party to place chosen Pokémon at indices 0 to gSelectCount - 1
+    struct Pokemon tempParty[6];
+    for (i = 0; i < gSelectCount; i++)
     {
         u8 slot = sSelectedMonOriginalSlots[i];
         CopyMon(&tempParty[i], &gPlayerParty[slot], sizeof(struct Pokemon));
     }
     
-    for (i = 0; i < 3; i++)
+    for (i = 0; i < gSelectCount; i++)
     {
         CopyMon(&gPlayerParty[i], &tempParty[i], sizeof(struct Pokemon));
     }
     
-    // 4. Zero out remaining slots and set count to 3
-    for (i = 3; i < PARTY_SIZE; i++)
+    // 4. Zero out remaining slots and set count to gSelectCount
+    for (i = gSelectCount; i < PARTY_SIZE; i++)
     {
         ZeroMonData(&gPlayerParty[i]);
     }
-    gPlayerPartyCount = 3;
+    gPlayerPartyCount = gSelectCount;
     
     // Set field callback to initiate battle once map re-renders
     gFieldCallback = FieldCB_Start3v3Battle;
@@ -161,9 +181,9 @@ static void CB2_StartBattleAfterChooseMons(void)
 
 static void CB2_End3v3PreviewBattle(void)
 {
-    // 1. Copy the updated 3 Pokémon back to their original slots in sSavedPlayerParty
+    // 1. Copy the updated Pokémon back to their original slots in sSavedPlayerParty
     u8 i;
-    for (i = 0; i < 3; i++)
+    for (i = 0; i < gSelectCount; i++)
     {
         u8 slot = sSelectedMonOriginalSlots[i];
         CopyMon(&sSavedPlayerParty[slot], &gPlayerParty[i], sizeof(struct Pokemon));
