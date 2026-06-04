@@ -768,7 +768,7 @@
 #define FLAG_DOUBLE_BATTLE_WITH_ONE_MON                  0x2E5
 #define FLAG_PREVIEW_BATTLE                              0x2E6
 #define FLAG_MONOTYPE_BATTLE                             0x2E7
-#define FLAG_0x2E8                                       0x2E8
+#define FLAG_UNLOCK_POKEBALLS_IN_MARTS                   0x2E8
 #define FLAG_0x2E9                                       0x2E9
 #define FLAG_0x2EA                                       0x2EA
 #define FLAG_0x2EB                                       0x2EB

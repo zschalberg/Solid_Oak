@@ -350,4 +350,6 @@ gSpecials::
 	def_special CloseFrontierExchangeCornerItemIconWindow
 	def_special HasMovesToRelearn
 	def_special CanTeachMoveBoxMon
+	def_special GetMaxCraftableQuantity
+	def_special CraftProtoballs
 gSpecialsEnd::

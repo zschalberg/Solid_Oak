@@ -675,6 +675,22 @@ static const struct MenuAction sMultichoiceList_TestNpcPreviewModes[] =
     {COMPOUND_STRING("Disable")},
 };
 
+static const struct MenuAction sMultichoiceList_Workbench[] = {
+    { COMPOUND_STRING("Red Protoball") },
+    { COMPOUND_STRING("Blu Protoball") },
+    { COMPOUND_STRING("Grn Protoball") },
+    { COMPOUND_STRING("Blk Protoball") },
+    { gText_Exit }
+};
+
+static const struct MenuAction sMultichoiceList_CraftQuantity[] = {
+    { COMPOUND_STRING("1") },
+    { COMPOUND_STRING("5") },
+    { COMPOUND_STRING("10") },
+    { COMPOUND_STRING("Max") },
+    { gText_Cancel }
+};
+
 struct MultichoiceListStruct
 {
     const struct MenuAction *list;
@@ -761,6 +777,8 @@ static const struct MultichoiceListStruct sMultichoiceLists[] =
     [MULTI_JOURNAL]                                    = MULTICHOICE(sMultichoiceList_Journal),
     [MULTI_TEST_NPC_CHOICES]                           = MULTICHOICE(sMultichoiceList_TestNpc),
     [MULTI_TEST_NPC_PREVIEW_MODES]                     = MULTICHOICE(sMultichoiceList_TestNpcPreviewModes),
+    [MULTI_WORKBENCH]                                  = MULTICHOICE(sMultichoiceList_Workbench),
+    [MULTI_CRAFT_QUANTITY]                             = MULTICHOICE(sMultichoiceList_CraftQuantity),
 };
 
 const u8 *const gStdStrings[] = {

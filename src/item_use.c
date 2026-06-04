@@ -58,6 +58,7 @@ static void Task_ItemUseWaitForFade(u8 taskId);
 static bool8 FieldCB2_UseItemFromField(void);
 static void CB2_CheckMail(void);
 static void Task_AccessPokemonBoxLink(u8);
+static void Task_AccessWorkbench(u8);
 static void ItemUseOnFieldCB_Bicycle(u8 taskId);
 static bool8 CanFish(void);
 static void ItemUseOnFieldCB_Rod(u8 taskId);
@@ -435,6 +436,18 @@ void ItemUseOutOfBattle_PokemonBoxLink(u8 taskId)
 static void Task_AccessPokemonBoxLink(u8 taskId)
 {
     ScriptContext_SetupScript(EventScript_AccessPokemonBoxLink);
+    DestroyTask(taskId);
+}
+
+void ItemUseOutOfBattle_Workbench(u8 taskId)
+{
+    sItemUseOnFieldCB = Task_AccessWorkbench;
+    SetUpItemUseOnFieldCallback(taskId);
+}
+
+static void Task_AccessWorkbench(u8 taskId)
+{
+    ScriptContext_SetupScript(EventScript_WorkbenchCrafting);
     DestroyTask(taskId);
 }
 

@@ -7241,6 +7241,37 @@ const struct ItemInfo gItemsInfo[] =
         .iconPalette = gItemIconPalette_Glimmoranite,
     },
 
+    [ITEM_CONVERSION_KIT] =
+    {
+        .name = ITEM_NAME("ConversionKit"),
+        .price = 500,
+        .description = COMPOUND_STRING(
+            "The technology core\n"
+            "of a Poké Ball. Used\n"
+            "to craft Protoballs."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_DevonParts,
+        .iconPalette = gItemIconPalette_DevonParts,
+    },
+
+    [ITEM_WORKBENCH] =
+    {
+        .name = ITEM_NAME("Workbench"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "A portable kit used\n"
+            "to craft Protoballs\n"
+            "in the field."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_FIELD,
+        .fieldUseFunc = ItemUseOutOfBattle_Workbench,
+        .iconPic = gItemIcon_Parcel,
+        .iconPalette = gItemIconPalette_Parcel,
+    },
+
 // Gems
     #if I_PRICE >= GEN_9
         #define GEM_PRICE 15000

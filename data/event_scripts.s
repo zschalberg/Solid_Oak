@@ -838,6 +838,7 @@
 	.include "data/scripts/battle_frontier.inc"
 	.include "data/scripts/battle_pike.inc"
 	.include "data/scripts/apprentice.inc"
+	.include "data/scripts/workbench.inc"
 
 @ General
 	.include "data/scripts/aide.inc"
