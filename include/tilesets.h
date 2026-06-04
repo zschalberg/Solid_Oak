@@ -14,7 +14,13 @@ extern const struct Tileset gTileset_Building;
 extern const struct Tileset gTileset_GenericBuilding1;
 
 extern const struct Tileset gTileset_General;
+extern const struct Tileset gTileset_GeneralSummer;
+extern const struct Tileset gTileset_GeneralAutumn;
+extern const struct Tileset gTileset_GeneralWinter;
 extern const struct Tileset gTileset_PalletTown;
+extern const struct Tileset gTileset_PalletTownSummer;
+extern const struct Tileset gTileset_PalletTownAutumn;
+extern const struct Tileset gTileset_PalletTownWinter;
 extern const struct Tileset gTileset_ViridianCity;
 extern const struct Tileset gTileset_PewterCity;
 extern const struct Tileset gTileset_SaffronCity;

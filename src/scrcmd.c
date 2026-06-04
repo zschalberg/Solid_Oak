@@ -1,4 +1,5 @@
 #include "global.h"
+#include "battle_main.h"
 #include "team_preview.h"
 #include "constants/flags.h"
 #include "constants/pokeball.h"
@@ -2515,6 +2516,8 @@ static u8 GetUsable3v3PartyCount(void)
 {
     u8 count = 0;
     u8 i;
+    u8 restrictedType = GetMonotypeRestrictionType();
+    
     for (i = 0; i < PARTY_SIZE; i++)
     {
         struct Pokemon *mon = &gPlayerParty[i];
@@ -2524,37 +2527,104 @@ static u8 GetUsable3v3PartyCount(void)
             && GetMonData(mon, MON_DATA_HP) != 0
             && GetMonData(mon, MON_DATA_POKEBALL) != BALL_RESEARCH)
         {
-            count++;
+            if (restrictedType == TYPE_NONE
+                || gSpeciesInfo[species].types[0] == restrictedType
+                || gSpeciesInfo[species].types[1] == restrictedType)
+            {
+                count++;
+            }
         }
     }
     return count;
 }
 
+extern const u8 EventScript_AbortMonotypeBattle[];
+extern const u8 EventScript_AbortMonotype3v3Battle[];
+
 bool8 ScrCmd_dotrainerbattle(struct ScriptContext *ctx)
 {
     Script_RequestEffects(SCREFF_V1 | SCREFF_SAVE | SCREFF_HARDWARE);
+
+    u16 trainerId = gTrainerBattleParameter.params.opponentA;
+    const struct Trainer *trainer = GetTrainerStructFromId(trainerId);
+    u8 selectCount = gSpecialVar_0x8008;
+    u8 maxPoolSize = (trainer->poolSize != 0) ? trainer->poolSize : trainer->partySize;
+    
+    if (selectCount == 0 || selectCount > 6)
+    {
+        selectCount = 3;
+    }
+    if (selectCount > maxPoolSize)
+    {
+        selectCount = maxPoolSize;
+    }
+    if (selectCount > 6)
+    {
+        selectCount = 6;
+    }
+
+    if (FlagGet(FLAG_MONOTYPE_BATTLE))
+    {
+        u8 restrictedType = GetMonotypeRestrictionType();
+        if (restrictedType != TYPE_NONE)
+        {
+            if (FlagGet(FLAG_PREVIEW_BATTLE))
+            {
+                if (GetUsable3v3PartyCount() < selectCount)
+                {
+                    FlagClear(FLAG_PREVIEW_BATTLE);
+                    FlagClear(FLAG_MONOTYPE_BATTLE);
+                    VarSet(VAR_MONOTYPE_RESTRICTION, TYPE_NONE);
+                    
+                    StringCopy(gStringVar1, gTypesInfo[restrictedType].name);
+                    ConvertIntToDecimalStringN(gStringVar2, selectCount, STR_CONV_MODE_LEFT_ALIGN, 1);
+                    ctx->scriptPtr = EventScript_AbortMonotype3v3Battle;
+                    return FALSE;
+                }
+            }
+            else
+            {
+                u8 count = 0;
+                u8 i;
+                bool32 hasNonConforming = FALSE;
+                
+                for (i = 0; i < PARTY_SIZE; i++)
+                {
+                    struct Pokemon *mon = &gPlayerParty[i];
+                    u16 species = GetMonData(mon, MON_DATA_SPECIES);
+                    if (species != SPECIES_NONE)
+                    {
+                        if (species == SPECIES_EGG
+                            || (gSpeciesInfo[species].types[0] != restrictedType
+                                && gSpeciesInfo[species].types[1] != restrictedType))
+                        {
+                            hasNonConforming = TRUE;
+                            break;
+                        }
+                        else
+                        {
+                            count++;
+                        }
+                    }
+                }
+                
+                if (hasNonConforming || count == 0)
+                {
+                    FlagClear(FLAG_MONOTYPE_BATTLE);
+                    VarSet(VAR_MONOTYPE_RESTRICTION, TYPE_NONE);
+                    
+                    StringCopy(gStringVar1, gTypesInfo[restrictedType].name);
+                    ctx->scriptPtr = EventScript_AbortMonotypeBattle;
+                    return FALSE;
+                }
+            }
+        }
+    }
 
     if (FlagGet(FLAG_PREVIEW_BATTLE))
     {
         FlagClear(FLAG_PREVIEW_BATTLE);
         
-        u16 trainerId = gTrainerBattleParameter.params.opponentA;
-        const struct Trainer *trainer = GetTrainerStructFromId(trainerId);
-        u8 selectCount = gSpecialVar_0x8008;
-        
-        if (selectCount == 0 || selectCount > 6)
-        {
-            selectCount = 3;
-        }
-        if (selectCount > trainer->poolSize)
-        {
-            selectCount = trainer->poolSize;
-        }
-        if (selectCount > 6)
-        {
-            selectCount = 6;
-        }
-
         if (GetUsable3v3PartyCount() < selectCount)
         {
             ConvertIntToDecimalStringN(gStringVar1, selectCount, STR_CONV_MODE_LEFT_ALIGN, 1);

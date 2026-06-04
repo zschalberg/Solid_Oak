@@ -1,4 +1,6 @@
 #include "global.h"
+#include "battle_setup.h"
+#include "battle_main.h"
 #include "battle_anim.h"
 #include "battle_controllers.h"
 #include "battle_gfx_sfx_util.h"
@@ -6762,6 +6764,22 @@ static bool8 GetBattleEntryEligibility(struct Pokemon *mon)
         return FALSE;
     }
 
+    if (FlagGet(FLAG_MONOTYPE_BATTLE))
+    {
+        u8 restrictedType = GetMonotypeRestrictionType();
+        if (restrictedType != TYPE_NONE)
+        {
+            u16 monSpecies = GetMonData(mon, MON_DATA_SPECIES);
+            if (monSpecies == SPECIES_NONE
+                || GetMonData(mon, MON_DATA_IS_EGG)
+                || (gSpeciesInfo[monSpecies].types[0] != restrictedType
+                    && gSpeciesInfo[monSpecies].types[1] != restrictedType))
+            {
+                return FALSE;
+            }
+        }
+    }
+
     switch (VarGet(VAR_FRONTIER_FACILITY))
     {
     case FACILITY_MULTI_OR_EREADER:
@@ -7039,6 +7057,24 @@ static bool8 TrySwitchInPokemon(void)
     u8 slot = GetCursorSelectionMonId();
     u8 newSlot;
     u8 i;
+
+    if (FlagGet(FLAG_MONOTYPE_BATTLE))
+    {
+        u8 restrictedType = GetMonotypeRestrictionType();
+        if (restrictedType != TYPE_NONE)
+        {
+            u16 species = GetMonData(&gPlayerParty[slot], MON_DATA_SPECIES);
+            if (species != SPECIES_NONE && species != SPECIES_EGG
+                && gSpeciesInfo[species].types[0] != restrictedType
+                && gSpeciesInfo[species].types[1] != restrictedType)
+            {
+                GetMonNickname(&gPlayerParty[slot], gStringVar1);
+                StringCopy(gStringVar2, gTypesInfo[restrictedType].name);
+                StringExpandPlaceholders(gStringVar4, sText_MonotypeRestrictionCantSwitch);
+                return FALSE;
+            }
+        }
+    }
 
     // In a multi battle, slots 1, 4, and 5 are the partner's pokemon
     if (IsMultiBattle() == TRUE && (slot == 1 || slot == 4 || slot == 5))

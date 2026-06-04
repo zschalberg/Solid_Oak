@@ -23,6 +23,7 @@
 #include "field_tasks.h"
 #include "field_weather.h"
 #include "fieldmap.h"
+#include "tilesets.h"
 #include "fldeff.h"
 #include "follower_npc.h"
 #include "gpu_regs.h"
@@ -1622,6 +1623,84 @@ bool32 CurrentMapHasShadows(void)
     return (gMapHeader.mapType != MAP_TYPE_UNDERGROUND);
 }
 
+struct SpecificTilesetFade
+{
+    const struct Tileset *tileset;
+    u8 paletteNum;
+    u16 indicesMask;
+};
+
+static const struct SpecificTilesetFade sSpecificTilesetFades[] =
+{
+    { &gTileset_General, 3, (1 << 10) | (1 << 11) | (1 << 12) | (1 << 13) | (1 << 14) },
+    { &gTileset_GeneralSummer, 3, (1 << 10) | (1 << 11) | (1 << 12) | (1 << 13) | (1 << 14) },
+    { &gTileset_GeneralAutumn, 3, (1 << 10) | (1 << 11) | (1 << 12) | (1 << 13) | (1 << 14) },
+    { &gTileset_GeneralWinter, 3, (1 << 10) | (1 << 11) | (1 << 12) | (1 << 13) | (1 << 14) },
+    { &gTileset_PalletTown, 8, (1 << 8) | (1 << 9) | (1 << 10) },
+    { &gTileset_PalletTown, 9, (1 << 8) | (1 << 9) | (1 << 10) },
+    { &gTileset_PalletTown, 10, (1 << 8) | (1 << 9) | (1 << 10) },
+    { &gTileset_PalletTownSummer, 8, (1 << 8) | (1 << 9) | (1 << 10) },
+    { &gTileset_PalletTownSummer, 9, (1 << 8) | (1 << 9) | (1 << 10) },
+    { &gTileset_PalletTownSummer, 10, (1 << 8) | (1 << 9) | (1 << 10) },
+    { &gTileset_PalletTownAutumn, 8, (1 << 8) | (1 << 9) | (1 << 10) },
+    { &gTileset_PalletTownAutumn, 9, (1 << 8) | (1 << 9) | (1 << 10) },
+    { &gTileset_PalletTownAutumn, 10, (1 << 8) | (1 << 9) | (1 << 10) },
+    { &gTileset_PalletTownWinter, 8, (1 << 8) | (1 << 9) | (1 << 10) },
+    { &gTileset_PalletTownWinter, 9, (1 << 8) | (1 << 9) | (1 << 10) },
+    { &gTileset_PalletTownWinter, 10, (1 << 8) | (1 << 9) | (1 << 10) },
+    { NULL, 0, 0 }
+};
+
+void UpdateOverworldWindowLights(void)
+{
+    u32 i;
+    const struct Tileset *primary = GetPrimaryTileset(gMapHeader.mapLayout);
+    const struct Tileset *secondary = GetSecondaryTileset(gMapHeader.mapLayout);
+    bool8 isPalletTown = (gMapHeader.regionMapSectionId == MAPSEC_PALLET_TOWN);
+
+    if (!MapHasNaturalLight(gMapHeader.mapType))
+        return;
+
+    for (i = 0; sSpecificTilesetFades[i].tileset != NULL; i++)
+    {
+        if (sSpecificTilesetFades[i].tileset == primary || sSpecificTilesetFades[i].tileset == secondary)
+        {
+            u8 row = sSpecificTilesetFades[i].paletteNum;
+            u16 mask = sSpecificTilesetFades[i].indicesMask;
+            u32 j;
+            bool8 modified = FALSE;
+
+            for (j = 1; j < 16; j++)
+            {
+                if (mask & (1 << j))
+                {
+                    if (isPalletTown)
+                    {
+                        if (!(gPlttBufferUnfaded[row * 16 + j] & RGB_ALPHA))
+                        {
+                            gPlttBufferUnfaded[row * 16 + j] |= RGB_ALPHA;
+                            modified = TRUE;
+                        }
+                    }
+                    else
+                    {
+                        if (gPlttBufferUnfaded[row * 16 + j] & RGB_ALPHA)
+                        {
+                            gPlttBufferUnfaded[row * 16 + j] &= ~RGB_ALPHA;
+                            modified = TRUE;
+                        }
+                    }
+                }
+            }
+
+            if (modified)
+            {
+                UpdatePalettesWithTime(1 << row);
+            }
+        }
+    }
+}
+
 // Update & mix day / night bg palettes (into unfaded)
 void UpdateAltBgPalettes(u16 palettes)
 {
@@ -1636,20 +1715,22 @@ void UpdateAltBgPalettes(u16 palettes)
     palettes &= ((1 << NUM_PALS_IN_PRIMARY) - 1) | (secondary->swapPalettes << NUM_PALS_IN_PRIMARY);
     palettes &= PALETTES_MAP ^ (1 << 0); // don't blend palette 0, [13,15]
     palettes >>= 1; // start at palette 1
-    if (!palettes)
-        return;
-    while (palettes)
+    if (palettes)
     {
-        if (palettes & 1)
+        while (palettes)
         {
-            if (i < NUM_PALS_IN_PRIMARY)
-                AvgPaletteWeighted(&((u16*)primary->palettes)[i*16], &((u16*)primary->palettes)[((i+9)%16)*16], gPlttBufferUnfaded + i * 16, gTimeBlend.altWeight);
-            else
-                AvgPaletteWeighted(&((u16*)secondary->palettes)[i*16], &((u16*)secondary->palettes)[((i+9)%16)*16], gPlttBufferUnfaded + i * 16, gTimeBlend.altWeight);
+            if (palettes & 1)
+            {
+                if (i < NUM_PALS_IN_PRIMARY)
+                    AvgPaletteWeighted(&((u16*)primary->palettes)[i*16], &((u16*)primary->palettes)[((i+9)%16)*16], gPlttBufferUnfaded + i * 16, gTimeBlend.altWeight);
+                else
+                    AvgPaletteWeighted(&((u16*)secondary->palettes)[i*16], &((u16*)secondary->palettes)[((i+9)%16)*16], gPlttBufferUnfaded + i * 16, gTimeBlend.altWeight);
+            }
+            i++;
+            palettes >>= 1;
         }
-        i++;
-        palettes >>= 1;
     }
+    UpdateOverworldWindowLights();
 }
 
 void UpdatePalettesWithTime(u32 palettes)

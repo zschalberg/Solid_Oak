@@ -53,14 +53,15 @@ void ShowOpponentTeamPreview(u16 trainerId, MainCallback callback)
     // Determine select count:
     // If gSpecialVar_0x8008 is set (1 to 6), use it.
     // Otherwise, default to 3 (or the trainer's pool size if it's smaller).
+    u8 maxPoolSize = (trainer->poolSize != 0) ? trainer->poolSize : trainer->partySize;
     u8 selectCount = gSpecialVar_0x8008;
     if (selectCount == 0 || selectCount > 6)
     {
         selectCount = 3;
     }
-    if (selectCount > trainer->poolSize)
+    if (selectCount > maxPoolSize)
     {
-        selectCount = trainer->poolSize;
+        selectCount = maxPoolSize;
     }
     if (selectCount > 6)
     {
@@ -71,7 +72,7 @@ void ShowOpponentTeamPreview(u16 trainerId, MainCallback callback)
     for (i = 0; i < 6; i++)
     {
         resources->spriteIds[i] = 0xFFFF;
-        if (i < trainer->poolSize)
+        if (i < maxPoolSize)
         {
             u16 species = trainer->party[i].species;
             bool32 isShiny = trainer->party[i].isShiny;
@@ -200,6 +201,9 @@ static void CB2_End3v3PreviewBattle(void)
     
     // 4. Clear preview battle flag
     gBattleTypeFlags &= ~BATTLE_TYPE_PREVIEW;
+    
+    FlagClear(FLAG_MONOTYPE_BATTLE);
+    VarSet(VAR_MONOTYPE_RESTRICTION, TYPE_NONE);
     
     // 5. Call the original battle end callback
     if (sOriginalBattleSavedCallback)

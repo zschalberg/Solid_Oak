@@ -2,7 +2,7 @@
 #define GUARD_CONFIG_SAVE_H
 
 // Menu configs
-#define SKIP_SAVE_CONFIRMATION              FALSE   // If TRUE, skips the "There is already a saved file" confirmation when overwriting a save.
+#define SKIP_SAVE_CONFIRMATION              TRUE   // If TRUE, skips the "There is already a saved file" confirmation when overwriting a save.
 
 // SaveBlock1 configs
 #define FREE_TRAINER_TOWER                  FALSE   // Frees up Trainer Tower data (x bytes).

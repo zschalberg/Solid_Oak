@@ -658,10 +658,21 @@ static const struct MenuAction sMultichoiceList_Journal[] =
 
 static const struct MenuAction sMultichoiceList_TestNpc[] =
 {
-    {COMPOUND_STRING("Toggle Preview")},
+    {COMPOUND_STRING("Select Mode")},
     {COMPOUND_STRING("Get Pokemon")},
     {COMPOUND_STRING("Battle Tester")},
     {COMPOUND_STRING("Exit")},
+};
+
+static const struct MenuAction sMultichoiceList_TestNpcPreviewModes[] =
+{
+    {COMPOUND_STRING("1v1 Mode")},
+    {COMPOUND_STRING("2v2 Mode")},
+    {COMPOUND_STRING("3v3 Mode")},
+    {COMPOUND_STRING("4v4 Mode")},
+    {COMPOUND_STRING("5v5 Mode")},
+    {COMPOUND_STRING("6v6 Mode")},
+    {COMPOUND_STRING("Disable")},
 };
 
 struct MultichoiceListStruct
@@ -749,6 +760,7 @@ static const struct MultichoiceListStruct sMultichoiceLists[] =
     [MULTI_SATISFACTION]                               = MULTICHOICE(sMultichoiceList_Satisfaction),
     [MULTI_JOURNAL]                                    = MULTICHOICE(sMultichoiceList_Journal),
     [MULTI_TEST_NPC_CHOICES]                           = MULTICHOICE(sMultichoiceList_TestNpc),
+    [MULTI_TEST_NPC_PREVIEW_MODES]                     = MULTICHOICE(sMultichoiceList_TestNpcPreviewModes),
 };
 
 const u8 *const gStdStrings[] = {

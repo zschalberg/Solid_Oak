@@ -323,9 +323,80 @@ PalletTown_RivalsHouse_EventScript_TestNPC_Exit::
 	end
 
 EventScript_Abort3v3Battle::
+	goto_if_set FLAG_MONOTYPE_BATTLE, EventScript_AbortMonotype3v3Battle
+	fadedefaultbgm
 	msgbox PalletTown_RivalsHouse_Text_NotEnoughMonsFor3v3, MSGBOX_DEFAULT
 	releaseall
 	end
+
+EventScript_AbortMonotype3v3Battle::
+	fadedefaultbgm
+	msgbox PalletTown_RivalsHouse_Text_NotEnoughMonsForMonotype3v3, MSGBOX_DEFAULT
+	releaseall
+	end
+
+EventScript_AbortMonotypeBattle::
+	fadedefaultbgm
+	msgbox PalletTown_RivalsHouse_Text_NotEnoughMonsForMonotypeBattle, MSGBOX_DEFAULT
+	releaseall
+	end
+
+
+PalletTown_RivalsHouse_EventScript_MonotypeNPC::
+	lock
+	faceplayer
+	goto_if_set FLAG_MONOTYPE_BATTLE, PalletTown_RivalsHouse_EventScript_MonotypeNPC_On
+	msgbox PalletTown_RivalsHouse_Text_MonotypeNPC_Greeting_Off, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, YES, PalletTown_RivalsHouse_EventScript_MonotypeNPC_TurnOn
+	release
+	end
+
+PalletTown_RivalsHouse_EventScript_MonotypeNPC_TurnOn::
+	setflag FLAG_MONOTYPE_BATTLE
+	setvar VAR_MONOTYPE_RESTRICTION, TYPE_FIRE
+	msgbox PalletTown_RivalsHouse_Text_MonotypeNPC_ToggledOn
+	release
+	end
+
+PalletTown_RivalsHouse_EventScript_MonotypeNPC_On::
+	msgbox PalletTown_RivalsHouse_Text_MonotypeNPC_Greeting_On, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, YES, PalletTown_RivalsHouse_EventScript_MonotypeNPC_TurnOff
+	release
+	end
+
+PalletTown_RivalsHouse_EventScript_MonotypeNPC_TurnOff::
+	clearflag FLAG_MONOTYPE_BATTLE
+	setvar VAR_MONOTYPE_RESTRICTION, TYPE_NONE
+	msgbox PalletTown_RivalsHouse_Text_MonotypeNPC_ToggledOff
+	release
+	end
+
+PalletTown_RivalsHouse_Text_NotEnoughMonsForMonotype3v3::
+	.string "You need at least {STR_VAR_2} usable\n"
+	.string "{STR_VAR_1}-type Pokémon to battle!$"
+
+PalletTown_RivalsHouse_Text_NotEnoughMonsForMonotypeBattle::
+	.string "You have POKéMON that are not\n"
+	.string "allowed in this battle!\p"
+	.string "This battle is restricted to\n"
+	.string "{STR_VAR_1}-type POKéMON.$"
+
+PalletTown_RivalsHouse_Text_MonotypeNPC_Greeting_Off::
+	.string "Hi! I can set up a FIRE-type\n"
+	.string "monotype battle restriction.\p"
+	.string "Would you like to turn it ON?$"
+
+PalletTown_RivalsHouse_Text_MonotypeNPC_Greeting_On::
+	.string "The FIRE-type monotype battle\n"
+	.string "restriction is currently ON.\p"
+	.string "Would you like to turn it OFF?$"
+
+PalletTown_RivalsHouse_Text_MonotypeNPC_ToggledOn::
+	.string "Toggled the FIRE-type monotype\n"
+	.string "battle restriction to ON.$"
+
+PalletTown_RivalsHouse_Text_MonotypeNPC_ToggledOff::
+	.string "Toggled the monotype restriction to OFF.$"
 
 PalletTown_RivalsHouse_Text_NotEnoughMonsFor3v3::
 	.string "You need at least {STR_VAR_1} usable Pokémon\n"
