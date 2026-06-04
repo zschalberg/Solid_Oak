@@ -224,7 +224,27 @@ SSAnne_1F_Room6_EventScript_TestBalls::
 	giveitem ITEM_FRIEND_BALL, 5
 	giveitem ITEM_HEAVY_BALL, 5
 	giveitem ITEM_CHERISH_BALL, 5
+	giveitem ITEM_WORKBENCH, 1
+	giveitem ITEM_CONVERSION_KIT, 20
+	giveitem ITEM_RED_APRICORN, 10
+	giveitem ITEM_BLUE_APRICORN, 10
+	giveitem ITEM_GREEN_APRICORN, 10
+	giveitem ITEM_BLACK_APRICORN, 10
 	setflag FLAG_TEMP_2
 	removeobject 5
 	release
 	end
+
+SSAnne_1F_Room6_EventScript_CraftingNPC::
+	lock
+	faceplayer
+	msgbox SSAnne_1F_Room6_Text_ScientistIntro, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, SSAnne_1F_Room6_EventScript_CraftingDecline
+	goto EventScript_CraftingLoop
+	end
+
+SSAnne_1F_Room6_EventScript_CraftingDecline::
+	msgbox SSAnne_1F_Room6_Text_ScientistDecline
+	release
+	end
+

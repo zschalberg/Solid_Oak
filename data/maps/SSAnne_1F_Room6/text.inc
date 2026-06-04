@@ -44,3 +44,14 @@ SSAnne_1F_Room6_Text_NidoranMFriendly::
 SSAnne_1F_Room6_Text_ExeggcuteFriendly::
     .string "EXEGGCUTE is content!$"
 
+SSAnne_1F_Room6_Text_ScientistIntro::
+    .string "I'm a researcher from Silph Co.\p"
+    .string "We're prototyping new Poké Ball tech.\p"
+    .string "If you bring me Apricorns and a\n"
+    .string "Conversion Kit, I can craft them.\p"
+    .string "Would you like me to craft a Protoball?$"
+
+SSAnne_1F_Room6_Text_ScientistDecline::
+    .string "Come back if you need me to craft\n"
+    .string "any Protoballs.$"
+

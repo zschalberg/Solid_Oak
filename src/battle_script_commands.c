@@ -10789,12 +10789,7 @@ static u32 ComputeCaptureOdds(u32 wildMonBattler, u32 playerBattler)
     odds = odds * catchRate / (battleMon->maxHP * 3);
     odds = odds * ball.multiplier / ball.divider;
 
-    u8 badgeCount = 0;
-    for (u32 i = FLAG_BADGE01_GET; i < FLAG_BADGE01_GET + NUM_BADGES; i++)
-    {
-        if (FlagGet(i))
-            badgeCount++;
-    }
+    u8 badgeCount = NUM_BADGES;
     if (GetConfig(B_MISSING_BADGE_CATCH_MALUS) == GEN_8 && badgeCount < NUM_BADGES && gBattleMons[playerBattler].level < battleMon->level)
         odds = odds * 410 / 4096;
     if (GetConfig(B_MISSING_BADGE_CATCH_MALUS) == GEN_9 && badgeCount < NUM_BADGES)

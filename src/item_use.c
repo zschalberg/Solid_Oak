@@ -937,9 +937,23 @@ void Task_UseDigEscapeRopeOnField(u8 taskId)
     DestroyTask(taskId);
 }
 
+static bool8 CanUseFlyFromTownMap(void)
+{
+    if (!CheckBagHasItem(ITEM_HM02, 1))
+        return FALSE;
+    if (!CheckFollowerNPCFlag(FOLLOWER_NPC_FLAG_CAN_LEAVE_ROUTE))
+        return FALSE;
+    if (Overworld_MapTypeAllowsTeleportAndFly(gMapHeader.mapType) != TRUE)
+        return FALSE;
+    return TRUE;
+}
+
 static void UseTownMapFromBag(void)
 {
-    InitRegionMapWithExitCB(REGIONMAP_TYPE_NORMAL, CB2_BagMenuFromStartMenu);
+    if (CanUseFlyFromTownMap())
+        InitRegionMapWithExitCB(REGIONMAP_TYPE_FLY, CB2_BagMenuFromStartMenu);
+    else
+        InitRegionMapWithExitCB(REGIONMAP_TYPE_NORMAL, CB2_BagMenuFromStartMenu);
 }
 
 static void Task_UseTownMapFromField(u8 taskId)
@@ -948,7 +962,10 @@ static void Task_UseTownMapFromField(u8 taskId)
     {
         CleanupOverworldWindowsAndTilemaps();
         SetFieldCallback2ForItemUse();
-        InitRegionMapWithExitCB(REGIONMAP_TYPE_NORMAL, CB2_ReturnToField);
+        if (CanUseFlyFromTownMap())
+            InitRegionMapWithExitCB(REGIONMAP_TYPE_FLY, CB2_ReturnToField);
+        else
+            InitRegionMapWithExitCB(REGIONMAP_TYPE_NORMAL, CB2_ReturnToField);
         DestroyTask(taskId);
     }
 }

@@ -3,9 +3,11 @@
 #include "field_move.h"
 #include "fldeff.h"
 #include "pokemon.h"
+#include "item.h"
 #include "constants/field_move.h"
 #include "constants/moves.h"
 #include "constants/party_menu.h"
+#include "constants/items.h"
 
 static bool32 FieldMove_IsUnlockedCut(void);
 static bool32 FieldMove_IsUnlockedFly(void);
@@ -212,37 +214,37 @@ bool32 FieldMove_IsUnlocked(enum FieldMove fieldMove)
 
 static bool32 FieldMove_IsUnlockedCut(void)
 {
-    return FlagGet(FLAG_BADGE02_GET);
+    return CheckBagHasItem(ITEM_HM01, 1);
 }
 
 static bool32 FieldMove_IsUnlockedFly(void)
 {
-    return FlagGet(FLAG_BADGE03_GET);
+    return CheckBagHasItem(ITEM_HM02, 1);
 }
 
 static bool32 FieldMove_IsUnlockedSurf(void)
 {
-    return FlagGet(FLAG_BADGE05_GET);
+    return CheckBagHasItem(ITEM_HM03, 1);
 }
 
 static bool32 FieldMove_IsUnlockedStrength(void)
 {
-    return FlagGet(FLAG_BADGE04_GET);
+    return CheckBagHasItem(ITEM_HM04, 1);
 }
 
 static bool32 FieldMove_IsUnlockedFlash(void)
 {
-    return FlagGet(FLAG_BADGE01_GET);
+    return CheckBagHasItem(ITEM_HM05, 1);
 }
 
 static bool32 FieldMove_IsUnlockedRockSmash(void)
 {
-    return FlagGet(FLAG_BADGE06_GET);
+    return CheckBagHasItem(ITEM_HM06, 1);
 }
 
 static bool32 FieldMove_IsUnlockedWaterfall(void)
 {
-    return FlagGet(FLAG_BADGE07_GET);
+    return CheckBagHasItem(ITEM_HM07, 1);
 }
 
 #if OW_ROCK_CLIMB_FIELD_MOVE == TRUE

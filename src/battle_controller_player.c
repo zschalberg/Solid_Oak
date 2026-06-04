@@ -1860,6 +1860,8 @@ static void MoveSelectionDisplayMoveDescription(enum BattlerId battler)
     }
 
     u8 pwr_num[3], acc_num[3];
+    u8 desc[200];
+    u32 i;
     u8 cat_desc[7] = _("CAT: ");
     u8 pwr_desc[7] = _("PWR: ");
     u8 acc_desc[7] = _("ACC: ");
@@ -1885,7 +1887,15 @@ static void MoveSelectionDisplayMoveDescription(enum BattlerId battler)
     StringAppend(gDisplayedStringBattle, acc_desc);
     StringAppend(gDisplayedStringBattle, acc_num);
     StringAppend(gDisplayedStringBattle, gText_Newline);
-    StringAppend(gDisplayedStringBattle, GetMoveDescription(move));
+
+    StringCopy(desc, GetMoveDescription(move));
+    for (i = 0; desc[i] != EOS; i++)
+    {
+        if (desc[i] == CHAR_NEWLINE)
+            desc[i] = CHAR_SPACE;
+    }
+    StringAppend(gDisplayedStringBattle, desc);
+
     BattlePutTextOnWindow(gDisplayedStringBattle, B_WIN_MOVE_DESCRIPTION);
 
     if (gCategoryIconSpriteId == 0xFF)

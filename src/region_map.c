@@ -1010,6 +1010,8 @@ static void InitRegionMap(u8 type)
         sRegionMap->openState = 0;
         sRegionMap->loadGfxState = 0;
         InitRegionMapType();
+        if (type == REGIONMAP_TYPE_FLY)
+            InitFlyMap();
         SetMainCallback2(CB2_OpenRegionMap);
     }
 }
@@ -1030,6 +1032,8 @@ void InitRegionMapWithExitCB(u8 type, MainCallback cb)
         sRegionMap->loadGfxState = 0;
         sRegionMap->savedCallback = cb;
         InitRegionMapType();
+        if (type == REGIONMAP_TYPE_FLY)
+            InitFlyMap();
         SetMainCallback2(CB2_OpenRegionMap);
     }
 }
@@ -4068,13 +4072,20 @@ static void Task_FlyMap(u8 taskId)
 
 static void InitFlyMap(void)
 {
-    sFlyMap = AllocZeroed(sizeof(struct FlyMap));
-    sFlyMap->state = 0;
-    sFlyMap->unused = 0;
+    if (sFlyMap == NULL)
+    {
+        sFlyMap = AllocZeroed(sizeof(struct FlyMap));
+        sFlyMap->state = 0;
+        sFlyMap->unused = 0;
+    }
 }
 
 static void FreeFlyMap(u8 taskId)
 {
+    MainCallback cb = NULL;
+    if (sRegionMap != NULL)
+        cb = sRegionMap->savedCallback;
+
     if (GetRegionMapPermission(MAPPERM_HAS_OPEN_ANIM) == TRUE)
         FreeMapOpenCloseAnim();
     FreeMapIcons();
@@ -4086,6 +4097,8 @@ static void FreeFlyMap(u8 taskId)
     FreeAllWindowBuffers();
     if (sFlyMap->selectedDestination == TRUE)
         SetMainCallback2(CB2_ReturnToField);
+    else if (cb != NULL)
+        SetMainCallback2(cb);
     else
         SetMainCallback2(CB2_ReturnToPartyMenuFromFlyMap);
     FREE_IF_NOT_NULL(sFlyMap);

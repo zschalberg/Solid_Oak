@@ -16,9 +16,13 @@
 #include "strings.h"
 #include "task.h"
 #include "util.h"
+#include "battle_setup.h"
+#include "move.h"
 #include "constants/menu.h"
 #include "constants/seagallop.h"
 #include "constants/songs.h"
+#include "constants/moves.h"
+#include "constants/opponents.h"
 
 #define GFXTAG_FOSSIL 7000
 
@@ -1942,3 +1946,58 @@ static u32 GetMultiChoiceWindowHeight(u8 argc, u8 maxBeforeScroll)
 
     return (windowHeight + 7) / 8;
 }
+
+void DojoTutor_ResetStack(struct ScriptContext *ctx)
+{
+    if (sDynamicMultiChoiceStack != NULL)
+        MultichoiceDynamic_DestroyStack();
+}
+
+void DojoTutor_PushMoveIfTrainerDefeated(struct ScriptContext *ctx)
+{
+    u16 moveId = VarGet(VAR_0x8004);
+    u16 trainerId = VarGet(VAR_0x8005);
+
+    if (HasTrainerBeenFought(trainerId))
+    {
+        u8 *nameBuffer = Alloc(100);
+        StringCopy(nameBuffer, gMovesInfo[moveId].name);
+        struct ListMenuItem item = {nameBuffer, moveId};
+        MultichoiceDynamic_PushElement(item);
+    }
+}
+
+void DojoTutor_PushMoveIfFlagSet(struct ScriptContext *ctx)
+{
+    u16 moveId = VarGet(VAR_0x8004);
+    u16 flagId = VarGet(VAR_0x8005);
+
+    if (FlagGet(flagId))
+    {
+        u8 *nameBuffer = Alloc(100);
+        StringCopy(nameBuffer, gMovesInfo[moveId].name);
+        struct ListMenuItem item = {nameBuffer, moveId};
+        MultichoiceDynamic_PushElement(item);
+    }
+}
+
+void DojoTutor_PrepareMenu(struct ScriptContext *ctx)
+{
+    u32 stackSize = MultichoiceDynamic_StackSize();
+
+    if (stackSize == 0)
+    {
+        gSpecialVar_Result = 0xFE; // No moves unlocked
+    }
+    else
+    {
+        // Add Cancel option
+        u8 *cancelName = Alloc(100);
+        StringCopy(cancelName, COMPOUND_STRING("Cancel"));
+        struct ListMenuItem cancelItem = {cancelName, 0xFFFF};
+        MultichoiceDynamic_PushElement(cancelItem);
+        
+        gSpecialVar_Result = 0; // Success
+    }
+}
+
