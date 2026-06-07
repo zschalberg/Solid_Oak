@@ -26,6 +26,7 @@
 #include "pokemon_storage_system.h"
 #include "pokemon_summary_screen.h"
 #include "pokemon.h"
+#include "pokedex.h"
 #include "pokerus.h"
 #include "region_map.h"
 #include "scanline_effect.h"
@@ -2293,6 +2294,39 @@ static void PokeSum_PrintTrainerMemo(void)
         PokeSum_PrintTrainerMemo_Egg();
 }
 
+static void AppendHeightAndWeightToMemo(u8 *natureMetOrHatchedAtLevelStr)
+{
+    u16 species = GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_SPECIES);
+    u32 personality = GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_PERSONALITY);
+    u32 height = GetIndividualHeight(species, personality);
+    u32 weight = GetIndividualWeight(species, personality);
+    u8 *heightStr = ConvertMonHeightToString(height);
+    u8 *weightStr = ConvertMonWeightToString(weight);
+    u8 sizeBuf[64];
+    u8 *ptr = sizeBuf;
+
+    *ptr++ = CHAR_NEWLINE;
+    *ptr++ = CHAR_H;
+    *ptr++ = CHAR_T;
+    *ptr++ = CHAR_COLON;
+    *ptr++ = CHAR_SPACE;
+    ptr = StringCopy(ptr, heightStr);
+
+    *ptr++ = CHAR_SPACE;
+    *ptr++ = CHAR_SPACE;
+
+    *ptr++ = CHAR_W;
+    *ptr++ = CHAR_T;
+    *ptr++ = CHAR_COLON;
+    *ptr++ = CHAR_SPACE;
+    ptr = StringCopy(ptr, weightStr);
+
+    StringAppend(natureMetOrHatchedAtLevelStr, sizeBuf);
+
+    Free(heightStr);
+    Free(weightStr);
+}
+
 static void PokeSum_PrintTrainerMemo_Mon_HeldByOT(void)
 {
     enum Nature nature;
@@ -2300,7 +2334,7 @@ static void PokeSum_PrintTrainerMemo_Mon_HeldByOT(void)
     u8 metLocation;
     u8 levelStr[5];
     u8 mapNameStr[32];
-    u8 natureMetOrHatchedAtLevelStr[152];
+    u8 natureMetOrHatchedAtLevelStr[256];
 
     DynamicPlaceholderTextUtil_Reset();
     nature = GetNature(&sMonSummaryScreen->currentMon);
@@ -2344,6 +2378,8 @@ static void PokeSum_PrintTrainerMemo_Mon_HeldByOT(void)
             DynamicPlaceholderTextUtil_ExpandPlaceholders(natureMetOrHatchedAtLevelStr, sText_PokeSum_Met);
     }
 
+    AppendHeightAndWeightToMemo(natureMetOrHatchedAtLevelStr);
+
     AddTextPrinterParameterized4(sMonSummaryScreen->windowIds[POKESUM_WIN_TRAINER_MEMO], FONT_NORMAL, 0, 3, 0, 0, sLevelNickTextColors[0], TEXT_SKIP_DRAW, natureMetOrHatchedAtLevelStr);
 }
 
@@ -2354,7 +2390,7 @@ static void PokeSum_PrintTrainerMemo_Mon_NotHeldByOT(void)
     u8 metLocation;
     u8 levelStr[5];
     u8 mapNameStr[32];
-    u8 natureMetOrHatchedAtLevelStr[152];
+    u8 natureMetOrHatchedAtLevelStr[256];
 
     DynamicPlaceholderTextUtil_Reset();
     nature = GetNature(&sMonSummaryScreen->currentMon);
@@ -2383,6 +2419,8 @@ static void PokeSum_PrintTrainerMemo_Mon_NotHeldByOT(void)
         else
             DynamicPlaceholderTextUtil_ExpandPlaceholders(natureMetOrHatchedAtLevelStr, sText_PokeSum_MetInATrade);
 
+        AppendHeightAndWeightToMemo(natureMetOrHatchedAtLevelStr);
+
         AddTextPrinterParameterized4(sMonSummaryScreen->windowIds[POKESUM_WIN_TRAINER_MEMO], FONT_NORMAL, 0, 3, 0, 0, sLevelNickTextColors[0], TEXT_SKIP_DRAW, natureMetOrHatchedAtLevelStr);
         return;
     }
@@ -2408,6 +2446,8 @@ static void PokeSum_PrintTrainerMemo_Mon_NotHeldByOT(void)
         else
             DynamicPlaceholderTextUtil_ExpandPlaceholders(natureMetOrHatchedAtLevelStr, sText_PokeSum_ApparentlyMet);
     }
+
+    AppendHeightAndWeightToMemo(natureMetOrHatchedAtLevelStr);
 
     AddTextPrinterParameterized4(sMonSummaryScreen->windowIds[POKESUM_WIN_TRAINER_MEMO], FONT_NORMAL, 0, 3, 0, 0, sLevelNickTextColors[0], TEXT_SKIP_DRAW, natureMetOrHatchedAtLevelStr);
 }

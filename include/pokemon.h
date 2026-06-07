@@ -950,4 +950,8 @@ enum Move GetFirstPartnerMove(enum Species species);
 u8 GetPlayerPartyHighestLevel(void);
 bool32 CheckBattleTypeGhost(struct Pokemon *mon, enum BattlerId battler);
 
+u32 GetIndividualHeight(enum Species species, u32 personality);
+u32 GetIndividualWeight(enum Species species, u32 personality);
+
 #endif // GUARD_POKEMON_H
+

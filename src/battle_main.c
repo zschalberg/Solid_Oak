@@ -4812,6 +4812,21 @@ u32 GetBattlerTotalSpeedStat(enum BattlerId battler, enum Ability ability, enum 
     if (gSideStatuses[GetBattlerSide(battler)] & SIDE_STATUS_SWAMP)
         speed /= 4;
 
+    {
+        u32 baseWeight = GetSpeciesWeight(gBattleMons[battler].species);
+        u32 actualWeight = GetIndividualWeight(gBattleMons[battler].species, gBattleMons[battler].personality);
+        if (baseWeight > 0)
+        {
+            u32 modifierNumerator = 6 * baseWeight;
+            if (modifierNumerator > actualWeight)
+                modifierNumerator -= actualWeight;
+            else
+                modifierNumerator = baseWeight; // floor speed multiplier at 0.2x if weight is extremely large
+            
+            speed = (speed * modifierNumerator) / (5 * baseWeight);
+        }
+    }
+
     return speed;
 }
 

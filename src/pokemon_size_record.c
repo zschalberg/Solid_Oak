@@ -212,3 +212,24 @@ void GiveGiftRibbonToParty(u8 index, u8 ribbonId)
             FlagSet(FLAG_SYS_RIBBON_GET);
     }
 }
+
+u32 GetIndividualHeight(enum Species species, u32 personality)
+{
+    u32 baseHeight = GetSpeciesHeight(species);
+    u16 hash = personality & 0xFFFF;
+    u32 var = TranslateBigMonSizeTableIndex(hash);
+    u32 multiplier = sBigMonSizeTable[var].unk0 + (hash - sBigMonSizeTable[var].unk4) / sBigMonSizeTable[var].unk2;
+    u32 height = (baseHeight * multiplier + 500) / 1000;
+    return height > 0 ? height : 1;
+}
+
+u32 GetIndividualWeight(enum Species species, u32 personality)
+{
+    u32 baseWeight = GetSpeciesWeight(species);
+    u16 hash = personality >> 16;
+    u32 var = TranslateBigMonSizeTableIndex(hash);
+    u32 multiplier = sBigMonSizeTable[var].unk0 + (hash - sBigMonSizeTable[var].unk4) / sBigMonSizeTable[var].unk2;
+    u32 weight = (baseWeight * multiplier + 500) / 1000;
+    return weight > 0 ? weight : 1;
+}
+

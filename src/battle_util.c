@@ -7518,6 +7518,15 @@ static inline s32 DoMoveDamageCalcVars(struct BattleContext *ctx)
     targetFinalDefense = CalcDefenseStat(ctx);
 
     dmg = CalculateBaseDamage(gBattleMovePower, userFinalAttack, gBattleMons[ctx->battlerAtk].level, targetFinalDefense);
+    if (IsBattleMovePhysical(ctx->move))
+    {
+        u32 baseWeight = GetSpeciesWeight(gBattleMons[ctx->battlerAtk].species);
+        u32 actualWeight = GetIndividualWeight(gBattleMons[ctx->battlerAtk].species, gBattleMons[ctx->battlerAtk].personality);
+        if (baseWeight > 0)
+        {
+            dmg = (dmg * (4 * baseWeight + actualWeight)) / (5 * baseWeight);
+        }
+    }
     DAMAGE_APPLY_MODIFIER(GetTargetDamageModifier(ctx));
     DAMAGE_APPLY_MODIFIER(GetParentalBondModifier(ctx->battlerAtk));
     DAMAGE_APPLY_MODIFIER(GetWeatherDamageModifier(ctx));
