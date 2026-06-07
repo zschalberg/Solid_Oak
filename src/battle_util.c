@@ -23,6 +23,7 @@
 #include "safari_zone.h"
 #include "sound.h"
 #include "sprite.h"
+#include "pokemon_size_record.h"
 #include "string_util.h"
 #include "task.h"
 #include "test_runner.h"
@@ -10330,6 +10331,24 @@ u32 GetTotalAccuracy(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum 
 
     if (HasWeatherEffect() && gBattleWeather & B_WEATHER_FOG)
         calc = (calc * 60) / 100; // modified by 3/5
+
+    // Size-based boosts (up to 5% accuracy for tall attackers, up to 5% evasiveness for short defenders)
+    {
+        u8 atkHeightCategory = TranslateBigMonSizeTableIndex(gBattleMons[battlerAtk].personality & 0xFFFF);
+        u8 defHeightCategory = TranslateBigMonSizeTableIndex(gBattleMons[battlerDef].personality & 0xFFFF);
+
+        if (atkHeightCategory > 8)
+        {
+            u32 boost = 1000 + (atkHeightCategory - 8) * 50 / 7;
+            calc = (calc * boost) / 1000;
+        }
+
+        if (defHeightCategory < 8)
+        {
+            u32 evasionMultiplier = 1000 - (8 - defHeightCategory) * 50 / 8;
+            calc = (calc * evasionMultiplier) / 1000;
+        }
+    }
 
     return calc;
 }

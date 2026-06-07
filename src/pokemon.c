@@ -1,4 +1,5 @@
 #include "global.h"
+#include "pokemon_size_record.h"
 #include "malloc.h"
 #include "apprentice.h"
 #include "battle.h"
@@ -5827,6 +5828,11 @@ void HandleSetPokedexFlag(enum NationalDexOrder nationalNum, u8 caseId, u32 pers
             gSaveBlock2Ptr->pokedex.unownPersonality = personality;
         if (NationalPokedexNumToSpecies(nationalNum) == SPECIES_SPINDA)
             gSaveBlock2Ptr->pokedex.spindaPersonality = personality;
+    }
+
+    if (caseId == FLAG_SET_CAUGHT)
+    {
+        UpdatePokedexSizeRecordBySpeciesPersonality(NationalPokedexNumToSpecies(nationalNum), personality);
     }
 }
 

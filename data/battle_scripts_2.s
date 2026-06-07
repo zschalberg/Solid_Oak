@@ -320,3 +320,9 @@ BattleScript_ProtoBallFailed::
 	waitmessage B_WAIT_TIME_LONG
 	finishaction
 
+
+BattleScript_PrintExceptionalSize::
+	printsavedstring
+	waitmessage B_WAIT_TIME_LONG
+	return
+

@@ -2294,6 +2294,19 @@ static void PokeSum_PrintTrainerMemo(void)
         PokeSum_PrintTrainerMemo_Egg();
 }
 
+static void StripSpaces(const u8 *src, u8 *dst)
+{
+    while (*src != EOS)
+    {
+        if (*src != CHAR_SPACE && *src != CHAR_SPACER)
+        {
+            *dst++ = *src;
+        }
+        src++;
+    }
+    *dst = EOS;
+}
+
 static void AppendHeightAndWeightToMemo(u8 *natureMetOrHatchedAtLevelStr)
 {
     u16 species = GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_SPECIES);
@@ -2302,24 +2315,56 @@ static void AppendHeightAndWeightToMemo(u8 *natureMetOrHatchedAtLevelStr)
     u32 weight = GetIndividualWeight(species, personality);
     u8 *heightStr = ConvertMonHeightToString(height);
     u8 *weightStr = ConvertMonWeightToString(weight);
-    u8 sizeBuf[64];
+    u8 cleanHeightStr[32];
+    u8 cleanWeightStr[32];
+    u8 sizeBuf[96];
     u8 *ptr = sizeBuf;
+    u32 heightPercentile = ((personality & 0xFFFF) * 1000) / 65535;
+    u32 weightPercentile = (((personality >> 16) & 0xFFFF) * 1000) / 65535;
+    u8 heightPercentileStr[8];
+    u8 weightPercentileStr[8];
+
+    StripSpaces(heightStr, cleanHeightStr);
+    StripSpaces(weightStr, cleanWeightStr);
+
+    // Format height percentile (e.g. "84.5")
+    u8 *pStr = heightPercentileStr;
+    pStr = ConvertIntToDecimalStringN(pStr, heightPercentile / 10, STR_CONV_MODE_LEFT_ALIGN, 3);
+    *pStr++ = CHAR_PERIOD;
+    pStr = ConvertIntToDecimalStringN(pStr, heightPercentile % 10, STR_CONV_MODE_LEFT_ALIGN, 1);
+    *pStr = EOS;
+
+    // Format weight percentile
+    pStr = weightPercentileStr;
+    pStr = ConvertIntToDecimalStringN(pStr, weightPercentile / 10, STR_CONV_MODE_LEFT_ALIGN, 3);
+    *pStr++ = CHAR_PERIOD;
+    pStr = ConvertIntToDecimalStringN(pStr, weightPercentile % 10, STR_CONV_MODE_LEFT_ALIGN, 1);
+    *pStr = EOS;
 
     *ptr++ = CHAR_NEWLINE;
     *ptr++ = CHAR_H;
-    *ptr++ = CHAR_T;
     *ptr++ = CHAR_COLON;
     *ptr++ = CHAR_SPACE;
-    ptr = StringCopy(ptr, heightStr);
+    ptr = StringCopy(ptr, cleanHeightStr);
+    *ptr++ = CHAR_SPACE;
+    *ptr++ = CHAR_LEFT_PAREN;
+    ptr = StringCopy(ptr, heightPercentileStr);
+    *ptr++ = CHAR_PERCENT;
+    *ptr++ = CHAR_RIGHT_PAREN;
 
     *ptr++ = CHAR_SPACE;
     *ptr++ = CHAR_SPACE;
 
     *ptr++ = CHAR_W;
-    *ptr++ = CHAR_T;
     *ptr++ = CHAR_COLON;
     *ptr++ = CHAR_SPACE;
-    ptr = StringCopy(ptr, weightStr);
+    ptr = StringCopy(ptr, cleanWeightStr);
+    *ptr++ = CHAR_SPACE;
+    *ptr++ = CHAR_LEFT_PAREN;
+    ptr = StringCopy(ptr, weightPercentileStr);
+    *ptr++ = CHAR_PERCENT;
+    *ptr++ = CHAR_RIGHT_PAREN;
+    *ptr = EOS;
 
     StringAppend(natureMetOrHatchedAtLevelStr, sizeBuf);
 

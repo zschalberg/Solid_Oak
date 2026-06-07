@@ -4099,9 +4099,10 @@ static void LoadDexMonPalette(u32 taskId, bool32 isShiny)
 
 u32 Pokedex_CreateCaughtMonSprite(u32 species, s32 x, s32 y)
 {
+    extern enum BattlerId gBattlerTarget;
     u32 spriteId;
 
-    SetMultiuseSpriteTemplateToPokemon(species, GetCatchingBattler());
+    SetMultiuseSpriteTemplateToPokemon(species, (u8)gBattlerTarget);
     spriteId = CreateSprite(&gMultiuseSpriteTemplate, x, y, 0);
     gSprites[spriteId].oam.priority = 0;
     gSprites[spriteId].callback = SpriteCallbackDummy;

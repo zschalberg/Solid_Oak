@@ -23,6 +23,7 @@
 #include "recorded_battle.h"
 #include "window.h"
 #include "reshow_battle_screen.h"
+#include "pokemon_size_record.h"
 #include "main.h"
 #include "palette.h"
 #include "money.h"
@@ -11073,10 +11074,10 @@ static void Cmd_givecaughtmon(void)
         break;
     case GIVECAUGHTMON_GIVE_AND_SHOW_MSG:
     {
-        struct Pokemon *caughtMon = GetBattlerMon(GetCatchingBattler());
+        struct Pokemon *caughtMon = GetBattlerMon(gBattlerTarget);
         if (B_RESTORE_HELD_BATTLE_ITEMS >= GEN_9)
         {
-            u16 lostItem = gBattleStruct->itemLost[B_SIDE_OPPONENT][gBattlerPartyIndexes[GetCatchingBattler()]].originalItem;
+            u16 lostItem = gBattleStruct->itemLost[B_SIDE_OPPONENT][gBattlerPartyIndexes[gBattlerTarget]].originalItem;
             if (lostItem != ITEM_NONE && GetItemPocket(lostItem) != POCKET_BERRIES)
                 SetMonData(caughtMon, MON_DATA_HELD_ITEM, &lostItem);  // Restore non-berry items
         }
@@ -11112,7 +11113,7 @@ static void Cmd_givecaughtmon(void)
 
         // Copy changedSpecies to allow caught mon to revert to its original species.
         if (emptySlot != PARTY_SIZE)
-            gBattleStruct->partyState[B_SIDE_PLAYER][emptySlot].changedSpecies = GetBattlerPartyState(GetCatchingBattler())->changedSpecies;
+            gBattleStruct->partyState[B_SIDE_PLAYER][emptySlot].changedSpecies = GetBattlerPartyState(gBattlerTarget)->changedSpecies;
 
         gBattleResults.caughtMonSpecies = GetMonData(caughtMon, MON_DATA_SPECIES);
         GetMonData(caughtMon, MON_DATA_NICKNAME, gBattleResults.caughtMonNick);
@@ -11133,22 +11134,65 @@ static void Cmd_givecaughtmon(void)
         SavePlayerParty();
 }
 
+extern const u8 BattleScript_PrintExceptionalSize[];
+
 static void Cmd_trysetcaughtmondexflags(void)
 {
     CMD_ARGS(const u8 *failInstr);
 
-    struct Pokemon *caughtMon = GetBattlerMon(GetCatchingBattler());
+    struct Pokemon *caughtMon = GetBattlerMon(gBattlerTarget);
     u32 species = GetMonData(caughtMon, MON_DATA_SPECIES);
     u32 personality = GetMonData(caughtMon, MON_DATA_PERSONALITY);
+    u32 heightPercentile = ((personality & 0xFFFF) * 1000) / 65535;
+    u32 weightPercentile = (((personality >> 16) & 0xFFFF) * 1000) / 65535;
+    u16 heightHash = personality & 0xFFFF;
+    u16 weightHash = personality >> 16;
+    u8 heightCategory = TranslateBigMonSizeTableIndex(heightHash);
+    u8 weightCategory = TranslateBigMonSizeTableIndex(weightHash);
+    bool32 exceptional = FALSE;
 
-    if (GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_GET_CAUGHT))
+    // Check if height or weight is Category 5 and lower, or Category 9 and higher
+    if (heightCategory <= 5 || heightCategory >= 9 || weightCategory <= 5 || weightCategory >= 9)
     {
-        gBattlescriptCurrInstr = cmd->failInstr;
+        u8 heightPercentileStr[8];
+        u8 weightPercentileStr[8];
+        u8 *pStr = heightPercentileStr;
+        pStr = ConvertIntToDecimalStringN(pStr, heightPercentile / 10, STR_CONV_MODE_LEFT_ALIGN, 3);
+        *pStr++ = CHAR_PERIOD;
+        pStr = ConvertIntToDecimalStringN(pStr, heightPercentile % 10, STR_CONV_MODE_LEFT_ALIGN, 1);
+        *pStr = EOS;
+
+        pStr = weightPercentileStr;
+        pStr = ConvertIntToDecimalStringN(pStr, weightPercentile / 10, STR_CONV_MODE_LEFT_ALIGN, 3);
+        *pStr++ = CHAR_PERIOD;
+        pStr = ConvertIntToDecimalStringN(pStr, weightPercentile % 10, STR_CONV_MODE_LEFT_ALIGN, 1);
+        *pStr = EOS;
+
+        StringCopy(gStringVar1, heightPercentileStr);
+        StringCopy(gStringVar2, weightPercentileStr);
+        exceptional = TRUE;
+    }
+
+    // Update size records for every captured Pokémon
+    UpdatePokedexSizeRecordBySpeciesPersonality(species, personality);
+
+    bool32 isCaught = GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_GET_CAUGHT);
+    const u8 *nextInstr = isCaught ? cmd->failInstr : cmd->nextInstr;
+
+    if (!isCaught)
+    {
+        HandleSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_SET_CAUGHT, personality);
+    }
+
+    if (exceptional)
+    {
+        BattleScriptPush(nextInstr);
+        gBattleScripting.savedStringId = STRINGID_EXCEPTIONAL_SIZE_CAUGHT;
+        gBattlescriptCurrInstr = BattleScript_PrintExceptionalSize;
     }
     else
     {
-        HandleSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_SET_CAUGHT, personality);
-        gBattlescriptCurrInstr = cmd->nextInstr;
+        gBattlescriptCurrInstr = nextInstr;
     }
 }
 
@@ -11156,7 +11200,7 @@ static void Cmd_displaydexinfo(void)
 {
     CMD_ARGS();
 
-    u32 caughtBattler = GetCatchingBattler();
+    u32 caughtBattler = gBattlerTarget;
     struct Pokemon *mon = GetBattlerMon(caughtBattler);
     u16 species = GetMonData(mon, MON_DATA_SPECIES);
 

@@ -512,6 +512,7 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_DONTBEATHIEF]                         = COMPOUND_STRING("Don't be a thief!"),
     [STRINGID_ITDODGEDBALL]                         = COMPOUND_STRING("It dodged your thrown Poké Ball! This Pokémon can't be caught!"),
     [STRINGID_PROTOBALL_FAILED]                     = COMPOUND_STRING("This Ball doesn't work on a Pokémon that strong!"),
+    [STRINGID_EXCEPTIONAL_SIZE_CAUGHT]              = COMPOUND_STRING("{B_DEF_NAME} was of exceptional size!\n(HT: {STR_VAR_1}%ile / WT: {STR_VAR_2}%ile - Rare!)\p"),
     [STRINGID_PKMNBROKEFREE]                        = COMPOUND_STRING("Oh no! The Pokémon broke free!"),
     [STRINGID_ITAPPEAREDCAUGHT]                     = COMPOUND_STRING("Aww! It appeared to be caught!"),
     [STRINGID_AARGHALMOSTHADIT]                     = COMPOUND_STRING("Aargh! Almost had it!"),

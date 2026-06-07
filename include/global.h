@@ -286,7 +286,7 @@ struct SaveBlock3
     struct LinkBattleRecords linkBattleRecords;
 #endif //FREE_LINK_BATTLE_RECORDS
 
-    u8 unused[812];
+    u8 unused[812 - (OW_SHOW_ITEM_DESCRIPTIONS == OW_ITEM_DESCRIPTIONS_FIRST_TIME ? ITEM_FLAGS_COUNT : 0)];
 };
 
 extern struct SaveBlock3 *gSaveBlock3Ptr;
@@ -977,6 +977,8 @@ struct Bag
     struct ItemSlot berries[BAG_BERRIES_COUNT];
 };
 
+#define POKEDEX_SIZE_RECORDS_COUNT 400
+
 struct SaveBlock1
 {
     struct Apprentice apprentices[APPRENTICE_COUNT];
@@ -1046,7 +1048,8 @@ struct SaveBlock1
     u8 registeredTexts[UNION_ROOM_KB_ROW_COUNT][21];
 #endif //FREE_UNION_ROOM_CHAT
 
-    u8 unused2[100];
+    u8 pokedexSizes[POKEDEX_SIZE_RECORDS_COUNT][2];
+    u8 unused2[1180];
 };
 
 struct MapPosition
