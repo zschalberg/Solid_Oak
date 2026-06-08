@@ -95,3 +95,27 @@ void GetProfOaksRatingMessage(void)
 {
     ShowFieldMessage(GetProfOaksRatingMessageByCount(gSpecialVar_0x8004));
 }
+
+u16 GetSpeciesSeenCount(void)
+{
+    u16 species = gSpecialVar_0x8004;
+    u32 seen = GET_DEX_SEEN_COUNT(species);
+    
+    if (seen == 0 && GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_GET_SEEN))
+        seen = 1;
+        
+    gSpecialVar_Result = seen;
+    return seen;
+}
+
+u16 GetSpeciesCaughtCount(void)
+{
+    u16 species = gSpecialVar_0x8004;
+    u32 caught = GET_DEX_CAUGHT_COUNT(species);
+    
+    if (caught == 0 && GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_GET_CAUGHT))
+        caught = 1;
+        
+    gSpecialVar_Result = caught;
+    return caught;
+}

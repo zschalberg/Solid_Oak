@@ -352,4 +352,6 @@ gSpecials::
 	def_special CanTeachMoveBoxMon
 	def_special GetMaxCraftableQuantity
 	def_special CraftProtoballs
+	def_special GetSpeciesSeenCount
+	def_special GetSpeciesCaughtCount
 gSpecialsEnd::
