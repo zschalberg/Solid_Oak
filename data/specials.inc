@@ -354,4 +354,10 @@ gSpecials::
 	def_special CraftProtoballs
 	def_special GetSpeciesSeenCount
 	def_special GetSpeciesCaughtCount
+	def_special GetMonHeight
+	def_special GetMonWeight
+	def_special GetMonHeightPercentile
+	def_special GetMonWeightPercentile
+	def_special RemoveSelectedPartyMon
+	def_special BufferMonPercentiles
 gSpecialsEnd::
