@@ -3288,3 +3288,31 @@ bool8 ScrCmd_istmrelearneractive(struct ScriptContext *ctx)
 
     return FALSE;
 }
+
+void Script_SetScaledWildBattle(struct ScriptContext *ctx)
+{
+    enum Species species = gSpecialVar_0x8004;
+    u8 minLevel = gSpecialVar_0x8005;
+    s8 levelOffset = (s8)gSpecialVar_0x8006;
+    enum Item item = gSpecialVar_0x8007;
+    u8 maxLevel = 1;
+    u32 i;
+
+    for (i = 0; i < gPlayerPartyCount; i++)
+    {
+        u8 lvl = GetMonData(&gPlayerParty[i], MON_DATA_LEVEL);
+        if (lvl > maxLevel)
+            maxLevel = lvl;
+    }
+
+    s32 enemyLevel = (s32)maxLevel + levelOffset;
+    if (enemyLevel < minLevel)
+        enemyLevel = minLevel;
+    if (enemyLevel < 1)
+        enemyLevel = 1;
+    if (enemyLevel > 100)
+        enemyLevel = 100;
+
+    CreateScriptedWildMon(species, (u8)enemyLevel, item);
+    sIsScriptedWildDouble = FALSE;
+}

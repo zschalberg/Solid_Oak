@@ -13,7 +13,7 @@
   "show_map_name": true,
   "floor_number": 0,
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
-  "connections": 0,
+  "connections": null,
   "object_events": [
     {
       "local_id": "LOCALID_SS_ANNE_RIVAL",
@@ -139,7 +139,5 @@
       "script": "SSAnne_2F_Corridor_EventScript_RivalTriggerRight"
     }
   ],
-  "bg_events": [
-
-  ]
+  "bg_events": []
 }

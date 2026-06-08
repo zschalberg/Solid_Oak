@@ -1,0 +1,137 @@
+338: const u8 gText_SearchingPleaseWait[] = _("Searching…\nPlease wait.");
+339: const u8 gText_SearchCompleted[] = _("Search completed.");
+340: const u8 gText_NoMatchingPkmnWereFound[] = _("No matching POKéMON were found.");
+341: const u8 gText_SearchForPkmnBasedOnParameters[] = _("Search for POKéMON based on\nselected parameters.");
+342: const u8 gText_SwitchPokedexListings[] = _("Switch JOURNAL listings.");
+343: const u8 gText_ReturnToPokedex[] = _("Return to the JOURNAL.");
+344: const u8 gText_SelectPokedexMode[] = _("Select the JOURNAL mode.");
+345: const u8 gText_SelectPokedexListingMode[] = _("Select the JOURNAL listing mode.");
+346: const u8 gText_ListByFirstLetter[] = _("List by the first letter in the name.\nSpotted POKéMON only.");
+347: const u8 gText_ListByBodyColor[] = _("List by body color.\nSpotted POKéMON only.");
+348: const u8 gText_ListByType[] = _("List by type.\nOwned POKéMON only.");
+349: const u8 gText_ExecuteSearchSwitch[] = _("Execute search/switch.");
+350: const u8 gText_DexKantoTitle[] = _("KANTO DEX");
+351: const u8 gText_DexNatTitle[] = _("NATIONAL DEX");
+352: const u8 gText_DexSortNumericalTitle[] = _("NUMERICAL MODE");
+353: const u8 gText_DexSortAtoZTitle[] = _("A TO Z MODE");
+354: const u8 gText_DexSortHeaviestTitle[] = _("HEAVIEST MODE");
+355: const u8 gText_DexSortLightestTitle[] = _("LIGHTEST MODE");
+356: const u8 gText_DexSortTallestTitle[] = _("TALLEST MODE");
+357: const u8 gText_DexSortSmallestTitle[] = _("SMALLEST MODE");
+358: const u8 gText_DexSearchAlphaABC[] = _("ABC");
+359: const u8 gText_DexSearchAlphaDEF[] = _("DEF");
+360: const u8 gText_DexSearchAlphaGHI[] = _("GHI");
+361: const u8 gText_DexSearchAlphaJKL[] = _("JKL");
+362: const u8 gText_DexSearchAlphaMNO[] = _("MNO");
+363: const u8 gText_DexSearchAlphaPQR[] = _("PQR");
+364: const u8 gText_DexSearchAlphaSTU[] = _("STU");
+365: const u8 gText_DexSearchAlphaVWX[] = _("VWX");
+366: const u8 gText_DexSearchAlphaYZ[] = _("YZ");
+367: const u8 gText_DexSearchColorRed[] = _("RED");
+368: const u8 gText_DexSearchColorBlue[] = _("BLUE");
+369: const u8 gText_DexSearchColorYellow[] = _("YELLOW");
+370: const u8 gText_DexSearchColorGreen[] = _("GREEN");
+371: const u8 gText_DexSearchColorBlack[] = _("BLACK");
+372: const u8 gText_DexSearchColorBrown[] = _("BROWN");
+373: const u8 gText_DexSearchColorPurple[] = _("PURPLE");
+374: const u8 gText_DexSearchColorGray[] = _("GRAY");
+375: const u8 gText_DexSearchColorWhite[] = _("WHITE");
+376: const u8 gText_DexSearchColorPink[] = _("PINK");
+377: const u8 gText_DexKantoDescription[] = _("KANTO region's JOURNAL");
+378: const u8 gText_DexNatDescription[] = _("National edition JOURNAL");
+379: const u8 gText_DexSortNumericalDescription[] = _("POKéMON are listed according to their\nnumber.");
+380: const u8 gText_DexSortAtoZDescription[] = _("Spotted and owned POKéMON are listed\nalphabetically.");
+381: const u8 gText_DexSortHeaviestDescription[] = _("Owned POKéMON are listed from the\nheaviest to the lightest.");
+382: const u8 gText_DexSortLightestDescription[] = _("Owned POKéMON are listed from the\nlightest to the heaviest.");
+383: const u8 gText_DexSortTallestDescription[] = _("Owned POKéMON are listed from the\ntallest to the smallest.");
+384: const u8 gText_DexSortSmallestDescription[] = _("Owned POKéMON are listed from the\nsmallest to the tallest.");
+385: const u8 gText_DexEmptyString[] = _("");
+386: const u8 gText_DexSearchDontSpecify[] = _("DON'T SPECIFY.");
+388: const u8 gText_UnkHeight[] = _("{CLEAR_TO 0x0A}??'??”");
+389: const u8 gText_UnkHeightMetric[] = _("???.? m");
+390: const u8 gText_UnkWeight[] = _("????.? lbs.");
+391: const u8 gText_UnkWeightMetric[] = _("???.? kg.");
+393: const u8 gText_CryOf[] = _("CRY OF");
+394: const u8 gText_SizeComparedTo[] = _("SIZE COMPARED TO ");
+395: const u8 gText_PokedexRegistration[] = _("JOURNAL registration completed.");
+396: const u8 gText_HTHeight[] = _("HT");
+397: const u8 gText_WTWeight[] = _("WT");
+398: const u8 gText_5MarksPokemon[] = _("????? POKéMON");
+933: static const u8 sText_No0000[] = _("{NO}0000");
+934: static const u8 sText_No000[] = _("{NO}000");
+936: static const u8 sText_TenDashes[] = _("----------");
+938: ALIGNED(4) static const u8 sExpandedPlaceholder_PokedexDescription[] = _("");
+1074: static const u8 sText_TenDashes2[] = _("----------");
+1103: .description = gText_SearchForPkmnBasedOnParameters,
+1110: .description = gText_SwitchPokedexListings,
+1117: .description = gText_ReturnToPokedex,
+1128: .description = gText_ListByFirstLetter,
+1138: .description = gText_ListByBodyColor,
+1148: .description = gText_ListByType,
+1158: .description = gText_ListByType,
+1168: .description = gText_SelectPokedexListingMode,
+1178: .description = gText_SelectPokedexMode,
+1188: .description = gText_ExecuteSearchSwitch,
+1414: [DEX_MODE_KANTO]    = {gText_DexKantoDescription, gText_DexKantoTitle},
+1415: [DEX_MODE_NATIONAL] = {gText_DexNatDescription,   gText_DexNatTitle},
+1421: [ORDER_NUMERICAL]    = {gText_DexSortNumericalDescription, gText_DexSortNumericalTitle},
+1422: [ORDER_ALPHABETICAL] = {gText_DexSortAtoZDescription,      gText_DexSortAtoZTitle},
+1423: [ORDER_HEAVIEST]     = {gText_DexSortHeaviestDescription,  gText_DexSortHeaviestTitle},
+1424: [ORDER_LIGHTEST]     = {gText_DexSortLightestDescription,  gText_DexSortLightestTitle},
+1425: [ORDER_TALLEST]      = {gText_DexSortTallestDescription,   gText_DexSortTallestTitle},
+1426: [ORDER_SMALLEST]     = {gText_DexSortSmallestDescription,  gText_DexSortSmallestTitle},
+1432: {gText_DexEmptyString, gText_DexSearchDontSpecify},
+1433: [NAME_ABC] = {gText_DexEmptyString, gText_DexSearchAlphaABC},
+1434: [NAME_DEF] = {gText_DexEmptyString, gText_DexSearchAlphaDEF},
+1435: [NAME_GHI] = {gText_DexEmptyString, gText_DexSearchAlphaGHI},
+1436: [NAME_JKL] = {gText_DexEmptyString, gText_DexSearchAlphaJKL},
+1437: [NAME_MNO] = {gText_DexEmptyString, gText_DexSearchAlphaMNO},
+1438: [NAME_PQR] = {gText_DexEmptyString, gText_DexSearchAlphaPQR},
+1439: [NAME_STU] = {gText_DexEmptyString, gText_DexSearchAlphaSTU},
+1440: [NAME_VWX] = {gText_DexEmptyString, gText_DexSearchAlphaVWX},
+1441: [NAME_YZ]  = {gText_DexEmptyString, gText_DexSearchAlphaYZ},
+1447: {gText_DexEmptyString, gText_DexSearchDontSpecify},
+1448: [BODY_COLOR_RED + 1]    = {gText_DexEmptyString, gText_DexSearchColorRed},
+1449: [BODY_COLOR_BLUE + 1]   = {gText_DexEmptyString, gText_DexSearchColorBlue},
+1450: [BODY_COLOR_YELLOW + 1] = {gText_DexEmptyString, gText_DexSearchColorYellow},
+1451: [BODY_COLOR_GREEN + 1]  = {gText_DexEmptyString, gText_DexSearchColorGreen},
+1452: [BODY_COLOR_BLACK + 1]  = {gText_DexEmptyString, gText_DexSearchColorBlack},
+1453: [BODY_COLOR_BROWN + 1]  = {gText_DexEmptyString, gText_DexSearchColorBrown},
+1454: [BODY_COLOR_PURPLE + 1] = {gText_DexEmptyString, gText_DexSearchColorPurple},
+1455: [BODY_COLOR_GRAY + 1]   = {gText_DexEmptyString, gText_DexSearchColorGray},
+1456: [BODY_COLOR_WHITE + 1]  = {gText_DexEmptyString, gText_DexSearchColorWhite},
+1457: [BODY_COLOR_PINK + 1]   = {gText_DexEmptyString, gText_Pink},
+1463: {gText_DexEmptyString, gTypesInfo[TYPE_NONE].name},
+1464: {gText_DexEmptyString, gTypesInfo[TYPE_NORMAL].name},
+1465: {gText_DexEmptyString, gTypesInfo[TYPE_FIGHTING].name},
+1466: {gText_DexEmptyString, gTypesInfo[TYPE_FLYING].name},
+1467: {gText_DexEmptyString, gTypesInfo[TYPE_POISON].name},
+1468: {gText_DexEmptyString, gTypesInfo[TYPE_GROUND].name},
+1469: {gText_DexEmptyString, gTypesInfo[TYPE_ROCK].name},
+1470: {gText_DexEmptyString, gTypesInfo[TYPE_BUG].name},
+1471: {gText_DexEmptyString, gTypesInfo[TYPE_GHOST].name},
+1472: {gText_DexEmptyString, gTypesInfo[TYPE_STEEL].name},
+1473: {gText_DexEmptyString, gTypesInfo[TYPE_FIRE].name},
+1474: {gText_DexEmptyString, gTypesInfo[TYPE_WATER].name},
+1475: {gText_DexEmptyString, gTypesInfo[TYPE_GRASS].name},
+1476: {gText_DexEmptyString, gTypesInfo[TYPE_ELECTRIC].name},
+1477: {gText_DexEmptyString, gTypesInfo[TYPE_PSYCHIC].name},
+1478: {gText_DexEmptyString, gTypesInfo[TYPE_ICE].name},
+1479: {gText_DexEmptyString, gTypesInfo[TYPE_DRAGON].name},
+1480: {gText_DexEmptyString, gTypesInfo[TYPE_DARK].name},
+1481: {gText_DexEmptyString, gTypesInfo[TYPE_FAIRY].name},
+3721: PrintInfoScreenText(gText_CryOf, 82, 33);
+3912: StringCopy(string, gText_SizeComparedTo);
+4263: PrintInfoScreenText(gText_PokedexRegistration, GetStringCenterAlignXOffset(FONT_NORMAL, gText_PokedexRegistration, DISPLAY_WIDTH), 0);
+4269: ConvertIntToDecimalStringN(StringCopy(str, gText_NumberClear01), value, STR_CONV_MODE_LEADING_ZEROS, digitCount);
+4285: category = gText_5MarksPokemon;
+4302: PrintInfoScreenText(gText_HTHeight, x, yTop);
+4303: PrintInfoScreenText(gText_WTWeight, x, yBottom);
+4349: return ReplaceDecimalSeparator(gText_UnkHeight);
+4351: return ReplaceDecimalSeparator(gText_UnkHeightMetric);
+4357: return ReplaceDecimalSeparator(gText_UnkWeight);
+4359: return ReplaceDecimalSeparator(gText_UnkWeightMetric);
+5221: EraseAndPrintSearchTextBox(gText_SearchingPleaseWait);
+5289: EraseAndPrintSearchTextBox(gText_SearchCompleted);
+5294: EraseAndPrintSearchTextBox(gText_NoMatchingPkmnWereFound);
+5836: PrintSearchText(gText_SelectorArrow, 144, y * 16 + 9);

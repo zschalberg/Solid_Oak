@@ -81,6 +81,8 @@
 #include "constants/trainer_slide.h"
 #include "constants/trainers.h"
 #include "constants/weather.h"
+#include "constants/flags.h"
+#include "constants/vars.h"
 #include "cable_club.h"
 #include "test/test_runner_battle.h"
 
@@ -2017,7 +2019,38 @@ u8 CreateNPCTrainerPartyFromTrainer(struct Pokemon *party, const struct Trainer 
                 otId.method = OT_ID_PRESET;
                 otId.value = HIHALF(personalityValue) ^ LOHALF(personalityValue);
             }
-            CreateMon(&party[i], partyData[monIndex].species, partyData[monIndex].lvl, personalityValue, otId);
+            u8 level = partyData[monIndex].lvl;
+            if (FlagGet(FLAG_SCALE_BOSS_BATTLE))
+            {
+                u8 maxPlayerLvl = 1;
+                u32 p;
+                s32 offset = (s16)VarGet(VAR_SCALE_LEVEL_OFFSET);
+                if (offset == 0)
+                    offset = 5; // Default fallback to +5 if offset is not set
+                for (p = 0; p < gPlayerPartyCount; p++)
+                {
+                    u8 lvl = GetMonData(&gPlayerParty[p], MON_DATA_LEVEL);
+                    if (lvl > maxPlayerLvl)
+                        maxPlayerLvl = lvl;
+                }
+                s32 scaledLevel = (s32)maxPlayerLvl + offset;
+                if (offset >= 0)
+                {
+                    if (scaledLevel < level)
+                        scaledLevel = level;
+                }
+                else
+                {
+                    if (scaledLevel > level)
+                        scaledLevel = level;
+                    if (scaledLevel < 1)
+                        scaledLevel = 1;
+                }
+                if (scaledLevel > 100)
+                    scaledLevel = 100;
+                level = (u8)scaledLevel;
+            }
+            CreateMon(&party[i], partyData[monIndex].species, level, personalityValue, otId);
             SetMonData(&party[i], MON_DATA_HELD_ITEM, &partyData[monIndex].heldItem);
 
             CustomTrainerPartyAssignMoves(&party[i], &partyData[monIndex]);
@@ -5628,6 +5661,9 @@ static void HandleEndTurn_FinishBattle(void)
                 for (u32 partySlot = 0; partySlot < PARTY_SIZE; partySlot++)
                 {
                     if (side == B_SIDE_PLAYER && partySlot < 3)
+                        continue;
+
+                    if (gBattleOutcome == B_OUTCOME_CAUGHT && side == B_SIDE_OPPONENT && partySlot == gBattlerPartyIndexes[gBattlerTarget])
                         continue;
 
                     if (gBattleStruct->partyState[side][partySlot].sentOut)

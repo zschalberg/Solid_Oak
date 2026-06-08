@@ -238,6 +238,7 @@ static u8 ChooseWildMonLevel(const struct WildPokemon *wildPokemon, u8 wildMonIn
     u8 max;
     u8 range;
     u8 rand;
+    u8 level;
 
     if (LURE_STEP_COUNT == 0)
     {
@@ -262,23 +263,57 @@ static u8 ChooseWildMonLevel(const struct WildPokemon *wildPokemon, u8 wildMonIn
             if (ability == ABILITY_HUSTLE || ability == ABILITY_VITAL_SPIRIT || ability == ABILITY_PRESSURE)
             {
                 if (Random() % 2 == 0)
-                    return max;
-
-                if (rand != 0)
+                    rand = range - 1;
+                else if (rand != 0)
                     rand--;
             }
         }
-        return min + rand;
+        level = min + rand;
     }
     else
     {
         // Looks for the max level of all slots that share the same species as the selected slot.
         max = GetMaxLevelOfSpeciesInWildTable(wildPokemon, wildPokemon[wildMonIndex].species, area);
         if (max > 0)
-            return max + 1;
+            level = max + 1;
         else // Failsafe
-            return wildPokemon[wildMonIndex].maxLevel + 1;
+            level = wildPokemon[wildMonIndex].maxLevel + 1;
     }
+
+    if (FlagGet(FLAG_SCALE_WILD_POKEMON))
+    {
+        u8 maxPlayerLvl = 1;
+        u32 p;
+        for (p = 0; p < gPlayerPartyCount; p++)
+        {
+            u8 lvl = GetMonData(&gPlayerParty[p], MON_DATA_LEVEL);
+            if (lvl > maxPlayerLvl)
+                maxPlayerLvl = lvl;
+        }
+
+        u8 scaledMax = maxPlayerLvl;
+        u8 scaledMin = (maxPlayerLvl > 10) ? (maxPlayerLvl - 10) : 1;
+        u8 scaledRange = scaledMax - scaledMin + 1;
+        u8 scaledRand = Random() % scaledRange;
+
+        if (!GetMonData(&gPlayerParty[0], MON_DATA_SANITY_IS_EGG))
+        {
+            u16 ability = GetMonAbility(&gPlayerParty[0]);
+            if (ability == ABILITY_HUSTLE || ability == ABILITY_VITAL_SPIRIT || ability == ABILITY_PRESSURE)
+            {
+                if (Random() % 2 == 0)
+                    scaledRand = scaledRange - 1;
+                else if (scaledRand != 0)
+                    scaledRand--;
+            }
+        }
+
+        u8 scaledLevel = scaledMin + scaledRand;
+        if (scaledLevel > level)
+            level = scaledLevel;
+    }
+
+    return level;
 }
 
 u16 GetCurrentMapWildMonHeaderId(void)

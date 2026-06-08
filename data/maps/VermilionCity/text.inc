@@ -171,4 +171,56 @@ VermilionCity_Text_TesterSailorPostBattle::
     .string "That was a great match!\n"
     .string "Good luck with your quest!$"
 
+VermilionCity_Text_Tester_ChooseOption::
+    .string "Ahoy! What would you like to test today?$"
+
+VermilionCity_Text_Tester_ToggleDoubleFlag::
+    .string "Toggle Double Battle Flag$"
+
+VermilionCity_Text_Tester_StandardBattle::
+    .string "Standard Trainer Battle$"
+
+VermilionCity_Text_Tester_ScaledBossBattle::
+    .string "Scaled Boss Trainer Battle$"
+
+VermilionCity_Text_Tester_ScaledWildBoss::
+    .string "Scaled Wild Boss (Tentacruel)$$"
+
+VermilionCity_Text_Tester_Close::
+    .string "Close$"
+
+VermilionCity_Text_Tester_ChooseOffset::
+    .string "Choose a level offset for scaling:$"
+
+VermilionCity_Text_Tester_OffsetPlus2::
+    .string "+2 levels$"
+
+VermilionCity_Text_Tester_OffsetPlus5::
+    .string "+5 levels (Default)$"
+
+VermilionCity_Text_Tester_OffsetPlus10::
+    .string "+10 levels$"
+
+VermilionCity_Text_Tester_OffsetPlus20::
+    .string "+20 levels$"
+
+VermilionCity_Text_Tester_OffsetMinus5::
+    .string "-5 levels (Easy Mode)$"
+
+VermilionCity_Text_Tester_OffsetMinus10::
+    .string "-10 levels (Very Easy)$"
+
+VermilionCity_Text_Tester_ToggleWildScaling::
+    .string "Toggle Wild Level Scaling$"
+
+VermilionCity_Text_TesterSailor_WildScalingNowEnabled::
+    .string "Wild Pokémon level scaling is now ENABLED.\p"
+    .string "Encountered wild Pokémon will scale\n"
+    .string "closer to your team's highest level.$"
+
+VermilionCity_Text_TesterSailor_WildScalingNowDisabled::
+    .string "Wild Pokémon level scaling is now DISABLED.\p"
+    .string "Overworld wild Pokémon will use their\n"
+    .string "default area levels.$"
+
 

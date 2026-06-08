@@ -11136,6 +11136,30 @@ static void Cmd_givecaughtmon(void)
 
 extern const u8 BattleScript_PrintExceptionalSize[];
 
+static u8 GetSizeCategoryTier(u8 category)
+{
+    switch (category)
+    {
+    case 0:
+    case 1:
+    case 2:
+    case 13:
+    case 14:
+    case 15:
+        return 3; // Very Rare
+    case 3:
+    case 4:
+    case 11:
+    case 12:
+        return 2; // Rare
+    case 5:
+    case 10:
+        return 1; // Uncommon
+    default:
+        return 0; // Average
+    }
+}
+
 static void Cmd_trysetcaughtmondexflags(void)
 {
     CMD_ARGS(const u8 *failInstr);
@@ -11149,27 +11173,62 @@ static void Cmd_trysetcaughtmondexflags(void)
     u16 weightHash = personality >> 16;
     u8 heightCategory = TranslateBigMonSizeTableIndex(heightHash);
     u8 weightCategory = TranslateBigMonSizeTableIndex(weightHash);
+    u8 heightTier = GetSizeCategoryTier(heightCategory);
+    u8 weightTier = GetSizeCategoryTier(weightCategory);
+    u8 overallTier = (heightTier > weightTier) ? heightTier : weightTier;
+    u16 sizeStringId = 0;
     bool32 exceptional = FALSE;
 
-    // Check if height or weight is Category 5 and lower, or Category 9 and higher
-    if (heightCategory <= 5 || heightCategory >= 9 || weightCategory <= 5 || weightCategory >= 9)
+    if (overallTier > 0)
     {
-        u8 heightPercentileStr[8];
-        u8 weightPercentileStr[8];
-        u8 *pStr = heightPercentileStr;
+        u8 heightPercentileStr[24];
+        u8 weightPercentileStr[24];
+        u8 *pStr;
+        bool8 heightIsExceptional = (heightTier == overallTier);
+        bool8 weightIsExceptional = (weightTier == overallTier);
+
+        pStr = heightPercentileStr;
+        if (heightIsExceptional)
+        {
+            pStr = WriteColorChangeControlCode(pStr, TEXT_COLOR_TYPE_FOREGROUND, TEXT_COLOR_BLUE);
+            pStr = WriteColorChangeControlCode(pStr, TEXT_COLOR_TYPE_SHADOW, TEXT_COLOR_LIGHT_BLUE);
+        }
         pStr = ConvertIntToDecimalStringN(pStr, heightPercentile / 10, STR_CONV_MODE_LEFT_ALIGN, 3);
         *pStr++ = CHAR_PERIOD;
         pStr = ConvertIntToDecimalStringN(pStr, heightPercentile % 10, STR_CONV_MODE_LEFT_ALIGN, 1);
+        if (heightIsExceptional)
+        {
+            pStr = WriteColorChangeControlCode(pStr, TEXT_COLOR_TYPE_FOREGROUND, 1);
+            pStr = WriteColorChangeControlCode(pStr, TEXT_COLOR_TYPE_SHADOW, 6);
+        }
         *pStr = EOS;
 
         pStr = weightPercentileStr;
+        if (weightIsExceptional)
+        {
+            pStr = WriteColorChangeControlCode(pStr, TEXT_COLOR_TYPE_FOREGROUND, TEXT_COLOR_BLUE);
+            pStr = WriteColorChangeControlCode(pStr, TEXT_COLOR_TYPE_SHADOW, TEXT_COLOR_LIGHT_BLUE);
+        }
         pStr = ConvertIntToDecimalStringN(pStr, weightPercentile / 10, STR_CONV_MODE_LEFT_ALIGN, 3);
         *pStr++ = CHAR_PERIOD;
         pStr = ConvertIntToDecimalStringN(pStr, weightPercentile % 10, STR_CONV_MODE_LEFT_ALIGN, 1);
+        if (weightIsExceptional)
+        {
+            pStr = WriteColorChangeControlCode(pStr, TEXT_COLOR_TYPE_FOREGROUND, 1);
+            pStr = WriteColorChangeControlCode(pStr, TEXT_COLOR_TYPE_SHADOW, 6);
+        }
         *pStr = EOS;
 
         StringCopy(gStringVar1, heightPercentileStr);
         StringCopy(gStringVar2, weightPercentileStr);
+
+        if (overallTier == 3)
+            sizeStringId = STRINGID_VERY_RARE_SIZE_CAUGHT;
+        else if (overallTier == 2)
+            sizeStringId = STRINGID_RARE_SIZE_CAUGHT;
+        else
+            sizeStringId = STRINGID_UNCOMMON_SIZE_CAUGHT;
+
         exceptional = TRUE;
     }
 
@@ -11179,15 +11238,13 @@ static void Cmd_trysetcaughtmondexflags(void)
     bool32 isCaught = GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_GET_CAUGHT);
     const u8 *nextInstr = isCaught ? cmd->failInstr : cmd->nextInstr;
 
-    if (!isCaught)
-    {
-        HandleSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_SET_CAUGHT, personality);
-    }
+    HandleSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_SET_SEEN, personality);
+    HandleSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_SET_CAUGHT, personality);
 
     if (exceptional)
     {
         BattleScriptPush(nextInstr);
-        gBattleScripting.savedStringId = STRINGID_EXCEPTIONAL_SIZE_CAUGHT;
+        gBattleScripting.savedStringId = sizeStringId;
         gBattlescriptCurrInstr = BattleScript_PrintExceptionalSize;
     }
     else

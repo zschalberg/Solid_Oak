@@ -322,38 +322,99 @@ VermilionCity_EventScript_HarborSign::
 VermilionCity_EventScript_TesterSailor::
 	lock
 	faceplayer
-	checkflag FLAG_DOUBLE_BATTLE_WITH_ONE_MON
-	goto_if_set FLAG_DOUBLE_BATTLE_WITH_ONE_MON, VermilionCity_EventScript_TesterSailor_FlagEnabled
-	msgbox VermilionCity_Text_TesterSailor_FlagDisabledAskToggle, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, YES, VermilionCity_EventScript_TesterSailor_EnableFlag
-	goto VermilionCity_EventScript_TesterSailor_AskBattle
+	message VermilionCity_Text_Tester_ChooseOption
+	waitmessage
+	goto VermilionCity_EventScript_TesterSailor_Menu
 
-VermilionCity_EventScript_TesterSailor_FlagEnabled:
-	msgbox VermilionCity_Text_TesterSailor_FlagEnabledAskToggle, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, YES, VermilionCity_EventScript_TesterSailor_DisableFlag
-	goto VermilionCity_EventScript_TesterSailor_AskBattle
-
-VermilionCity_EventScript_TesterSailor_EnableFlag:
-	setflag FLAG_DOUBLE_BATTLE_WITH_ONE_MON
-	msgbox VermilionCity_Text_TesterSailor_FlagNowEnabled, MSGBOX_DEFAULT
-	goto VermilionCity_EventScript_TesterSailor_AskBattle
-
-VermilionCity_EventScript_TesterSailor_DisableFlag:
-	clearflag FLAG_DOUBLE_BATTLE_WITH_ONE_MON
-	msgbox VermilionCity_Text_TesterSailor_FlagNowDisabled, MSGBOX_DEFAULT
-	goto VermilionCity_EventScript_TesterSailor_AskBattle
-
-VermilionCity_EventScript_TesterSailor_AskBattle:
-	msgbox VermilionCity_Text_TesterSailor_AskBattle, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, YES, VermilionCity_EventScript_TesterSailor_DoBattle
-	msgbox VermilionCity_Text_TesterSailor_NoBattle, MSGBOX_DEFAULT
-	release
+VermilionCity_EventScript_TesterSailor_Menu::
+	dynmultipush VermilionCity_Text_Tester_ToggleDoubleFlag, 0
+	dynmultipush VermilionCity_Text_Tester_StandardBattle, 1
+	dynmultipush VermilionCity_Text_Tester_ScaledBossBattle, 2
+	dynmultipush VermilionCity_Text_Tester_ScaledWildBoss, 3
+	dynmultipush VermilionCity_Text_Tester_ToggleWildScaling, 4
+	dynmultipush VermilionCity_Text_Tester_Close, 5
+	dynmultistack 0, 0, FALSE, 6, 0, 0, DYN_MULTICHOICE_CB_NONE
+	switch VAR_RESULT
+	case 0, VermilionCity_EventScript_TesterSailor_ToggleDoubleFlag
+	case 1, VermilionCity_EventScript_TesterSailor_StandardBattle
+	case 2, VermilionCity_EventScript_TesterSailor_ScaledBossBattle
+	case 3, VermilionCity_EventScript_TesterSailor_ScaledWildBoss
+	case 4, VermilionCity_EventScript_TesterSailor_ToggleWildScaling
+	case 5, VermilionCity_EventScript_TesterSailor_Close
+	case MULTI_B_PRESSED, VermilionCity_EventScript_TesterSailor_Close
 	end
 
-VermilionCity_EventScript_TesterSailor_DoBattle:
+VermilionCity_EventScript_TesterSailor_ToggleDoubleFlag::
+	checkflag FLAG_DOUBLE_BATTLE_WITH_ONE_MON
+	goto_if_set FLAG_DOUBLE_BATTLE_WITH_ONE_MON, VermilionCity_EventScript_TesterSailor_DisableDoubleFlag
+	setflag FLAG_DOUBLE_BATTLE_WITH_ONE_MON
+	msgbox VermilionCity_Text_TesterSailor_FlagNowEnabled, MSGBOX_DEFAULT
+	goto VermilionCity_EventScript_TesterSailor_Menu
+
+VermilionCity_EventScript_TesterSailor_DisableDoubleFlag::
+	clearflag FLAG_DOUBLE_BATTLE_WITH_ONE_MON
+	msgbox VermilionCity_Text_TesterSailor_FlagNowDisabled, MSGBOX_DEFAULT
+	goto VermilionCity_EventScript_TesterSailor_Menu
+
+VermilionCity_EventScript_TesterSailor_ToggleWildScaling::
+	checkflag FLAG_SCALE_WILD_POKEMON
+	goto_if_set FLAG_SCALE_WILD_POKEMON, VermilionCity_EventScript_TesterSailor_DisableWildScaling
+	setflag FLAG_SCALE_WILD_POKEMON
+	msgbox VermilionCity_Text_TesterSailor_WildScalingNowEnabled, MSGBOX_DEFAULT
+	goto VermilionCity_EventScript_TesterSailor_Menu
+
+VermilionCity_EventScript_TesterSailor_DisableWildScaling::
+	clearflag FLAG_SCALE_WILD_POKEMON
+	msgbox VermilionCity_Text_TesterSailor_WildScalingNowDisabled, MSGBOX_DEFAULT
+	goto VermilionCity_EventScript_TesterSailor_Menu
+
+VermilionCity_EventScript_TesterSailor_StandardBattle::
 	cleartrainerflag TRAINER_VERMILION_TESTER
 	trainerbattle_double TRAINER_VERMILION_TESTER, VermilionCity_Text_TesterSailorBattleIntro, VermilionCity_Text_TesterSailorBattleDefeat, VermilionCity_Text_TesterSailorNotEnoughMons
 	msgbox VermilionCity_Text_TesterSailorPostBattle, MSGBOX_DEFAULT
 	release
 	end
 
+VermilionCity_EventScript_TesterSailor_ScaledBossBattle::
+	message VermilionCity_Text_Tester_ChooseOffset
+	waitmessage
+	dynmultipush VermilionCity_Text_Tester_OffsetPlus2, 2
+	dynmultipush VermilionCity_Text_Tester_OffsetPlus5, 5
+	dynmultipush VermilionCity_Text_Tester_OffsetPlus10, 10
+	dynmultipush VermilionCity_Text_Tester_OffsetPlus20, 20
+	dynmultipush VermilionCity_Text_Tester_OffsetMinus5, -5
+	dynmultipush VermilionCity_Text_Tester_OffsetMinus10, -10
+	dynmultistack 0, 0, FALSE, 6, 1, 0, DYN_MULTICHOICE_CB_NONE
+	setvar VAR_SCALE_LEVEL_OFFSET, VAR_RESULT
+	cleartrainerflag TRAINER_VERMILION_TESTER
+	setflag FLAG_SCALE_BOSS_BATTLE
+	trainerbattle_double TRAINER_VERMILION_TESTER, VermilionCity_Text_TesterSailorBattleIntro, VermilionCity_Text_TesterSailorBattleDefeat, VermilionCity_Text_TesterSailorNotEnoughMons
+	clearflag FLAG_SCALE_BOSS_BATTLE
+	setvar VAR_SCALE_LEVEL_OFFSET, 0
+	msgbox VermilionCity_Text_TesterSailorPostBattle, MSGBOX_DEFAULT
+	release
+	end
+
+VermilionCity_EventScript_TesterSailor_ScaledWildBoss::
+	message VermilionCity_Text_Tester_ChooseOffset
+	waitmessage
+	dynmultipush VermilionCity_Text_Tester_OffsetPlus2, 2
+	dynmultipush VermilionCity_Text_Tester_OffsetPlus5, 5
+	dynmultipush VermilionCity_Text_Tester_OffsetPlus10, 10
+	dynmultipush VermilionCity_Text_Tester_OffsetPlus20, 20
+	dynmultipush VermilionCity_Text_Tester_OffsetMinus5, -5
+	dynmultipush VermilionCity_Text_Tester_OffsetMinus10, -10
+	dynmultistack 0, 0, FALSE, 6, 1, 0, DYN_MULTICHOICE_CB_NONE
+	setvar VAR_0x8004, SPECIES_TENTACRUEL
+	setvar VAR_0x8005, 20
+	setvar VAR_0x8006, VAR_RESULT
+	setvar VAR_0x8007, ITEM_NONE
+	callnative Script_SetScaledWildBattle
+	dowildbattle
+	release
+	end
+
+VermilionCity_EventScript_TesterSailor_Close::
+	msgbox VermilionCity_Text_TesterSailor_NoBattle, MSGBOX_DEFAULT
+	release
+	end
