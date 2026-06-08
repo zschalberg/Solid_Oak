@@ -5627,6 +5627,9 @@ static void HandleEndTurn_FinishBattle(void)
 
                 for (u32 partySlot = 0; partySlot < PARTY_SIZE; partySlot++)
                 {
+                    if (side == B_SIDE_PLAYER && partySlot < 3)
+                        continue;
+
                     if (gBattleStruct->partyState[side][partySlot].sentOut)
                         HandleSetPokedexFlagFromMon(&party[partySlot], FLAG_SET_SEEN);
                 }
