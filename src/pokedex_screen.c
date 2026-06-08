@@ -2706,6 +2706,16 @@ s8 DexScreen_GetSetPokedexFlag(u16 nationalDexNo, u8 caseId, bool8 indexIsSpecie
     u8 bit;
     u8 mask;
     s8 retVal;
+    u16 natDex = indexIsSpecies ? SpeciesToNationalPokedexNum(nationalDexNo) : nationalDexNo;
+
+    if (caseId == FLAG_SET_SEEN)
+    {
+        INCREMENT_DEX_SEEN_COUNT_BY_NATDEX(natDex);
+    }
+    else if (caseId == FLAG_SET_CAUGHT)
+    {
+        INCREMENT_DEX_CAUGHT_COUNT_BY_NATDEX(natDex);
+    }
 
     if (indexIsSpecies)
         nationalDexNo = SpeciesToNationalPokedexNum(nationalDexNo);
@@ -3506,6 +3516,37 @@ static u8 DexScreen_DrawMonDexPage(bool8 justRegistered)
     // Dex entry
     FillWindowPixelBuffer(sPokedexScreenData->windowIds[2], PIXEL_FILL(0));
     DexScreen_PrintMonFlavorText(sPokedexScreenData->windowIds[2], sPokedexScreenData->dexSpecies, 0, 1);
+
+    // Print individual seen/owned counts
+    {
+        u8 countBuffer[32];
+        u8 *ptr = countBuffer;
+        u16 species = sPokedexScreenData->dexSpecies;
+        u32 seen = GET_DEX_SEEN_COUNT(species);
+        u32 caught = GET_DEX_CAUGHT_COUNT(species);
+        static const u8 sText_Space[] = _(" ");
+        static const u8 sText_Spaces[] = _("    ");
+
+        // Fallback for existing saves
+        if (seen == 0 && DexScreen_GetSetPokedexFlag(species, FLAG_GET_SEEN, TRUE))
+            seen = 1;
+        if (caught == 0 && DexScreen_GetSetPokedexFlag(species, FLAG_GET_CAUGHT, TRUE))
+            caught = 1;
+        if (seen < caught)
+            seen = caught;
+
+        ptr = StringCopy(ptr, sText_Seen);
+        ptr = StringCopy(ptr, sText_Space);
+        ptr = ConvertIntToDecimalStringN(ptr, seen, STR_CONV_MODE_LEFT_ALIGN, 3);
+        ptr = StringCopy(ptr, sText_Spaces);
+        ptr = StringCopy(ptr, sText_Owned);
+        ptr = StringCopy(ptr, sText_Space);
+        ptr = ConvertIntToDecimalStringN(ptr, caught, STR_CONV_MODE_LEFT_ALIGN, 3);
+        *ptr = EOS;
+
+        DexScreen_AddTextPrinterParameterized(sPokedexScreenData->windowIds[2], FONT_SMALL, countBuffer, 12, 42, 0);
+    }
+
     PutWindowTilemap(sPokedexScreenData->windowIds[2]);
     CopyWindowToVram(sPokedexScreenData->windowIds[2], COPYWIN_GFX);
 

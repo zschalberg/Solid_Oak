@@ -140,7 +140,7 @@ static const enum NationalDexOrder sHoennToNationalOrder[HOENN_DEX_COUNT - 1] =
     FOREACH_SPECIES_IN_HOENN_DEX_ORDER(HOENN_TO_NATIONAL)
 };
 
-static const enum Species sNationalOrderToSpecies[NATIONAL_DEX_COUNT] =
+static const enum Species sNationalOrderToSpecies[] =
 {
     FOREACH_SPECIES_IN_NATIONAL_DEX(NATIONAL_TO_SPECIES)
 };
@@ -5821,9 +5821,12 @@ enum TrainerPicID PlayerGenderToFrontTrainerPicId(enum Gender playerGender)
 void HandleSetPokedexFlag(enum NationalDexOrder nationalNum, u8 caseId, u32 personality)
 {
     u8 getFlagCaseId = (caseId == FLAG_SET_SEEN) ? FLAG_GET_SEEN : FLAG_GET_CAUGHT;
-    if (!GetSetPokedexFlag(nationalNum, getFlagCaseId)) // don't set if it's already set
+    bool8 alreadySet = GetSetPokedexFlag(nationalNum, getFlagCaseId);
+
+    GetSetPokedexFlag(nationalNum, caseId);
+
+    if (!alreadySet)
     {
-        GetSetPokedexFlag(nationalNum, caseId);
         if (NationalPokedexNumToSpecies(nationalNum) == SPECIES_UNOWN)
             gSaveBlock2Ptr->pokedex.unownPersonality = personality;
         if (NationalPokedexNumToSpecies(nationalNum) == SPECIES_SPINDA)
