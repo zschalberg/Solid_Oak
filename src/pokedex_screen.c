@@ -180,6 +180,7 @@ static const u8 sText_PokedexTableOfContents[] = _("JOURNAL   TABLE OF CONTENTS"
 static const u8 sText_PickOK[] = _("{DPAD_UPDOWN}PICK {A_BUTTON}OK");
 static const u8 sText_Seen[] = _("Seen:");
 static const u8 sText_Owned[] = _("Owned:");
+static const u8 sText_SeenCaught[] = _("Seen/Caught:");
 static const u8 sText_PokemonHabitats[] = _("{COLOR DYNAMIC_COLOR6}{SHADOW DYNAMIC_COLOR5}POKéMON HABITATS");
 static const u8 sText_DexCategory_GrasslandPkmn[] = _("Grassland POKéMON");
 static const u8 sText_DexCategory_ForestPkmn[] = _("Forest POKéMON");
@@ -3515,7 +3516,7 @@ static u8 DexScreen_DrawMonDexPage(bool8 justRegistered)
         u32 seen = GET_DEX_SEEN_COUNT(species);
         u32 caught = GET_DEX_CAUGHT_COUNT(species);
         static const u8 sText_Space[] = _(" ");
-        static const u8 sText_Spaces[] = _("    ");
+        static const u8 sText_Slash[] = _("/");
 
         // Fallback for existing saves
         if (seen == 0 && DexScreen_GetSetPokedexFlag(species, FLAG_GET_SEEN, TRUE))
@@ -3525,13 +3526,11 @@ static u8 DexScreen_DrawMonDexPage(bool8 justRegistered)
         if (seen < caught)
             seen = caught;
 
-        ptr = StringCopy(ptr, sText_Seen);
+        ptr = StringCopy(ptr, sText_SeenCaught);
         ptr = StringCopy(ptr, sText_Space);
-        ptr = ConvertIntToDecimalStringN(ptr, seen, STR_CONV_MODE_LEFT_ALIGN, 3);
-        ptr = StringCopy(ptr, sText_Spaces);
-        ptr = StringCopy(ptr, sText_Owned);
-        ptr = StringCopy(ptr, sText_Space);
-        ptr = ConvertIntToDecimalStringN(ptr, caught, STR_CONV_MODE_LEFT_ALIGN, 3);
+        ptr = ConvertIntToDecimalStringN(ptr, seen, STR_CONV_MODE_LEFT_ALIGN, 2);
+        ptr = StringCopy(ptr, sText_Slash);
+        ptr = ConvertIntToDecimalStringN(ptr, caught, STR_CONV_MODE_LEFT_ALIGN, 2);
         *ptr = EOS;
 
         DexScreen_AddTextPrinterParameterized(sPokedexScreenData->windowIds[1], FONT_SMALL, countBuffer, 0, 26, 0);
@@ -4324,7 +4323,7 @@ static void DexScreen_DrawMonSizeRecordPage(void)
         u32 seen = GET_DEX_SEEN_COUNT(species);
         u32 caught = GET_DEX_CAUGHT_COUNT(species);
         static const u8 sText_Space[] = _(" ");
-        static const u8 sText_Spaces[] = _("    ");
+        static const u8 sText_Slash[] = _("/");
 
         if (seen == 0 && DexScreen_GetSetPokedexFlag(species, FLAG_GET_SEEN, TRUE))
             seen = 1;
@@ -4333,13 +4332,11 @@ static void DexScreen_DrawMonSizeRecordPage(void)
         if (seen < caught)
             seen = caught;
 
-        ptr = StringCopy(ptr, sText_Seen);
+        ptr = StringCopy(ptr, sText_SeenCaught);
         ptr = StringCopy(ptr, sText_Space);
-        ptr = ConvertIntToDecimalStringN(ptr, seen, STR_CONV_MODE_LEFT_ALIGN, 3);
-        ptr = StringCopy(ptr, sText_Spaces);
-        ptr = StringCopy(ptr, sText_Owned);
-        ptr = StringCopy(ptr, sText_Space);
-        ptr = ConvertIntToDecimalStringN(ptr, caught, STR_CONV_MODE_LEFT_ALIGN, 3);
+        ptr = ConvertIntToDecimalStringN(ptr, seen, STR_CONV_MODE_LEFT_ALIGN, 2);
+        ptr = StringCopy(ptr, sText_Slash);
+        ptr = ConvertIntToDecimalStringN(ptr, caught, STR_CONV_MODE_LEFT_ALIGN, 2);
         *ptr = EOS;
 
         DexScreen_AddTextPrinterParameterized(sPokedexScreenData->windowIds[1], FONT_SMALL, countBuffer, 0, 26, 0);
