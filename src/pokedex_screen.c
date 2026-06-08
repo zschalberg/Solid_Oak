@@ -3528,9 +3528,9 @@ static u8 DexScreen_DrawMonDexPage(bool8 justRegistered)
 
         ptr = StringCopy(ptr, sText_SeenCaught);
         ptr = StringCopy(ptr, sText_Space);
-        ptr = ConvertIntToDecimalStringN(ptr, seen, STR_CONV_MODE_LEFT_ALIGN, 2);
+        ptr = ConvertIntToDecimalStringN(ptr, seen, STR_CONV_MODE_LEFT_ALIGN, 3);
         ptr = StringCopy(ptr, sText_Slash);
-        ptr = ConvertIntToDecimalStringN(ptr, caught, STR_CONV_MODE_LEFT_ALIGN, 2);
+        ptr = ConvertIntToDecimalStringN(ptr, caught, STR_CONV_MODE_LEFT_ALIGN, 3);
         *ptr = EOS;
 
         DexScreen_AddTextPrinterParameterized(sPokedexScreenData->windowIds[1], FONT_SMALL, countBuffer, 0, 26, 0);
@@ -4334,9 +4334,9 @@ static void DexScreen_DrawMonSizeRecordPage(void)
 
         ptr = StringCopy(ptr, sText_SeenCaught);
         ptr = StringCopy(ptr, sText_Space);
-        ptr = ConvertIntToDecimalStringN(ptr, seen, STR_CONV_MODE_LEFT_ALIGN, 2);
+        ptr = ConvertIntToDecimalStringN(ptr, seen, STR_CONV_MODE_LEFT_ALIGN, 3);
         ptr = StringCopy(ptr, sText_Slash);
-        ptr = ConvertIntToDecimalStringN(ptr, caught, STR_CONV_MODE_LEFT_ALIGN, 2);
+        ptr = ConvertIntToDecimalStringN(ptr, caught, STR_CONV_MODE_LEFT_ALIGN, 3);
         *ptr = EOS;
 
         DexScreen_AddTextPrinterParameterized(sPokedexScreenData->windowIds[1], FONT_SMALL, countBuffer, 0, 26, 0);

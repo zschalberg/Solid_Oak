@@ -1048,34 +1048,38 @@ struct SaveBlock1
     u8 registeredTexts[UNION_ROOM_KB_ROW_COUNT][21];
 #endif //FREE_UNION_ROOM_CHAT
 
-#define GET_DEX_SEEN_COUNT(species) ((gSaveBlock1Ptr->pokedexCounts[SpeciesToNationalPokedexNum(species)] >> 4) & 0xF)
-#define GET_DEX_CAUGHT_COUNT(species) (gSaveBlock1Ptr->pokedexCounts[SpeciesToNationalPokedexNum(species)] & 0xF)
+#define DEX_COUNTS_MAX_SPECIES 400
+
+#define GET_DEX_SEEN_COUNT(species) \
+    (SpeciesToNationalPokedexNum(species) < DEX_COUNTS_MAX_SPECIES ? \
+     gSaveBlock1Ptr->pokedexSeen[SpeciesToNationalPokedexNum(species)] : \
+     (GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_GET_SEEN) ? 1 : 0))
+
+#define GET_DEX_CAUGHT_COUNT(species) \
+    (SpeciesToNationalPokedexNum(species) < DEX_COUNTS_MAX_SPECIES ? \
+     gSaveBlock1Ptr->pokedexCaught[SpeciesToNationalPokedexNum(species)] : \
+     (GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_GET_CAUGHT) ? 1 : 0))
 
 #define INCREMENT_DEX_SEEN_COUNT_BY_NATDEX(natDex) { \
-    if ((natDex) != NATIONAL_DEX_NONE && (natDex) < POKEMON_SLOTS_NUMBER) { \
-        u8 val = gSaveBlock1Ptr->pokedexCounts[natDex]; \
-        u8 seen = (val >> 4) & 0xF; \
-        if (seen < 15) { \
-            seen++; \
-            gSaveBlock1Ptr->pokedexCounts[natDex] = (seen << 4) | (val & 0xF); \
+    if ((natDex) != NATIONAL_DEX_NONE && (natDex) < DEX_COUNTS_MAX_SPECIES) { \
+        if (gSaveBlock1Ptr->pokedexSeen[natDex] < 255) { \
+            gSaveBlock1Ptr->pokedexSeen[natDex]++; \
         } \
     } \
 }
 
 #define INCREMENT_DEX_CAUGHT_COUNT_BY_NATDEX(natDex) { \
-    if ((natDex) != NATIONAL_DEX_NONE && (natDex) < POKEMON_SLOTS_NUMBER) { \
-        u8 val = gSaveBlock1Ptr->pokedexCounts[natDex]; \
-        u8 caught = val & 0xF; \
-        if (caught < 15) { \
-            caught++; \
-            gSaveBlock1Ptr->pokedexCounts[natDex] = (val & 0xF0) | caught; \
+    if ((natDex) != NATIONAL_DEX_NONE && (natDex) < DEX_COUNTS_MAX_SPECIES) { \
+        if (gSaveBlock1Ptr->pokedexCaught[natDex] < 255) { \
+            gSaveBlock1Ptr->pokedexCaught[natDex]++; \
         } \
     } \
 }
 
     u8 pokedexSizes[POKEDEX_SIZE_RECORDS_COUNT][2];
-    u8 pokedexCounts[POKEMON_SLOTS_NUMBER];
-    u8 unused2[1180 - POKEMON_SLOTS_NUMBER];
+    u8 pokedexSeen[DEX_COUNTS_MAX_SPECIES];
+    u8 pokedexCaught[DEX_COUNTS_MAX_SPECIES];
+    u8 unused2[1180 - (DEX_COUNTS_MAX_SPECIES * 2)];
 };
 
 struct MapPosition
