@@ -2355,7 +2355,8 @@ static void EndLinkBattleInSteps(void)
                     FreeAllWindowBuffers();
                     SetMainCallback2(CB2_InitAskRecordBattle);
                 }
-                else  */if (!gMain.anyLinkBattlerHasFrontierPass)
+                else  */
+                if (!gMain.anyLinkBattlerHasFrontierPass)
                 {
                     // No players can record this battle, end
                     SetMainCallback2(gMain.savedCallback);
