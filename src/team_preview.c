@@ -30,6 +30,7 @@ struct TeamPreviewResources
 };
 
 EWRAM_DATA u8 gSelectCount = 0;
+EWRAM_DATA bool8 gIsPreviewChooseMons = FALSE;
 
 static EWRAM_DATA struct Pokemon sSavedPlayerParty[PARTY_SIZE] = {0};
 static EWRAM_DATA u8 sSavedPlayerPartyCount = 0;
@@ -47,6 +48,8 @@ void ShowOpponentTeamPreview(u16 trainerId, MainCallback callback)
     struct TeamPreviewResources *resources = (struct TeamPreviewResources *)&gTasks[taskId].data[0];
     const struct Trainer *trainer = GetTrainerStructFromId(trainerId);
     u32 i;
+    
+    gIsPreviewChooseMons = TRUE;
     
     resources->trainerId = trainerId;
     
@@ -133,6 +136,7 @@ static void FieldCB_Start3v3Battle(void)
 
 static void CB2_StartBattleAfterChooseMons(void)
 {
+    gIsPreviewChooseMons = FALSE;
     if (gSelectedOrderFromParty[0] == 0)
     {
         ScriptContext_Init();

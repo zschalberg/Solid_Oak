@@ -53,6 +53,7 @@
 #include "pokemon_summary_screen.h"
 #include "pokemon.h"
 #include "constants/pokeball.h"
+#include "team_preview.h"
 #include "pokerus.h"
 #include "quest_log.h"
 #include "region_map.h"
@@ -6819,6 +6820,9 @@ static u8 CheckBattleEntriesAndGetMessage(void)
 
     facility = VarGet(VAR_FRONTIER_FACILITY);
     if (facility == FACILITY_UNION_ROOM || facility == FACILITY_MULTI_OR_EREADER)
+        return 0xFF;
+
+    if (gIsPreviewChooseMons)
         return 0xFF;
 
     maxBattlers = GetMaxBattleEntries();
