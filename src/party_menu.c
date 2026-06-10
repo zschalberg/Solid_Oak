@@ -52,6 +52,7 @@
 #include "pokemon_storage_system.h"
 #include "pokemon_summary_screen.h"
 #include "pokemon.h"
+#include "constants/pokeball.h"
 #include "pokerus.h"
 #include "quest_log.h"
 #include "region_map.h"
@@ -6754,6 +6755,9 @@ static u8 GetPartySlotEntryStatus(s8 slot)
 static bool8 GetBattleEntryEligibility(struct Pokemon *mon)
 {
     u32 species;
+
+    if (GetMonData(mon, MON_DATA_POKEBALL) == BALL_RESEARCH)
+        return FALSE;
 
     if (GetMonData(mon, MON_DATA_IS_EGG)
         || GetMonData(mon, MON_DATA_LEVEL) > GetBattleEntryLevelCap()

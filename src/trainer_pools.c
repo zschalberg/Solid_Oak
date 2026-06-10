@@ -7,6 +7,10 @@
 #include "trainer_pools.h"
 #include "constants/battle.h"
 #include "constants/items.h"
+#include "battle_util.h"
+#include "fpmath.h"
+#include "team_preview.h"
+#include "constants/pokeball.h"
 
 #include "data/battle_pool_rules.h"
 
@@ -362,6 +366,94 @@ static void PrunePool(const struct Trainer *trainer, u8 *poolIndexArray, const s
     }
 }
 
+static s32 GetMatchupScore(u16 candidateSpecies, u16 playerSpecies)
+{
+    s32 score = 0;
+    u8 ct1 = GetSpeciesType(candidateSpecies, 0);
+    u8 ct2 = GetSpeciesType(candidateSpecies, 1);
+    u8 pt1 = GetSpeciesType(playerSpecies, 0);
+    u8 pt2 = GetSpeciesType(playerSpecies, 1);
+
+    // 1. Candidate offense: how effective is candidate's types against player's dual types?
+    {
+        uq4_12_t eff = GetTypeModifier(ct1, pt1);
+        if (pt2 != pt1)
+            eff = uq4_12_multiply(eff, GetTypeModifier(ct1, pt2));
+        
+        if (eff > UQ_4_12(1.0))
+            score += 2;
+        else if (eff < UQ_4_12(1.0))
+            score -= 1;
+    }
+    if (ct2 != ct1)
+    {
+        uq4_12_t eff = GetTypeModifier(ct2, pt1);
+        if (pt2 != pt1)
+            eff = uq4_12_multiply(eff, GetTypeModifier(ct2, pt2));
+        
+        if (eff > UQ_4_12(1.0))
+            score += 2;
+        else if (eff < UQ_4_12(1.0))
+            score -= 1;
+    }
+
+    // 2. Candidate defense: how effective is player's types against candidate's dual types?
+    {
+        uq4_12_t eff = GetTypeModifier(pt1, ct1);
+        if (ct2 != ct1)
+            eff = uq4_12_multiply(eff, GetTypeModifier(pt1, ct2));
+        
+        if (eff > UQ_4_12(1.0))
+            score -= 2;
+        else if (eff < UQ_4_12(1.0))
+            score += 2;
+    }
+    if (pt2 != pt1)
+    {
+        uq4_12_t eff = GetTypeModifier(pt2, ct1);
+        if (ct2 != ct1)
+            eff = uq4_12_multiply(eff, GetTypeModifier(pt2, ct2));
+        
+        if (eff > UQ_4_12(1.0))
+            score -= 2;
+        else if (eff < UQ_4_12(1.0))
+            score += 2;
+    }
+
+    return score;
+}
+
+static s32 GetTotalMatchupScore(u16 candidateSpecies)
+{
+    s32 totalScore = 0;
+    struct Pokemon *party = GetPreviewPlayerParty();
+    u8 partyCount = GetPreviewPlayerPartyCount();
+    u8 i;
+
+    if (party == NULL || partyCount == 0)
+        return 0;
+
+    for (i = 0; i < partyCount && i < PARTY_SIZE; i++)
+    {
+        struct Pokemon *mon = &party[i];
+        u16 species = GetMonData(mon, MON_DATA_SPECIES);
+        
+        // Skip Eggs, empty slots, fainted pokemon, and research balls
+        if (species == SPECIES_NONE || species == SPECIES_EGG)
+            continue;
+        if (GetMonData(mon, MON_DATA_IS_EGG))
+            continue;
+        if (GetMonData(mon, MON_DATA_HP) == 0)
+            continue;
+        if (GetMonData(mon, MON_DATA_POKEBALL) == BALL_RESEARCH)
+            continue;
+
+        totalScore += GetMatchupScore(candidateSpecies, species);
+    }
+
+    return totalScore;
+}
+
 void DoTrainerPartyPool(const struct Trainer *trainer, u32 *monIndices, u8 monsCount, u32 battleTypeFlags)
 {
     if (battleTypeFlags & BATTLE_TYPE_PREVIEW)
@@ -408,11 +500,45 @@ void DoTrainerPartyPool(const struct Trainer *trainer, u32 *monIndices, u8 monsC
 
         while (chosenCount < monsCount && candidatesCount > 0)
         {
-            u32 randIndex = Random32() % candidatesCount;
-            chosen[chosenCount] = candidates[randIndex];
+            s32 scores[6];
+            s32 minScore = 999999;
+            u32 weights[6];
+            u32 totalWeight = 0;
+            u32 randVal;
+            u32 cumulativeWeight = 0;
+            u8 selectedIdx = 0;
+
+            for (i = 0; i < candidatesCount; i++)
+            {
+                u16 species = trainer->party[candidates[i]].species;
+                scores[i] = GetTotalMatchupScore(species);
+                if (scores[i] < minScore)
+                {
+                    minScore = scores[i];
+                }
+            }
+
+            for (i = 0; i < candidatesCount; i++)
+            {
+                weights[i] = scores[i] - minScore + 1;
+                totalWeight += weights[i];
+            }
+
+            randVal = Random32() % totalWeight;
+            for (i = 0; i < candidatesCount; i++)
+            {
+                cumulativeWeight += weights[i];
+                if (randVal < cumulativeWeight)
+                {
+                    selectedIdx = i;
+                    break;
+                }
+            }
+
+            chosen[chosenCount] = candidates[selectedIdx];
             chosenCount++;
 
-            candidates[randIndex] = candidates[candidatesCount - 1];
+            candidates[selectedIdx] = candidates[candidatesCount - 1];
             candidatesCount--;
         }
 

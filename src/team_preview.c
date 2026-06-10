@@ -211,3 +211,13 @@ static void CB2_End3v3PreviewBattle(void)
         sOriginalBattleSavedCallback();
     }
 }
+
+struct Pokemon *GetPreviewPlayerParty(void)
+{
+    return sSavedPlayerParty;
+}
+
+u8 GetPreviewPlayerPartyCount(void)
+{
+    return sSavedPlayerPartyCount;
+}
