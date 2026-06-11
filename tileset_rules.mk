@@ -6,6 +6,9 @@ $(TILESETGFXDIR)/primary/building/tiles.4bpp: %.4bpp: %.png
 $(TILESETGFXDIR)/primary/general/tiles.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -num_tiles 640 -Wnum_tiles
 
+$(TILESETGFXDIR)/primary/general_custom/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 640 -Wnum_tiles
+
 $(TILESETGFXDIR)/secondary/pallet_town/tiles.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -num_tiles 76 -Wnum_tiles
 
@@ -58,7 +61,7 @@ $(TILESETGFXDIR)/secondary/pokemon_league/tiles.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -num_tiles 340 -Wnum_tiles
 
 $(TILESETGFXDIR)/secondary/viridian_city/tiles.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -num_tiles 112 -Wnum_tiles
+	$(GFX) $< $@ -num_tiles 384 -Wnum_tiles
 
 $(TILESETGFXDIR)/secondary/vermilion_city/tiles.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -num_tiles 140 -Wnum_tiles

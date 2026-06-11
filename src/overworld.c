@@ -125,6 +125,7 @@ EWRAM_DATA bool8 gDisableMapMusicChangeOnMapLoad = MUSIC_DISABLE_OFF;
 static EWRAM_DATA u16 sAmbientCrySpecies = SPECIES_NONE;
 static EWRAM_DATA bool8 sIsAmbientCryWaterMon = FALSE;
 EWRAM_DATA static u8 sHoursOverride = 0; // used to override apparent time of day hours
+static EWRAM_DATA u16 sLastFrameDayLitPalettes = 0;
 
 ALIGNED(4) EWRAM_DATA bool8 gExitStairsMovementDisabled = FALSE;
 static EWRAM_DATA const struct CreditsOverworldCmd *sCreditsOverworld_Script = NULL;
@@ -1648,6 +1649,18 @@ static const struct SpecificTilesetFade sSpecificTilesetFades[] =
     { &gTileset_PalletTownWinter, 8, (1 << 8) | (1 << 9) | (1 << 10) },
     { &gTileset_PalletTownWinter, 9, (1 << 8) | (1 << 9) | (1 << 10) },
     { &gTileset_PalletTownWinter, 10, (1 << 8) | (1 << 9) | (1 << 10) },
+    { &gTileset_CeladonCity, 8, (1 << 9) | (1 << 10) | (1 << 11) | (1 << 14) },
+    { &gTileset_CeladonCity, 9, (1 << 12) | (1 << 13) | (1 << 14) | (1 << 15) },
+    { &gTileset_CeladonCity, 11, (1 << 9) | (1 << 11) },
+    { &gTileset_CeladonCitySummer, 8, (1 << 9) | (1 << 10) | (1 << 11) | (1 << 14) },
+    { &gTileset_CeladonCitySummer, 9, (1 << 12) | (1 << 13) | (1 << 14) | (1 << 15) },
+    { &gTileset_CeladonCitySummer, 11, (1 << 9) | (1 << 11) },
+    { &gTileset_CeladonCityAutumn, 8, (1 << 9) | (1 << 10) | (1 << 11) | (1 << 14) },
+    { &gTileset_CeladonCityAutumn, 9, (1 << 12) | (1 << 13) | (1 << 14) | (1 << 15) },
+    { &gTileset_CeladonCityAutumn, 11, (1 << 9) | (1 << 11) },
+    { &gTileset_CeladonCityWinter, 8, (1 << 9) | (1 << 10) | (1 << 11) | (1 << 14) },
+    { &gTileset_CeladonCityWinter, 9, (1 << 12) | (1 << 13) | (1 << 14) | (1 << 15) },
+    { &gTileset_CeladonCityWinter, 11, (1 << 9) | (1 << 11) },
     { NULL, 0, 0 }
 };
 
@@ -1656,7 +1669,6 @@ void UpdateOverworldWindowLights(void)
     u32 i;
     const struct Tileset *primary = GetPrimaryTileset(gMapHeader.mapLayout);
     const struct Tileset *secondary = GetSecondaryTileset(gMapHeader.mapLayout);
-    bool8 isPalletTown = (gMapHeader.regionMapSectionId == MAPSEC_PALLET_TOWN);
 
     if (!MapHasNaturalLight(gMapHeader.mapType))
         return;
@@ -1669,12 +1681,22 @@ void UpdateOverworldWindowLights(void)
             u16 mask = sSpecificTilesetFades[i].indicesMask;
             u32 j;
             bool8 modified = FALSE;
+            bool8 isLitMap = TRUE;
+            const struct Tileset *tileset = sSpecificTilesetFades[i].tileset;
+
+            if (tileset == &gTileset_General 
+             || tileset == &gTileset_GeneralSummer
+             || tileset == &gTileset_GeneralAutumn
+             || tileset == &gTileset_GeneralWinter)
+            {
+                isLitMap = (gMapHeader.regionMapSectionId == MAPSEC_PALLET_TOWN);
+            }
 
             for (j = 1; j < 16; j++)
             {
                 if (mask & (1 << j))
                 {
-                    if (isPalletTown)
+                    if (isLitMap)
                     {
                         if (!(gPlttBufferUnfaded[row * 16 + j] & RGB_ALPHA))
                         {
@@ -1766,6 +1788,57 @@ u8 UpdateSpritePaletteWithTime(u8 paletteNum)
     return paletteNum;
 }
 
+static void UpdateStreetLightPalettes(void)
+{
+    u32 i;
+    u16 dayLitPalettes = 0;
+
+    if (gPaletteFade.active)
+        return;
+
+    if (!MapHasNaturalLight(gMapHeader.mapType))
+    {
+        sLastFrameDayLitPalettes = 0;
+        return;
+    }
+
+    for (i = 0; i < OBJECT_EVENTS_COUNT; i++)
+    {
+        if (gObjectEvents[i].active)
+        {
+            u8 spriteId = gObjectEvents[i].spriteId;
+            if (spriteId != MAX_SPRITES && gSprites[spriteId].inUse)
+            {
+                s16 xCurr = gObjectEvents[i].currentCoords.x;
+                s16 yCurr = gObjectEvents[i].currentCoords.y;
+                s16 xPrev = gObjectEvents[i].previousCoords.x;
+                s16 yPrev = gObjectEvents[i].previousCoords.y;
+                enum MetatileBehavior behaviorCurr = MapGridGetMetatileBehaviorAt(xCurr, yCurr);
+                enum MetatileBehavior behaviorPrev = MapGridGetMetatileBehaviorAt(xPrev, yPrev);
+                if (behaviorCurr == MB_STREET_LIGHT || behaviorPrev == MB_STREET_LIGHT)
+                {
+                    u8 paletteNum = gSprites[spriteId].oam.paletteNum;
+                    dayLitPalettes |= (1 << paletteNum);
+                }
+            }
+        }
+    }
+
+    for (i = 0; i < 16; i++)
+    {
+        if (dayLitPalettes & (1 << i))
+        {
+            CpuCopy16(&gPlttBufferUnfaded[OBJ_PLTT_ID(i)], &gPlttBufferFaded[OBJ_PLTT_ID(i)], 32);
+        }
+        else if (sLastFrameDayLitPalettes & (1 << i))
+        {
+            UpdateSpritePaletteWithWeather(i, FALSE);
+        }
+    }
+
+    sLastFrameDayLitPalettes = dayLitPalettes;
+}
+
 static void OverworldBasic(void)
 {
     ScriptContext_RunScript();
@@ -1776,6 +1849,7 @@ static void OverworldBasic(void)
     UpdateCameraPanning();
     BuildOamBuffer();
     UpdatePaletteFade();
+    UpdateStreetLightPalettes();
     UpdateTilesetAnimations();
     DoScheduledBgTilemapCopiesToVram();
     // Every minute if no palette fade is active, update TOD blending as needed
