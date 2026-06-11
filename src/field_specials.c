@@ -4009,3 +4009,68 @@ u16 CraftProtoballs(void)
     }
     return FALSE;
 }
+
+u16 GetMaxMedicineCraftableQuantity(void)
+{
+    u16 medicineType = gSpecialVar_0x8004;
+    u16 berryId;
+    u16 berryCount, kitCount;
+
+    switch (medicineType)
+    {
+    case 0: berryId = ITEM_RAZZ_BERRY; break;
+    case 1: berryId = ITEM_BLUK_BERRY; break;
+    case 2: berryId = ITEM_NANAB_BERRY; break;
+    case 3: berryId = ITEM_WEPEAR_BERRY; break;
+    case 4: berryId = ITEM_PINAP_BERRY; break;
+    default: return 0;
+    }
+
+    berryCount = CountTotalItemQuantityInBag(berryId);
+    kitCount = CountTotalItemQuantityInBag(ITEM_BREWING_KIT);
+
+    return (berryCount < kitCount) ? berryCount : kitCount;
+}
+
+u16 CraftMedicine(void)
+{
+    u16 medicineType = gSpecialVar_0x8004;
+    u16 quantity = gSpecialVar_0x8005;
+    u16 berryId, medicineId;
+
+    switch (medicineType)
+    {
+    case 0:
+        berryId = ITEM_RAZZ_BERRY;
+        medicineId = ITEM_POTION;
+        break;
+    case 1:
+        berryId = ITEM_BLUK_BERRY;
+        medicineId = ITEM_SUPER_POTION;
+        break;
+    case 2:
+        berryId = ITEM_NANAB_BERRY;
+        medicineId = ITEM_HYPER_POTION;
+        break;
+    case 3:
+        berryId = ITEM_WEPEAR_BERRY;
+        medicineId = ITEM_FULL_HEAL;
+        break;
+    case 4:
+        berryId = ITEM_PINAP_BERRY;
+        medicineId = ITEM_REVIVE;
+        break;
+    default:
+        return FALSE;
+    }
+
+    if (CountTotalItemQuantityInBag(berryId) >= quantity &&
+        CountTotalItemQuantityInBag(ITEM_BREWING_KIT) >= quantity)
+    {
+        RemoveBagItem(berryId, quantity);
+        RemoveBagItem(ITEM_BREWING_KIT, quantity);
+        AddBagItem(medicineId, quantity);
+        return TRUE;
+    }
+    return FALSE;
+}

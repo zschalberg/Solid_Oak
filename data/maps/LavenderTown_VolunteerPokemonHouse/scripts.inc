@@ -1,5 +1,11 @@
 LavenderTown_VolunteerPokemonHouse_MapScripts::
+	map_script MAP_SCRIPT_ON_TRANSITION, LavenderTown_VolunteerPokemonHouse_OnTransition
 	.byte 0
+
+LavenderTown_VolunteerPokemonHouse_OnTransition::
+	setmetatile 11, 2, 0x028, FALSE
+	end
+
 
 LavenderTown_VolunteerPokemonHouse_EventScript_MrFuji::
 	lock

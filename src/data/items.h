@@ -7272,6 +7272,21 @@ const struct ItemInfo gItemsInfo[] =
         .iconPalette = gItemIconPalette_Parcel,
     },
 
+    [ITEM_BREWING_KIT] =
+    {
+        .name = ITEM_NAME("Brewing Kit"),
+        .price = 500,
+        .description = COMPOUND_STRING(
+            "A kit with tubes\n"
+            "and filters. Used\n"
+            "to brew medicine."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_PowderJar,
+        .iconPalette = gItemIconPalette_PowderJar,
+    },
+
 // Gems
     #if I_PRICE >= GEN_9
         #define GEM_PRICE 15000

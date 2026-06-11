@@ -360,4 +360,15 @@ gSpecials::
 	def_special GetMonWeightPercentile
 	def_special RemoveSelectedPartyMon
 	def_special BufferMonPercentiles
+	def_special GetMaxMedicineCraftableQuantity
+	def_special CraftMedicine
+	def_special FujiLab_InitRoomObjects
+	def_special FujiLab_GetPokemonInfo
+	def_special FujiLab_Withdraw
+	def_special FujiLab_Deposit
+	def_special FujiLab_Swap
+	def_special SpawnCourierBird
+	def_special RemoveCourierBird
+	def_special FujiLab_IsSlotEmpty
+	def_special FujiLab_BufferRoomMons
 gSpecialsEnd::

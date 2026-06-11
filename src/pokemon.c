@@ -2945,17 +2945,37 @@ u8 GiveCapturedMonToPlayer(struct Pokemon *mon)
     return MON_GIVEN_TO_PARTY;
 }
 
+u8 GetFujiLabRoomsCount(void)
+{
+    if (FlagGet(FLAG_SYS_CONVENTIONAL_PC_UNLOCKED))
+        return TOTAL_BOXES_COUNT;
+    if (FlagGet(FLAG_FUJI_LAB_UPGRADE))
+        return 10;
+    return 8;
+}
+
+u8 GetBoxCapacityLimit(void)
+{
+    if (FlagGet(FLAG_SYS_CONVENTIONAL_PC_UNLOCKED))
+        return IN_BOX_COUNT;
+    return 6;
+}
+
 u8 CopyMonToPC(struct Pokemon *mon)
 {
     s32 boxNo, boxPos;
+    u8 roomsCount = GetFujiLabRoomsCount();
+    u8 roomCapacity = GetBoxCapacityLimit();
 
     SetPCBoxToSendMon(VarGet(VAR_PC_BOX_TO_SEND_MON));
 
     boxNo = StorageGetCurrentBox();
+    if (boxNo >= roomsCount)
+        boxNo = 0;
 
     do
     {
-        for (boxPos = 0; boxPos < IN_BOX_COUNT; boxPos++)
+        for (boxPos = 0; boxPos < roomCapacity; boxPos++)
         {
             struct BoxPokemon *checkingMon = GetBoxedMonPtr(boxNo, boxPos);
             if (GetBoxMonData(checkingMon, MON_DATA_SPECIES) == SPECIES_NONE)
@@ -2972,7 +2992,7 @@ u8 CopyMonToPC(struct Pokemon *mon)
         }
 
         boxNo++;
-        if (boxNo == TOTAL_BOXES_COUNT)
+        if (boxNo == roomsCount)
             boxNo = 0;
     } while (boxNo != StorageGetCurrentBox());
 
@@ -3158,9 +3178,11 @@ bool8 IsPlayerPartyAndPokemonStorageFull(void)
 bool8 IsPokemonStorageFull(void)
 {
     s32 i, j;
+    u8 roomsCount = GetFujiLabRoomsCount();
+    u8 roomCapacity = GetBoxCapacityLimit();
 
-    for (i = 0; i < TOTAL_BOXES_COUNT; i++)
-        for (j = 0; j < IN_BOX_COUNT; j++)
+    for (i = 0; i < roomsCount; i++)
+        for (j = 0; j < roomCapacity; j++)
             if (GetBoxMonDataAt(i, j, MON_DATA_SPECIES) == SPECIES_NONE)
                 return FALSE;
 

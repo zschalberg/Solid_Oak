@@ -10,7 +10,9 @@
                 "ITEM_REVIVE",
                 "ITEM_FULL_HEAL",
                 "ITEM_ESCAPE_ROPE",
-                "ITEM_MAX_REPEL"
+                "ITEM_MAX_REPEL",
+                "ITEM_CONVERSION_KIT",
+                "ITEM_BREWING_KIT"
             ]
         }
     ],
@@ -33,14 +35,14 @@
             "stages": [
                 {
                     "items": [
-	                    "ITEM_POKE_BALL",
-	                    "ITEM_POTION",
-	                    "ITEM_ANTIDOTE",
-	                    "ITEM_PARALYZE_HEAL",
-	                    "ITEM_AWAKENING",
-	                    "ITEM_BURN_HEAL",
-	                    "ITEM_ESCAPE_ROPE",
-	                    "ITEM_REPEL"
+                        "ITEM_POKE_BALL",
+                        "ITEM_POTION",
+                        "ITEM_ANTIDOTE",
+                        "ITEM_PARALYZE_HEAL",
+                        "ITEM_AWAKENING",
+                        "ITEM_BURN_HEAL",
+                        "ITEM_ESCAPE_ROPE",
+                        "ITEM_REPEL"
                     ]
                 }
             ]
@@ -74,7 +76,9 @@
                         "ITEM_PARALYZE_HEAL",
                         "ITEM_AWAKENING",
                         "ITEM_ICE_HEAL",
-                        "ITEM_REPEL"
+                        "ITEM_REPEL",
+                        "ITEM_CONVERSION_KIT",
+                        "ITEM_BREWING_KIT"
                     ]
                 }
             ]
@@ -92,7 +96,9 @@
                         "ITEM_BURN_HEAL",
                         "ITEM_ICE_HEAL",
                         "ITEM_ESCAPE_ROPE",
-                        "ITEM_SUPER_REPEL"
+                        "ITEM_SUPER_REPEL",
+                        "ITEM_CONVERSION_KIT",
+                        "ITEM_BREWING_KIT"
                     ]
                 }
             ]
@@ -110,7 +116,9 @@
                         "ITEM_AWAKENING",
                         "ITEM_BURN_HEAL",
                         "ITEM_ICE_HEAL",
-                        "ITEM_SUPER_REPEL"
+                        "ITEM_SUPER_REPEL",
+                        "ITEM_CONVERSION_KIT",
+                        "ITEM_BREWING_KIT"
                     ]
                 }
             ]
@@ -135,12 +143,12 @@
             "stages": [
                 {
                     "items": [
-	                    "ITEM_POKE_DOLL",
-	                    "ITEM_RETRO_MAIL",
-	                    "ITEM_FIRE_STONE",
-	                    "ITEM_THUNDER_STONE",
-	                    "ITEM_WATER_STONE",
-	                    "ITEM_LEAF_STONE"
+                        "ITEM_POKE_DOLL",
+                        "ITEM_RETRO_MAIL",
+                        "ITEM_FIRE_STONE",
+                        "ITEM_THUNDER_STONE",
+                        "ITEM_WATER_STONE",
+                        "ITEM_LEAF_STONE"
                     ]
                 }
             ]
@@ -185,7 +193,9 @@
                         "ITEM_SUPER_POTION",
                         "ITEM_REVIVE",
                         "ITEM_FULL_HEAL",
-                        "ITEM_MAX_REPEL"
+                        "ITEM_MAX_REPEL",
+                        "ITEM_CONVERSION_KIT",
+                        "ITEM_BREWING_KIT"
                     ]
                 }
             ]
@@ -200,7 +210,9 @@
                         "ITEM_REVIVE",
                         "ITEM_FULL_HEAL",
                         "ITEM_ESCAPE_ROPE",
-                        "ITEM_MAX_REPEL"
+                        "ITEM_MAX_REPEL",
+                        "ITEM_CONVERSION_KIT",
+                        "ITEM_BREWING_KIT"
                     ]
                 }
             ]
@@ -215,7 +227,9 @@
                         "ITEM_REVIVE",
                         "ITEM_FULL_HEAL",
                         "ITEM_ESCAPE_ROPE",
-                        "ITEM_MAX_REPEL"
+                        "ITEM_MAX_REPEL",
+                        "ITEM_CONVERSION_KIT",
+                        "ITEM_BREWING_KIT"
                     ]
                 }
             ]
@@ -285,7 +299,9 @@
                         "ITEM_REVIVE",
                         "ITEM_FULL_HEAL",
                         "ITEM_ESCAPE_ROPE",
-                        "ITEM_MAX_REPEL"
+                        "ITEM_MAX_REPEL",
+                        "ITEM_CONVERSION_KIT",
+                        "ITEM_BREWING_KIT"
                     ]
                 }
             ]
@@ -302,7 +318,9 @@
                         "ITEM_ICE_HEAL",
                         "ITEM_FULL_HEAL",
                         "ITEM_ESCAPE_ROPE",
-                        "ITEM_MAX_REPEL"
+                        "ITEM_MAX_REPEL",
+                        "ITEM_CONVERSION_KIT",
+                        "ITEM_BREWING_KIT"
                     ]
                 }
             ]
@@ -319,7 +337,9 @@
                         "ITEM_FULL_HEAL",
                         "ITEM_ESCAPE_ROPE",
                         "ITEM_MAX_REPEL",
-                        "ITEM_DREAM_MAIL"
+                        "ITEM_DREAM_MAIL",
+                        "ITEM_CONVERSION_KIT",
+                        "ITEM_BREWING_KIT"
                     ]
                 }
             ]
@@ -357,7 +377,9 @@
                         "ITEM_IRON",
                         "ITEM_ZINC",
                         "ITEM_CARBOS",
-                        "ITEM_HP_UP"
+                        "ITEM_HP_UP",
+                        "ITEM_CONVERSION_KIT",
+                        "ITEM_BREWING_KIT"
                     ]
                 }
             ]

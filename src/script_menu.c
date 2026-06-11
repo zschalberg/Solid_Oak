@@ -23,6 +23,7 @@
 #include "constants/songs.h"
 #include "constants/moves.h"
 #include "constants/opponents.h"
+#include "fuji_lab.h"
 
 #define GFXTAG_FOSSIL 7000
 
@@ -695,6 +696,72 @@ static const struct MenuAction sMultichoiceList_CraftQuantity[] = {
     { gText_Cancel }
 };
 
+static const struct MenuAction sMultichoiceList_WorkbenchMain[] = {
+    { COMPOUND_STRING("Poke Balls") },
+    { COMPOUND_STRING("Medicine") },
+    { gText_Exit }
+};
+
+static const struct MenuAction sMultichoiceList_MedicineCrafting[] = {
+    { COMPOUND_STRING("Potion") },
+    { COMPOUND_STRING("Super Potion") },
+    { COMPOUND_STRING("Hyper Potion") },
+    { COMPOUND_STRING("Full Heal") },
+    { COMPOUND_STRING("Revive") },
+    { gText_Exit }
+};
+
+static const struct MenuAction sMultichoiceList_FujiRoomMons[] = {
+    { gFujiRoomMonNames[0] },
+    { gFujiRoomMonNames[1] },
+    { gFujiRoomMonNames[2] },
+    { gFujiRoomMonNames[3] },
+    { gFujiRoomMonNames[4] },
+    { gFujiRoomMonNames[5] },
+    { gText_Cancel }
+};
+
+static const struct MenuAction sMultichoiceList_CourierMenu[] = {
+    { COMPOUND_STRING("Retrieve POKéMON") },
+    { COMPOUND_STRING("Send POKéMON") },
+    { gText_Exit }
+};
+
+static const struct MenuAction sMultichoiceList_CourierRoomRangesWithUpgrade[] = {
+    { COMPOUND_STRING("Rooms 1-4") },
+    { COMPOUND_STRING("Rooms 5-8") },
+    { COMPOUND_STRING("Rooms 9-10") },
+    { gText_Exit }
+};
+
+static const struct MenuAction sMultichoiceList_CourierRoomRangesNoUpgrade[] = {
+    { COMPOUND_STRING("Rooms 1-4") },
+    { COMPOUND_STRING("Rooms 5-8") },
+    { gText_Exit }
+};
+
+static const struct MenuAction sMultichoiceList_CourierRooms1_4[] = {
+    { COMPOUND_STRING("Room 1") },
+    { COMPOUND_STRING("Room 2") },
+    { COMPOUND_STRING("Room 3") },
+    { COMPOUND_STRING("Room 4") },
+    { gText_Cancel }
+};
+
+static const struct MenuAction sMultichoiceList_CourierRooms5_8[] = {
+    { COMPOUND_STRING("Room 5") },
+    { COMPOUND_STRING("Room 6") },
+    { COMPOUND_STRING("Room 7") },
+    { COMPOUND_STRING("Room 8") },
+    { gText_Cancel }
+};
+
+static const struct MenuAction sMultichoiceList_CourierRooms9_10[] = {
+    { COMPOUND_STRING("Room 9") },
+    { COMPOUND_STRING("Room 10") },
+    { gText_Cancel }
+};
+
 struct MultichoiceListStruct
 {
     const struct MenuAction *list;
@@ -783,6 +850,15 @@ static const struct MultichoiceListStruct sMultichoiceLists[] =
     [MULTI_TEST_NPC_PREVIEW_MODES]                     = MULTICHOICE(sMultichoiceList_TestNpcPreviewModes),
     [MULTI_WORKBENCH]                                  = MULTICHOICE(sMultichoiceList_Workbench),
     [MULTI_CRAFT_QUANTITY]                             = MULTICHOICE(sMultichoiceList_CraftQuantity),
+    [MULTI_WORKBENCH_MENU]                             = MULTICHOICE(sMultichoiceList_WorkbenchMain),
+    [MULTI_MEDICINE_CRAFTING]                          = MULTICHOICE(sMultichoiceList_MedicineCrafting),
+    [MULTI_FUJI_ROOM_MONS]                             = MULTICHOICE(sMultichoiceList_FujiRoomMons),
+    [MULTI_COURIER_MENU]                               = MULTICHOICE(sMultichoiceList_CourierMenu),
+    [MULTI_COURIER_ROOM_RANGES_WITH_UPGRADE]           = MULTICHOICE(sMultichoiceList_CourierRoomRangesWithUpgrade),
+    [MULTI_COURIER_ROOM_RANGES_NO_UPGRADE]             = MULTICHOICE(sMultichoiceList_CourierRoomRangesNoUpgrade),
+    [MULTI_COURIER_ROOMS_1_4]                          = MULTICHOICE(sMultichoiceList_CourierRooms1_4),
+    [MULTI_COURIER_ROOMS_5_8]                          = MULTICHOICE(sMultichoiceList_CourierRooms5_8),
+    [MULTI_COURIER_ROOMS_9_10]                         = MULTICHOICE(sMultichoiceList_CourierRooms9_10),
 };
 
 const u8 *const gStdStrings[] = {

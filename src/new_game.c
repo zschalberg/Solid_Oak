@@ -158,6 +158,7 @@ void NewGameInitData(void)
     AddBagItem(ITEM_SS_TICKET, 1);
     FlagSet(FLAG_SYS_POKEDEX_GET);
     FlagSet(FLAG_GOT_SS_TICKET);
+    FlagSet(FLAG_SYS_PC_STORAGE_DISABLED);
     SetUnlockedPokedexFlags();
     SetLastHealLocationWarp(HEAL_LOCATION_VERMILION_CITY);
     // ClearEnigmaBerries();

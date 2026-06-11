@@ -2390,6 +2390,15 @@ void UpdateFollowingPokemon(void)
         return;
     }
 
+    if (objEvent != NULL)
+    {
+        if (species != OW_SPECIES(objEvent) || shiny != OW_SHINY(objEvent) || female != OW_FEMALE(objEvent))
+        {
+            RemoveFollowingPokemon();
+            objEvent = NULL;
+        }
+    }
+
     if (objEvent == NULL)
     {
         // Spawn follower

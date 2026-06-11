@@ -1232,8 +1232,8 @@
 #define FLAG_HIDDEN_ITEM_ARTISAN_CAVE_B1F_PROTEIN                          (FLAG_HIDDEN_ITEMS_START + 193)
 #define FLAG_HIDDEN_ITEM_ARTISAN_CAVE_B1F_IRON                             (FLAG_HIDDEN_ITEMS_START + 194)
 // Unused hidden item flags
-#define FLAG_UNUSED_0x4AB               0x4AB // Unused Flag
-#define FLAG_UNUSED_0x4AC               0x4AC // Unused Flag
+#define FLAG_FUJI_LAB_UPGRADE           0x4AB // Mr. Fuji's Lab dynamic expansion upgrade
+#define FLAG_SYS_CONVENTIONAL_PC_UNLOCKED 0x4AC // Conventional PC storage unlocked
 #define FLAG_UNUSED_0x4AD               0x4AD // Unused Flag
 #define FLAG_UNUSED_0x4AE               0x4AE // Unused Flag
 #define FLAG_UNUSED_0x4AF               0x4AF // Unused Flag

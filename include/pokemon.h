@@ -804,6 +804,8 @@ enum TrainerPicID GetSecretBaseTrainerPicIndex(void);
 enum TrainerClassID GetSecretBaseTrainerClass(void);
 bool8 IsPlayerPartyAndPokemonStorageFull(void);
 bool8 IsPokemonStorageFull(void);
+u8 GetFujiLabRoomsCount(void);
+u8 GetBoxCapacityLimit(void);
 const u8 *GetSpeciesName(enum Species species);
 const u8 *GetSpeciesCategory(enum Species species);
 const u8 *GetSpeciesPokedexDescription(enum Species species);

@@ -1677,8 +1677,7 @@ void ResetPokemonStorageSystem(void)
     }
     for (boxId = 0; boxId < TOTAL_BOXES_COUNT; boxId++)
     {
-        u8 *dest = StringCopy(GetBoxNamePtr(boxId), sText_Box);
-        ConvertIntToDecimalStringN(dest, boxId + 1, STR_CONV_MODE_LEFT_ALIGN, 2);
+        ConvertIntToDecimalStringN(GetBoxNamePtr(boxId), boxId + 1, STR_CONV_MODE_LEFT_ALIGN, 2);
     }
 
     for (boxId = 0; boxId < TOTAL_BOXES_COUNT; boxId++)
