@@ -451,6 +451,27 @@ static void Task_AccessWorkbench(u8 taskId)
     DestroyTask(taskId);
 }
 
+static void Task_UseCourierWhistle(u8 taskId)
+{
+    ScriptContext_SetupScript(EventScript_UseCourierWhistle);
+    DestroyTask(taskId);
+}
+
+void ItemUseOutOfBattle_CourierWhistle(u8 taskId)
+{
+    if (gMapHeader.mapType != MAP_TYPE_ROUTE
+     && gMapHeader.mapType != MAP_TYPE_TOWN
+     && gMapHeader.mapType != MAP_TYPE_CITY)
+    {
+        PrintNotTheTimeToUseThat(taskId, gTasks[taskId].tUsingRegisteredKeyItem);
+    }
+    else
+    {
+        sItemUseOnFieldCB = Task_UseCourierWhistle;
+        SetUpItemUseOnFieldCallback(taskId);
+    }
+}
+
 void ItemUseOutOfBattle_CoinCase(u8 taskId)
 {
     ConvertIntToDecimalStringN(gStringVar1, GetCoins(), STR_CONV_MODE_LEFT_ALIGN, 4);

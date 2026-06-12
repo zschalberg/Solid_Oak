@@ -223,19 +223,19 @@ EventScript_CourierFlyOut::
 	waitmovement 0
 	special RemoveCourierBird
 	msgbox Text_CourierFlyAway, MSGBOX_DEFAULT
-	release
+	releaseall
 	end
 
 EventScript_CourierNoMoney::
 	hidemoneybox
 	msgbox Text_CourierNoMoney, MSGBOX_DEFAULT
-	release
+	releaseall
 	end
 
 EventScript_CourierGoodbye::
 	hidemoneybox
 	msgbox Text_CourierGoodbye, MSGBOX_DEFAULT
-	release
+	releaseall
 	end
 
 @ Movements
@@ -341,3 +341,29 @@ Text_CourierNoMoney:
 
 Text_CourierGoodbye:
 	.string "Safe travels!$"
+
+EventScript_UseCourierWhistle::
+	lockall
+	playse SE_GLASS_FLUTE
+	msgbox Text_CourierWhistleBlew, MSGBOX_DEFAULT
+	closemessage
+
+	checkmoney 500
+	compare VAR_RESULT, FALSE
+	goto_if_eq EventScript_CourierNoMoney
+
+	@ Swoop-in animation
+	special SpawnCourierBird
+	playmoncry SPECIES_PIDGEOT, CRY_MODE_NORMAL
+	waitmoncry
+	applymovement 0x1F, Movement_CourierBirdFlyIn
+	waitmovement 0
+	playmoncry SPECIES_PIDGEOT, CRY_MODE_NORMAL
+	waitmoncry
+
+	special Courier_ClearCart
+	goto EventScript_CourierMainMenu
+
+Text_CourierWhistleBlew:
+	.string "You blew the COURIER WHISTLE!\p"
+	.string "A PIDGEOT flew down from the sky!$"

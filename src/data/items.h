@@ -7287,6 +7287,22 @@ const struct ItemInfo gItemsInfo[] =
         .iconPalette = gItemIconPalette_PowderJar,
     },
 
+    [ITEM_COURIER_WHISTLE] =
+    {
+        .name = ITEM_NAME("CourierWhistle"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "A whistle that calls\n"
+            "Pidgeot to exchange\n"
+            "Pokémon outdoors."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_FIELD,
+        .fieldUseFunc = ItemUseOutOfBattle_CourierWhistle,
+        .iconPic = gItemIcon_Flute,
+        .iconPalette = gItemIconPalette_BlueFlute,
+    },
+
 // Gems
     #if I_PRICE >= GEN_9
         #define GEM_PRICE 15000
