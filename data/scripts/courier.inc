@@ -347,6 +347,7 @@ EventScript_UseCourierWhistle::
 	playse SE_GLASS_FLUTE
 	msgbox Text_CourierWhistleBlew, MSGBOX_DEFAULT
 	closemessage
+	showmoneybox 0, 0
 
 	checkmoney 500
 	compare VAR_RESULT, FALSE
