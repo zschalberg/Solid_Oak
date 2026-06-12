@@ -188,9 +188,9 @@ EventScript_CourierConfirmExchange::
 EventScript_CourierDoExchange::
 	removemoney 500
 	updatemoneybox
-	fadescreen FADE_TO_BLACK
+	fadescreenswapbuffers FADE_TO_BLACK
 	special Courier_ExecuteCart
-	fadescreen FADE_FROM_BLACK
+	fadescreenswapbuffers FADE_FROM_BLACK
 	playse SE_PC_LOGIN
 	msgbox Text_CourierExchangeSuccess, MSGBOX_DEFAULT
 	goto EventScript_CourierFlyOut
