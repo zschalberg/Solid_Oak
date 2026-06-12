@@ -371,4 +371,11 @@ gSpecials::
 	def_special RemoveCourierBird
 	def_special FujiLab_IsSlotEmpty
 	def_special FujiLab_BufferRoomMons
+	def_special Courier_ClearCart
+	def_special Courier_StageDeposit
+	def_special Courier_StageWithdraw
+	def_special Courier_GetCartSummary
+	def_special Courier_BufferCartString
+	def_special Courier_ExecuteCart
+	def_special Courier_BufferSingleWithdrawName
 gSpecialsEnd::

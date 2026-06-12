@@ -722,9 +722,12 @@ static const struct MenuAction sMultichoiceList_FujiRoomMons[] = {
 };
 
 static const struct MenuAction sMultichoiceList_CourierMenu[] = {
-    { COMPOUND_STRING("Retrieve POKéMON") },
     { COMPOUND_STRING("Send POKéMON") },
-    { gText_Exit }
+    { COMPOUND_STRING("Retrieve POKéMON") },
+    { COMPOUND_STRING("View Staged") },
+    { COMPOUND_STRING("Reset Staged") },
+    { COMPOUND_STRING("Confirm & Exchange") },
+    { COMPOUND_STRING("Cancel & Exit") }
 };
 
 static const struct MenuAction sMultichoiceList_CourierRoomRangesWithUpgrade[] = {

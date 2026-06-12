@@ -13,4 +13,12 @@ void RemoveCourierBird(void);
 void FujiLab_BufferRoomMons(void);
 void FujiLab_IsSlotEmpty(void);
 
+void Courier_ClearCart(void);
+void Courier_StageDeposit(void);
+void Courier_StageWithdraw(void);
+u16 Courier_GetCartSummary(void);
+void Courier_BufferCartString(void);
+void Courier_ExecuteCart(void);
+void Courier_BufferSingleWithdrawName(void);
+
 #endif // GUARD_FUJI_LAB_H

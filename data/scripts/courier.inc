@@ -19,20 +19,64 @@ EventScript_CourierNPC::
 	playmoncry SPECIES_PIDGEOT, CRY_MODE_NORMAL
 	waitmoncry
 
+	special Courier_ClearCart
+
 EventScript_CourierMainMenu::
 	msgbox Text_CourierWhatToDo, MSGBOX_DEFAULT
 	multichoice 0, 0, MULTI_COURIER_MENU, FALSE
 	switch VAR_RESULT
-	case 0, EventScript_CourierRetrieve
-	case 1, EventScript_CourierSend
-	case 2, EventScript_CourierFlyOut
+	case 0, EventScript_CourierSend
+	case 1, EventScript_CourierRetrieve
+	case 2, EventScript_CourierViewCart
+	case 3, EventScript_CourierResetCart
+	case 4, EventScript_CourierConfirmExchange
+	case 5, EventScript_CourierFlyOut
 	case MULTI_B_PRESSED, EventScript_CourierFlyOut
 	end
 
+EventScript_CourierSend::
+	specialvar VAR_RESULT, IsThereRoomInAnyBoxForMorePokemon
+	compare VAR_RESULT, FALSE
+	goto_if_eq EventScript_CourierStorageFull
+
+	msgbox Text_CourierSelectDeposit, MSGBOX_DEFAULT
+	special ChoosePartyMon
+	waitstate
+	compare VAR_0x8004, 255
+	goto_if_eq EventScript_CourierMainMenu
+
+	special Courier_StageDeposit
+	switch VAR_RESULT
+	case 0, EventScript_CourierDepositStagedSuccess
+	case 1, EventScript_CourierDepositStagedAlready
+	case 2, EventScript_CourierDepositStagedInvalid
+	case 3, EventScript_CourierDepositStagedEmptyParty
+	case 4, EventScript_CourierCartFull
+	end
+
+EventScript_CourierDepositStagedSuccess::
+	bufferpartymonnick STR_VAR_1, VAR_0x8004
+	msgbox Text_CourierDepositStagedSuccess, MSGBOX_DEFAULT
+	goto EventScript_CourierMainMenu
+
+EventScript_CourierDepositStagedAlready::
+	msgbox Text_CourierDepositStagedAlready, MSGBOX_DEFAULT
+	goto EventScript_CourierMainMenu
+
+EventScript_CourierDepositStagedInvalid::
+	msgbox Text_CourierDepositStagedInvalid, MSGBOX_DEFAULT
+	goto EventScript_CourierMainMenu
+
+EventScript_CourierDepositStagedEmptyParty::
+	msgbox Text_CourierDepositStagedEmptyParty, MSGBOX_DEFAULT
+	goto EventScript_CourierMainMenu
+
+EventScript_CourierCartFull::
+	msgbox Text_CourierCartFull, MSGBOX_DEFAULT
+	goto EventScript_CourierMainMenu
+
 EventScript_CourierRetrieve::
-	@ Retrieve branch
 	goto_if_set FLAG_FUJI_LAB_UPGRADE, EventScript_CourierRetrieveWithUpgrade
-	
 	msgbox Text_CourierChooseRoom, MSGBOX_DEFAULT
 	multichoice 0, 0, MULTI_COURIER_ROOM_RANGES_NO_UPGRADE, FALSE
 	switch VAR_RESULT
@@ -96,83 +140,79 @@ EventScript_CourierSelectMon::
 	compare VAR_RESULT, TRUE
 	goto_if_eq EventScript_CourierSlotEmpty
 
-	specialvar VAR_RESULT, CalculatePlayerPartyCount
-	compare VAR_RESULT, 6
-	goto_if_lt EventScript_CourierDoWithdraw
-	goto EventScript_CourierDoSwap
+	special Courier_StageWithdraw
+	switch VAR_RESULT
+	case 0, EventScript_CourierWithdrawStagedSuccess
+	case 1, EventScript_CourierWithdrawStagedAlready
+	case 2, EventScript_CourierWithdrawStagedTooMany
+	case 4, EventScript_CourierCartFull
+	end
 
 EventScript_CourierSlotEmpty::
 	msgbox Text_CourierSlotEmpty, MSGBOX_DEFAULT
 	goto EventScript_CourierSelectMon
 
-EventScript_CourierDoWithdraw::
+EventScript_CourierWithdrawStagedSuccess::
+	special Courier_BufferSingleWithdrawName
+	msgbox Text_CourierWithdrawStagedSuccess, MSGBOX_DEFAULT
+	goto EventScript_CourierMainMenu
+
+EventScript_CourierWithdrawStagedAlready::
+	msgbox Text_CourierWithdrawStagedAlready, MSGBOX_DEFAULT
+	goto EventScript_CourierMainMenu
+
+EventScript_CourierWithdrawStagedTooMany::
+	msgbox Text_CourierWithdrawStagedTooMany, MSGBOX_DEFAULT
+	goto EventScript_CourierMainMenu
+
+EventScript_CourierViewCart::
+	special Courier_BufferCartString
+	msgbox Text_CourierCartSummary, MSGBOX_DEFAULT
+	goto EventScript_CourierMainMenu
+
+EventScript_CourierResetCart::
+	special Courier_ClearCart
+	msgbox Text_CourierCartReset, MSGBOX_DEFAULT
+	goto EventScript_CourierMainMenu
+
+EventScript_CourierConfirmExchange::
+	specialvar VAR_RESULT, Courier_GetCartSummary
+	switch VAR_RESULT
+	case 0, EventScript_CourierDoExchange
+	case 1, EventScript_CourierExchangeEmptyParty
+	case 2, EventScript_CourierExchangeTooMany
+	case 3, EventScript_CourierExchangeStorageFull
+	case 4, EventScript_CourierExchangeCartEmpty
+	end
+
+EventScript_CourierDoExchange::
 	removemoney 500
 	updatemoneybox
 	fadescreen FADE_TO_BLACK
-	special FujiLab_Withdraw
+	special Courier_ExecuteCart
 	fadescreen FADE_FROM_BLACK
 	playse SE_PC_LOGIN
-	msgbox Text_CourierRetrieveSuccess, MSGBOX_DEFAULT
+	msgbox Text_CourierExchangeSuccess, MSGBOX_DEFAULT
 	goto EventScript_CourierFlyOut
 
-EventScript_CourierDoSwap::
-	msgbox Text_CourierSwapPrompt, MSGBOX_YESNO
-	compare VAR_RESULT, NO
-	goto_if_eq EventScript_CourierSelectMon
+EventScript_CourierExchangeEmptyParty::
+	msgbox Text_CourierExchangeEmptyParty, MSGBOX_DEFAULT
+	goto EventScript_CourierMainMenu
 
-	copyvar VAR_0x8005, VAR_0x8004 @ Save box index
-	special ChoosePartyMon
-	waitstate
-	compare VAR_0x8004, 255 @ Cancel
-	goto_if_eq EventScript_CourierSelectMon
+EventScript_CourierExchangeTooMany::
+	msgbox Text_CourierExchangeTooMany, MSGBOX_DEFAULT
+	goto EventScript_CourierMainMenu
 
-	removemoney 500
-	updatemoneybox
-	fadescreen FADE_TO_BLACK
-	special FujiLab_Swap
-	fadescreen FADE_FROM_BLACK
-	playse SE_PC_LOGIN
-	msgbox Text_CourierSwapSuccess, MSGBOX_DEFAULT
-	goto EventScript_CourierFlyOut
-
-EventScript_CourierSend::
-	specialvar VAR_RESULT, CalculatePlayerPartyCount
-	compare VAR_RESULT, 1
-	goto_if_le EventScript_CourierCantStoreLast
-
-	specialvar VAR_RESULT, IsThereRoomInAnyBoxForMorePokemon
-	compare VAR_RESULT, FALSE
-	goto_if_eq EventScript_CourierStorageFull
-
-	msgbox Text_CourierSelectDeposit, MSGBOX_DEFAULT
-	special ChoosePartyMon
-	waitstate
-	compare VAR_0x8004, 255
-	goto_if_eq EventScript_CourierMainMenu
-
-	removemoney 500
-	updatemoneybox
-	fadescreen FADE_TO_BLACK
-	setvar VAR_0x8005, 255 @ Auto deposit
-	special FujiLab_Deposit
-	fadescreen FADE_FROM_BLACK
-	compare VAR_RESULT, FALSE
-	goto_if_eq EventScript_CourierDepositFailed
-
-	playse SE_PC_LOGIN
-	msgbox Text_CourierSendSuccess, MSGBOX_DEFAULT
-	goto EventScript_CourierFlyOut
-
-EventScript_CourierCantStoreLast::
-	msgbox Text_CourierCantStoreLast, MSGBOX_DEFAULT
+EventScript_CourierExchangeStorageFull::
+	msgbox Text_CourierExchangeStorageFull, MSGBOX_DEFAULT
 	goto EventScript_CourierMainMenu
 
 EventScript_CourierStorageFull::
 	msgbox Text_CourierStorageFull, MSGBOX_DEFAULT
 	goto EventScript_CourierMainMenu
 
-EventScript_CourierDepositFailed::
-	msgbox Text_CourierDepositFailed, MSGBOX_DEFAULT
+EventScript_CourierExchangeCartEmpty::
+	msgbox Text_CourierExchangeCartEmpty, MSGBOX_DEFAULT
 	goto EventScript_CourierMainMenu
 
 EventScript_CourierFlyOut::
@@ -217,16 +257,16 @@ Movement_CourierBirdFlyOut::
 @ Texts
 Text_CourierGreeting:
 	.string "Hello! I am a SANCTUARY COURIER.\p"
-	.string "For a fee of ¥500, my PIDGEOT can\n"
-	.string "carry POKéMON directly to or from\l"
-	.string "MR. FUJI'S LAB.\p"
+	.string "For a single fee of ¥500, my PIDGEOT\n"
+	.string "can exchange up to 6 POKéMON at once\l"
+	.string "with MR. FUJI'S SANCTUARY LAB.\p"
 	.string "Would you like to hire my PIDGEOT?$"
 
 Text_CourierWhatToDo:
-	.string "What would you like my PIDGEOT to do?$"
+	.string "Hire active. What would you like to stage?$"
 
 Text_CourierChooseRoom:
-	.string "Which Room is your POKéMON in?$"
+	.string "Which Room is the POKéMON in?$"
 
 Text_CourierSelectMon:
 	.string "Select which POKéMON to retrieve.$"
@@ -234,34 +274,63 @@ Text_CourierSelectMon:
 Text_CourierSlotEmpty:
 	.string "There is no POKéMON in that slot!$"
 
-Text_CourierRetrieveSuccess:
-	.string "PIDGEOT successfully delivered your\n"
-	.string "POKéMON from the Sanctuary!$"
+Text_CourierDepositStagedSuccess:
+	.string "{STR_VAR_1} was staged to send.$"
 
-Text_CourierSwapPrompt:
-	.string "Your party is full. Would you like to\n"
-	.string "swap a POKéMON from your party?$"
+Text_CourierDepositStagedAlready:
+	.string "That POKéMON is already staged!$"
 
-Text_CourierSwapSuccess:
-	.string "PIDGEOT successfully swapped your\n"
+Text_CourierDepositStagedInvalid:
+	.string "Invalid selection.$"
+
+Text_CourierDepositStagedEmptyParty:
+	.string "You cannot send that POKéMON! Your\n"
+	.string "party would become empty.$"
+
+Text_CourierCartFull:
+	.string "You cannot stage any more POKéMON!$"
+
+Text_CourierWithdrawStagedSuccess:
+	.string "{STR_VAR_1} was staged to retrieve.$"
+
+Text_CourierWithdrawStagedAlready:
+	.string "That POKéMON is already staged!$"
+
+Text_CourierWithdrawStagedTooMany:
+	.string "You cannot retrieve that POKéMON! Your\n"
+	.string "party would exceed 6 POKéMON.\p"
+	.string "Please stage a deposit first.$"
+
+Text_CourierCartSummary:
+	.string "Current Cart:\n"
+	.string "Send: {STR_VAR_1}\l"
+	.string "Retrieve: {STR_VAR_2}$"
+
+Text_CourierCartReset:
+	.string "Staged choices cleared successfully.$"
+
+Text_CourierExchangeSuccess:
+	.string "PIDGEOT successfully exchanged the\n"
 	.string "POKéMON with the Sanctuary!$"
 
-Text_CourierSelectDeposit:
-	.string "Select which POKéMON to send to\n"
-	.string "the Sanctuary.$"
+Text_CourierExchangeEmptyParty:
+	.string "Error: Your party would become empty!$"
 
-Text_CourierSendSuccess:
-	.string "PIDGEOT successfully carried your\n"
-	.string "POKéMON to the Sanctuary!$"
+Text_CourierExchangeTooMany:
+	.string "Error: Your party would exceed 6 POKéMON!$"
 
-Text_CourierCantStoreLast:
-	.string "You cannot send your last POKéMON!$"
+Text_CourierExchangeStorageFull:
+	.string "Error: Sanctuary rooms have no room for\n"
+	.string "your deposits!$"
+
+Text_CourierExchangeCartEmpty:
+	.string "You haven't staged any POKéMON to exchange!$"
 
 Text_CourierStorageFull:
 	.string "Mr. Fuji's Sanctuary is completely full!$"
 
-Text_CourierDepositFailed:
-	.string "Failed to deposit POKéMON.$"
+Text_CourierSelectDeposit:
+	.string "Select which POKéMON to send.$"
 
 Text_CourierFlyAway:
 	.string "PIDGEOT flew away into the sky!$"
