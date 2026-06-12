@@ -25,9 +25,9 @@ LavenderTown_FujiLab_Lobby_EventScript_LoopDeposit::
 	goto_if_eq LavenderTown_FujiLab_Lobby_EventScript_AskUpgrade
 
 	setvar VAR_0x8005, 255 @ Automatic box selection
-	fadescreen FADE_TO_BLACK
+	fadescreenswapbuffers FADE_TO_BLACK
 	special FujiLab_Deposit
-	fadescreen FADE_FROM_BLACK
+	fadescreenswapbuffers FADE_FROM_BLACK
 	compare VAR_RESULT, FALSE
 	goto_if_eq LavenderTown_FujiLab_Lobby_EventScript_DepositFailed
 
@@ -160,23 +160,23 @@ FujiLab_EventScript_InteractRoomMon::
 	compare VAR_0x8004, 255 @ PARTY_NOTHING_CHOSEN
 	goto_if_eq FujiLab_EventScript_EndInteract
 	
-	fadescreen FADE_TO_BLACK
+	fadescreenswapbuffers FADE_TO_BLACK
 	special FujiLab_Swap
 	special FujiLab_InitRoomObjects
 	removeobject VAR_LAST_TALKED
 	addobject VAR_LAST_TALKED
-	fadescreen FADE_FROM_BLACK
+	fadescreenswapbuffers FADE_FROM_BLACK
 	playse SE_PC_LOGIN
 	msgbox FujiLab_Text_SwapSuccess, MSGBOX_DEFAULT
 	release
 	end
 
 FujiLab_EventScript_DoWithdraw::
-	fadescreen FADE_TO_BLACK
+	fadescreenswapbuffers FADE_TO_BLACK
 	special FujiLab_Withdraw
 	special FujiLab_InitRoomObjects
 	removeobject VAR_LAST_TALKED
-	fadescreen FADE_FROM_BLACK
+	fadescreenswapbuffers FADE_FROM_BLACK
 	playse SE_PC_LOGIN
 	msgbox FujiLab_Text_WithdrawSuccess, MSGBOX_DEFAULT
 	release

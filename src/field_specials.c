@@ -61,7 +61,9 @@
 #include "constants/metatile_labels.h"
 #include "constants/moves.h"
 #include "constants/region_map_sections.h"
+#include "constants/flags.h"
 #include "constants/songs.h"
+#include "fuji_lab.h"
 
 #define TAG_ITEM_ICON 5500
 
@@ -672,9 +674,11 @@ bool8 IsThereRoomInAnyBoxForMorePokemon(void)
 {
     u16 i;
     u16 j;
-    for (i = 0; i < TOTAL_BOXES_COUNT; i++)
+    u16 boxCount = FlagGet(FLAG_SYS_CONVENTIONAL_PC_UNLOCKED) ? TOTAL_BOXES_COUNT : GetFujiLabRoomsCount();
+    u16 boxCapacity = FlagGet(FLAG_SYS_CONVENTIONAL_PC_UNLOCKED) ? IN_BOX_COUNT : GetBoxCapacityLimit();
+    for (i = 0; i < boxCount; i++)
     {
-        for (j = 0; j < IN_BOX_COUNT; j++)
+        for (j = 0; j < boxCapacity; j++)
         {
             if (GetBoxMonDataAt(i, j, MON_DATA_SPECIES) == SPECIES_NONE)
                 return TRUE;
