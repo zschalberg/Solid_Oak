@@ -10,6 +10,7 @@ struct Pokemon *GetPreviewPlayerParty(void);
 u8 GetPreviewPlayerPartyCount(void);
 
 extern u8 gSelectCount;
+extern u8 gOpponentSelectCount;
 extern bool8 gIsPreviewChooseMons;
 
 #endif // GUARD_TEAM_PREVIEW_H

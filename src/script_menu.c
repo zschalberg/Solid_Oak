@@ -677,6 +677,7 @@ static const struct MenuAction sMultichoiceList_TestNpcPreviewModes[] =
     {COMPOUND_STRING("4v4 Mode")},
     {COMPOUND_STRING("5v5 Mode")},
     {COMPOUND_STRING("6v6 Mode")},
+    {COMPOUND_STRING("2v4 Mode")},
     {COMPOUND_STRING("Disable")},
 };
 

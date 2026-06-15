@@ -171,60 +171,39 @@ PalletTown_RivalsHouse_EventScript_TestNPC::
 	lock
 	faceplayer
 	goto_if_unset FLAG_PREVIEW_BATTLE, PalletTown_RivalsHouse_EventScript_TestNPC_ShowGreetingOff
+	
 	copyvar VAR_0x8004, 0x8008
-	goto_if_eq VAR_0x8004, 0, PalletTown_RivalsHouse_EventScript_TestNPC_ShowGreetingOnDefault3
-	goto_if_eq VAR_0x8004, 1, PalletTown_RivalsHouse_EventScript_TestNPC_ShowGreetingOn1
-	goto_if_eq VAR_0x8004, 2, PalletTown_RivalsHouse_EventScript_TestNPC_ShowGreetingOn2
-	goto_if_eq VAR_0x8004, 3, PalletTown_RivalsHouse_EventScript_TestNPC_ShowGreetingOn3
-	goto_if_eq VAR_0x8004, 4, PalletTown_RivalsHouse_EventScript_TestNPC_ShowGreetingOn4
-	goto_if_eq VAR_0x8004, 5, PalletTown_RivalsHouse_EventScript_TestNPC_ShowGreetingOn5
-	goto_if_eq VAR_0x8004, 6, PalletTown_RivalsHouse_EventScript_TestNPC_ShowGreetingOn6
-	goto PalletTown_RivalsHouse_EventScript_TestNPC_ShowGreetingOnDefault3
+	goto_if_eq VAR_0x8004, 0, PalletTown_RivalsHouse_EventScript_TestNPC_SetPlayerCountDefault3
+	buffernumberstring 0, VAR_0x8004
+	goto PalletTown_RivalsHouse_EventScript_TestNPC_CheckOpponentCount
+
+PalletTown_RivalsHouse_EventScript_TestNPC_SetPlayerCountDefault3::
+	buffernumberstring 0, 3
+	goto PalletTown_RivalsHouse_EventScript_TestNPC_CheckOpponentCount
+
+PalletTown_RivalsHouse_EventScript_TestNPC_CheckOpponentCount::
+	copyvar VAR_0x8004, 0x800A
+	goto_if_eq VAR_0x8004, 0, PalletTown_RivalsHouse_EventScript_TestNPC_SetOpponentCountDefaultMirror
+	buffernumberstring 1, VAR_0x8004
+	goto PalletTown_RivalsHouse_EventScript_TestNPC_ShowGreetingOn
+
+PalletTown_RivalsHouse_EventScript_TestNPC_SetOpponentCountDefaultMirror::
+	copyvar VAR_0x8004, 0x8008
+	goto_if_eq VAR_0x8004, 0, PalletTown_RivalsHouse_EventScript_TestNPC_SetOpponentDefault3
+	buffernumberstring 1, VAR_0x8004
+	goto PalletTown_RivalsHouse_EventScript_TestNPC_ShowGreetingOn
+
+PalletTown_RivalsHouse_EventScript_TestNPC_SetOpponentDefault3::
+	buffernumberstring 1, 3
+	goto PalletTown_RivalsHouse_EventScript_TestNPC_ShowGreetingOn
+
+PalletTown_RivalsHouse_EventScript_TestNPC_ShowGreetingOn::
+	msgbox PalletTown_RivalsHouse_Text_TestNPC_Greeting_FlagOn
+	goto PalletTown_RivalsHouse_EventScript_TestNPC_Menu
+	end
 
 PalletTown_RivalsHouse_EventScript_TestNPC_ShowGreetingOff::
 	msgbox PalletTown_RivalsHouse_Text_TestNPC_Greeting_FlagOff
-	goto PalletTown_RivalsHouse_EventScript_TestNPC_Menu
-	end
-
-PalletTown_RivalsHouse_EventScript_TestNPC_ShowGreetingOnDefault3::
-	buffernumberstring 0, 3
-	msgbox PalletTown_RivalsHouse_Text_TestNPC_Greeting_FlagOn
-	goto PalletTown_RivalsHouse_EventScript_TestNPC_Menu
-	end
-
-PalletTown_RivalsHouse_EventScript_TestNPC_ShowGreetingOn1::
-	buffernumberstring 0, 1
-	msgbox PalletTown_RivalsHouse_Text_TestNPC_Greeting_FlagOn
-	goto PalletTown_RivalsHouse_EventScript_TestNPC_Menu
-	end
-
-PalletTown_RivalsHouse_EventScript_TestNPC_ShowGreetingOn2::
-	buffernumberstring 0, 2
-	msgbox PalletTown_RivalsHouse_Text_TestNPC_Greeting_FlagOn
-	goto PalletTown_RivalsHouse_EventScript_TestNPC_Menu
-	end
-
-PalletTown_RivalsHouse_EventScript_TestNPC_ShowGreetingOn3::
-	buffernumberstring 0, 3
-	msgbox PalletTown_RivalsHouse_Text_TestNPC_Greeting_FlagOn
-	goto PalletTown_RivalsHouse_EventScript_TestNPC_Menu
-	end
-
-PalletTown_RivalsHouse_EventScript_TestNPC_ShowGreetingOn4::
-	buffernumberstring 0, 4
-	msgbox PalletTown_RivalsHouse_Text_TestNPC_Greeting_FlagOn
-	goto PalletTown_RivalsHouse_EventScript_TestNPC_Menu
-	end
-
-PalletTown_RivalsHouse_EventScript_TestNPC_ShowGreetingOn5::
-	buffernumberstring 0, 5
-	msgbox PalletTown_RivalsHouse_Text_TestNPC_Greeting_FlagOn
-	goto PalletTown_RivalsHouse_EventScript_TestNPC_Menu
-	end
-
-PalletTown_RivalsHouse_EventScript_TestNPC_ShowGreetingOn6::
-	buffernumberstring 0, 6
-	msgbox PalletTown_RivalsHouse_Text_TestNPC_Greeting_FlagOn
 	goto PalletTown_RivalsHouse_EventScript_TestNPC_Menu
 	end
 
@@ -247,13 +226,15 @@ PalletTown_RivalsHouse_EventScript_TestNPC_SelectMode::
 	case 3, PalletTown_RivalsHouse_EventScript_TestNPC_Set4v4
 	case 4, PalletTown_RivalsHouse_EventScript_TestNPC_Set5v5
 	case 5, PalletTown_RivalsHouse_EventScript_TestNPC_Set6v6
-	case 6, PalletTown_RivalsHouse_EventScript_TestNPC_SetDisable
+	case 6, PalletTown_RivalsHouse_EventScript_TestNPC_Set2v4
+	case 7, PalletTown_RivalsHouse_EventScript_TestNPC_SetDisable
 	case MULTI_B_PRESSED, PalletTown_RivalsHouse_EventScript_TestNPC_Menu
 	end
 
 PalletTown_RivalsHouse_EventScript_TestNPC_Set1v1::
 	setflag FLAG_PREVIEW_BATTLE
 	setvar 0x8008, 1
+	setvar 0x800A, 0
 	msgbox PalletTown_RivalsHouse_Text_TestNPC_SetMode1v1
 	goto PalletTown_RivalsHouse_EventScript_TestNPC_Menu
 	end
@@ -261,6 +242,7 @@ PalletTown_RivalsHouse_EventScript_TestNPC_Set1v1::
 PalletTown_RivalsHouse_EventScript_TestNPC_Set2v2::
 	setflag FLAG_PREVIEW_BATTLE
 	setvar 0x8008, 2
+	setvar 0x800A, 0
 	msgbox PalletTown_RivalsHouse_Text_TestNPC_SetMode2v2
 	goto PalletTown_RivalsHouse_EventScript_TestNPC_Menu
 	end
@@ -268,6 +250,7 @@ PalletTown_RivalsHouse_EventScript_TestNPC_Set2v2::
 PalletTown_RivalsHouse_EventScript_TestNPC_Set3v3::
 	setflag FLAG_PREVIEW_BATTLE
 	setvar 0x8008, 3
+	setvar 0x800A, 0
 	msgbox PalletTown_RivalsHouse_Text_TestNPC_SetMode3v3
 	goto PalletTown_RivalsHouse_EventScript_TestNPC_Menu
 	end
@@ -275,6 +258,7 @@ PalletTown_RivalsHouse_EventScript_TestNPC_Set3v3::
 PalletTown_RivalsHouse_EventScript_TestNPC_Set4v4::
 	setflag FLAG_PREVIEW_BATTLE
 	setvar 0x8008, 4
+	setvar 0x800A, 0
 	msgbox PalletTown_RivalsHouse_Text_TestNPC_SetMode4v4
 	goto PalletTown_RivalsHouse_EventScript_TestNPC_Menu
 	end
@@ -282,6 +266,7 @@ PalletTown_RivalsHouse_EventScript_TestNPC_Set4v4::
 PalletTown_RivalsHouse_EventScript_TestNPC_Set5v5::
 	setflag FLAG_PREVIEW_BATTLE
 	setvar 0x8008, 5
+	setvar 0x800A, 0
 	msgbox PalletTown_RivalsHouse_Text_TestNPC_SetMode5v5
 	goto PalletTown_RivalsHouse_EventScript_TestNPC_Menu
 	end
@@ -289,13 +274,23 @@ PalletTown_RivalsHouse_EventScript_TestNPC_Set5v5::
 PalletTown_RivalsHouse_EventScript_TestNPC_Set6v6::
 	setflag FLAG_PREVIEW_BATTLE
 	setvar 0x8008, 6
+	setvar 0x800A, 0
 	msgbox PalletTown_RivalsHouse_Text_TestNPC_SetMode6v6
+	goto PalletTown_RivalsHouse_EventScript_TestNPC_Menu
+	end
+
+PalletTown_RivalsHouse_EventScript_TestNPC_Set2v4::
+	setflag FLAG_PREVIEW_BATTLE
+	setvar 0x8008, 2
+	setvar 0x800A, 4
+	msgbox PalletTown_RivalsHouse_Text_TestNPC_SetMode2v4
 	goto PalletTown_RivalsHouse_EventScript_TestNPC_Menu
 	end
 
 PalletTown_RivalsHouse_EventScript_TestNPC_SetDisable::
 	clearflag FLAG_PREVIEW_BATTLE
 	setvar 0x8008, 0
+	setvar 0x800A, 0
 	msgbox PalletTown_RivalsHouse_Text_TestNPC_Disabled
 	goto PalletTown_RivalsHouse_EventScript_TestNPC_Menu
 	end
@@ -410,7 +405,7 @@ PalletTown_RivalsHouse_Text_TestNPC_Greeting_FlagOff::
 PalletTown_RivalsHouse_Text_TestNPC_Greeting_FlagOn::
 	.string "Hi! I am the preview tester.\n"
 	.string "Currently, the preview flag is ON\l"
-	.string "for a {STR_VAR_1}v{STR_VAR_1} battle.\p"
+	.string "for a {STR_VAR_1}v{STR_VAR_2} battle.\p"
 	.string "What would you like to do?$"
 
 PalletTown_RivalsHouse_Text_TestNPC_SetMode1v1::
@@ -430,6 +425,10 @@ PalletTown_RivalsHouse_Text_TestNPC_SetMode5v5::
 
 PalletTown_RivalsHouse_Text_TestNPC_SetMode6v6::
 	.string "Set preview to 6v6 mode.$"
+
+PalletTown_RivalsHouse_Text_TestNPC_SetMode2v4::
+	.string "Set preview to 2v4 mode.\n"
+	.string "You pick 2, opponent uses 4.$"
 
 PalletTown_RivalsHouse_Text_TestNPC_Disabled::
 	.string "Disabled the team preview.$"

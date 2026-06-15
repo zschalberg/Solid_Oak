@@ -30,6 +30,7 @@ struct TeamPreviewResources
 };
 
 EWRAM_DATA u8 gSelectCount = 0;
+EWRAM_DATA u8 gOpponentSelectCount = 0;
 EWRAM_DATA bool8 gIsPreviewChooseMons = FALSE;
 
 static EWRAM_DATA struct Pokemon sSavedPlayerParty[PARTY_SIZE] = {0};
@@ -67,6 +68,18 @@ void ShowOpponentTeamPreview(u16 trainerId, MainCallback callback)
         selectCount = maxPoolSize;
     }
     gSelectCount = selectCount;
+
+    // Determine opponent select count:
+    u8 opponentCount = gSpecialVar_0x800A;
+    if (opponentCount == 0 || opponentCount > 6)
+    {
+        opponentCount = gSelectCount; // default: match player count (symmetric)
+    }
+    if (opponentCount > maxPoolSize)
+    {
+        opponentCount = maxPoolSize; // clamp to trainer's available pool
+    }
+    gOpponentSelectCount = opponentCount;
     
     for (i = 0; i < 6; i++)
     {
@@ -201,6 +214,9 @@ static void CB2_End3v3PreviewBattle(void)
     
     // 4. Clear preview battle flag
     gBattleTypeFlags &= ~BATTLE_TYPE_PREVIEW;
+    
+    gSelectCount = 0;
+    gOpponentSelectCount = 0;
     
     FlagClear(FLAG_MONOTYPE_BATTLE);
     VarSet(VAR_MONOTYPE_RESTRICTION, TYPE_NONE);

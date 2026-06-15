@@ -61,6 +61,7 @@
 #include "test_runner.h"
 #include "text.h"
 #include "trainer_pools.h"
+#include "team_preview.h"
 #include "trig.h"
 #include "type_icon_sprite.h"
 #include "util.h"
@@ -1979,8 +1980,7 @@ u8 CreateNPCTrainerPartyFromTrainer(struct Pokemon *party, const struct Trainer 
         }
         else if (battleTypeFlags & BATTLE_TYPE_PREVIEW)
         {
-            extern u8 gSelectCount;
-            monsCount = gSelectCount;
+            monsCount = gOpponentSelectCount;
         }
         else
         {

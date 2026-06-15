@@ -322,7 +322,8 @@
 #define VAR_0x8007                 0x8007
 #define VAR_0x8008                 0x8008
 #define VAR_0x8009                 0x8009
-#define VAR_0x800A                 0x800A
+#define VAR_OPPONENT_SELECT_COUNT  0x800A
+#define VAR_0x800A                 VAR_OPPONENT_SELECT_COUNT
 #define VAR_0x800B                 0x800B
 #define VAR_FACING                 0x800C
 #define VAR_RESULT                 0x800D
