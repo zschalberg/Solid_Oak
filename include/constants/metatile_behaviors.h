@@ -6,7 +6,7 @@ enum MetatileBehavior
     MB_NORMAL,
     MB_UNUSED_01,
     MB_TALL_GRASS,
-    MB_UNUSED_0x03,
+    MB_LONG_GRASS,
     MB_UNUSED_0x04,
     MB_UNUSED_0x05,
     MB_UNUSED_0x06,
