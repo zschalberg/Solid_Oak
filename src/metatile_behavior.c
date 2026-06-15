@@ -444,7 +444,7 @@ bool32 MetatileBehavior_IsTallGrass(enum MetatileBehavior metatileBehavior)
 
 bool32 MetatileBehavior_IsLongGrass(enum MetatileBehavior metatileBehavior)
 {
-    return metatileBehavior == MB_LONG_GRASS;
+    return metatileBehavior == MB_LONG_GRASS || metatileBehavior == MB_LONG_GRASS_SOUTH_EDGE;
 }
 bool32 MetatileBehavior_IsAshGrass(enum MetatileBehavior metatileBehavior) { return FALSE; }
 bool32 MetatileBehavior_IsFootprints(enum MetatileBehavior metatileBehavior) { return FALSE; }
