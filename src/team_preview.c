@@ -66,10 +66,6 @@ void ShowOpponentTeamPreview(u16 trainerId, MainCallback callback)
     {
         selectCount = maxPoolSize;
     }
-    if (selectCount > 6)
-    {
-        selectCount = 6;
-    }
     gSelectCount = selectCount;
     
     for (i = 0; i < 6; i++)

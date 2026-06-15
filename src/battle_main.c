@@ -2025,8 +2025,6 @@ u8 CreateNPCTrainerPartyFromTrainer(struct Pokemon *party, const struct Trainer 
                 u8 maxPlayerLvl = 1;
                 u32 p;
                 s32 offset = (s16)VarGet(VAR_SCALE_LEVEL_OFFSET);
-                if (offset == 0)
-                    offset = 5; // Default fallback to +5 if offset is not set
                 for (p = 0; p < gPlayerPartyCount; p++)
                 {
                     u8 lvl = GetMonData(&gPlayerParty[p], MON_DATA_LEVEL);

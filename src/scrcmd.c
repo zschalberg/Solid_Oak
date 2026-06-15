@@ -2524,6 +2524,7 @@ static u8 GetUsable3v3PartyCount(void)
         u16 species = GetMonData(mon, MON_DATA_SPECIES);
         if (species != SPECIES_NONE
             && species != SPECIES_EGG
+            && !GetMonData(mon, MON_DATA_IS_EGG)
             && GetMonData(mon, MON_DATA_HP) != 0
             && GetMonData(mon, MON_DATA_POKEBALL) != BALL_RESEARCH)
         {
@@ -2558,10 +2559,6 @@ bool8 ScrCmd_dotrainerbattle(struct ScriptContext *ctx)
     {
         selectCount = maxPoolSize;
     }
-    if (selectCount > 6)
-    {
-        selectCount = 6;
-    }
 
     if (FlagGet(FLAG_MONOTYPE_BATTLE))
     {
@@ -2592,20 +2589,18 @@ bool8 ScrCmd_dotrainerbattle(struct ScriptContext *ctx)
                 {
                     struct Pokemon *mon = &gPlayerParty[i];
                     u16 species = GetMonData(mon, MON_DATA_SPECIES);
-                    if (species != SPECIES_NONE)
+                    if (species == SPECIES_NONE || species == SPECIES_EGG
+                        || GetMonData(mon, MON_DATA_IS_EGG))
+                        continue;
+                    if (GetMonData(mon, MON_DATA_POKEBALL) == BALL_RESEARCH)
+                        continue;
+                    if (gSpeciesInfo[species].types[0] != restrictedType
+                        && gSpeciesInfo[species].types[1] != restrictedType)
                     {
-                        if (species == SPECIES_EGG
-                            || (gSpeciesInfo[species].types[0] != restrictedType
-                                && gSpeciesInfo[species].types[1] != restrictedType))
-                        {
-                            hasNonConforming = TRUE;
-                            break;
-                        }
-                        else
-                        {
-                            count++;
-                        }
+                        hasNonConforming = TRUE;
+                        break;
                     }
+                    count++;
                 }
                 
                 if (hasNonConforming || count == 0)
@@ -3295,7 +3290,7 @@ void Script_SetScaledWildBattle(struct ScriptContext *ctx)
     u8 minLevel = gSpecialVar_0x8005;
     s8 levelOffset = (s8)gSpecialVar_0x8006;
     enum Item item = gSpecialVar_0x8007;
-    u8 maxLevel = 1;
+    u8 maxLevel = 0;
     u32 i;
 
     for (i = 0; i < gPlayerPartyCount; i++)
