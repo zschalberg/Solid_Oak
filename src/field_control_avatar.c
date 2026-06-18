@@ -1,4 +1,6 @@
 #include "global.h"
+#include "item.h"
+#include "constants/items.h"
 #include "bike.h"
 #include "coord_event_weather.h"
 #include "daycare.h"
@@ -677,6 +679,9 @@ static const u8 *GetInteractedMetatileScript(struct MapPosition *position, enum 
     return NULL;
 }
 
+extern const u8 EventScript_DeepWater[];
+extern const u8 EventScript_TrySurface[];
+
 static const u8 *GetInteractedWaterScript(struct MapPosition *unused1, enum MetatileBehavior metatileBehavior, enum Direction direction)
 {
     if (MetatileBehavior_IsFastWater(metatileBehavior) == TRUE && !TestPlayerAvatarState(PLAYER_AVATAR_STATE_SURFING))
@@ -694,6 +699,18 @@ static const u8 *GetInteractedWaterScript(struct MapPosition *unused1, enum Meta
         else
             return EventScript_CantUseWaterfall;
     }
+
+    if (CheckFollowerNPCFlag(FOLLOWER_NPC_FLAG_CAN_DIVE) && CheckBagHasItem(ITEM_HM08, 1))
+    {
+        if (TestPlayerAvatarState(PLAYER_AVATAR_STATE_SURFING)
+            && MetatileBehavior_IsDiveable(metatileBehavior) == TRUE)
+            return EventScript_DeepWater;
+
+        if (gMapHeader.mapType == MAP_TYPE_UNDERWATER
+            && !MetatileBehavior_IsUnableToEmerge(metatileBehavior))
+            return EventScript_TrySurface;
+    }
+
     return NULL;
 }
 

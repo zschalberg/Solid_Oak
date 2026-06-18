@@ -506,7 +506,7 @@ static const struct ScrollArrowsTemplate sScrollArrowsTemplate_KantoDex = {
     .fullyUpThreshold = 0,
     .fullyDownThreshold = 10,
     .tileTag = 2000,
-    .palTag = 0xFFFF,
+    .palTag = 2000,
     .palNum = 1
 };
 
@@ -520,7 +520,7 @@ static const struct ScrollArrowsTemplate sScrollArrowsTemplate_NatDex = {
     .fullyUpThreshold = 0,
     .fullyDownThreshold = 11,
     .tileTag = 2000,
-    .palTag = 0xFFFF,
+    .palTag = 2000,
     .palNum = 1
 };
 
@@ -679,7 +679,7 @@ static const struct ScrollArrowsTemplate sDexOrderScrollArrowsTemplate = {
     .fullyUpThreshold = 0,
     .fullyDownThreshold = 0,
     .tileTag = 2000,
-    .palTag = 0xFFFF,
+    .palTag = 2000,
     .palNum = 1,
 };
 
@@ -1011,7 +1011,7 @@ static const struct ScrollArrowsTemplate sScrollArrowsTemplate_CategoryMenu = {
     .fullyUpThreshold = 0,
     .fullyDownThreshold = 0,
     .tileTag = 2000,
-    .palTag = 0xFFFF,
+    .palTag = 2000,
     .palNum = 1,
 };
 
@@ -1059,6 +1059,7 @@ void DexScreen_LoadResources(void)
     SetVBlankCallback(NULL);
     ResetPaletteFade();
     ResetSpriteData();
+    FreeAllSpritePalettes();
     ResetTasks();
     ScanlineEffect_Stop();
     ResetBgsAndClearDma3BusyFlags(TRUE);
@@ -1166,6 +1167,7 @@ bool8 DoClosePokedex(void)
         FREE_IF_NOT_NULL(GetBgTilemapBuffer(1));
         FREE_IF_NOT_NULL(GetBgTilemapBuffer(2));
         FREE_IF_NOT_NULL(GetBgTilemapBuffer(3));
+        FreeAllSpritePalettes();
         BGMVolumeMax_EnableHelpSystemReduction();
         break;
     }

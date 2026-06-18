@@ -62,6 +62,7 @@ static const u8 sText_OakThisIsListOfPokemon[] = _("This is a list of your POKé
 static const u8 sText_EscapeFromHereAndReturnTo[] = _("Want to escape from here and return\nto {STR_VAR_1}?");
 static const u8 sText_CancelBattle[] = _("Cancel the battle?");
 static const u8 sText_MonotypeRestrictionCantSwitch[] = _("This battle is restricted to\n{STR_VAR_2}-type POKéMON!\p{STR_VAR_1} cannot participate!{PAUSE_UNTIL_PRESS}");
+static const u8 sText_CantBattleInWater[] = _("{STR_VAR_1} can't battle\nin the water!{PAUSE_UNTIL_PRESS}");
 
 static const struct BgTemplate sPartyMenuBgTemplates[] =
 {

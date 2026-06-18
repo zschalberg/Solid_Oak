@@ -204,13 +204,35 @@ static const struct BattleWeatherInfo sBattleWeatherInfo[BATTLE_WEATHER_COUNT] =
 
     [BATTLE_WEATHER_STRONG_WINDS] =
     {
-        .flag = B_WEATHER_STRONG_WINDS,
-        .rock = HOLD_EFFECT_NONE,
+        .flag             = B_WEATHER_STRONG_WINDS,
+        .rock             = HOLD_EFFECT_NONE,
         .abilityStartMessage = B_MSG_STARTED_STRONG_WINDS,
         .moveStartMessage = B_MSG_STARTED_RAIN, // Placeholder
-        .endMessage = B_MSG_WEATHER_END_STRONG_WINDS,
+        .endMessage       = B_MSG_WEATHER_END_STRONG_WINDS,
         .continuesMessage = B_MSG_WEATHER_TURN_STRONG_WINDS,
-        .animation = B_ANIM_STRONG_WINDS,
+        .animation        = B_ANIM_STRONG_WINDS,
+    },
+
+    [BATTLE_WEATHER_ELECTRIC_FLOOR] =
+    {
+        .flag             = B_WEATHER_ELECTRIC_FLOOR,
+        .rock             = HOLD_EFFECT_NONE,
+        .abilityStartMessage = B_MSG_STARTED_ELECTRIC_FLOOR, // placeholder
+        .moveStartMessage = B_MSG_STARTED_ELECTRIC_FLOOR,
+        .endMessage       = B_MSG_WEATHER_END_ELECTRIC_FLOOR,
+        .continuesMessage = B_MSG_WEATHER_TURN_ELECTRIC_FLOOR,
+        .animation        = B_ANIM_ELECTRIC_FLOOR_CONTINUES,
+    },
+
+    [BATTLE_WEATHER_POISON_FOG] =
+    {
+        .flag             = B_WEATHER_POISON_FOG,
+        .rock             = HOLD_EFFECT_NONE,
+        .abilityStartMessage = B_MSG_STARTED_POISON_FOG, // placeholder
+        .moveStartMessage = B_MSG_STARTED_POISON_FOG,
+        .endMessage       = B_MSG_WEATHER_END_POISON_FOG,
+        .continuesMessage = B_MSG_WEATHER_TURN_POISON_FOG,
+        .animation        = B_ANIM_POISON_FOG_CONTINUES,
     },
 };
 
@@ -2931,6 +2953,22 @@ bool32 TryFieldEffects(enum FieldEffectCases caseId)
                 {
                     gBattleWeather = B_WEATHER_FOG;
                     gBattleScripting.animArg1 = B_ANIM_FOG_CONTINUES;
+                    effect = TRUE;
+                }
+                break;
+            case WEATHER_ELECTRIC_FLOOR:
+                if (!(gBattleWeather & B_WEATHER_ELECTRIC_FLOOR))
+                {
+                    gBattleWeather = B_WEATHER_ELECTRIC_FLOOR;
+                    gBattleScripting.animArg1 = B_ANIM_ELECTRIC_FLOOR_CONTINUES;
+                    effect = TRUE;
+                }
+                break;
+            case WEATHER_POISON_FOG:
+                if (!(gBattleWeather & B_WEATHER_POISON_FOG))
+                {
+                    gBattleWeather = B_WEATHER_POISON_FOG;
+                    gBattleScripting.animArg1 = B_ANIM_POISON_FOG_CONTINUES;
                     effect = TRUE;
                 }
                 break;
@@ -6151,7 +6189,8 @@ static inline u32 CalcMoveBasePower(struct BattleContext *ctx)
     case EFFECT_WEATHER_BALL:
     {
         u32 weather = GetAttackerWeather(ctx->holdEffectAtk, ctx->abilityAtk, ctx->weather);
-        if (weather & B_WEATHER_ANY && !((weather & (B_WEATHER_SUN | B_WEATHER_RAIN)) && ctx->holdEffectAtk == HOLD_EFFECT_UTILITY_UMBRELLA))
+        if (weather & B_WEATHER_ANY && !((weather & (B_WEATHER_SUN | B_WEATHER_RAIN)) && ctx->holdEffectAtk == HOLD_EFFECT_UTILITY_UMBRELLA)
+         && !(weather & (B_WEATHER_ELECTRIC_FLOOR | B_WEATHER_POISON_FOG)))
             basePower *= 2;
         break;
     }

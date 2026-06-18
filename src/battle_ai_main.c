@@ -2052,6 +2052,14 @@ static s32 AI_CheckBadMove(enum BattlerId battlerAtk, enum BattlerId battlerDef,
             if (weather & (B_WEATHER_ICY_ANY | B_WEATHER_PRIMAL_ANY))
                 ADJUST_SCORE(-8);
             break;
+        case BATTLE_WEATHER_ELECTRIC_FLOOR:
+            if (weather & B_WEATHER_ELECTRIC_FLOOR)
+                ADJUST_SCORE(-8);
+            break;
+        case BATTLE_WEATHER_POISON_FOG:
+            if (weather & B_WEATHER_POISON_FOG)
+                ADJUST_SCORE(-8);
+            break;
         }
         if (HasPartner(battlerAtk) && AreMovesEquivalent(battlerAtk, BATTLE_PARTNER(battlerAtk), move, aiData->partnerMove))
             ADJUST_SCORE(-8);
@@ -6849,6 +6857,14 @@ static s32 AI_PowerfulStatus(enum BattlerId battlerAtk, enum BattlerId battlerDe
         case BATTLE_WEATHER_HAIL:
         case BATTLE_WEATHER_SNOW:
             if (IsWeatherActive(B_WEATHER_ICY_ANY | B_WEATHER_PRIMAL_ANY) == WEATHER_INACTIVE)
+                ADJUST_SCORE(POWERFUL_STATUS_MOVE);
+            break;
+        case BATTLE_WEATHER_ELECTRIC_FLOOR:
+            if (IsWeatherActive(B_WEATHER_ELECTRIC_FLOOR) == WEATHER_INACTIVE)
+                ADJUST_SCORE(POWERFUL_STATUS_MOVE);
+            break;
+        case BATTLE_WEATHER_POISON_FOG:
+            if (IsWeatherActive(B_WEATHER_POISON_FOG) == WEATHER_INACTIVE)
                 ADJUST_SCORE(POWERFUL_STATUS_MOVE);
             break;
         }

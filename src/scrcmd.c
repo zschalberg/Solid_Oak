@@ -1,5 +1,7 @@
 #include "global.h"
 #include "battle_main.h"
+#include "battle_util.h"
+#include "water_battle.h"
 #include "team_preview.h"
 #include "constants/flags.h"
 #include "constants/pokeball.h"
@@ -2541,10 +2543,43 @@ static u8 GetUsable3v3PartyCount(void)
 
 extern const u8 EventScript_AbortMonotypeBattle[];
 extern const u8 EventScript_AbortMonotype3v3Battle[];
+extern const u8 EventScript_AbortNoEligibleMon[];
+
+static bool32 PlayerHasEligibleMonForCurrentBattleMode(void)
+{
+    bool32 waterBattle     = B_FLAG_WATER_BATTLE     && FlagGet(B_FLAG_WATER_BATTLE);
+    bool32 underwaterBattle = B_FLAG_UNDERWATER_BATTLE && FlagGet(B_FLAG_UNDERWATER_BATTLE);
+    bool32 skyBattle       = B_FLAG_SKY_BATTLE       && FlagGet(B_FLAG_SKY_BATTLE);
+
+    if (!waterBattle && !underwaterBattle && !skyBattle)
+        return TRUE;
+
+    u8 i;
+    for (i = 0; i < PARTY_SIZE; i++)
+    {
+        struct Pokemon *mon = &gPlayerParty[i];
+        if (!GetMonData(mon, MON_DATA_SPECIES) || GetMonData(mon, MON_DATA_IS_EGG)
+            || GetMonData(mon, MON_DATA_HP) == 0)
+            continue;
+        if (underwaterBattle && CanMonParticipateInWaterBattle(mon))
+            return TRUE;
+        if (waterBattle && (CanMonParticipateInWaterBattle(mon) || CanMonParticipateInSkyBattle(mon)))
+            return TRUE;
+        if (skyBattle && CanMonParticipateInSkyBattle(mon))
+            return TRUE;
+    }
+    return FALSE;
+}
 
 bool8 ScrCmd_dotrainerbattle(struct ScriptContext *ctx)
 {
     Script_RequestEffects(SCREFF_V1 | SCREFF_SAVE | SCREFF_HARDWARE);
+
+    if (!PlayerHasEligibleMonForCurrentBattleMode())
+    {
+        ctx->scriptPtr = EventScript_AbortNoEligibleMon;
+        return FALSE;
+    }
 
     u16 trainerId = gTrainerBattleParameter.params.opponentA;
     const struct Trainer *trainer = GetTrainerStructFromId(trainerId);
@@ -2709,6 +2744,12 @@ bool8 ScrCmd_setwildbattle(struct ScriptContext *ctx)
 bool8 ScrCmd_dowildbattle(struct ScriptContext *ctx)
 {
     Script_RequestEffects(SCREFF_V1 | SCREFF_HARDWARE);
+
+    if (!PlayerHasEligibleMonForCurrentBattleMode())
+    {
+        ctx->scriptPtr = EventScript_AbortNoEligibleMon;
+        return FALSE;
+    }
 
     if (sIsScriptedWildDouble == FALSE)
         BattleSetup_StartScriptedWildBattle();

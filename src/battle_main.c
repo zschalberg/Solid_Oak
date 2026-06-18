@@ -13,6 +13,8 @@
 #include "battle_pyramid.h"
 #include "battle_scripts.h"
 #include "battle_setup.h"
+#include "battle_util.h"
+#include "water_battle.h"
 #include "battle_tower.h"
 #include "battle_z_move.h"
 #include "battle_gimmick.h"
@@ -3884,7 +3886,15 @@ static void TryDoEventsBeforeFirstTurn(void)
             {
                 gBattleStruct->monToSwitchIntoId[battler] = PARTY_SIZE; // Included here because switches can happen before during set ups (eg. eject pack)
                 struct Pokemon *mon = GetBattlerMon(battler);
-                if (!IsBattlerAlive(battler) || gBattleMons[battler].species == SPECIES_NONE || GetMonData(mon, MON_DATA_IS_EGG))
+                bool32 waterIneligible = FALSE;
+                if (GetBattlerSide(battler) == B_SIDE_PLAYER)
+                {
+                    if (gBattleStruct->isUnderwaterBattle)
+                        waterIneligible = !CanMonParticipateInWaterBattle(mon);
+                    else if (gBattleStruct->isWaterBattle)
+                        waterIneligible = !CanMonParticipateInWaterBattle(mon) && !CanMonParticipateInSkyBattle(mon);
+                }
+                if (!IsBattlerAlive(battler) || gBattleMons[battler].species == SPECIES_NONE || GetMonData(mon, MON_DATA_IS_EGG) || waterIneligible)
                     gAbsentBattlerFlags |= 1u << battler;
             }
         }

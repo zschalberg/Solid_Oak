@@ -16,6 +16,7 @@ static bool32 FieldMove_IsUnlockedStrength(void);
 static bool32 FieldMove_IsUnlockedFlash(void);
 static bool32 FieldMove_IsUnlockedRockSmash(void);
 static bool32 FieldMove_IsUnlockedWaterfall(void);
+static bool32 FieldMove_IsUnlockedDive(void);
 #if OW_ROCK_CLIMB_FIELD_MOVE == TRUE
 static bool32 FieldMove_IsUnlockedRockClimb(void);
 #endif
@@ -110,12 +111,12 @@ const struct FieldMoveInfo gFieldMovesInfo[FIELD_MOVE_COUNT] =
     [FIELD_MOVE_DIVE] =
     {
         .defaultSpecies = SPECIES_SEEL,
-        .isUnlockedFunc = NULL,
-        .moveId = MOVE_NONE,
+        .isUnlockedFunc = FieldMove_IsUnlockedDive,
+        .moveId = MOVE_DIVE,
         .partyMessageId = PARTY_MSG_CANT_USE_HERE,
-        .description = COMPOUND_STRING("N/A"),
-        .setUpFunc = NULL,
-        .questLogText = COMPOUND_STRING("N/A"),
+        .description = COMPOUND_STRING("Dive underwater."),
+        .setUpFunc = FieldMove_SetUpDive,
+        .questLogText = COMPOUND_STRING("{STR_VAR_1} used DIVE here."),
     },
     [FIELD_MOVE_ROCK_CLIMB] =
     {
@@ -245,6 +246,11 @@ static bool32 FieldMove_IsUnlockedRockSmash(void)
 static bool32 FieldMove_IsUnlockedWaterfall(void)
 {
     return CheckBagHasItem(ITEM_HM07, 1);
+}
+
+static bool32 FieldMove_IsUnlockedDive(void)
+{
+    return CheckBagHasItem(ITEM_HM08, 1);
 }
 
 #if OW_ROCK_CLIMB_FIELD_MOVE == TRUE

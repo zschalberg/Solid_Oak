@@ -21400,6 +21400,42 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .battleAnimScript = gBattleAnimMove_MalignantChain,
     },
 
+    [MOVE_CHARGED_GROUND] =
+    {
+        .name        = COMPOUND_STRING("Charged Ground"),
+        .description = COMPOUND_STRING("Electrifies the ground\nfor 5 turns."),
+        .effect      = EFFECT_WEATHER,
+        .power       = 0,
+        .type        = TYPE_ELECTRIC,
+        .accuracy    = 0,
+        .pp          = 10,
+        .target      = TARGET_FIELD,
+        .priority    = 0,
+        .category    = DAMAGE_CATEGORY_STATUS,
+        .ignoresProtect = TRUE,
+        .mirrorMoveBanned = TRUE,
+        .argument    = { .weatherType = BATTLE_WEATHER_ELECTRIC_FLOOR },
+        .battleAnimScript = gBattleAnimMove_ElectricTerrain,
+    },
+
+    [MOVE_MIASMA] =
+    {
+        .name        = COMPOUND_STRING("Miasma"),
+        .description = COMPOUND_STRING("Creates a toxic fog\nfor 5 turns."),
+        .effect      = EFFECT_WEATHER,
+        .power       = 0,
+        .type        = TYPE_POISON,
+        .accuracy    = 0,
+        .pp          = 10,
+        .target      = TARGET_FIELD,
+        .priority    = 0,
+        .category    = DAMAGE_CATEGORY_STATUS,
+        .ignoresProtect = TRUE,
+        .mirrorMoveBanned = TRUE,
+        .argument    = { .weatherType = BATTLE_WEATHER_POISON_FOG },
+        .battleAnimScript = gBattleAnimMove_Haze,
+    },
+
     // Z-Moves
     [MOVE_BREAKNECK_BLITZ] =
     {

@@ -68,6 +68,7 @@
 #include "constants/trainers.h"
 #include "test/battle.h"
 #include "battle_util.h"
+#include "water_battle.h"
 #include "constants/pokemon.h"
 #include "config/battle.h"
 #include "pokedex_emerald.h"
@@ -4496,9 +4497,28 @@ bool32 NoAliveMonsForPlayer(void)
     // Get total HP for the player's party to determine if the player has lost
     for (i = 0; i < maxI; i++)
     {
+        // A mon already sent out as an active battler must always count toward
+        // the alive check, even if it's water-ineligible — it's already fighting
+        // and there was no opportunity to keep it from being chosen as the lead.
+        bool32 isActiveBattler = FALSE;
+        u32 battler;
+        for (battler = 0; battler < gBattlersCount; battler++)
+        {
+            if (GetBattlerSide(battler) == B_SIDE_PLAYER && gBattlerPartyIndexes[battler] == i)
+            {
+                isActiveBattler = TRUE;
+                break;
+            }
+        }
+
         if (GetMonData(&gPlayerParty[i], MON_DATA_SPECIES) && !GetMonData(&gPlayerParty[i], MON_DATA_IS_EGG)
             && GetMonData(&gPlayerParty[i], MON_DATA_POKEBALL) != BALL_RESEARCH
-            && (!(gBattleTypeFlags & BATTLE_TYPE_ARENA) || !(gBattleStruct->arenaLostPlayerMons & (1u << i))))
+            && (!(gBattleTypeFlags & BATTLE_TYPE_ARENA) || !(gBattleStruct->arenaLostPlayerMons & (1u << i)))
+            && (isActiveBattler
+                || ((!gBattleStruct->isUnderwaterBattle || CanMonParticipateInWaterBattle(&gPlayerParty[i]))
+                    && (!gBattleStruct->isWaterBattle
+                        || CanMonParticipateInWaterBattle(&gPlayerParty[i])
+                        || CanMonParticipateInSkyBattle(&gPlayerParty[i])))))
         {
             HP_count += GetMonData(&gPlayerParty[i], MON_DATA_HP);
         }

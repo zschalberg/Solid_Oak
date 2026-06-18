@@ -1,4 +1,6 @@
 #include "global.h"
+#include "battle_util.h"
+#include "water_battle.h"
 #include "battle_setup.h"
 #include "battle_main.h"
 #include "battle_anim.h"
@@ -4593,6 +4595,39 @@ bool32 FieldMove_SetUpWaterfall(void)
     return FALSE;
 }
 
+static void FieldCallback_Dive(void)
+{
+    gFieldEffectArguments[0] = GetCursorSelectionMonId();
+    FieldEffectStart(FLDEFF_USE_DIVE);
+}
+
+bool32 FieldMove_SetUpDive(void)
+{
+    if (!CheckFollowerNPCFlag(FOLLOWER_NPC_FLAG_CAN_DIVE))
+        return FALSE;
+
+    struct ObjectEvent *playerObj = &gObjectEvents[gPlayerAvatar.objectEventId];
+    enum MetatileBehavior behavior = (enum MetatileBehavior)playerObj->currentMetatileBehavior;
+
+    if (TestPlayerAvatarState(PLAYER_AVATAR_STATE_SURFING)
+        && MetatileBehavior_IsDiveable(behavior) == TRUE)
+    {
+        gFieldCallback2 = FieldCallback_PrepareFadeInFromMenu;
+        gPostMenuFieldCallback = FieldCallback_Dive;
+        return TRUE;
+    }
+
+    if (gMapHeader.mapType == MAP_TYPE_UNDERWATER
+        && !MetatileBehavior_IsUnableToEmerge(behavior))
+    {
+        gFieldCallback2 = FieldCallback_PrepareFadeInFromMenu;
+        gPostMenuFieldCallback = FieldCallback_Dive;
+        return TRUE;
+    }
+
+    return FALSE;
+}
+
 static void FieldCallback_RockClimb(void)
 {
     gFieldEffectArguments[0] = GetCursorSelectionMonId();
@@ -6760,6 +6795,20 @@ static bool8 GetBattleEntryEligibility(struct Pokemon *mon)
     if (GetMonData(mon, MON_DATA_POKEBALL) == BALL_RESEARCH)
         return FALSE;
 
+    if (gBattleStruct != NULL)
+    {
+        if (gBattleStruct->isUnderwaterBattle)
+        {
+            if (!CanMonParticipateInWaterBattle(mon))
+                return FALSE;
+        }
+        else if (gBattleStruct->isWaterBattle)
+        {
+            if (!CanMonParticipateInWaterBattle(mon) && !CanMonParticipateInSkyBattle(mon))
+                return FALSE;
+        }
+    }
+
     if (GetMonData(mon, MON_DATA_IS_EGG)
         || GetMonData(mon, MON_DATA_LEVEL) > GetBattleEntryLevelCap()
         || (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAP_BATTLE_FRONTIER_BATTLE_PYRAMID_LOBBY)
@@ -7081,6 +7130,21 @@ static bool8 TrySwitchInPokemon(void)
                 StringExpandPlaceholders(gStringVar4, sText_MonotypeRestrictionCantSwitch);
                 return FALSE;
             }
+        }
+    }
+
+    if (gBattleStruct != NULL)
+    {
+        bool32 ineligible = FALSE;
+        if (gBattleStruct->isUnderwaterBattle)
+            ineligible = !CanMonParticipateInWaterBattle(&gPlayerParty[slot]);
+        else if (gBattleStruct->isWaterBattle)
+            ineligible = !CanMonParticipateInWaterBattle(&gPlayerParty[slot]) && !CanMonParticipateInSkyBattle(&gPlayerParty[slot]);
+        if (ineligible)
+        {
+            GetMonNickname(&gPlayerParty[slot], gStringVar1);
+            StringExpandPlaceholders(gStringVar4, sText_CantBattleInWater);
+            return FALSE;
         }
     }
 

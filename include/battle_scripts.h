@@ -310,6 +310,8 @@ extern const u8 BattleScript_EffectLifeDew[];
 extern const u8 BattleScript_AbilityRaisesDefenderStat[];
 extern const u8 BattleScript_PowderMoveNoEffect[];
 extern const u8 BattleScript_GrassyTerrainHeals[];
+extern const u8 BattleScript_ElectricFloorHeals[];
+extern const u8 BattleScript_PoisonFogPoisons[];
 extern const u8 BattleScript_VCreateStatLoss[];
 extern const u8 BattleScript_SpikyShieldEffect[];
 extern const u8 BattleScript_KingsShieldEffect[];
