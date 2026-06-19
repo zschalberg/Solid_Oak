@@ -524,6 +524,9 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_UNCOMMON_SIZE_CAUGHT]                 = COMPOUND_STRING("{B_DEF_NAME} was of exceptional size!\n(HT: {STR_VAR_1}% / WT: {STR_VAR_2}% - {COLOR BLUE}{SHADOW LIGHT_BLUE}Uncommon{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}!)\p"),
     [STRINGID_RARE_SIZE_CAUGHT]                     = COMPOUND_STRING("{B_DEF_NAME} was of exceptional size!\n(HT: {STR_VAR_1}% / WT: {STR_VAR_2}% - {COLOR BLUE}{SHADOW LIGHT_BLUE}Rare{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}!)\p"),
     [STRINGID_VERY_RARE_SIZE_CAUGHT]                = COMPOUND_STRING("{B_DEF_NAME} was of exceptional size!\n(HT: {STR_VAR_1}% / WT: {STR_VAR_2}% - {COLOR BLUE}{SHADOW LIGHT_BLUE}Very Rare{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}!)\p"),
+    [STRINGID_BERRY_CATCH_BOOST_RAZZ]              = COMPOUND_STRING("It's a little easier to catch wild Pokémon!"),
+    [STRINGID_BERRY_CATCH_BOOST_NANAB]             = COMPOUND_STRING("It's much easier to catch wild Pokémon now!"),
+    [STRINGID_BERRY_CATCH_EXPIRED]                 = COMPOUND_STRING("The berry's effect has worn off."),
     [STRINGID_PKMNBROKEFREE]                        = COMPOUND_STRING("Oh no! The Pokémon broke free!"),
     [STRINGID_ITAPPEAREDCAUGHT]                     = COMPOUND_STRING("Aww! It appeared to be caught!"),
     [STRINGID_AARGHALMOSTHADIT]                     = COMPOUND_STRING("Aargh! Almost had it!"),
@@ -1368,6 +1371,12 @@ const u16 gBallEscapeStringIds[] =
     [BALL_1_SHAKE]       = STRINGID_ITAPPEAREDCAUGHT,
     [BALL_2_SHAKES]      = STRINGID_AARGHALMOSTHADIT,
     [BALL_3_SHAKES_FAIL] = STRINGID_SHOOTSOCLOSE
+};
+
+const u16 gBerryCatchBoostStringIds[] =
+{
+    [0] = STRINGID_BERRY_CATCH_BOOST_RAZZ,
+    [1] = STRINGID_BERRY_CATCH_BOOST_NANAB,
 };
 
 // Overworld weathers that don't have an associated battle weather default to "It is raining."

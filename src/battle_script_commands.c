@@ -10795,6 +10795,15 @@ static const u8 sBadgeLevel[] = {
     100,
 };
 
+static u32 GetResearchTierNumerator(void)
+{
+    u32 caught = GetNationalPokedexCount(FLAG_GET_CAUGHT);
+    if (caught >= 100) return 15; // 1.5x
+    if (caught >= 50)  return 12; // 1.2x
+    if (caught >= 20)  return 11; // 1.1x
+    return 10;                    // no bonus
+}
+
 static u32 ComputeCaptureOdds(u32 wildMonBattler, u32 playerBattler)
 {
     struct BallData ball;
@@ -10841,6 +10850,25 @@ static u32 ComputeCaptureOdds(u32 wildMonBattler, u32 playerBattler)
     }
     if (battleMon->status1 & STATUS1_CAN_MOVE)
         odds = odds * 15 / 10;
+
+    if (gBattleStruct->berryCatchTurnsRemaining > 0)
+    {
+        odds = odds * gBattleStruct->berryCatchModifier / 10;
+        if (--gBattleStruct->berryCatchTurnsRemaining == 0)
+        {
+            gBattleStruct->berryCatchExpired = 1;
+            gBattleStruct->berryCatchModifier = 0;
+        }
+    }
+
+    {
+        u32 researchMult = GetResearchTierNumerator();
+        if (researchMult > 10)
+            odds = odds * researchMult / 10;
+    }
+
+    if (odds > 255)
+        odds = 255;
 
     return odds;
 }
@@ -11681,6 +11709,39 @@ static void Cmd_callnative(void)
 }
 
 // Callnative Funcs
+
+void BS_ActivateBerryCatchModifier(void)
+{
+    NATIVE_ARGS();
+    if (gLastUsedItem == ITEM_NANAB_BERRY)
+    {
+        gBattleStruct->berryCatchModifier = 15;
+        gBattleCommunication[MULTISTRING_CHOOSER] = 1;
+    }
+    else
+    {
+        gBattleStruct->berryCatchModifier = 12;
+        gBattleCommunication[MULTISTRING_CHOOSER] = 0;
+    }
+    gBattleStruct->berryCatchTurnsRemaining = 3;
+    gBattlescriptCurrInstr = cmd->nextInstr;
+}
+
+extern const u8 BattleScript_BerryCatchExpiredMsg[];
+
+void BS_CheckBerryCatchExpiry(void)
+{
+    NATIVE_ARGS();
+    if (gBattleStruct->berryCatchExpired)
+    {
+        gBattleStruct->berryCatchExpired = 0;
+        gBattlescriptCurrInstr = BattleScript_BerryCatchExpiredMsg;
+    }
+    else
+    {
+        gBattlescriptCurrInstr = cmd->nextInstr;
+    }
+}
 
 void SaveBattlerTarget(enum BattlerId battler)
 {

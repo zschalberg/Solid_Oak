@@ -582,6 +582,9 @@ struct BattleStruct
     u8 safariBaitThrowCounter;
     u8 safariEscapeFactor;
     u8 safariCatchFactor;
+    u8 berryCatchModifier;       // Numerator over 10: 15 = 1.5x; 0 = inactive
+    u8 berryCatchTurnsRemaining; // Ball throws remaining with catch boost
+    u8 berryCatchExpired;        // Set when turns hit 0; cleared after expiry message
     u8 linkBattleVsSpriteId_V; // The letter "V"
     u8 linkBattleVsSpriteId_S; // The letter "S"
     u8 chosenMovePositions[MAX_BATTLERS_COUNT];

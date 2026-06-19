@@ -1127,6 +1127,7 @@ enum ItemType
 #define EFFECT_ITEM_INCREASE_ALL_STATS      11
 #define EFFECT_ITEM_USE_POKE_FLUTE          12
 #define EFFECT_ITEM_USE_BERRY_POUCH         13
+#define EFFECT_ITEM_BERRY_CATCH_BOOST       14
 
 // Enigma Berry dummy constant
 #define EFFECT_ITEM_ENIGMA_BERRY_EREADER    1
