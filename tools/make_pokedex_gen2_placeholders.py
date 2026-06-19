@@ -6,6 +6,7 @@ import shutil
 SPECIES_H = "include/constants/species.h"
 GEN1_FAMILIES = "src/data/pokemon/species_info/gen_1_families.h"
 GEN2_FAMILIES = "src/data/pokemon/species_info/gen_2_families.h"
+GEN3_FAMILIES = "src/data/pokemon/species_info/gen_3_families.h"
 POKEMON_GFX_DIR = "graphics/pokemon"
 GEN2_GFX_DIR = "graphics/pokedex_gen2"
 OUTPUT_H = "src/data/graphics/pokedex_gen2_sprites.h"
@@ -29,7 +30,7 @@ matches = re.findall(r"\s*(SPECIES_[A-Z0-9_]+)\s*=\s*([0-9]+)\s*,", enum_content
 species_map = {}
 for name, val_str in matches:
     val = int(val_str)
-    if 1 <= val <= 251:
+    if 1 <= val <= 386:
         species_map[name] = val
         species_list.append((name, val))
 
@@ -83,6 +84,7 @@ def parse_families(file_path):
 
 parse_families(GEN1_FAMILIES)
 parse_families(GEN2_FAMILIES)
+parse_families(GEN3_FAMILIES)
 
 # If any species didn't get a family, default to its own name
 for name, val in species_list:
