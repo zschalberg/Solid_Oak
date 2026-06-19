@@ -2837,18 +2837,11 @@ void TryAddLastUsedBallItemSprites(void)
 {
     if (B_LAST_USED_BALL == FALSE)
         return;
-    if (gLastThrownBall == 0
-      || (gLastThrownBall != 0 && !CheckBagHasItem(gLastThrownBall, 1)))
+    if (!CheckBagHasItem(gBallToDisplay, 1))
     {
-        // we're out of the last used ball, so just set it to the first ball in the bag
-        u16 firstBall;
-
-        // we have to compact the bag first bc it is typically only compacted when you open it
-        CompactItemsInBagPocket(POCKET_POKE_BALLS);
-
-        firstBall = GetBagItemId(POCKET_POKE_BALLS, 0);
-        if (firstBall > ITEM_NONE)
-            gBallToDisplay = firstBall;
+        u16 first = GetFirstAvailableThrowable();
+        if (first != ITEM_NONE)
+            gBallToDisplay = first;
     }
 
     if (!CanThrowLastUsedBall())

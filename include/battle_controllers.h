@@ -497,4 +497,6 @@ bool32 ShouldBattleRestrictionsApply(enum BattlerId battler);
 void FreeShinyStars(void);
 enum BattleTrainer GetBattlerTrainer(enum BattlerId battler);
 
+u16 GetFirstAvailableThrowable(void);
+
 #endif // GUARD_BATTLE_CONTROLLERS_H

@@ -759,7 +759,28 @@ void HandleAction_ThrowBall(void)
     gLastUsedItem = gBallToDisplay;
     if (!GetItemImportance(gLastUsedItem))
         RemoveBagItem(gLastUsedItem, 1);
-    gBattlescriptCurrInstr = BattleScript_BallThrow;
+    if (GetItemBattleUsage(gLastUsedItem) == EFFECT_ITEM_BERRY_CATCH_BOOST)
+    {
+        u16 ballId = ITEM_NONE;
+        if (gLastThrownBall != ITEM_NONE && CheckBagHasItem(gLastThrownBall, 1))
+        {
+            ballId = gLastThrownBall;
+        }
+        else
+        {
+            CompactItemsInBagPocket(POCKET_POKE_BALLS);
+            ballId = GetBagItemId(POCKET_POKE_BALLS, 0);
+        }
+
+        if (ballId > ITEM_NONE)
+            gBallToDisplay = ballId;
+
+        gBattlescriptCurrInstr = BattleScript_BerryCatchBoost;
+    }
+    else
+    {
+        gBattlescriptCurrInstr = BattleScript_BallThrow;
+    }
     gCurrentActionFuncId = B_ACTION_EXEC_SCRIPT;
 }
 
