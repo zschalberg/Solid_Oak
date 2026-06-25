@@ -1054,6 +1054,7 @@ enum __attribute__((packed)) Item
     ITEM_WORKBENCH = 875,
     ITEM_BREWING_KIT = 876,
     ITEM_COURIER_WHISTLE = 877,
+    ITEM_IV_SCANNER = 878,
 
     ITEMS_COUNT,
     ITEM_FIELD_ARROW = ITEMS_COUNT,
@@ -1128,6 +1129,7 @@ enum ItemType
 #define EFFECT_ITEM_USE_POKE_FLUTE          12
 #define EFFECT_ITEM_USE_BERRY_POUCH         13
 #define EFFECT_ITEM_BERRY_CATCH_BOOST       14
+#define EFFECT_ITEM_IV_SCANNER              15
 
 // Enigma Berry dummy constant
 #define EFFECT_ITEM_ENIGMA_BERRY_EREADER    1

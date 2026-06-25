@@ -7303,6 +7303,23 @@ const struct ItemInfo gItemsInfo[] =
         .iconPalette = gItemIconPalette_BlueFlute,
     },
 
+    [ITEM_IV_SCANNER] =
+    {
+        .name = ITEM_NAME("IV Scanner"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "Scans a wild POKéMON\n"
+            "and grades its IV\n"
+            "potential."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .battleUsage = EFFECT_ITEM_IV_SCANNER,
+        .iconPic = gItemIcon_SilphScope,
+        .iconPalette = gItemIconPalette_SilphScope,
+    },
+
 // Gems
     #if I_PRICE >= GEN_9
         #define GEM_PRICE 15000

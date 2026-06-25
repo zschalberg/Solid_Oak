@@ -15210,3 +15210,47 @@ void BS_GetBattlersForRecall(void)
 
     gBattlescriptCurrInstr = cmd->nextInstr;
 }
+
+static const u8 sText_IVGrade_Outstanding[] = _("outstanding");
+static const u8 sText_IVGrade_Good[]        = _("good");
+static const u8 sText_IVGrade_Decent[]      = _("decent");
+static const u8 sText_IVGrade_Poor[]        = _("poor");
+
+void BS_UseIVScanner(void)
+{
+    NATIVE_ARGS();
+    u8 opponent = GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT);
+    if (gBattleTypeFlags & BATTLE_TYPE_DOUBLE)
+    {
+        if (!IsBattlerAlive(opponent))
+            opponent = GetBattlerAtPosition(B_POSITION_OPPONENT_RIGHT);
+    }
+
+    gBattlerTarget = opponent;
+
+    u32 partyIndex = gBattlerPartyIndexes[opponent];
+    struct Pokemon *mon = &gEnemyParty[partyIndex];
+
+    u32 hpIV = GetMonData(mon, MON_DATA_HP_IV);
+    u32 atkIV = GetMonData(mon, MON_DATA_ATK_IV);
+    u32 defIV = GetMonData(mon, MON_DATA_DEF_IV);
+    u32 speedIV = GetMonData(mon, MON_DATA_SPEED_IV);
+    u32 spatkIV = GetMonData(mon, MON_DATA_SPATK_IV);
+    u32 spdefIV = GetMonData(mon, MON_DATA_SPDEF_IV);
+    u32 totalIV = hpIV + atkIV + defIV + speedIV + spatkIV + spdefIV;
+
+    const u8 *gradeString;
+    if (totalIV >= 151)
+        gradeString = sText_IVGrade_Outstanding;
+    else if (totalIV >= 111)
+        gradeString = sText_IVGrade_Good;
+    else if (totalIV >= 60)
+        gradeString = sText_IVGrade_Decent;
+    else
+        gradeString = sText_IVGrade_Poor;
+
+    StringCopy(gStringVar1, gradeString);
+    gBattleStruct->ivScannerUsed = TRUE;
+
+    gBattlescriptCurrInstr = cmd->nextInstr;
+}

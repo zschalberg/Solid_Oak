@@ -37,6 +37,7 @@ gBattlescriptsForUsingItem::
 	.4byte BattleScript_UsePokeFlute                 @ EFFECT_ITEM_USE_POKE_FLUTE
 	.4byte BattleScript_ItemEnd                      @ EFFECT_ITEM_USE_BERRY_POUCH (gap filler)
 	.4byte BattleScript_BerryCatchBoost              @ EFFECT_ITEM_BERRY_CATCH_BOOST
+	.4byte BattleScript_IVScanner                    @ EFFECT_ITEM_IV_SCANNER
 
 BattleScript_WatchesCarefully::
 	printfromtable gSafariReactionStringIds
@@ -342,4 +343,12 @@ BattleScript_PrintExceptionalSize::
 	printsavedstring
 	waitmessage B_WAIT_TIME_LONG
 	return
+
+BattleScript_IVScanner::
+	call BattleScript_UseItemMessage
+	callnative BS_UseIVScanner
+	printstring STRINGID_IVSCANNER_RATING
+	waitmessage B_WAIT_TIME_LONG
+	end
+
 

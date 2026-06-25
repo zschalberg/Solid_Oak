@@ -713,7 +713,9 @@ struct BattleStruct
     u8 moveBouncer;
     u8 dancerSavedAttacker:3;
     u8 dancerSavedTarget:3;
-    u8 padding:2;
+    u8 useIVScannerShortcut:1;
+    u8 ivScannerUsed:1;
+    u8 ivScannerSpriteIds[2];
     // pokefirered
     u8 lastAttackerToFaintOpponent;
 };

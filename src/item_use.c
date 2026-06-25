@@ -866,7 +866,8 @@ void ItemUseOutOfBattle_ResetEVs(u8 taskId)
 static void RemoveUsedItem(void)
 {
     u8 pocketId = GetItemPocket(gSpecialVar_ItemId);
-    RemoveBagItem(gSpecialVar_ItemId, 1);
+    if (pocketId != POCKET_KEY_ITEMS && !GetItemImportance(gSpecialVar_ItemId))
+        RemoveBagItem(gSpecialVar_ItemId, 1);
     CopyItemName(gSpecialVar_ItemId, gStringVar2);
     StringExpandPlaceholders(gStringVar4, gText_PlayerUsedVar2);
 
@@ -1114,6 +1115,7 @@ bool32 CanThrowBall(void)
 static const u8 sText_CantThrowPokeBall_TwoMons[] = _("Cannot throw a ball!\nThere are two Pokémon out there!\p");
 static const u8 sText_CantThrowPokeBall_SemiInvulnerable[] = _("Cannot throw a ball!\nThere's no Pokémon in sight!\p");
 static const u8 sText_CantThrowPokeBall_Disabled[] = _("POKé BALLS cannot be used\nright now!\p");
+static const u8 sText_PokemonAlreadyScanned[] = _("The POKéMON has already\nbeen scanned!\p");
 
 static bool32 IteamHealsMonVolatile(enum BattlerId battler, enum Item itemId)
 {
@@ -1184,6 +1186,15 @@ bool32 CannotUseItemsInBattle(enum Item itemId, struct Pokemon *mon)
     case EFFECT_ITEM_ESCAPE:
         if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
             cannotUse = TRUE;
+        break;
+    case EFFECT_ITEM_IV_SCANNER:
+        if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
+            cannotUse = TRUE;
+        else if (gBattleStruct->ivScannerUsed)
+        {
+            cannotUse = TRUE;
+            failStr = sText_PokemonAlreadyScanned;
+        }
         break;
     case EFFECT_ITEM_THROW_BALL:
         switch (GetBallThrowableState())

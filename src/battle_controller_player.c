@@ -333,6 +333,19 @@ static void HandleInputChooseAction(enum BattlerId battler)
         }
     }
 
+    if (JOY_NEW(L_BUTTON))
+    {
+        if (!(gBattleTypeFlags & BATTLE_TYPE_TRAINER) && CheckBagHasItem(ITEM_IV_SCANNER, 1) && !gBattleStruct->ivScannerUsed)
+        {
+            PlaySE(SE_SELECT);
+            TryHideLastUsedBall();
+            gBattleStruct->useIVScannerShortcut = TRUE;
+            BtlController_EmitTwoReturnValues(battler, B_COMM_TO_ENGINE, B_ACTION_USE_ITEM, 0);
+            BtlController_Complete(battler);
+            return;
+        }
+    }
+
     if (JOY_NEW(A_BUTTON))
     {
         PlaySE(SE_SELECT);
@@ -2278,6 +2291,15 @@ void InitMoveSelectionsVarsAndStrings(enum BattlerId battler)
 static void PlayerHandleChooseItem(enum BattlerId battler)
 {
     s32 i;
+
+    if (gBattleStruct->useIVScannerShortcut)
+    {
+        gBattleStruct->useIVScannerShortcut = FALSE;
+        gSpecialVar_ItemId = ITEM_IV_SCANNER;
+        BtlController_EmitOneReturnValue(battler, B_COMM_TO_ENGINE, ITEM_IV_SCANNER);
+        BtlController_Complete(battler);
+        return;
+    }
 
     BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_BLACK);
     gBattlerControllerFuncs[battler] = OpenBagAndChooseItem;
