@@ -378,4 +378,10 @@ gSpecials::
 	def_special Courier_BufferCartString
 	def_special Courier_ExecuteCart
 	def_special Courier_BufferSingleWithdrawName
+	def_special IsSelectedMonResearchBall
+	def_special IsSelectedMonNewFamily
+	def_special EvaluateSelectedResearchMon
+	def_special TurnInSelectedResearchMon
+	def_special TransferSelectedMonToPokeBall
 gSpecialsEnd::
+

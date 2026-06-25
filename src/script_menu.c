@@ -766,6 +766,34 @@ static const struct MenuAction sMultichoiceList_CourierRooms9_10[] = {
     { gText_Cancel }
 };
 
+static const struct MenuAction sMultichoiceList_ResearchMain[] = {
+    { COMPOUND_STRING("Turn In Pokémon") },
+    { COMPOUND_STRING("Exchange Shop") },
+    { COMPOUND_STRING("Transfer Ball (500C)") },
+    { COMPOUND_STRING("Info") },
+    { gText_Cancel }
+};
+
+static const struct MenuAction sMultichoiceList_ResearchShop[] = {
+    { COMPOUND_STRING("Items Shop") },
+    { COMPOUND_STRING("Pokémon Shop") },
+    { COMPOUND_STRING("Sanctuary Upgrade") },
+    { gText_Cancel }
+};
+
+static const struct MenuAction sMultichoiceList_ResearchItems[] = {
+    { COMPOUND_STRING("Evolution Stone (100 C)") },
+    { COMPOUND_STRING("Rare Candy (200 C)") },
+    { COMPOUND_STRING("Exp. Share (1500 C)") },
+    { gText_Cancel }
+};
+
+static const struct MenuAction sMultichoiceList_ResearchPokemon[] = {
+    { COMPOUND_STRING("Porygon (1500 C)") },
+    { COMPOUND_STRING("Beldum (2000 C)") },
+    { gText_Cancel }
+};
+
 struct MultichoiceListStruct
 {
     const struct MenuAction *list;
@@ -863,6 +891,10 @@ static const struct MultichoiceListStruct sMultichoiceLists[] =
     [MULTI_COURIER_ROOMS_1_4]                          = MULTICHOICE(sMultichoiceList_CourierRooms1_4),
     [MULTI_COURIER_ROOMS_5_8]                          = MULTICHOICE(sMultichoiceList_CourierRooms5_8),
     [MULTI_COURIER_ROOMS_9_10]                         = MULTICHOICE(sMultichoiceList_CourierRooms9_10),
+    [MULTI_RESEARCH_MAIN]                              = MULTICHOICE(sMultichoiceList_ResearchMain),
+    [MULTI_RESEARCH_SHOP]                              = MULTICHOICE(sMultichoiceList_ResearchShop),
+    [MULTI_RESEARCH_ITEMS]                             = MULTICHOICE(sMultichoiceList_ResearchItems),
+    [MULTI_RESEARCH_POKEMON]                           = MULTICHOICE(sMultichoiceList_ResearchPokemon),
 };
 
 const u8 *const gStdStrings[] = {

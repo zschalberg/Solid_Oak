@@ -1495,13 +1495,13 @@ static void DexScreen_InitGfxForNumericalOrderList(void)
         // Left side: "Seen: XXX"
         ptr = StringCopy(buffer, sText_Seen);
         *ptr++ = CHAR_SPACE;
-        ptr = ConvertIntToDecimalStringN(ptr, seenCount, STR_CONV_MODE_LEFT_ALIGN, 3);
+        ptr = ConvertIntToDecimalStringN(ptr, seenCount, STR_CONV_MODE_LEFT_ALIGN, 4);
         DexScreen_AddTextPrinterParameterized(0, FONT_NORMAL, buffer, 8, 2, 4);
 
         // Right side: "Owned: YYY"
         ptr = StringCopy(buffer, sText_Owned);
         *ptr++ = CHAR_SPACE;
-        ptr = ConvertIntToDecimalStringN(ptr, ownedCount, STR_CONV_MODE_LEFT_ALIGN, 3);
+        ptr = ConvertIntToDecimalStringN(ptr, ownedCount, STR_CONV_MODE_LEFT_ALIGN, 4);
         x = 232 - GetStringWidth(FONT_NORMAL, buffer, 0);
         DexScreen_AddTextPrinterParameterized(0, FONT_NORMAL, buffer, x, 2, 4);
     }
@@ -1904,7 +1904,7 @@ static void UpdateDexAreaPage(void)
     if (sPokedexScreenData->areaMarkersTaskId != TASK_NONE)
         DestroyPokedexAreaMarkerSprites(sPokedexScreenData->areaMarkersTaskId);
 
-    sPokedexScreenData->areaMarkersTaskId = CreatePokedexAreaMarkers(sPokedexScreenData->dexSpecies, TAG_AREA_MARKERS, 3, kantoMapVoff * 8, sPokedexScreenData->season, sPokedexScreenData->timeOfDay);
+    sPokedexScreenData->areaMarkersTaskId = CreatePokedexAreaMarkers(sPokedexScreenData->dexSpecies, TAG_AREA_MARKERS, AllocSpritePalette(TAG_AREA_MARKERS), kantoMapVoff * 8, sPokedexScreenData->season, sPokedexScreenData->timeOfDay);
     if (GetNumPokedexAreaMarkers(sPokedexScreenData->areaMarkersTaskId) == 0)
     {
         s32 strWidth;
@@ -3530,9 +3530,9 @@ static u8 DexScreen_DrawMonDexPage(bool8 justRegistered)
 
         ptr = StringCopy(ptr, sText_SeenCaught);
         ptr = StringCopy(ptr, sText_Space);
-        ptr = ConvertIntToDecimalStringN(ptr, seen, STR_CONV_MODE_LEFT_ALIGN, 3);
+        ptr = ConvertIntToDecimalStringN(ptr, seen, STR_CONV_MODE_LEFT_ALIGN, 4);
         ptr = StringCopy(ptr, sText_Slash);
-        ptr = ConvertIntToDecimalStringN(ptr, caught, STR_CONV_MODE_LEFT_ALIGN, 3);
+        ptr = ConvertIntToDecimalStringN(ptr, caught, STR_CONV_MODE_LEFT_ALIGN, 4);
         *ptr = EOS;
 
         DexScreen_AddTextPrinterParameterized(sPokedexScreenData->windowIds[1], FONT_SMALL, countBuffer, 0, 26, 0);
@@ -3692,18 +3692,16 @@ u8 DexScreen_DrawMonAreaPage(void)
     ResetAllPicSprites();
     palSlot = AllocSpritePalette(TAG_SILHOUETTE);
 
-    LoadPalette(sPalette_Silhouette, OBJ_PLTT_ID(palSlot), PLTT_SIZE_4BPP);
-
     if (monIsCaught)
     {
-        sPokedexScreenData->windowIds[14] = CreateMonFrontPicSpritePokedex(species, FALSE, DexScreen_GetDefaultPersonality(species), 40, 104, 0, TAG_NONE);
+        sPokedexScreenData->windowIds[14] = CreateMonFrontPicSpritePokedex(species, FALSE, DexScreen_GetDefaultPersonality(species), 40, 104, palSlot, TAG_NONE);
         gSprites[sPokedexScreenData->windowIds[14]].oam.paletteNum = palSlot;
         gSprites[sPokedexScreenData->windowIds[14]].oam.affineMode = ST_OAM_AFFINE_NORMAL;
         gSprites[sPokedexScreenData->windowIds[14]].oam.matrixNum = 2;
         gSprites[sPokedexScreenData->windowIds[14]].oam.priority = 1;
         gSprites[sPokedexScreenData->windowIds[14]].y2 = gSpeciesInfo[species].pokemonOffset;
         SetOamMatrix(2, gSpeciesInfo[species].pokemonScale, 0, 0, gSpeciesInfo[species].pokemonScale);
-        sPokedexScreenData->windowIds[15] = CreateTrainerFrontPicSprite(PlayerGenderToFrontTrainerPicId(gSaveBlock2Ptr->playerGender), 80, 104, 0);
+        sPokedexScreenData->windowIds[15] = CreateTrainerFrontPicSprite(PlayerGenderToFrontTrainerPicId(gSaveBlock2Ptr->playerGender), 80, 104, palSlot);
         gSprites[sPokedexScreenData->windowIds[15]].oam.paletteNum = palSlot;
         gSprites[sPokedexScreenData->windowIds[15]].oam.affineMode = ST_OAM_AFFINE_NORMAL;
         gSprites[sPokedexScreenData->windowIds[15]].oam.matrixNum = 1;
@@ -3716,6 +3714,8 @@ u8 DexScreen_DrawMonAreaPage(void)
         sPokedexScreenData->windowIds[14] = WINDOW_NONE;
         sPokedexScreenData->windowIds[15] = WINDOW_NONE;
     }
+
+    LoadPalette(sPalette_Silhouette, OBJ_PLTT_ID(palSlot), PLTT_SIZE_4BPP);
 
     // Draw the control info
     FillWindowPixelBuffer(1, PIXEL_FILL(15));
@@ -4333,9 +4333,9 @@ static void DexScreen_DrawMonSizeRecordPage(void)
 
         ptr = StringCopy(ptr, sText_SeenCaught);
         ptr = StringCopy(ptr, sText_Space);
-        ptr = ConvertIntToDecimalStringN(ptr, seen, STR_CONV_MODE_LEFT_ALIGN, 3);
+        ptr = ConvertIntToDecimalStringN(ptr, seen, STR_CONV_MODE_LEFT_ALIGN, 4);
         ptr = StringCopy(ptr, sText_Slash);
-        ptr = ConvertIntToDecimalStringN(ptr, caught, STR_CONV_MODE_LEFT_ALIGN, 3);
+        ptr = ConvertIntToDecimalStringN(ptr, caught, STR_CONV_MODE_LEFT_ALIGN, 4);
         *ptr = EOS;
 
         DexScreen_AddTextPrinterParameterized(sPokedexScreenData->windowIds[1], FONT_SMALL, countBuffer, 0, 26, 0);

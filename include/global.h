@@ -1079,7 +1079,8 @@ struct SaveBlock1
     u8 pokedexSizes[POKEDEX_SIZE_RECORDS_COUNT][2];
     u8 pokedexSeen[DEX_COUNTS_MAX_SPECIES];
     u8 pokedexCaught[DEX_COUNTS_MAX_SPECIES];
-    u8 unused2[1180 - (DEX_COUNTS_MAX_SPECIES * 2)];
+    u8 reserveSpeciesTurnedIn[NUM_DEX_FLAG_BYTES];
+    u8 unused2[1180 - (DEX_COUNTS_MAX_SPECIES * 2) - NUM_DEX_FLAG_BYTES];
 };
 
 struct MapPosition
