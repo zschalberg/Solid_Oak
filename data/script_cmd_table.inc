@@ -239,6 +239,9 @@ gScriptCmdTable::
 	script_cmd_table_entry SCR_OP_FADESCREENSWAPBUFFERS          ScrCmd_fadescreenswapbuffers,          requests_effects=1  @ 0xd6
 	script_cmd_table_entry SCR_OP_DYNMULTICHOICE                 ScrCmd_dynmultichoice,                 requests_effects=1  @ 0xd7
 	script_cmd_table_entry SCR_OP_DYNMULTIPUSH                   ScrCmd_dynmultipush,                   requests_effects=1  @ 0xd8
+	script_cmd_table_entry SCR_OP_SHOWMUGSHOT                    ScrCmd_showmugshot,                    requests_effects=1  @ 0xd9
+	script_cmd_table_entry SCR_OP_CLEARMUGSHOT                   ScrCmd_clearmugshot,                   requests_effects=1  @ 0xda
+
 
 	.if ALLOCATE_SCRIPT_CMD_TABLE
 gScriptCmdTableEnd::

@@ -20,6 +20,7 @@
 #include "field_effect.h"
 #include "field_fadetransition.h"
 #include "field_message_box.h"
+#include "mugshot.h"
 #include "field_move.h"
 #include "field_player_avatar.h"
 #include "field_screen_effect.h"
@@ -3352,3 +3353,18 @@ void Script_SetScaledWildBattle(struct ScriptContext *ctx)
     CreateScriptedWildMon(species, (u8)enemyLevel, item);
     sIsScriptedWildDouble = FALSE;
 }
+
+bool8 ScrCmd_showmugshot(struct ScriptContext *ctx)
+{
+    u16 mugshotId = VarGet(ScriptReadHalfword(ctx));
+    u8 position = ScriptReadByte(ctx);
+    ShowMugshot(mugshotId, position);
+    return FALSE;
+}
+
+bool8 ScrCmd_clearmugshot(struct ScriptContext *ctx)
+{
+    ClearMugshot();
+    return FALSE;
+}
+
