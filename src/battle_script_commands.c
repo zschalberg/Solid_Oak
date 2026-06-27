@@ -15215,6 +15215,8 @@ static const u8 sText_IVGrade_Outstanding[] = _("outstanding");
 static const u8 sText_IVGrade_Good[]        = _("good");
 static const u8 sText_IVGrade_Decent[]      = _("decent");
 static const u8 sText_IVGrade_Poor[]        = _("poor");
+static const u8 sText_IVScanner_OnePerfect[] = _("\pIt has 1 perfect stat!");
+static const u8 sText_IVScanner_MultiplePerfect[] = _("\pIt has {STR_VAR_3} perfect stats!");
 
 void BS_UseIVScanner(void)
 {
@@ -15250,6 +15252,29 @@ void BS_UseIVScanner(void)
         gradeString = sText_IVGrade_Poor;
 
     StringCopy(gStringVar1, gradeString);
+
+    u32 perfectCount = 0;
+    if (hpIV == 31) perfectCount++;
+    if (atkIV == 31) perfectCount++;
+    if (defIV == 31) perfectCount++;
+    if (speedIV == 31) perfectCount++;
+    if (spatkIV == 31) perfectCount++;
+    if (spdefIV == 31) perfectCount++;
+
+    if (perfectCount == 0)
+    {
+        gStringVar2[0] = EOS;
+    }
+    else if (perfectCount == 1)
+    {
+        StringCopy(gStringVar2, sText_IVScanner_OnePerfect);
+    }
+    else
+    {
+        ConvertIntToDecimalStringN(gStringVar3, perfectCount, STR_CONV_MODE_LEFT_ALIGN, 1);
+        StringCopy(gStringVar2, sText_IVScanner_MultiplePerfect);
+    }
+
     gBattleStruct->ivScannerUsed = TRUE;
 
     gBattlescriptCurrInstr = cmd->nextInstr;
