@@ -345,7 +345,9 @@ BattleScript_PrintExceptionalSize::
 	return
 
 BattleScript_IVScanner::
-	call BattleScript_UseItemMessage
+	playse SE_USE_ITEM
+	printstring STRINGID_IVSCANNER_USE_AND_SCAN
+	waitmessage B_WAIT_TIME_LONG
 	callnative BS_UseIVScanner
 	printstring STRINGID_IVSCANNER_RATING
 	waitmessage B_WAIT_TIME_LONG
