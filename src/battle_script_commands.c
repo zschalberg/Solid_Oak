@@ -15215,7 +15215,6 @@ static const u8 sText_IVGrade_Outstanding[] = _("outstanding");
 static const u8 sText_IVGrade_Good[]        = _("good");
 static const u8 sText_IVGrade_Decent[]      = _("decent");
 static const u8 sText_IVGrade_Poor[]        = _("poor");
-static const u8 sText_IVScanner_OnePerfect[] = _("\pIt has 1 perfect stat!");
 
 void BS_UseIVScanner(void)
 {
@@ -15260,21 +15259,9 @@ void BS_UseIVScanner(void)
     if (spatkIV == 31) perfectCount++;
     if (spdefIV == 31) perfectCount++;
 
-    if (perfectCount == 0)
+    if (perfectCount > 0)
     {
-        gStringVar2[0] = EOS;
-    }
-    else if (perfectCount == 1)
-    {
-        StringCopy(gStringVar2, sText_IVScanner_OnePerfect);
-    }
-    else
-    {
-        static const u8 sText_Prefix[] = _("\pIt has ");
-        static const u8 sText_Suffix[] = _(" perfect stats!");
-        u8 *ptr = StringCopy(gStringVar2, sText_Prefix);
-        ptr = ConvertIntToDecimalStringN(ptr, perfectCount, STR_CONV_MODE_LEFT_ALIGN, 1);
-        StringCopy(ptr, sText_Suffix);
+        PlayFanfare(MUS_LEVEL_UP);
     }
 
     gBattleStruct->ivScannerUsed = TRUE;
