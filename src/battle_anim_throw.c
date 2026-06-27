@@ -2307,6 +2307,27 @@ void TryShinyAnimation(enum BattlerId battler, struct Pokemon *mon)
     gBattleSpritesDataPtr->healthBoxesData[battler].finishedShinyMonAnim = TRUE;
 }
 
+void DoShinySparkles(u8 battler)
+{
+    u8 taskCirc, taskDgnl;
+
+    if (IsBattlerSpriteVisible(battler) && !gTestRunnerHeadless)
+    {
+        if (GetSpriteTileStartByTag(ANIM_TAG_GOLD_STARS) == 0xFFFF)
+        {
+            LoadCompressedSpriteSheetUsingHeap(&gBattleAnimTable[GET_TRUE_SPRITE_INDEX(ANIM_TAG_GOLD_STARS)].pic);
+            LoadSpritePalette(&gBattleAnimTable[GET_TRUE_SPRITE_INDEX(ANIM_TAG_GOLD_STARS)].palette);
+        }
+
+        taskCirc = CreateTask(Task_ShinyStars, 10);
+        taskDgnl = CreateTask(Task_ShinyStars, 10);
+        gTasks[taskCirc].tBattler = battler;
+        gTasks[taskDgnl].tBattler = battler;
+        gTasks[taskCirc].tStarMove = SHINY_STAR_ENCIRCLE;
+        gTasks[taskDgnl].tStarMove = SHINY_STAR_DIAGONAL;
+    }
+}
+
 static void Task_ShinyStars(u8 taskId)
 {
     enum BattlerId battler;

@@ -262,6 +262,7 @@ extern const union AffineAnimCmd *const gAffineAnims_SpinningBone[];
 
 // battle_anim_throw.c
 void TryShinyAnimation(enum BattlerId battler, struct Pokemon *mon);
+void DoShinySparkles(u8 battler);
 u8 AnimateBallOpenParticles(u8 x, u8 y, u8 priority, u8 subpriority, u8 ballId);
 u8 LaunchBallFadeMonTask(bool8 unfadeLater, u8 spritePalNum, u32 selectedPalettes, u8 ballId);
 bool32 IsCriticalCapture(void);

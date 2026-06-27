@@ -15259,7 +15259,11 @@ void BS_UseIVScanner(void)
     if (spatkIV == 31) perfectCount++;
     if (spdefIV == 31) perfectCount++;
 
-    if (perfectCount > 0)
+    if (totalIV >= 151)
+    {
+        DoShinySparkles(opponent);
+    }
+    else if (perfectCount > 0)
     {
         PlayFanfare(MUS_LEVEL_UP);
     }
