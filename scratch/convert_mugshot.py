@@ -1,4 +1,5 @@
 import os
+import sys
 from PIL import Image
 
 def convert_to_gba_4bpp(input_path, output_path):
@@ -41,7 +42,6 @@ def convert_to_gba_4bpp(input_path, output_path):
         quantized.putdata(new_pixels)
         
     # Apply the swapped palette
-    # Pad the palette to 256 colors (768 bytes) as required by PIL for saving P mode images
     final_palette = palette + [0] * (768 - 48)
     quantized.putpalette(final_palette)
     
@@ -49,7 +49,28 @@ def convert_to_gba_4bpp(input_path, output_path):
     quantized.save(output_path)
     print(f"Successfully converted {input_path} to GBA 4bpp indexed format")
 
+def convert_single_file(path):
+    try:
+        needs_conversion = False
+        with Image.open(path) as img:
+            if img.mode != 'P':
+                needs_conversion = True
+        
+        if needs_conversion:
+            print(f"Detecting non-indexed image: {path}. Converting...")
+            convert_to_gba_4bpp(path, path)
+    except Exception as e:
+        print(f"Error checking/converting {path}: {e}")
+
 def main():
+    if len(sys.argv) > 1:
+        path = sys.argv[1]
+        if os.path.exists(path) and path.lower().endswith('.png'):
+            convert_single_file(path)
+        else:
+            print(f"File not found or invalid: {path}")
+        return
+
     mugshots_dir = "graphics/mugshots"
     if not os.path.exists(mugshots_dir):
         print(f"Mugshots directory not found: {mugshots_dir}")
@@ -58,18 +79,7 @@ def main():
     for filename in os.listdir(mugshots_dir):
         if filename.lower().endswith('.png'):
             path = os.path.join(mugshots_dir, filename)
-            try:
-                # Check if it needs conversion
-                needs_conversion = False
-                with Image.open(path) as img:
-                    if img.mode != 'P':
-                        needs_conversion = True
-                
-                if needs_conversion:
-                    print(f"Detecting non-indexed image: {path}. Converting...")
-                    convert_to_gba_4bpp(path, path)
-            except Exception as e:
-                print(f"Error checking/converting {path}: {e}")
+            convert_single_file(path)
 
 if __name__ == "__main__":
     main()

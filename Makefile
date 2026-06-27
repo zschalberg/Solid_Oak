@@ -429,6 +429,16 @@ generated: $(AUTO_GEN_TARGETS)
 %.8bpp:     %.png  ; $(GFX) $< $@
 %.gbapal:   %.pal  ; $(GFX) $< $@
 %.gbapal:   %.png  ; $(GFX) $< $@
+
+graphics/mugshots/%.4bpp: graphics/mugshots/%.png
+	@python3 -c "from PIL import Image" 2>/dev/null || (echo "Error: Python Pillow library is not installed in WSL. Please run 'sudo apt-get install -y python3-pil' in your WSL terminal to enable auto-conversion of mugshots." && false)
+	python3 scratch/convert_mugshot.py $<
+	$(GFX) $< $@
+
+graphics/mugshots/%.gbapal: graphics/mugshots/%.png
+	@python3 -c "from PIL import Image" 2>/dev/null || (echo "Error: Python Pillow library is not installed in WSL. Please run 'sudo apt-get install -y python3-pil' in your WSL terminal to enable auto-conversion of mugshots." && false)
+	python3 scratch/convert_mugshot.py $<
+	$(GFX) $< $@
 %.lz:       %      ; $(GFX) $< $@
 %.smolTM:   %      ; $(SMOLTM) $< $@
 %.fastSmol: %      ; $(SMOL) -w $< $@ false false false
