@@ -9,7 +9,6 @@ def convert_to_gba_4bpp(input_path, output_path):
     img_rgb = img.convert('RGB')
     
     # Quantize to 16 colors
-    # FASTOCTREE is robust and keeps colors close to original
     quantized = img_rgb.quantize(colors=16, method=Image.Quantize.FASTOCTREE)
     
     # Get the top-left pixel index (which represents the background color)
@@ -48,17 +47,29 @@ def convert_to_gba_4bpp(input_path, output_path):
     
     # Save the resulting indexed image
     quantized.save(output_path)
-    print(f"Successfully converted {input_path} to GBA 4bpp indexed format at {output_path}")
+    print(f"Successfully converted {input_path} to GBA 4bpp indexed format")
 
 def main():
-    agatha_path = "graphics/mugshots/agatha.png"
-    prof_oak_path = "graphics/mugshots/prof_oak.png"
-    
-    if os.path.exists(agatha_path):
-        convert_to_gba_4bpp(agatha_path, agatha_path)
+    mugshots_dir = "graphics/mugshots"
+    if not os.path.exists(mugshots_dir):
+        print(f"Mugshots directory not found: {mugshots_dir}")
+        return
         
-    if os.path.exists(prof_oak_path):
-        convert_to_gba_4bpp(prof_oak_path, prof_oak_path)
+    for filename in os.listdir(mugshots_dir):
+        if filename.lower().endswith('.png'):
+            path = os.path.join(mugshots_dir, filename)
+            try:
+                # Check if it needs conversion
+                needs_conversion = False
+                with Image.open(path) as img:
+                    if img.mode != 'P':
+                        needs_conversion = True
+                
+                if needs_conversion:
+                    print(f"Detecting non-indexed image: {path}. Converting...")
+                    convert_to_gba_4bpp(path, path)
+            except Exception as e:
+                print(f"Error checking/converting {path}: {e}")
 
 if __name__ == "__main__":
     main()
