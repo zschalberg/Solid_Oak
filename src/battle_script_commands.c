@@ -15261,17 +15261,16 @@ void BS_UseIVScanner(void)
 
     if (perfectCount == 0)
     {
-        static const u8 sText_NoPerfect[] = _("It has no perfect stats.");
-        StringCopy(gStringVar2, sText_NoPerfect);
+        gStringVar2[0] = EOS;
     }
     else if (perfectCount == 1)
     {
-        static const u8 sText_OnePerfect[] = _("It has 1 perfect stat.");
+        static const u8 sText_OnePerfect[] = _("\nIt has 1 perfect stat.");
         StringCopy(gStringVar2, sText_OnePerfect);
     }
     else
     {
-        static const u8 sText_Prefix[] = _("It has ");
+        static const u8 sText_Prefix[] = _("\nIt has ");
         static const u8 sText_Suffix[] = _(" perfect stats.");
         u8 *ptr = StringCopy(gStringVar2, sText_Prefix);
         ptr = ConvertIntToDecimalStringN(ptr, perfectCount, STR_CONV_MODE_LEFT_ALIGN, 1);
