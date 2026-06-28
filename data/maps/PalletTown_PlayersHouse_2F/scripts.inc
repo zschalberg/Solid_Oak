@@ -66,7 +66,9 @@ PalletTown_PlayersHouse_2F_EventScript_Sign::
 	lockall
 	showmugshot MUGSHOT_AGATHA, MUGSHOT_LEFT
 	showmugshot MUGSHOT_PROF_OAK, MUGSHOT_RIGHT
+	textcolor NPC_TEXT_COLOR_FEMALE
 	msgbox PalletTown_PlayersHouse_2F_Text_AgathaTest1, MSGBOX_DEFAULT
+	textcolor NPC_TEXT_COLOR_MALE
 	msgbox PalletTown_PlayersHouse_2F_Text_OakTest1, MSGBOX_DEFAULT
 	releaseall
 	end
