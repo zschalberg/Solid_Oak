@@ -515,12 +515,23 @@ static const u8 *const sStatControlStrings[] =
     [PSS_SKILL_PAGE_IVS] = sText_PokeSum_Controls_PageIVs,
 };
 
+static bool32 ShouldShowIvEvPrompt(void)
+{
+    if (P_SUMMARY_SCREEN_IV_EV_BOX_ONLY)
+    {
+        return (P_SUMMARY_SCREEN_IV_EV_INFO || FlagGet(P_FLAG_SUMMARY_SCREEN_IV_EV_INFO) || CheckBagHasItem(ITEM_IV_SCANNER, 1))
+            && sMonSummaryScreen->isBoxMon;
+    }
+    else if (!P_SUMMARY_SCREEN_IV_EV_BOX_ONLY)
+    {
+        return (P_SUMMARY_SCREEN_IV_EV_INFO || FlagGet(P_FLAG_SUMMARY_SCREEN_IV_EV_INFO) || CheckBagHasItem(ITEM_IV_SCANNER, 1));
+    }
+    return FALSE;
+}
+
 static enum PokemonSummaryScreenSkillPageMode GetNextSkillsPageMode(void)
 {
-    if (!P_SUMMARY_SCREEN_IV_EV_INFO)
-        return PSS_SKILL_PAGE_STATS;
-
-    if (P_SUMMARY_SCREEN_IV_EV_BOX_ONLY && sMonSummaryScreen->mode != PSS_MODE_BOX)
+    if (!ShouldShowIvEvPrompt())
         return PSS_SKILL_PAGE_STATS;
 
     switch (sMonSummaryScreen->skillsPageMode)
@@ -543,16 +554,10 @@ static enum PokemonSummaryScreenSkillPageMode GetNextSkillsPageMode(void)
 
 static const u8 *GetStatControlString(void)
 {
-    if (!P_SUMMARY_SCREEN_IV_EV_INFO)
+    if (!ShouldShowIvEvPrompt())
         return sText_PokeSum_Controls_Page;
 
-    if (!P_SUMMARY_SCREEN_IV_EV_BOX_ONLY)
-        return sStatControlStrings[GetNextSkillsPageMode()];
-
-    if (sMonSummaryScreen->mode == PSS_MODE_BOX)
-        return sStatControlStrings[GetNextSkillsPageMode()];
-
-    return sText_PokeSum_Controls_Page;
+    return sStatControlStrings[GetNextSkillsPageMode()];
 }
 
 static bool32 CanRename(void)
@@ -569,20 +574,6 @@ static bool32 CanRename(void)
         return FALSE;
 
     return TRUE;
-}
-
-static bool32 ShouldShowIvEvPrompt()
-{
-    if (P_SUMMARY_SCREEN_IV_EV_BOX_ONLY)
-    {
-        return (P_SUMMARY_SCREEN_IV_EV_INFO || FlagGet(P_FLAG_SUMMARY_SCREEN_IV_EV_INFO))
-            && sMonSummaryScreen->isBoxMon;
-    }
-    else if (!P_SUMMARY_SCREEN_IV_EV_BOX_ONLY)
-    {
-        return (P_SUMMARY_SCREEN_IV_EV_INFO || FlagGet(P_FLAG_SUMMARY_SCREEN_IV_EV_INFO));
-    }
-    return FALSE;
 }
 
 static void Task_InputHandler_Info(u8 taskId)
