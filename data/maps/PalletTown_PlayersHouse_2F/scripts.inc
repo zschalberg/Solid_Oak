@@ -65,8 +65,8 @@ PalletTown_PlayersHouse_2F_EventScript_ClearTestQuests::
 PalletTown_PlayersHouse_2F_EventScript_Sign::
 	lockall
 	showmugshot MUGSHOT_AGATHA, MUGSHOT_LEFT
-	msgbox PalletTown_PlayersHouse_2F_Text_AgathaTest1, MSGBOX_DEFAULT
 	showmugshot MUGSHOT_PROF_OAK, MUGSHOT_RIGHT
+	msgbox PalletTown_PlayersHouse_2F_Text_AgathaTest1, MSGBOX_DEFAULT
 	msgbox PalletTown_PlayersHouse_2F_Text_OakTest1, MSGBOX_DEFAULT
 	releaseall
 	end

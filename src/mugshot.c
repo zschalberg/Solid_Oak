@@ -3,8 +3,8 @@
 #include "mugshot.h"
 #include "constants/mugshots.h"
 
-#define MUGSHOT_TILE_TAG 0x5500
-#define MUGSHOT_PALETTE_TAG 0x5500
+#define MUGSHOT_TILE_TAG(pos)    (0x5500 + (pos))
+#define MUGSHOT_PALETTE_TAG(pos) (0x5500 + (pos))
 
 // Centering coordinates above dialogue box
 #define MUGSHOT_LEFT_X   36
@@ -31,7 +31,7 @@ static const struct MugshotData sMugshots[] =
     [MUGSHOT_AGATHA]   = { sMugshotPic_Agatha, sMugshotPal_Agatha },
 };
 
-static EWRAM_DATA u8 sMugshotSpriteId = 0;
+static EWRAM_DATA u8 sMugshotSpriteIds[2] = {0, 0};
 
 static const struct OamData sOamData_Mugshot =
 {
@@ -51,8 +51,8 @@ static const struct OamData sOamData_Mugshot =
 
 static const struct SpriteTemplate sMugshotSpriteTemplate =
 {
-    .tileTag = MUGSHOT_TILE_TAG,
-    .paletteTag = MUGSHOT_PALETTE_TAG,
+    .tileTag = 0x5500, // Dummy tag, overwritten dynamically
+    .paletteTag = 0x5500, // Dummy tag, overwritten dynamically
     .oam = &sOamData_Mugshot,
     .anims = gDummySpriteAnimTable,
     .images = NULL,
@@ -62,52 +62,71 @@ static const struct SpriteTemplate sMugshotSpriteTemplate =
 
 void InitMugshot(void)
 {
-    sMugshotSpriteId = MAX_SPRITES;
+    sMugshotSpriteIds[MUGSHOT_LEFT] = MAX_SPRITES;
+    sMugshotSpriteIds[MUGSHOT_RIGHT] = MAX_SPRITES;
 }
 
 void ShowMugshot(u16 mugshotId, u8 position)
 {
     struct SpriteSheet spriteSheet;
     struct SpritePalette spritePalette;
+    struct SpriteTemplate template;
     u8 x;
 
-    ClearMugshot();
+    if (position > MUGSHOT_RIGHT)
+        return;
+
+    ClearMugshotAt(position);
 
     if (mugshotId == MUGSHOT_NONE || mugshotId >= ARRAY_COUNT(sMugshots) || sMugshots[mugshotId].gfx == NULL)
         return;
 
-    // Load tiles into VRAM
+    // Load tiles into VRAM with unique tag for this position
     spriteSheet.data = sMugshots[mugshotId].gfx;
     spriteSheet.size = 0x800; // 64x64 4bpp sprite = 2048 bytes
-    spriteSheet.tag = MUGSHOT_TILE_TAG;
+    spriteSheet.tag = MUGSHOT_TILE_TAG(position);
     LoadSpriteSheet(&spriteSheet);
 
-    // Load palette into OBJ Palette RAM
+    // Load palette into OBJ Palette RAM with unique tag for this position
     spritePalette.data = sMugshots[mugshotId].pal;
-    spritePalette.tag = MUGSHOT_PALETTE_TAG;
+    spritePalette.tag = MUGSHOT_PALETTE_TAG(position);
     LoadSpritePalette(&spritePalette);
 
     // Determine horizontal position
     x = (position == MUGSHOT_RIGHT) ? MUGSHOT_RIGHT_X : MUGSHOT_LEFT_X;
 
+    // Prepare template with correct tags
+    CpuCopy16(&sMugshotSpriteTemplate, &template, sizeof(struct SpriteTemplate));
+    template.tileTag = MUGSHOT_TILE_TAG(position);
+    template.paletteTag = MUGSHOT_PALETTE_TAG(position);
+
     // Render OBJ sprite
-    sMugshotSpriteId = CreateSprite(&sMugshotSpriteTemplate, x, MUGSHOT_Y, 0);
+    sMugshotSpriteIds[position] = CreateSprite(&template, x, MUGSHOT_Y, 0);
 
     // If sprite slot allocation failed, release VRAM tiles/palette immediately
-    if (sMugshotSpriteId == MAX_SPRITES)
+    if (sMugshotSpriteIds[position] == MAX_SPRITES)
     {
-        FreeSpriteTilesByTag(MUGSHOT_TILE_TAG);
-        FreeSpritePaletteByTag(MUGSHOT_PALETTE_TAG);
+        FreeSpriteTilesByTag(MUGSHOT_TILE_TAG(position));
+        FreeSpritePaletteByTag(MUGSHOT_PALETTE_TAG(position));
+    }
+}
+
+void ClearMugshotAt(u8 position)
+{
+    if (position > MUGSHOT_RIGHT)
+        return;
+
+    if (sMugshotSpriteIds[position] != MAX_SPRITES)
+    {
+        DestroySprite(&gSprites[sMugshotSpriteIds[position]]);
+        FreeSpriteTilesByTag(MUGSHOT_TILE_TAG(position));
+        FreeSpritePaletteByTag(MUGSHOT_PALETTE_TAG(position));
+        sMugshotSpriteIds[position] = MAX_SPRITES;
     }
 }
 
 void ClearMugshot(void)
 {
-    if (sMugshotSpriteId != MAX_SPRITES)
-    {
-        DestroySprite(&gSprites[sMugshotSpriteId]);
-        FreeSpriteTilesByTag(MUGSHOT_TILE_TAG);
-        FreeSpritePaletteByTag(MUGSHOT_PALETTE_TAG);
-        sMugshotSpriteId = MAX_SPRITES;
-    }
+    ClearMugshotAt(MUGSHOT_LEFT);
+    ClearMugshotAt(MUGSHOT_RIGHT);
 }
