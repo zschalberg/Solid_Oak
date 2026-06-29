@@ -233,37 +233,37 @@ EventScript_DoMedicineCraft::
 	playfanfare MUS_OBTAIN_ITEM
 	buffernumberstring STR_VAR_2, VAR_0x8006
 	compare VAR_0x8004, 0
-	call_if_eq EventScript_BufferPotionName
+	call_if_eq EventScript_BufferEnergyPowderName
 	compare VAR_0x8004, 1
-	call_if_eq EventScript_BufferSuperPotionName
+	call_if_eq EventScript_BufferEnergyTonicName
 	compare VAR_0x8004, 2
-	call_if_eq EventScript_BufferHyperPotionName
+	call_if_eq EventScript_BufferEnergyRootName
 	compare VAR_0x8004, 3
-	call_if_eq EventScript_BufferFullHealName
+	call_if_eq EventScript_BufferHealPowderName
 	compare VAR_0x8004, 4
-	call_if_eq EventScript_BufferReviveName
+	call_if_eq EventScript_BufferRevivalHerbName
 	msgbox Text_CraftSuccess
 	waitfanfare
 	goto EventScript_SelectMedicineCrafting
 
-EventScript_BufferPotionName::
-	bufferitemname STR_VAR_3, ITEM_POTION
+EventScript_BufferEnergyPowderName::
+	bufferitemname STR_VAR_3, ITEM_ENERGY_POWDER
 	return
 
-EventScript_BufferSuperPotionName::
-	bufferitemname STR_VAR_3, ITEM_SUPER_POTION
+EventScript_BufferEnergyTonicName::
+	bufferitemname STR_VAR_3, ITEM_ENERGY_TONIC
 	return
 
-EventScript_BufferHyperPotionName::
-	bufferitemname STR_VAR_3, ITEM_HYPER_POTION
+EventScript_BufferEnergyRootName::
+	bufferitemname STR_VAR_3, ITEM_ENERGY_ROOT
 	return
 
-EventScript_BufferFullHealName::
-	bufferitemname STR_VAR_3, ITEM_FULL_HEAL
+EventScript_BufferHealPowderName::
+	bufferitemname STR_VAR_3, ITEM_HEAL_POWDER
 	return
 
-EventScript_BufferReviveName::
-	bufferitemname STR_VAR_3, ITEM_REVIVE
+EventScript_BufferRevivalHerbName::
+	bufferitemname STR_VAR_3, ITEM_REVIVAL_HERB
 	return
 
 EventScript_BufferRazzBerryName::

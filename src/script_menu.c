@@ -704,11 +704,11 @@ static const struct MenuAction sMultichoiceList_WorkbenchMain[] = {
 };
 
 static const struct MenuAction sMultichoiceList_MedicineCrafting[] = {
-    { COMPOUND_STRING("Potion") },
-    { COMPOUND_STRING("Super Potion") },
-    { COMPOUND_STRING("Hyper Potion") },
-    { COMPOUND_STRING("Full Heal") },
-    { COMPOUND_STRING("Revive") },
+    { COMPOUND_STRING("Energy Powder") },
+    { COMPOUND_STRING("Energy Tonic") },
+    { COMPOUND_STRING("Energy Root") },
+    { COMPOUND_STRING("Heal Powder") },
+    { COMPOUND_STRING("Revival Herb") },
     { gText_Exit }
 };
 

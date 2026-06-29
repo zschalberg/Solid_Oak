@@ -886,6 +886,25 @@ const struct ItemInfo gItemsInfo[] =
         .iconPalette = gItemIconPalette_EnergyPowder,
     },
 
+    [ITEM_ENERGY_TONIC] =
+    {
+        .name = ITEM_NAME("Energy Tonic"),
+        .price = 650,
+        .description = COMPOUND_STRING(
+            "A bitter tonic "
+            "that restores HP "
+            "\nby 100 points."),
+        .pocket = POCKET_ITEMS,
+        .sortType = ITEM_TYPE_HEALTH_RECOVERY,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_Medicine,
+        .battleUsage = EFFECT_ITEM_RESTORE_HP,
+        .effect = gItemEffect_EnergyTonic,
+        .flingPower = 30,
+        .iconPic = gItemIcon_Powder,
+        .iconPalette = gItemIconPalette_EnergyPowder,
+    },
+
     [ITEM_ENERGY_ROOT] =
     {
         .name = ITEM_NAME("Energy Root"),

@@ -4022,9 +4022,9 @@ u16 GetMaxMedicineCraftableQuantity(void)
 
     switch (medicineType)
     {
-    case 0: berryId = ITEM_CORNN_BERRY; break;
+    case 0: berryId = ITEM_RAZZ_BERRY; break;
     case 1: berryId = ITEM_BLUK_BERRY; break;
-    case 2: berryId = ITEM_MAGOST_BERRY; break;
+    case 2: berryId = ITEM_NANAB_BERRY; break;
     case 3: berryId = ITEM_WEPEAR_BERRY; break;
     case 4: berryId = ITEM_PINAP_BERRY; break;
     default: return 0;
@@ -4045,24 +4045,24 @@ u16 CraftMedicine(void)
     switch (medicineType)
     {
     case 0:
-        berryId = ITEM_CORNN_BERRY;
-        medicineId = ITEM_POTION;
+        berryId = ITEM_RAZZ_BERRY;
+        medicineId = ITEM_ENERGY_POWDER;
         break;
     case 1:
         berryId = ITEM_BLUK_BERRY;
-        medicineId = ITEM_SUPER_POTION;
+        medicineId = ITEM_ENERGY_TONIC;
         break;
     case 2:
-        berryId = ITEM_MAGOST_BERRY;
-        medicineId = ITEM_HYPER_POTION;
+        berryId = ITEM_NANAB_BERRY;
+        medicineId = ITEM_ENERGY_ROOT;
         break;
     case 3:
         berryId = ITEM_WEPEAR_BERRY;
-        medicineId = ITEM_FULL_HEAL;
+        medicineId = ITEM_HEAL_POWDER;
         break;
     case 4:
         berryId = ITEM_PINAP_BERRY;
-        medicineId = ITEM_REVIVE;
+        medicineId = ITEM_REVIVAL_HERB;
         break;
     default:
         return FALSE;
