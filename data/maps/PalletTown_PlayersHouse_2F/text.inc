@@ -10,7 +10,7 @@ PalletTown_PlayersHouse_2F_Text_PressLRForHelp::
 
 PalletTown_PlayersHouse_2F_Text_AgathaTest1::
     .string "Agatha: Oak! You old fool!\n"
-    .string "You think you can hide in Pallet Town?$"
+    .string "You think you can hide in Pallet?$"
 
 PalletTown_PlayersHouse_2F_Text_OakTest1::
     .string "Oak: Ah, Agatha...\n"
