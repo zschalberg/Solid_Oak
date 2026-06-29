@@ -4484,6 +4484,20 @@ bool32 DoesMonMeetAdditionalConditions(struct Pokemon *mon, const struct Evoluti
     return TRUE;
 }
 
+static bool32 IsEvoTargetUnlocked(u16 targetSpecies)
+{
+    switch (targetSpecies)
+    {
+    case SPECIES_GENGAR:
+        return FlagGet(FLAG_QUEST_KNOW_GENGAR_EVO);
+    case SPECIES_SLOWBRO:
+    case SPECIES_SLOWKING:
+        return FlagGet(FLAG_QUEST_KNOW_SLOWPOKE_EVOS);
+    default:
+        return TRUE;
+    }
+}
+
 u32 GetEvolutionTargetSpecies(struct Pokemon *mon, enum EvolutionMode mode, u16 evolutionItem, struct Pokemon *tradePartner, bool32 *canStopEvo, enum EvoState evoState)
 {
     int i;
@@ -4666,6 +4680,10 @@ u32 GetEvolutionTargetSpecies(struct Pokemon *mon, enum EvolutionMode mode, u16 
         }
         break;
     }
+
+    // Quest-gate: block specific evolutions until their quest flags are set
+    if (targetSpecies != SPECIES_NONE && !IsEvoTargetUnlocked(targetSpecies))
+        return SPECIES_NONE;
 
     // Pikachu, Meowth, Eevee and Duraludon cannot evolve if they have the
     // Gigantamax Factor. We assume that is because their evolutions

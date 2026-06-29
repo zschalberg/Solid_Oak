@@ -207,7 +207,7 @@
 #define FLAG_HIDE_BATTLE_FRONTIER_RECEPTION_GATE_SCOTT      0x0BD
 #define FLAG_CANCEL_BATTLE_ROOM_CHALLENGE                   0x0BE
 #define FLAG_BATTLE_FRONTIER_UNLOCKED                       0x0BF
-#define FLAG_0x0C0               0x0C0
+#define FLAG_B_FLAG_FOLLOWERS_DISABLED                      0x0C0
 #define FLAG_0x0C1               0x0C1
 #define FLAG_0x0C2               0x0C2
 #define FLAG_0x0C3               0x0C3
@@ -1271,8 +1271,8 @@
 #define FLAG_QUEST_6_COMPLETED   0x4CB
 #define FLAG_QUEST_7_ACTIVE      0x4CC
 #define FLAG_QUEST_7_COMPLETED   0x4CD
-#define FLAG_0x4CE               0x4CE
-#define FLAG_0x4CF               0x4CF
+#define FLAG_QUEST_KNOW_GENGAR_EVO     0x4CE
+#define FLAG_QUEST_KNOW_SLOWPOKE_EVOS  0x4CF
 #define FLAG_0x4D0               0x4D0
 #define FLAG_0x4D1               0x4D1
 #define FLAG_0x4D2               0x4D2
