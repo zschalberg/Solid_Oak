@@ -4,7 +4,7 @@ CeruleanCity_House2_MapScripts::
 CeruleanCity_House2_EventScript_Hiker::
 	lock
 	faceplayer
-	goto_if_set FLAG_GOT_TM28_FROM_ROCKET, CeruleanCity_House2_EventScript_HikerGotTM28
+	goto_if_set FLAG_0x23F, CeruleanCity_House2_EventScript_HikerGotTM28
 	msgbox CeruleanCity_House2_Text_RocketsStoleTMForDig
 	release
 	end

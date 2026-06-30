@@ -18,7 +18,7 @@ EventScript_AskForProfile:
 	message Text_TellMeWhatsYourProfile
 	waitmessage
 	multichoice 18, 6, MULTI_YES_NO_INFO, FALSE
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, EventScript_AcceptGiveProfile
 	case 1, EventScript_DeclineGiveProfile
 	case 2, EventScript_ProfileInfo
@@ -65,7 +65,7 @@ EventScript_AskForNewProfile:
 	message Text_ChangeYourProfile
 	waitmessage
 	multichoice 18, 6, MULTI_YES_NO_INFO, FALSE
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, EventScript_AcceptGiveNewProfile
 	case 1, EventScript_DeclineGiveNewProfile
 	case 2, EventScript_ProfileInfo2
@@ -104,8 +104,8 @@ EventScript_GiveProfile:
 	lock
 	faceplayer
 	goto_if_eq VAR_0x8004, 0, EventScript_GaveSpecialProfile
-	goto_if_eq VAR_RESULT, FALSE, EventScript_CancelGiveProfile
-	goto_if_eq VAR_RESULT, TRUE, EventScript_GaveProfile
+	goto_if_eq VAR_0x800D, FALSE, EventScript_CancelGiveProfile
+	goto_if_eq VAR_0x800D, TRUE, EventScript_GaveProfile
 	end
 
 Text_IdLoveToHearYourProfile:

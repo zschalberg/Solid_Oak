@@ -11,8 +11,8 @@ PokemonLeague_LancesRoom_OnResume::
 	end
 
 PokemonLeague_LancesRoom_OnLoad::
-	call_if_eq VAR_MAP_SCENE_POKEMON_LEAGUE, 4, PokemonLeague_LancesRoom_EventScript_CloseEntry
-	call_if_set FLAG_DEFEATED_LANCE, PokemonLeague_LancesRoom_EventScript_SetDoorOpen
+	call_if_eq VAR_0x4068, 4, PokemonLeague_LancesRoom_EventScript_CloseEntry
+	call_if_set FLAG_0x4BB, PokemonLeague_LancesRoom_EventScript_SetDoorOpen
 	end
 
 PokemonLeague_LancesRoom_EventScript_CloseEntry::
@@ -32,7 +32,7 @@ PokemonLeague_LancesRoom_EventScript_TurnPlayerNorth::
 	end
 
 PokemonLeague_LancesRoom_OnFrame::
-	map_script_2 VAR_MAP_SCENE_POKEMON_LEAGUE, 3, PokemonLeague_LancesRoom_EventScript_EnterRoom
+	map_script_2 VAR_0x4068, 3, PokemonLeague_LancesRoom_EventScript_EnterRoom
 	.2byte 0
 
 PokemonLeague_LancesRoom_EventScript_EnterRoom::
@@ -44,7 +44,7 @@ PokemonLeague_LancesRoom_EventScript_EnterRoom::
 	playse SE_UNLOCK
 	special DrawWholeMapView
 	waitse
-	setvar VAR_MAP_SCENE_POKEMON_LEAGUE, 4
+	setvar VAR_0x4068, 4
 	releaseall
 	end
 
@@ -100,7 +100,7 @@ PokemonLeague_LancesRoom_EventScript_Lance::
 	lock
 	faceplayer
 	famechecker FAMECHECKER_LANCE, FCPICKSTATE_COLORED, UpdatePickStateFromSpecialVar8005
-	goto_if_set FLAG_DEFEATED_LANCE, PokemonLeague_LancesRoom_EventScript_PostBattle
+	goto_if_set FLAG_0x4BB, PokemonLeague_LancesRoom_EventScript_PostBattle
 	famechecker FAMECHECKER_LANCE, 0
 	famechecker FAMECHECKER_LANCE, 1
 	call_if_unset FLAG_SYS_GAME_CLEAR, PokemonLeague_LancesRoom_EventScript_Intro
@@ -137,7 +137,7 @@ PokemonLeague_LancesRoom_EventScript_PostBattle::
 PokemonLeague_LancesRoom_EventScript_DefeatedLance::
 	setvar VAR_0x8004, 0
 	special Script_TryGainNewFanFromCounter
-	setflag FLAG_DEFEATED_LANCE
+	setflag FLAG_0x4BB
 	call PokemonLeague_EventScript_OpenDoorLance
 	msgbox PokemonLeague_LancesRoom_Text_PostBattle
 	closemessage

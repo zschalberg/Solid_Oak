@@ -35,7 +35,7 @@ BattleFrontier_ExchangeServiceCorner_EventScript_TryGivePrize::
 
 BattleFrontier_ExchangeServiceCorner_EventScript_TryGiveDecor::
 	checkdecorspace VAR_0x8009
-	goto_if_eq VAR_RESULT, FALSE, BattleFrontier_ExchangeServiceCorner_EventScript_NoRoomForDecor
+	goto_if_eq VAR_0x800D, FALSE, BattleFrontier_ExchangeServiceCorner_EventScript_NoRoomForDecor
 	copyvar VAR_0x8004, VAR_0x8008
 	special TakeFrontierBattlePoints
 	adddecoration VAR_0x8009
@@ -54,7 +54,7 @@ BattleFrontier_ExchangeServiceCorner_EventScript_NoRoomForDecor::
 
 BattleFrontier_ExchangeServiceCorner_EventScript_TryGiveItem::
 	checkitemspace VAR_0x8009
-	goto_if_eq VAR_RESULT, FALSE, BattleFrontier_ExchangeServiceCorner_EventScript_BagFull
+	goto_if_eq VAR_0x800D, FALSE, BattleFrontier_ExchangeServiceCorner_EventScript_BagFull
 	copyvar VAR_0x8004, VAR_0x8008
 	special TakeFrontierBattlePoints
 	additem VAR_0x8009
@@ -85,7 +85,7 @@ BattleFrontier_ExchangeServiceCorner_EventScript_ChooseDecor1::
 	special ShowScrollableMultichoice
 	waitstate
 	special CloseFrontierExchangeCornerItemIconWindow
-	switch VAR_RESULT
+	switch VAR_0x800D
 	@case 0, BattleFrontier_ExchangeServiceCorner_EventScript_KissPoster
 	@case 1, BattleFrontier_ExchangeServiceCorner_EventScript_KissCushion
 	@case 2, BattleFrontier_ExchangeServiceCorner_EventScript_SmoochumDoll
@@ -104,7 +104,7 @@ BattleFrontier_ExchangeServiceCorner_EventScript_ChooseDecor1::
 BattleFrontier_ExchangeServiceCorner_EventScript_PurchaseDecor1::
 	bufferdecorationname STR_VAR_1, VAR_0x8009
 	msgbox BattleFrontier_ExchangeServiceCorner_Text_ConfirmPurchase, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, BattleFrontier_ExchangeServiceCorner_EventScript_ChooseDecor1
+	goto_if_eq VAR_0x800D, NO, BattleFrontier_ExchangeServiceCorner_EventScript_ChooseDecor1
 	goto BattleFrontier_ExchangeServiceCorner_EventScript_TryPurchasePrize
 	end
 
@@ -162,7 +162,7 @@ BattleFrontier_ExchangeServiceCorner_EventScript_ChooseDecor2::
 	special ShowScrollableMultichoice
 	waitstate
 	special CloseFrontierExchangeCornerItemIconWindow
-	switch VAR_RESULT
+	switch VAR_0x800D
 	@case 0, BattleFrontier_ExchangeServiceCorner_EventScript_LaprasDoll
 	@case 1, BattleFrontier_ExchangeServiceCorner_EventScript_SnorlaxDoll
 	@case 2, BattleFrontier_ExchangeServiceCorner_EventScript_VenusaurDoll
@@ -176,7 +176,7 @@ BattleFrontier_ExchangeServiceCorner_EventScript_ChooseDecor2::
 BattleFrontier_ExchangeServiceCorner_EventScript_PurchaseDecor2::
 	bufferdecorationname STR_VAR_1, VAR_0x8009
 	msgbox BattleFrontier_ExchangeServiceCorner_Text_ConfirmPurchase, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, BattleFrontier_ExchangeServiceCorner_EventScript_ChooseDecor2
+	goto_if_eq VAR_0x800D, NO, BattleFrontier_ExchangeServiceCorner_EventScript_ChooseDecor2
 	goto BattleFrontier_ExchangeServiceCorner_EventScript_TryPurchasePrize
 	end
 
@@ -214,7 +214,7 @@ BattleFrontier_ExchangeServiceCorner_EventScript_ChooseVitamin::
 	special ShowScrollableMultichoice
 	waitstate
 	special CloseFrontierExchangeCornerItemIconWindow
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, BattleFrontier_ExchangeServiceCorner_EventScript_Protein
 	case 1, BattleFrontier_ExchangeServiceCorner_EventScript_Calcium
 	case 2, BattleFrontier_ExchangeServiceCorner_EventScript_Iron
@@ -228,7 +228,7 @@ BattleFrontier_ExchangeServiceCorner_EventScript_ChooseVitamin::
 BattleFrontier_ExchangeServiceCorner_EventScript_PurchaseVitamin::
 	bufferitemname STR_VAR_1, VAR_0x8009
 	msgbox BattleFrontier_ExchangeServiceCorner_Text_ConfirmPurchase, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, BattleFrontier_ExchangeServiceCorner_EventScript_ChooseVitamin
+	goto_if_eq VAR_0x800D, NO, BattleFrontier_ExchangeServiceCorner_EventScript_ChooseVitamin
 	goto BattleFrontier_ExchangeServiceCorner_EventScript_TryPurchasePrize
 	end
 
@@ -271,7 +271,7 @@ BattleFrontier_ExchangeServiceCorner_EventScript_ChooseHoldItem::
 	special ShowScrollableMultichoice
 	waitstate
 	special CloseFrontierExchangeCornerItemIconWindow
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, BattleFrontier_ExchangeServiceCorner_EventScript_Leftovers
 	case 1, BattleFrontier_ExchangeServiceCorner_EventScript_WhiteHerb
 	case 2, BattleFrontier_ExchangeServiceCorner_EventScript_QuickClaw
@@ -288,7 +288,7 @@ BattleFrontier_ExchangeServiceCorner_EventScript_ChooseHoldItem::
 BattleFrontier_ExchangeServiceCorner_EventScript_PurchaseHoldItem::
 	bufferitemname STR_VAR_1, VAR_0x8009
 	msgbox BattleFrontier_ExchangeServiceCorner_Text_ConfirmPurchase, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, BattleFrontier_ExchangeServiceCorner_EventScript_ChooseHoldItem
+	goto_if_eq VAR_0x800D, NO, BattleFrontier_ExchangeServiceCorner_EventScript_ChooseHoldItem
 	goto BattleFrontier_ExchangeServiceCorner_EventScript_TryPurchasePrize
 	end
 

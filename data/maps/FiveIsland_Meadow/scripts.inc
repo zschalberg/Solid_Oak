@@ -3,19 +3,19 @@ FiveIsland_Meadow_MapScripts::
 	.byte 0
 
 FiveIsland_Meadow_OnLoad::
-	call_if_set FLAG_UNLOCKED_ROCKET_WAREHOUSE, FiveIsland_Meadow_EventScript_SetWarehouseDoorUnlocked
+	call_if_set FLAG_0x2D6, FiveIsland_Meadow_EventScript_SetWarehouseDoorUnlocked
 	end
 
 FiveIsland_Meadow_EventScript_WarehouseDoor::
 	lockall
-	goto_if_set FLAG_UNLOCKED_ROCKET_WAREHOUSE, FiveIsland_Meadow_EventScript_WarehouseDoorAlreadyOpen
-	goto_if_set FLAG_LEARNED_YES_NAH_CHANSEY, FiveIsland_Meadow_EventScript_OpenWarehouseDoor
+	goto_if_set FLAG_0x2D6, FiveIsland_Meadow_EventScript_WarehouseDoorAlreadyOpen
+	goto_if_set FLAG_0x2D8, FiveIsland_Meadow_EventScript_OpenWarehouseDoor
 	msgbox FiveIsland_Meadow_Text_EnteredPasswordAnotherNeeded
 	releaseall
 	end
 
 FiveIsland_Meadow_EventScript_OpenWarehouseDoor::
-	setflag FLAG_UNLOCKED_ROCKET_WAREHOUSE
+	setflag FLAG_0x2D6
 	message FiveIsland_Meadow_Text_EnteredPasswordDoorOpened
 	waitmessage
 	delay 60

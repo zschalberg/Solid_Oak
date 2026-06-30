@@ -3,16 +3,16 @@ SilphCo_9F_MapScripts::
 	.byte 0
 
 SilphCo_9F_OnLoad::
-	call_if_unset FLAG_SILPH_9F_DOOR_1, EventScript_Close9FDoor1
-	call_if_unset FLAG_SILPH_9F_DOOR_2, EventScript_Close9FDoor2
-	call_if_unset FLAG_SILPH_9F_DOOR_3, EventScript_Close9FDoor3
-	call_if_unset FLAG_SILPH_9F_DOOR_4, EventScript_Close9FDoor4
+	call_if_unset FLAG_0x288, EventScript_Close9FDoor1
+	call_if_unset FLAG_0x289, EventScript_Close9FDoor2
+	call_if_unset FLAG_0x28A, EventScript_Close9FDoor3
+	call_if_unset FLAG_0x28B, EventScript_Close9FDoor4
 	end
 
 SilphCo_9F_EventScript_HealWoman::
 	lock
 	faceplayer
-	goto_if_ge VAR_MAP_SCENE_SILPH_CO_11F, 1, SilphCo_9F_EventScript_HealWomanRocketsGone
+	goto_if_ge VAR_0x4060, 1, SilphCo_9F_EventScript_HealWomanRocketsGone
 	msgbox SilphCo_9F_Text_YouShouldTakeQuickNap
 	closemessage
 	call EventScript_OutOfCenterPartyHeal

@@ -3,7 +3,7 @@ CeladonCity_GameCorner_MapScripts::
 	.byte 0
 
 CeladonCity_GameCorner_OnLoad::
-	call_if_unset FLAG_OPENED_ROCKET_HIDEOUT, CeladonCity_GameCorner_EventScript_HideRocketHideout
+	call_if_unset FLAG_0x26D, CeladonCity_GameCorner_EventScript_HideRocketHideout
 	end
 
 CeladonCity_GameCorner_EventScript_HideRocketHideout::
@@ -27,8 +27,8 @@ CeladonCity_GameCorner_EventScript_CoinsClerk::
 	message CeladonCity_GameCorner_Text_WelcomeBuySomeCoins
 	waitmessage
 	multichoice 13, 0, MULTI_GAME_CORNER_COIN_PURCHASE_COUNTER, FALSE
-	copyvar VAR_0x8009, VAR_RESULT
-	switch VAR_RESULT
+	copyvar VAR_0x8009, VAR_0x800D
+	switch VAR_0x800D
 	case 0, CeladonCity_GameCorner_EventScript_BuyCoins
 	case 1, CeladonCity_GameCorner_EventScript_BuyCoins
 	case 2, CeladonCity_GameCorner_EventScript_ClerkDeclineBuy
@@ -36,7 +36,7 @@ CeladonCity_GameCorner_EventScript_CoinsClerk::
 	end
 
 CeladonCity_GameCorner_EventScript_BuyCoins::
-	goto_if_unset FLAG_GOT_COIN_CASE, CeladonCity_GameCorner_EventScript_ClerkNoCoinCase
+	goto_if_unset FLAG_0x243, CeladonCity_GameCorner_EventScript_ClerkNoCoinCase
 	goto_if_eq VAR_0x8009, 0, CeladonCity_GameCorner_EventScript_Buy50Coins
 	goto_if_eq VAR_0x8009, 1, CeladonCity_GameCorner_EventScript_Buy500Coins
 	end
@@ -45,7 +45,7 @@ CeladonCity_GameCorner_EventScript_Buy500Coins::
 	checkcoins VAR_TEMP_1
 	goto_if_ge VAR_TEMP_1, (MAX_COINS + 1) - 500, CeladonCity_GameCorner_EventScript_ClerkNoRoomForCoins
 	checkmoney 10000
-	goto_if_eq VAR_RESULT, FALSE, CeladonCity_GameCorner_EventScript_ClerkNotEnoughMoney
+	goto_if_eq VAR_0x800D, FALSE, CeladonCity_GameCorner_EventScript_ClerkNotEnoughMoney
 	addcoins 500
 	removemoney 10000
 	goto CeladonCity_GameCorner_EventScript_BoughtCoins
@@ -55,7 +55,7 @@ CeladonCity_GameCorner_EventScript_Buy50Coins::
 	checkcoins VAR_TEMP_1
 	goto_if_ge VAR_TEMP_1, (MAX_COINS + 1) - 50, CeladonCity_GameCorner_EventScript_ClerkNoRoomForCoins
 	checkmoney 1000
-	goto_if_eq VAR_RESULT, FALSE, CeladonCity_GameCorner_EventScript_ClerkNotEnoughMoney
+	goto_if_eq VAR_0x800D, FALSE, CeladonCity_GameCorner_EventScript_ClerkNotEnoughMoney
 	addcoins 50
 	removemoney 1000
 	goto CeladonCity_GameCorner_EventScript_BoughtCoins
@@ -104,7 +104,7 @@ CeladonCity_GameCorner_EventScript_BaldingMan::
 
 CeladonCity_GameCorner_EventScript_FaceSlotMachine::
 	closemessage
-	applymovement VAR_LAST_TALKED, Common_Movement_FaceOriginalDirection
+	applymovement VAR_0x800F, Common_Movement_FaceOriginalDirection
 	waitmovement 0
 	release
 	end
@@ -119,9 +119,9 @@ CeladonCity_GameCorner_EventScript_Woman1::
 CeladonCity_GameCorner_EventScript_Fisher::
 	lock
 	faceplayer
-	goto_if_set FLAG_GOT_10_COINS_FROM_GAMBLER, CeladonCity_GameCorner_EventScript_FisherAlreadyGotCoins
+	goto_if_set FLAG_0x26E, CeladonCity_GameCorner_EventScript_FisherAlreadyGotCoins
 	msgbox CeladonCity_GameCorner_Text_DoYouWantToPlay
-	goto_if_unset FLAG_GOT_COIN_CASE, CeladonCity_GameCorner_EventScript_GamblerNoCoinCase
+	goto_if_unset FLAG_0x243, CeladonCity_GameCorner_EventScript_GamblerNoCoinCase
 	checkcoins VAR_TEMP_1
 	goto_if_ge VAR_TEMP_1, (MAX_COINS + 1) - 10, CeladonCity_GameCorner_EventScript_FisherNoRoomForCoins
 	addcoins 10
@@ -129,7 +129,7 @@ CeladonCity_GameCorner_EventScript_Fisher::
 	msgbox CeladonCity_GameCorner_Text_Received10CoinsFromMan
 	playse SE_SHOP
 	waitse
-	setflag FLAG_GOT_10_COINS_FROM_GAMBLER
+	setflag FLAG_0x26E
 	goto CeladonCity_GameCorner_EventScript_FaceSlotMachine
 	end
 
@@ -152,7 +152,7 @@ CeladonCity_GameCorner_EventScript_FisherAlreadyGotCoins::
 CeladonCity_GameCorner_EventScript_GymGuy::
 	lock
 	faceplayer
-	goto_if_set FLAG_DEFEATED_ERIKA, CeladonCity_GameCorner_EventScript_GymGuyPostVictory
+	goto_if_set FLAG_0x4B3, CeladonCity_GameCorner_EventScript_GymGuyPostVictory
 	msgbox CeladonCity_GameCorner_Text_GymGuyAdvice
 	goto CeladonCity_GameCorner_EventScript_FaceSlotMachine
 	end
@@ -179,9 +179,9 @@ CeladonCity_GameCorner_EventScript_OldMan::
 CeladonCity_GameCorner_EventScript_Scientist::
 	lock
 	faceplayer
-	goto_if_set FLAG_GOT_20_COINS_FROM_GAMBLER, CeladonCity_GameCorner_EventScript_ScientistAlreadyGotCoins
+	goto_if_set FLAG_0x26F, CeladonCity_GameCorner_EventScript_ScientistAlreadyGotCoins
 	msgbox CeladonCity_GameCorner_Text_WantSomeCoins
-	goto_if_unset FLAG_GOT_COIN_CASE, CeladonCity_GameCorner_EventScript_GamblerNoCoinCase
+	goto_if_unset FLAG_0x243, CeladonCity_GameCorner_EventScript_GamblerNoCoinCase
 	checkcoins VAR_TEMP_1
 	goto_if_ge VAR_TEMP_1, (MAX_COINS + 1) - 20, CeladonCity_GameCorner_EventScript_ScientistNoRoomForCoins
 	addcoins 20
@@ -189,7 +189,7 @@ CeladonCity_GameCorner_EventScript_Scientist::
 	msgbox CeladonCity_GameCorner_Text_Received20CoinsFromNiceGuy
 	playse SE_SHOP
 	waitse
-	setflag FLAG_GOT_20_COINS_FROM_GAMBLER
+	setflag FLAG_0x26F
 	goto CeladonCity_GameCorner_EventScript_FaceSlotMachine
 	end
 
@@ -206,9 +206,9 @@ CeladonCity_GameCorner_EventScript_ScientistAlreadyGotCoins::
 CeladonCity_GameCorner_EventScript_Gentleman::
 	lock
 	faceplayer
-	goto_if_set FLAG_GOT_20_COINS_FROM_GAMBLER_2, CeladonCity_GameCorner_EventScript_GentlemanAlreadyGotCoins
+	goto_if_set FLAG_0x270, CeladonCity_GameCorner_EventScript_GentlemanAlreadyGotCoins
 	msgbox CeladonCity_GameCorner_Text_HereAreSomeCoinsShoo
-	goto_if_unset FLAG_GOT_COIN_CASE, CeladonCity_GameCorner_EventScript_GamblerNoCoinCase
+	goto_if_unset FLAG_0x243, CeladonCity_GameCorner_EventScript_GamblerNoCoinCase
 	checkcoins VAR_TEMP_1
 	goto_if_ge VAR_TEMP_1, (MAX_COINS + 1) - 20, CeladonCity_GameCorner_EventScript_GentlemanNoRoomForCoins
 	addcoins 20
@@ -216,7 +216,7 @@ CeladonCity_GameCorner_EventScript_Gentleman::
 	msgbox CeladonCity_GameCorner_Text_Received20CoinsFromMan
 	playse SE_SHOP
 	waitse
-	setflag FLAG_GOT_20_COINS_FROM_GAMBLER_2
+	setflag FLAG_0x270
 	goto CeladonCity_GameCorner_EventScript_FaceSlotMachine
 	end
 
@@ -241,9 +241,9 @@ CeladonCity_GameCorner_EventScript_DontPlaySlotMachine::
 	end
 
 CeladonCity_GameCorner_EventScript_SlotMachine::
-	goto_if_unset FLAG_GOT_COIN_CASE, CeladonCity_GameCorner_EventScript_SlotMachineNoCoinCase
+	goto_if_unset FLAG_0x243, CeladonCity_GameCorner_EventScript_SlotMachineNoCoinCase
 	msgbox CeladonCity_GameCorner_Text_SlotMachineWantToPlay, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, CeladonCity_GameCorner_EventScript_DontPlaySlotMachine
+	goto_if_eq VAR_0x800D, NO, CeladonCity_GameCorner_EventScript_DontPlaySlotMachine
 	setfieldeffectargument 0, LOCALID_PLAYER
 #ifdef BUGFIX
 	setfieldeffectargument 1, MAP_NUM(MAP_CELADON_CITY_GAME_CORNER)
@@ -255,8 +255,8 @@ CeladonCity_GameCorner_EventScript_SlotMachine::
 #endif
 	dofieldeffect FLDEFF_SMILEY_FACE_ICON
 	waitfieldeffect FLDEFF_SMILEY_FACE_ICON
-	specialvar VAR_RESULT, GetRandomSlotMachineId
-	playslotmachine VAR_RESULT
+	specialvar VAR_0x800D, GetRandomSlotMachineId
+	playslotmachine VAR_0x800D
 	releaseall
 	end
 
@@ -394,7 +394,7 @@ CeladonCity_GameCorner_EventScript_SlotMachineNoCoinCase::
 CeladonCity_GameCorner_EventScript_Poster::
 	lockall
 	msgbox CeladonCity_GameCorner_Text_SwitchBehindPosterPushIt
-	call_if_unset FLAG_OPENED_ROCKET_HIDEOUT, CeladonCity_GameCorner_EventScript_OpenRocketHideout
+	call_if_unset FLAG_0x26D, CeladonCity_GameCorner_EventScript_OpenRocketHideout
 	releaseall
 	end
 
@@ -406,7 +406,7 @@ CeladonCity_GameCorner_EventScript_OpenRocketHideout::
 	setmetatile 16, 3, METATILE_GameCorner_PurpleWall_StairsTop, 1
 	setmetatile 17, 3, METATILE_GameCorner_PurpleWall_stairsBottom, 1
 	special DrawWholeMapView
-	setflag FLAG_OPENED_ROCKET_HIDEOUT
+	setflag FLAG_0x26D
 	return
 
 CeladonCity_GameCorner_EventScript_RocketGrunt::
@@ -417,8 +417,8 @@ CeladonCity_GameCorner_EventScript_RocketGrunt::
 CeladonCity_GameCorner_Text_DefeatedGrunt::
 	msgbox CeladonCity_GameCorner_Text_GruntPostBattle
 	closemessage
-	call_if_eq VAR_FACING, DIR_WEST, CeladonCity_GameCorner_Text_GruntExitWest
-	call_if_ne VAR_FACING, DIR_WEST, CeladonCity_GameCorner_Text_GruntExit
+	call_if_eq VAR_0x800C, DIR_WEST, CeladonCity_GameCorner_Text_GruntExitWest
+	call_if_ne VAR_0x800C, DIR_WEST, CeladonCity_GameCorner_Text_GruntExit
 	removeobject LOCALID_GAME_CORNER_GRUNT
 	release
 	end

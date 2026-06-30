@@ -20,6 +20,6 @@ EventScript_DigUpItemPutInPocket::
 EventScript_DigUpItemBagIsFull::
 	msgbox Text_DugUpItemFromGround
 	msgbox Text_TooBadBagFull
-	setvar VAR_RESULT, 0
+	setvar VAR_0x800D, 0
 	releaseall
 	end

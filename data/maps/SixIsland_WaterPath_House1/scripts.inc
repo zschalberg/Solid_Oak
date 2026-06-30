@@ -7,19 +7,19 @@ SixIsland_WaterPath_House1_EventScript_Beauty::
 	goto_if_questlog EventScript_ReleaseEnd
 	special QuestLog_CutRecording
 	setvar VAR_0x8004, SPECIES_HERACROSS
-	specialvar VAR_RESULT, DoesPlayerPartyContainSpecies
-	goto_if_eq VAR_RESULT, FALSE, SixIsland_WaterPath_House1_EventScript_NoHeracrossInParty
+	specialvar VAR_0x800D, DoesPlayerPartyContainSpecies
+	goto_if_eq VAR_0x800D, FALSE, SixIsland_WaterPath_House1_EventScript_NoHeracrossInParty
 	special GetHeracrossSizeRecordInfo
 	msgbox SixIsland_WaterPath_House1_Text_MayIMeasureHeracross
 	special ChoosePartyMon
 	waitstate
-	copyvar VAR_RESULT, VAR_0x8004
-	goto_if_ge VAR_RESULT, PARTY_SIZE, SixIsland_WaterPath_House1_EventScript_DontShowMon
+	copyvar VAR_0x800D, VAR_0x8004
+	goto_if_ge VAR_0x800D, PARTY_SIZE, SixIsland_WaterPath_House1_EventScript_DontShowMon
 	special CompareHeracrossSize
-	goto_if_eq VAR_RESULT, 1, SixIsland_WaterPath_House1_EventScript_ShownNonHeracross
-	goto_if_eq VAR_RESULT, 2, SixIsland_WaterPath_House1_EventScript_ShownSmallHeracross
-	goto_if_eq VAR_RESULT, 3, SixIsland_WaterPath_House1_EventScript_ShownBigHeracross
-	goto_if_eq VAR_RESULT, 4, SixIsland_WaterPath_House1_EventScript_ShownTiedHeracross
+	goto_if_eq VAR_0x800D, 1, SixIsland_WaterPath_House1_EventScript_ShownNonHeracross
+	goto_if_eq VAR_0x800D, 2, SixIsland_WaterPath_House1_EventScript_ShownSmallHeracross
+	goto_if_eq VAR_0x800D, 3, SixIsland_WaterPath_House1_EventScript_ShownBigHeracross
+	goto_if_eq VAR_0x800D, 4, SixIsland_WaterPath_House1_EventScript_ShownTiedHeracross
 	release
 	end
 
@@ -38,22 +38,22 @@ SixIsland_WaterPath_House1_EventScript_ShownNonHeracross::
 	end
 
 SixIsland_WaterPath_House1_EventScript_ShownSmallHeracross::
-	goto_if_unset FLAG_GOT_NEST_BALL_FROM_WATER_PATH_HOUSE_1, SixIsland_WaterPath_House1_EventScript_ShownBigHeracross
+	goto_if_unset FLAG_0x2D9, SixIsland_WaterPath_House1_EventScript_ShownBigHeracross
 	msgbox SixIsland_WaterPath_House1_Text_ItsXInchesYInchesWasBiggest
 	release
 	end
 
 SixIsland_WaterPath_House1_EventScript_ShownTiedHeracross::
-	goto_if_unset FLAG_GOT_NEST_BALL_FROM_WATER_PATH_HOUSE_1, SixIsland_WaterPath_House1_EventScript_ShownBigHeracross
+	goto_if_unset FLAG_0x2D9, SixIsland_WaterPath_House1_EventScript_ShownBigHeracross
 	msgbox SixIsland_WaterPath_House1_Text_ItsXInchesSameAsBefore
 	release
 	end
 
 SixIsland_WaterPath_House1_EventScript_ShownBigHeracross::
-	setflag FLAG_GOT_NEST_BALL_FROM_WATER_PATH_HOUSE_1
+	setflag FLAG_0x2D9
 	msgbox SixIsland_WaterPath_House1_Text_ItsXInchesDeserveReward
 	giveitem ITEM_POKE_BALL
-	goto_if_eq VAR_RESULT, FALSE, SixIsland_WaterPath_House1_EventScript_NoRoomForPokeBall
+	goto_if_eq VAR_0x800D, FALSE, SixIsland_WaterPath_House1_EventScript_NoRoomForPokeBall
 	msgbox SixIsland_WaterPath_House1_Text_WantToSeeBiggerOne
 	release
 	end
@@ -65,7 +65,7 @@ SixIsland_WaterPath_House1_EventScript_NoRoomForPokeBall::
 
 SixIsland_WaterPath_House1_EventScript_SizeRecord::
 	lockall
-	goto_if_set FLAG_GOT_NEST_BALL_FROM_WATER_PATH_HOUSE_1, SixIsland_WaterPath_House1_EventScript_SizeRecordNonEmpty
+	goto_if_set FLAG_0x2D9, SixIsland_WaterPath_House1_EventScript_SizeRecordNonEmpty
 	msgbox SixIsland_WaterPath_House1_Text_BlankChartOfSomeSort
 	releaseall
 	end

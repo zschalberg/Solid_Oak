@@ -4,8 +4,8 @@ FuchsiaCity_MapScripts::
 
 FuchsiaCity_OnTransition::
 	setworldmapflag FLAG_WORLD_MAP_FUCHSIA_CITY
-	call_if_set FLAG_GOT_DOME_FOSSIL, FuchsiaCity_EventScript_SetOmanyteGfx
-	call_if_unset FLAG_GOT_DOME_FOSSIL, FuchsiaCity_EventScript_SetKabutoGfx
+	call_if_set FLAG_0x272, FuchsiaCity_EventScript_SetOmanyteGfx
+	call_if_unset FLAG_0x272, FuchsiaCity_EventScript_SetKabutoGfx
 	end
 
 FuchsiaCity_EventScript_SetOmanyteGfx::
@@ -120,7 +120,7 @@ FuchsiaCity_EventScript_LaprasSign::
 
 FuchsiaCity_EventScript_FossilMonSign::
 	lockall
-	goto_if_set FLAG_GOT_DOME_FOSSIL, FuchsiaCity_EventScript_OmanyteSign
+	goto_if_set FLAG_0x272, FuchsiaCity_EventScript_OmanyteSign
 	setvar VAR_0x8004, SPECIES_KABUTO
 	special SetSeenMon
 	showmonpic SPECIES_KABUTO, 10, 3

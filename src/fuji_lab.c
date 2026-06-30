@@ -221,7 +221,7 @@ void FujiLab_BufferRoomMons(void)
 void FujiLab_IsSlotEmpty(void)
 {
     u8 boxId = gSpecialVar_0x8004;
-    u8 slotId = gSpecialVar_0x8006; // slot was copied from VAR_RESULT into VAR_0x8006 by the script
+    u8 slotId = gSpecialVar_0x8006; // slot was copied from VAR_0x800D into VAR_0x8006 by the script
     struct BoxPokemon *boxMon = GetBoxedMonPtr(boxId, slotId);
     if (GetBoxMonData(boxMon, MON_DATA_SPECIES) == SPECIES_NONE)
         gSpecialVar_Result = TRUE;

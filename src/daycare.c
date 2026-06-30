@@ -115,7 +115,7 @@ static const struct WindowTemplate sDaycareLevelMenuWindowTemplate =
     .baseBlock = 8
 };
 
-// Indices here are assigned by Task_HandleDaycareLevelMenuInput to VAR_RESULT,
+// Indices here are assigned by Task_HandleDaycareLevelMenuInput to VAR_0x800D,
 // which is copied to VAR_0x8004 and used as an index for GetDaycareCost
 static const struct ListMenuItem sLevelMenuItems[] =
 {
@@ -869,14 +869,14 @@ static void _TriggerPendingDaycareEgg(struct DayCare *daycare)
         daycare->offspringPersonality = personality;
     }
 
-    FlagSet(FLAG_PENDING_DAYCARE_EGG);
+    FlagSet(FLAG_0x266);
 }
 
 // Functionally unused
 static void _TriggerPendingDaycareMaleEgg(struct DayCare *daycare)
 {
     daycare->offspringPersonality = (Random()) | (EGG_GENDER_MALE);
-    FlagSet(FLAG_PENDING_DAYCARE_EGG);
+    FlagSet(FLAG_0x266);
 }
 
 void TriggerPendingDaycareEgg(void)

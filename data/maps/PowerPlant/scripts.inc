@@ -8,28 +8,28 @@ PowerPlant_OnResume::
 	end
 
 PowerPlant_EventScript_TryRemoveStaticMon::
-	specialvar VAR_RESULT, GetBattleOutcome
-	goto_if_ne VAR_RESULT, B_OUTCOME_CAUGHT, EventScript_Return
-	removeobject VAR_LAST_TALKED
+	specialvar VAR_0x800D, GetBattleOutcome
+	goto_if_ne VAR_0x800D, B_OUTCOME_CAUGHT, EventScript_Return
+	removeobject VAR_0x800F
 	return
 
 PowerPlant_OnTransition::
 	setworldmapflag FLAG_WORLD_MAP_POWER_PLANT
-	call_if_unset FLAG_FOUGHT_ZAPDOS, PowerPlant_EventScript_ShowZapdos
-	call_if_unset FLAG_FOUGHT_POWER_PLANT_ELECTRODE_1, PowerPlant_EventScript_ShowElectrode1
-	call_if_unset FLAG_FOUGHT_POWER_PLANT_ELECTRODE_2, PowerPlant_EventScript_ShowElectrode2
+	call_if_unset FLAG_0x2BF, PowerPlant_EventScript_ShowZapdos
+	call_if_unset FLAG_0x2D0, PowerPlant_EventScript_ShowElectrode1
+	call_if_unset FLAG_0x2D1, PowerPlant_EventScript_ShowElectrode2
 	end
 
 PowerPlant_EventScript_ShowZapdos::
-	clearflag FLAG_HIDE_ZAPDOS
+	clearflag FLAG_0x05D
 	return
 
 PowerPlant_EventScript_ShowElectrode1::
-	clearflag FLAG_HIDE_POWER_PLANT_ELECTRODE_1
+	clearflag FLAG_0x085
 	return
 
 PowerPlant_EventScript_ShowElectrode2::
-	clearflag FLAG_HIDE_POWER_PLANT_ELECTRODE_2
+	clearflag FLAG_0x086
 	return
 
 PowerPlant_EventScript_Zapdos::
@@ -50,16 +50,16 @@ PowerPlant_EventScript_Zapdos::
 	special BattleSetup_StartLegendaryBattle
 	waitstate
 	clearflag FLAG_SYS_SPECIAL_WILD_BATTLE
-	specialvar VAR_RESULT, GetBattleOutcome
-	goto_if_eq VAR_RESULT, B_OUTCOME_WON, PowerPlant_EventScript_DefeatedZapdos
-	goto_if_eq VAR_RESULT, B_OUTCOME_RAN, PowerPlant_EventScript_RanFromZapdos
-	goto_if_eq VAR_RESULT, B_OUTCOME_PLAYER_TELEPORTED, PowerPlant_EventScript_RanFromZapdos
-	setflag FLAG_FOUGHT_ZAPDOS
+	specialvar VAR_0x800D, GetBattleOutcome
+	goto_if_eq VAR_0x800D, B_OUTCOME_WON, PowerPlant_EventScript_DefeatedZapdos
+	goto_if_eq VAR_0x800D, B_OUTCOME_RAN, PowerPlant_EventScript_RanFromZapdos
+	goto_if_eq VAR_0x800D, B_OUTCOME_PLAYER_TELEPORTED, PowerPlant_EventScript_RanFromZapdos
+	setflag FLAG_0x2BF
 	release
 	end
 
 PowerPlant_EventScript_DefeatedZapdos::
-	setflag FLAG_FOUGHT_ZAPDOS
+	setflag FLAG_0x2BF
 	goto EventScript_RemoveStaticMon
 	end
 
@@ -81,16 +81,16 @@ PowerPlant_EventScript_Electrode1::
 	dowildbattle
 	clearflag FLAG_SYS_SPECIAL_WILD_BATTLE
 	special QuestLog_CutRecording
-	specialvar VAR_RESULT, GetBattleOutcome
-	goto_if_eq VAR_RESULT, B_OUTCOME_WON, PowerPlant_EventScript_FoughtElectrode1
-	goto_if_eq VAR_RESULT, B_OUTCOME_RAN, PowerPlant_EventScript_FoughtElectrode1
-	goto_if_eq VAR_RESULT, B_OUTCOME_PLAYER_TELEPORTED, PowerPlant_EventScript_FoughtElectrode1
-	setflag FLAG_FOUGHT_POWER_PLANT_ELECTRODE_1
+	specialvar VAR_0x800D, GetBattleOutcome
+	goto_if_eq VAR_0x800D, B_OUTCOME_WON, PowerPlant_EventScript_FoughtElectrode1
+	goto_if_eq VAR_0x800D, B_OUTCOME_RAN, PowerPlant_EventScript_FoughtElectrode1
+	goto_if_eq VAR_0x800D, B_OUTCOME_PLAYER_TELEPORTED, PowerPlant_EventScript_FoughtElectrode1
+	setflag FLAG_0x2D0
 	release
 	end
 
 PowerPlant_EventScript_FoughtElectrode1::
-	setflag FLAG_FOUGHT_POWER_PLANT_ELECTRODE_1
+	setflag FLAG_0x2D0
 	goto EventScript_RemoveStaticMon
 	end
 
@@ -107,15 +107,15 @@ PowerPlant_EventScript_Electrode2::
 	dowildbattle
 	clearflag FLAG_SYS_SPECIAL_WILD_BATTLE
 	special QuestLog_CutRecording
-	specialvar VAR_RESULT, GetBattleOutcome
-	goto_if_eq VAR_RESULT, B_OUTCOME_WON, PowerPlant_EventScript_FoughtElectrode2
-	goto_if_eq VAR_RESULT, B_OUTCOME_RAN, PowerPlant_EventScript_FoughtElectrode2
-	goto_if_eq VAR_RESULT, B_OUTCOME_PLAYER_TELEPORTED, PowerPlant_EventScript_FoughtElectrode2
-	setflag FLAG_FOUGHT_POWER_PLANT_ELECTRODE_2
+	specialvar VAR_0x800D, GetBattleOutcome
+	goto_if_eq VAR_0x800D, B_OUTCOME_WON, PowerPlant_EventScript_FoughtElectrode2
+	goto_if_eq VAR_0x800D, B_OUTCOME_RAN, PowerPlant_EventScript_FoughtElectrode2
+	goto_if_eq VAR_0x800D, B_OUTCOME_PLAYER_TELEPORTED, PowerPlant_EventScript_FoughtElectrode2
+	setflag FLAG_0x2D1
 	release
 	end
 
 PowerPlant_EventScript_FoughtElectrode2::
-	setflag FLAG_FOUGHT_POWER_PLANT_ELECTRODE_2
+	setflag FLAG_0x2D1
 	goto EventScript_RemoveStaticMon
 	end

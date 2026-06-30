@@ -12,7 +12,7 @@ BattleFrontier_BattlePikeRoomNormal_OnFrame:
 BattleFrontier_BattlePikeRoomNormal_EventScript_EnterRoom::
 	setvar VAR_TEMP_0, 1
 	pike_getroomtype
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case PIKE_ROOM_SINGLE_BATTLE, BattleFrontier_BattlePikeRoomNormal_EventScript_EnterSingleBattleRoom
 	case PIKE_ROOM_HEAL_FULL, BattleFrontier_BattlePikeRoomNormal_EventScript_EnterFullHealRoom
 	case PIKE_ROOM_STATUS, BattleFrontier_BattlePikeRoomNormal_EventScript_EnterStatusRoom
@@ -33,7 +33,7 @@ BattleFrontier_BattlePikeRoomNormal_EventScript_EnterSingleBattleRoom::
 	releaseall
 	dofacilitytrainerbattle FACILITY_BATTLE_PIKE_SINGLE
 	waitstate
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 1, BattleFrontier_BattlePikeRoomNormal_EventScript_WonSingleBattle
 BattleFrontier_BattlePikeRoomNormal_EventScript_WarpToLobbyLost::
 	frontier_set FRONTIER_DATA_CHALLENGE_STATUS, CHALLENGE_STATUS_LOST
@@ -61,7 +61,7 @@ BattleFrontier_BattlePikeRoomNormal_EventScript_EnterHardBattleRoom::
 	releaseall
 	dofacilitytrainerbattle FACILITY_BATTLE_PIKE_SINGLE
 	waitstate
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 1, BattleFrontier_BattlePikeRoomNormal_EventScript_WonHardBattle
 	goto BattleFrontier_BattlePikeRoomNormal_EventScript_WarpToLobbyLost
 	end
@@ -90,7 +90,7 @@ BattleFrontier_BattlePikeRoomNormal_EventScript_EnterBrainRoom::
 	applymovement LOCALID_PIKE_ROOM_NPC_2, BattleFrontier_BattlePikeRoomNormal_Movement_PreQueenHealNPCApproachPlayer
 	waitmovement 0
 	pike_prequeenheal
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, BattleFrontier_BattlePikeRoomNormal_EventScript_PreQueenNoHeal
 	case 1, BattleFrontier_BattlePikeRoomNormal_EventScript_PreQueenHealOneMon
 	case 2, BattleFrontier_BattlePikeRoomNormal_EventScript_PreQueenHealTwoMons
@@ -123,23 +123,23 @@ BattleFrontier_BattlePikeRoomNormal_EventScript_LucyEnter::
 	applymovement LOCALID_PIKE_ROOM_NPC_1, BattleFrontier_BattlePikeRoomNormal_Movement_LucyEnter
 	waitmovement 0
 	pike_getbrainstatus
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case FRONTIER_BRAIN_GOLD, BattleFrontier_BattlePikeRoomNormal_EventScript_IntroLucyGold
 	case FRONTIER_BRAIN_STREAK, BattleFrontier_BattlePikeRoomNormal_EventScript_BattleLucySilver
 	case FRONTIER_BRAIN_STREAK_LONG, BattleFrontier_BattlePikeRoomNormal_EventScript_BattleLucyGold
 	frontier_get FRONTIER_DATA_HEARD_BRAIN_SPEECH
-	goto_if_ne VAR_RESULT, FALSE, BattleFrontier_BattlePikeRoomNormal_EventScript_BattleLucySilver
+	goto_if_ne VAR_0x800D, FALSE, BattleFrontier_BattlePikeRoomNormal_EventScript_BattleLucySilver
 	msgbox BattleFrontier_BattlePikeRoomNormal_Text_ImThePikeQueen, MSGBOX_DEFAULT
 	frontier_set FRONTIER_DATA_HEARD_BRAIN_SPEECH
 BattleFrontier_BattlePikeRoomNormal_EventScript_BattleLucySilver::
 	msgbox BattleFrontier_BattlePikeRoomNormal_Text_HopeYouDidntUseUpLuck, MSGBOX_DEFAULT
 	call BattleFrontier_BattlePikeRoomNormal_EventScript_DoPikeQueenBattle
-	goto_if_eq VAR_RESULT, 1, BattleFrontier_BattlePikeRoomNormal_EventScript_DefeatedLucySilver
+	goto_if_eq VAR_0x800D, 1, BattleFrontier_BattlePikeRoomNormal_EventScript_DefeatedLucySilver
 	goto BattleFrontier_BattlePikeRoomNormal_EventScript_WarpToLobbyLost
 
 BattleFrontier_BattlePikeRoomNormal_EventScript_DefeatedLucySilver::
 	frontier_getsymbols
-	goto_if_ne VAR_RESULT, 0, BattleFrontier_BattlePikeRoomNormal_EventScript_DefeatedLucy
+	goto_if_ne VAR_0x800D, 0, BattleFrontier_BattlePikeRoomNormal_EventScript_DefeatedLucy
 	msgbox BattleFrontier_BattlePikeRoomNormal_Text_LucyShowMeFrontierPass, MSGBOX_DEFAULT
 	waitmessage
 	playfanfare MUS_OBTAIN_SYMBOL
@@ -153,18 +153,18 @@ BattleFrontier_BattlePikeRoomNormal_EventScript_DefeatedLucySilver::
 
 BattleFrontier_BattlePikeRoomNormal_EventScript_IntroLucyGold::
 	frontier_get FRONTIER_DATA_HEARD_BRAIN_SPEECH
-	goto_if_ne VAR_RESULT, FALSE, BattleFrontier_BattlePikeRoomNormal_EventScript_BattleLucyGold
+	goto_if_ne VAR_0x800D, FALSE, BattleFrontier_BattlePikeRoomNormal_EventScript_BattleLucyGold
 	msgbox BattleFrontier_BattlePikeRoomNormal_Text_LucyYouAgain, MSGBOX_DEFAULT
 	frontier_set FRONTIER_DATA_HEARD_BRAIN_SPEECH
 BattleFrontier_BattlePikeRoomNormal_EventScript_BattleLucyGold::
 	msgbox BattleFrontier_BattlePikeRoomNormal_Text_NowComeOn, MSGBOX_DEFAULT
 	call BattleFrontier_BattlePikeRoomNormal_EventScript_DoPikeQueenBattle
-	goto_if_eq VAR_RESULT, 1, BattleFrontier_BattlePikeRoomNormal_EventScript_DefeatedLucyGold
+	goto_if_eq VAR_0x800D, 1, BattleFrontier_BattlePikeRoomNormal_EventScript_DefeatedLucyGold
 	goto BattleFrontier_BattlePikeRoomNormal_EventScript_WarpToLobbyLost
 
 BattleFrontier_BattlePikeRoomNormal_EventScript_DefeatedLucyGold::
 	frontier_getsymbols
-	goto_if_eq VAR_RESULT, 2, BattleFrontier_BattlePikeRoomNormal_EventScript_DefeatedLucy
+	goto_if_eq VAR_0x800D, 2, BattleFrontier_BattlePikeRoomNormal_EventScript_DefeatedLucy
 	msgbox BattleFrontier_BattlePikeRoomNormal_Text_LucyFrontierPass, MSGBOX_DEFAULT
 	waitmessage
 	playfanfare MUS_OBTAIN_SYMBOL
@@ -183,8 +183,8 @@ BattleFrontier_BattlePikeRoomNormal_EventScript_DefeatedLucy::
 	applymovement LOCALID_PLAYER, BattleFrontier_BattlePikeRoomNormal_Movement_PlayerWalkUp2
 	waitmovement 0
 	pike_get PIKE_DATA_WIN_STREAK
-	addvar VAR_RESULT, 1
-	pike_set PIKE_DATA_WIN_STREAK, VAR_RESULT
+	addvar VAR_0x800D, 1
+	pike_set PIKE_DATA_WIN_STREAK, VAR_0x800D
 	call BattleFrontier_BattlePikeRoom_EventScript_WarpToFinalRoom
 	waitstate
 	end
@@ -250,7 +250,7 @@ BattleFrontier_BattlePikeRoomNormal_EventScript_EnterDoubleBattleRoom::
 	closemessage
 	dofacilitytrainerbattle FACILITY_BATTLE_PIKE_DOUBLE
 	waitstate
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 1, BattleFrontier_BattlePikeRoomNormal_EventScript_WonDoubleBattle
 	goto BattleFrontier_BattlePikeRoomNormal_EventScript_WarpToLobbyLost
 	end
@@ -272,7 +272,7 @@ BattleFrontier_BattlePikeRoomNormal_EventScript_EnterStatusRoom::
 	applymovement LOCALID_PIKE_ROOM_NPC_2, BattleFrontier_BattlePikeRoomNormal_Movement_MonApproachPlayer
 	waitmovement 0
 	pike_getstatusmon
-	copyvar VAR_0x8004, VAR_RESULT
+	copyvar VAR_0x8004, VAR_0x800D
 	call_if_eq VAR_0x8004, PIKE_STATUSMON_KIRLIA, BattleFrontier_BattlePikeRoomNormal_EventScript_KirliaAttack
 	call_if_eq VAR_0x8004, PIKE_STATUSMON_DUSCLOPS, BattleFrontier_BattlePikeRoomNormal_EventScript_DusclopsAttack
 	msgbox BattleFrontier_BattlePikeRoomNormal_Text_AttacksWhenStartled, MSGBOX_DEFAULT
@@ -287,10 +287,10 @@ BattleFrontier_BattlePikeRoomNormal_EventScript_KirliaAttack::
 	playmoncry SPECIES_KIRLIA, CRY_MODE_NORMAL
 	waitmoncry
 	pike_getstatus
-	call_if_eq VAR_RESULT, PIKE_STATUS_TOXIC, BattleFrontier_BattlePikeRoomNormal_EventScript_KirliaUsedToxic
-	call_if_eq VAR_RESULT, PIKE_STATUS_BURN, BattleFrontier_BattlePikeRoomNormal_EventScript_KirliaUsedWillOWisp
-	call_if_eq VAR_RESULT, PIKE_STATUS_PARALYSIS, BattleFrontier_BattlePikeRoomNormal_EventScript_KirliaUsedThunderWave
-	call_if_eq VAR_RESULT, PIKE_STATUS_SLEEP, BattleFrontier_BattlePikeRoomNormal_EventScript_KirliaUsedHypnosis
+	call_if_eq VAR_0x800D, PIKE_STATUS_TOXIC, BattleFrontier_BattlePikeRoomNormal_EventScript_KirliaUsedToxic
+	call_if_eq VAR_0x800D, PIKE_STATUS_BURN, BattleFrontier_BattlePikeRoomNormal_EventScript_KirliaUsedWillOWisp
+	call_if_eq VAR_0x800D, PIKE_STATUS_PARALYSIS, BattleFrontier_BattlePikeRoomNormal_EventScript_KirliaUsedThunderWave
+	call_if_eq VAR_0x800D, PIKE_STATUS_SLEEP, BattleFrontier_BattlePikeRoomNormal_EventScript_KirliaUsedHypnosis
 	pike_flashscreen
 	waitstate
 	applymovement LOCALID_PIKE_ROOM_NPC_1, BattleFrontier_BattlePikeRoomNormal_Movement_NPCApproachMon
@@ -318,8 +318,8 @@ BattleFrontier_BattlePikeRoomNormal_EventScript_DusclopsAttack::
 	playmoncry SPECIES_DUSCLOPS, CRY_MODE_NORMAL
 	waitmoncry
 	pike_getstatus
-	call_if_eq VAR_RESULT, PIKE_STATUS_FREEZE, BattleFrontier_BattlePikeRoomNormal_EventScript_DusclopsUsedIceBeam
-	call_if_eq VAR_RESULT, PIKE_STATUS_BURN, BattleFrontier_BattlePikeRoomNormal_EventScript_DusclopsUsedWillOWisp
+	call_if_eq VAR_0x800D, PIKE_STATUS_FREEZE, BattleFrontier_BattlePikeRoomNormal_EventScript_DusclopsUsedIceBeam
+	call_if_eq VAR_0x800D, PIKE_STATUS_BURN, BattleFrontier_BattlePikeRoomNormal_EventScript_DusclopsUsedWillOWisp
 	pike_flashscreen
 	waitstate
 	applymovement LOCALID_PIKE_ROOM_NPC_1, BattleFrontier_BattlePikeRoomNormal_Movement_NPCApproachMon
@@ -518,7 +518,7 @@ BattleFrontier_BattlePikeRoomNormal_Movement_LucyMoveAside:
 
 BattleFrontier_BattlePikeRoomNormal_EventScript_NPC::
 	pike_getroomtype
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case PIKE_ROOM_NPC, BattleFrontier_BattlePikeRoomNormal_EventScript_NormalNPC
 	case PIKE_ROOM_STATUS, BattleFrontier_BattlePikeRoomNormal_EventScript_StatusNPC
 	case PIKE_ROOM_HEAL_PART, BattleFrontier_BattlePikeRoomNormal_EventScript_HealNPC
@@ -542,8 +542,8 @@ BattleFrontier_BattlePikeRoomNormal_EventScript_StatusNPC::
 
 BattleFrontier_BattlePikeRoomNormal_EventScript_HealNPC::
 	pike_healonetwomons
-	call_if_eq VAR_RESULT, 2, BattleFrontier_BattlePikeRoomNormal_EventScript_WillRestoreTwoMons
-	call_if_eq VAR_RESULT, 1, BattleFrontier_BattlePikeRoomNormal_EventScript_WillRestoreOneMon
+	call_if_eq VAR_0x800D, 2, BattleFrontier_BattlePikeRoomNormal_EventScript_WillRestoreTwoMons
+	call_if_eq VAR_0x800D, 1, BattleFrontier_BattlePikeRoomNormal_EventScript_WillRestoreOneMon
 	playfanfare MUS_HEAL
 	waitfanfare
 	msgbox BattleFrontier_BattlePikeRoomNormal_Text_BestOfLuckFarewell, MSGBOX_DEFAULT

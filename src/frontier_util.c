@@ -1815,7 +1815,7 @@ u8 GetPlayerSymbolCountForFacility(u8 facility)
 
 static void IncrementDailyBattlePoints(u16 delta)
 {
-    VarSet(VAR_DAILY_BP, VarGet(VAR_DAILY_BP) + delta);
+    VarSet(VAR_0x40F1, VarGet(VAR_0x40F1) + delta);
 }
 
 static void GiveBattlePoints(void)

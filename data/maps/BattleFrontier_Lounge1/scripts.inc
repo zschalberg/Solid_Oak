@@ -5,9 +5,9 @@ BattleFrontier_Lounge1_MapScripts::
 BattleFrontier_Lounge1_EventScript_Breeder::
 	lock
 	faceplayer
-	call_if_unset FLAG_MET_BATTLE_FRONTIER_BREEDER, BattleFrontier_Lounge1_EventScript_BreederIntro
-	call_if_set FLAG_MET_BATTLE_FRONTIER_BREEDER, BattleFrontier_Lounge1_EventScript_AlreadyMetBreeder
-	setflag FLAG_MET_BATTLE_FRONTIER_BREEDER
+	call_if_unset FLAG_0x300, BattleFrontier_Lounge1_EventScript_BreederIntro
+	call_if_set FLAG_0x300, BattleFrontier_Lounge1_EventScript_AlreadyMetBreeder
+	setflag FLAG_0x300
 	goto BattleFrontier_Lounge1_EventScript_ChooseMonToShowBreeder
 	end
 
@@ -31,8 +31,8 @@ BattleFrontier_Lounge1_EventScript_AlreadyMetBreeder::
 @ VAR_0x8006: Stat id of highest IV stat
 @ VAR_0x8007: IV of the highest IV stat
 BattleFrontier_Lounge1_EventScript_ShowMonToBreeder::
-	specialvar VAR_RESULT, ScriptGetPartyMonSpecies
-	goto_if_eq VAR_RESULT, SPECIES_EGG, BattleFrontier_Lounge1_EventScript_ShowEggToBreeder
+	specialvar VAR_0x800D, ScriptGetPartyMonSpecies
+	goto_if_eq VAR_0x800D, SPECIES_EGG, BattleFrontier_Lounge1_EventScript_ShowEggToBreeder
 	special BufferVarsForIVRater
 	goto_if_le VAR_0x8005, 90, BattleFrontier_Lounge1_EventScript_AverageTotalIVs       @ Average of 15
 	goto_if_le VAR_0x8005, 120, BattleFrontier_Lounge1_EventScript_AboveAverageTotalIVs @ Average of 20

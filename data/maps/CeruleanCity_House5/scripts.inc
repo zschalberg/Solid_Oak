@@ -4,14 +4,14 @@ CeruleanCity_House5_MapScripts::
 CeruleanCity_House5_EventScript_BerryPowderMan::
 	lock
 	faceplayer
-	goto_if_set FLAG_GOT_POWDER_JAR, CeruleanCity_House5_EventScript_AskToExchangePowder
+	goto_if_set FLAG_0x2BB, CeruleanCity_House5_EventScript_AskToExchangePowder
 	msgbox CeruleanCity_House1_Text_AnyInterestInBerries, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, CeruleanCity_House5_EventScript_NoInterestInBerries
+	goto_if_eq VAR_0x800D, NO, CeruleanCity_House5_EventScript_NoInterestInBerries
 	goto_if_unset FLAG_SYS_GOT_BERRY_POUCH, CeruleanCity_House5_EventScript_NoBerries
 	msgbox CeruleanCity_House1_Text_HaveJustTheThing
-	setflag FLAG_GOT_POWDER_JAR
+	setflag FLAG_0x2BB
 	giveitem ITEM_POWDER_JAR
-	goto_if_eq VAR_RESULT, FALSE, EventScript_BagIsFull
+	goto_if_eq VAR_0x800D, FALSE, EventScript_BagIsFull
 	msgbox CeruleanCity_House1_Text_GoCrushBerriesAtDirectCorner
 	release
 	end
@@ -38,7 +38,7 @@ CeruleanCity_House5_EventScript_ChooseExchangeItem::
 	setvar VAR_0x8004, SCROLL_MULTI_BERRY_POWDER
 	special ShowScrollableMultichoice
 	waitstate
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, CeruleanCity_House5_EventScript_EnergyPowder
 	case 1, CeruleanCity_House5_EventScript_EnergyRoot
 	case 2, CeruleanCity_House5_EventScript_HealPowder
@@ -139,17 +139,17 @@ CeruleanCity_House5_EventScript_ExitMenu::
 
 CeruleanCity_House5_EventScript_ExchangePowderForItem::
 	msgbox CeruleanCity_House1_Text_YoullExchangeBerryPowderForItem, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, CeruleanCity_House5_EventScript_ChooseExchangeItem
+	goto_if_eq VAR_0x800D, NO, CeruleanCity_House5_EventScript_ChooseExchangeItem
 	copyvar VAR_0x8004, VAR_0x8009
-	specialvar VAR_RESULT, Script_HasEnoughBerryPowder
-	goto_if_eq VAR_RESULT, FALSE, CeruleanCity_House5_EventScript_NotEnoughBerryPowder
+	specialvar VAR_0x800D, Script_HasEnoughBerryPowder
+	goto_if_eq VAR_0x800D, FALSE, CeruleanCity_House5_EventScript_NotEnoughBerryPowder
 	giveitem VAR_0x8008
-	goto_if_eq VAR_RESULT, FALSE, CeruleanCity_House5_EventScript_BagIsFull
+	goto_if_eq VAR_0x800D, FALSE, CeruleanCity_House5_EventScript_BagIsFull
 	copyvar VAR_0x8004, VAR_0x8009
 	special Script_TakeBerryPowder
 	special PrintPlayerBerryPowderAmount
 	msgbox CeruleanCity_House1_Text_TradeMoreBerryPowder, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, YES, CeruleanCity_House5_EventScript_ChooseExchangeItem
+	goto_if_eq VAR_0x800D, YES, CeruleanCity_House5_EventScript_ChooseExchangeItem
 	msgbox CeruleanCity_House1_Text_HopeToSeeYouAgain
 	special RemoveBerryPowderVendorMenu
 	release

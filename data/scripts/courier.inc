@@ -3,11 +3,11 @@ EventScript_CourierNPC::
 	faceplayer
 	showmoneybox 0, 0
 	msgbox Text_CourierGreeting, MSGBOX_YESNO
-	compare VAR_RESULT, NO
+	compare VAR_0x800D, NO
 	goto_if_eq EventScript_CourierGoodbye
 
 	checkmoney 500
-	compare VAR_RESULT, FALSE
+	compare VAR_0x800D, FALSE
 	goto_if_eq EventScript_CourierNoMoney
 
 	@ Swoop-in animation
@@ -24,7 +24,7 @@ EventScript_CourierNPC::
 EventScript_CourierMainMenu::
 	msgbox Text_CourierWhatToDo, MSGBOX_DEFAULT
 	multichoice 0, 0, MULTI_COURIER_MENU, FALSE
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, EventScript_CourierSend
 	case 1, EventScript_CourierRetrieve
 	case 2, EventScript_CourierViewCart
@@ -35,8 +35,8 @@ EventScript_CourierMainMenu::
 	end
 
 EventScript_CourierSend::
-	specialvar VAR_RESULT, IsThereRoomInAnyBoxForMorePokemon
-	compare VAR_RESULT, FALSE
+	specialvar VAR_0x800D, IsThereRoomInAnyBoxForMorePokemon
+	compare VAR_0x800D, FALSE
 	goto_if_eq EventScript_CourierStorageFull
 
 	msgbox Text_CourierSelectDeposit, MSGBOX_DEFAULT
@@ -46,7 +46,7 @@ EventScript_CourierSend::
 	goto_if_eq EventScript_CourierMainMenu
 
 	special Courier_StageDeposit
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, EventScript_CourierDepositStagedSuccess
 	case 1, EventScript_CourierDepositStagedAlready
 	case 2, EventScript_CourierDepositStagedInvalid
@@ -76,10 +76,10 @@ EventScript_CourierCartFull::
 	goto EventScript_CourierMainMenu
 
 EventScript_CourierRetrieve::
-	goto_if_set FLAG_FUJI_LAB_UPGRADE, EventScript_CourierRetrieveWithUpgrade
+	goto_if_set FLAG_0x4AB, EventScript_CourierRetrieveWithUpgrade
 	msgbox Text_CourierChooseRoom, MSGBOX_DEFAULT
 	multichoice 0, 0, MULTI_COURIER_ROOM_RANGES_NO_UPGRADE, FALSE
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, EventScript_CourierChooseRooms1_4
 	case 1, EventScript_CourierChooseRooms5_8
 	case 2, EventScript_CourierMainMenu
@@ -89,7 +89,7 @@ EventScript_CourierRetrieve::
 EventScript_CourierRetrieveWithUpgrade::
 	msgbox Text_CourierChooseRoom, MSGBOX_DEFAULT
 	multichoice 0, 0, MULTI_COURIER_ROOM_RANGES_WITH_UPGRADE, FALSE
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, EventScript_CourierChooseRooms1_4
 	case 1, EventScript_CourierChooseRooms5_8
 	case 2, EventScript_CourierChooseRooms9_10
@@ -99,30 +99,30 @@ EventScript_CourierRetrieveWithUpgrade::
 
 EventScript_CourierChooseRooms1_4::
 	multichoice 0, 0, MULTI_COURIER_ROOMS_1_4, FALSE
-	compare VAR_RESULT, 4 @ Cancel
+	compare VAR_0x800D, 4 @ Cancel
 	goto_if_eq EventScript_CourierRetrieve
-	compare VAR_RESULT, MULTI_B_PRESSED
+	compare VAR_0x800D, MULTI_B_PRESSED
 	goto_if_eq EventScript_CourierRetrieve
-	copyvar VAR_0x8004, VAR_RESULT @ Box ID 0-3
+	copyvar VAR_0x8004, VAR_0x800D @ Box ID 0-3
 	goto EventScript_CourierSelectMon
 
 EventScript_CourierChooseRooms5_8::
 	multichoice 0, 0, MULTI_COURIER_ROOMS_5_8, FALSE
-	compare VAR_RESULT, 4 @ Cancel
+	compare VAR_0x800D, 4 @ Cancel
 	goto_if_eq EventScript_CourierRetrieve
-	compare VAR_RESULT, MULTI_B_PRESSED
+	compare VAR_0x800D, MULTI_B_PRESSED
 	goto_if_eq EventScript_CourierRetrieve
-	copyvar VAR_0x8004, VAR_RESULT
+	copyvar VAR_0x8004, VAR_0x800D
 	addvar VAR_0x8004, 4 @ Box ID 4-7
 	goto EventScript_CourierSelectMon
 
 EventScript_CourierChooseRooms9_10::
 	multichoice 0, 0, MULTI_COURIER_ROOMS_9_10, FALSE
-	compare VAR_RESULT, 2 @ Cancel
+	compare VAR_0x800D, 2 @ Cancel
 	goto_if_eq EventScript_CourierRetrieve
-	compare VAR_RESULT, MULTI_B_PRESSED
+	compare VAR_0x800D, MULTI_B_PRESSED
 	goto_if_eq EventScript_CourierRetrieve
-	copyvar VAR_0x8004, VAR_RESULT
+	copyvar VAR_0x8004, VAR_0x800D
 	addvar VAR_0x8004, 8 @ Box ID 8-9
 	goto EventScript_CourierSelectMon
 
@@ -130,18 +130,18 @@ EventScript_CourierSelectMon::
 	special FujiLab_BufferRoomMons
 	msgbox Text_CourierSelectMon, MSGBOX_DEFAULT
 	multichoice 0, 0, MULTI_FUJI_ROOM_MONS, FALSE
-	compare VAR_RESULT, 6 @ Cancel
+	compare VAR_0x800D, 6 @ Cancel
 	goto_if_eq EventScript_CourierRetrieve
-	compare VAR_RESULT, MULTI_B_PRESSED
+	compare VAR_0x800D, MULTI_B_PRESSED
 	goto_if_eq EventScript_CourierRetrieve
 
-	copyvar VAR_0x8006, VAR_RESULT @ Selected slot
+	copyvar VAR_0x8006, VAR_0x800D @ Selected slot
 	special FujiLab_IsSlotEmpty
-	compare VAR_RESULT, TRUE
+	compare VAR_0x800D, TRUE
 	goto_if_eq EventScript_CourierSlotEmpty
 
 	special Courier_StageWithdraw
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, EventScript_CourierWithdrawStagedSuccess
 	case 1, EventScript_CourierWithdrawStagedAlready
 	case 2, EventScript_CourierWithdrawStagedTooMany
@@ -176,8 +176,8 @@ EventScript_CourierResetCart::
 	goto EventScript_CourierMainMenu
 
 EventScript_CourierConfirmExchange::
-	specialvar VAR_RESULT, Courier_GetCartSummary
-	switch VAR_RESULT
+	specialvar VAR_0x800D, Courier_GetCartSummary
+	switch VAR_0x800D
 	case 0, EventScript_CourierDoExchange
 	case 1, EventScript_CourierExchangeEmptyParty
 	case 2, EventScript_CourierExchangeTooMany
@@ -350,7 +350,7 @@ EventScript_UseCourierWhistle::
 	showmoneybox 0, 0
 
 	checkmoney 500
-	compare VAR_RESULT, FALSE
+	compare VAR_0x800D, FALSE
 	goto_if_eq EventScript_CourierNoMoney
 
 	@ Swoop-in animation

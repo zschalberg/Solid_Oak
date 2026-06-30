@@ -1,20 +1,20 @@
 @ Unused, handled by textcolor script cmd
 EventScript_SaveTextColor::
-	copyvar VAR_PREV_TEXT_COLOR, VAR_TEXT_COLOR
+	copyvar VAR_0x8013, VAR_0x8012
 	return
 
 EventScript_RestorePrevTextColor::
-	copyvar VAR_TEXT_COLOR, VAR_PREV_TEXT_COLOR
+	copyvar VAR_0x8012, VAR_0x8013
 	return
 
 Std_ObtainItem::
-	copyvar VAR_PREV_TEXT_COLOR, VAR_TEXT_COLOR
+	copyvar VAR_0x8013, VAR_0x8012
 	textcolor NPC_TEXT_COLOR_NEUTRAL
 	copyvar VAR_0x8006, VAR_0x8000
 	additem VAR_0x8000, VAR_0x8001
-	copyvar VAR_0x8007, VAR_RESULT
+	copyvar VAR_0x8007, VAR_0x800D
 	call EventScript_ObtainItemMessage
-	copyvar VAR_TEXT_COLOR, VAR_PREV_TEXT_COLOR
+	copyvar VAR_0x8012, VAR_0x8013
 	return
 
 EventScript_ObtainItemMessage::
@@ -26,7 +26,7 @@ EventScript_ObtainItemMessage::
 	return
 
 EventScript_BufferPocketNameTryFanfare::
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case POCKET_ITEMS, EventScript_BufferItemsPocket
 	case POCKET_KEY_ITEMS, EventScript_BufferKeyItemsPocket
 	case POCKET_POKE_BALLS, EventScript_BufferPokeBallsPocket
@@ -67,11 +67,11 @@ EventScript_ObtainedItem::
 	waitmessage
 	msgbox Text_PutItemAway
 	hideitemdescription
-	setvar VAR_RESULT, 1
+	setvar VAR_0x800D, 1
 	return
 
 EventScript_NoRoomForItem::
-	setvar VAR_RESULT, FALSE
+	setvar VAR_0x800D, FALSE
 	return
 
 EventScript_PlayFanfareObtainedItem::
@@ -84,7 +84,7 @@ EventScript_PlayFanfareObtainedTMHM::
 
 Std_ObtainDecoration::
 	adddecoration VAR_0x8000
-	copyvar VAR_0x8007, VAR_RESULT
+	copyvar VAR_0x8007, VAR_0x800D
 	call EventScript_ObtainDecorMessage
 	return
 
@@ -100,11 +100,11 @@ EventScript_ObtainedDecor::
 	waitfanfare
 	waitmessage
 	msgbox Text_DecorTransferredToPC
-	setvar VAR_RESULT, TRUE
+	setvar VAR_0x800D, TRUE
 	return
 
 EventScript_NoRoomForDecor::
-	setvar VAR_RESULT, FALSE
+	setvar VAR_0x800D, FALSE
 	return
 
 Std_FindItem::
@@ -115,7 +115,7 @@ Std_FindItem::
 	copyvar VAR_0x8004, VAR_0x8000
 	copyvar VAR_0x8005, VAR_0x8001
 	checkitemspace VAR_0x8000, VAR_0x8001
-	copyvar VAR_0x8007, VAR_RESULT
+	copyvar VAR_0x8007, VAR_0x800D
 	bufferitemname STR_VAR_2, VAR_0x8000
 	checkitemtype VAR_0x8000
 	call EventScript_BufferPocketNameTryFanfare
@@ -125,10 +125,10 @@ Std_FindItem::
 	return
 
 EventScript_PickUpItem::
-	removeobject VAR_LAST_TALKED
+	removeobject VAR_0x800F
 	additem VAR_0x8004, VAR_0x8005
-	specialvar VAR_RESULT, BufferTMHMMoveName
-	copyvar VAR_0x8008, VAR_RESULT
+	specialvar VAR_0x800D, BufferTMHMMoveName
+	copyvar VAR_0x8008, VAR_0x800D
 	call_if_eq VAR_0x8008, TRUE, EventScript_FoundTMHM
 	call_if_eq VAR_0x8008, FALSE, EventScript_FoundItem
 	delay 10
@@ -136,7 +136,7 @@ EventScript_PickUpItem::
 	waitfanfare
 	waitmessage
 	pyramid_getlocation
-	goto_if_eq VAR_RESULT, PYRAMID_LOCATION_FLOOR, EventScript_PutBattlePyramidItemInBag
+	goto_if_eq VAR_0x800D, PYRAMID_LOCATION_FLOOR, EventScript_PutBattlePyramidItemInBag
 	msgbox Text_PutItemAway
 	hideitemdescription
 	return
@@ -157,7 +157,7 @@ EventScript_FoundItem::
 EventScript_NoRoomToPickUpItem::
 	msgbox Text_ObtainedTheX
 	msgbox Text_TooBadBagFull
-	setvar VAR_RESULT, FALSE
+	setvar VAR_0x800D, FALSE
 	return
 
 EventScript_HiddenItemScript::
@@ -172,7 +172,7 @@ EventScript_HiddenItemScript::
 
 EventScript_TryPickUpHiddenItem::
 	additem VAR_0x8005, VAR_0x8006
-	copyvar VAR_0x8007, VAR_RESULT
+	copyvar VAR_0x8007, VAR_0x800D
 	bufferitemname STR_VAR_2, VAR_0x8005
 	checkitemtype VAR_0x8005
 	call EventScript_BufferPocketNameTryFanfare
@@ -211,15 +211,15 @@ EventScript_FoundMultipleItems::
 EventScript_NoRoomForHiddenItem::
 	msgbox Text_FoundOneItem
 	msgbox Text_TooBadBagFull
-	setvar VAR_RESULT, 0
+	setvar VAR_0x800D, 0
 	releaseall
 	end
 
 EventScript_TryPickUpHiddenCoins::
-	goto_if_unset FLAG_GOT_COIN_CASE, EventScript_NoCaseForHiddenCoins
-	checkcoins VAR_RESULT
-	specialvar VAR_RESULT, CheckAddCoins
-	goto_if_eq VAR_RESULT, FALSE, EventScript_HiddenCoinsButCaseIsFull
+	goto_if_unset FLAG_0x243, EventScript_NoCaseForHiddenCoins
+	checkcoins VAR_0x800D
+	specialvar VAR_0x800D, CheckAddCoins
+	goto_if_eq VAR_0x800D, FALSE, EventScript_HiddenCoinsButCaseIsFull
 	addcoins VAR_0x8006
 	bufferstdstring STR_VAR_2, STDSTRING_COINS
 	call EventScript_PlayFanfareObtainedItem
@@ -236,7 +236,7 @@ EventScript_HiddenCoinsButCaseIsFull::
 	bufferstdstring STR_VAR_2, STDSTRING_COINS
 	msgbox Text_FoundXCoins
 	msgbox Text_CoinCaseIsFull
-	setvar VAR_RESULT, 0
+	setvar VAR_0x800D, 0
 	releaseall
 	end
 
@@ -245,6 +245,6 @@ EventScript_NoCaseForHiddenCoins::
 	bufferstdstring STR_VAR_2, STDSTRING_COINS
 	msgbox Text_FoundXCoins
 	msgbox Text_NothingToPutThemIn
-	setvar VAR_RESULT, 0
+	setvar VAR_0x800D, 0
 	releaseall
 	end

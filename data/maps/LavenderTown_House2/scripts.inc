@@ -5,8 +5,8 @@ LavenderTown_House2_EventScript_NameRater::
 	lock
 	faceplayer
 	msgbox LavenderTown_House2_Text_WantMeToRateNicknames, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, YES, LavenderTown_House2_EventScript_ChooseMon
-	goto_if_eq VAR_RESULT, NO, LavenderTown_House2_EventScript_DontRateNickname
+	goto_if_eq VAR_0x800D, YES, LavenderTown_House2_EventScript_ChooseMon
+	goto_if_eq VAR_0x800D, NO, LavenderTown_House2_EventScript_DontRateNickname
 	end
 
 LavenderTown_House2_EventScript_ChooseMon::
@@ -23,17 +23,17 @@ LavenderTown_House2_EventScript_DontRateNickname::
 	end
 
 LavenderTown_House2_EventScript_CheckCanRateMon::
-	specialvar VAR_RESULT, ScriptGetPartyMonSpecies
-	goto_if_eq VAR_RESULT, SPECIES_EGG, LavenderTown_House2_EventScript_CantNicknameEgg
+	specialvar VAR_0x800D, ScriptGetPartyMonSpecies
+	goto_if_eq VAR_0x800D, SPECIES_EGG, LavenderTown_House2_EventScript_CantNicknameEgg
 	special BufferMonNickname
 	special IsMonOTIDNotPlayers
-	goto_if_eq VAR_RESULT, TRUE, LavenderTown_House2_EventScript_CantNicknameTradeMon
-	specialvar VAR_RESULT, IsMonOTNameNotPlayers
+	goto_if_eq VAR_0x800D, TRUE, LavenderTown_House2_EventScript_CantNicknameTradeMon
+	specialvar VAR_0x800D, IsMonOTNameNotPlayers
 	special BufferMonNickname
-	goto_if_eq VAR_RESULT, TRUE, LavenderTown_House2_EventScript_CantNicknameTradeMon
+	goto_if_eq VAR_0x800D, TRUE, LavenderTown_House2_EventScript_CantNicknameTradeMon
 	msgbox LavenderTown_House2_Text_GiveItANicerName, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, YES, LavenderTown_House2_EventScript_ChooseNewNickname
-	goto_if_eq VAR_RESULT, NO, LavenderTown_House2_EventScript_DontRateNickname
+	goto_if_eq VAR_0x800D, YES, LavenderTown_House2_EventScript_ChooseNewNickname
+	goto_if_eq VAR_0x800D, NO, LavenderTown_House2_EventScript_DontRateNickname
 	end
 
 LavenderTown_House2_EventScript_CantNicknameEgg::
@@ -49,9 +49,9 @@ LavenderTown_House2_EventScript_CantNicknameTradeMon::
 LavenderTown_House2_EventScript_ChooseNewNickname::
 	msgbox LavenderTown_House2_Text_WhatShallNewNicknameBe
 	call EventScript_ChangePokemonNickname
-	specialvar VAR_RESULT, NameRaterWasNicknameChanged
+	specialvar VAR_0x800D, NameRaterWasNicknameChanged
 	special BufferMonNickname
-	goto_if_eq VAR_RESULT, TRUE, LavenderTown_House2_EventScript_ChoseNewNickname
+	goto_if_eq VAR_0x800D, TRUE, LavenderTown_House2_EventScript_ChoseNewNickname
 	msgbox LavenderTown_House2_Text_FromNowOnShallBeKnownAsSameName
 	release
 	end

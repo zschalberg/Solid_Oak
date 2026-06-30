@@ -13,7 +13,7 @@ SSAnne_1F_Corridor_EventScript_SizeResearcher::
 	lock
 	faceplayer
 	msgbox SSAnne_1F_Corridor_Text_ResearcherIntro, MSGBOX_YESNO
-	compare VAR_RESULT, NO
+	compare VAR_0x800D, NO
 	goto_if_eq SSAnne_1F_Corridor_EventScript_SizeResearcher_Decline
 	msgbox SSAnne_1F_Corridor_Text_ChooseMon, MSGBOX_DEFAULT
 	special ChoosePartyMon
@@ -21,17 +21,17 @@ SSAnne_1F_Corridor_EventScript_SizeResearcher::
 	compare VAR_0x8004, PARTY_SIZE
 	goto_if_ge SSAnne_1F_Corridor_EventScript_SizeResearcher_Cancel
 	
-	specialvar VAR_RESULT, ScriptGetPartyMonSpecies
-	bufferspeciesname 0, VAR_RESULT
+	specialvar VAR_0x800D, ScriptGetPartyMonSpecies
+	bufferspeciesname 0, VAR_0x800D
 	
 	special BufferMonPercentiles
 	
 	msgbox SSAnne_1F_Corridor_Text_ShowPercentiles, MSGBOX_YESNO
-	compare VAR_RESULT, NO
+	compare VAR_0x800D, NO
 	goto_if_eq SSAnne_1F_Corridor_EventScript_SizeResearcher_DeclineTurnIn
 	
 	special RemoveSelectedPartyMon
-	compare VAR_RESULT, FALSE
+	compare VAR_0x800D, FALSE
 	goto_if_eq SSAnne_1F_Corridor_EventScript_SizeResearcher_LastPokemonError
 	
 	msgbox SSAnne_1F_Corridor_Text_TurnInSuccess, MSGBOX_DEFAULT

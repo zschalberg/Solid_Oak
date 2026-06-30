@@ -3,17 +3,17 @@ Route5_PokemonDayCare_EventScript_DaycareMan::
 	lock
 	faceplayer
 	showmoneybox 0, 0
-	specialvar VAR_RESULT, IsThereMonInRoute5Daycare
-	goto_if_eq VAR_RESULT, TRUE, Route5_PokemonDayCare_EventScript_CheckOnMon
+	specialvar VAR_0x800D, IsThereMonInRoute5Daycare
+	goto_if_eq VAR_0x800D, TRUE, Route5_PokemonDayCare_EventScript_CheckOnMon
 	msgbox Route5_PokemonDayCare_Text_WantMeToRaiseMon, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, YES, Route5_PokemonDayCare_EventScript_TryGiveMon
+	goto_if_eq VAR_0x800D, YES, Route5_PokemonDayCare_EventScript_TryGiveMon
 	msgbox Route5_PokemonDayCare_Text_ComeAgain
 	goto Route5_PokemonDayCare_EventScript_CloseMoneyBox
 	end
 
 Route5_PokemonDayCare_EventScript_TryGiveMon::
-	specialvar VAR_RESULT, CountPartyNonEggMons
-	goto_if_eq VAR_RESULT, 1, Route5_PokemonDayCare_EventScript_OnlyOneMonInParty
+	specialvar VAR_0x800D, CountPartyNonEggMons
+	goto_if_eq VAR_0x800D, 1, Route5_PokemonDayCare_EventScript_OnlyOneMonInParty
 	msgbox Route5_PokemonDayCare_Text_WhichMonShouldIRaise
 	fadescreen FADE_TO_BLACK
 	hidemoneybox
@@ -21,8 +21,8 @@ Route5_PokemonDayCare_EventScript_TryGiveMon::
 	waitstate
 	showmoneybox 0, 0
 	goto_if_ge VAR_0x8004, PARTY_SIZE, Route5_PokemonDayCare_EventScript_ComeAgain
-	specialvar VAR_RESULT, CountPartyAliveNonEggMons_IgnoreVar0x8004Slot
-	goto_if_eq VAR_RESULT, 0, Route5_PokemonDayCare_EventScript_OnlyOneAliveMonInParty
+	specialvar VAR_0x800D, CountPartyAliveNonEggMons_IgnoreVar0x8004Slot
+	goto_if_eq VAR_0x800D, 0, Route5_PokemonDayCare_EventScript_OnlyOneAliveMonInParty
 	specialvar VAR_0x8005, GetSelectedMonNicknameAndSpecies
 	msgbox Route5_PokemonDayCare_Text_LookAfterMonForAWhile
 	waitse
@@ -52,12 +52,12 @@ Route5_PokemonDayCare_EventScript_OnlyOneAliveMonInParty::
 
 Route5_PokemonDayCare_EventScript_CheckOnMon::
 	setvar VAR_0x8004, 0
-	specialvar VAR_RESULT, GetNumLevelsGainedForRoute5DaycareMon
-	call_if_ne VAR_RESULT, 0, Route5_PokemonDayCare_EventScript_MonHasGrownByXLevels
-	call_if_eq VAR_RESULT, 0, Route5_PokemonDayCare_EventScript_NotEnoughTime
+	specialvar VAR_0x800D, GetNumLevelsGainedForRoute5DaycareMon
+	call_if_ne VAR_0x800D, 0, Route5_PokemonDayCare_EventScript_MonHasGrownByXLevels
+	call_if_eq VAR_0x800D, 0, Route5_PokemonDayCare_EventScript_NotEnoughTime
 	special GetCostToWithdrawRoute5DaycareMon
 	msgbox Route5_PokemonDayCare_Text_OweMeXForMonsReturn, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, YES, Route5_PokemonDayCare_EventScript_TryRetrieveMon
+	goto_if_eq VAR_0x800D, YES, Route5_PokemonDayCare_EventScript_TryRetrieveMon
 	goto Route5_PokemonDayCare_EventScript_ComeAgain
 	end
 
@@ -70,28 +70,28 @@ Route5_PokemonDayCare_EventScript_NotEnoughTime::
 	return
 
 Route5_PokemonDayCare_EventScript_TryRetrieveMon::
-	specialvar VAR_RESULT, CalculatePlayerPartyCount
-	goto_if_eq VAR_RESULT, PARTY_SIZE, Route5_PokemonDayCare_EventScript_NoRoomInParty
-	specialvar VAR_RESULT, IsEnoughForCostInVar0x8005
-	goto_if_eq VAR_RESULT, TRUE, Route5_PokemonDayCare_EventScript_RetrieveMon
+	specialvar VAR_0x800D, CalculatePlayerPartyCount
+	goto_if_eq VAR_0x800D, PARTY_SIZE, Route5_PokemonDayCare_EventScript_NoRoomInParty
+	specialvar VAR_0x800D, IsEnoughForCostInVar0x8005
+	goto_if_eq VAR_0x800D, TRUE, Route5_PokemonDayCare_EventScript_RetrieveMon
 	msgbox Route5_PokemonDayCare_Text_DontHaveEnoughMoney
 	goto Route5_PokemonDayCare_EventScript_CloseMoneyBox
 	end
 
 Route5_PokemonDayCare_EventScript_RetrieveMon::
 	setvar VAR_0x8004, 0
-	specialvar VAR_RESULT, TakePokemonFromRoute5Daycare
+	specialvar VAR_0x800D, TakePokemonFromRoute5Daycare
 	special SubtractMoneyFromVar0x8005
 	updatemoneybox
-	copyvar VAR_0x8008, VAR_RESULT
+	copyvar VAR_0x8008, VAR_0x800D
 	getpartysize
-	subvar VAR_RESULT, 1
-	bufferpartymonnick STR_VAR_1, VAR_RESULT
-	copyvar VAR_RESULT, VAR_0x8008
+	subvar VAR_0x800D, 1
+	bufferpartymonnick STR_VAR_1, VAR_0x800D
+	copyvar VAR_0x800D, VAR_0x8008
 	msgbox Route5_PokemonDayCare_Text_ThankYouHeresMon
 	textcolor NPC_TEXT_COLOR_NEUTRAL
 	waitse
-	playmoncry VAR_RESULT, CRY_MODE_NORMAL
+	playmoncry VAR_0x800D, CRY_MODE_NORMAL
 	msgbox Route5_PokemonDayCare_Text_PlayerGotMonBack
 	call EventScript_RestorePrevTextColor
 	waitmoncry

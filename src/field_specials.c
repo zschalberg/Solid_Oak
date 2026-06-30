@@ -674,8 +674,8 @@ bool8 IsThereRoomInAnyBoxForMorePokemon(void)
 {
     u16 i;
     u16 j;
-    u16 boxCount = FlagGet(FLAG_SYS_CONVENTIONAL_PC_UNLOCKED) ? TOTAL_BOXES_COUNT : GetFujiLabRoomsCount();
-    u16 boxCapacity = FlagGet(FLAG_SYS_CONVENTIONAL_PC_UNLOCKED) ? IN_BOX_COUNT : GetBoxCapacityLimit();
+    u16 boxCount = FlagGet(FLAG_0x4AC) ? TOTAL_BOXES_COUNT : GetFujiLabRoomsCount();
+    u16 boxCapacity = FlagGet(FLAG_0x4AC) ? IN_BOX_COUNT : GetBoxCapacityLimit();
     for (i = 0; i < boxCount; i++)
     {
         for (j = 0; j < boxCapacity; j++)
@@ -2003,7 +2003,7 @@ u16 GetHiddenItemAttr(u32 hiddenItem, u8 attr)
     if (attr == HIDDEN_ITEM_ITEM)
         return GET_HIDDEN_ITEM_ITEM(hiddenItem);
     else if (attr == HIDDEN_ITEM_FLAG)
-        return GET_HIDDEN_ITEM_FLAG(hiddenItem) + FLAG_HIDDEN_ITEMS_START;
+        return GET_HIDDEN_ITEM_FLAG(hiddenItem) + FLAG_0x1000;
     else if (attr == HIDDEN_ITEM_QUANTITY)
         return GET_HIDDEN_ITEM_QUANTITY(hiddenItem);
     else if (attr == HIDDEN_ITEM_UNDERFOOT)
@@ -2492,13 +2492,13 @@ bool8 CapeBrinkGetMoveToTeachLeadPokemon(void)
     switch(moveId)
     {
         case MOVE_FRENZY_PLANT:
-            tutorFlag = FLAG_TUTOR_FRENZY_PLANT;
+            tutorFlag = FLAG_0x2DE;
             break;
         case MOVE_BLAST_BURN:
-            tutorFlag = FLAG_TUTOR_BLAST_BURN;
+            tutorFlag = FLAG_0x2DF;
             break;
         case MOVE_HYDRO_CANNON:
-            tutorFlag = FLAG_TUTOR_HYDRO_CANNON;
+            tutorFlag = FLAG_0x2E0;
             break;
         default:
             return FALSE;
@@ -2529,24 +2529,24 @@ bool8 HasLearnedAllMovesFromCapeBrinkTutor(void)
     switch (gSpecialVar_0x8005)
     {
         case MOVE_FRENZY_PLANT:
-            FlagSet(FLAG_TUTOR_FRENZY_PLANT);
+            FlagSet(FLAG_0x2DE);
             break;
         case MOVE_BLAST_BURN:
-            FlagSet(FLAG_TUTOR_BLAST_BURN);
+            FlagSet(FLAG_0x2DF);
             break;
         case MOVE_HYDRO_CANNON:
-            FlagSet(FLAG_TUTOR_HYDRO_CANNON);
+            FlagSet(FLAG_0x2E0);
             break;
     }
 
-    return (FlagGet(FLAG_TUTOR_FRENZY_PLANT) == TRUE)
-        && (FlagGet(FLAG_TUTOR_BLAST_BURN) == TRUE)
-        && (FlagGet(FLAG_TUTOR_HYDRO_CANNON) == TRUE);
+    return (FlagGet(FLAG_0x2DE) == TRUE)
+        && (FlagGet(FLAG_0x2DF) == TRUE)
+        && (FlagGet(FLAG_0x2E0) == TRUE);
 }
 
 bool8 CutMoveRuinValleyCheck(void)
 {
-    if (FlagGet(FLAG_USED_CUT_ON_RUIN_VALLEY_BRAILLE) != TRUE
+    if (FlagGet(FLAG_0x2E3) != TRUE
      && gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAP_SIX_ISLAND_RUIN_VALLEY)
      && gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_SIX_ISLAND_RUIN_VALLEY)
      && gSaveBlock1Ptr->pos.x == 24
@@ -2563,7 +2563,7 @@ void CutMoveOpenDottedHoleDoor(void)
     MapGridSetMetatileIdAt(31, 31, METATILE_SeviiIslands67_DottedHoleDoor_Open);
     DrawWholeMapView();
     PlaySE(SE_BANG);
-    FlagSet(FLAG_USED_CUT_ON_RUIN_VALLEY_BRAILLE);
+    FlagSet(FLAG_0x2E3);
     UnlockPlayerFieldControls();
 }
 
@@ -2770,21 +2770,21 @@ void UpdateLoreleiDollCollection(void)
     u32 numHofClears = GetGameStat(GAME_STAT_ENTERED_HOF);
     if (numHofClears >= 25)
     {
-        FlagClear(FLAG_HIDE_LORELEI_HOUSE_MEOWTH_DOLL);
+        FlagClear(FLAG_0x0A5);
         if (numHofClears >= 50)
-            FlagClear(FLAG_HIDE_LORELEI_HOUSE_CHANSEY_DOLL);
+            FlagClear(FLAG_0x0A6);
         if (numHofClears >= 75)
-            FlagClear(FLAG_HIDE_LORELEIS_HOUSE_NIDORAN_F_DOLL);
+            FlagClear(FLAG_0x0A7);
         if (numHofClears >= 100)
-            FlagClear(FLAG_HIDE_LORELEI_HOUSE_JIGGLYPUFF_DOLL);
+            FlagClear(FLAG_0x0A8);
         if (numHofClears >= 125)
-            FlagClear(FLAG_HIDE_LORELEIS_HOUSE_NIDORAN_M_DOLL);
+            FlagClear(FLAG_0x0A9);
         if (numHofClears >= 150)
-            FlagClear(FLAG_HIDE_LORELEIS_HOUSE_FEAROW_DOLL);
+            FlagClear(FLAG_0x0AA);
         if (numHofClears >= 175)
-            FlagClear(FLAG_HIDE_LORELEIS_HOUSE_PIDGEOT_DOLL);
+            FlagClear(FLAG_0x0AB);
         if (numHofClears >= 200)
-            FlagClear(FLAG_HIDE_LORELEIS_HOUSE_LAPRAS_DOLL);
+            FlagClear(FLAG_0x0AC);
     }
 }
 
@@ -3137,7 +3137,7 @@ void BufferBattleTowerElevatorFloors(void)
     u16 battleMode = VarGet(VAR_FRONTIER_BATTLE_MODE);
     enum FrontierLevelMode lvlMode = gSaveBlock2Ptr->frontier.lvlMode;
 
-    if (battleMode == FRONTIER_MODE_MULTIS && !FlagGet(FLAG_CHOSEN_MULTI_BATTLE_NPC_PARTNER))
+    if (battleMode == FRONTIER_MODE_MULTIS && !FlagGet(FLAG_0x30B))
     {
         gSpecialVar_0x8005 = 5;
         gSpecialVar_0x8006 = 4;

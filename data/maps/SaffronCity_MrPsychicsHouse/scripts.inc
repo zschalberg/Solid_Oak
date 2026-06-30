@@ -4,13 +4,13 @@ SaffronCity_MrPsychicsHouse_MapScripts::
 SaffronCity_MrPsychicsHouse_EventScript_MrPsychic::
 	lock
 	faceplayer
-	goto_if_set FLAG_GOT_TM29_FROM_MR_PSYCHIC, SaffronCity_MrPsychicsHouse_EventScript_AlreadyGotTM29
+	goto_if_set FLAG_0x245, SaffronCity_MrPsychicsHouse_EventScript_AlreadyGotTM29
 	msgbox SaffronCity_MrPsychicsHouse_Text_YouWantedThis
 	checkitemspace ITEM_TM29
-	goto_if_eq VAR_RESULT, FALSE, SaffronCity_MrPsychicsHouse_EventScript_NoRoomForTM29
+	goto_if_eq VAR_0x800D, FALSE, SaffronCity_MrPsychicsHouse_EventScript_NoRoomForTM29
 	giveitem_msg SaffronCity_MrPsychicsHouse_Text_ReceivedTM29FromMrPsychic, ITEM_TM29
 	msgbox SaffronCity_MrPsychicsHouse_Text_ExplainTM29
-	setflag FLAG_GOT_TM29_FROM_MR_PSYCHIC
+	setflag FLAG_0x245
 	release
 	end
 

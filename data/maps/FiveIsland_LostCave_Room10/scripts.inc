@@ -8,11 +8,11 @@ FiveIsland_LostCave_Room10_OnResume::
 	end
 
 FiveIsland_LostCave_Room10_EventScript_StopSelphySceneTrigger::
-	setvar VAR_MAP_SCENE_FIVE_ISLAND_LOST_CAVE_ROOM10, 1
+	setvar VAR_0x4083, 1
 	return
 
 FiveIsland_LostCave_Room10_OnFrame::
-	map_script_2 VAR_MAP_SCENE_FIVE_ISLAND_LOST_CAVE_ROOM10, 0, FiveIsland_LostCave_Room10_EventScript_FindSelphyScene
+	map_script_2 VAR_0x4083, 0, FiveIsland_LostCave_Room10_EventScript_FindSelphyScene
 	.2byte 0
 
 FiveIsland_LostCave_Room10_EventScript_FindSelphyScene::
@@ -35,10 +35,10 @@ FiveIsland_LostCave_Room10_EventScript_FindSelphyScene::
 	end
 
 FiveIsland_LostCave_Room10_EventScript_SetSelphyFound::
-	setflag FLAG_HIDE_LOST_CAVE_SELPHY
-	clearflag FLAG_HIDE_RESORT_GORGEOUS_SELPHY
-	setvar VAR_MAP_SCENE_FIVE_ISLAND_LOST_CAVE_ROOM10, 1
-	setvar VAR_MAP_SCENE_FIVE_ISLAND_RESORT_GORGEOUS, 1
+	setflag FLAG_0x093
+	clearflag FLAG_0x094
+	setvar VAR_0x4083, 1
+	setvar VAR_0x4084, 1
 	return
 
 FiveIsland_LostCave_Room10_EventScript_SelphyQuestLog::

@@ -4,12 +4,12 @@ ThreeIsland_MapScripts::
 
 ThreeIsland_OnTransition::
 	setworldmapflag FLAG_WORLD_MAP_THREE_ISLAND
-	call_if_set FLAG_RESCUED_LOSTELLE, ThreeIsland_EventScript_HideAntiBikers
-	call_if_eq VAR_MAP_SCENE_THREE_ISLAND, 4, ThreeIsland_EventScript_SetAntiBikersMovementAfterBikers
+	call_if_set FLAG_0x2A3, ThreeIsland_EventScript_HideAntiBikers
+	call_if_eq VAR_0x407B, 4, ThreeIsland_EventScript_SetAntiBikersMovementAfterBikers
 	end
 
 ThreeIsland_EventScript_HideAntiBikers::
-	setflag FLAG_HIDE_THREE_ISLAND_ANTIBIKERS
+	setflag FLAG_0x07E
 	return
 
 ThreeIsland_EventScript_SetAntiBikersMovementAfterBikers::
@@ -26,8 +26,8 @@ ThreeIsland_EventScript_Biker::
 
 ThreeIsland_EventScript_AntiBiker1::
 	lock
-	goto_if_set FLAG_GOT_FULL_RESTORE_FROM_THREE_ISLAND_DEFENDER, ThreeIsland_EventScript_AntiBiker1GotFullRestore
-	goto_if_eq VAR_MAP_SCENE_THREE_ISLAND, 4, ThreeIsland_EventScript_GiveFullRestore
+	goto_if_set FLAG_0x2FC, ThreeIsland_EventScript_AntiBiker1GotFullRestore
+	goto_if_eq VAR_0x407B, 4, ThreeIsland_EventScript_GiveFullRestore
 	setvar VAR_TEMP_1, 0
 	call ThreeIsland_EventScript_BikerArgumentScene
 	release
@@ -45,10 +45,10 @@ ThreeIsland_EventScript_GiveFullRestore::
 	waitmovement 0
 	msgbox ThreeIsland_Text_ThankYouOhYourMonGotHurt
 	checkitemspace ITEM_FULL_RESTORE
-	goto_if_eq VAR_RESULT, FALSE, ThreeIsland_EventScript_NoRoomForFullRestore
+	goto_if_eq VAR_0x800D, FALSE, ThreeIsland_EventScript_NoRoomForFullRestore
 	msgreceiveditem ThreeIsland_Text_GivenFullRestore, ITEM_FULL_RESTORE
 	additem ITEM_FULL_RESTORE
-	setflag FLAG_GOT_FULL_RESTORE_FROM_THREE_ISLAND_DEFENDER
+	setflag FLAG_0x2FC
 	msgbox ThreeIsland_Text_YouveGotImpressiveMons
 	release
 	end
@@ -119,7 +119,7 @@ ThreeIsland_EventScript_PlayerFaceAntiBiker::
 
 ThreeIsland_EventScript_AntiBiker2::
 	lock
-	goto_if_eq VAR_MAP_SCENE_THREE_ISLAND, 4, ThreeIsland_EventScript_AntiBiker2BikersGone
+	goto_if_eq VAR_0x407B, 4, ThreeIsland_EventScript_AntiBiker2BikersGone
 	setvar VAR_TEMP_1, 1
 	call ThreeIsland_EventScript_BikerArgumentScene
 	release
@@ -150,7 +150,7 @@ ThreeIsland_EventScript_BikerBossIntroTrigger::
 	applymovement LOCALID_THREE_ISLAND_ANTIBIKER1, ThreeIsland_Movement_SpeakRight
 	waitmovement 0
 	msgbox ThreeIsland_Text_YouCowardsToughInPack
-	setvar VAR_MAP_SCENE_THREE_ISLAND, 3
+	setvar VAR_0x407B, 3
 	releaseall
 	end
 
@@ -205,9 +205,9 @@ ThreeIsland_EventScript_BattleBikersScene::
 	waitmovement 0
 	playbgm MUS_ENCOUNTER_BOY, 0
 	msgbox ThreeIsland_Text_WannaMakeSomethingOfYourStaring, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, ThreeIsland_EventScript_LeaveBikersAlone
+	goto_if_eq VAR_0x800D, NO, ThreeIsland_EventScript_LeaveBikersAlone
 	msgbox ThreeIsland_Text_Biker1Intro
-	setvar VAR_LAST_TALKED, LOCALID_THREE_ISLAND_BIKER1
+	setvar VAR_0x800F, LOCALID_THREE_ISLAND_BIKER1
 	trainerbattle_no_intro TRAINER_BIKER_GOON, ThreeIsland_Text_Biker1Defeat
 	applymovement LOCALID_THREE_ISLAND_BIKER1, ThreeIsland_Movement_BikerSpeak
 	waitmovement 0
@@ -217,7 +217,7 @@ ThreeIsland_EventScript_BattleBikersScene::
 	waitmovement 0
 	playbgm MUS_ENCOUNTER_BOY, 0
 	msgbox ThreeIsland_Text_Biker2Intro
-	setvar VAR_LAST_TALKED, LOCALID_THREE_ISLAND_BIKER2
+	setvar VAR_0x800F, LOCALID_THREE_ISLAND_BIKER2
 	trainerbattle_no_intro TRAINER_BIKER_GOON_2, ThreeIsland_Text_Biker2Defeat
 	applymovement LOCALID_THREE_ISLAND_BIKER2, ThreeIsland_Movement_BikerSpeak
 	waitmovement 0
@@ -227,7 +227,7 @@ ThreeIsland_EventScript_BattleBikersScene::
 	waitmovement 0
 	playbgm MUS_ENCOUNTER_BOY, 0
 	msgbox ThreeIsland_Text_Biker3Intro
-	setvar VAR_LAST_TALKED, LOCALID_THREE_ISLAND_BIKER3
+	setvar VAR_0x800F, LOCALID_THREE_ISLAND_BIKER3
 	trainerbattle_no_intro TRAINER_BIKER_GOON_3, ThreeIsland_Text_Biker3Defeat
 	applymovement LOCALID_THREE_ISLAND_BIKER3, Common_Movement_WalkInPlaceFasterLeft
 	waitmovement 0
@@ -244,7 +244,7 @@ ThreeIsland_EventScript_BattleBikersScene::
 	call_if_eq VAR_TEMP_1, 4, ThreeIsland_EventScript_PaxtonApproachRight
 	playbgm MUS_ENCOUNTER_BOY, 0
 	msgbox ThreeIsland_Text_PaxtonIntro
-	setvar VAR_LAST_TALKED, LOCALID_PAXTON
+	setvar VAR_0x800F, LOCALID_PAXTON
 	trainerbattle_no_intro TRAINER_CUE_BALL_PAXTON, ThreeIsland_Text_PaxtonDefeat
 	msgbox ThreeIsland_Text_PaxtonPostBattle
 	closemessage
@@ -257,7 +257,7 @@ ThreeIsland_EventScript_BattleBikersScene::
 	removeobject LOCALID_THREE_ISLAND_BIKER5
 	removeobject LOCALID_THREE_ISLAND_BIKER6
 	fadescreenswapbuffers FADE_FROM_BLACK
-	setvar VAR_MAP_SCENE_THREE_ISLAND, 4
+	setvar VAR_0x407B, 4
 	releaseall
 	end
 

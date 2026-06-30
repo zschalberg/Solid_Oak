@@ -20,7 +20,7 @@ Common_EventScript_MoveRelearnerDynMultiChoice::
 	dynmultipush MoveRelearner_Text_SeeYa, 4
 	dynmultistack 0, 0, FALSE, 5, 0, 0, DYN_MULTICHOICE_CB_NONE
 	closemessage
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, MoveRelearner_EventScript_TeachLevelUpMoves
 	case 1, MoveRelearner_EventScript_TeachEggMoves
 	case 2, MoveRelearner_EventScript_TeachTMMoves
@@ -69,15 +69,15 @@ MoveRelearner_EventScript_TeachTutorMoves:
 
 MoveRelearner_EventScript_TeachMove::
 	getpartysize
-	goto_if_eq VAR_RESULT, 0, MoveRelearner_EventScript_NoPkmn
+	goto_if_eq VAR_0x800D, 0, MoveRelearner_EventScript_NoPkmn
 	msgbox MoveRelearner_Text_ChoosePkmn, MSGBOX_DEFAULT
 	chooseboxmon SELECT_PC_MON_MOVE_RELEARNER
 	waitstate
 	call_if_eq VAR_0x8004, PARTY_NOTHING_CHOSEN, MoveRelearner_EventScript_AnythingElse
 	special IsSelectedMonEgg
-	call_if_eq VAR_RESULT, TRUE, MoveRelearner_EventScript_CantTeachMoveToEgg
+	call_if_eq VAR_0x800D, TRUE, MoveRelearner_EventScript_CantTeachMoveToEgg
 	special HasMovesToRelearn
-	call_if_eq VAR_RESULT, FALSE, MoveRelearner_EventScript_CantTeachMoveToPkmn
+	call_if_eq VAR_0x800D, FALSE, MoveRelearner_EventScript_CantTeachMoveToPkmn
 	msgbox MoveRelearner_Text_WhichXmoveShouldTeach, MSGBOX_DEFAULT
 	special TeachMoveRelearnerMove
 	waitstate

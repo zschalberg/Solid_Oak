@@ -36,7 +36,7 @@ BattleFrontier_BattleTowerElevator_EventScript_WarpToCorridor::
 	return
 
 BattleFrontier_BattleTowerElevator_EventScript_WarpToNextRoomMulti::
-	goto_if_unset FLAG_CHOSEN_MULTI_BATTLE_NPC_PARTNER, BattleFrontier_BattleTowerElevator_EventScript_WarpToPartnerRoom
+	goto_if_unset FLAG_0x30B, BattleFrontier_BattleTowerElevator_EventScript_WarpToPartnerRoom
 	warp MAP_BATTLE_FRONTIER_BATTLE_TOWER_MULTI_CORRIDOR, 7, 2
 	waitstate
 	return

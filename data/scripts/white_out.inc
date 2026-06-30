@@ -3,9 +3,9 @@ EventScript_AfterWhiteOutHeal::
 	textcolor NPC_TEXT_COLOR_FEMALE
 	msgbox Text_FirstShouldRestoreMonsHealth
 	call EventScript_PkmnCenterNurse_TakeAndHealPkmn
-	call_if_unset FLAG_DEFEATED_BROCK, EventScript_AfterWhiteOutHealMsgPreBrock
-	call_if_set FLAG_DEFEATED_BROCK, EventScript_AfterWhiteOutHealMsg
-	applymovement VAR_LAST_TALKED, Movement_Bow
+	call_if_unset FLAG_0x4B0, EventScript_AfterWhiteOutHealMsgPreBrock
+	call_if_set FLAG_0x4B0, EventScript_AfterWhiteOutHealMsg
+	applymovement VAR_0x800F, Movement_Bow
 	waitmovement 0
 	fadedefaultbgm
 	releaseall
@@ -36,15 +36,15 @@ EventScript_FieldPoison::
 	textcolor NPC_TEXT_COLOR_NEUTRAL
 	special TryFieldPoisonWhiteOut
 	waitstate
-	goto_if_eq VAR_RESULT, FLDPSN_WHITEOUT, EventScript_FieldWhiteOut
-	goto_if_eq VAR_RESULT, FLDPSN_FRONTIER_WHITEOUT, EventScript_FrontierFieldWhiteOut
+	goto_if_eq VAR_0x800D, FLDPSN_WHITEOUT, EventScript_FieldWhiteOut
+	goto_if_eq VAR_0x800D, FLDPSN_FRONTIER_WHITEOUT, EventScript_FrontierFieldWhiteOut
 	releaseall
 	end
 
 EventScript_FieldWhiteOut::
 	checkmoney 1
-	goto_if_eq VAR_RESULT, FALSE, EventScript_FieldWhiteOutNoMoney
-	goto_if_eq VAR_RESULT, TRUE, EventScript_FieldWhiteOutHasMoney
+	goto_if_eq VAR_0x800D, FALSE, EventScript_FieldWhiteOutNoMoney
+	goto_if_eq VAR_0x800D, TRUE, EventScript_FieldWhiteOutHasMoney
 	end
 
 EventScript_FieldWhiteOutNoMoney::
@@ -71,10 +71,10 @@ EventScript_FrontierFieldWhiteOut::
 	waitmessage
 	waitbuttonpress
 	pike_inchallenge
-	goto_if_eq VAR_RESULT, TRUE, BattleFrontier_BattlePike_EventScript_Retire
+	goto_if_eq VAR_0x800D, TRUE, BattleFrontier_BattlePike_EventScript_Retire
 	pyramid_getlocation
-	goto_if_eq VAR_RESULT, PYRAMID_LOCATION_FLOOR, BattleFrontier_BattlePyramid_EventScript_WarpToLobbyLost
-	goto_if_eq VAR_RESULT, PYRAMID_LOCATION_TOP, BattleFrontier_BattlePyramid_EventScript_WarpToLobbyLost
+	goto_if_eq VAR_0x800D, PYRAMID_LOCATION_FLOOR, BattleFrontier_BattlePyramid_EventScript_WarpToLobbyLost
+	goto_if_eq VAR_0x800D, PYRAMID_LOCATION_TOP, BattleFrontier_BattlePyramid_EventScript_WarpToLobbyLost
 	special Script_FadeOutMapMusic
 	waitstate
 	fadescreen FADE_TO_BLACK

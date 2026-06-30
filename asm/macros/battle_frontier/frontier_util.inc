@@ -103,7 +103,7 @@
 	special CallFrontierUtilFunc
 	.endm
 
-	@ TRUE if there are insufficient eligible party mons to participate in the challenge, and buffers caught ineligible species to STR_VAR_1. FALSE otherwise. The return value is stored in VAR_0x8004 instead, and the current level mode is expected to be in VAR_RESULT
+	@ TRUE if there are insufficient eligible party mons to participate in the challenge, and buffers caught ineligible species to STR_VAR_1. FALSE otherwise. The return value is stored in VAR_0x8004 instead, and the current level mode is expected to be in VAR_0x800D
 	.macro frontier_checkineligible
 	setvar VAR_0x8004, FRONTIER_UTIL_FUNC_CHECK_INELIGIBLE
 	special CallFrontierUtilFunc

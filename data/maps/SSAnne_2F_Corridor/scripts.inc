@@ -33,7 +33,7 @@ SSAnne_2F_Corridor_EventScript_RivalTrigger::
 	call_if_eq VAR_TEMP_1, 1, SSAnne_2F_Corridor_EventScript_RivalApproachMid
 	call_if_eq VAR_TEMP_1, 2, SSAnne_2F_Corridor_EventScript_RivalApproachRight
 	msgbox SSAnne_2F_Corridor_Text_RivalIntro
-	setvar VAR_LAST_TALKED, LOCALID_SS_ANNE_RIVAL
+	setvar VAR_0x800F, LOCALID_SS_ANNE_RIVAL
 	call_if_eq VAR_STARTER_MON, 2, SSAnne_2F_Corridor_EventScript_RivalSquirtle
 	call_if_eq VAR_STARTER_MON, 1, SSAnne_2F_Corridor_EventScript_RivalBulbasaur
 	call_if_eq VAR_STARTER_MON, 0, SSAnne_2F_Corridor_EventScript_RivalCharmander
@@ -46,7 +46,7 @@ SSAnne_2F_Corridor_EventScript_RivalTrigger::
 	call_if_eq VAR_TEMP_1, 2, SSAnne_2F_Corridor_EventScript_RivalExitRight
 	fadedefaultbgm
 	removeobject LOCALID_SS_ANNE_RIVAL
-	setvar VAR_MAP_SCENE_S_S_ANNE_2F_CORRIDOR, 1
+	setvar VAR_0x405B, 1
 	releaseall
 	end
 

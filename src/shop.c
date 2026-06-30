@@ -1455,15 +1455,15 @@ void CreateDecorationShop2Menu(const u16 *itemsForSale)
 
 static bool32 IsTwoIslandMartExpanded1(void)
 {
-    return VarGet(VAR_MAP_SCENE_TWO_ISLAND) > 1;
+    return VarGet(VAR_0x4078) > 1;
 }
 
 static bool32 IsTwoIslandMartExpanded2(void)
 {
-    return VarGet(VAR_MAP_SCENE_TWO_ISLAND) > 2;
+    return VarGet(VAR_0x4078) > 2;
 }
 
 static bool32 IsTwoIslandMartExpanded3(void)
 {
-    return VarGet(VAR_MAP_SCENE_TWO_ISLAND) > 3;
+    return VarGet(VAR_0x4078) > 3;
 }

@@ -4,7 +4,7 @@ LavenderTown_House1_MapScripts::
 LavenderTown_House1_EventScript_CooltrainerF::
 	lock
 	faceplayer
-	goto_if_set FLAG_RESCUED_MR_FUJI, LavenderTown_House1_EventScript_CooltrainerFGhostGone
+	goto_if_set FLAG_0x23C, LavenderTown_House1_EventScript_CooltrainerFGhostGone
 	msgbox LavenderTown_House1_Text_RocketsKilledCubonesMother
 	release
 	end

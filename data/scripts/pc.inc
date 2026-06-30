@@ -26,7 +26,7 @@ EventScript_PCMainMenu::
 	end
 
 EventScript_ChoosePCMenu::
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, EventScript_AccessPokemonStorage
 	case 1, EventScript_AccessPlayersPC
 	case 2, EventScript_AccessProfOaksPC
@@ -88,10 +88,10 @@ EventScript_AccessProfOaksPC::
 	playse SE_PC_LOGIN
 	msgbox Text_AccessedProfOaksPC
 	msgbox Text_HavePokedexRated, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, EventScript_ExitOaksPC
-	setflag FLAG_OAKS_RATING_IS_VIA_PC
+	goto_if_eq VAR_0x800D, NO, EventScript_ExitOaksPC
+	setflag FLAG_0x2FF
 	call PokedexRating_EventScript_Rate
-	clearflag FLAG_OAKS_RATING_IS_VIA_PC
+	clearflag FLAG_0x2FF
 	goto EventScript_ExitOaksPC
 	end
 

@@ -280,7 +280,7 @@ static u8 ChooseWildMonLevel(const struct WildPokemon *wildPokemon, u8 wildMonIn
             level = wildPokemon[wildMonIndex].maxLevel + 1;
     }
 
-    if (FlagGet(FLAG_SCALE_WILD_POKEMON))
+    if (FlagGet(FLAG_0x2EA))
     {
         u8 maxPlayerLvl = 1;
         u32 p;

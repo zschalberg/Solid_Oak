@@ -61,14 +61,14 @@ static u16 *const gSpecialVars[SPECIAL_VARS_END - SPECIAL_VARS_START + 1] =
     [VAR_0x8009 - SPECIAL_VARS_START] = &gSpecialVar_0x8009,
     [VAR_0x800A - SPECIAL_VARS_START] = &gSpecialVar_0x800A,
     [VAR_0x800B - SPECIAL_VARS_START] = &gSpecialVar_0x800B,
-    [VAR_FACING - SPECIAL_VARS_START] = &gSpecialVar_Facing,
-    [VAR_RESULT - SPECIAL_VARS_START] = &gSpecialVar_Result,
-    [VAR_ITEM_ID - SPECIAL_VARS_START] = &gSpecialVar_ItemId,
-    [VAR_LAST_TALKED - SPECIAL_VARS_START] = &gSpecialVar_LastTalked,
-    [VAR_MON_BOX_ID - SPECIAL_VARS_START] = &gSpecialVar_MonBoxId,
-    [VAR_MON_BOX_POS - SPECIAL_VARS_START] = &gSpecialVar_MonBoxPos,
-    [VAR_TEXT_COLOR - SPECIAL_VARS_START] = &gSpecialVar_TextColor,
-    [VAR_PREV_TEXT_COLOR - SPECIAL_VARS_START] = &gSpecialVar_PrevTextColor,
+    [VAR_0x800C - SPECIAL_VARS_START] = &gSpecialVar_Facing,
+    [VAR_0x800D - SPECIAL_VARS_START] = &gSpecialVar_Result,
+    [VAR_0x800E - SPECIAL_VARS_START] = &gSpecialVar_ItemId,
+    [VAR_0x800F - SPECIAL_VARS_START] = &gSpecialVar_LastTalked,
+    [VAR_0x8010 - SPECIAL_VARS_START] = &gSpecialVar_MonBoxId,
+    [VAR_0x8011 - SPECIAL_VARS_START] = &gSpecialVar_MonBoxPos,
+    [VAR_0x8012 - SPECIAL_VARS_START] = &gSpecialVar_TextColor,
+    [VAR_0x8013 - SPECIAL_VARS_START] = &gSpecialVar_PrevTextColor,
     [VAR_0x8014 - SPECIAL_VARS_START] = &gSpecialVar_0x8014,
 };
 
@@ -162,22 +162,22 @@ bool32 IsMysteryGiftEnabled(void)
 
 void ClearMysteryGiftFlags(void)
 {
-    FlagClear(FLAG_MYSTERY_GIFT_DONE);
-    FlagClear(FLAG_MYSTERY_GIFT_1);
-    FlagClear(FLAG_MYSTERY_GIFT_2);
-    FlagClear(FLAG_MYSTERY_GIFT_3);
-    FlagClear(FLAG_MYSTERY_GIFT_4);
-    FlagClear(FLAG_MYSTERY_GIFT_5);
-    FlagClear(FLAG_MYSTERY_GIFT_6);
-    FlagClear(FLAG_MYSTERY_GIFT_7);
-    FlagClear(FLAG_MYSTERY_GIFT_8);
-    FlagClear(FLAG_MYSTERY_GIFT_9);
-    FlagClear(FLAG_MYSTERY_GIFT_10);
-    FlagClear(FLAG_MYSTERY_GIFT_11);
-    FlagClear(FLAG_MYSTERY_GIFT_12);
-    FlagClear(FLAG_MYSTERY_GIFT_13);
-    FlagClear(FLAG_MYSTERY_GIFT_14);
-    FlagClear(FLAG_MYSTERY_GIFT_15);
+    FlagClear(FLAG_0x3D8);
+    FlagClear(FLAG_0x3D9);
+    FlagClear(FLAG_0x3DA);
+    FlagClear(FLAG_0x3DB);
+    FlagClear(FLAG_0x3DC);
+    FlagClear(FLAG_0x3DD);
+    FlagClear(FLAG_0x3DE);
+    FlagClear(FLAG_0x3DF);
+    FlagClear(FLAG_0x3E0);
+    FlagClear(FLAG_0x3E1);
+    FlagClear(FLAG_0x3E2);
+    FlagClear(FLAG_0x3E3);
+    FlagClear(FLAG_0x3E4);
+    FlagClear(FLAG_0x3E5);
+    FlagClear(FLAG_0x3E6);
+    FlagClear(FLAG_0x3E7);
 }
 
 void ClearMysteryGiftVars(void)
@@ -262,7 +262,7 @@ static bool8 IsFlagOrVarStoredInQuestLog(u16 idx, bool8 isVar)
     {
         if (idx < VAR_ICE_STEP_COUNT - VARS_START)
             return FALSE;
-        if (idx >= VAR_MAP_SCENE_PALLET_TOWN_OAK - VARS_START && idx < VAR_PORTHOLE - VARS_START)
+        if (idx >= VAR_0x4050 - VARS_START && idx < VAR_PORTHOLE - VARS_START)
             return FALSE;
     }
     return TRUE;

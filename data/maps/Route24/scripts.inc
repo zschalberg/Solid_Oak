@@ -4,10 +4,10 @@ Route24_MapScripts::
 Route24_EventScript_Rocket::
 	lock
 	faceplayer
-	goto_if_eq VAR_MAP_SCENE_ROUTE24, 1, Route24_EventScript_RocketPostBattle
+	goto_if_eq VAR_0x406B, 1, Route24_EventScript_RocketPostBattle
 	msgbox Route24_Text_JustEarnedFabulousPrize
 	checkitemspace ITEM_NUGGET
-	goto_if_eq VAR_RESULT, FALSE, Route24_EventScript_NoRoomForNugget
+	goto_if_eq VAR_0x800D, FALSE, Route24_EventScript_NoRoomForNugget
 	call Route24_EventScript_BattleRocket
 	release
 	end
@@ -42,7 +42,7 @@ Route24_EventScript_RocketTrigger::
 	waitmovement 0
 	msgbox Route24_Text_JustEarnedFabulousPrize
 	checkitemspace ITEM_NUGGET
-	goto_if_eq VAR_RESULT, FALSE, Route24_EventScript_NoRoomForNuggetTrigger
+	goto_if_eq VAR_0x800D, FALSE, Route24_EventScript_NoRoomForNuggetTrigger
 	call Route24_EventScript_BattleRocket
 	releaseall
 	end
@@ -53,10 +53,10 @@ Route24_EventScript_BattleRocket::
 	waitmessage
 	playbgm MUS_ENCOUNTER_ROCKET, 0
 	waitbuttonpress
-	setvar VAR_LAST_TALKED, LOCALID_ROUTE24_ROCKET
+	setvar VAR_0x800F, LOCALID_ROUTE24_ROCKET
 	trainerbattle_no_intro TRAINER_TEAM_ROCKET_GRUNT_6, Route24_Text_RocketDefeat
 	msgbox Route24_Text_YoudBecomeTopRocketLeader
-	setvar VAR_MAP_SCENE_ROUTE24, 1
+	setvar VAR_0x406B, 1
 	return
 
 Route24_EventScript_RocketApproachPlayer::

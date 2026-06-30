@@ -55,10 +55,10 @@ bool8 EnterHallOfFame(void)
         {
              AddBagItem(ITEM_AURORA_TICKET, 1);
              FlagSet(FLAG_ENABLE_SHIP_BIRTH_ISLAND);
-             FlagSet(FLAG_RECEIVED_AURORA_TICKET);
+             FlagSet(FLAG_0x2A7);
              AddBagItem(ITEM_MYSTIC_TICKET, 1);
              FlagSet(FLAG_ENABLE_SHIP_NAVEL_ROCK);
-             FlagSet(FLAG_RECEIVED_MYSTIC_TICKET);
+             FlagSet(FLAG_0x2A8);
         }
     }
     SetMainCallback2(CB2_DoHallOfFameScreen);

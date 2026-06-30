@@ -3,7 +3,7 @@ EventScript_PkmnCenterNurse::
 	message Text_WelcomeWantToHealPkmn
 	waitmessage
 	multichoice 19, 8, MULTI_YESNO, FALSE | (TRUE << 1)
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, EventScript_PkmnCenterNurse_HealPkmn
 	case 1 EventScript_PkmnCenterNurse_Goodbye
 	case MULTI_B_PRESSED, EventScript_PkmnCenterNurse_Goodbye
@@ -20,21 +20,21 @@ EventScript_PkmnCenterNurse_HealPkmn::
 
 EventScript_PkmnCenterNurse_TakeAndHealPkmn::
 	hidefollower 0
-	applymovement VAR_LAST_TALKED, Movement_PkmnCenterNurse_Turn
+	applymovement VAR_0x800F, Movement_PkmnCenterNurse_Turn
 	waitmovement 0
 	dofieldeffect FLDEFF_POKECENTER_HEAL
 	waitfieldeffect FLDEFF_POKECENTER_HEAL
-	applymovement VAR_LAST_TALKED, Common_Movement_WalkInPlaceFasterDown
+	applymovement VAR_0x800F, Common_Movement_WalkInPlaceFasterDown
 	waitmovement 0
 	special HealPlayerParty
 	callnative UpdateFollowingPokemon
 	return
 
 EventScript_PkmnCenterNurse_CheckTrainerTowerAndUnionRoom::
-	specialvar VAR_RESULT, IsPlayerNotInTrainerTowerLobby
-	goto_if_eq VAR_RESULT, FALSE, EventScript_PkmnCenterNurse_ReturnPkmn
-	specialvar VAR_RESULT, BufferUnionRoomPlayerName
-	copyvar VAR_0x8008, VAR_RESULT
+	specialvar VAR_0x800D, IsPlayerNotInTrainerTowerLobby
+	goto_if_eq VAR_0x800D, FALSE, EventScript_PkmnCenterNurse_ReturnPkmn
+	specialvar VAR_0x800D, BufferUnionRoomPlayerName
+	copyvar VAR_0x8008, VAR_0x800D
 	goto_if_eq VAR_0x8008, 0, EventScript_PkmnCenterNurse_ReturnPkmn
 	goto_if_eq VAR_0x8008, 1, EventScript_PkmnCenterNurse_PlayerWaitingInUnionRoom
 	end
@@ -42,7 +42,7 @@ EventScript_PkmnCenterNurse_CheckTrainerTowerAndUnionRoom::
 EventScript_PkmnCenterNurse_ReturnPkmn::
 	message Text_RestoredPkmnToFullHealth
 	waitmessage
-	applymovement VAR_LAST_TALKED, Movement_Bow
+	applymovement VAR_0x800F, Movement_Bow
 	waitmovement 0
 	msgbox Text_WeHopeToSeeYouAgain
 	return
@@ -53,7 +53,7 @@ EventScript_PkmnCenterNurse_PlayerWaitingInUnionRoom::
 	setflag FLAG_SYS_INFORMED_OF_LOCAL_WIRELESS_PLAYER
 	message Text_PlayerIsPlayingRightNowGoForIt
 	waitmessage
-	applymovement VAR_LAST_TALKED, Movement_Bow
+	applymovement VAR_0x800F, Movement_Bow
 	waitmovement 0
 	msgbox Text_WeHopeToSeeYouAgain
 	return

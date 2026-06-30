@@ -3,7 +3,7 @@ RocketHideout_Elevator_MapScripts::
 
 RocketHideout_Elevator_EventScript_FloorSelect::
 	lockall
-	goto_if_unset FLAG_CAN_USE_ROCKET_HIDEOUT_LIFT, RocketHideout_Elevator_EventScript_NeedKey
+	goto_if_unset FLAG_0x2A5, RocketHideout_Elevator_EventScript_NeedKey
 	setvar VAR_0x8004, 2
 	call_if_unset FLAG_TEMP_2, EventScript_GetElevatorFloor
 	copyvar VAR_0x8005, VAR_ELEVATOR_FLOOR
@@ -11,8 +11,8 @@ RocketHideout_Elevator_EventScript_FloorSelect::
 	message Text_WantWhichFloor
 	waitmessage
 	setvar VAR_0x8004, 2
-	specialvar VAR_RESULT, InitElevatorFloorSelectMenuPos
-	switch VAR_RESULT
+	specialvar VAR_0x800D, InitElevatorFloorSelectMenuPos
+	switch VAR_0x800D
 	case 0, RocketHideout_Elevator_EventScript_FloorSelectFromB1F
 	case 1, RocketHideout_Elevator_EventScript_FloorSelectFromB2F
 	case 2, RocketHideout_Elevator_EventScript_FloorSelectFromB4F
@@ -34,7 +34,7 @@ RocketHideout_Elevator_EventScript_FloorSelectFromB4F::
 	end
 
 RocketHideout_Elevator_EventScript_ChooseFloor::
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, RocketHideout_Elevator_EventScript_ToB1F
 	case 1, RocketHideout_Elevator_EventScript_ToB2F
 	case 2, RocketHideout_Elevator_EventScript_ToB4F

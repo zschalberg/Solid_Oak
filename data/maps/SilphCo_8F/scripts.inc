@@ -3,13 +3,13 @@ SilphCo_8F_MapScripts::
 	.byte 0
 
 SilphCo_8F_OnLoad::
-	call_if_unset FLAG_SILPH_8F_DOOR, EventScript_Close8FDoor
+	call_if_unset FLAG_0x287, EventScript_Close8FDoor
 	end
 
 SilphCo_8F_EventScript_WorkerM::
 	lock
 	faceplayer
-	goto_if_ge VAR_MAP_SCENE_SILPH_CO_11F, 1, SilphCo_8F_EventScript_WorkerMRocketsGone
+	goto_if_ge VAR_0x4060, 1, SilphCo_8F_EventScript_WorkerMRocketsGone
 	msgbox SilphCo_8F_Text_WonderIfSilphIsFinished
 	release
 	end

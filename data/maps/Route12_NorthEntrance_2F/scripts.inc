@@ -12,15 +12,15 @@ Route12_NorthEntrance_2F_EventScript_RightBinoculars::
 Route12_NorthEntrance_2F_EventScript_Lass::
 	lock
 	faceplayer
-	goto_if_set FLAG_GOT_TM27, Route12_NorthEntrance_2F_EventScript_ExplainTM27
+	goto_if_set FLAG_0x25B, Route12_NorthEntrance_2F_EventScript_ExplainTM27
 	checkplayergender
-	call_if_eq VAR_RESULT, MALE, Route12_NorthEntrance_2F_EventScript_TakeTMMale
-	call_if_eq VAR_RESULT, FEMALE, Route12_NorthEntrance_2F_EventScript_TakeTMFemale
+	call_if_eq VAR_0x800D, MALE, Route12_NorthEntrance_2F_EventScript_TakeTMMale
+	call_if_eq VAR_0x800D, FEMALE, Route12_NorthEntrance_2F_EventScript_TakeTMFemale
 	checkitemspace ITEM_TM27
-	goto_if_eq VAR_RESULT, FALSE, Route12_NorthEntrance_2F_EventScript_NoRoomForTM27
+	goto_if_eq VAR_0x800D, FALSE, Route12_NorthEntrance_2F_EventScript_NoRoomForTM27
 	giveitem_msg Route12_NorthEntrance_2F_Text_ReceivedTM27FromLittleGirl, ITEM_TM27
 	msgbox Route12_NorthEntrance_2F_Text_ExplainTM27
-	setflag FLAG_GOT_TM27
+	setflag FLAG_0x25B
 	release
 	end
 

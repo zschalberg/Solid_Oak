@@ -4,15 +4,15 @@ FuchsiaCity_Gym_MapScripts::
 FuchsiaCity_Gym_EventScript_Koga::
 	famechecker FAMECHECKER_KOGA, FCPICKSTATE_COLORED, UpdatePickStateFromSpecialVar8005
 	trainerbattle_single TRAINER_LEADER_KOGA, FuchsiaCity_Gym_Text_KogaIntro, FuchsiaCity_Gym_Text_KogaDefeat, FuchsiaCity_Gym_EventScript_DefeatedKoga, NO_MUSIC
-	goto_if_unset FLAG_GOT_TM06_FROM_KOGA, FuchsiaCity_Gym_EventScript_GiveTM06
+	goto_if_unset FLAG_0x259, FuchsiaCity_Gym_EventScript_GiveTM06
 	msgbox FuchsiaCity_Gym_Text_KogaPostBattle
 	release
 	end
 
 FuchsiaCity_Gym_EventScript_DefeatedKoga::
 	famechecker FAMECHECKER_KOGA, 1
-	clearflag FLAG_HIDE_FAME_CHECKER_KOGA_JOURNAL
-	setflag FLAG_DEFEATED_KOGA
+	clearflag FLAG_0x09F
+	setflag FLAG_0x4B4
 	setflag FLAG_BADGE05_GET
 	set_gym_trainers 5
 	goto FuchsiaCity_Gym_EventScript_GiveTM06
@@ -21,9 +21,9 @@ FuchsiaCity_Gym_EventScript_DefeatedKoga::
 FuchsiaCity_Gym_EventScript_GiveTM06::
 	msgbox FuchsiaCity_Gym_Text_KogaExplainSoulBadge
 	checkitemspace ITEM_TM06
-	goto_if_eq VAR_RESULT, FALSE, FuchsiaCity_Gym_EventScript_NoRoomForTM06
+	goto_if_eq VAR_0x800D, FALSE, FuchsiaCity_Gym_EventScript_NoRoomForTM06
 	giveitem_msg FuchsiaCity_Gym_Text_ReceivedTM06FromKoga, ITEM_TM06
-	setflag FLAG_GOT_TM06_FROM_KOGA
+	setflag FLAG_0x259
 	msgbox FuchsiaCity_Gym_Text_KogaExplainTM06
 	release
 	end
@@ -67,7 +67,7 @@ FuchsiaCity_Gym_EventScript_Nate::
 FuchsiaCity_Gym_EventScript_GymGuy::
 	lock
 	faceplayer
-	goto_if_set FLAG_DEFEATED_KOGA, FuchsiaCity_Gym_EventScript_GymGuyPostVictory
+	goto_if_set FLAG_0x4B4, FuchsiaCity_Gym_EventScript_GymGuyPostVictory
 	msgbox FuchsiaCity_Gym_Text_GymGuyAdvice
 	release
 	end

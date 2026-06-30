@@ -6,12 +6,12 @@ Route25_SeaCottage_MapScripts::
 	.byte 0
 
 Route25_SeaCottage_OnTransition::
-	call_if_unset FLAG_HELPED_BILL_IN_SEA_COTTAGE, Route25_SeaCottage_EventScript_HideClefairyBill
-	call_if_set FLAG_GOT_SS_TICKET, Route25_SeaCottage_EventScript_SetReturnedAfterSSTicket
+	call_if_unset FLAG_0x233, Route25_SeaCottage_EventScript_HideClefairyBill
+	call_if_set FLAG_0x234, Route25_SeaCottage_EventScript_SetReturnedAfterSSTicket
 	end
 
 Route25_SeaCottage_EventScript_HideClefairyBill::
-	clearflag FLAG_HIDE_BILL_CLEFAIRY
+	clearflag FLAG_0x032
 	setobjectxyperm LOCALID_BILL_HUMAN, 3, 3
 	return
 
@@ -23,11 +23,11 @@ Route25_SeaCottage_EventScript_Bill::
 	lock
 	faceplayer
 	goto_if_set RETURN_AFTER_SS_TICKET, Route25_SeaCottage_EventScript_BillGoLookAtPC
-	goto_if_set FLAG_GOT_SS_TICKET, Route25_SeaCottage_EventScript_BillGoToSSAnne
-	goto_if_set FLAG_HELPED_BILL_IN_SEA_COTTAGE, Route25_SeaCottage_EventScript_BillGiveSSTicket
+	goto_if_set FLAG_0x234, Route25_SeaCottage_EventScript_BillGoToSSAnne
+	goto_if_set FLAG_0x233, Route25_SeaCottage_EventScript_BillGiveSSTicket
 	checkplayergender
-	goto_if_eq VAR_RESULT, MALE, Route25_SeaCottage_EventScript_BillAskForHelpMale
-	goto_if_eq VAR_RESULT, FEMALE, Route25_SeaCottage_EventScript_BillAskForHelpFemale
+	goto_if_eq VAR_0x800D, MALE, Route25_SeaCottage_EventScript_BillAskForHelpMale
+	goto_if_eq VAR_0x800D, FEMALE, Route25_SeaCottage_EventScript_BillAskForHelpFemale
 	end
 
 Route25_SeaCottage_EventScript_BillAskForHelpMale::
@@ -41,14 +41,14 @@ Route25_SeaCottage_EventScript_BillAskForHelpFemale::
 	end
 
 Route25_SeaCottage_EventScript_BillAskForHelp::
-	call_if_eq VAR_RESULT, NO, Route25_SeaCottage_EventScript_DeclineHelpBill
+	call_if_eq VAR_0x800D, NO, Route25_SeaCottage_EventScript_DeclineHelpBill
 	msgbox Route25_SeaCottage_Text_RunCellSeparationOnPC
 	closemessage
 	delay 10
-	call_if_eq VAR_FACING, DIR_SOUTH, Route25_SeaCottage_EventScript_BillWalkToTeleporterSouth
-	call_if_eq VAR_FACING, DIR_NORTH, Route25_SeaCottage_EventScript_BillWalkToTeleporter
-	call_if_eq VAR_FACING, DIR_WEST, Route25_SeaCottage_EventScript_BillWalkToTeleporter
-	call_if_eq VAR_FACING, DIR_EAST, Route25_SeaCottage_EventScript_BillWalkToTeleporter
+	call_if_eq VAR_0x800C, DIR_SOUTH, Route25_SeaCottage_EventScript_BillWalkToTeleporterSouth
+	call_if_eq VAR_0x800C, DIR_NORTH, Route25_SeaCottage_EventScript_BillWalkToTeleporter
+	call_if_eq VAR_0x800C, DIR_WEST, Route25_SeaCottage_EventScript_BillWalkToTeleporter
+	call_if_eq VAR_0x800C, DIR_EAST, Route25_SeaCottage_EventScript_BillWalkToTeleporter
 	opendoor 10, 3
 	waitdooranim
 	applymovement LOCALID_BILL_CLEFAIRY, Route25_SeaCottage_Movement_BillEnterTeleporter
@@ -64,8 +64,8 @@ Route25_SeaCottage_EventScript_BillAskForHelp::
 @ Just returns after message, execution continues as if player had said yes
 Route25_SeaCottage_EventScript_DeclineHelpBill::
 	checkplayergender
-	call_if_eq VAR_RESULT, MALE, Route25_SeaCottage_EventScript_DeclineHelpBillMale
-	call_if_eq VAR_RESULT, FEMALE, Route25_SeaCottage_EventScript_DeclineHelpBillFemale
+	call_if_eq VAR_0x800D, MALE, Route25_SeaCottage_EventScript_DeclineHelpBillMale
+	call_if_eq VAR_0x800D, FEMALE, Route25_SeaCottage_EventScript_DeclineHelpBillFemale
 	return
 
 Route25_SeaCottage_EventScript_DeclineHelpBillMale::
@@ -94,14 +94,14 @@ Route25_SeaCottage_EventScript_BillGoToSSAnne::
 Route25_SeaCottage_EventScript_BillGiveSSTicket::
 	famechecker FAMECHECKER_BILL, FCPICKSTATE_COLORED, UpdatePickStateFromSpecialVar8005
 	checkplayergender
-	call_if_eq VAR_RESULT, MALE, Route25_SeaCottage_EventScript_BillThanksMale
-	call_if_eq VAR_RESULT, FEMALE, Route25_SeaCottage_EventScript_BillThanksFemale
+	call_if_eq VAR_0x800D, MALE, Route25_SeaCottage_EventScript_BillThanksMale
+	call_if_eq VAR_0x800D, FEMALE, Route25_SeaCottage_EventScript_BillThanksFemale
 	checkitemspace ITEM_SS_TICKET
-	goto_if_eq VAR_RESULT, FALSE, Route25_SeaCottage_EventScript_NoRoomForSSTicket
+	goto_if_eq VAR_0x800D, FALSE, Route25_SeaCottage_EventScript_NoRoomForSSTicket
 	giveitem_msg Route25_SeaCottage_Text_ReceivedSSTicketFromBill, ITEM_SS_TICKET, 1, MUS_OBTAIN_KEY_ITEM
-	setflag FLAG_GOT_SS_TICKET_DUP
-	setflag FLAG_HIDE_NUGGET_BRIDGE_ROCKET
-	setflag FLAG_GOT_SS_TICKET
+	setflag FLAG_0x235
+	setflag FLAG_0x031
+	setflag FLAG_0x234
 	setflag FLAG_SYS_NOT_SOMEONES_PC
 	goto Route25_SeaCottage_EventScript_BillGoToSSAnne
 	end
@@ -154,7 +154,7 @@ Route25_SeaCottage_EventScript_RunCellSeparator::
 	msgbox Route25_SeaCottage_Text_InitiatedTeleportersCellSeparator
 	closemessage
 	clearflag BILL_IN_TELEPORTER
-	setflag FLAG_HELPED_BILL_IN_SEA_COTTAGE
+	setflag FLAG_0x233
 	special SpawnCameraObject
 	applymovement LOCALID_CAMERA, Route25_SeaCottage_Movement_CameraPanToTeleporters
 	waitmovement 0
@@ -185,7 +185,7 @@ Route25_SeaCottage_EventScript_RunCellSeparator::
 	waitdooranim
 	fadeinbgm 0
 	addobject LOCALID_BILL_HUMAN
-	clearflag FLAG_HIDE_BILL_HUMAN_SEA_COTTAGE
+	clearflag FLAG_0x033
 	delay 50
 	playfanfare MUS_LEVEL_UP
 	applymovement LOCALID_BILL_HUMAN, Route25_SeaCottage_Movement_BillExitTeleporter
@@ -233,7 +233,7 @@ Route25_SeaCottage_EventScript_BillsMonList::
 	message Route25_SeaCottage_Text_SeeWhichMon
 	waitmessage
 	multichoice 0, 0, MULTI_EEVEELUTIONS, FALSE
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, Route25_SeaCottage_EventScript_ViewEevee
 	case 1, Route25_SeaCottage_EventScript_ViewFlareon
 	case 2, Route25_SeaCottage_EventScript_ViewJolteon

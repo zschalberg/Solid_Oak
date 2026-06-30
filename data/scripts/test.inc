@@ -8,7 +8,7 @@ Test_Text_ThisIsASignpost::
 
 EventScript_TryGetTrainerScript::
 	special ShouldTryGetTrainerScript
-	goto_if_eq VAR_RESULT, TRUE, EventScript_GotoTrainerScript
+	goto_if_eq VAR_0x800D, TRUE, EventScript_GotoTrainerScript
 	releaseall
 	end
 

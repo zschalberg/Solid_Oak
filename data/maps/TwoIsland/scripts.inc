@@ -4,33 +4,33 @@ TwoIsland_MapScripts::
 
 TwoIsland_OnTransition::
 	setworldmapflag FLAG_WORLD_MAP_TWO_ISLAND
-	setflag FLAG_VISITED_TWO_ISLAND
+	setflag FLAG_0x2A2
 	call TwoIsland_EventScript_SetShopState
 	end
 
 TwoIsland_EventScript_SetShopState::
 	goto_if_set FLAG_SYS_CAN_LINK_WITH_RS, TwoIsland_EventScript_SetShopStateAfterHoennLink
 	goto_if_set FLAG_SYS_GAME_CLEAR, TwoIsland_EventScript_SetShopStateAfterChampion
-	goto_if_set FLAG_RESCUED_LOSTELLE, TwoIsland_EventScript_SetShopStateAfterLostelleRescue
+	goto_if_set FLAG_0x2A3, TwoIsland_EventScript_SetShopStateAfterLostelleRescue
 	goto TwoIsland_EventScript_SetShopStateDefault
 	end
 
 TwoIsland_EventScript_SetShopStateAfterHoennLink::
-	goto_if_unset FLAG_TWO_ISLAND_SHOP_INTRODUCED, TwoIsland_EventScript_SetShopInitial
-	goto_if_unset FLAG_TWO_ISLAND_SHOP_EXPANDED_1, TwoIsland_EventScript_SetShopExpanded1
-	goto_if_unset FLAG_TWO_ISLAND_SHOP_EXPANDED_2, TwoIsland_EventScript_SetShopExpanded2
+	goto_if_unset FLAG_0x29D, TwoIsland_EventScript_SetShopInitial
+	goto_if_unset FLAG_0x29E, TwoIsland_EventScript_SetShopExpanded1
+	goto_if_unset FLAG_0x29F, TwoIsland_EventScript_SetShopExpanded2
 	goto TwoIsland_EventScript_SetShopExpanded3
 	end
 
 TwoIsland_EventScript_SetShopStateAfterChampion::
-	goto_if_unset FLAG_TWO_ISLAND_SHOP_INTRODUCED, TwoIsland_EventScript_SetShopInitial
-	goto_if_unset FLAG_RESCUED_LOSTELLE, TwoIsland_EventScript_SetShopInitial
-	goto_if_unset FLAG_TWO_ISLAND_SHOP_EXPANDED_1, TwoIsland_EventScript_SetShopExpanded1
+	goto_if_unset FLAG_0x29D, TwoIsland_EventScript_SetShopInitial
+	goto_if_unset FLAG_0x2A3, TwoIsland_EventScript_SetShopInitial
+	goto_if_unset FLAG_0x29E, TwoIsland_EventScript_SetShopExpanded1
 	goto TwoIsland_EventScript_SetShopExpanded2
 	end
 
 TwoIsland_EventScript_SetShopStateAfterLostelleRescue::
-	goto_if_unset FLAG_TWO_ISLAND_SHOP_INTRODUCED, TwoIsland_EventScript_SetShopInitial
+	goto_if_unset FLAG_0x29D, TwoIsland_EventScript_SetShopInitial
 	goto TwoIsland_EventScript_SetShopExpanded1
 	end
 
@@ -39,61 +39,61 @@ TwoIsland_EventScript_SetShopStateDefault::
 	end
 
 TwoIsland_EventScript_SetShopInitial::
-	setvar VAR_MAP_SCENE_TWO_ISLAND, 1
+	setvar VAR_0x4078, 1
 	return
 
 TwoIsland_EventScript_SetShopExpanded1::
-	setvar VAR_MAP_SCENE_TWO_ISLAND, 2
-	clearflag FLAG_HIDE_TWO_ISLAND_WOMAN
+	setvar VAR_0x4078, 2
+	clearflag FLAG_0x07B
 	return
 
 TwoIsland_EventScript_SetShopExpanded2::
-	setvar VAR_MAP_SCENE_TWO_ISLAND, 3
-	clearflag FLAG_HIDE_TWO_ISLAND_BEAUTY
+	setvar VAR_0x4078, 3
+	clearflag FLAG_0x07C
 	return
 
 TwoIsland_EventScript_SetShopExpanded3::
-	setvar VAR_MAP_SCENE_TWO_ISLAND, 4
-	clearflag FLAG_HIDE_TWO_ISLAND_POKE_MANIAC
+	setvar VAR_0x4078, 4
+	clearflag FLAG_0x07D
 	return
 
 TwoIsland_EventScript_Clerk::
 	goto_if_questlog EventScript_ReleaseEnd
 	lock
 	faceplayer
-	goto_if_eq VAR_MAP_SCENE_TWO_ISLAND, 4, TwoIsland_EventScript_ClerkShopExpanded3
-	goto_if_eq VAR_MAP_SCENE_TWO_ISLAND, 3, TwoIsland_EventScript_ClerkShopExpanded2
-	goto_if_eq VAR_MAP_SCENE_TWO_ISLAND, 2, TwoIsland_EventScript_ClerkShopExpanded1
+	goto_if_eq VAR_0x4078, 4, TwoIsland_EventScript_ClerkShopExpanded3
+	goto_if_eq VAR_0x4078, 3, TwoIsland_EventScript_ClerkShopExpanded2
+	goto_if_eq VAR_0x4078, 2, TwoIsland_EventScript_ClerkShopExpanded1
 	goto TwoIsland_EventScript_ClerkShopInitial
 	end
 
 TwoIsland_EventScript_ClerkShopExpanded3::
-	goto_if_set FLAG_TWO_ISLAND_SHOP_EXPANDED_3, TwoIsland_EventScript_ClerkShopSkipIntro
-	setflag FLAG_TWO_ISLAND_SHOP_EXPANDED_3
+	goto_if_set FLAG_0x2A0, TwoIsland_EventScript_ClerkShopSkipIntro
+	setflag FLAG_0x2A0
 	message TwoIsland_Text_BringingItemsFromDistantLands
 	waitmessage
 	goto TwoIsland_EventScript_ShowShop
 	end
 
 TwoIsland_EventScript_ClerkShopExpanded2::
-	goto_if_set FLAG_TWO_ISLAND_SHOP_EXPANDED_2, TwoIsland_EventScript_ClerkShopSkipIntro
-	setflag FLAG_TWO_ISLAND_SHOP_EXPANDED_2
+	goto_if_set FLAG_0x29F, TwoIsland_EventScript_ClerkShopSkipIntro
+	setflag FLAG_0x29F
 	message TwoIsland_Text_HopeYouGiveItYourBest
 	waitmessage
 	goto TwoIsland_EventScript_ShowShop
 	end
 
 TwoIsland_EventScript_ClerkShopExpanded1::
-	goto_if_set FLAG_TWO_ISLAND_SHOP_EXPANDED_1, TwoIsland_EventScript_ClerkShopSkipIntro
-	setflag FLAG_TWO_ISLAND_SHOP_EXPANDED_1
+	goto_if_set FLAG_0x29E, TwoIsland_EventScript_ClerkShopSkipIntro
+	setflag FLAG_0x29E
 	message TwoIsland_Text_AddedMerchandiseForLostelle
 	waitmessage
 	goto TwoIsland_EventScript_ShowShop
 	end
 
 TwoIsland_EventScript_ClerkShopInitial::
-	goto_if_set FLAG_TWO_ISLAND_SHOP_INTRODUCED, TwoIsland_EventScript_ClerkShopSkipIntro
-	setflag FLAG_TWO_ISLAND_SHOP_INTRODUCED
+	goto_if_set FLAG_0x29D, TwoIsland_EventScript_ClerkShopSkipIntro
+	setflag FLAG_0x29D
 	message TwoIsland_Text_WelcomeToShopMerchandiseLimited
 	waitmessage
 	goto TwoIsland_EventScript_ShowShop

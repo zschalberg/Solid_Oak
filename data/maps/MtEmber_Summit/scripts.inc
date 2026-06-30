@@ -8,17 +8,17 @@ MtEmber_Summit_OnResume::
 	end
 
 MtEmber_Summit_EventScript_TryRemoveMoltres::
-	specialvar VAR_RESULT, GetBattleOutcome
-	goto_if_ne VAR_RESULT, B_OUTCOME_CAUGHT, EventScript_Return
-	removeobject VAR_LAST_TALKED
+	specialvar VAR_0x800D, GetBattleOutcome
+	goto_if_ne VAR_0x800D, B_OUTCOME_CAUGHT, EventScript_Return
+	removeobject VAR_0x800F
 	return
 
 MtEmber_Summit_OnTransition::
-	call_if_unset FLAG_FOUGHT_MOLTRES, MtEmber_Summit_EventScript_ShowMoltres
+	call_if_unset FLAG_0x2BD, MtEmber_Summit_EventScript_ShowMoltres
 	end
 
 MtEmber_Summit_EventScript_ShowMoltres::
-	clearflag FLAG_HIDE_MOLTRES
+	clearflag FLAG_0x052
 	return
 
 MtEmber_Summit_EventScript_Moltres::
@@ -39,16 +39,16 @@ MtEmber_Summit_EventScript_Moltres::
 	special BattleSetup_StartLegendaryBattle
 	waitstate
 	clearflag FLAG_SYS_SPECIAL_WILD_BATTLE
-	specialvar VAR_RESULT, GetBattleOutcome
-	goto_if_eq VAR_RESULT, B_OUTCOME_WON, MtEmber_Summit_EventScript_DefeatedMoltres
-	goto_if_eq VAR_RESULT, B_OUTCOME_RAN, MtEmber_Summit_EventScript_RanFromMoltres
-	goto_if_eq VAR_RESULT, B_OUTCOME_PLAYER_TELEPORTED, MtEmber_Summit_EventScript_RanFromMoltres
-	setflag FLAG_FOUGHT_MOLTRES
+	specialvar VAR_0x800D, GetBattleOutcome
+	goto_if_eq VAR_0x800D, B_OUTCOME_WON, MtEmber_Summit_EventScript_DefeatedMoltres
+	goto_if_eq VAR_0x800D, B_OUTCOME_RAN, MtEmber_Summit_EventScript_RanFromMoltres
+	goto_if_eq VAR_0x800D, B_OUTCOME_PLAYER_TELEPORTED, MtEmber_Summit_EventScript_RanFromMoltres
+	setflag FLAG_0x2BD
 	release
 	end
 
 MtEmber_Summit_EventScript_DefeatedMoltres::
-	setflag FLAG_FOUGHT_MOLTRES
+	setflag FLAG_0x2BD
 	goto EventScript_RemoveStaticMon
 	end
 

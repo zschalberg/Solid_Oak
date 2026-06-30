@@ -12,8 +12,8 @@ PokemonLeague_LoreleisRoom_OnResume::
 	end
 
 PokemonLeague_LoreleisRoom_OnLoad::
-	call_if_set FLAG_DEFEATED_LORELEI, PokemonLeague_LoreleisRoom_EventScript_SetDoorOpen
-	call_if_eq VAR_MAP_SCENE_POKEMON_LEAGUE, 1, PokemonLeague_LoreleisRoom_EventScript_CloseEntry
+	call_if_set FLAG_0x4B8, PokemonLeague_LoreleisRoom_EventScript_SetDoorOpen
+	call_if_eq VAR_0x4068, 1, PokemonLeague_LoreleisRoom_EventScript_CloseEntry
 	end
 
 PokemonLeague_LoreleisRoom_EventScript_CloseEntry::
@@ -37,13 +37,13 @@ PokemonLeague_LoreleisRoom_EventScript_TurnPlayerNorth::
 	end
 
 PokemonLeague_LoreleisRoom_OnFrame::
-	map_script_2 VAR_MAP_SCENE_POKEMON_LEAGUE, 0, PokemonLeague_LoreleisRoom_EventScript_EnterRoom
+	map_script_2 VAR_0x4068, 0, PokemonLeague_LoreleisRoom_EventScript_EnterRoom
 	.2byte 0
 
 PokemonLeague_LoreleisRoom_EventScript_EnterRoom::
 	lockall
 	call PokemonLeague_EventScript_EnterRoom
-	setvar VAR_MAP_SCENE_POKEMON_LEAGUE, 1
+	setvar VAR_0x4068, 1
 	releaseall
 	end
 
@@ -51,7 +51,7 @@ PokemonLeague_LoreleisRoom_EventScript_Lorelei::
 	lock
 	faceplayer
 	famechecker FAMECHECKER_LORELEI, FCPICKSTATE_COLORED, UpdatePickStateFromSpecialVar8005
-	goto_if_set FLAG_DEFEATED_LORELEI, PokemonLeague_LoreleisRoom_EventScript_PostBattle
+	goto_if_set FLAG_0x4B8, PokemonLeague_LoreleisRoom_EventScript_PostBattle
 	famechecker FAMECHECKER_LORELEI, 0
 	famechecker FAMECHECKER_LORELEI, 1
 	call_if_unset FLAG_SYS_CAN_LINK_WITH_RS, PokemonLeague_LoreleisRoom_EventScript_Intro
@@ -86,7 +86,7 @@ PokemonLeague_LoreleisRoom_EventScript_PostBattle::
 	end
 
 PokemonLeague_LoreleisRoom_EventScript_DefeatedLorelei::
-	setflag FLAG_DEFEATED_LORELEI
+	setflag FLAG_0x4B8
 	call PokemonLeague_EventScript_OpenDoor
 	msgbox PokemonLeague_LoreleisRoom_Text_PostBattle
 	release

@@ -18,7 +18,7 @@ SSAnne_Kitchen_EventScript_Chef4::
 	faceplayer
 	msgbox SSAnne_Kitchen_Text_IAmLeChefMainCourseIs
 	random 3
-	copyvar VAR_0x8008, VAR_RESULT
+	copyvar VAR_0x8008, VAR_0x800D
 	call_if_eq VAR_0x8008, 0, SSAnne_Kitchen_EventScript_SalmonDuSalad
 	call_if_eq VAR_0x8008, 1, SSAnne_Kitchen_EventScript_EelsAuBarbecue
 	call_if_eq VAR_0x8008, 2, SSAnne_Kitchen_EventScript_PrimeBeefsteak

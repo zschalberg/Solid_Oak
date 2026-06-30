@@ -86,7 +86,7 @@ BattleFrontier_RankingHall_EventScript_NinjaBoy::
 	lock
 	faceplayer
 	msgbox BattleFrontier_RankingHall_Text_IsYourNameOnThisList, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, YES, BattleFrontier_RankingHall_EventScript_NinjaBoyNameOnList
+	goto_if_eq VAR_0x800D, YES, BattleFrontier_RankingHall_EventScript_NinjaBoyNameOnList
 	msgbox BattleFrontier_RankingHall_Text_WorkHarderIfYouSawFriendsName, MSGBOX_DEFAULT
 	release
 	end

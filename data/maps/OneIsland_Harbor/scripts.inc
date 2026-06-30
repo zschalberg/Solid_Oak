@@ -4,7 +4,7 @@ OneIsland_Harbor_MapScripts::
 	.byte 0
 
 OneIsland_Harbor_OnWarp::
-	map_script_2 VAR_MAP_SCENE_ONE_ISLAND_HARBOR, 1, OneIsland_Harbor_EventScript_TurnPlayerNorth
+	map_script_2 VAR_0x4075, 1, OneIsland_Harbor_EventScript_TurnPlayerNorth
 	.2byte 0
 
 OneIsland_Harbor_EventScript_TurnPlayerNorth::
@@ -12,7 +12,7 @@ OneIsland_Harbor_EventScript_TurnPlayerNorth::
 	end
 
 OneIsland_Harbor_OnFrame::
-	map_script_2 VAR_MAP_SCENE_ONE_ISLAND_HARBOR, 1, OneIsland_Harbor_EventScript_PlayerEnterHarborFirstTime
+	map_script_2 VAR_0x4075, 1, OneIsland_Harbor_EventScript_PlayerEnterHarborFirstTime
 	.2byte 0
 
 OneIsland_Harbor_EventScript_PlayerEnterHarborFirstTime::
@@ -20,7 +20,7 @@ OneIsland_Harbor_EventScript_PlayerEnterHarborFirstTime::
 	textcolor NPC_TEXT_COLOR_MALE
 	applymovement LOCALID_PLAYER, OneIsland_Harbor_Movement_PlayerExitHarbor
 	waitmovement 0
-	setvar VAR_MAP_SCENE_ONE_ISLAND_HARBOR, 2
+	setvar VAR_0x4075, 2
 	warp MAP_ONE_ISLAND, 12, 18
 	waitstate
 	releaseall

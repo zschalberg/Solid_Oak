@@ -10,7 +10,7 @@ BattleFrontier_BattleTowerMultiPartnerRoom_OnResume:
 	end
 
 BattleFrontier_BattleTowerMultiPartnerRoom_OnTransition:
-	goto_if_set FLAG_CHOSEN_MULTI_BATTLE_NPC_PARTNER, BattleFrontier_BattleTowerMultiPartnerRoom_EventScript_ChosePartner
+	goto_if_set FLAG_0x30B, BattleFrontier_BattleTowerMultiPartnerRoom_EventScript_ChosePartner
 	clearflag FLAG_HIDE_BATTLE_TOWER_MULTI_BATTLE_PARTNER_1
 	clearflag FLAG_HIDE_BATTLE_TOWER_MULTI_BATTLE_PARTNER_2
 	clearflag FLAG_HIDE_BATTLE_TOWER_MULTI_BATTLE_PARTNER_3
@@ -85,7 +85,7 @@ BattleFrontier_BattleTowerMultiPartnerRoom_EventScript_Attendant::
 	message BattleFrontier_BattleTowerMultiPartnerRoom_Text_QuitLookingForPartner
 	waitmessage
 	multichoicedefault 20, 8, MULTI_YESNO, 1, FALSE
-	goto_if_eq VAR_RESULT, 0, BattleFrontier_BattleTowerMultiPartnerRoom_EventScript_QuitChallenge
+	goto_if_eq VAR_0x800D, 0, BattleFrontier_BattleTowerMultiPartnerRoom_EventScript_QuitChallenge
 	msgbox BattleFrontier_BattleTowerMultiPartnerRoom_Text_PleaseFindPartner2, MSGBOX_DEFAULT
 	release
 	end
@@ -163,7 +163,7 @@ BattleFrontier_BattleTowerMultiPartnerRoom_EventScript_Partner1::
 	end
 
 BattleFrontier_BattleTowerMultiPartnerRoom_EventScript_TalkToPotentialPartner::
-	goto_if_set FLAG_CHOSEN_MULTI_BATTLE_NPC_PARTNER, BattleFrontier_BattleTowerMultiPartnerRoom_EventScript_RejectPartner
+	goto_if_set FLAG_0x30B, BattleFrontier_BattleTowerMultiPartnerRoom_EventScript_RejectPartner
 	tower_dopartnermsg PARTNER_MSGID_INTRO
 	waitmessage
 	waitbuttonpress
@@ -173,17 +173,17 @@ BattleFrontier_BattleTowerMultiPartnerRoom_EventScript_TalkToPotentialPartner::
 	tower_dopartnermsg PARTNER_MSGID_MON2_ASK
 	waitmessage
 	multichoicedefault 20, 8, MULTI_YESNO, 1, FALSE
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 1, BattleFrontier_BattleTowerMultiPartnerRoom_EventScript_RejectPartner
 	case MULTI_B_PRESSED, BattleFrontier_BattleTowerMultiPartnerRoom_EventScript_RejectPartner
 	tower_dopartnermsg PARTNER_MSGID_ACCEPT
 	waitmessage
 	waitbuttonpress
 	closemessage
-	call_if_ne VAR_FACING, DIR_SOUTH, BattleFrontier_BattleTowerMultiPartnerRoom_EventScript_PartnerExit
-	call_if_eq VAR_FACING, DIR_SOUTH, BattleFrontier_BattleTowerMultiPartnerRoom_EventScript_PartnerExitSouth
-	removeobject VAR_LAST_TALKED
-	setflag FLAG_CHOSEN_MULTI_BATTLE_NPC_PARTNER
+	call_if_ne VAR_0x800C, DIR_SOUTH, BattleFrontier_BattleTowerMultiPartnerRoom_EventScript_PartnerExit
+	call_if_eq VAR_0x800C, DIR_SOUTH, BattleFrontier_BattleTowerMultiPartnerRoom_EventScript_PartnerExitSouth
+	removeobject VAR_0x800F
+	setflag FLAG_0x30B
 	warpsilent MAP_BATTLE_FRONTIER_BATTLE_TOWER_MULTI_PARTNER_ROOM, 10, 3
 	waitstate
 	release
@@ -197,12 +197,12 @@ BattleFrontier_BattleTowerMultiPartnerRoom_EventScript_RejectPartner::
 	end
 
 BattleFrontier_BattleTowerMultiPartnerRoom_EventScript_PartnerExit::
-	applymovement VAR_LAST_TALKED, BattleFrontier_BattleTowerMultiPartnerRoom_Movement_PartnerExit
+	applymovement VAR_0x800F, BattleFrontier_BattleTowerMultiPartnerRoom_Movement_PartnerExit
 	waitmovement 0
 	return
 
 BattleFrontier_BattleTowerMultiPartnerRoom_EventScript_PartnerExitSouth::
-	applymovement VAR_LAST_TALKED, BattleFrontier_BattleTowerMultiPartnerRoom_Movement_PartnerExitSouth
+	applymovement VAR_0x800F, BattleFrontier_BattleTowerMultiPartnerRoom_Movement_PartnerExitSouth
 	waitmovement 0
 	return
 

@@ -13,6 +13,7 @@
 #include "constants/global.h"
 #include "constants/flags.h"
 #include "constants/vars.h"
+#include "constants/map_event_ids_fallback.h"
 #include "constants/species.h"
 #include "constants/pokedex.h"
 #include "constants/berry.h"

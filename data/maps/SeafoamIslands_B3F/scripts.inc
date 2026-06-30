@@ -6,19 +6,19 @@ SeafoamIslands_B3F_MapScripts::
 	.byte 0
 
 SeafoamIslands_B3F_OnTransition::
-	call_if_unset FLAG_STOPPED_SEAFOAM_B3F_CURRENT, SeafoamIslands_B3F_EventScript_CheckStoppedCurrent
-	call_if_set FLAG_STOPPED_SEAFOAM_B3F_CURRENT, SeafoamIslands_B3F_EventScript_SetNoCurrentLayout
+	call_if_unset FLAG_0x2D2, SeafoamIslands_B3F_EventScript_CheckStoppedCurrent
+	call_if_set FLAG_0x2D2, SeafoamIslands_B3F_EventScript_SetNoCurrentLayout
 	end
 
 SeafoamIslands_B3F_EventScript_CheckStoppedCurrent::
 	setvar NUM_BOULDERS_PRESENT, 0
-	call_if_unset FLAG_HIDE_SEAFOAM_B3F_BOULDER_1, SeafoamIslands_B3F_EventScript_AddBoulderPresent
-	call_if_unset FLAG_HIDE_SEAFOAM_B3F_BOULDER_2, SeafoamIslands_B3F_EventScript_AddBoulderPresent
+	call_if_unset FLAG_0x046, SeafoamIslands_B3F_EventScript_AddBoulderPresent
+	call_if_unset FLAG_0x047, SeafoamIslands_B3F_EventScript_AddBoulderPresent
 	call_if_eq NUM_BOULDERS_PRESENT, 2, SeafoamIslands_B3F_EventScript_StoppedCurrent
 	return
 
 SeafoamIslands_B3F_EventScript_StoppedCurrent::
-	setflag FLAG_STOPPED_SEAFOAM_B3F_CURRENT
+	setflag FLAG_0x2D2
 	return
 
 SeafoamIslands_B3F_EventScript_SetNoCurrentLayout::
@@ -32,13 +32,13 @@ SeafoamIslands_B3F_OnFrame::
 SeafoamIslands_B3F_EventScript_EnterByFalling::
 	lockall
 	setvar NUM_BOULDERS_PRESENT, 0
-	call_if_unset FLAG_HIDE_SEAFOAM_B3F_BOULDER_1, SeafoamIslands_B3F_EventScript_AddBoulderPresent
-	call_if_unset FLAG_HIDE_SEAFOAM_B3F_BOULDER_2, SeafoamIslands_B3F_EventScript_AddBoulderPresent
+	call_if_unset FLAG_0x046, SeafoamIslands_B3F_EventScript_AddBoulderPresent
+	call_if_unset FLAG_0x047, SeafoamIslands_B3F_EventScript_AddBoulderPresent
 	goto_if_eq NUM_BOULDERS_PRESENT, 2, SeafoamIslands_B3F_EventScript_CurrentBlocked
 	getplayerxy VAR_0x8008, VAR_0x8009
 	call_if_lt VAR_0x8008, 24, SeafoamIslands_B3F_EventScript_RideCurrentFar
 	call_if_ge VAR_0x8008, 24, SeafoamIslands_B3F_EventScript_RideCurrentClose
-	setvar VAR_MAP_SCENE_SEAFOAM_ISLANDS_B4F, 1
+	setvar VAR_0x4063, 1
 	warp MAP_SEAFOAM_ISLANDS_B4F, 27, 21
 	waitstate
 	releaseall

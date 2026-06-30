@@ -10,7 +10,7 @@ CeruleanCity_House1_EventScript_BadgeGuy::
 	setvar VAR_0x8004, SCROLL_MULTI_BADGES
 	special ShowScrollableMultichoice
 	waitstate
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, CeruleanCity_House1_EventScript_DescribeBoulderBadge
 	case 1, CeruleanCity_House1_EventScript_DescribeCascadeBadge
 	case 2, CeruleanCity_House1_EventScript_DescribeThunderBadge
@@ -28,7 +28,7 @@ CeruleanCity_House1_EventScript_DescribeAnotherBadge::
 	waitmessage
 	special ReturnToListMenu
 	waitstate
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, CeruleanCity_House1_EventScript_DescribeBoulderBadge
 	case 1, CeruleanCity_House1_EventScript_DescribeCascadeBadge
 	case 2, CeruleanCity_House1_EventScript_DescribeThunderBadge

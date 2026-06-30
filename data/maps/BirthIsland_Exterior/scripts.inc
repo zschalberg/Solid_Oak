@@ -13,18 +13,18 @@ BirthIsland_Exterior_OnTransition::
 	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_DEOXYS_N
 	setvar VAR_DEOXYS_INTERACTION_STEP_COUNTER, 0
 	setvar VAR_DEOXYS_INTERACTION_NUM, 0
-	call_if_set FLAG_FOUGHT_DEOXYS, BirthIsland_Exterior_EventScript_HideDeoxysAndPuzzle
-	call_if_unset FLAG_FOUGHT_DEOXYS, BirthIsland_Exterior_EventScript_TryShowDeoxysPuzzle
+	call_if_set FLAG_0x2E4, BirthIsland_Exterior_EventScript_HideDeoxysAndPuzzle
+	call_if_unset FLAG_0x2E4, BirthIsland_Exterior_EventScript_TryShowDeoxysPuzzle
 	end
 
 BirthIsland_Exterior_EventScript_HideDeoxysAndPuzzle::
-	setflag FLAG_HIDE_DEOXYS
-	setflag FLAG_HIDE_BIRTH_ISLAND_METEORITE
+	setflag FLAG_0x099
+	setflag FLAG_0x09A
 	return
 
 BirthIsland_Exterior_EventScript_TryShowDeoxysPuzzle::
-	goto_if_set FLAG_DEOXYS_FLEW_AWAY, EventScript_Return
-	clearflag FLAG_HIDE_BIRTH_ISLAND_METEORITE
+	goto_if_set FLAG_0x2F7, EventScript_Return
+	clearflag FLAG_0x09A
 	clearflag FLAG_SYS_DEOXYS_AWAKENED
 	return
 
@@ -33,8 +33,8 @@ BirthIsland_Exterior_OnResume::
 	end
 
 BirthIsland_Exterior_EventScript_TryRemoveDeoxys::
-	specialvar VAR_RESULT, GetBattleOutcome
-	goto_if_ne VAR_RESULT, B_OUTCOME_CAUGHT, EventScript_Return
+	specialvar VAR_0x800D, GetBattleOutcome
+	goto_if_ne VAR_0x800D, B_OUTCOME_CAUGHT, EventScript_Return
 	removeobject LOCALID_BIRTH_ISLAND_DEOXYS
 	return
 
@@ -45,7 +45,7 @@ BirthIsland_Exterior_EventScript_Triangle::
 	special QuestLog_CutRecording
 	special DoDeoxysTriangleInteraction
 	waitstate
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, BirthIsland_Exterior_EventScript_NotSolved1
 	case 1, BirthIsland_Exterior_EventScript_NotSolved2
 	case 2, BirthIsland_Exterior_EventScript_Deoxys
@@ -79,22 +79,22 @@ BirthIsland_Exterior_EventScript_Deoxys::
 	playmoncry SPECIES_DEOXYS, CRY_MODE_ENCOUNTER
 	delay 40
 	waitmoncry
-	setvar VAR_LAST_TALKED, LOCALID_BIRTH_ISLAND_DEOXYS
+	setvar VAR_0x800F, LOCALID_BIRTH_ISLAND_DEOXYS
 	seteventmon SPECIES_DEOXYS, 30
 	setflag FLAG_SYS_SPECIAL_WILD_BATTLE
 	special BattleSetup_StartLegendaryBattle
 	waitstate
 	clearflag FLAG_SYS_SPECIAL_WILD_BATTLE
-	specialvar VAR_RESULT, GetBattleOutcome
-	goto_if_eq VAR_RESULT, B_OUTCOME_WON, BirthIsland_Exterior_EventScript_DefeatedDeoxys
-	goto_if_eq VAR_RESULT, B_OUTCOME_RAN, BirthIsland_Exterior_EventScript_RanFromDeoxys
-	goto_if_eq VAR_RESULT, B_OUTCOME_PLAYER_TELEPORTED, BirthIsland_Exterior_EventScript_RanFromDeoxys
-	setflag FLAG_FOUGHT_DEOXYS
+	specialvar VAR_0x800D, GetBattleOutcome
+	goto_if_eq VAR_0x800D, B_OUTCOME_WON, BirthIsland_Exterior_EventScript_DefeatedDeoxys
+	goto_if_eq VAR_0x800D, B_OUTCOME_RAN, BirthIsland_Exterior_EventScript_RanFromDeoxys
+	goto_if_eq VAR_0x800D, B_OUTCOME_PLAYER_TELEPORTED, BirthIsland_Exterior_EventScript_RanFromDeoxys
+	setflag FLAG_0x2E4
 	release
 	end
 
 BirthIsland_Exterior_EventScript_DefeatedDeoxys::
-	setflag FLAG_DEOXYS_FLEW_AWAY
+	setflag FLAG_0x2F7
 	setvar VAR_0x8004, SPECIES_DEOXYS
 	goto EventScript_MonFlewAway
 	end

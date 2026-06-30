@@ -1,6 +1,6 @@
 Common_EventScript_FindItem::
 	callnative GetItemBallIdAndAmountFromTemplate
-	finditem VAR_RESULT VAR_0x8009
+	finditem VAR_0x800D VAR_0x8009
 	end
 
 Route2_EventScript_ItemEther::

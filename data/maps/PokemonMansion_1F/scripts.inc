@@ -4,7 +4,7 @@ PokemonMansion_1F_MapScripts::
 	.byte 0
 
 PokemonMansion_1F_OnLoad::
-	call_if_set FLAG_POKEMON_MANSION_SWITCH_STATE, PokemonMansion_EventScript_PressSwitch_1F
+	call_if_set FLAG_0x26C, PokemonMansion_EventScript_PressSwitch_1F
 	end
 
 PokemonMansion_1F_OnTransition::

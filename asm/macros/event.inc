@@ -512,13 +512,13 @@
 	.2byte \y
 	.endm
 
-	@ Retrieves the number of Pokemon in the player's party, and stores that number in VAR_RESULT.
+	@ Retrieves the number of Pokemon in the player's party, and stores that number in VAR_0x800D.
 	.macro getpartysize
 	.byte SCR_OP_GETPARTYSIZE
 	.endm
 
 	@ Attempts to add quantity of the specified item to the player's Bag. If the player has enough room, the item will
-	@ be added and VAR_RESULT will be set to TRUE; otherwise, VAR_RESULT is set to FALSE.
+	@ be added and VAR_0x800D will be set to TRUE; otherwise, VAR_0x800D is set to FALSE.
 	.macro additem itemId:req, quantity=1
 	.byte SCR_OP_ADDITEM
 	.2byte \itemId
@@ -526,14 +526,14 @@
 	.endm
 
 	@ Removes quantity of the specified item from the player's Bag. If the player has fewer than 'quantity' in their bag
-	@ then none will be removed and VAR_RESULT will be set to FALSE. Otherwise it will be set to TRUE.
+	@ then none will be removed and VAR_0x800D will be set to FALSE. Otherwise it will be set to TRUE.
 	.macro removeitem itemId:req, quantity=1
 	.byte SCR_OP_REMOVEITEM
 	.2byte \itemId
 	.2byte \quantity
 	.endm
 
-	@ Checks if the player has enough space in their Bag to hold quantity more of the specified item. Sets VAR_RESULT to
+	@ Checks if the player has enough space in their Bag to hold quantity more of the specified item. Sets VAR_0x800D to
 	@ TRUE if there is room, or FALSE is there is no room.
 	.macro checkitemspace itemId:req, quantity=1
 	.byte SCR_OP_CHECKITEMSPACE
@@ -541,7 +541,7 @@
 	.2byte \quantity
 	.endm
 
-	@ Checks if the player has quantity or more of the specified item in their Bag. Sets VAR_RESULT to TRUE if the player has
+	@ Checks if the player has quantity or more of the specified item in their Bag. Sets VAR_0x800D to TRUE if the player has
 	@ enough of the item, or FALSE if they have fewer than quantity of the item.
 	.macro checkitem itemId:req, quantity=1
 	.byte SCR_OP_CHECKITEM
@@ -549,7 +549,7 @@
 	.2byte \quantity
 	.endm
 
-	@ Checks which Bag pocket the specified item belongs in, and writes the pocket value (POCKET_*) to VAR_RESULT.
+	@ Checks which Bag pocket the specified item belongs in, and writes the pocket value (POCKET_*) to VAR_0x800D.
 	@ This is used to show the name of the proper Bag pocket when the player receives an item via callstd.
 	.macro checkitemtype itemId:req
 	.byte SCR_OP_CHECKITEMTYPE
@@ -875,7 +875,7 @@
 	.endm
 
 	@ Displays a YES/NO multichoice box at the specified coordinates, and blocks script execution until the user makes a selection.
-	@ Their selection is stored in VAR_RESULT as NO (0) or YES (1). Pressing B is equivalent to answering NO
+	@ Their selection is stored in VAR_0x800D as NO (0) or YES (1). Pressing B is equivalent to answering NO
 	.macro yesnobox x:req, y:req
 	.byte SCR_OP_YESNOBOX
 	.byte \x
@@ -980,7 +980,7 @@
 	.endm
 
 	@ Gives the player a Pokémon of the specified species and level, and allows to customize extra parameters.
-	@ VAR_RESULT will be set to MON_GIVEN_TO_PARTY, MON_GIVEN_TO_PC, or MON_CANT_GIVE depending on the outcome.
+	@ VAR_0x800D will be set to MON_GIVEN_TO_PARTY, MON_GIVEN_TO_PC, or MON_CANT_GIVE depending on the outcome.
 	.macro givemon species:req, level:req, item, ball, nature, abilityNum, gender, hpEv, atkEv, defEv, speedEv, spAtkEv, spDefEv, hpIv, atkIv, defIv, speedIv, spAtkIv, spDefIv, move1, move2, move3, move4, shinyMode, gmaxFactor, teraType, dmaxLevel
 	callnative ScrCmd_createmon, requests_effects=1
 	.byte 0
@@ -1104,7 +1104,7 @@
 	.endm
 
 	@ Gives the player an Egg of the specified species.
-	@ VAR_RESULT will be set to MON_GIVEN_TO_PARTY, MON_GIVEN_TO_PC, or MON_CANT_GIVE depending on the outcome.
+	@ VAR_0x800D will be set to MON_GIVEN_TO_PARTY, MON_GIVEN_TO_PC, or MON_CANT_GIVE depending on the outcome.
 	.macro giveegg species:req
 	.byte SCR_OP_GIVEEGG
 	.2byte \species
@@ -1120,15 +1120,15 @@
 	.2byte \move
 	.endm
 
-	@ Checks if at least one Pokemon in the player's party knows the specified move. If so, VAR_RESULT is set to the
-	@ (zero-indexed) slot number of the first Pokemon that knows the move. If not, VAR_RESULT is set to PARTY_SIZE.
+	@ Checks if at least one Pokemon in the player's party knows the specified move. If so, VAR_0x800D is set to the
+	@ (zero-indexed) slot number of the first Pokemon that knows the move. If not, VAR_0x800D is set to PARTY_SIZE.
 	@ VAR_0x8004 is also set to this Pokemon's species.
 	.macro checkpartymove move:req
 	.byte SCR_OP_CHECKPARTYMOVE
 	.2byte \move
 	.endm
 
-	@ Checks if field move can be used. If so, VAR_RESULT is set to TRUE, gFieldEffectArguments[0] to masked
+	@ Checks if field move can be used. If so, VAR_0x800D is set to TRUE, gFieldEffectArguments[0] to masked
 	@ species or party index of the Pokemon, VAR_0x8004 to species, STR_VAR_1 to the Pokemon's name,
 	@ and STR_VAR_2 to the move's name.
 	.macro checkfieldmoveusable fieldMove:req
@@ -1274,7 +1274,7 @@
 	.byte SCR_OP_CONTESTLINKTRANSFER
 	.endm
 
-	@ Stores a random integer between 0 and limit (exclusive of limit) in VAR_RESULT.
+	@ Stores a random integer between 0 and limit (exclusive of limit) in VAR_0x800D.
 	.macro random limit:req
 	.byte SCR_OP_RANDOM
 	.2byte \limit
@@ -1296,7 +1296,7 @@
 	.byte \disable
 	.endm
 
-	@ Checks if the player has money >= value. VAR_RESULT is set to TRUE if the player has enough money, or FALSE if they do not.
+	@ Checks if the player has money >= value. VAR_0x800D is set to TRUE if the player has enough money, or FALSE if they do not.
 	@ If 'disable' is set to anything but 0 then this command does nothing.
 	.macro checkmoney value:req, disable=0
 	.byte SCR_OP_CHECKMONEY
@@ -1393,7 +1393,7 @@
 	.2byte \heallocation
 	.endm
 
-	@ Checks the player's gender. Stores the result (MALE (0) or FEMALE (1)) in VAR_RESULT.
+	@ Checks the player's gender. Stores the result (MALE (0) or FEMALE (1)) in VAR_0x800D.
 	.macro checkplayergender
 	.byte SCR_OP_CHECKPLAYERGENDER
 	.endm
@@ -1533,15 +1533,15 @@
 	.endm
 
 	@ Gives 'count' coins to the player, up to a total of MAX_COINS.
-	@ If the player already has MAX_COINS then VAR_RESULT is set to TRUE, otherwise it is set to FALSE.
+	@ If the player already has MAX_COINS then VAR_0x800D is set to TRUE, otherwise it is set to FALSE.
 	.macro addcoins count:req
 	.byte SCR_OP_ADDCOINS
 	.2byte \count
 	.endm
 
 	@ Takes 'count' coins from the player.
-	@ If the player has fewer than 'count' coins then no coins are taken and VAR_RESULT is set to TRUE.
-	@ Otherwise VAR_RESULT is set to FALSE.
+	@ If the player has fewer than 'count' coins then no coins are taken and VAR_0x800D is set to TRUE.
+	@ Otherwise VAR_0x800D is set to FALSE.
 	.macro removecoins count:req
 	.byte SCR_OP_REMOVECOINS
 	.2byte \count
@@ -1700,7 +1700,7 @@
 	.endm
 
 	@ Checks if the modernFatefulEncounter bit is set for the Pokemon in the specified slot of the player's party. If it isn't set,
-	@ VAR_RESULT is TRUE. If the bit is set (or if the specified slot is empty or invalid), VAR_RESULT is FALSE.
+	@ VAR_0x800D is TRUE. If the bit is set (or if the specified slot is empty or invalid), VAR_0x800D is FALSE.
 	.macro checkmodernfatefulencounter slot:req
 	.byte SCR_OP_CHECKMODERNFATEFULENCOUNTER
 	.2byte \slot
@@ -1818,10 +1818,10 @@
 
 	@ Allows 'compare' followed by a conditional goto/call to be combined into a single statement.
 	@ The following are examples of the two acceptable formats this facilitates:
-	@ compare VAR_RESULT, TRUE
+	@ compare VAR_0x800D, TRUE
 	@ goto_if_eq MyScript
 	@ - or -
-	@ goto_if_eq VAR_RESULT, TRUE, MyScript
+	@ goto_if_eq VAR_0x800D, TRUE, MyScript
 	@
 	@ The first two arguments to this macro are the base command, e.g. 'goto_if 1' for goto_if_eq.
 	@ The remaining arguments 'a, b, c' depend on the format:
@@ -1952,8 +1952,8 @@
 
 	@ Gives 'amount' of the specified 'item' to the player and prints a message with fanfare.
 	@ If the player doesn't have space for all the items then as many are added as possible, the
-	@ message indicates there is no room, and VAR_RESULT is set to FALSE.
-	@ Otherwise VAR_RESULT is set to TRUE, and the message indicates they have received the item(s).
+	@ message indicates there is no room, and VAR_0x800D is set to FALSE.
+	@ Otherwise VAR_0x800D is set to TRUE, and the message indicates they have received the item(s).
 	.macro giveitem item:req, amount=1
 	setorcopyvar VAR_0x8000, \item
 	setorcopyvar VAR_0x8001, \amount
@@ -2013,7 +2013,7 @@
 	@ Jumps to dest if the Quest Log is currently showing playback scenes (dest is usually a release/end)
 	.macro goto_if_questlog dest:req
 	special GetQuestLogState
-	compare VAR_RESULT, 2
+	compare VAR_0x800D, 2
 	goto_if_eq \dest
 	.endm
 
@@ -2118,7 +2118,7 @@
 	trainerbattle_no_intro \trainer2, NULL
 	.endm
 
-	@ Sets VAR_RESULT to TRUE if stat can be hyper trained, or to
+	@ Sets VAR_0x800D to TRUE if stat can be hyper trained, or to
 	@ FALSE otherwise.
 	.macro canhypertrain stat:req, slot:req
 	callnative CanHyperTrain
@@ -2133,7 +2133,7 @@
 	.2byte \slot
 	.endm
 
-	@ Sets VAR_RESULT to TRUE if the Pokemon has the Gigantamax Factor,
+	@ Sets VAR_0x800D to TRUE if the Pokemon has the Gigantamax Factor,
 	@ or to FALSE otherwise.
 	.macro hasgigantamaxfactor slot:req
 	callnative HasGigantamaxFactor
@@ -2142,13 +2142,13 @@
 
 	@ Toggles the Gigantamax Factor for a Pokemon.
 	@ Fails for Melmetal (vanilla behavior).
-	@ Sets VAR_RESULT to TRUE if it succeeds, and FALSE otherwise.
+	@ Sets VAR_0x800D to TRUE if it succeeds, and FALSE otherwise.
 	.macro togglegigantamaxfactor slot:req
 	callnative ToggleGigantamaxFactor
 	.2byte \slot
 	.endm
 
-	@ Sets VAR_RESULT to one of the arguments (via setorcopyvar).
+	@ Sets VAR_0x800D to one of the arguments (via setorcopyvar).
 	.macro randomelement element:req, elements:vararg
 	.set _randomelement_n, 0
 	.irp el, \element, \elements
@@ -2158,8 +2158,8 @@
 
 	.set _randomelement_n, 0
 	.irp el, \element, \elements
-		goto_if_ne VAR_RESULT, _randomelement_n, 1f
-		setorcopyvar VAR_RESULT, \el
+		goto_if_ne VAR_0x800D, _randomelement_n, 1f
+		setorcopyvar VAR_0x800D, \el
 		goto 2f
 	1:
 	.set _randomelement_n, _randomelement_n + 1
@@ -2167,15 +2167,15 @@
 	2:
 	.endm
 
-	@ Sets VAR_RESULT to TRUE with probability 'percent', and FALSE
+	@ Sets VAR_0x800D to TRUE with probability 'percent', and FALSE
 	@ with probability '100% - percent'.
 	.macro randompercentage percent:req
 		random 100
-		goto_if_lt VAR_RESULT, \percent, 1f
-		setvar VAR_RESULT, FALSE
+		goto_if_lt VAR_0x800D, \percent, 1f
+		setvar VAR_0x800D, FALSE
 		goto 2f
 	1:
-		setvar VAR_RESULT, TRUE
+		setvar VAR_0x800D, TRUE
 	2:
 	.endm
 
@@ -2193,7 +2193,7 @@
 	.2byte \slot
 	.endm
 
-	@ Sets VAR_RESULT to the Pokémon in \slot's Tera Type
+	@ Sets VAR_0x800D to the Pokémon in \slot's Tera Type
 	.macro checkteratype slot:req
 	callnative CheckTeraType
 	.2byte \slot
@@ -2204,7 +2204,7 @@
 	callnative SetTeraType
 	.byte \type
 	.2byte \slot
-	.endm@ Saves species and forms of Daycare Pokémon to specific vars. Saves the amount of Daycare mon to VAR_RESULT.
+	.endm@ Saves species and forms of Daycare Pokémon to specific vars. Saves the amount of Daycare mon to VAR_0x800D.
 	.macro getdaycaregfx varSpecies1:req varSpecies2:req varForm1:req varForm2:req
 	callnative GetDaycareGraphics
 	.2byte \varSpecies1
@@ -2329,7 +2329,7 @@
 	.macro setfollowernpc localId:req, flags:req, script=0, battlePartner=0
 	.if FNPC_ENABLE_NPC_FOLLOWERS
 		checkfollowernpc
-		compare VAR_RESULT, FALSE
+		compare VAR_0x800D, FALSE
 		goto_if_ne 1f
 		hidefollower
 		waitmovement OBJ_EVENT_ID_FOLLOWER
@@ -2391,7 +2391,7 @@
 	callnative HideNPCFollower
 	.endm
 
-	@ Checks if you have a follower NPC. Returns the result to VAR_RESULT.
+	@ Checks if you have a follower NPC. Returns the result to VAR_0x800D.
 	.macro checkfollowernpc
 	callnative ScriptCheckFollowerNPC
 	.endm
@@ -2441,7 +2441,7 @@
 	specialvar VAR_0x8009, GetInGameTradeSpeciesInfo
 	goto_if_set \flagId, \flagSetJump
 	msgbox \wantTradeMsg, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, \declineTradeJump
+	goto_if_eq VAR_0x800D, NO, \declineTradeJump
 	chooseboxmon SELECT_PC_MON_TRADE
 	waitstate
 	goto_if_eq VAR_0x8004, PARTY_NOTHING_CHOSEN, \declineTradeJump
@@ -2459,15 +2459,15 @@
 		goto_if_set \flagId, \taughtJmp
 	.endif
 	msgbox \wantTeachingMsg, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, \declinedJmp
+	goto_if_eq VAR_0x800D, NO, \declinedJmp
 	.if \flagId
 		call MoveTutor_EventScript_CanOnlyBeLearnedOnce
-		goto_if_eq VAR_RESULT, NO, \declinedJmp
+		goto_if_eq VAR_0x800D, NO, \declinedJmp
 	.endif
 	msgbox \monSelectMsg, MSGBOX_DEFAULT
 	setvar VAR_0x8005, \moveId
 	call MoveTutor_EventScript_OpenBox
-	goto_if_eq VAR_RESULT, FALSE, \declinedJmp
+	goto_if_eq VAR_0x800D, FALSE, \declinedJmp
 	.if \flagId
 		setflag \flagId
 	.endif

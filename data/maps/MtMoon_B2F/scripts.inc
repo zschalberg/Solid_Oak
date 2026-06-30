@@ -3,12 +3,12 @@ MtMoon_B2F_MapScripts::
 	.byte 0
 
 MtMoon_B2F_OnTransition::
-	call_if_unset FLAG_GOT_FOSSIL_FROM_MT_MOON, MtMoon_B2F_EventScript_ShowFossils
+	call_if_unset FLAG_0x232, MtMoon_B2F_EventScript_ShowFossils
 	end
 
 MtMoon_B2F_EventScript_ShowFossils::
-	clearflag FLAG_HIDE_DOME_FOSSIL
-	clearflag FLAG_HIDE_HELIX_FOSSIL
+	clearflag FLAG_0x02F
+	clearflag FLAG_0x030
 	return
 
 MtMoon_B2F_EventScript_MiguelTrigger::
@@ -22,7 +22,7 @@ MtMoon_B2F_EventScript_MiguelTrigger::
 MtMoon_B2F_EventScript_Miguel::
 	lock
 	faceplayer
-	goto_if_set FLAG_GOT_FOSSIL_FROM_MT_MOON, MtMoon_B2F_EventScript_MiguelFossilPicked
+	goto_if_set FLAG_0x232, MtMoon_B2F_EventScript_MiguelFossilPicked
 	goto_if_defeated TRAINER_SUPER_NERD_MIGUEL, MtMoon_B2F_EventScript_MiguelGoPickFossil
 	call MtMoon_B2F_EventScript_BattleMiguel
 	release
@@ -34,9 +34,9 @@ MtMoon_B2F_EventScript_BattleMiguel::
 	waitmessage
 	playbgm MUS_ENCOUNTER_GYM_LEADER, 0
 	waitbuttonpress
-	setvar VAR_LAST_TALKED, LOCALID_MIGUEL
+	setvar VAR_0x800F, LOCALID_MIGUEL
 	trainerbattle_no_intro TRAINER_SUPER_NERD_MIGUEL, MtMoon_B2F_Text_MiguelDefeat
-	setvar VAR_MAP_SCENE_MT_MOON_B2F, 1
+	setvar VAR_0x408B, 1
 	msgbox MtMoon_B2F_Text_WellEachTakeAFossil
 	return
 
@@ -54,7 +54,7 @@ MtMoon_B2F_EventScript_DomeFossil::
 	lock
 	faceplayer
 	msgbox MtMoon_B2F_Text_YouWantDomeFossil, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, MtMoon_B2F_EventScript_DontTakeFossil
+	goto_if_eq VAR_0x800D, NO, MtMoon_B2F_EventScript_DontTakeFossil
 	removeobject LOCALID_DOME_FOSSIL
 	giveitem_msg MtMoon_B2F_Text_ObtainedDomeFossil, ITEM_DOME_FOSSIL, 1, MUS_OBTAIN_KEY_ITEM
 	closemessage
@@ -69,8 +69,8 @@ MtMoon_B2F_EventScript_DomeFossil::
 	waitmessage
 	waitfanfare
 	removeobject LOCALID_HELIX_FOSSIL
-	setflag FLAG_GOT_DOME_FOSSIL
-	setflag FLAG_GOT_FOSSIL_FROM_MT_MOON
+	setflag FLAG_0x272
+	setflag FLAG_0x232
 	release
 	end
 
@@ -85,7 +85,7 @@ MtMoon_B2F_EventScript_HelixFossil::
 	lock
 	faceplayer
 	msgbox MtMoon_B2F_Text_YouWantHelixFossil, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, MtMoon_B2F_EventScript_DontTakeFossil
+	goto_if_eq VAR_0x800D, NO, MtMoon_B2F_EventScript_DontTakeFossil
 	removeobject LOCALID_HELIX_FOSSIL
 	giveitem_msg MtMoon_B2F_Text_ObtainedHelixFossil, ITEM_HELIX_FOSSIL, 1, MUS_OBTAIN_KEY_ITEM
 	closemessage
@@ -100,8 +100,8 @@ MtMoon_B2F_EventScript_HelixFossil::
 	waitmessage
 	waitfanfare
 	removeobject LOCALID_DOME_FOSSIL
-	setflag FLAG_GOT_HELIX_FOSSIL
-	setflag FLAG_GOT_FOSSIL_FROM_MT_MOON
+	setflag FLAG_0x273
+	setflag FLAG_0x232
 	release
 	end
 

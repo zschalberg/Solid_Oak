@@ -5,7 +5,7 @@ Route11_EastEntrance_2F_MapScripts::
 
 Route11_EastEntrance_2F_EventScript_LeftBinoculars::
 	lockall
-	goto_if_set FLAG_WOKE_UP_ROUTE_12_SNORLAX, Route11_EastEntrance_2F_EventScript_LeftBinocularsSnorlaxGone
+	goto_if_set FLAG_0x253, Route11_EastEntrance_2F_EventScript_LeftBinocularsSnorlaxGone
 	msgbox Route11_EastEntrance_2F_Text_BigMonAsleepOnRoad
 	releaseall
 	end
@@ -22,7 +22,7 @@ Route11_EastEntrance_2F_EventScript_RightBinoculars::
 Route11_EastEntrance_2F_EventScript_Turner::
 	lock
 	faceplayer
-	ingame_trade INGAME_TRADE_NIDORINOA, Trade_Text_LookingForMonWannaTradeForMon, Route11_EastEntrance_2F_EventScript_DeclineTrade, Route11_EastEntrance_2F_EventScript_NotRequestedMon, Trade_Text_HeyThanks, FLAG_DID_NINA_TRADE, Route11_EastEntrance_2F_EventScript_AlreadyTraded
+	ingame_trade INGAME_TRADE_NIDORINOA, Trade_Text_LookingForMonWannaTradeForMon, Route11_EastEntrance_2F_EventScript_DeclineTrade, Route11_EastEntrance_2F_EventScript_NotRequestedMon, Trade_Text_HeyThanks, FLAG_0x251, Route11_EastEntrance_2F_EventScript_AlreadyTraded
 	release
 	end
 
@@ -46,19 +46,19 @@ Route11_EastEntrance_2F_EventScript_Aide::
 	lock
 	faceplayer
 	call Route11_EastEntrance_2F_EventScript_GetAideRequestInfo
-	goto_if_set FLAG_GOT_ITEMFINDER, Route11_EastEntrance_2F_EventScript_AlreadyGotItemfinder
+	goto_if_set FLAG_0x252, Route11_EastEntrance_2F_EventScript_AlreadyGotItemfinder
 	msgbox Route11_EastEntrance_2F_Text_GiveItemfinderIfCaught30, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, Aide_EventScript_DeclineCheckMons
+	goto_if_eq VAR_0x800D, NO, Aide_EventScript_DeclineCheckMons
 	setvar VAR_0x8004, 0
-	specialvar VAR_RESULT, GetPokedexCount
+	specialvar VAR_0x800D, GetPokedexCount
 	buffernumberstring STR_VAR_3, VAR_0x8006
 	call Route11_EastEntrance_2F_EventScript_GetAideRequestInfo
 	goto_if_lt VAR_0x8006, REQUIRED_CAUGHT_MONS, Aide_EventScript_HaventCaughtEnough
 	msgbox Route11_EastEntrance_2F_Text_GreatHereYouGo
 	checkitemspace ITEM_ITEMFINDER
-	goto_if_eq VAR_RESULT, FALSE, Aide_EventScript_NoRoomForItem
+	goto_if_eq VAR_0x800D, FALSE, Aide_EventScript_NoRoomForItem
 	giveitem_msg Route11_EastEntrance_2F_Text_ReceivedItemfinderFromAide, ITEM_ITEMFINDER
-	setflag FLAG_GOT_ITEMFINDER
+	setflag FLAG_0x252
 	msgbox Route11_EastEntrance_2F_Text_ExplainItemfinder
 	release
 	end

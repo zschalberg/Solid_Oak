@@ -4,14 +4,14 @@ VermilionCity_MapScripts::
 	.byte 0
 
 VermilionCity_OnFrame::
-	map_script_2 VAR_MAP_SCENE_VERMILION_CITY, 2, VermilionCity_EventScript_ExitSSAnne
+	map_script_2 VAR_0x407E, 2, VermilionCity_EventScript_ExitSSAnne
 	.2byte 0
 
 VermilionCity_EventScript_ExitSSAnne::
 	lockall
 	applymovement LOCALID_PLAYER, VermilionCity_Movement_ExitSSAnne
 	waitmovement 0
-	setvar VAR_MAP_SCENE_VERMILION_CITY, 3
+	setvar VAR_0x407E, 3
 	releaseall
 	end
 
@@ -22,11 +22,11 @@ VermilionCity_Movement_ExitSSAnne::
 
 VermilionCity_OnTransition::
 	setworldmapflag FLAG_WORLD_MAP_VERMILION_CITY
-	call_if_set FLAG_TALKED_TO_OAKS_AIDE_IN_VERMILION, VermilionCity_EventScript_HideOaksAide
+	call_if_set FLAG_0x2F9, VermilionCity_EventScript_HideOaksAide
 	end
 
 VermilionCity_EventScript_HideOaksAide::
-	setflag FLAG_HIDE_VERMILION_CITY_OAKS_AIDE
+	setflag FLAG_0x0A1
 	return
 
 VermilionCity_EventScript_Woman::
@@ -36,7 +36,7 @@ VermilionCity_EventScript_Woman::
 VermilionCity_EventScript_OldMan1::
 	lock
 	faceplayer
-	goto_if_eq VAR_MAP_SCENE_VERMILION_CITY, 3, VermilionCity_EventScript_OldMan1SSAnneLeft
+	goto_if_eq VAR_0x407E, 3, VermilionCity_EventScript_OldMan1SSAnneLeft
 	msgbox VermilionCity_Text_DidYouSeeSSAnneInHarbor
 	release
 	end
@@ -49,7 +49,7 @@ VermilionCity_EventScript_OldMan1SSAnneLeft::
 VermilionCity_EventScript_FerrySailor::
 	lock
 	faceplayer
-	goto_if_eq VAR_MAP_SCENE_VERMILION_CITY, 3, VermilionCity_EventScript_CheckSeagallopPresent
+	goto_if_eq VAR_0x407E, 3, VermilionCity_EventScript_CheckSeagallopPresent
 	msgbox VermilionCity_Text_WelcomeToTheSSAnne
 	release
 	end
@@ -57,22 +57,22 @@ VermilionCity_EventScript_FerrySailor::
 VermilionCity_EventScript_CheckHasMysticTicket::
 	goto_if_unset FLAG_ENABLE_SHIP_NAVEL_ROCK, EventScript_SetResultFalse
 	checkitem ITEM_MYSTIC_TICKET
-	goto_if_eq VAR_RESULT, FALSE, EventScript_SetResultFalse
+	goto_if_eq VAR_0x800D, FALSE, EventScript_SetResultFalse
 	goto EventScript_SetResultTrue
 	end
 
 VermilionCity_EventScript_CheckHasAuroraTicket::
 	goto_if_unset FLAG_ENABLE_SHIP_BIRTH_ISLAND, EventScript_SetResultFalse
 	checkitem ITEM_AURORA_TICKET
-	goto_if_eq VAR_RESULT, FALSE, EventScript_SetResultFalse
+	goto_if_eq VAR_0x800D, FALSE, EventScript_SetResultFalse
 	goto EventScript_SetResultTrue
 	end
 
 VermilionCity_EventScript_CheckSeagallopPresent::
 	setvar VAR_0x8004, SEAGALLOP_VERMILION_CITY
 	goto_if_set FLAG_BATTLE_FRONTIER_UNLOCKED, VermilionCity_EventScript_ChooseFrontierUnlocked
-	goto_if_ge VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 5, VermilionCity_EventScript_ChooseSeagallopDestRainbowPass
-	goto_if_ge VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 1, VermilionCity_EventScript_ChooseSeagallopDestTriPass
+	goto_if_ge VAR_0x4076, 5, VermilionCity_EventScript_ChooseSeagallopDestRainbowPass
+	goto_if_ge VAR_0x4076, 1, VermilionCity_EventScript_ChooseSeagallopDestTriPass
 	msgbox VermilionCity_Text_TheShipSetSail
 	release
 	end
@@ -85,12 +85,12 @@ VermilionCity_EventScript_ChooseFrontierUnlocked::
 	dynmultipush Seagallop_SeviiIslands, 0
 	dynmultipush Seagallop_BattleFrontier, 1
 	call VermilionCity_EventScript_CheckHasMysticTicket
-	call_if_eq VAR_RESULT, TRUE, VermilionCity_AddMysticTicket
+	call_if_eq VAR_0x800D, TRUE, VermilionCity_AddMysticTicket
 	call VermilionCity_EventScript_CheckHasAuroraTicket
-	call_if_eq VAR_RESULT, TRUE, VermilionCity_AddAuroraTicket
+	call_if_eq VAR_0x800D, TRUE, VermilionCity_AddAuroraTicket
 	dynmultipush Seagallop_Cancel, 4
 	dynmultistack 0, 0, FALSE, 5, FALSE, 0, NULL
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, EventScript_SeviiDestinationsPage1
 	case 1, EventScript_SailToBattleFrontier
 	case 2, EventScript_SailToNavelRock
@@ -126,9 +126,9 @@ VermilionCity_EventScript_ChooseSeagallopDestRainbowPass::
 	goto_if_questlog EventScript_ReleaseEnd
 	special QuestLog_CutRecording
 	call VermilionCity_EventScript_CheckHasMysticTicket
-	goto_if_eq VAR_RESULT, TRUE, VermilionCity_EventScript_HasMysticTicket
+	goto_if_eq VAR_0x800D, TRUE, VermilionCity_EventScript_HasMysticTicket
 	call VermilionCity_EventScript_CheckHasAuroraTicket
-	goto_if_eq VAR_RESULT, TRUE, VermilionCity_EventScript_HasAuroraTicket
+	goto_if_eq VAR_0x800D, TRUE, VermilionCity_EventScript_HasAuroraTicket
 	setvar VAR_0x8004, SEAGALLOP_VERMILION_CITY
 	message VermilionCity_Text_BoardSeagallopRainbowPass
 	waitmessage
@@ -137,12 +137,12 @@ VermilionCity_EventScript_ChooseSeagallopDestRainbowPass::
 
 VermilionCity_EventScript_HasMysticTicket::
 	call VermilionCity_EventScript_CheckHasAuroraTicket
-	goto_if_eq VAR_RESULT, TRUE, VermilionCity_EventScript_HasMysticAndAuroraTickets
-	call_if_unset FLAG_SHOWN_MYSTIC_TICKET, VermilionCity_EventScript_ShowMysticTicket
+	goto_if_eq VAR_0x800D, TRUE, VermilionCity_EventScript_HasMysticAndAuroraTickets
+	call_if_unset FLAG_0x2F0, VermilionCity_EventScript_ShowMysticTicket
 	message VermilionCity_Text_BoardSeagallopFerry
 	waitmessage
 	multichoice 17, 6, MULTI_SEVII_NAVEL, FALSE
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, EventScript_SeviiDestinationsPage1
 	case 1, EventScript_SailToNavelRock
 	case 2, EventScript_CancelSail
@@ -150,16 +150,16 @@ VermilionCity_EventScript_HasMysticTicket::
 	end
 
 VermilionCity_EventScript_ShowMysticTicket::
-	setflag FLAG_SHOWN_MYSTIC_TICKET
+	setflag FLAG_0x2F0
 	msgbox VermilionCity_Text_OhMysticTicketTakeYouToNavelRock
 	return
 
 VermilionCity_EventScript_HasAuroraTicket::
-	call_if_unset FLAG_SHOWN_AURORA_TICKET, VermilionCity_EventScript_ShowAuroraTicket
+	call_if_unset FLAG_0x2F1, VermilionCity_EventScript_ShowAuroraTicket
 	message VermilionCity_Text_BoardSeagallopFerry
 	waitmessage
 	multichoice 13, 6, MULTI_SEVII_BIRTH, FALSE
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, EventScript_SeviiDestinationsPage1
 	case 1, EventScript_SailToBirthIsland
 	case 2, EventScript_CancelSail
@@ -167,17 +167,17 @@ VermilionCity_EventScript_HasAuroraTicket::
 	end
 
 VermilionCity_EventScript_ShowAuroraTicket::
-	setflag FLAG_SHOWN_AURORA_TICKET
+	setflag FLAG_0x2F1
 	msgbox VermilionCity_Text_OhAuroraTicketTakeYouToBirthIsland
 	return
 
 VermilionCity_EventScript_HasMysticAndAuroraTickets::
-	call_if_unset FLAG_SHOWN_MYSTIC_TICKET, VermilionCity_EventScript_ShowMysticTicket
-	call_if_unset FLAG_SHOWN_AURORA_TICKET, VermilionCity_EventScript_ShowAuroraTicket
+	call_if_unset FLAG_0x2F0, VermilionCity_EventScript_ShowMysticTicket
+	call_if_unset FLAG_0x2F1, VermilionCity_EventScript_ShowAuroraTicket
 	message VermilionCity_Text_BoardSeagallopFerry
 	waitmessage
 	multichoice 13, 5, MULTI_SEVII_NAVEL_BIRTH, FALSE
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, EventScript_SeviiDestinationsPage1
 	case 1, EventScript_SailToNavelRock
 	case 2, EventScript_SailToBirthIsland
@@ -211,7 +211,7 @@ VermilionCity_EventScript_ChooseSeagallopDestTriPass::
 	waitmessage
 	setvar VAR_0x8004, SEAGALLOP_VERMILION_CITY
 	multichoice 19, 5, MULTI_SEAGALLOP_123, FALSE
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, EventScript_SailToOneIsland2
 	case 1, EventScript_SailToTwoIsland2
 	case 2, EventScript_SailToThreeIsland2
@@ -236,7 +236,7 @@ VermilionCity_EventScript_CheckTicketRight::
 
 VermilionCity_EventScript_ExitedTicketCheck::
 	lockall
-	setvar VAR_VERMILION_CITY_TICKET_CHECK_TRIGGER, 0
+	setvar VAR_0x4053, 0
 	releaseall
 	end
 
@@ -245,11 +245,11 @@ VermilionCity_EventScript_CheckTicket::
 	applymovement LOCALID_VERMILION_FERRY_SAILOR, Common_Movement_WalkInPlaceFasterLeft
 	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterRight
 	waitmovement 0
-	goto_if_eq VAR_MAP_SCENE_VERMILION_CITY, 3, VermilionCity_EventScript_CheckSeagallopPresentTrigger
+	goto_if_eq VAR_0x407E, 3, VermilionCity_EventScript_CheckSeagallopPresentTrigger
 	msgbox VermilionCity_Text_DoYouHaveATicket
-	goto_if_unset FLAG_GOT_SS_TICKET, VermilionCity_EventScript_DontHaveSSTicket
+	goto_if_unset FLAG_0x234, VermilionCity_EventScript_DontHaveSSTicket
 	msgbox VermilionCity_Text_FlashedSSTicket
-	setvar VAR_VERMILION_CITY_TICKET_CHECK_TRIGGER, 1
+	setvar VAR_0x4053, 1
 	releaseall
 	end
 
@@ -262,8 +262,8 @@ VermilionCity_EventScript_DontHaveSSTicket::
 VermilionCity_EventScript_CheckSeagallopPresentTrigger::
 	setvar VAR_0x8004, SEAGALLOP_VERMILION_CITY
 	goto_if_set FLAG_BATTLE_FRONTIER_UNLOCKED, VermilionCity_EventScript_ChooseFrontierUnlocked
-	goto_if_ge VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 5, VermilionCity_EventScript_ChooseSeagallopDestRainbowPass
-	goto_if_ge VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 1, VermilionCity_EventScript_ChooseSeagallopDestTriPass
+	goto_if_ge VAR_0x4076, 5, VermilionCity_EventScript_ChooseSeagallopDestRainbowPass
+	goto_if_ge VAR_0x4076, 1, VermilionCity_EventScript_ChooseSeagallopDestTriPass
 	msgbox VermilionCity_Text_TheShipSetSail
 	closemessage
 	goto VermilionCity_EventScript_WalkUpPier
@@ -276,7 +276,7 @@ VermilionCity_EventScript_Sailor::
 VermilionCity_EventScript_OaksAide::
 	lock
 	faceplayer
-	setflag FLAG_TALKED_TO_OAKS_AIDE_IN_VERMILION
+	setflag FLAG_0x2F9
 	msgbox VermilionCity_Text_Route2AideHasPackageForYou
 	release
 	end
@@ -334,7 +334,7 @@ VermilionCity_EventScript_TesterSailor_Menu::
 	dynmultipush VermilionCity_Text_Tester_ToggleWildScaling, 4
 	dynmultipush VermilionCity_Text_Tester_Close, 5
 	dynmultistack 0, 0, FALSE, 6, 0, 0, DYN_MULTICHOICE_CB_NONE
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, VermilionCity_EventScript_TesterSailor_ToggleDoubleFlag
 	case 1, VermilionCity_EventScript_TesterSailor_StandardBattle
 	case 2, VermilionCity_EventScript_TesterSailor_ScaledBossBattle
@@ -345,26 +345,26 @@ VermilionCity_EventScript_TesterSailor_Menu::
 	end
 
 VermilionCity_EventScript_TesterSailor_ToggleDoubleFlag::
-	checkflag FLAG_DOUBLE_BATTLE_WITH_ONE_MON
-	goto_if_set FLAG_DOUBLE_BATTLE_WITH_ONE_MON, VermilionCity_EventScript_TesterSailor_DisableDoubleFlag
-	setflag FLAG_DOUBLE_BATTLE_WITH_ONE_MON
+	checkflag FLAG_0x2E5
+	goto_if_set FLAG_0x2E5, VermilionCity_EventScript_TesterSailor_DisableDoubleFlag
+	setflag FLAG_0x2E5
 	msgbox VermilionCity_Text_TesterSailor_FlagNowEnabled, MSGBOX_DEFAULT
 	goto VermilionCity_EventScript_TesterSailor_Menu
 
 VermilionCity_EventScript_TesterSailor_DisableDoubleFlag::
-	clearflag FLAG_DOUBLE_BATTLE_WITH_ONE_MON
+	clearflag FLAG_0x2E5
 	msgbox VermilionCity_Text_TesterSailor_FlagNowDisabled, MSGBOX_DEFAULT
 	goto VermilionCity_EventScript_TesterSailor_Menu
 
 VermilionCity_EventScript_TesterSailor_ToggleWildScaling::
-	checkflag FLAG_SCALE_WILD_POKEMON
-	goto_if_set FLAG_SCALE_WILD_POKEMON, VermilionCity_EventScript_TesterSailor_DisableWildScaling
-	setflag FLAG_SCALE_WILD_POKEMON
+	checkflag FLAG_0x2EA
+	goto_if_set FLAG_0x2EA, VermilionCity_EventScript_TesterSailor_DisableWildScaling
+	setflag FLAG_0x2EA
 	msgbox VermilionCity_Text_TesterSailor_WildScalingNowEnabled, MSGBOX_DEFAULT
 	goto VermilionCity_EventScript_TesterSailor_Menu
 
 VermilionCity_EventScript_TesterSailor_DisableWildScaling::
-	clearflag FLAG_SCALE_WILD_POKEMON
+	clearflag FLAG_0x2EA
 	msgbox VermilionCity_Text_TesterSailor_WildScalingNowDisabled, MSGBOX_DEFAULT
 	goto VermilionCity_EventScript_TesterSailor_Menu
 
@@ -385,11 +385,11 @@ VermilionCity_EventScript_TesterSailor_ScaledBossBattle::
 	dynmultipush VermilionCity_Text_Tester_OffsetMinus5, -5
 	dynmultipush VermilionCity_Text_Tester_OffsetMinus10, -10
 	dynmultistack 0, 0, FALSE, 6, 1, 0, DYN_MULTICHOICE_CB_NONE
-	setvar VAR_SCALE_LEVEL_OFFSET, VAR_RESULT
+	setvar VAR_SCALE_LEVEL_OFFSET, VAR_0x800D
 	cleartrainerflag TRAINER_VERMILION_TESTER
-	setflag FLAG_SCALE_BOSS_BATTLE
+	setflag FLAG_0x2E9
 	trainerbattle_double TRAINER_VERMILION_TESTER, VermilionCity_Text_TesterSailorBattleIntro, VermilionCity_Text_TesterSailorBattleDefeat, VermilionCity_Text_TesterSailorNotEnoughMons
-	clearflag FLAG_SCALE_BOSS_BATTLE
+	clearflag FLAG_0x2E9
 	setvar VAR_SCALE_LEVEL_OFFSET, 0
 	msgbox VermilionCity_Text_TesterSailorPostBattle, MSGBOX_DEFAULT
 	release
@@ -407,7 +407,7 @@ VermilionCity_EventScript_TesterSailor_ScaledWildBoss::
 	dynmultistack 0, 0, FALSE, 6, 1, 0, DYN_MULTICHOICE_CB_NONE
 	setvar VAR_0x8004, SPECIES_TENTACRUEL
 	setvar VAR_0x8005, 20
-	setvar VAR_0x8006, VAR_RESULT
+	setvar VAR_0x8006, VAR_0x800D
 	setvar VAR_0x8007, ITEM_NONE
 	callnative Script_SetScaledWildBattle
 	dowildbattle

@@ -3,11 +3,11 @@ FourIsland_IcefallCave_Back_MapScripts::
 	.byte 0
 
 FourIsland_IcefallCave_Back_OnTransition::
-	call_if_eq VAR_MAP_SCENE_ICEFALL_CAVE_BACK, 1, FourIsland_IcefallCave_Back_EventScript_HideLorelei
+	call_if_eq VAR_0x4080, 1, FourIsland_IcefallCave_Back_EventScript_HideLorelei
 	end
 
 FourIsland_IcefallCave_Back_EventScript_HideLorelei::
-	setflag FLAG_HIDE_ICEFALL_CAVE_LORELEI
+	setflag FLAG_0x08B
 	return
 
 FourIsland_IcefallCave_Back_EventScript_LoreleiRocketsScene::
@@ -44,7 +44,7 @@ FourIsland_IcefallCave_Back_EventScript_LoreleiRocketsScene::
 	playbgm MUS_ENCOUNTER_ROCKET, 0
 	textcolor NPC_TEXT_COLOR_MALE
 	msgbox FourIsland_IcefallCave_Back_Text_GruntIntro
-	setvar VAR_LAST_TALKED, LOCALID_ICEFALL_ROCKET3
+	setvar VAR_0x800F, LOCALID_ICEFALL_ROCKET3
 	trainerbattle_no_intro TRAINER_TEAM_ROCKET_GRUNT_45, FourIsland_IcefallCave_Back_Text_GruntDefeat
 	applymovement LOCALID_ICEFALL_LORELEI, FourIsland_IcefallCave_Back_Movement_WalkInPlaceUp
 	waitmovement 0
@@ -80,9 +80,9 @@ FourIsland_IcefallCave_Back_EventScript_LoreleiRocketsScene::
 	waitmovement 0
 	textcolor NPC_TEXT_COLOR_FEMALE
 	msgbox FourIsland_IcefallCave_Back_Text_ThankYouThisIsAwful
-	setflag FLAG_HIDE_RUIN_VALLEY_SCIENTIST
-	clearflag FLAG_HIDE_LORELEI_IN_HER_HOUSE
-	setvar VAR_MAP_SCENE_ICEFALL_CAVE_BACK, 1
+	setflag FLAG_0x08E
+	clearflag FLAG_0x08C
+	setvar VAR_0x4080, 1
 	releaseall
 	end
 

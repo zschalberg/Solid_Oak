@@ -10,9 +10,9 @@ CeladonCity_Condominiums_RoofRoom_EventScript_EeveeBall::
 	faceplayer
 	setvar VAR_TEMP_1, SPECIES_EEVEE
 	givemon SPECIES_EEVEE, 25
-	goto_if_eq VAR_RESULT, 0, CeladonCity_Condominiums_RoofRoom_EventScript_GetEeveeParty
-	goto_if_eq VAR_RESULT, 1, CeladonCity_Condominiums_RoofRoom_EventScript_GetEeveePC
-	goto_if_eq VAR_RESULT, 2, EventScript_NoMoreRoomForPokemon
+	goto_if_eq VAR_0x800D, 0, CeladonCity_Condominiums_RoofRoom_EventScript_GetEeveeParty
+	goto_if_eq VAR_0x800D, 1, CeladonCity_Condominiums_RoofRoom_EventScript_GetEeveePC
+	goto_if_eq VAR_0x800D, 2, EventScript_NoMoreRoomForPokemon
 	release
 	end
 
@@ -24,7 +24,7 @@ CeladonCity_Condominiums_RoofRoom_EventScript_GetEeveeParty::
 	waitfanfare
 	bufferspeciesname STR_VAR_1, SPECIES_EEVEE
 	msgbox Text_GiveNicknameToThisMon, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, CeladonCity_Condominiums_RoofRoom_EventScript_SetGotEevee
+	goto_if_eq VAR_0x800D, NO, CeladonCity_Condominiums_RoofRoom_EventScript_SetGotEevee
 	call EventScript_GetGiftMonPartySlot
 	call EventScript_ChangePokemonNickname
 	goto CeladonCity_Condominiums_RoofRoom_EventScript_SetGotEevee
@@ -38,7 +38,7 @@ CeladonCity_Condominiums_RoofRoom_EventScript_GetEeveePC::
 	waitfanfare
 	bufferspeciesname STR_VAR_1, SPECIES_EEVEE
 	msgbox Text_GiveNicknameToThisMon, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, CeladonCity_Condominiums_RoofRoom_EventScript_TransferEeveeToPC
+	goto_if_eq VAR_0x800D, NO, CeladonCity_Condominiums_RoofRoom_EventScript_TransferEeveeToPC
 	call EventScript_NameReceivedBoxMon
 	goto CeladonCity_Condominiums_RoofRoom_EventScript_TransferEeveeToPC
 	end
@@ -49,7 +49,7 @@ CeladonCity_Condominiums_RoofRoom_EventScript_TransferEeveeToPC::
 	end
 
 CeladonCity_Condominiums_RoofRoom_EventScript_SetGotEevee::
-	setflag FLAG_GOT_EEVEE
+	setflag FLAG_0x263
 	release
 	end
 
@@ -64,7 +64,7 @@ CeladonCity_Condominiums_RoofRoom_EventScript_Blackboard::
 	waitmessage
 	setvar VAR_0x8004, 4
 	multichoice 0, 0, MULTI_LINKED_DIRECT_UNION, FALSE
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, CeladonCity_Condominiums_RoofRoom_EventScript_WirelessClub
 	case 1, CeladonCity_Condominiums_RoofRoom_EventScript_DirectCorner
 	case 2, CeladonCity_Condominiums_RoofRoom_EventScript_UnionRoom
@@ -76,7 +76,7 @@ CeladonCity_Condominiums_RoofRoom_EventScript_ReadAnotherHeading::
 	message CeladonCity_Condominiums_RoofRoom_Text_ReadWhichHeading
 	waitmessage
 	multichoice 0, 0, MULTI_LINKED_DIRECT_UNION, FALSE
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, CeladonCity_Condominiums_RoofRoom_EventScript_WirelessClub
 	case 1, CeladonCity_Condominiums_RoofRoom_EventScript_DirectCorner
 	case 2, CeladonCity_Condominiums_RoofRoom_EventScript_UnionRoom

@@ -11,8 +11,8 @@ PokemonLeague_AgathasRoom_OnResume::
 	end
 
 PokemonLeague_AgathasRoom_OnLoad::
-	call_if_set FLAG_DEFEATED_AGATHA, PokemonLeague_AgathasRoom_EventScript_SetDoorOpen
-	call_if_eq VAR_MAP_SCENE_POKEMON_LEAGUE, 3, PokemonLeague_AgathasRoom_EventScript_CloseEntry
+	call_if_set FLAG_0x4BA, PokemonLeague_AgathasRoom_EventScript_SetDoorOpen
+	call_if_eq VAR_0x4068, 3, PokemonLeague_AgathasRoom_EventScript_CloseEntry
 	end
 
 PokemonLeague_AgathasRoom_EventScript_CloseEntry::
@@ -32,13 +32,13 @@ PokemonLeague_AgathasRoom_EventScript_TurnPlayerNorth::
 	end
 
 PokemonLeague_AgathasRoom_OnFrame::
-	map_script_2 VAR_MAP_SCENE_POKEMON_LEAGUE, 2, PokemonLeague_AgathasRoom_EventScript_EnterRoom
+	map_script_2 VAR_0x4068, 2, PokemonLeague_AgathasRoom_EventScript_EnterRoom
 	.2byte 0
 
 PokemonLeague_AgathasRoom_EventScript_EnterRoom::
 	lockall
 	call PokemonLeague_EventScript_EnterRoom
-	setvar VAR_MAP_SCENE_POKEMON_LEAGUE, 3
+	setvar VAR_0x4068, 3
 	releaseall
 	end
 
@@ -46,7 +46,7 @@ PokemonLeague_AgathasRoom_EventScript_Agatha::
 	lock
 	faceplayer
 	famechecker FAMECHECKER_AGATHA, FCPICKSTATE_COLORED, UpdatePickStateFromSpecialVar8005
-	goto_if_set FLAG_DEFEATED_AGATHA, PokemonLeague_AgathasRoom_EventScript_PostBattle
+	goto_if_set FLAG_0x4BA, PokemonLeague_AgathasRoom_EventScript_PostBattle
 	famechecker FAMECHECKER_AGATHA, 0
 	famechecker FAMECHECKER_AGATHA, 4
 	famechecker FAMECHECKER_OAK, 4
@@ -82,7 +82,7 @@ PokemonLeague_AgathasRoom_EventScript_PostBattle::
 	end
 
 PokemonLeague_AgathasRoom_EventScript_DefeatedAgatha::
-	setflag FLAG_DEFEATED_AGATHA
+	setflag FLAG_0x4BA
 	call PokemonLeague_EventScript_OpenDoor
 	msgbox PokemonLeague_AgathasRoom_Text_PostBattle
 	release

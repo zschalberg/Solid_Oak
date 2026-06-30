@@ -3,13 +3,13 @@ SilphCo_6F_MapScripts::
 	.byte 0
 
 SilphCo_6F_OnLoad::
-	call_if_unset FLAG_SILPH_6F_DOOR, EventScript_Close6FDoor
+	call_if_unset FLAG_0x283, EventScript_Close6FDoor
 	end
 
 SilphCo_6F_EventScript_WorkerM2::
 	lock
 	faceplayer
-	goto_if_ge VAR_MAP_SCENE_SILPH_CO_11F, 1, SilphCo_6F_EventScript_WorkerM2RocketsGone
+	goto_if_ge VAR_0x4060, 1, SilphCo_6F_EventScript_WorkerM2RocketsGone
 	msgbox SilphCo_6F_Text_TargetedSilphForOurMonProducts
 	release
 	end
@@ -22,7 +22,7 @@ SilphCo_6F_EventScript_WorkerM2RocketsGone::
 SilphCo_6F_EventScript_WorkerM3::
 	lock
 	faceplayer
-	goto_if_ge VAR_MAP_SCENE_SILPH_CO_11F, 1, SilphCo_6F_EventScript_WorkerM3RocketsGone
+	goto_if_ge VAR_0x4060, 1, SilphCo_6F_EventScript_WorkerM3RocketsGone
 	msgbox SilphCo_6F_Text_RocketsTookOverBuilding
 	release
 	end
@@ -35,7 +35,7 @@ SilphCo_6F_EventScript_WorkerM3RocketsGone::
 SilphCo_6F_EventScript_WorkerM1::
 	lock
 	faceplayer
-	goto_if_ge VAR_MAP_SCENE_SILPH_CO_11F, 1, SilphCo_6F_EventScript_WorkerM1RocketsGone
+	goto_if_ge VAR_0x4060, 1, SilphCo_6F_EventScript_WorkerM1RocketsGone
 	msgbox SilphCo_6F_Text_HelpMePlease
 	release
 	end
@@ -48,7 +48,7 @@ SilphCo_6F_EventScript_WorkerM1RocketsGone::
 SilphCo_6F_EventScript_WorkerF1::
 	lock
 	faceplayer
-	goto_if_ge VAR_MAP_SCENE_SILPH_CO_11F, 1, SilphCo_6F_EventScript_WorkerF1RocketsGone
+	goto_if_ge VAR_0x4060, 1, SilphCo_6F_EventScript_WorkerF1RocketsGone
 	msgbox SilphCo_6F_Text_ThatManIsSuchACoward
 	release
 	end
@@ -61,7 +61,7 @@ SilphCo_6F_EventScript_WorkerF1RocketsGone::
 SilphCo_6F_EventScript_WorkerF2::
 	lock
 	faceplayer
-	goto_if_ge VAR_MAP_SCENE_SILPH_CO_11F, 1, SilphCo_6F_EventScript_WorkerF2RocketsGone
+	goto_if_ge VAR_0x4060, 1, SilphCo_6F_EventScript_WorkerF2RocketsGone
 	msgbox SilphCo_6F_Text_RocketsTryingToConquerWorld
 	release
 	end

@@ -3,8 +3,8 @@ SilphCo_2F_MapScripts::
 	.byte 0
 
 SilphCo_2F_OnLoad::
-	call_if_unset FLAG_SILPH_2F_DOOR_1, EventScript_Close2FDoor1
-	call_if_unset FLAG_SILPH_2F_DOOR_2, EventScript_Close2FDoor2
+	call_if_unset FLAG_0x27A, EventScript_Close2FDoor1
+	call_if_unset FLAG_0x27B, EventScript_Close2FDoor2
 	end
 
 SilphCo_2F_EventScript_ThunderWaveTutor::

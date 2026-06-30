@@ -4,7 +4,7 @@ CeladonCity_Gym_MapScripts::
 CeladonCity_Gym_EventScript_Erika::
 	famechecker FAMECHECKER_ERIKA, FCPICKSTATE_COLORED, UpdatePickStateFromSpecialVar8005
 	trainerbattle_single TRAINER_LEADER_ERIKA, CeladonCity_Gym_Text_ErikaIntro, CeladonCity_Gym_Text_ErikaDefeat, CeladonCity_Gym_EventScript_DefeatedErika, NO_MUSIC
-	goto_if_unset FLAG_GOT_TM19_FROM_ERIKA, CeladonCity_Gym_EventScript_GiveTM19
+	goto_if_unset FLAG_0x293, CeladonCity_Gym_EventScript_GiveTM19
 	famechecker FAMECHECKER_ERIKA, 4
 	msgbox CeladonCity_Gym_Text_ErikaPostBattle
 	release
@@ -12,8 +12,8 @@ CeladonCity_Gym_EventScript_Erika::
 
 CeladonCity_Gym_EventScript_DefeatedErika::
 	famechecker FAMECHECKER_ERIKA, 1
-	clearflag FLAG_HIDE_FAME_CHECKER_ERIKA_JOURNALS
-	setflag FLAG_DEFEATED_ERIKA
+	clearflag FLAG_0x09E
+	setflag FLAG_0x4B3
 	setflag FLAG_BADGE04_GET
 	set_gym_trainers 4
 	goto CeladonCity_Gym_EventScript_GiveTM19
@@ -22,9 +22,9 @@ CeladonCity_Gym_EventScript_DefeatedErika::
 CeladonCity_Gym_EventScript_GiveTM19::
 	msgbox CeladonCity_Gym_Text_ExplainRainbowBadgeTakeThis
 	checkitemspace ITEM_TM19
-	goto_if_eq VAR_RESULT, FALSE, CeladonCity_Gym_EventScript_NoRoomForTM19
+	goto_if_eq VAR_0x800D, FALSE, CeladonCity_Gym_EventScript_NoRoomForTM19
 	giveitem_msg CeladonCity_Gym_Text_ReceivedTM19FromErika, ITEM_TM19
-	setflag FLAG_GOT_TM19_FROM_ERIKA
+	setflag FLAG_0x293
 	msgbox CeladonCity_Gym_Text_ExplainTM19
 	release
 	end

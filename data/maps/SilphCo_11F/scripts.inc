@@ -3,21 +3,21 @@ SilphCo_11F_MapScripts::
 	.byte 0
 
 SilphCo_11F_OnLoad::
-	call_if_unset FLAG_SILPH_11F_DOOR, EventScript_Close11FDoor
+	call_if_unset FLAG_0x28D, EventScript_Close11FDoor
 	end
 
 SilphCo_11F_EventScript_President::
 	lock
 	faceplayer
-	goto_if_set FLAG_GOT_MASTER_BALL_FROM_SILPH, SilphCo_11F_EventScript_AlreadyGotMasterBall
+	goto_if_set FLAG_0x250, SilphCo_11F_EventScript_AlreadyGotMasterBall
 	checkplayergender
-	call_if_eq VAR_RESULT, MALE, SilphCo_11F_EventScript_PresidentThanksMale
-	call_if_eq VAR_RESULT, FEMALE, SilphCo_11F_EventScript_PresidentThanksFemale
+	call_if_eq VAR_0x800D, MALE, SilphCo_11F_EventScript_PresidentThanksMale
+	call_if_eq VAR_0x800D, FEMALE, SilphCo_11F_EventScript_PresidentThanksFemale
 	checkitemspace ITEM_POKE_BALL
-	goto_if_eq VAR_RESULT, FALSE, SilphCo_11F_EventScript_NoRoomForPokeBall
+	goto_if_eq VAR_0x800D, FALSE, SilphCo_11F_EventScript_NoRoomForPokeBall
 	giveitem_msg SilphCo_11F_Text_ObtainedPokeBallFromPresident, ITEM_POKE_BALL, 1, MUS_OBTAIN_KEY_ITEM
 	msgbox SilphCo_11F_Text_ThatsOurSecretPrototype
-	setflag FLAG_GOT_MASTER_BALL_FROM_SILPH
+	setflag FLAG_0x250
 	release
 	end
 
@@ -64,7 +64,7 @@ SilphCo_11F_EventScript_BattleGiovanni::
 	closemessage
 	call_if_eq VAR_TEMP_1, 0, SilphCo_11F_EventScript_GiovanniApproachLeft
 	call_if_eq VAR_TEMP_1, 1, SilphCo_11F_EventScript_GiovanniApproachRight
-	setvar VAR_LAST_TALKED, LOCALID_SILPH_CO_GIOVANNI
+	setvar VAR_0x800F, LOCALID_SILPH_CO_GIOVANNI
 	trainerbattle_no_intro TRAINER_BOSS_GIOVANNI_2, SilphCo_11F_Text_GiovanniDefeat
 	msgbox SilphCo_11F_Text_GiovanniPostBattle
 	closemessage
@@ -73,9 +73,9 @@ SilphCo_11F_EventScript_BattleGiovanni::
 	removeobject LOCALID_SILPH_CO_11F_GRUNT1
 	removeobject LOCALID_SILPH_CO_11F_GRUNT2
 	fadescreen FADE_FROM_BLACK
-	setvar VAR_MAP_SCENE_SILPH_CO_11F, 1
-	setflag FLAG_HIDE_SAFFRON_ROCKETS
-	clearflag FLAG_HIDE_SAFFRON_CIVILIANS
+	setvar VAR_0x4060, 1
+	setflag FLAG_0x03E
+	clearflag FLAG_0x03F
 	releaseall
 	end
 

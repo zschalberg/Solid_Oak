@@ -12,12 +12,12 @@ BattleFrontier_OutsideWest_EventScript_FerryAttendant::
 	faceplayer
 	msgbox BattleFrontier_OutsideWest_Text_MayISeeYourTicket, MSGBOX_DEFAULT
 	checkitem ITEM_SS_TICKET
-	goto_if_eq VAR_RESULT, FALSE, BattleFrontier_OutsideWest_EventScript_NoSSTicket
+	goto_if_eq VAR_0x800D, FALSE, BattleFrontier_OutsideWest_EventScript_NoSSTicket
 	message BattleFrontier_OutsideWest_Text_WhereWouldYouLikeToGo
 	waitmessage
 	setvar VAR_0x8004, SEAGALLOP_NAVEL_ROCK
 	multichoice 20, 8, MULTI_SEAGALLOP_VERMILION, FALSE
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, EventScript_SailToVermilionCity
 	case 1, EventScript_CancelSail
 	case MULTI_B_PRESSED, EventScript_CancelSail
@@ -98,10 +98,10 @@ BattleFrontier_OutsideWest_EventScript_Camper::
 	lock
 	faceplayer
 	delay 20
-	call_if_eq VAR_FACING, DIR_NORTH, BattleFrontier_OutsideWest_EventScript_CamperFaceFactory
-	call_if_eq VAR_FACING, DIR_SOUTH, BattleFrontier_OutsideWest_EventScript_CamperAlreadyFacingFactory
-	call_if_eq VAR_FACING, DIR_WEST, BattleFrontier_OutsideWest_EventScript_CamperFaceFactory
-	call_if_eq VAR_FACING, DIR_EAST, BattleFrontier_OutsideWest_EventScript_CamperFaceFactory
+	call_if_eq VAR_0x800C, DIR_NORTH, BattleFrontier_OutsideWest_EventScript_CamperFaceFactory
+	call_if_eq VAR_0x800C, DIR_SOUTH, BattleFrontier_OutsideWest_EventScript_CamperAlreadyFacingFactory
+	call_if_eq VAR_0x800C, DIR_WEST, BattleFrontier_OutsideWest_EventScript_CamperFaceFactory
+	call_if_eq VAR_0x800C, DIR_EAST, BattleFrontier_OutsideWest_EventScript_CamperFaceFactory
 	msgbox BattleFrontier_OutsideWest_Text_WhosRaisingThoseRentalMons, MSGBOX_DEFAULT
 	release
 	end
@@ -119,10 +119,10 @@ BattleFrontier_OutsideWest_EventScript_Girl::
 	faceplayer
 	message BattleFrontier_OutsideWest_Text_ScaredOfPikeBecauseSeviper
 	waitmessage
-	call_if_eq VAR_FACING, DIR_NORTH, BattleFrontier_OutsideWest_EventScript_GirlShudderNorth
-	call_if_eq VAR_FACING, DIR_SOUTH, BattleFrontier_OutsideWest_EventScript_GirlShudderSouth
-	call_if_eq VAR_FACING, DIR_WEST, BattleFrontier_OutsideWest_EventScript_GirlShudderWest
-	call_if_eq VAR_FACING, DIR_EAST, BattleFrontier_OutsideWest_EventScript_GirlShudderEast
+	call_if_eq VAR_0x800C, DIR_NORTH, BattleFrontier_OutsideWest_EventScript_GirlShudderNorth
+	call_if_eq VAR_0x800C, DIR_SOUTH, BattleFrontier_OutsideWest_EventScript_GirlShudderSouth
+	call_if_eq VAR_0x800C, DIR_WEST, BattleFrontier_OutsideWest_EventScript_GirlShudderWest
+	call_if_eq VAR_0x800C, DIR_EAST, BattleFrontier_OutsideWest_EventScript_GirlShudderEast
 	waitbuttonpress
 	release
 	end
@@ -172,7 +172,7 @@ BattleFrontier_OutsideWest_EventScript_Woman2::
 	faceplayer
 	msgbox BattleFrontier_OutsideWest_Text_LetsPlayRockPaperScissors, MSGBOX_DEFAULT
 	random 2
-	goto_if_eq VAR_RESULT, 1, BattleFrontier_OutsideWest_EventScript_WomanWonRockPaperScissors
+	goto_if_eq VAR_0x800D, 1, BattleFrontier_OutsideWest_EventScript_WomanWonRockPaperScissors
 	goto BattleFrontier_OutsideWest_EventScript_WomanLostRockPaperScissors
 	end
 
@@ -258,8 +258,8 @@ BattleFrontier_OutsideWest_EventScript_Man3::
 	end
 
 Common_EventScript_FerryDepartIsland::
-	call_if_eq VAR_FACING, DIR_SOUTH, Ferry_EventScript_DepartIslandSouth
-	call_if_eq VAR_FACING, DIR_WEST, Ferry_EventScript_DepartIslandWest
+	call_if_eq VAR_0x800C, DIR_SOUTH, Ferry_EventScript_DepartIslandSouth
+	call_if_eq VAR_0x800C, DIR_WEST, Ferry_EventScript_DepartIslandWest
 	delay 30
 	hideplayer
 	call Common_EventScript_FerryDepart

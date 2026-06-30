@@ -22,9 +22,9 @@ SevenIsland_House_Room2_EventScript_BattleVisitingTrainer::
 	setvar VAR_0x8005, 0
 	special DoSpecialTrainerBattle
 	waitstate
-	call_if_eq VAR_RESULT, 3, SevenIsland_House_Room2_EventScript_BattleTie
-	call_if_eq VAR_RESULT, 1, SevenIsland_House_Room2_EventScript_BattleWon
-	call_if_eq VAR_RESULT, 2, SevenIsland_House_Room2_EventScript_BattleLost
+	call_if_eq VAR_0x800D, 3, SevenIsland_House_Room2_EventScript_BattleTie
+	call_if_eq VAR_0x800D, 1, SevenIsland_House_Room2_EventScript_BattleWon
+	call_if_eq VAR_0x800D, 2, SevenIsland_House_Room2_EventScript_BattleLost
 	closemessage
 	special HealPlayerParty
 	applymovement LOCALID_PLAYER, SevenIsland_House_Room2_Movement_PlayerExitRoom
@@ -37,19 +37,19 @@ SevenIsland_House_Room2_EventScript_BattleVisitingTrainer::
 	end
 
 SevenIsland_House_Room2_EventScript_BattleTie::
-	setvar VAR_MAP_SCENE_SEVEN_ISLAND_HOUSE_ROOM1, 3
+	setvar VAR_0x4074, 3
 	msgbox SevenIsland_House_Room2_Text_MatchEndedUpDraw
 	return
 
 SevenIsland_House_Room2_EventScript_BattleWon::
-	setvar VAR_MAP_SCENE_SEVEN_ISLAND_HOUSE_ROOM1, 1
+	setvar VAR_0x4074, 1
 	special ShowFieldMessageStringVar4
 	waitmessage
 	waitbuttonpress
 	return
 
 SevenIsland_House_Room2_EventScript_BattleLost::
-	setvar VAR_MAP_SCENE_SEVEN_ISLAND_HOUSE_ROOM1, 2
+	setvar VAR_0x4074, 2
 	special ShowFieldMessageStringVar4
 	waitmessage
 	waitbuttonpress

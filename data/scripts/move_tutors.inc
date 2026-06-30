@@ -1,7 +1,7 @@
 VictoryRoad_2F_EventScript_DoubleEdgeTutor::
 	lock
 	faceplayer
-	move_tutor MOVE_DOUBLE_EDGE, Text_DoubleEdgeTeach, Text_DoubleEdgeWhichMon, EventScript_DoubleEdgeDeclined, EventScript_DoubleEdgeTaught, FLAG_TUTOR_DOUBLE_EDGE
+	move_tutor MOVE_DOUBLE_EDGE, Text_DoubleEdgeTeach, Text_DoubleEdgeWhichMon, EventScript_DoubleEdgeDeclined, EventScript_DoubleEdgeTaught, FLAG_0x2C0
 	end
 
 EventScript_DoubleEdgeDeclined::
@@ -17,7 +17,7 @@ EventScript_DoubleEdgeTaught::
 EventScript_ThunderWaveTutor::
 	lock
 	faceplayer
-	move_tutor MOVE_THUNDER_WAVE, Text_ThunderWaveTeach, Text_ThunderWaveWhichMon, EventScript_ThunderWaveDeclined, EventScript_ThunderWaveTaught, FLAG_TUTOR_THUNDER_WAVE
+	move_tutor MOVE_THUNDER_WAVE, Text_ThunderWaveTeach, Text_ThunderWaveWhichMon, EventScript_ThunderWaveDeclined, EventScript_ThunderWaveTaught, FLAG_0x2C1
 	end
 
 EventScript_ThunderWaveDeclined::
@@ -33,7 +33,7 @@ EventScript_ThunderWaveTaught::
 RockTunnel_B1F_EventScript_RockSlideTutor::
 	lock
 	faceplayer
-	move_tutor MOVE_ROCK_SLIDE, Text_RockSlideTeach, Text_RockSlideWhichMon, EventScript_RockSlideDeclined, EventScript_RockSlideTaught, FLAG_TUTOR_ROCK_SLIDE
+	move_tutor MOVE_ROCK_SLIDE, Text_RockSlideTeach, Text_RockSlideWhichMon, EventScript_RockSlideDeclined, EventScript_RockSlideTaught, FLAG_0x2C2
 	end
 
 EventScript_RockSlideDeclined::
@@ -49,7 +49,7 @@ EventScript_RockSlideTaught::
 MtEmber_Exterior_EventScript_ExplosionTutor::
 	lock
 	faceplayer
-	move_tutor MOVE_EXPLOSION, Text_ExplosionTeach, Text_ExplosionWhichMon, EventScript_ExplosionDeclined, EventScript_ExplosionTaught, FLAG_TUTOR_EXPLOSION
+	move_tutor MOVE_EXPLOSION, Text_ExplosionTeach, Text_ExplosionWhichMon, EventScript_ExplosionDeclined, EventScript_ExplosionTaught, FLAG_0x2C3
 	goto EventScript_ExplosionTaught
 	end
 
@@ -66,7 +66,7 @@ EventScript_ExplosionTaught::
 Route4_EventScript_MegaPunchTutor::
 	lock
 	faceplayer
-	move_tutor MOVE_MEGA_PUNCH, Text_MegaPunchTeach, Text_MegaPunchWhichMon, EventScript_MegaPunchDeclined, EventScript_MegaPunchTaught, FLAG_TUTOR_MEGA_PUNCH
+	move_tutor MOVE_MEGA_PUNCH, Text_MegaPunchTeach, Text_MegaPunchWhichMon, EventScript_MegaPunchDeclined, EventScript_MegaPunchTaught, FLAG_0x2C4
 	end
 
 EventScript_MegaPunchDeclined::
@@ -82,7 +82,7 @@ EventScript_MegaPunchTaught::
 Route4_EventScript_MegaKickTutor::
 	lock
 	faceplayer
-	move_tutor MOVE_MEGA_KICK, Text_MegaKickTeach, Text_MegaKickWhichMon, EventScript_MegaKickDeclined, EventScript_MegaKickTaught, FLAG_TUTOR_MEGA_KICK
+	move_tutor MOVE_MEGA_KICK, Text_MegaKickTeach, Text_MegaKickWhichMon, EventScript_MegaKickDeclined, EventScript_MegaKickTaught, FLAG_0x2C5
 	end
 
 EventScript_MegaKickDeclined::
@@ -98,7 +98,7 @@ EventScript_MegaKickTaught::
 EventScript_DreamEaterTutor::
 	lock
 	faceplayer
-	move_tutor MOVE_DREAM_EATER, Text_DreamEaterTeach, Text_DreamEaterWhichMon, EventScript_DreamEaterDeclined, EventScript_DreamEaterTaught, FLAG_TUTOR_DREAM_EATER
+	move_tutor MOVE_DREAM_EATER, Text_DreamEaterTeach, Text_DreamEaterWhichMon, EventScript_DreamEaterDeclined, EventScript_DreamEaterTaught, FLAG_0x2C6
 	end
 
 EventScript_DreamEaterDeclined::
@@ -114,7 +114,7 @@ EventScript_DreamEaterTaught::
 EventScript_SoftboiledTutor::
 	lock
 	faceplayer
-	move_tutor MOVE_SOFT_BOILED, Text_SoftboiledTeach, Text_SoftboiledWhichMon, EventScript_SoftboiledDeclined, EventScript_SoftboiledTaught, FLAG_TUTOR_SOFT_BOILED
+	move_tutor MOVE_SOFT_BOILED, Text_SoftboiledTeach, Text_SoftboiledWhichMon, EventScript_SoftboiledDeclined, EventScript_SoftboiledTaught, FLAG_0x2C7
 	end
 
 EventScript_SoftboiledDeclined::
@@ -130,7 +130,7 @@ EventScript_SoftboiledTaught::
 FuchsiaCity_EventScript_SubstituteTutor::
 	lock
 	faceplayer
-	move_tutor MOVE_SUBSTITUTE, Text_SubstituteTeach, Text_SubstituteWhichMon, EventScript_SubstituteDeclined, EventScript_SubstituteTaught, FLAG_TUTOR_SUBSTITUTE
+	move_tutor MOVE_SUBSTITUTE, Text_SubstituteTeach, Text_SubstituteWhichMon, EventScript_SubstituteDeclined, EventScript_SubstituteTaught, FLAG_0x2C8
 	end
 
 EventScript_SubstituteDeclined::
@@ -146,7 +146,7 @@ EventScript_SubstituteTaught::
 SevenIsland_EventScript_SwordsDanceTutor::
 	lock
 	faceplayer
-	move_tutor MOVE_SWORDS_DANCE, Text_SwordsDanceTeach, Text_SwordsDanceWhichMon, EventScript_SwordsDanceDeclined, EventScript_SwordsDanceTaught, FLAG_TUTOR_SWORDS_DANCE
+	move_tutor MOVE_SWORDS_DANCE, Text_SwordsDanceTeach, Text_SwordsDanceWhichMon, EventScript_SwordsDanceDeclined, EventScript_SwordsDanceTaught, FLAG_0x2C9
 	end
 
 EventScript_SwordsDanceDeclined::
@@ -162,7 +162,7 @@ EventScript_SwordsDanceTaught::
 PewterCity_Museum_1F_EventScript_SeismicTossTutor::
 	lock
 	faceplayer
-	move_tutor MOVE_SEISMIC_TOSS, Text_SeismicTossTeach, Text_SeismicTossWhichMon, EventScript_SeismicTossDeclined, EventScript_SeismicTossTaught, FLAG_TUTOR_SEISMIC_TOSS
+	move_tutor MOVE_SEISMIC_TOSS, Text_SeismicTossTeach, Text_SeismicTossWhichMon, EventScript_SeismicTossDeclined, EventScript_SeismicTossTaught, FLAG_0x2CA
 	end
 
 EventScript_SeismicTossDeclined::
@@ -178,7 +178,7 @@ EventScript_SeismicTossTaught::
 EventScript_CounterTutor::
 	lock
 	faceplayer
-	move_tutor MOVE_COUNTER, Text_CounterTeach, Text_CounterWhichMon, EventScript_CounterDeclined, EventScript_CounterTaught, FLAG_TUTOR_COUNTER
+	move_tutor MOVE_COUNTER, Text_CounterTeach, Text_CounterWhichMon, EventScript_CounterDeclined, EventScript_CounterTaught, FLAG_0x2CB
 	end
 
 EventScript_CounterDeclined::
@@ -194,7 +194,7 @@ EventScript_CounterTaught::
 EventScript_MetronomeTutor::
 	lock
 	faceplayer
-	move_tutor MOVE_METRONOME, Text_MetronomeTeach, Text_MetronomeWhichMon, EventScript_MetronomeDeclined, EventScript_MetronomeTaught, FLAG_TUTOR_METRONOME
+	move_tutor MOVE_METRONOME, Text_MetronomeTeach, Text_MetronomeWhichMon, EventScript_MetronomeDeclined, EventScript_MetronomeTaught, FLAG_0x2CC
 	end
 
 EventScript_MetronomeDeclined::
@@ -209,21 +209,21 @@ EventScript_MetronomeTaught::
 
 EventScript_MimicTutor::
 .if I_REUSABLE_TMS == FALSE
-	goto_if_set FLAG_TUTOR_MIMIC, EventScript_MimicTaught
+	goto_if_set FLAG_0x2CD, EventScript_MimicTaught
 .endif
 	msgbox Text_MimicTeach, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, EventScript_MimicDeclined
+	goto_if_eq VAR_0x800D, NO, EventScript_MimicDeclined
 	call MoveTutor_EventScript_CanOnlyBeLearnedOnce
-	goto_if_eq VAR_RESULT, NO, EventScript_MimicDeclined
+	goto_if_eq VAR_0x800D, NO, EventScript_MimicDeclined
 	msgbox Text_MimicWhichMon
 	setvar VAR_0x8005, MOVE_MIMIC
 	call EventScript_ChooseMoveTutorMon
 	lock
 	faceplayer
-	goto_if_eq VAR_RESULT, 0, EventScript_MimicDeclined
+	goto_if_eq VAR_0x800D, 0, EventScript_MimicDeclined
 	removeitem ITEM_POKE_DOLL
 .if I_REUSABLE_TMS == FALSE
-	setflag FLAG_TUTOR_MIMIC
+	setflag FLAG_0x2CD
 .endif
 	goto EventScript_MimicTaught
 	end
@@ -235,8 +235,8 @@ EventScript_MimicDeclined::
 
 EventScript_MimicTaught::
 	checkplayergender
-	call_if_eq VAR_RESULT, MALE, EventScript_MimicTaughtMale
-	call_if_eq VAR_RESULT, FEMALE, EventScript_MimicTaughtFemale
+	call_if_eq VAR_0x800D, MALE, EventScript_MimicTaughtMale
+	call_if_eq VAR_0x800D, FEMALE, EventScript_MimicTaughtFemale
 	release
 	end
 
@@ -251,7 +251,7 @@ EventScript_MimicTaughtFemale::
 FourIsland_House1_EventScript_BodySlamTutor::
 	lock
 	faceplayer
-	move_tutor MOVE_BODY_SLAM, Text_BodySlamTeach, Text_BodySlamWhichMon, EventScript_BodySlamDeclined, EventScript_BodySlamTaught, FLAG_TUTOR_BODY_SLAM
+	move_tutor MOVE_BODY_SLAM, Text_BodySlamTeach, Text_BodySlamWhichMon, EventScript_BodySlamDeclined, EventScript_BodySlamTaught, FLAG_0x2CE
 	end
 
 EventScript_BodySlamDeclined::
@@ -269,21 +269,21 @@ TwoIsland_CapeBrink_House_EventScript_StarterTutor::
 	special QuestLog_CutRecording
 	lock
 	faceplayer
-	goto_if_set FLAG_LEARNED_ALL_MOVES_AT_CAPE_BRINK, CapeBrinkTutor_EventScript_TaughtAllMoves
+	goto_if_set FLAG_0x2E1, CapeBrinkTutor_EventScript_TaughtAllMoves
 	goto_if_set FLAG_TEMP_2, CapeBrinkTutor_EventScript_MoveJustTaught
 	bufferleadmonspeciesname STR_VAR_1
 	msgbox Text_UltimateMoveThatMon
-	specialvar VAR_RESULT, CapeBrinkGetMoveToTeachLeadPokemon
-	goto_if_eq VAR_RESULT, FALSE, CapeBrinkTutor_EventScript_NoLeadStarter
+	specialvar VAR_0x800D, CapeBrinkGetMoveToTeachLeadPokemon
+	goto_if_eq VAR_0x800D, FALSE, CapeBrinkTutor_EventScript_NoLeadStarter
 	copyvar VAR_0x8009, VAR_0x8005
-	call_if_eq VAR_FACING, DIR_NORTH, CapeBrinkTutor_EventScript_JumpInPlaceDown
-	call_if_eq VAR_FACING, DIR_SOUTH, CapeBrinkTutor_EventScript_JumpInPlaceUp
-	call_if_eq VAR_FACING, DIR_EAST, CapeBrinkTutor_EventScript_JumpInPlaceLeft
-	call_if_eq VAR_FACING, DIR_WEST, CapeBrinkTutor_EventScript_JumpInPlaceRight
+	call_if_eq VAR_0x800C, DIR_NORTH, CapeBrinkTutor_EventScript_JumpInPlaceDown
+	call_if_eq VAR_0x800C, DIR_SOUTH, CapeBrinkTutor_EventScript_JumpInPlaceUp
+	call_if_eq VAR_0x800C, DIR_EAST, CapeBrinkTutor_EventScript_JumpInPlaceLeft
+	call_if_eq VAR_0x800C, DIR_WEST, CapeBrinkTutor_EventScript_JumpInPlaceRight
 	msgbox Text_AllowMeToTeachMonUltimateMove, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, CapeBrinkTutor_EventScript_DeclineMove
+	goto_if_eq VAR_0x800D, NO, CapeBrinkTutor_EventScript_DeclineMove
 	call MoveTutor_EventScript_CanOnlyBeLearnedOnce
-	goto_if_eq VAR_RESULT, NO, CapeBrinkTutor_EventScript_DeclineMove
+	goto_if_eq VAR_0x800D, NO, CapeBrinkTutor_EventScript_DeclineMove
 	msgbox Text_LetMeConferUltimateMove
 	closemessage
 	fadescreen FADE_TO_BLACK
@@ -301,8 +301,8 @@ CapeBrinkTutor_EventScript_TaughtAllMoves::
 
 CapeBrinkTutor_EventScript_TaughtMove::
 	copyvar VAR_0x8005, VAR_0x8009
-	specialvar VAR_RESULT, HasLearnedAllMovesFromCapeBrinkTutor
-	goto_if_eq VAR_RESULT, TRUE, CapeBrinkTutor_EventScript_LearnedAllMoves
+	specialvar VAR_0x800D, HasLearnedAllMovesFromCapeBrinkTutor
+	goto_if_eq VAR_0x800D, TRUE, CapeBrinkTutor_EventScript_LearnedAllMoves
 	msgbox Text_TaughtMove
 	setflag FLAG_TEMP_2
 	release
@@ -310,13 +310,13 @@ CapeBrinkTutor_EventScript_TaughtMove::
 
 CapeBrinkTutor_EventScript_LearnedAllMoves::
 	msgbox Text_PassedOnEverythingIKnow
-	setflag FLAG_LEARNED_ALL_MOVES_AT_CAPE_BRINK
+	setflag FLAG_0x2E1
 	release
 	end
 
 CapeBrinkTutor_EventScript_ChooseMon::
 	call EventScript_ChooseMoveTutorMon
-	goto_if_eq VAR_RESULT, FALSE, CapeBrinkTutor_EventScript_DeclineMove
+	goto_if_eq VAR_0x800D, FALSE, CapeBrinkTutor_EventScript_DeclineMove
 	goto CapeBrinkTutor_EventScript_TaughtMove
 	end
 

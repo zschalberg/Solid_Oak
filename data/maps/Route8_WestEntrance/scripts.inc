@@ -27,7 +27,7 @@ Route8_WestEntrance_EventScript_GuardTrigger::
 	textcolor NPC_TEXT_COLOR_MALE
 	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterUp
 	waitmovement 0
-	goto_if_set FLAG_GOT_TEA, Route8_WestEntrance_EventScript_GiveTea
+	goto_if_set FLAG_0x2A6, Route8_WestEntrance_EventScript_GiveTea
 	msgbox Route8_WestEntrance_Text_ThirstyOnGuardDuty
 	closemessage
 	applymovement LOCALID_PLAYER, Route8_WestEntrance_Movement_BlockPlayerEntry
@@ -59,7 +59,7 @@ Route8_WestEntrance_EventScript_GuardDrinkTea::
 	call_if_eq VAR_TEMP_1, 1, Route8_WestEntrance_EventScript_WalkToGuardMid
 	call_if_eq VAR_TEMP_1, 2, Route8_WestEntrance_EventScript_WalkToGuardBottom
 	msgbox Route8_WestEntrance_Text_ThanksIllShareTeaWithGuards
-	setvar VAR_MAP_SCENE_ROUTE5_ROUTE6_ROUTE7_ROUTE8_GATES, 1
+	setvar VAR_0x4062, 1
 	releaseall
 	end
 

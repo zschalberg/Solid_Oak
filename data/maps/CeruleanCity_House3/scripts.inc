@@ -8,7 +8,7 @@ CeruleanCity_House3_EventScript_OldWoman::
 CeruleanCity_House3_EventScript_Dontae::
 	lock
 	faceplayer
-	ingame_trade INGAME_TRADE_JYNX, Trade_Text_DoYouHaveMonWouldYouTradeForMon, CeruleanCity_House3_EventScript_DeclineTrade, CeruleanCity_House3_EventScript_NotRequestedMon, Trade_Text_Thanks, FLAG_DID_ZYNX_TRADE, CeruleanCity_House3_EventScript_AlreadyTraded
+	ingame_trade INGAME_TRADE_JYNX, Trade_Text_DoYouHaveMonWouldYouTradeForMon, CeruleanCity_House3_EventScript_DeclineTrade, CeruleanCity_House3_EventScript_NotRequestedMon, Trade_Text_Thanks, FLAG_0x24A, CeruleanCity_House3_EventScript_AlreadyTraded
 	release
 	end
 

@@ -4,9 +4,9 @@ VermilionCity_House1_MapScripts::
 VermilionCity_House1_EventScript_FishingGuru::
 	lock
 	faceplayer
-	goto_if_set FLAG_GOT_OLD_ROD, VermilionCity_House1_EventScript_AlreadyGotOldRod
+	goto_if_set FLAG_0x240, VermilionCity_House1_EventScript_AlreadyGotOldRod
 	msgbox VermilionCity_House1_Text_ImFishingGuruDoYouLikeToFish, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, YES, VermilionCity_House1_EventScript_GiveOldRod
+	goto_if_eq VAR_0x800D, YES, VermilionCity_House1_EventScript_GiveOldRod
 	msgbox VermilionCity_House1_Text_OhThatsSoDisappointing
 	release
 	end
@@ -18,11 +18,11 @@ VermilionCity_House1_EventScript_AlreadyGotOldRod::
 
 VermilionCity_House1_EventScript_GiveOldRod::
 	checkitemspace ITEM_OLD_ROD
-	goto_if_eq VAR_RESULT, FALSE, VermilionCity_House1_EventScript_NoRoomForOldRod
+	goto_if_eq VAR_0x800D, FALSE, VermilionCity_House1_EventScript_NoRoomForOldRod
 	additem ITEM_OLD_ROD
 	msgbox VermilionCity_House1_Text_TakeThisAndFish
 	msgreceiveditem VermilionCity_House1_Text_ReceivedOldRodFromFishingGuru, ITEM_OLD_ROD
-	setflag FLAG_GOT_OLD_ROD
+	setflag FLAG_0x240
 	msgbox VermilionCity_House1_Text_FishingIsAWayOfLife
 	release
 	end

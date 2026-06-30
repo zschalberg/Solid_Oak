@@ -3,7 +3,7 @@ SixIsland_RuinValley_MapScripts::
 	.byte 0
 
 SixIsland_RuinValley_OnLoad::
-	call_if_set FLAG_USED_CUT_ON_RUIN_VALLEY_BRAILLE, SixIsland_RuinValley_EventScript_OpenDottedHoleDoor
+	call_if_set FLAG_0x2E3, SixIsland_RuinValley_EventScript_OpenDottedHoleDoor
 	end
 
 SixIsland_RuinValley_EventScript_OpenDottedHoleDoor::
@@ -23,9 +23,9 @@ SixIsland_RuinValley_EventScript_Scientist::
 
 SixIsland_RuinValley_EventScript_DottedHoleDoor::
 	lockall
-	goto_if_set FLAG_USED_CUT_ON_RUIN_VALLEY_BRAILLE, SixIsland_RuinValley_EventScript_DottedHoleDoorOpen
+	goto_if_set FLAG_0x2E3, SixIsland_RuinValley_EventScript_DottedHoleDoorOpen
 	msgbox SixIsland_RuinValley_Text_CheckDoorMoreThoroughly, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, SixIsland_RuinValley_EventScript_IgnoreDottedHoleDoor
+	goto_if_eq VAR_0x800D, NO, SixIsland_RuinValley_EventScript_IgnoreDottedHoleDoor
 	msgbox SixIsland_RuinValley_Text_SeveralDotsOnTheDoor
 	braillemessage Braille_Text_Cut
 	waitbuttonpress

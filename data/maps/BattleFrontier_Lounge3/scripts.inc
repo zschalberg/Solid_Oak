@@ -8,10 +8,10 @@ BattleFrontier_Lounge3_MapScripts::
 BattleFrontier_Lounge3_EventScript_Gambler::
 	lock
 	faceplayer
-	goto_if_set FLAG_MET_BATTLE_FRONTIER_GAMBLER, BattleFrontier_Lounge3_EventScript_AlreadyMetGambler
+	goto_if_set FLAG_0x302, BattleFrontier_Lounge3_EventScript_AlreadyMetGambler
 	call BattleFrontier_Lounge3_EventScript_CountSilverSymbols
 	goto_if_le VAR_0x8004, 2, BattleFrontier_Lounge3_EventScript_NotEnoughSilverSymbols
-	setflag FLAG_MET_BATTLE_FRONTIER_GAMBLER
+	setflag FLAG_0x302
 	msgbox BattleFrontier_Lounge3_Text_YouLookToughExplainGambling, MSGBOX_DEFAULT
 	goto BattleFrontier_Lounge3_EventScript_AskToEnterChallenge
 	end
@@ -21,9 +21,9 @@ BattleFrontier_Lounge3_EventScript_AskToEnterChallenge::
 	waitmessage
 	waitbuttonpress
 	msgbox BattleFrontier_Lounge3_Text_HowAboutEnteringEventForMe, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, BattleFrontier_Lounge3_EventScript_DeclineChallenge
+	goto_if_eq VAR_0x800D, NO, BattleFrontier_Lounge3_EventScript_DeclineChallenge
 	msgbox BattleFrontier_Lounge3_Text_SpotMeSomeBattlePoints, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, BattleFrontier_Lounge3_EventScript_DeclineChallenge
+	goto_if_eq VAR_0x800D, NO, BattleFrontier_Lounge3_EventScript_DeclineChallenge
 	message BattleFrontier_Lounge3_Text_HowMuchCanYouSpot
 	waitmessage
 	special ShowBattlePointsWindow
@@ -32,8 +32,8 @@ BattleFrontier_Lounge3_EventScript_AskToEnterChallenge::
 
 BattleFrontier_Lounge3_EventScript_ChooseBetAmount::
 	multichoice 20, 4, MULTI_FRONTIER_GAMBLER_BET, FALSE
-	copyvar VAR_FRONTIER_GAMBLER_AMOUNT_BET, VAR_RESULT
-	switch VAR_RESULT
+	copyvar VAR_FRONTIER_GAMBLER_AMOUNT_BET, VAR_0x800D
+	switch VAR_0x800D
 	case FRONTIER_GAMBLER_BET_5, BattleFrontier_Lounge3_EventScript_Bet5
 	case FRONTIER_GAMBLER_BET_10, BattleFrontier_Lounge3_EventScript_Bet10
 	case FRONTIER_GAMBLER_BET_15, BattleFrontier_Lounge3_EventScript_Bet15
@@ -192,7 +192,7 @@ BattleFrontier_Lounge3_EventScript_FatMan::
 
 BattleFrontier_Lounge3_EventScript_FaceOriginalDirection::
 	closemessage
-	applymovement VAR_LAST_TALKED, Common_Movement_FaceOriginalDirection
+	applymovement VAR_0x800F, Common_Movement_FaceOriginalDirection
 	waitmovement 0
 	release
 	end

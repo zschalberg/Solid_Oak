@@ -60,7 +60,7 @@ PokemonLeague_ChampionsRoom_EventScript_EnterRoom::
 	call_if_set FLAG_SYS_CAN_LINK_WITH_RS, PokemonLeague_ChampionsRoom_EventScript_Rematch
 	setflag FLAG_TEMP_4
 	clearflag FLAG_TEMP_5
-	setflag FLAG_DEFEATED_CHAMP
+	setflag FLAG_0x4BC
 	setflag FLAG_TEMP_4
 	msgbox PokemonLeague_ChampionsRoom_Text_PostBattle
 	playbgm MUS_SLOW_PALLET, 0
@@ -72,8 +72,8 @@ PokemonLeague_ChampionsRoom_EventScript_EnterRoom::
 	applymovement LOCALID_CHAMPIONS_ROOM_PROF_OAK, PokemonLeague_ChampionsRoom_Movement_OakEnter
 	waitmovement 0
 	delay 25
-	specialvar VAR_RESULT, GetStarterSpecies
-	bufferspeciesname STR_VAR_1, VAR_RESULT
+	specialvar VAR_0x800D, GetStarterSpecies
+	bufferspeciesname STR_VAR_1, VAR_0x800D
 	msgbox PokemonLeague_ChampionsRoom_Text_OakCongratulations
 	applymovement LOCALID_CHAMPIONS_ROOM_PROF_OAK, Common_Movement_WalkInPlaceFasterRight
 	applymovement LOCALID_CHAMPIONS_ROOM_RIVAL, Common_Movement_WalkInPlaceFasterLeft

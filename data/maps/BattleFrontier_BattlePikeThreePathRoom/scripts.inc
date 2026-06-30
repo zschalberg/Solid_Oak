@@ -50,7 +50,7 @@ BattleFrontier_BattlePikeThreePathRoom_EventScript_ResumeChallenge::
 
 BattleFrontier_BattlePikeThreePathRoom_EventScript_Attendant::
 	frontier_get FRONTIER_DATA_BATTLE_NUM  @ Room number
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 1, BattleFrontier_BattlePikeThreePathRoom_EventScript_AttendantRoom1
 	case 3, BattleFrontier_BattlePikeThreePathRoom_EventScript_AttendantRoom3
 	case 5, BattleFrontier_BattlePikeThreePathRoom_EventScript_AttendantRoom5
@@ -111,7 +111,7 @@ BattleFrontier_BattlePikeThreePathRoom_EventScript_AttendantRoom13::
 
 BattleFrontier_BattlePikeThreePathRoom_EventScript_AskContinueChallenge::
 	msgbox BattleFrontier_BattlePikeThreePathRoom_Text_ContinueWithChallenge, MSGBOX_YESNO
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case NO, BattleFrontier_BattlePikeThreePathRoom_EventScript_AskSaveChallenge
 	case MULTI_B_PRESSED, BattleFrontier_BattlePikeThreePathRoom_EventScript_AskSaveChallenge
 	release
@@ -131,7 +131,7 @@ BattleFrontier_BattlePikeThreePathRoom_EventScript_PauseChallenge::
 
 BattleFrontier_BattlePikeThreePathRoom_EventScript_AskSaveChallenge::
 	msgbox BattleFrontier_BattlePikeThreePathRoom_Text_SaveChallengeAndQuit, MSGBOX_YESNO
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case YES, BattleFrontier_BattlePikeThreePathRoom_EventScript_PauseChallenge
 	case NO, BattleFrontier_BattlePikeThreePathRoom_EventScript_AskRetireChallenge
 	case MULTI_B_PRESSED, BattleFrontier_BattlePikeThreePathRoom_EventScript_AskRetireChallenge
@@ -142,14 +142,14 @@ BattleFrontier_BattlePikeThreePathRoom_EventScript_AskRetireChallenge::
 	message BattleFrontier_BattlePikeThreePathRoom_Text_RetireFromChallenge
 	waitmessage
 	multichoicedefault 20, 8, MULTI_YESNO, 1, FALSE
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, BattleFrontier_BattlePike_EventScript_Retire
 	release
 	end
 
 BattleFrontier_BattlePikeThreePathRoom_EventScript_SetHintRoom::
 	pike_sethintroom
-	goto_if_eq VAR_RESULT, TRUE, BattleFrontier_BattlePikeThreePathRoom_EventScript_SetPikeQueenHint
+	goto_if_eq VAR_0x800D, TRUE, BattleFrontier_BattlePikeThreePathRoom_EventScript_SetPikeQueenHint
 	setvar VAR_TEMP_5, 255
 	end
 
@@ -170,11 +170,11 @@ BattleFrontier_BattlePikeThreePathRoom_EventScript_GivePikeQueenHint::
 
 BattleFrontier_BattlePikeThreePathRoom_EventScript_HintGiver::
 	pike_gethint
-	goto_if_eq VAR_RESULT, PIKE_HINT_BRAIN, BattleFrontier_BattlePikeThreePathRoom_EventScript_GiveBrainHint
+	goto_if_eq VAR_0x800D, PIKE_HINT_BRAIN, BattleFrontier_BattlePikeThreePathRoom_EventScript_GiveBrainHint
 	lock
 	faceplayer
 	msgbox BattleFrontier_BattlePikeThreePathRoom_Text_FindingItDifficultToChoose, MSGBOX_YESNO
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case YES, BattleFrontier_BattlePikeThreePathRoom_EventScript_AcceptHint
 	case NO, BattleFrontier_BattlePikeThreePathRoom_EventScript_DeclineHint
 	case MULTI_B_PRESSED, BattleFrontier_BattlePikeThreePathRoom_EventScript_DeclineHint
@@ -188,7 +188,7 @@ BattleFrontier_BattlePikeThreePathRoom_EventScript_DeclineHint::
 
 BattleFrontier_BattlePikeThreePathRoom_EventScript_AcceptHint::
 	pike_gethintroomid
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case PIKE_ROOM_LEFT, BattleFrontier_BattlePikeThreePathRoom_EventScript_GiveLeftRoomHint
 	case PIKE_ROOM_CENTER, BattleFrontier_BattlePikeThreePathRoom_EventScript_GiveCenterRoomHint
 	case PIKE_ROOM_RIGHT, BattleFrontier_BattlePikeThreePathRoom_EventScript_GiveRightRoomHint
@@ -208,7 +208,7 @@ BattleFrontier_BattlePikeThreePathRoom_EventScript_GiveRightRoomHint::
 
 BattleFrontier_BattlePikeThreePathRoom_EventScript_GiveHint::
 	pike_gethint
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case PIKE_HINT_NOSTALGIA, BattleFrontier_BattlePikeThreePathRoom_EventScript_HintNostalgia
 	case PIKE_HINT_WHISPERING, BattleFrontier_BattlePikeThreePathRoom_EventScript_HintWhispering
 	case PIKE_HINT_POKEMON, BattleFrontier_BattlePikeThreePathRoom_EventScript_HintPokemon

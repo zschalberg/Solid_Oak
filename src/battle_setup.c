@@ -1204,8 +1204,8 @@ static void HandleBattleVariantEndParty(void)
 
 static void CB2_EndTrainerBattle(void)
 {
-    FlagClear(FLAG_MONOTYPE_BATTLE);
-    VarSet(VAR_MONOTYPE_RESTRICTION, TYPE_NONE);
+    FlagClear(FLAG_0x2E7);
+    VarSet(VAR_0x40D2, TYPE_NONE);
 
     HandleBattleVariantEndParty();
 
@@ -1503,8 +1503,8 @@ void SetMultiTrainerBattle(struct ScriptContext *ctx)
 
 u8 GetMonotypeRestrictionType(void)
 {
-    if (!FlagGet(FLAG_MONOTYPE_BATTLE))
+    if (!FlagGet(FLAG_0x2E7))
         return TYPE_NONE;
-    return VarGet(VAR_MONOTYPE_RESTRICTION);
+    return VarGet(VAR_0x40D2);
 }
 

@@ -4,7 +4,7 @@ VictoryRoad_1F_MapScripts::
 	.byte 0
 
 VictoryRoad_1F_OnLoad::
-	call_if_ne VAR_MAP_SCENE_VICTORY_ROAD_1F, 100, VictoryRoad_1F_EventScript_SetRockBarrier
+	call_if_ne VAR_0x4064, 100, VictoryRoad_1F_EventScript_SetRockBarrier
 	end
 
 VictoryRoad_1F_EventScript_SetRockBarrier::
@@ -18,14 +18,14 @@ VictoryRoad_1F_OnTransition::
 
 VictoryRoad_1F_EventScript_FloorSwitch::
 	lockall
-	goto_if_eq VAR_MAP_SCENE_VICTORY_ROAD_1F, 100, VictoryRoad_1F_EventScript_FloorSwitchAlreadyPressed
+	goto_if_eq VAR_0x4064, 100, VictoryRoad_1F_EventScript_FloorSwitchAlreadyPressed
 	setmetatile 12, 14, METATILE_Cave_Floor_Ledge_Top, 0
 	setmetatile 12, 15, METATILE_Cave_Floor_Ledge_Bottom, 0
 	playse SE_ICE_BREAK
 	special DrawWholeMapView
 	waitse
 	copyobjectxytoperm LOCALID_VICTORY_ROAD_1F_BOULDER
-	setvar VAR_MAP_SCENE_VICTORY_ROAD_1F, 100
+	setvar VAR_0x4064, 100
 	releaseall
 	end
 

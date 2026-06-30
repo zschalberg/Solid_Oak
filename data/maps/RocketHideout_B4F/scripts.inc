@@ -29,8 +29,8 @@ RocketHideout_B4F_EventScript_Giovanni::
 	closemessage
 	removeobject LOCALID_HIDEOUT_GIOVANNI
 	addobject LOCALID_SILPH_SCOPE
-	clearflag FLAG_HIDE_SILPH_SCOPE
-	setflag FLAG_HIDE_CELADON_ROCKETS
+	clearflag FLAG_0x037
+	setflag FLAG_0x05F
 	famechecker FAMECHECKER_GIOVANNI, FCPICKSTATE_COLORED, UpdatePickStateFromSpecialVar8005
 	fadescreen FADE_FROM_BLACK
 	release
@@ -41,7 +41,7 @@ RocketHideout_B4F_EventScript_SilphScope::
 	faceplayer
 	removeobject LOCALID_SILPH_SCOPE
 	giveitem ITEM_SILPH_SCOPE
-	goto_if_eq VAR_RESULT, FALSE, EventScript_BagIsFull
+	goto_if_eq VAR_0x800D, FALSE, EventScript_BagIsFull
 	release
 	end
 
@@ -54,17 +54,17 @@ RocketHideout_B4F_EventScript_Grunt1::
 RocketHideout_B4F_EventScript_DefeatedGrunt1::
 	msgbox RocketHideout_B4F_Text_Grunt1PostBattle
 	addobject LOCALID_LIFT_KEY
-	clearflag FLAG_HIDE_LIFT_KEY
+	clearflag FLAG_0x036
 	release
 	end
 
 RocketHideout_B4F_EventScript_LiftKey::
 	lock
 	faceplayer
-	setflag FLAG_CAN_USE_ROCKET_HIDEOUT_LIFT
+	setflag FLAG_0x2A5
 	removeobject LOCALID_LIFT_KEY
 	giveitem ITEM_LIFT_KEY
-	goto_if_eq VAR_RESULT, FALSE, EventScript_BagIsFull
+	goto_if_eq VAR_0x800D, FALSE, EventScript_BagIsFull
 	release
 	end
 

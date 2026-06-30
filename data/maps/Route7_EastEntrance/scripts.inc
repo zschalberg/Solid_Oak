@@ -27,7 +27,7 @@ Route7_EastEntrance_EventScript_GuardTrigger::
 	textcolor NPC_TEXT_COLOR_MALE
 	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterUp
 	waitmovement 0
-	goto_if_set FLAG_GOT_TEA, Route7_EastEntrance_EventScript_GiveTea
+	goto_if_set FLAG_0x2A6, Route7_EastEntrance_EventScript_GiveTea
 	msgbox Route7_EastEntrance_Text_ThirstyOnGuardDuty
 	closemessage
 	applymovement LOCALID_PLAYER, Route7_EastEntrance_Movement_BlockPlayerEntry
@@ -47,7 +47,7 @@ Route7_EastEntrance_EventScript_GuardDrinkTea::
 	call_if_eq VAR_TEMP_1, 1, Route7_EastEntrance_WalkToGuardMid
 	call_if_eq VAR_TEMP_1, 2, Route7_EastEntrance_WalkToGuardBottom
 	msgbox Route7_EastEntrance_Text_ThanksIllShareTeaWithGuards
-	setvar VAR_MAP_SCENE_ROUTE5_ROUTE6_ROUTE7_ROUTE8_GATES, 1
+	setvar VAR_0x4062, 1
 	releaseall
 	end
 

@@ -4,14 +4,14 @@ ThreeIsland_Port_MapScripts::
 
 ThreeIsland_Port_OnTransition::
 	clearflag FLAG_SYS_PC_STORAGE_DISABLED
-	setflag FLAG_SEVII_DETOUR_FINISHED
+	setflag FLAG_0x2A1
 	end
 
 ThreeIsland_Port_EventScript_Woman::
 	lock
 	faceplayer
-	goto_if_ge VAR_MAP_SCENE_TWO_ISLAND_JOYFUL_GAME_CORNER, 2, ThreeIsland_Port_EventScript_WomanLostelleFound
-	goto_if_ge VAR_MAP_SCENE_THREE_ISLAND, 4, ThreeIsland_Port_EventScript_WomanBikersGone
+	goto_if_ge VAR_0x4079, 2, ThreeIsland_Port_EventScript_WomanLostelleFound
+	goto_if_ge VAR_0x407B, 4, ThreeIsland_Port_EventScript_WomanBikersGone
 	msgbox ThreeIsland_Port_Text_IllCallThePolice
 	release
 	end

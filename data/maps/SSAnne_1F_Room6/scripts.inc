@@ -5,7 +5,7 @@ SSAnne_1F_Room6_EventScript_Woman::
 	lock
 	faceplayer
 	msgbox SSAnne_1F_Room6_Text_TakeAShortRest, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, SSAnne_1F_Room6_EventScript_DeclineHeal
+	goto_if_eq VAR_0x800D, NO, SSAnne_1F_Room6_EventScript_DeclineHeal
 	closemessage
 	call EventScript_OutOfCenterPartyHeal
 	msgbox SSAnne_1F_Room6_Text_GladEveryoneIsRefreshed
@@ -14,7 +14,7 @@ SSAnne_1F_Room6_EventScript_Woman::
 
 SSAnne_1F_Room6_EventScript_DeclineHeal::
 	checkplayergender
-	goto_if_eq VAR_RESULT, MALE, SSAnne_1F_Room6_EventScript_DeclineHealMale
+	goto_if_eq VAR_0x800D, MALE, SSAnne_1F_Room6_EventScript_DeclineHealMale
 	msgbox SSAnne_1F_Room6_Text_SorryYouLookLikeMySister
 	release
 	end
@@ -32,7 +32,7 @@ SSAnne_1F_Room6_EventScript_Growlithe::
 	playmoncry SPECIES_GROWLITHE, CRY_MODE_NORMAL
 	msgbox SSAnne_1F_Room6_Text_ChooseGrowlithe, MSGBOX_YESNO
 	waitmoncry
-	goto_if_eq VAR_RESULT, YES, SSAnne_1F_Room6_EventScript_ChooseGrowlithe
+	goto_if_eq VAR_0x800D, YES, SSAnne_1F_Room6_EventScript_ChooseGrowlithe
 	hidemonpic
 	release
 	end
@@ -47,9 +47,9 @@ SSAnne_1F_Room6_EventScript_GrowlitheAlreadyChose::
 SSAnne_1F_Room6_EventScript_ChooseGrowlithe::
 	hidemonpic
 	givemon SPECIES_GROWLITHE, 5
-	goto_if_eq VAR_RESULT, 0, SSAnne_1F_Room6_EventScript_GiveGrowlitheParty
-	goto_if_eq VAR_RESULT, 1, SSAnne_1F_Room6_EventScript_GiveGrowlithePC
-	goto_if_eq VAR_RESULT, 2, EventScript_NoMoreRoomForPokemon
+	goto_if_eq VAR_0x800D, 0, SSAnne_1F_Room6_EventScript_GiveGrowlitheParty
+	goto_if_eq VAR_0x800D, 1, SSAnne_1F_Room6_EventScript_GiveGrowlithePC
+	goto_if_eq VAR_0x800D, 2, EventScript_NoMoreRoomForPokemon
 	end
 
 SSAnne_1F_Room6_EventScript_GiveGrowlitheParty::
@@ -61,7 +61,7 @@ SSAnne_1F_Room6_EventScript_GiveGrowlitheParty::
 	waitfanfare
 	bufferspeciesname STR_VAR_1, SPECIES_GROWLITHE
 	msgbox Text_GiveNicknameToThisMon, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, SSAnne_1F_Room6_EventScript_FinishStarterSelection
+	goto_if_eq VAR_0x800D, NO, SSAnne_1F_Room6_EventScript_FinishStarterSelection
 	call EventScript_GetGiftMonPartySlot
 	call EventScript_ChangePokemonNickname
 	goto SSAnne_1F_Room6_EventScript_FinishStarterSelection
@@ -76,7 +76,7 @@ SSAnne_1F_Room6_EventScript_GiveGrowlithePC::
 	waitfanfare
 	bufferspeciesname STR_VAR_1, SPECIES_GROWLITHE
 	msgbox Text_GiveNicknameToThisMon, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, SSAnne_1F_Room6_EventScript_GrowlitheTransferredToPC
+	goto_if_eq VAR_0x800D, NO, SSAnne_1F_Room6_EventScript_GrowlitheTransferredToPC
 	call EventScript_NameReceivedBoxMon
 	goto SSAnne_1F_Room6_EventScript_GrowlitheTransferredToPC
 	end
@@ -94,7 +94,7 @@ SSAnne_1F_Room6_EventScript_NidoranM::
 	playmoncry SPECIES_NIDORAN_M, CRY_MODE_NORMAL
 	msgbox SSAnne_1F_Room6_Text_ChooseNidoranM, MSGBOX_YESNO
 	waitmoncry
-	goto_if_eq VAR_RESULT, YES, SSAnne_1F_Room6_EventScript_ChooseNidoranM
+	goto_if_eq VAR_0x800D, YES, SSAnne_1F_Room6_EventScript_ChooseNidoranM
 	hidemonpic
 	release
 	end
@@ -109,9 +109,9 @@ SSAnne_1F_Room6_EventScript_NidoranMAlreadyChose::
 SSAnne_1F_Room6_EventScript_ChooseNidoranM::
 	hidemonpic
 	givemon SPECIES_NIDORAN_M, 5
-	goto_if_eq VAR_RESULT, 0, SSAnne_1F_Room6_EventScript_GiveNidoranMParty
-	goto_if_eq VAR_RESULT, 1, SSAnne_1F_Room6_EventScript_GiveNidoranMPC
-	goto_if_eq VAR_RESULT, 2, EventScript_NoMoreRoomForPokemon
+	goto_if_eq VAR_0x800D, 0, SSAnne_1F_Room6_EventScript_GiveNidoranMParty
+	goto_if_eq VAR_0x800D, 1, SSAnne_1F_Room6_EventScript_GiveNidoranMPC
+	goto_if_eq VAR_0x800D, 2, EventScript_NoMoreRoomForPokemon
 	end
 
 SSAnne_1F_Room6_EventScript_GiveNidoranMParty::
@@ -123,7 +123,7 @@ SSAnne_1F_Room6_EventScript_GiveNidoranMParty::
 	waitfanfare
 	bufferspeciesname STR_VAR_1, SPECIES_NIDORAN_M
 	msgbox Text_GiveNicknameToThisMon, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, SSAnne_1F_Room6_EventScript_FinishStarterSelection
+	goto_if_eq VAR_0x800D, NO, SSAnne_1F_Room6_EventScript_FinishStarterSelection
 	call EventScript_GetGiftMonPartySlot
 	call EventScript_ChangePokemonNickname
 	goto SSAnne_1F_Room6_EventScript_FinishStarterSelection
@@ -138,7 +138,7 @@ SSAnne_1F_Room6_EventScript_GiveNidoranMPC::
 	waitfanfare
 	bufferspeciesname STR_VAR_1, SPECIES_NIDORAN_M
 	msgbox Text_GiveNicknameToThisMon, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, SSAnne_1F_Room6_EventScript_NidoranMTransferredToPC
+	goto_if_eq VAR_0x800D, NO, SSAnne_1F_Room6_EventScript_NidoranMTransferredToPC
 	call EventScript_NameReceivedBoxMon
 	goto SSAnne_1F_Room6_EventScript_NidoranMTransferredToPC
 	end
@@ -156,7 +156,7 @@ SSAnne_1F_Room6_EventScript_Exeggcute::
 	playmoncry SPECIES_EXEGGCUTE, CRY_MODE_NORMAL
 	msgbox SSAnne_1F_Room6_Text_ChooseExeggcute, MSGBOX_YESNO
 	waitmoncry
-	goto_if_eq VAR_RESULT, YES, SSAnne_1F_Room6_EventScript_ChooseExeggcute
+	goto_if_eq VAR_0x800D, YES, SSAnne_1F_Room6_EventScript_ChooseExeggcute
 	hidemonpic
 	release
 	end
@@ -171,9 +171,9 @@ SSAnne_1F_Room6_EventScript_ExeggcuteAlreadyChose::
 SSAnne_1F_Room6_EventScript_ChooseExeggcute::
 	hidemonpic
 	givemon SPECIES_EXEGGCUTE, 5
-	goto_if_eq VAR_RESULT, 0, SSAnne_1F_Room6_EventScript_GiveExeggcuteParty
-	goto_if_eq VAR_RESULT, 1, SSAnne_1F_Room6_EventScript_GiveExeggcutePC
-	goto_if_eq VAR_RESULT, 2, EventScript_NoMoreRoomForPokemon
+	goto_if_eq VAR_0x800D, 0, SSAnne_1F_Room6_EventScript_GiveExeggcuteParty
+	goto_if_eq VAR_0x800D, 1, SSAnne_1F_Room6_EventScript_GiveExeggcutePC
+	goto_if_eq VAR_0x800D, 2, EventScript_NoMoreRoomForPokemon
 	end
 
 SSAnne_1F_Room6_EventScript_GiveExeggcuteParty::
@@ -185,7 +185,7 @@ SSAnne_1F_Room6_EventScript_GiveExeggcuteParty::
 	waitfanfare
 	bufferspeciesname STR_VAR_1, SPECIES_EXEGGCUTE
 	msgbox Text_GiveNicknameToThisMon, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, SSAnne_1F_Room6_EventScript_FinishStarterSelection
+	goto_if_eq VAR_0x800D, NO, SSAnne_1F_Room6_EventScript_FinishStarterSelection
 	call EventScript_GetGiftMonPartySlot
 	call EventScript_ChangePokemonNickname
 	goto SSAnne_1F_Room6_EventScript_FinishStarterSelection
@@ -200,7 +200,7 @@ SSAnne_1F_Room6_EventScript_GiveExeggcutePC::
 	waitfanfare
 	bufferspeciesname STR_VAR_1, SPECIES_EXEGGCUTE
 	msgbox Text_GiveNicknameToThisMon, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, SSAnne_1F_Room6_EventScript_ExeggcuteTransferredToPC
+	goto_if_eq VAR_0x800D, NO, SSAnne_1F_Room6_EventScript_ExeggcuteTransferredToPC
 	call EventScript_NameReceivedBoxMon
 	goto SSAnne_1F_Room6_EventScript_ExeggcuteTransferredToPC
 	end
@@ -239,7 +239,7 @@ SSAnne_1F_Room6_EventScript_CraftingNPC::
 	lock
 	faceplayer
 	msgbox SSAnne_1F_Room6_Text_ScientistIntro, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, SSAnne_1F_Room6_EventScript_CraftingDecline
+	goto_if_eq VAR_0x800D, NO, SSAnne_1F_Room6_EventScript_CraftingDecline
 	goto EventScript_CraftingLoop
 	end
 

@@ -23,19 +23,19 @@ Route15_WestEntrance_2F_EventScript_Aide::
 	lock
 	faceplayer
 	call Route15_WestEntrance_2F_EventScript_GetAideRequestInfo
-	goto_if_set FLAG_GOT_EXP_SHARE_FROM_OAKS_AIDE, Route15_WestEntrance_2F_EventScript_AlreadyGotExpShare
+	goto_if_set FLAG_0x256, Route15_WestEntrance_2F_EventScript_AlreadyGotExpShare
 	msgbox Route15_WestEntrance_2F_Text_GiveItemIfCaughtEnough, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, Aide_EventScript_DeclineCheckMons
+	goto_if_eq VAR_0x800D, NO, Aide_EventScript_DeclineCheckMons
 	setvar VAR_0x8004, 0
-	specialvar VAR_RESULT, GetPokedexCount
+	specialvar VAR_0x800D, GetPokedexCount
 	buffernumberstring STR_VAR_3, VAR_0x8006
 	call Route15_WestEntrance_2F_EventScript_GetAideRequestInfo
 	goto_if_lt VAR_0x8006, REQUIRED_CAUGHT_MONS, Aide_EventScript_HaventCaughtEnough
 	msgbox Route15_WestEntrance_2F_Text_GreatHereYouGo
 	checkitemspace ITEM_EXP_SHARE
-	goto_if_eq VAR_RESULT, FALSE, Aide_EventScript_NoRoomForItem
+	goto_if_eq VAR_0x800D, FALSE, Aide_EventScript_NoRoomForItem
 	giveitem_msg Route15_WestEntrance_2F_Text_ReceivedItemFromAide, ITEM_EXP_SHARE
-	setflag FLAG_GOT_EXP_SHARE_FROM_OAKS_AIDE
+	setflag FLAG_0x256
 	msgbox Route15_WestEntrance_2F_Text_ExplainExpShare
 	release
 	end

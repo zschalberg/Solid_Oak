@@ -23,19 +23,19 @@ Route16_NorthEntrance_2F_EventScript_Aide::
 	lock
 	faceplayer
 	call Route16_NorthEntrance_2F_EventScript_GetAideRequestInfo
-	goto_if_set FLAG_GOT_AMULET_COIN_FROM_OAKS_AIDE, Route16_NorthEntrance_2F_EventScript_AlreadyGotAmuletCoin
+	goto_if_set FLAG_0x2FD, Route16_NorthEntrance_2F_EventScript_AlreadyGotAmuletCoin
 	msgbox Route16_NorthEntrance_2F_Text_GiveAmuletCoinIfCaught40, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, Aide_EventScript_DeclineCheckMons
+	goto_if_eq VAR_0x800D, NO, Aide_EventScript_DeclineCheckMons
 	setvar VAR_0x8004, 0
-	specialvar VAR_RESULT, GetPokedexCount
+	specialvar VAR_0x800D, GetPokedexCount
 	buffernumberstring STR_VAR_3, VAR_0x8006
 	call Route16_NorthEntrance_2F_EventScript_GetAideRequestInfo
 	goto_if_lt VAR_0x8006, REQUIRED_CAUGHT_MONS, Aide_EventScript_HaventCaughtEnough
 	msgbox Route16_NorthEntrance_2F_Text_GreatHereYouGo
 	checkitemspace ITEM_AMULET_COIN
-	goto_if_eq VAR_RESULT, FALSE, Aide_EventScript_NoRoomForItem
+	goto_if_eq VAR_0x800D, FALSE, Aide_EventScript_NoRoomForItem
 	giveitem_msg Route16_NorthEntrance_2F_Text_ReceivedAmuletCoinFromAide, ITEM_AMULET_COIN
-	setflag FLAG_GOT_AMULET_COIN_FROM_OAKS_AIDE
+	setflag FLAG_0x2FD
 	msgbox Route16_NorthEntrance_2F_Text_ExplainAmuletCoin
 	release
 	end

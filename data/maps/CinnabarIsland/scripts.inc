@@ -6,9 +6,9 @@ CinnabarIsland_MapScripts::
 CinnabarIsland_OnTransition::
 	setworldmapflag FLAG_WORLD_MAP_CINNABAR_ISLAND
 	call CinnabarIsland_EventScript_CheckUnlockGym
-	call_if_eq VAR_MAP_SCENE_CINNABAR_ISLAND, 1, CinnabarIsland_EventScript_ReadyObjectsSailToOneIsland
-	call_if_eq VAR_MAP_SCENE_CINNABAR_ISLAND, 3, CinnabarIsland_EventScript_ReadyObjectsReturnFromSeviiIslands
-	call_if_eq VAR_MAP_SCENE_CINNABAR_ISLAND_2, 1, CinnabarIsland_EventScript_ReadyObjectsSailToOneIslandFromPokeCenter
+	call_if_eq VAR_0x4071, 1, CinnabarIsland_EventScript_ReadyObjectsSailToOneIsland
+	call_if_eq VAR_0x4071, 3, CinnabarIsland_EventScript_ReadyObjectsReturnFromSeviiIslands
+	call_if_eq VAR_0x408A, 1, CinnabarIsland_EventScript_ReadyObjectsSailToOneIslandFromPokeCenter
 	end
 
 CinnabarIsland_EventScript_ReadyObjectsSailToOneIslandFromPokeCenter::
@@ -38,7 +38,7 @@ CinnabarIsland_EventScript_ReadyObjectsReturnFromSeviiIslands::
 	return
 
 CinnabarIsland_EventScript_CheckUnlockGym::
-	goto_if_set FLAG_HIDE_POKEMON_MANSION_B1F_SECRET_KEY, CinnabarIsland_EventScript_UnlockGym
+	goto_if_set FLAG_0x1A8, CinnabarIsland_EventScript_UnlockGym
 	return
 
 CinnabarIsland_EventScript_UnlockGym::
@@ -46,9 +46,9 @@ CinnabarIsland_EventScript_UnlockGym::
 	return
 
 CinnabarIsland_OnFrame::
-	map_script_2 VAR_MAP_SCENE_CINNABAR_ISLAND_2, 1, CinnabarIsland_EventScript_ExitPokeCenterForOneIsland
-	map_script_2 VAR_MAP_SCENE_CINNABAR_ISLAND, 1, CinnabarIsland_EventScript_BillScene
-	map_script_2 VAR_MAP_SCENE_CINNABAR_ISLAND, 3, CinnabarIsland_EventScript_ReturnFromSeviiIslands
+	map_script_2 VAR_0x408A, 1, CinnabarIsland_EventScript_ExitPokeCenterForOneIsland
+	map_script_2 VAR_0x4071, 1, CinnabarIsland_EventScript_BillScene
+	map_script_2 VAR_0x4071, 3, CinnabarIsland_EventScript_ReturnFromSeviiIslands
 	.2byte 0
 
 CinnabarIsland_EventScript_ExitPokeCenterForOneIsland::
@@ -56,7 +56,7 @@ CinnabarIsland_EventScript_ExitPokeCenterForOneIsland::
 	clearflag FLAG_DONT_TRANSITION_MUSIC
 	savebgm MUS_DUMMY
 	textcolor NPC_TEXT_COLOR_MALE
-	setvar VAR_MAP_SCENE_CINNABAR_ISLAND_2, 2
+	setvar VAR_0x408A, 2
 	delay 20
 	call CinnabarIsland_EventScript_SailToOneIsland
 	releaseall
@@ -70,9 +70,9 @@ CinnabarIsland_EventScript_ReturnFromSeviiIslands::
 	applymovement LOCALID_CINNABAR_BILL, CinnabarIsland_Movement_BillExit
 	waitmovement 0
 	removeobject LOCALID_CINNABAR_BILL
-	setvar VAR_MAP_SCENE_CINNABAR_ISLAND, 4
-	setflag FLAG_HIDE_TWO_ISLAND_GAME_CORNER_LOSTELLE
-	clearflag FLAG_HIDE_LOSTELLE_IN_HER_HOME
+	setvar VAR_0x4071, 4
+	setflag FLAG_0x075
+	clearflag FLAG_0x076
 	releaseall
 	end
 
@@ -99,8 +99,8 @@ CinnabarIsland_EventScript_BillScene::
 	call_if_set FLAG_TEMP_2, CinnabarIsland_EventScript_BillApproachPlayer2
 	msgbox CinnabarIsland_Text_HeyIfItIsntPlayer
 	msgbox CinnabarIsland_Text_ComeWithMeToOneIsland, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, YES, CinnabarIsland_EventScript_AgreeSailToOneIsland
-	goto_if_eq VAR_RESULT, NO, CinnabarIsland_EventScript_DeclineSailToOneIsland
+	goto_if_eq VAR_0x800D, YES, CinnabarIsland_EventScript_AgreeSailToOneIsland
+	goto_if_eq VAR_0x800D, NO, CinnabarIsland_EventScript_DeclineSailToOneIsland
 	end
 
 CinnabarIsland_EventScript_BillFacePlayer1::
@@ -138,8 +138,8 @@ CinnabarIsland_EventScript_DeclineSailToOneIsland::
 	call_if_unset FLAG_TEMP_2, CinnabarIsland_EventScript_BillExitToPokeCenter
 	call_if_set FLAG_TEMP_2, CinnabarIsland_EventScript_BillReturnToPokeCenter
 	removeobject LOCALID_CINNABAR_BILL
-	setvar VAR_MAP_SCENE_CINNABAR_ISLAND, 2
-	clearflag FLAG_HIDE_CINNABAR_POKECENTER_BILL
+	setvar VAR_0x4071, 2
+	clearflag FLAG_0x0A2
 	releaseall
 	end
 
@@ -197,11 +197,11 @@ CinnabarIsland_EventScript_SailToOneIsland::
 	closemessage
 	call_if_unset FLAG_TEMP_2, CinnabarIsland_EventScript_BoardBoat
 	call_if_set FLAG_TEMP_2, CinnabarIsland_EventScript_BoardBoatExitedPokeCenter
-	setvar VAR_MAP_SCENE_CINNABAR_ISLAND, 2
+	setvar VAR_0x4071, 2
 	removeobject LOCALID_CINNABAR_BILL
 	delay 40
-	setflag FLAG_HIDE_CINNABAR_SEAGALLOP
-	setvar VAR_MAP_SCENE_ONE_ISLAND_HARBOR, 1
+	setflag FLAG_0x06B
+	setvar VAR_0x4075, 1
 	setvar VAR_0x8004, SEAGALLOP_CINNABAR_ISLAND
 	setvar VAR_0x8006, SEAGALLOP_ONE_ISLAND
 	goto EventScript_SetSail

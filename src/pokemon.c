@@ -2947,16 +2947,16 @@ u8 GiveCapturedMonToPlayer(struct Pokemon *mon)
 
 u8 GetFujiLabRoomsCount(void)
 {
-    if (FlagGet(FLAG_SYS_CONVENTIONAL_PC_UNLOCKED))
+    if (FlagGet(FLAG_0x4AC))
         return TOTAL_BOXES_COUNT;
-    if (FlagGet(FLAG_FUJI_LAB_UPGRADE))
+    if (FlagGet(FLAG_0x4AB))
         return 10;
     return 8;
 }
 
 u8 GetBoxCapacityLimit(void)
 {
-    if (FlagGet(FLAG_SYS_CONVENTIONAL_PC_UNLOCKED))
+    if (FlagGet(FLAG_0x4AC))
         return IN_BOX_COUNT;
     return 6;
 }
@@ -3049,7 +3049,7 @@ u8 GetMonsStateToDoubles(void)
     s32 i;
     CalculatePlayerPartyCount();
 
-    if (OW_DOUBLE_APPROACH_WITH_ONE_MON || FlagGet(FLAG_DOUBLE_BATTLE_WITH_ONE_MON))
+    if (OW_DOUBLE_APPROACH_WITH_ONE_MON || FlagGet(FLAG_0x2E5))
         return PLAYER_HAS_TWO_USABLE_MONS;
 
     if (gPlayerPartyCount == 1)
@@ -3073,7 +3073,7 @@ u8 GetMonsStateToDoubles_2(void)
 
     if (OW_DOUBLE_APPROACH_WITH_ONE_MON
      || FollowerNPCIsBattlePartner()
-     || FlagGet(FLAG_DOUBLE_BATTLE_WITH_ONE_MON))
+     || FlagGet(FLAG_0x2E5))
         return PLAYER_HAS_TWO_USABLE_MONS;
 
     for (i = 0; i < PARTY_SIZE; i++)
@@ -4489,10 +4489,10 @@ static bool32 IsEvoTargetUnlocked(u16 targetSpecies)
     switch (targetSpecies)
     {
     case SPECIES_GENGAR:
-        return FlagGet(FLAG_QUEST_KNOW_GENGAR_EVO);
+        return FlagGet(FLAG_0x4CE);
     case SPECIES_SLOWBRO:
     case SPECIES_SLOWKING:
-        return FlagGet(FLAG_QUEST_KNOW_SLOWPOKE_EVOS);
+        return FlagGet(FLAG_0x4CF);
     default:
         return TRUE;
     }

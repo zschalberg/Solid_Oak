@@ -42,7 +42,7 @@ Route22_EventScript_EarlyRival::
 	call_if_eq VAR_TEMP_1, 2, Route22_EventScript_EarlyRivalExitBottom
 	fadedefaultbgm
 	removeobject LOCALID_ROUTE22_RIVAL
-	setvar VAR_MAP_SCENE_ROUTE22, 2
+	setvar VAR_0x4054, 2
 	releaseall
 	end
 
@@ -180,7 +180,7 @@ Route22_EventScript_LateRival::
 	call_if_eq VAR_TEMP_1, 1, Route22_EventScript_LateRivalApproach
 	call_if_eq VAR_TEMP_1, 2, Route22_EventScript_LateRivalApproachBottom
 	msgbox Route22_Text_LateRivalIntro
-	setvar VAR_LAST_TALKED, LOCALID_ROUTE22_RIVAL
+	setvar VAR_0x800F, LOCALID_ROUTE22_RIVAL
 	call_if_eq VAR_STARTER_MON, 2, Route22_EventScript_LateRivalSquirtle
 	call_if_eq VAR_STARTER_MON, 1, Route22_EventScript_LateRivalBulbasaur
 	call_if_eq VAR_STARTER_MON, 0, Route22_EventScript_LateRivalCharmander
@@ -192,7 +192,7 @@ Route22_EventScript_LateRival::
 	waitmovement 0
 	fadedefaultbgm
 	removeobject LOCALID_ROUTE22_RIVAL
-	setvar VAR_MAP_SCENE_ROUTE22, 4
+	setvar VAR_0x4054, 4
 	releaseall
 	end
 

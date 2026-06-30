@@ -6,15 +6,15 @@ SixIsland_PokemonCenter_1F_MapScripts::
 
 SixIsland_PokemonCenter_1F_OnTransition::
 	setrespawn HEAL_LOCATION_SIX_ISLAND
-	call_if_eq VAR_MAP_SCENE_SIX_ISLAND_POKEMON_CENTER_1F, 0, SixIsland_PokemonCenter_1F_EventScript_ShowRival
+	call_if_eq VAR_0x4089, 0, SixIsland_PokemonCenter_1F_EventScript_ShowRival
 	end
 
 SixIsland_PokemonCenter_1F_EventScript_ShowRival::
-	clearflag FLAG_HIDE_SIX_ISLAND_POKECENTER_RIVAL
+	clearflag FLAG_0x098
 	return
 
 SixIsland_PokemonCenter_1F_OnFrame::
-	map_script_2 VAR_MAP_SCENE_SIX_ISLAND_POKEMON_CENTER_1F, 0, SixIsland_PokemonCenter_1F_EventScript_RivalScene
+	map_script_2 VAR_0x4089, 0, SixIsland_PokemonCenter_1F_EventScript_RivalScene
 	.2byte 0
 
 SixIsland_PokemonCenter_1F_EventScript_RivalScene::
@@ -39,8 +39,8 @@ SixIsland_PokemonCenter_1F_EventScript_RivalScene::
 	playse SE_EXIT
 	delay 35
 	removeobject LOCALID_SIX_ISLAND_RIVAL
-	setvar VAR_MAP_SCENE_SIX_ISLAND_POKEMON_CENTER_1F, 1
-	setvar VAR_MAP_SCENE_FOUR_ISLAND, 1
+	setvar VAR_0x4089, 1
+	setvar VAR_0x4086, 1
 	releaseall
 	end
 

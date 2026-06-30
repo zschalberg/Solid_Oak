@@ -2,17 +2,17 @@ BattleFrontier_BattleTowerLobby_EventScript_Apprentice::
 	lock
 	faceplayer
 	apprentice_gavelvlmode
-	goto_if_eq VAR_RESULT, FALSE, Apprentice_EventScript_FirstMeeting
+	goto_if_eq VAR_0x800D, FALSE, Apprentice_EventScript_FirstMeeting
 	apprentice_shouldcheckgone
 	goto_if_eq VAR_0x8004, FALSE, Apprentice_EventScript_AskQuestion  @ VAR_0x8004 always TRUE here
-	goto_if_set FLAG_DAILY_APPRENTICE_LEAVES, Apprentice_EventScript_Gone
+	goto_if_set FLAG_0x390, Apprentice_EventScript_Gone
 Apprentice_EventScript_AskQuestion:
 	apprentice_getquestion
-	goto_if_eq VAR_RESULT, APPRENTICE_QUESTION_WHICH_MON, Apprentice_EventScript_UseWhichMon
-	goto_if_eq VAR_RESULT, APPRENTICE_QUESTION_WHAT_ITEM, Apprentice_EventScript_UseWhatHeldItem
-	goto_if_eq VAR_RESULT, APPRENTICE_QUESTION_WHICH_MOVE, Apprentice_EventScript_UseWhichMove
-	goto_if_eq VAR_RESULT, APPRENTICE_QUESTION_WHICH_FIRST, Apprentice_EventScript_PutWhichMonFirst
-	goto_if_eq VAR_RESULT, APPRENTICE_QUESTION_WIN_SPEECH, Apprentice_EventScript_PickWinSpeech
+	goto_if_eq VAR_0x800D, APPRENTICE_QUESTION_WHICH_MON, Apprentice_EventScript_UseWhichMon
+	goto_if_eq VAR_0x800D, APPRENTICE_QUESTION_WHAT_ITEM, Apprentice_EventScript_UseWhatHeldItem
+	goto_if_eq VAR_0x800D, APPRENTICE_QUESTION_WHICH_MOVE, Apprentice_EventScript_UseWhichMove
+	goto_if_eq VAR_0x800D, APPRENTICE_QUESTION_WHICH_FIRST, Apprentice_EventScript_PutWhichMonFirst
+	goto_if_eq VAR_0x800D, APPRENTICE_QUESTION_WIN_SPEECH, Apprentice_EventScript_PickWinSpeech
 	release
 	releaseall
 	end
@@ -22,17 +22,17 @@ Apprentice_EventScript_FirstMeeting:
 	apprentice_msg FALSE, APPRENTICE_MSG_PLEASE_TEACH
 Apprentice_EventScript_WhichLvlMode:
 	apprentice_menu APPRENTICE_ASK_YES_NO
-	goto_if_eq VAR_RESULT, 1, Apprentice_EventScript_RejectTeach
+	goto_if_eq VAR_0x800D, 1, Apprentice_EventScript_RejectTeach
 	apprentice_msg FALSE, APPRENTICE_MSG_WHICH_LVL_MODE
 	apprentice_menu APPRENTICE_ASK_WHICH_LEVEL
-	apprentice_setlvlmode VAR_RESULT
+	apprentice_setlvlmode VAR_0x800D
 	apprentice_shufflespecies
 	apprentice_buff STR_VAR_1, APPRENTICE_BUFF_LEVEL
 	apprentice_msg TRUE, APPRENTICE_MSG_THANKS_LVL_MODE
 	call Apprentice_EventScript_SetHideFlags
 	release
 	releaseall
-	switch VAR_FACING
+	switch VAR_0x800C
 	case DIR_NORTH, Apprentice_EventScript_LeaveNorth
 	goto Apprentice_EventScript_Leave
 	end
@@ -48,21 +48,21 @@ Apprentice_EventScript_UseWhichMon:
 	apprentice_buff STR_VAR_2, APPRENTICE_BUFF_SPECIES2
 	apprentice_msg FALSE, APPRENTICE_MSG_WHICH_MON
 	apprentice_menu APPRENTICE_ASK_2SPECIES
-	copyvar VAR_0x8005, VAR_RESULT
+	copyvar VAR_0x8005, VAR_0x800D
 	call_if_eq VAR_0x8005, 0, Apprentice_EventScript_ChoseFirstMon
 	call_if_eq VAR_0x8005, 1, Apprentice_EventScript_ChoseSecondMon
 	apprentice_getnumpartymons
-	apprentice_setpartymon VAR_RESULT
+	apprentice_setpartymon VAR_0x800D
 	apprentice_answeredquestion
 	apprentice_getnumpartymons
-	call_if_eq VAR_RESULT, MULTI_PARTY_SIZE, Apprentice_EventScript_LastMonSelected
+	call_if_eq VAR_0x800D, MULTI_PARTY_SIZE, Apprentice_EventScript_LastMonSelected
 	apprentice_buff STR_VAR_1, VAR_0x8007
 	apprentice_freequestion
 	apprentice_msg TRUE, APPRENTICE_MSG_THANKS_MON
 	call Apprentice_EventScript_SetHideFlags
 	release
 	releaseall
-	switch VAR_FACING
+	switch VAR_0x800C
 	case DIR_NORTH, Apprentice_EventScript_LeaveNorth
 	goto Apprentice_EventScript_Leave
 	end
@@ -86,18 +86,18 @@ Apprentice_EventScript_UseWhatHeldItem:
 	apprentice_freequestion
 Apprentice_EventScript_ChooseHoldItem:
 	fadescreen FADE_TO_BLACK
-	setvar VAR_RESULT, 0
+	setvar VAR_0x800D, 0
 	apprentice_openbag
-	goto_if_eq VAR_RESULT, FALSE, Apprentice_EventScript_ConfirmHoldNothing
+	goto_if_eq VAR_0x800D, FALSE, Apprentice_EventScript_ConfirmHoldNothing
 	apprentice_trysetitem
-	goto_if_eq VAR_RESULT, FALSE, Apprentice_EventScript_AlreadySuggestedItem
+	goto_if_eq VAR_0x800D, FALSE, Apprentice_EventScript_AlreadySuggestedItem
 	apprentice_buff STR_VAR_1, APPRENTICE_BUFF_ITEM
 	apprentice_msg TRUE, APPRENTICE_MSG_THANKS_HELD_ITEM
 	apprentice_answeredquestion
 	call Apprentice_EventScript_SetHideFlags
 	release
 	releaseall
-	switch VAR_FACING
+	switch VAR_0x800C
 	case DIR_NORTH, Apprentice_EventScript_LeaveNorth
 	goto Apprentice_EventScript_Leave
 	end
@@ -108,14 +108,14 @@ Apprentice_EventScript_ConfirmHoldNothing:
 	apprentice_msg FALSE, APPRENTICE_MSG_HOLD_NOTHING
 	apprentice_menu APPRENTICE_ASK_GIVE
 	apprentice_freequestion
-	goto_if_eq VAR_RESULT, 0, Apprentice_EventScript_ChooseHoldItem
+	goto_if_eq VAR_0x800D, 0, Apprentice_EventScript_ChooseHoldItem
 Apprentice_EventScript_HoldNothing:
 	apprentice_msg TRUE, APPRENTICE_MSG_THANKS_NO_HELD_ITEM
 	apprentice_answeredquestion
 	call Apprentice_EventScript_SetHideFlags
 	release
 	releaseall
-	switch VAR_FACING
+	switch VAR_0x800C
 	case DIR_NORTH, Apprentice_EventScript_LeaveNorth
 	goto Apprentice_EventScript_Leave
 	end
@@ -129,7 +129,7 @@ Apprentice_EventScript_AlreadySuggestedItem:
 	apprentice_msg FALSE, APPRENTICE_MSG_ITEM_ALREADY_SUGGESTED
 	apprentice_menu APPRENTICE_ASK_GIVE
 	apprentice_freequestion
-	goto_if_eq VAR_RESULT, 0, Apprentice_EventScript_ChooseHoldItem
+	goto_if_eq VAR_0x800D, 0, Apprentice_EventScript_ChooseHoldItem
 	goto Apprentice_EventScript_HoldNothing
 	end
 
@@ -140,7 +140,7 @@ Apprentice_EventScript_UseWhichMove:
 	apprentice_buff STR_VAR_3, APPRENTICE_BUFF_MOVE2
 	apprentice_msg FALSE, APPRENTICE_MSG_WHICH_MOVE
 	apprentice_menu APPRENTICE_ASK_MOVES
-	copyvar VAR_0x8005, VAR_RESULT
+	copyvar VAR_0x8005, VAR_0x800D
 	call_if_eq VAR_0x8005, 0, Apprentice_EventScript_ChoseMove1
 	call_if_eq VAR_0x8005, 1, Apprentice_EventScript_ChoseMove2
 	apprentice_setmove
@@ -151,7 +151,7 @@ Apprentice_EventScript_UseWhichMove:
 	call Apprentice_EventScript_SetHideFlags
 	release
 	releaseall
-	switch VAR_FACING
+	switch VAR_0x800C
 	case DIR_NORTH, Apprentice_EventScript_LeaveNorth
 	goto Apprentice_EventScript_Leave
 	end
@@ -167,14 +167,14 @@ Apprentice_EventScript_ChoseMove2:
 Apprentice_EventScript_PutWhichMonFirst:
 	apprentice_msg FALSE, APPRENTICE_MSG_WHICH_MON_FIRST
 	apprentice_menu APPRENTICE_ASK_3SPECIES
-	apprentice_setleadmon VAR_RESULT
+	apprentice_setleadmon VAR_0x800D
 	apprentice_answeredquestion
 	apprentice_buff STR_VAR_1, APPRENTICE_BUFF_LEAD_MON_SPECIES
 	apprentice_msg TRUE, APPRENTICE_MSG_THANKS_MON_FIRST
 	call Apprentice_EventScript_SetHideFlags
 	release
 	releaseall
-	switch VAR_FACING
+	switch VAR_0x800C
 	case DIR_NORTH, Apprentice_EventScript_LeaveNorth
 	goto Apprentice_EventScript_Leave
 	end
@@ -194,14 +194,14 @@ Apprentice_EventScript_PickWinSpeech:
 	call Apprentice_EventScript_SetHideFlags
 	release
 	releaseall
-	switch VAR_FACING
+	switch VAR_0x800C
 	case DIR_NORTH, Apprentice_EventScript_LeaveNorth
 	goto Apprentice_EventScript_Leave
 	end
 
 Apprentice_EventScript_SetHideFlags:
 	setflag FLAG_HIDE_APPRENTICE
-	setflag FLAG_DAILY_APPRENTICE_LEAVES
+	setflag FLAG_0x390
 	return
 
 Apprentice_EventScript_LeaveNorth:

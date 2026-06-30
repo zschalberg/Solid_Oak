@@ -4,10 +4,10 @@ ViridianCity_MapScripts::
 
 ViridianCity_OnTransition::
 	setworldmapflag FLAG_WORLD_MAP_VIRIDIAN_CITY
-	call_if_eq VAR_MAP_SCENE_VIRIDIAN_CITY_OLD_MAN, 0, ViridianCity_EventScript_SetOldManBlockingRoad
-	call_if_eq VAR_MAP_SCENE_VIRIDIAN_CITY_OLD_MAN, 1, ViridianCity_EventScript_SetOldManStandingByRoad
-	call_if_ge VAR_MAP_SCENE_VIRIDIAN_CITY_OLD_MAN, 2, ViridianCity_EventScript_SetOldManNormal
-	call_if_eq VAR_MAP_SCENE_VIRIDIAN_CITY_GYM_DOOR, 0, ViridianCity_EventScript_TryUnlockGym
+	call_if_eq VAR_0x4051, 0, ViridianCity_EventScript_SetOldManBlockingRoad
+	call_if_eq VAR_0x4051, 1, ViridianCity_EventScript_SetOldManStandingByRoad
+	call_if_ge VAR_0x4051, 2, ViridianCity_EventScript_SetOldManNormal
+	call_if_eq VAR_0x405A, 0, ViridianCity_EventScript_TryUnlockGym
 	end
 
 ViridianCity_EventScript_SetOldManNormal::
@@ -33,7 +33,7 @@ ViridianCity_EventScript_TryUnlockGym::
 	goto_if_unset FLAG_BADGE05_GET, EventScript_Return
 	goto_if_unset FLAG_BADGE06_GET, EventScript_Return
 	goto_if_unset FLAG_BADGE07_GET, EventScript_Return
-	setvar VAR_MAP_SCENE_VIRIDIAN_CITY_GYM_DOOR, 1
+	setvar VAR_0x405A, 1
 	return
 
 ViridianCity_EventScript_GymDoorLocked::
@@ -81,7 +81,7 @@ ViridianCity_EventScript_Boy::
 ViridianCity_EventScript_OldMan::
 	lock
 	faceplayer
-	goto_if_eq VAR_MAP_SCENE_VIRIDIAN_CITY_GYM_DOOR, 1, ViridianCity_EventScript_OldManGymLeaderReturned
+	goto_if_eq VAR_0x405A, 1, ViridianCity_EventScript_OldManGymLeaderReturned
 	msgbox ViridianCity_Text_GymClosedWonderWhoLeaderIs
 	closemessage
 	applymovement LOCALID_VIRIDIAN_OLD_MAN, Common_Movement_FaceOriginalDirection
@@ -98,14 +98,14 @@ ViridianCity_EventScript_TutorialOldMan::
 	lock
 	faceplayer
 	goto_if_set FLAG_BADGE01_GET, ViridianCity_EventScript_AskIfTeachyTVHelpful
-	goto_if_ge VAR_MAP_SCENE_VIRIDIAN_CITY_OLD_MAN, 2, ViridianCity_EventScript_TutorialCompleted
-	goto_if_eq VAR_MAP_SCENE_VIRIDIAN_CITY_OLD_MAN, 1, ViridianCity_EventScript_TutorialStart
-	goto_if_eq VAR_MAP_SCENE_VIRIDIAN_CITY_OLD_MAN, 0, ViridianCity_EventScript_TutorialNotReady
+	goto_if_ge VAR_0x4051, 2, ViridianCity_EventScript_TutorialCompleted
+	goto_if_eq VAR_0x4051, 1, ViridianCity_EventScript_TutorialStart
+	goto_if_eq VAR_0x4051, 0, ViridianCity_EventScript_TutorialNotReady
 	end
 
 ViridianCity_EventScript_AskIfTeachyTVHelpful::
 	msgbox ViridianCity_Text_HowsTeachyTVHelping, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, ViridianCity_EventScript_TeachyTVNotHelpful
+	goto_if_eq VAR_0x800D, NO, ViridianCity_EventScript_TeachyTVNotHelpful
 	msgbox ViridianCity_Text_MyGrandsonOnTheShow
 	release
 	end
@@ -151,8 +151,8 @@ ViridianCity_EventScript_Youngster::
 	lock
 	faceplayer
 	msgbox ViridianCity_Text_WantToKnowAboutCaterpillarMons, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, YES, ViridianCity_EventScript_YoungsterExplainCaterpillars
-	goto_if_eq VAR_RESULT, NO, ViridianCity_EventScript_YoungsterDeclineExplanation
+	goto_if_eq VAR_0x800D, YES, ViridianCity_EventScript_YoungsterExplainCaterpillars
+	goto_if_eq VAR_0x800D, NO, ViridianCity_EventScript_YoungsterDeclineExplanation
 	end
 
 ViridianCity_EventScript_YoungsterExplainCaterpillars::
@@ -168,7 +168,7 @@ ViridianCity_EventScript_YoungsterDeclineExplanation::
 ViridianCity_EventScript_Woman::
 	lock
 	faceplayer
-	goto_if_eq VAR_MAP_SCENE_VIRIDIAN_CITY_OLD_MAN, 0, ViridianCity_EventScript_WomanRoadBlocked
+	goto_if_eq VAR_0x4051, 0, ViridianCity_EventScript_WomanRoadBlocked
 	msgbox ViridianCity_Text_GoShoppingInPewterOccasionally
 	release
 	end
@@ -231,7 +231,7 @@ ViridianCity_EventScript_DoTutorialBattle::
 	lock
 	faceplayer
 	msgbox ViridianCity_Text_ThatWasEducationalTakeThis
-	setvar VAR_MAP_SCENE_VIRIDIAN_CITY_OLD_MAN, 2
+	setvar VAR_0x4051, 2
 	giveitem ITEM_TEACHY_TV
 	msgbox ViridianCity_Text_WatchThatToLearnBasics
 	return

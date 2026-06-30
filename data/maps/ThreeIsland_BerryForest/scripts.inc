@@ -28,14 +28,14 @@ ThreeIsland_BerryForest_EventScript_Lostelle::
 	waitmovement 0
 	msgbox ThreeIsland_BerryForest_Text_ThankYouHaveThis
 	giveitem ITEM_IAPAPA_BERRY
-	call_if_eq VAR_RESULT, FALSE, ThreeIsland_BerryForest_EventScript_NoRoomForBerry
+	call_if_eq VAR_0x800D, FALSE, ThreeIsland_BerryForest_EventScript_NoRoomForBerry
 	special BufferBigGuyOrBigGirlString
 	msgbox ThreeIsland_BerryForest_Text_LetsGoHome
 	closemessage
-	setflag FLAG_RESCUED_LOSTELLE
-	setflag FLAG_HIDE_LOSTELLE_IN_BERRY_FOREST
-	setvar VAR_MAP_SCENE_TWO_ISLAND_JOYFUL_GAME_CORNER, 2
-	clearflag FLAG_HIDE_TWO_ISLAND_GAME_CORNER_LOSTELLE
+	setflag FLAG_0x2A3
+	setflag FLAG_0x07A
+	setvar VAR_0x4079, 2
+	clearflag FLAG_0x075
 	warp MAP_TWO_ISLAND_JOYFUL_GAME_CORNER, 6, 6
 	waitstate
 	release

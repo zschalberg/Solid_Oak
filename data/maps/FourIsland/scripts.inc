@@ -5,22 +5,22 @@ FourIsland_MapScripts::
 
 FourIsland_OnTransition::
 	setworldmapflag FLAG_WORLD_MAP_FOUR_ISLAND
-	call_if_eq VAR_MAP_SCENE_FOUR_ISLAND, 0, FourIsland_EventScript_ShowRival
+	call_if_eq VAR_0x4086, 0, FourIsland_EventScript_ShowRival
 	call FourIsland_EventScript_TrySetDayCareManPos
 	end
 
 FourIsland_EventScript_ShowRival::
-	clearflag FLAG_HIDE_FOUR_ISLAND_RIVAL
+	clearflag FLAG_0x097
 	return
 
 FourIsland_EventScript_TrySetDayCareManPos::
-	goto_if_unset FLAG_PENDING_DAYCARE_EGG, FourIsland_EventScript_EndSetDayCareManPos
+	goto_if_unset FLAG_0x266, FourIsland_EventScript_EndSetDayCareManPos
 	setobjectxyperm LOCALID_FOUR_ISLAND_DAYCARE_MAN, 16, 14
 FourIsland_EventScript_EndSetDayCareManPos::
 	return
 
 FourIsland_OnFrame::
-	map_script_2 VAR_MAP_SCENE_FOUR_ISLAND, 0, FourIsland_EventScript_RivalScene
+	map_script_2 VAR_0x4086, 0, FourIsland_EventScript_RivalScene
 	.2byte 0
 
 FourIsland_EventScript_RivalScene::
@@ -45,7 +45,7 @@ FourIsland_EventScript_RivalScene::
 	playse SE_EXIT
 	delay 35
 	removeobject LOCALID_FOUR_ISLAND_RIVAL
-	setvar VAR_MAP_SCENE_FOUR_ISLAND, 1
+	setvar VAR_0x4086, 1
 	releaseall
 	end
 
@@ -73,28 +73,28 @@ FourIsland_EventScript_DaycareMan::
 	lock
 	faceplayer
 	special GetDaycareMonNicknames
-	specialvar VAR_RESULT, GetDaycareState
-	goto_if_eq VAR_RESULT, DAYCARE_EGG_WAITING, FourIsland_EventScript_DaycareEggWaiting
-	goto_if_eq VAR_RESULT, DAYCARE_ONE_MON, FourIsland_EventScript_CheckOnOneMon
-	goto_if_eq VAR_RESULT, DAYCARE_TWO_MONS, FourIsland_EventScript_CheckOnTwoMons
+	specialvar VAR_0x800D, GetDaycareState
+	goto_if_eq VAR_0x800D, DAYCARE_EGG_WAITING, FourIsland_EventScript_DaycareEggWaiting
+	goto_if_eq VAR_0x800D, DAYCARE_ONE_MON, FourIsland_EventScript_CheckOnOneMon
+	goto_if_eq VAR_0x800D, DAYCARE_TWO_MONS, FourIsland_EventScript_CheckOnTwoMons
 	msgbox DayCare_Text_ImDaycareManSpeakToMyWife
 	release
 	end
 
 FourIsland_EventScript_DaycareEggWaiting::
 	msgbox DayCare_Text_DoYouWantEgg, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, YES, FourIsland_EventScript_DaycareAcceptEgg
+	goto_if_eq VAR_0x800D, YES, FourIsland_EventScript_DaycareAcceptEgg
 	msgbox DayCare_Text_IWillKeepDoYouWantIt, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, YES, FourIsland_EventScript_DaycareAcceptEgg
+	goto_if_eq VAR_0x800D, YES, FourIsland_EventScript_DaycareAcceptEgg
 	msgbox DayCare_Text_IllKeepIt
-	clearflag FLAG_PENDING_DAYCARE_EGG
+	clearflag FLAG_0x266
 	special RejectEggFromDayCare
 	release
 	end
 
 FourIsland_EventScript_DaycareAcceptEgg::
-	specialvar VAR_RESULT, CalculatePlayerPartyCount
-	goto_if_ne VAR_RESULT, PARTY_SIZE, FourIsland_EventScript_DaycareReceivedEgg
+	specialvar VAR_0x800D, CalculatePlayerPartyCount
+	goto_if_ne VAR_0x800D, PARTY_SIZE, FourIsland_EventScript_DaycareReceivedEgg
 	msgbox DayCare_Text_YouHaveNoRoomForIt
 	release
 	end
@@ -108,7 +108,7 @@ FourIsland_EventScript_DaycareReceivedEgg::
 	waitbuttonpress
 	msgbox DayCare_Text_TakeGoodCareOfIt
 	special GiveEggFromDaycare
-	clearflag FLAG_PENDING_DAYCARE_EGG
+	clearflag FLAG_0x266
 	release
 	end
 

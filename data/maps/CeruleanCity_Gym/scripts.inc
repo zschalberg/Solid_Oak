@@ -4,14 +4,14 @@ CeruleanCity_Gym_MapScripts::
 CeruleanCity_Gym_EventScript_Misty::
 	famechecker FAMECHECKER_MISTY, FCPICKSTATE_COLORED, UpdatePickStateFromSpecialVar8005
 	trainerbattle_single TRAINER_LEADER_MISTY, CeruleanCity_Gym_Text_MistyIntro, CeruleanCity_Gym_Text_MistyDefeat, CeruleanCity_Gym_EventScript_MistyDefeated, NO_MUSIC
-	goto_if_unset FLAG_GOT_TM03_FROM_MISTY, CeruleanCity_Gym_EventScript_GiveTM03
+	goto_if_unset FLAG_0x297, CeruleanCity_Gym_EventScript_GiveTM03
 	msgbox CeruleanCity_Gym_Text_ExplainTM03
 	release
 	end
 
 CeruleanCity_Gym_EventScript_MistyDefeated::
 	famechecker FAMECHECKER_MISTY, 1
-	setflag FLAG_DEFEATED_MISTY
+	setflag FLAG_0x4B1
 	setflag FLAG_BADGE02_GET
 	setrespawn HEAL_LOCATION_CERULEAN_CITY
 	set_gym_trainers 2
@@ -21,9 +21,9 @@ CeruleanCity_Gym_EventScript_MistyDefeated::
 CeruleanCity_Gym_EventScript_GiveTM03::
 	msgbox CeruleanCity_Gym_Text_ExplainCascadeBadge
 	checkitemspace ITEM_TM03
-	goto_if_eq VAR_RESULT, FALSE, CeruleanCity_Gym_EventScript_NoRoomForTM03
+	goto_if_eq VAR_0x800D, FALSE, CeruleanCity_Gym_EventScript_NoRoomForTM03
 	giveitem_msg CeruleanCity_Gym_Text_ReceivedTM03FromMisty, ITEM_TM03
-	setflag FLAG_GOT_TM03_FROM_MISTY
+	setflag FLAG_0x297
 	msgbox CeruleanCity_Gym_Text_ExplainTM03
 	release
 	end
@@ -47,7 +47,7 @@ CeruleanCity_Gym_EventScript_Luis::
 CeruleanCity_Gym_EventScript_GymGuy::
 	lock
 	faceplayer
-	goto_if_set FLAG_DEFEATED_MISTY, CeruleanCity_Gym_EventScript_GymGuyPostVictory
+	goto_if_set FLAG_0x4B1, CeruleanCity_Gym_EventScript_GymGuyPostVictory
 	msgbox CeruleanCity_Gym_Text_GymGuyAdvice
 	release
 	end

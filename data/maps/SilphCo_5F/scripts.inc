@@ -3,15 +3,15 @@ SilphCo_5F_MapScripts::
 	.byte 0
 
 SilphCo_5F_OnLoad::
-	call_if_unset FLAG_SILPH_5F_DOOR_1, EventScript_Close5FDoor1
-	call_if_unset FLAG_SILPH_5F_DOOR_2, EventScript_Close5FDoor2
-	call_if_unset FLAG_SILPH_5F_DOOR_3, EventScript_Close5FDoor3
+	call_if_unset FLAG_0x280, EventScript_Close5FDoor1
+	call_if_unset FLAG_0x281, EventScript_Close5FDoor2
+	call_if_unset FLAG_0x282, EventScript_Close5FDoor3
 	end
 
 SilphCo_5F_EventScript_WorkerM::
 	lock
 	faceplayer
-	goto_if_ge VAR_MAP_SCENE_SILPH_CO_11F, 1, SilphCo_5F_EventScript_WorkerMRocketsGone
+	goto_if_ge VAR_0x4060, 1, SilphCo_5F_EventScript_WorkerMRocketsGone
 	msgbox SilphCo_5F_Text_RocketsInUproarAboutIntruder
 	release
 	end

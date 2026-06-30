@@ -9,7 +9,7 @@ CeruleanCity_House4_EventScript_WonderNewsBerryMan::
 	special QuestLog_CutRecording
 	lock
 	specialvar REWARD_TYPE, WonderNews_GetRewardInfo
-	copyvar REWARD_ITEM, VAR_RESULT
+	copyvar REWARD_ITEM, VAR_0x800D
 	goto_if_eq REWARD_TYPE, NEWS_REWARD_NONE,       CeruleanCity_House4_EventScript_NoNews
 	goto_if_eq REWARD_TYPE, NEWS_REWARD_RECV_SMALL, CeruleanCity_House4_EventScript_Reward_RecvSmall
 	goto_if_eq REWARD_TYPE, NEWS_REWARD_RECV_BIG,   CeruleanCity_House4_EventScript_Reward_RecvBig
@@ -30,7 +30,7 @@ CeruleanCity_House4_EventScript_Reward_RecvSmall::
 	call CeruleanCity_House4_EventScript_MovementReactionToNews
 	msgbox CeruleanCity_House4_Text_NewNewsInformativeHaveThis
 	giveitem REWARD_ITEM
-	goto_if_eq VAR_RESULT, FALSE, CeruleanCity_House4_EventScript_NoRoomForBerries
+	goto_if_eq VAR_0x800D, FALSE, CeruleanCity_House4_EventScript_NoRoomForBerries
 	release
 	end
 
@@ -39,7 +39,7 @@ CeruleanCity_House4_EventScript_Reward_RecvBig::
 	call CeruleanCity_House4_EventScript_MovementReactionToNews
 	msgbox CeruleanCity_House4_Text_IncredibleNewsHaveBerries
 	giveitem REWARD_ITEM, 4
-	goto_if_eq VAR_RESULT, FALSE, CeruleanCity_House4_EventScript_NoRoomForBerries
+	goto_if_eq VAR_0x800D, FALSE, CeruleanCity_House4_EventScript_NoRoomForBerries
 	release
 	end
 
@@ -56,7 +56,7 @@ CeruleanCity_House4_EventScript_Reward_SentSmall::
 	call CeruleanCity_House4_EventScript_MovementReactionToNews
 	msgbox CeruleanCity_House4_Text_ThanksForSpreadingNewsTakeThis
 	giveitem REWARD_ITEM
-	goto_if_eq VAR_RESULT, FALSE, CeruleanCity_House4_EventScript_NoRoomForBerries
+	goto_if_eq VAR_0x800D, FALSE, CeruleanCity_House4_EventScript_NoRoomForBerries
 	release
 	end
 
@@ -65,7 +65,7 @@ CeruleanCity_House4_EventScript_Reward_SentBig::
 	call CeruleanCity_House4_EventScript_MovementReactionToNews
 	msgbox CeruleanCity_House4_Text_MagnificentNewsSpreadHaveBerries
 	giveitem REWARD_ITEM, 4
-	goto_if_eq VAR_RESULT, FALSE, CeruleanCity_House4_EventScript_NoRoomForBerries
+	goto_if_eq VAR_0x800D, FALSE, CeruleanCity_House4_EventScript_NoRoomForBerries
 	release
 	end
 

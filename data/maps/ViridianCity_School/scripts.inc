@@ -25,13 +25,13 @@ ViridianCity_School_EventScript_Notebook::
 	lockall
 	msgbox ViridianCity_School_Text_NotebookFirstPage
 	msgbox ViridianCity_School_Text_TurnThePage, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, ViridianCity_School_EventScript_StopReadingNotebook
+	goto_if_eq VAR_0x800D, NO, ViridianCity_School_EventScript_StopReadingNotebook
 	msgbox ViridianCity_School_Text_NotebookSecondPage
 	msgbox ViridianCity_School_Text_TurnThePage, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, ViridianCity_School_EventScript_StopReadingNotebook
+	goto_if_eq VAR_0x800D, NO, ViridianCity_School_EventScript_StopReadingNotebook
 	msgbox ViridianCity_School_Text_NotebookThirdPage
 	msgbox ViridianCity_School_Text_TurnThePage, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, ViridianCity_School_EventScript_StopReadingNotebook
+	goto_if_eq VAR_0x800D, NO, ViridianCity_School_EventScript_StopReadingNotebook
 	msgbox ViridianCity_School_Text_NotebookFourthPage
 	applymovement LOCALID_SCHOOL_LASS, Common_Movement_WalkInPlaceFasterUp
 	waitmovement 0
@@ -54,7 +54,7 @@ ViridianCity_School_EventScript_ChooseBlackboardTopic::
 	message ViridianCity_School_Text_ReadWhichTopic
 	waitmessage
 	multichoicegrid 7, 1, MULTI_TRAINER_SCHOOL_WHITEBOARD, 3, FALSE
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, ViridianCity_School_EventScript_ReadSleep
 	case 1, ViridianCity_School_EventScript_ReadPoison
 	case 2, ViridianCity_School_EventScript_ReadParalysis

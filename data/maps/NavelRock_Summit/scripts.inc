@@ -4,20 +4,20 @@ NavelRock_Summit_MapScripts::
 	.byte 0
 
 NavelRock_Summit_OnTransition::
-	call_if_set FLAG_FOUGHT_HO_OH, NavelRock_Summit_EventScript_HideHoOh
-	call_if_unset FLAG_FOUGHT_HO_OH, NavelRock_Summit_EventScript_TryShowHoOh
+	call_if_set FLAG_0x2F3, NavelRock_Summit_EventScript_HideHoOh
+	call_if_unset FLAG_0x2F3, NavelRock_Summit_EventScript_TryShowHoOh
 	end
 
 NavelRock_Summit_EventScript_HideHoOh::
 	setvar VAR_TEMP_1, 1
-	setflag FLAG_HIDE_HO_OH
+	setflag FLAG_0x09C
 	return
 
 NavelRock_Summit_EventScript_TryShowHoOh::
 	setvar VAR_TEMP_1, 1
-	goto_if_set FLAG_HO_OH_FLEW_AWAY, EventScript_Return
+	goto_if_set FLAG_0x2F6, EventScript_Return
 	setvar VAR_TEMP_1, 0
-	clearflag FLAG_HIDE_HO_OH
+	clearflag FLAG_0x09C
 	return
 
 NavelRock_Summit_OnResume::
@@ -25,8 +25,8 @@ NavelRock_Summit_OnResume::
 	end
 
 NavelRock_Summit_EventScript_TryRemoveHoOh::
-	specialvar VAR_RESULT, GetBattleOutcome
-	goto_if_ne VAR_RESULT, B_OUTCOME_CAUGHT, EventScript_Return
+	specialvar VAR_0x800D, GetBattleOutcome
+	goto_if_ne VAR_0x800D, B_OUTCOME_CAUGHT, EventScript_Return
 	removeobject LOCALID_NAVEL_ROCK_HO_OH
 	return
 
@@ -62,17 +62,17 @@ NavelRock_Summit_EventScript_HoOh::
 	special BattleSetup_StartLegendaryBattle
 	waitstate
 	clearflag FLAG_SYS_SPECIAL_WILD_BATTLE
-	setvar VAR_LAST_TALKED, LOCALID_NAVEL_ROCK_HO_OH
-	specialvar VAR_RESULT, GetBattleOutcome
-	goto_if_eq VAR_RESULT, B_OUTCOME_WON, NavelRock_Summit_EventScript_DefeatedHoOh
-	goto_if_eq VAR_RESULT, B_OUTCOME_RAN, NavelRock_Summit_EventScript_RanFromHoOh
-	goto_if_eq VAR_RESULT, B_OUTCOME_PLAYER_TELEPORTED, NavelRock_Summit_EventScript_RanFromHoOh
-	setflag FLAG_FOUGHT_HO_OH
+	setvar VAR_0x800F, LOCALID_NAVEL_ROCK_HO_OH
+	specialvar VAR_0x800D, GetBattleOutcome
+	goto_if_eq VAR_0x800D, B_OUTCOME_WON, NavelRock_Summit_EventScript_DefeatedHoOh
+	goto_if_eq VAR_0x800D, B_OUTCOME_RAN, NavelRock_Summit_EventScript_RanFromHoOh
+	goto_if_eq VAR_0x800D, B_OUTCOME_PLAYER_TELEPORTED, NavelRock_Summit_EventScript_RanFromHoOh
+	setflag FLAG_0x2F3
 	releaseall
 	end
 
 NavelRock_Summit_EventScript_DefeatedHoOh::
-	setflag FLAG_HO_OH_FLEW_AWAY
+	setflag FLAG_0x2F6
 	setvar VAR_0x8004, SPECIES_HO_OH
 	goto EventScript_MonFlewAway
 	end

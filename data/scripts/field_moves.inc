@@ -2,9 +2,9 @@ EventScript_CutTree::
 	goto_if_questlog EventScript_ReleaseEnd
 	lockall
 	checkfieldmoveusable FIELD_MOVE_CUT
-	goto_if_eq VAR_RESULT, FALSE, EventScript_CantCutTree
+	goto_if_eq VAR_0x800D, FALSE, EventScript_CantCutTree
 	msgbox Text_CutTreeDown, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, EventScript_DontCutTree
+	goto_if_eq VAR_0x800D, NO, EventScript_DontCutTree
 	msgbox Text_MonUsedMove
 	closemessage
 EventScript_CutTreeCommon:
@@ -15,9 +15,9 @@ EventScript_CutTreeCommon:
 EventScript_CutTreeDown:: @ fallthrough
 	setflag FLAG_SAFE_FOLLOWER_MOVEMENT
 	call_if_eq VAR_0x8004, TRUE, EventScript_FollowerFieldMove
-	applymovement VAR_LAST_TALKED, Movement_CutTreeDown
+	applymovement VAR_0x800F, Movement_CutTreeDown
 	waitmovement 0
-	removeobject VAR_LAST_TALKED
+	removeobject VAR_0x800F
 	releaseall
 	end
 
@@ -61,9 +61,9 @@ EventScript_RockSmash::
 	goto_if_questlog EventScript_ReleaseEnd
 	lockall
 	checkfieldmoveusable FIELD_MOVE_ROCK_SMASH
-	goto_if_eq VAR_RESULT, FALSE, EventScript_CantSmashRock
+	goto_if_eq VAR_0x800D, FALSE, EventScript_CantSmashRock
 	msgbox Text_UseRockSmash, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, EventScript_DontSmashRock
+	goto_if_eq VAR_0x800D, NO, EventScript_DontSmashRock
 	msgbox Text_MonUsedMove
 	closemessage
 EventScript_RockSmashCommon:
@@ -75,11 +75,11 @@ EventScript_RockSmashCommon:
 EventScript_SmashRock:: @ fallthrough
 	setflag FLAG_SAFE_FOLLOWER_MOVEMENT
 	call_if_eq VAR_0x8004, TRUE, EventScript_FollowerFieldMove
-	applymovement VAR_LAST_TALKED, Movement_BreakRock
+	applymovement VAR_0x800F, Movement_BreakRock
 	waitmovement 0
-	removeobject VAR_LAST_TALKED
+	removeobject VAR_0x800F
 	special RockSmashWildEncounter
-	goto_if_eq VAR_RESULT, FALSE, EventScript_RockSmashNoEncounter
+	goto_if_eq VAR_0x800D, FALSE, EventScript_RockSmashNoEncounter
 	waitstate
 	releaseall
 	end
@@ -223,9 +223,9 @@ EventScript_StrengthBoulder::
 	lockall
 	goto_if_set FLAG_SYS_USE_STRENGTH, EventScript_AlreadyUsedStrength
 	checkfieldmoveusable FIELD_MOVE_STRENGTH
-	goto_if_eq VAR_RESULT, FALSE, EventScript_CantMoveBoulder
+	goto_if_eq VAR_0x800D, FALSE, EventScript_CantMoveBoulder
 	msgbox Text_UseStrength, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, EventScript_DontUseStrength
+	goto_if_eq VAR_0x800D, NO, EventScript_DontUseStrength
 	closemessage
 	dofieldeffect FLDEFF_USE_STRENGTH
 	waitstate
@@ -279,9 +279,9 @@ EventScript_Waterfall::
 	goto_if_questlog EventScript_ReleaseEnd
 	lockall
 	checkfieldmoveusable FIELD_MOVE_WATERFALL
-	goto_if_eq VAR_RESULT, FALSE, EventScript_WaterCrashingDown
+	goto_if_eq VAR_0x800D, FALSE, EventScript_WaterCrashingDown
 	msgbox Text_UseWaterfall, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, EventScript_EndWaterfall
+	goto_if_eq VAR_0x800D, NO, EventScript_EndWaterfall
 	msgbox Text_MonUsedWaterfall
 	dofieldeffect FLDEFF_USE_WATERFALL
 	callnative FollowerNPC_WarpSetEnd
@@ -310,10 +310,10 @@ Text_MonUsedWaterfall::
 EventScript_DeepWater::
 	lockall
 	checkfieldmoveusable FIELD_MOVE_DIVE
-	goto_if_eq VAR_RESULT, FALSE, EventScript_MayGoUnderwater
+	goto_if_eq VAR_0x800D, FALSE, EventScript_MayGoUnderwater
 	setfieldeffectargument 1, 1
 	msgbox Text_SeaIsDeepUseDive, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, EventScript_EndDive
+	goto_if_eq VAR_0x800D, NO, EventScript_EndDive
 	msgbox Text_MonUsedDive
 	dofieldeffect FLDEFF_USE_DIVE
 	goto EventScript_EndDive
@@ -329,10 +329,10 @@ EventScript_EndDive:
 EventScript_TrySurface::
 	lockall
 	checkfieldmoveusable FIELD_MOVE_DIVE
-	goto_if_eq VAR_RESULT, PARTY_SIZE, EventScript_CantSurface
+	goto_if_eq VAR_0x800D, PARTY_SIZE, EventScript_CantSurface
 	setfieldeffectargument 1, 1
 	msgbox Text_LightFilteringUseDive, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, EventScript_EndSurface
+	goto_if_eq VAR_0x800D, NO, EventScript_EndSurface
 	msgbox Text_MonUsedDive
 	dofieldeffect FLDEFF_USE_DIVE
 	goto EventScript_EndSurface
@@ -398,7 +398,7 @@ EventScript_UseDefog::
 	setflag FLAG_SAFE_FOLLOWER_MOVEMENT
 	call_if_eq VAR_0x8004, TRUE, EventScript_FollowerFieldMove
 	waitmovement 0
-	setfieldeffectargument 0, VAR_RESULT
+	setfieldeffectargument 0, VAR_0x800D
 	dofieldeffect FLDEFF_DEFOG
 	waitstate
 	releaseall
@@ -408,9 +408,9 @@ EventScript_UseRockClimb::
 	goto_if_questlog EventScript_ReleaseEnd
 	lockall
 	checkfieldmoveusable FIELD_MOVE_ROCK_CLIMB
-	goto_if_eq VAR_RESULT, PARTY_SIZE, EventScript_CantRockClimb
+	goto_if_eq VAR_0x800D, PARTY_SIZE, EventScript_CantRockClimb
 	msgbox Text_WantToRockClimb, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, EventScript_EndRockClimb
+	goto_if_eq VAR_0x800D, NO, EventScript_EndRockClimb
 	msgbox Text_MonUsedRockClimb, MSGBOX_DEFAULT
 	closemessage
 	dofieldeffect FLDEFF_USE_ROCK_CLIMB

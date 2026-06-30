@@ -16,11 +16,11 @@ SevenIsland_SevaultCanyon_House_EventScript_ChanseyDanceMan::
 	msgbox SevenIsland_SevaultCanyon_House_Text_ChanseyDanceJoinIn
 	textcolor NPC_TEXT_COLOR_NEUTRAL
 	msgbox SevenIsland_SevaultCanyon_House_Text_WouldYouLikeToDance, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, SevenIsland_SevaultCanyon_House_EventScript_DeclineDance
+	goto_if_eq VAR_0x800D, NO, SevenIsland_SevaultCanyon_House_EventScript_DeclineDance
 	msgbox SevenIsland_SevaultCanyon_House_Text_DancedChanseyDance
 	closemessage
 	call EventScript_RestorePrevTextColor
-	call_if_ne VAR_FACING, DIR_SOUTH, SevenIsland_SevaultCanyon_House_EventScript_PlayerFaceDown
+	call_if_ne VAR_0x800C, DIR_SOUTH, SevenIsland_SevaultCanyon_House_EventScript_PlayerFaceDown
 	delay 30
 	playbgm MUS_SCHOOL, 0
 	applymovement LOCALID_PLAYER, SevenIsland_SevaultCanyon_House_Movement_ChanseyDance

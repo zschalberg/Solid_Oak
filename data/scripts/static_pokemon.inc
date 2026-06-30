@@ -1,13 +1,13 @@
 EventScript_RemoveStaticMon::
     fadescreenswapbuffers FADE_TO_BLACK
-    removeobject VAR_LAST_TALKED
+    removeobject VAR_0x800F
     fadescreenswapbuffers FADE_FROM_BLACK
     release
     end
 
 EventScript_MonFlewAway::
     fadescreenswapbuffers FADE_TO_BLACK
-    removeobject VAR_LAST_TALKED
+    removeobject VAR_0x800F
     fadescreenswapbuffers FADE_FROM_BLACK
     bufferspeciesname STR_VAR_1, VAR_0x8004
     msgbox Text_MonFlewAway

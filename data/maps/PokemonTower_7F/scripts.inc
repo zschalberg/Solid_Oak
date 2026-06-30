@@ -5,9 +5,9 @@ PokemonTower_7F_EventScript_MrFuji::
 	lock
 	faceplayer
 	famechecker FAMECHECKER_MRFUJI, FCPICKSTATE_COLORED, UpdatePickStateFromSpecialVar8005
-	setflag FLAG_HIDE_TOWER_FUJI
-	clearflag FLAG_HIDE_POKEHOUSE_FUJI
-	setflag FLAG_RESCUED_MR_FUJI
+	setflag FLAG_0x034
+	clearflag FLAG_0x035
+	setflag FLAG_0x23C
 	msgbox PokemonTower_7F_Text_MrFujiThankYouFollowMe
 	closemessage
 	warp MAP_LAVENDER_TOWN_VOLUNTEER_POKEMON_HOUSE, 4, 7

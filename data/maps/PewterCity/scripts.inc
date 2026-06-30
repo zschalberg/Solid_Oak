@@ -4,7 +4,7 @@ PewterCity_MapScripts::
 
 PewterCity_OnTransition::
 	setworldmapflag FLAG_WORLD_MAP_PEWTER_CITY
-	setvar VAR_MAP_SCENE_PEWTER_CITY_MUSEUM_1F, 0
+	setvar VAR_0x4061, 0
 	end
 
 @ Impossible to speak to this NPC from a facing dir != DIR_EAST normally, so they arent checked
@@ -15,14 +15,14 @@ PewterCity_EventScript_GymGuide::
 	msgbox PewterCity_Text_BrocksLookingForChallengersFollowMe
 	closemessage
 	playbgm MUS_FOLLOW_ME, 0
-	call_if_eq VAR_FACING, DIR_EAST, PewterCity_EventScript_WalkToGymEast
+	call_if_eq VAR_0x800C, DIR_EAST, PewterCity_EventScript_WalkToGymEast
 	msgbox PewterCity_Text_GoTakeOnBrock
 	closemessage
 	applymovement LOCALID_PEWTER_GYM_GUIDE, PewterCity_Movement_GymGuideExit
 	waitmovement 0
 	fadedefaultbgm
 	removeobject LOCALID_PEWTER_GYM_GUIDE
-	clearflag FLAG_HIDE_PEWTER_CITY_GYM_GUIDE
+	clearflag FLAG_0x02E
 	release
 	end
 
@@ -292,7 +292,7 @@ PewterCity_EventScript_GymGuideTrigger::
 	waitmovement 0
 	fadedefaultbgm
 	removeobject LOCALID_PEWTER_GYM_GUIDE
-	clearflag FLAG_HIDE_PEWTER_CITY_GYM_GUIDE
+	clearflag FLAG_0x02E
 	releaseall
 	end
 
@@ -432,15 +432,15 @@ PewterCity_EventScript_MuseumGuide::
 	lock
 	faceplayer
 	msgbox PewterCity_Text_DidYouCheckOutMuseum, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, YES, PewterCity_EventScript_CheckedOutMuseum
+	goto_if_eq VAR_0x800D, YES, PewterCity_EventScript_CheckedOutMuseum
 	msgbox PewterCity_Text_ReallyYouHaveToGo
 	closemessage
 	delay 10
 	playbgm MUS_FOLLOW_ME, 0
-	call_if_eq VAR_FACING, DIR_NORTH, PewterCity_EventScript_LeadToMuseumNorth
-	call_if_eq VAR_FACING, DIR_SOUTH, PewterCity_EventScript_LeadToMuseumSouth
-	call_if_eq VAR_FACING, DIR_WEST, PewterCity_EventScript_LeadToMuseumWest
-	call_if_eq VAR_FACING, DIR_EAST, PewterCity_EventScript_LeadToMuseumEast
+	call_if_eq VAR_0x800C, DIR_NORTH, PewterCity_EventScript_LeadToMuseumNorth
+	call_if_eq VAR_0x800C, DIR_SOUTH, PewterCity_EventScript_LeadToMuseumSouth
+	call_if_eq VAR_0x800C, DIR_WEST, PewterCity_EventScript_LeadToMuseumWest
+	call_if_eq VAR_0x800C, DIR_EAST, PewterCity_EventScript_LeadToMuseumEast
 	msgbox PewterCity_Text_ThisIsTheMuseum
 	closemessage
 	delay 10
@@ -448,7 +448,7 @@ PewterCity_EventScript_MuseumGuide::
 	waitmovement 0
 	fadedefaultbgm
 	removeobject LOCALID_PEWTER_MUSEUM_GUIDE
-	clearflag FLAG_HIDE_PEWTER_MUSEUM_GUIDE
+	clearflag FLAG_0x050
 	release
 	end
 
@@ -618,7 +618,7 @@ PewterCity_EventScript_BugCatcher::
 	lock
 	faceplayer
 	msgbox PewterCity_Text_DoYouKnowWhatImDoing, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, YES, PewterCity_EventScript_KnowWhatTheyreDoing
+	goto_if_eq VAR_0x800D, YES, PewterCity_EventScript_KnowWhatTheyreDoing
 	msgbox PewterCity_Text_SprayingRepelToKeepWildMonsOut
 	release
 	end
@@ -720,7 +720,7 @@ PewterCity_EventScript_AideGiveRunningShoes::
 	closemessage
 	removeobject LOCALID_PEWTER_AIDE
 	setflag FLAG_SYS_B_DASH
-	setvar VAR_MAP_SCENE_PEWTER_CITY, 2
+	setvar VAR_0x406C, 2
 	return
 
 PewterCity_EventScript_AideNoticePlayer::

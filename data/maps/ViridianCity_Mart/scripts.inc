@@ -13,7 +13,7 @@ ViridianCity_Mart_EventScript_HideQuestionnaire::
 	end
 
 ViridianCity_Mart_OnFrame::
-	map_script_2 VAR_MAP_SCENE_VIRIDIAN_CITY_MART, 0, ViridianCity_Mart_EventScript_ParcelScene
+	map_script_2 VAR_0x4057, 0, ViridianCity_Mart_EventScript_ParcelScene
 	.2byte 0
 
 ViridianCity_Mart_EventScript_ParcelScene::
@@ -27,9 +27,9 @@ ViridianCity_Mart_EventScript_ParcelScene::
 	applymovement LOCALID_PLAYER, ViridianCity_Mart_Movement_ApproachCounter
 	waitmovement 0
 	msgbox ViridianCity_Mart_Text_TakeThisToProfOak
-	setvar VAR_MAP_SCENE_VIRIDIAN_CITY_MART, 1
+	setvar VAR_0x4057, 1
 	giveitem_msg ViridianCity_Mart_Text_ReceivedOaksParcelFromClerk, ITEM_OAKS_PARCEL, 1, MUS_OBTAIN_KEY_ITEM
-	setvar VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB, 5
+	setvar VAR_0x4055, 5
 	releaseall
 	end
 
@@ -52,7 +52,7 @@ ViridianCity_Mart_Movement_FacePlayer::
 ViridianCity_Mart_EventScript_Clerk::
 	lock
 	faceplayer
-	goto_if_eq VAR_MAP_SCENE_VIRIDIAN_CITY_MART, 1, ViridianCity_Mart_EventScript_SayHiToOak
+	goto_if_eq VAR_0x4057, 1, ViridianCity_Mart_EventScript_SayHiToOak
 	goto_if_questlog EventScript_ReleaseEnd
 	message Text_MayIHelpYou
 	waitmessage

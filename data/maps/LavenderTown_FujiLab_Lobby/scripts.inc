@@ -7,16 +7,16 @@ LavenderTown_FujiLab_Lobby_EventScript_Assistant::
 	msgbox LavenderTown_FujiLab_Lobby_Text_AssistantGreeting, MSGBOX_DEFAULT
 
 LavenderTown_FujiLab_Lobby_EventScript_LoopDeposit::
-	specialvar VAR_RESULT, CalculatePlayerPartyCount
-	compare VAR_RESULT, 1
+	specialvar VAR_0x800D, CalculatePlayerPartyCount
+	compare VAR_0x800D, 1
 	goto_if_le LavenderTown_FujiLab_Lobby_EventScript_CantStoreLast
 
-	specialvar VAR_RESULT, IsThereRoomInAnyBoxForMorePokemon
-	compare VAR_RESULT, FALSE
+	specialvar VAR_0x800D, IsThereRoomInAnyBoxForMorePokemon
+	compare VAR_0x800D, FALSE
 	goto_if_eq LavenderTown_FujiLab_Lobby_EventScript_StorageFull
 
 	msgbox LavenderTown_FujiLab_Lobby_Text_AskDeposit, MSGBOX_YESNO
-	compare VAR_RESULT, NO
+	compare VAR_0x800D, NO
 	goto_if_eq LavenderTown_FujiLab_Lobby_EventScript_AskUpgrade
 
 	special ChoosePartyMon
@@ -28,7 +28,7 @@ LavenderTown_FujiLab_Lobby_EventScript_LoopDeposit::
 	fadescreenswapbuffers FADE_TO_BLACK
 	special FujiLab_Deposit
 	fadescreenswapbuffers FADE_FROM_BLACK
-	compare VAR_RESULT, FALSE
+	compare VAR_0x800D, FALSE
 	goto_if_eq LavenderTown_FujiLab_Lobby_EventScript_DepositFailed
 
 	playse SE_PC_LOGIN
@@ -36,19 +36,19 @@ LavenderTown_FujiLab_Lobby_EventScript_LoopDeposit::
 	goto LavenderTown_FujiLab_Lobby_EventScript_LoopDeposit
 
 LavenderTown_FujiLab_Lobby_EventScript_AskUpgrade::
-	goto_if_set FLAG_FUJI_LAB_UPGRADE, LavenderTown_FujiLab_Lobby_EventScript_Exit
+	goto_if_set FLAG_0x4AB, LavenderTown_FujiLab_Lobby_EventScript_Exit
 	showmoneybox 0, 0
 	msgbox LavenderTown_FujiLab_Lobby_Text_AskUpgrade, MSGBOX_YESNO
-	compare VAR_RESULT, NO
+	compare VAR_0x800D, NO
 	goto_if_eq LavenderTown_FujiLab_Lobby_EventScript_ExitUpgrade
 
 	checkmoney 50000
-	compare VAR_RESULT, FALSE
+	compare VAR_0x800D, FALSE
 	goto_if_eq LavenderTown_FujiLab_Lobby_EventScript_NotEnoughMoney
 
 	removemoney 50000
 	updatemoneybox
-	setflag FLAG_FUJI_LAB_UPGRADE
+	setflag FLAG_0x4AB
 	playfanfare MUS_LEVEL_UP
 	msgbox LavenderTown_FujiLab_Lobby_Text_UpgradeSuccess, MSGBOX_DEFAULT
 	waitfanfare
@@ -136,23 +136,23 @@ LavenderTown_FujiLab_Lobby_Text_BlockedWorker:
 FujiLab_EventScript_InteractRoomMon::
 	lock
 	faceplayer
-	copyvar VAR_0x8006, VAR_LAST_TALKED
+	copyvar VAR_0x8006, VAR_0x800F
 	subvar VAR_0x8006, 1
 	special FujiLab_GetPokemonInfo
 	msgbox FujiLab_Text_MonExcitedToSeeYou, MSGBOX_YESNO
-	compare VAR_RESULT, NO
+	compare VAR_0x800D, NO
 	goto_if_eq FujiLab_EventScript_EndInteract
 	
-	specialvar VAR_RESULT, CalculatePlayerPartyCount
-	compare VAR_RESULT, 6
+	specialvar VAR_0x800D, CalculatePlayerPartyCount
+	compare VAR_0x800D, 6
 	goto_if_lt FujiLab_EventScript_DoWithdraw
 	
 	msgbox FujiLab_Text_PartyFullSwapPrompt, MSGBOX_YESNO
-	compare VAR_RESULT, NO
+	compare VAR_0x800D, NO
 	goto_if_eq FujiLab_EventScript_EndInteract
 	
 	copyvar VAR_0x8005, VAR_0x8004 @ Save box index
-	copyvar VAR_0x8006, VAR_LAST_TALKED @ Save local ID (1-based)
+	copyvar VAR_0x8006, VAR_0x800F @ Save local ID (1-based)
 	subvar VAR_0x8006, 1 @ Convert to 0-based slot index
 	
 	special ChoosePartyMon
@@ -163,8 +163,8 @@ FujiLab_EventScript_InteractRoomMon::
 	fadescreenswapbuffers FADE_TO_BLACK
 	special FujiLab_Swap
 	special FujiLab_InitRoomObjects
-	removeobject VAR_LAST_TALKED
-	addobject VAR_LAST_TALKED
+	removeobject VAR_0x800F
+	addobject VAR_0x800F
 	fadescreenswapbuffers FADE_FROM_BLACK
 	playse SE_PC_LOGIN
 	msgbox FujiLab_Text_SwapSuccess, MSGBOX_DEFAULT
@@ -175,7 +175,7 @@ FujiLab_EventScript_DoWithdraw::
 	fadescreenswapbuffers FADE_TO_BLACK
 	special FujiLab_Withdraw
 	special FujiLab_InitRoomObjects
-	removeobject VAR_LAST_TALKED
+	removeobject VAR_0x800F
 	fadescreenswapbuffers FADE_FROM_BLACK
 	playse SE_PC_LOGIN
 	msgbox FujiLab_Text_WithdrawSuccess, MSGBOX_DEFAULT

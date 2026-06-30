@@ -10,24 +10,24 @@ Debug_ShowFieldMessageStringVar4::
 
 Debug_CheatStart::
 	setflag FLAG_SYS_POKEMON_GET
-	setflag FLAG_PALLET_LADY_NOT_BLOCKING_SIGN
+	setflag FLAG_0x291
 	setflag FLAG_OPENED_START_MENU
-	setflag FLAG_VISITED_OAKS_LAB
-	setflag FLAG_BEAT_RIVAL_IN_OAKS_LAB
+	setflag FLAG_0x2CF
+	setflag FLAG_0x258
 	givemon SPECIES_BULBASAUR, 20, ITEM_NONE
 	givemon SPECIES_CHARMANDER, 20, ITEM_NONE
 	givemon SPECIES_SQUIRTLE, 20, ITEM_NONE
-	clearflag FLAG_HIDE_OAK_IN_HIS_LAB
-	setflag FLAG_HIDE_RIVAL_IN_LAB
-	setvar VAR_MAP_SCENE_PALLET_TOWN_OAK, 1 @ prevents Oak scene when trying to enter Route 1
+	clearflag FLAG_0x02B
+	setflag FLAG_0x02D
+	setvar VAR_0x4050, 1 @ prevents Oak scene when trying to enter Route 1
 	setflag FLAG_SYS_POKEDEX_GET
 	special SetUnlockedPokedexFlags
-	setvar VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB, 6 @ state after handing in parcel and getting pokedex
-	setvar VAR_MAP_SCENE_VIRIDIAN_CITY_MART, 2
-	setvar VAR_MAP_SCENE_VIRIDIAN_CITY_OLD_MAN, 1
-	setvar VAR_MAP_SCENE_PALLET_TOWN_RIVALS_HOUSE, 1
-	setvar VAR_MAP_SCENE_ROUTE22, 1
-	setvar VAR_MAP_SCENE_POKEMON_CENTER_TEALA, 1 @ end
+	setvar VAR_0x4055, 6 @ state after handing in parcel and getting pokedex
+	setvar VAR_0x4057, 2
+	setvar VAR_0x4051, 1
+	setvar VAR_0x4058, 1
+	setvar VAR_0x4054, 1
+	setvar VAR_0x407C, 1 @ end
 	setflag FLAG_SYS_NATIONAL_DEX
 	special EnableNationalPokedex
 	setflag FLAG_SYS_B_DASH
@@ -39,8 +39,8 @@ Debug_CheatStart::
 	setflag FLAG_BADGE06_GET
 	setflag FLAG_BADGE07_GET
 	setflag FLAG_BADGE08_GET
-	setflag FLAG_GOT_BIKE_VOUCHER
-	setflag FLAG_GOT_BICYCLE
+	setflag FLAG_0x241
+	setflag FLAG_0x271
 	additem ITEM_BICYCLE
 	setflag FLAG_WORLD_MAP_PALLET_TOWN
 	setflag FLAG_WORLD_MAP_VIRIDIAN_CITY
@@ -104,7 +104,7 @@ Debug_BoxFilledMessage_Text:
 Debug_EventScript_CheckEVs::
 	lockall
 	getpartysize
-	goto_if_eq VAR_RESULT, 0, Debug_NoPokemon
+	goto_if_eq VAR_0x800D, 0, Debug_NoPokemon
 	special ChoosePartyMon
 	waitstate
 	goto_if_ge VAR_0x8004, PARTY_SIZE, Debug_EventScript_CheckEVs_End
@@ -125,7 +125,7 @@ Debug_EventScript_Text_DefensiveEVs:
 Debug_EventScript_CheckIVs::
 	lockall
 	getpartysize
-	goto_if_eq VAR_RESULT, 0, Debug_NoPokemon
+	goto_if_eq VAR_0x800D, 0, Debug_NoPokemon
 	special ChoosePartyMon
 	waitstate
 	goto_if_ge VAR_0x8004, PARTY_SIZE, Debug_EventScript_CheckIVs_End
@@ -216,12 +216,12 @@ Debug_ROMSize::
 Debug_HatchAnEgg::
 	lockall
 	getpartysize
-	goto_if_eq VAR_RESULT, 0, Debug_NoPokemon
+	goto_if_eq VAR_0x800D, 0, Debug_NoPokemon
 	special ChoosePartyMon
 	waitstate
 	goto_if_ge VAR_0x8004, PARTY_SIZE, Debug_HatchAnEgg_End
-	specialvar VAR_RESULT, ScriptGetPartyMonSpecies
-	goto_if_ne VAR_RESULT, SPECIES_EGG, DebugScript_HatchAnEgg_CantForceHatch
+	specialvar VAR_0x800D, ScriptGetPartyMonSpecies
+	goto_if_ne VAR_0x800D, SPECIES_EGG, DebugScript_HatchAnEgg_CantForceHatch
 	special EggHatch
 	waitstate
 Debug_HatchAnEgg_End::
@@ -329,12 +329,12 @@ DebugText_BerryWeedsDisabled:
 Debug_EventScript_InflictStatus1::
 	lockall
 	getpartysize
-	goto_if_eq VAR_RESULT, 0, Debug_NoPokemon
+	goto_if_eq VAR_0x800D, 0, Debug_NoPokemon
 	dynmultipush Debug_EventScript_InflictStatus1_Text_Single, 0
 	dynmultipush Debug_EventScript_InflictStatus1_Text_PartyWide, 1
 	dynmultipush Debug_EventScript_InflictStatus1_Text_Close, 2
 	dynmultistack 0, 0, FALSE, 3 FALSE, 0, NULL
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, Debug_EventScript_InflictStatus1_Single
 	case 1, Debug_EventScript_InflictStatus1_Party
 	case 2, Debug_EventScript_InflictStatus1_Close
@@ -346,8 +346,8 @@ Debug_EventScript_InflictStatus1_Single:
 	special ChoosePartyMon
 	waitstate
 	goto_if_ge VAR_0x8004, PARTY_SIZE, Debug_EventScript_InflictStatus1_Close
-	specialvar VAR_RESULT, ScriptGetPartyMonSpecies
-	goto_if_eq VAR_RESULT, SPECIES_EGG, Debug_EventScript_InflictStatus1_Close
+	specialvar VAR_0x800D, ScriptGetPartyMonSpecies
+	goto_if_eq VAR_0x800D, SPECIES_EGG, Debug_EventScript_InflictStatus1_Close
 	dynmultipush Debug_EventScript_InflictStatus1_Text_Poison, 0
 	dynmultipush Debug_EventScript_InflictStatus1_Text_Paralysis, 1
 	dynmultipush Debug_EventScript_InflictStatus1_Text_Sleep, 2
@@ -356,7 +356,7 @@ Debug_EventScript_InflictStatus1_Single:
 	dynmultipush Debug_EventScript_InflictStatus1_Text_Frostbite, 5
 	dynmultipush Debug_EventScript_InflictStatus1_Text_Close, 6
 	dynmultistack 0, 0, FALSE, 7, FALSE, 0, NULL
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, Debug_EventScript_InflictStatus1_Single_Poison
 	case 1, Debug_EventScript_InflictStatus1_Single_Paralysis
 	case 2, Debug_EventScript_InflictStatus1_Single_Sleep
@@ -372,8 +372,8 @@ Debug_EventScript_KoPokemon::
 	special ChoosePartyMon
 	waitstate
 	goto_if_ge VAR_0x8004, PARTY_SIZE, Debug_EventScript_InflictStatus1_Close
-	specialvar VAR_RESULT, ScriptGetPartyMonSpecies
-	goto_if_eq VAR_RESULT, SPECIES_EGG, Debug_EventScript_InflictStatus1_Close
+	specialvar VAR_0x800D, ScriptGetPartyMonSpecies
+	goto_if_eq VAR_0x800D, SPECIES_EGG, Debug_EventScript_InflictStatus1_Close
 	setko VAR_0x8004
 	releaseall
 	end
@@ -382,8 +382,8 @@ Debug_EventScript_SetHiddenNature::
 	special ChoosePartyMon
 	waitstate
 	goto_if_ge VAR_0x8004, PARTY_SIZE, Debug_EventScript_InflictStatus1_Close
-	specialvar VAR_RESULT, ScriptGetPartyMonSpecies
-	goto_if_eq VAR_RESULT, SPECIES_EGG, Debug_EventScript_InflictStatus1_Close
+	specialvar VAR_0x800D, ScriptGetPartyMonSpecies
+	goto_if_eq VAR_0x800D, SPECIES_EGG, Debug_EventScript_InflictStatus1_Close
 	dynmultipush Debug_EventScript_ChangeNature_Text_Hardy, 0
 	dynmultipush Debug_EventScript_ChangeNature_Text_Lonely, 1
 	dynmultipush Debug_EventScript_ChangeNature_Text_Brave, 2
@@ -410,7 +410,7 @@ Debug_EventScript_SetHiddenNature::
 	dynmultipush Debug_EventScript_ChangeNature_Text_Careful, 23
 	dynmultipush Debug_EventScript_ChangeNature_Text_Quirky, 24
 	dynmultistack 0, 0, TRUE, 7, FALSE, 0, NULL
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case MULTI_B_PRESSED, Debug_EventScript_InflictStatus1_Close
 	special SetHiddenNature
 	releaseall
@@ -424,7 +424,7 @@ Debug_EventScript_SetAbility::
 	dynmultipush gStringVar2, 1
 	dynmultipush gStringVar3, 2
 	dynmultistack 0, 0, FALSE, 3 FALSE, 0, NULL
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case MULTI_B_PRESSED, Debug_EventScript_SetAbilityClose
 	special SetAbility
 Debug_EventScript_SetAbilityClose:
@@ -484,7 +484,7 @@ Debug_EventScript_InflictStatus1_Party:
 	dynmultipush Debug_EventScript_InflictStatus1_Text_Frostbite, 5
 	dynmultipush Debug_EventScript_InflictStatus1_Text_Close, 6
 	dynmultistack 0, 0, FALSE, 7, FALSE, 0, NULL
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, Debug_EventScript_InflictStatus1_Party_Poison
 	case 1, Debug_EventScript_InflictStatus1_Party_Paralysis
 	case 2, Debug_EventScript_InflictStatus1_Party_Sleep
@@ -736,12 +736,12 @@ Debug_PrintFontTest::
 Debug_EventScript_FontTest::
 	lockall
 	goto Debug_PrintFontTest
-@	goto_if_eq VAR_RESULT, 0, Debug_NoPokemon
+@	goto_if_eq VAR_0x800D, 0, Debug_NoPokemon
 @	dynmultipush Debug_EventScript_InflictStatus1_Text_Single, 0
 @	dynmultipush Debug_EventScript_InflictStatus1_Text_PartyWide, 1
 @	dynmultipush Debug_EventScript_InflictStatus1_Text_Close, 2
 @	dynmultistack 0, 0, FALSE, 3 FALSE, 0, NULL
-@	switch VAR_RESULT
+@	switch VAR_0x800D
 @	case 0, Debug_EventScript_InflictStatus1_Single
 @	case 1, Debug_EventScript_InflictStatus1_Party
 @	case 2, Debug_EventScript_InflictStatus1_Close
@@ -782,19 +782,19 @@ DebugEventScript_PrintWeekday_Text_0:
 
 @ steven multibattle script
 MossdeepCity_SpaceCenter_2F_EventScript_ChoosePartyForMultiBattle::
-	applymovement VAR_LAST_TALKED, Common_Movement_WalkInPlaceFasterDown
+	applymovement VAR_0x800F, Common_Movement_WalkInPlaceFasterDown
 	waitmovement 0
 	special SavePlayerParty
 	fadescreen FADE_TO_BLACK
 	special ChooseHalfPartyForBattle
 	waitstate
-	goto_if_ne VAR_RESULT, 0, MossdeepCity_SpaceCenter_2F_EventScript_DoStevenMultiBattle
+	goto_if_ne VAR_0x800D, 0, MossdeepCity_SpaceCenter_2F_EventScript_DoStevenMultiBattle
 	special LoadPlayerParty
 	goto MossdeepCity_SpaceCenter_2F_EventScript_ReadyForBattlePrompt
 
 MossdeepCity_SpaceCenter_2F_EventScript_DoStevenMultiBattle::
 	multi_2_vs_2 TRAINER_MAXIE_MOSSDEEP, MossdeepCity_SpaceCenter_2F_Text_JustWantToExpandLand, TRAINER_TABITHA_MOSSDEEP, MossdeepCity_SpaceCenter_Text_TabithaDefeat, PARTNER_STEVEN
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 1, MossdeepCity_SpaceCenter_2F_EventScript_DefeatedMaxieTabitha
 	fadescreen FADE_TO_BLACK
 	special SetCB2WhiteOut
@@ -810,13 +810,13 @@ MossdeepCity_SpaceCenter_2F_Text_JustWantToExpandLand:
 	.string "I just want to expand the land mass…$"
 
 MossdeepCity_SpaceCenter_2F_EventScript_ReadyForBattlePrompt::
-	applymovement VAR_LAST_TALKED, Common_Movement_FacePlayer
+	applymovement VAR_0x800F, Common_Movement_FacePlayer
 	waitmovement 0
 	msgbox MossdeepCity_SpaceCenter_2F_Text_StevenAreYouReadyToBattle, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, YES, MossdeepCity_SpaceCenter_2F_EventScript_ChoosePartyForMultiBattle
+	goto_if_eq VAR_0x800D, YES, MossdeepCity_SpaceCenter_2F_EventScript_ChoosePartyForMultiBattle
 	msgbox MossdeepCity_SpaceCenter_2F_Text_StevenHurryGetReadyQuickly, MSGBOX_DEFAULT
 	closemessage
-	applymovement VAR_LAST_TALKED, Common_Movement_WalkInPlaceFasterDown
+	applymovement VAR_0x800F, Common_Movement_WalkInPlaceFasterDown
 	waitmovement 0
 	releaseall
 	end

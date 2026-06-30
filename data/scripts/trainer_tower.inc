@@ -17,7 +17,7 @@ TrainerTower_OnResume::
 
 TrainerTower_OnTransition::
 	ttower_initfloor
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case CHALLENGE_TYPE_SINGLE, TrainerTower_EventScript_SetObjectsSingles
 	case CHALLENGE_TYPE_DOUBLE, TrainerTower_EventScript_SetObjectsDoubles
 	case CHALLENGE_TYPE_KNOCKOUT, TrainerTower_EventScript_SetObjectsKnockout
@@ -43,7 +43,7 @@ TrainerTower_EventScript_SetObjectsDoubles::
 	setflag HIDE_TRAINER_KNOCKOUT
 	setvar DISABLE_SINGLES_TRIGGER, TRUE
 	ttower_isfloorcleared
-	goto_if_eq VAR_RESULT, TRUE, TrainerTower_EventScript_SetObjectsDoublesAlreadyBeaten
+	goto_if_eq VAR_0x800D, TRUE, TrainerTower_EventScript_SetObjectsDoublesAlreadyBeaten
 	setobjectxyperm       LOCALID_TOWER_TRAINER_DOUBLES1, 10, 12
 	setobjectmovementtype LOCALID_TOWER_TRAINER_DOUBLES1, MOVEMENT_TYPE_FACE_LEFT
 	setobjectxyperm       LOCALID_TOWER_TRAINER_DOUBLES2, 10, 13
@@ -78,12 +78,12 @@ TrainerTower_OnFrame::
 TrainerTower_EventScript_EnterFloor::
 	setvar VAR_TEMP_2, 1
 	ttower_isfloorcleared
-	goto_if_eq VAR_RESULT, FALSE, TrainerTower_EventScript_EndEnterFloor
+	goto_if_eq VAR_0x800D, FALSE, TrainerTower_EventScript_EndEnterFloor
 	setvar DISABLE_SINGLES_TRIGGER, TRUE
 	setvar DISABLE_DOUBLES_TRIGGER, TRUE
 TrainerTower_EventScript_EndEnterFloor:
 	ttower_shouldexit
-	goto_if_eq VAR_RESULT, TRUE, TrainerTower_EventScript_WarpToLobby
+	goto_if_eq VAR_0x800D, TRUE, TrainerTower_EventScript_WarpToLobby
 	end
 
 @ Never reached
@@ -96,7 +96,7 @@ TrainerTower_EventScript_WarpToLobby::
 
 TrainerTower_EventScript_TriggerBattle::
 	ttower_getchallengetype
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case CHALLENGE_TYPE_SINGLE, TrainerTower_EventScript_DoSingleBattle
 	case CHALLENGE_TYPE_DOUBLE, TrainerTower_EventScript_DoDoubleBattle
 	case CHALLENGE_TYPE_KNOCKOUT, TrainerTower_EventScript_DoKnockoutBattle
@@ -171,13 +171,13 @@ TrainerTower_EventScript_DoKnockoutBattleIntro:
 TrainerTower_EventScript_DoBattle:
 	ttower_dobattle
 	waitstate
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case B_OUTCOME_WON, TrainerTower_EventScript_WonBattle
 	case B_OUTCOME_LOST, TrainerTower_EventScript_WarpToLobbyLost
 	case B_OUTCOME_DREW, TrainerTower_EventScript_WarpToLobbyLost
 TrainerTower_EventScript_WonBattle:
 	ttower_getchallengetype
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case CHALLENGE_TYPE_SINGLE, TrainerTower_EventScript_SetFloorCleared
 	case CHALLENGE_TYPE_DOUBLE, TrainerTower_EventScript_MoveDoublesTrainers
 	case CHALLENGE_TYPE_KNOCKOUT, TrainerTower_EventScript_CheckNextKnockoutBattle
@@ -219,7 +219,7 @@ TrainerTower_EventScript_WarpToLobbyLost::
 
 TrainerTower_EventScript_SpeakToDoublesTrainer1::
 	ttower_getchallengetype
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case CHALLENGE_TYPE_SINGLE, TrainerTower_EventScript_DoublesTrainer1PostBattle
 	case CHALLENGE_TYPE_DOUBLE, TrainerTower_EventScript_DoublesTrainer1PostBattle
 	case CHALLENGE_TYPE_KNOCKOUT, TrainerTower_EventScript_KnockoutTrainer2PostBattle
@@ -233,7 +233,7 @@ TrainerTower_EventScript_KnockoutTrainer2PostBattle::
 
 TrainerTower_EventScript_SpeakToSinglesTrainer::
 	ttower_getchallengetype
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case CHALLENGE_TYPE_SINGLE, TrainerTower_EventScript_SinglesTrainerPostBattle
 	case CHALLENGE_TYPE_DOUBLE, TrainerTower_EventScript_SinglesTrainerPostBattle
 	case CHALLENGE_TYPE_KNOCKOUT, TrainerTower_EventScript_KnockoutTrainer3PostBattle
@@ -266,7 +266,7 @@ TrainerTower_EventScript_SpeakToOwner::
 	lock
 	faceplayer
 	ttower_getownerstate
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, TrainerTower_Roof_EventScript_Arrived
 	case 1, TrainerTower_Roof_EventScript_GivePrize
 	case 2, TrainerTower_Roof_EventScript_OwnerEnd
@@ -275,7 +275,7 @@ TrainerTower_Roof_EventScript_Arrived:
 	msgbox TrainerTower_Roof_Text_ImOwnerBattledPerfectly
 TrainerTower_Roof_EventScript_GivePrize:
 	ttower_giveprize
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, TrainerTower_Roof_EventScript_ReceivePrize
 	case 1, TrainerTower_Roof_EventScript_NoRoomForPrize
 	case 2, TrainerTower_Roof_EventScript_CheckFinalTime
@@ -299,7 +299,7 @@ TrainerTower_Roof_EventScript_NoRoomForPrize::
 
 TrainerTower_Roof_EventScript_CheckFinalTime::
 	ttower_checkfinaltime
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case TT_RESULT_NEW_RECORD, TrainerTower_Roof_EventScript_NewRecord
 	case TT_RESULT_NO_RECORD, TrainerTower_Roof_EventScript_NoNewRecord
 	case TT_RESULT_ALREADY_CHECKED, TrainerTower_Roof_EventScript_OwnerEnd
@@ -331,7 +331,7 @@ TrainerTower_EventScript_SingleBattleTrigger::
 TrainerTower_EventScript_DoubleBattleTriggerTop::
 	setvar VAR_TEMP_3, 0
 	ttower_checkdoubles
-	goto_if_ne VAR_RESULT, PLAYER_HAS_TWO_USABLE_MONS, TrainerTower_EventScript_IneligibleForDoubleBattle
+	goto_if_ne VAR_0x800D, PLAYER_HAS_TWO_USABLE_MONS, TrainerTower_EventScript_IneligibleForDoubleBattle
 	ttower_encountermusic
 	applymovement LOCALID_TOWER_TRAINER_DOUBLES1, Common_Movement_ExclamationMark
 	waitmovement 0
@@ -341,7 +341,7 @@ TrainerTower_EventScript_DoubleBattleTriggerTop::
 TrainerTower_EventScript_DoubleBattleTriggerBottom::
 	setvar VAR_TEMP_3, 1
 	ttower_checkdoubles
-	goto_if_ne VAR_RESULT, PLAYER_HAS_TWO_USABLE_MONS, TrainerTower_EventScript_IneligibleForDoubleBattle
+	goto_if_ne VAR_0x800D, PLAYER_HAS_TWO_USABLE_MONS, TrainerTower_EventScript_IneligibleForDoubleBattle
 	ttower_encountermusic
 	applymovement LOCALID_TOWER_TRAINER_DOUBLES2, Common_Movement_ExclamationMark
 	waitmovement 0

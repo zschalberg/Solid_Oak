@@ -17,7 +17,7 @@ struct RenewableHiddenItemData
 
 static void SampleRenewableItemFlags(void);
 
-#define HIDDEN_ID(flag)(flag - FLAG_HIDDEN_ITEMS_START)
+#define HIDDEN_ID(flag)(flag - FLAG_0x1000)
 #define NO_ITEM 0xFF
 
 static const struct RenewableHiddenItemData sRenewableHiddenItems[] = {
@@ -545,11 +545,11 @@ void SetAllRenewableItemFlags(void)
         for (j = 0; j < MAX_HIDDEN_ITEMS_PER_GROUP; j++)
         {
             if (rare[j] != NO_ITEM)
-                FlagSet(FLAG_HIDDEN_ITEMS_START + rare[j]);
+                FlagSet(FLAG_0x1000 + rare[j]);
             if (uncommon[j] != NO_ITEM)
-                FlagSet(FLAG_HIDDEN_ITEMS_START + uncommon[j]);
+                FlagSet(FLAG_0x1000 + uncommon[j]);
             if (common[j] != NO_ITEM)
-                FlagSet(FLAG_HIDDEN_ITEMS_START + common[j]);
+                FlagSet(FLAG_0x1000 + common[j]);
         }
     }
 }
@@ -602,7 +602,7 @@ static void SampleRenewableItemFlags(void)
         for (j = 0; j < MAX_HIDDEN_ITEMS_PER_GROUP; j++)
         {
             if (flags[j] != NO_ITEM)
-                FlagClear(FLAG_HIDDEN_ITEMS_START + flags[j]);
+                FlagClear(FLAG_0x1000 + flags[j]);
         }
     }
 }

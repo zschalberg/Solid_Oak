@@ -31,7 +31,7 @@ Route23_EventScript_AlreadyRecognizedBadge::
 
 @ Duplicate of the below, only used for Boulder Badge
 Route22_NorthEntrance_EventScript_BadgeGuard::
-	goto_if_ge VAR_MAP_SCENE_ROUTE23, VAR_TEMP_1, Route23_EventScript_AlreadyRecognizedBoulderBadge
+	goto_if_ge VAR_0x405F, VAR_TEMP_1, Route23_EventScript_AlreadyRecognizedBoulderBadge
 	switch VAR_TEMP_1
 	case 1, Route23_EventScript_CheckBoulderBadge
 	case 2, Route23_EventScript_CheckCascadeBadge
@@ -44,7 +44,7 @@ Route22_NorthEntrance_EventScript_BadgeGuard::
 	end
 
 Route23_EventScript_BadgeGuard::
-	goto_if_ge VAR_MAP_SCENE_ROUTE23, VAR_TEMP_1, Route23_EventScript_AlreadyRecognizedBadge
+	goto_if_ge VAR_0x405F, VAR_TEMP_1, Route23_EventScript_AlreadyRecognizedBadge
 	switch VAR_TEMP_1
 	case 1, Route23_EventScript_CheckBoulderBadge
 	case 2, Route23_EventScript_CheckCascadeBadge
@@ -102,13 +102,13 @@ Route23_EventScript_RecognizeBoulderBadge::
 	playfanfare MUS_LEVEL_UP
 	waitfanfare
 	waitbuttonpress
-	copyvar VAR_MAP_SCENE_ROUTE23, VAR_TEMP_1
+	copyvar VAR_0x405F, VAR_TEMP_1
 	release
 	end
 
 Route23_EventScript_RecognizeBadge::
 	msgbox Text_OnlyPassWithBadgeOhGoAhead
-	copyvar VAR_MAP_SCENE_ROUTE23, VAR_TEMP_1
+	copyvar VAR_0x405F, VAR_TEMP_1
 	release
 	end
 
@@ -197,13 +197,13 @@ Route23_EventScript_RecognizeBoulderBadgeTrigger::
 	playfanfare MUS_LEVEL_UP
 	waitfanfare
 	waitbuttonpress
-	copyvar VAR_MAP_SCENE_ROUTE23, VAR_TEMP_1
+	copyvar VAR_0x405F, VAR_TEMP_1
 	releaseall
 	end
 
 Route23_EventScript_RecognizeBadgeTrigger::
 	msgbox Text_OnlyPassWithBadgeOhGoAhead
-	copyvar VAR_MAP_SCENE_ROUTE23, VAR_TEMP_1
+	copyvar VAR_0x405F, VAR_TEMP_1
 	releaseall
 	end
 

@@ -71,11 +71,11 @@ static void UpdateTrainerFanClubGameClear(struct TrainerFanClub *fanClub)
         SetPlayerGotFirstFans(fanClub);
         SetInitialFansOfPlayer(fanClub);
         VarSet(VAR_FANCLUB_LOSE_FAN_TIMER, gSaveBlock2Ptr->playTimeHours);
-        FlagClear(FLAG_HIDE_SAFFRON_FAN_CLUB_BLACK_BELT);
-        FlagClear(FLAG_HIDE_SAFFRON_FAN_CLUB_ROCKER);
-        FlagClear(FLAG_HIDE_SAFFRON_FAN_CLUB_WOMAN);
-        FlagClear(FLAG_HIDE_SAFFRON_FAN_CLUB_BEAUTY);
-        VarSet(VAR_MAP_SCENE_SAFFRON_CITY_POKEMON_TRAINER_FAN_CLUB, 1);
+        FlagClear(FLAG_0x06C);
+        FlagClear(FLAG_0x06D);
+        FlagClear(FLAG_0x06E);
+        FlagClear(FLAG_0x06F);
+        VarSet(VAR_0x4073, 1);
     }
 }
 
@@ -83,7 +83,7 @@ ALIGNED(4) const u8 sCounterIncrements[] = {2, 1, 2, 1};
 
 static u8 TryGainNewFanFromCounter(struct TrainerFanClub *fanClub, u8 a1)
 {
-    if (VarGet(VAR_MAP_SCENE_SAFFRON_CITY_POKEMON_TRAINER_FAN_CLUB) == 2)
+    if (VarGet(VAR_0x4073) == 2)
     {
         if (fanClub->timer + sCounterIncrements[a1] >= 20)
         {
@@ -349,7 +349,7 @@ void Special_UpdateTrainerFansAfterLinkBattle(void)
 
 static void UpdateTrainerFansAfterLinkBattle(struct TrainerFanClub *fanClub)
 {
-    if (VarGet(VAR_MAP_SCENE_SAFFRON_CITY_POKEMON_TRAINER_FAN_CLUB) == 2)
+    if (VarGet(VAR_0x4073) == 2)
     {
         TryLoseFansFromPlayTimeAfterLinkBattle(fanClub);
         if (gBattleOutcome == B_OUTCOME_WON)

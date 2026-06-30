@@ -3,13 +3,13 @@ SilphCo_10F_MapScripts::
 	.byte 0
 
 SilphCo_10F_OnLoad::
-	call_if_unset FLAG_SILPH_10F_DOOR, EventScript_Close10FDoor
+	call_if_unset FLAG_0x28C, EventScript_Close10FDoor
 	end
 
 SilphCo_10F_EventScript_WorkerF::
 	lock
 	faceplayer
-	goto_if_ge VAR_MAP_SCENE_SILPH_CO_11F, 1, SilphCo_10F_EventScript_WorkerFRocketsGone
+	goto_if_ge VAR_0x4060, 1, SilphCo_10F_EventScript_WorkerFRocketsGone
 	msgbox SilphCo_10F_Text_WaaaImScared
 	release
 	end

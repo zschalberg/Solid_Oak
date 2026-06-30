@@ -10,7 +10,7 @@ TrainerTower_Lobby_OnResume::
 	setvar VAR_TEMP_2, 0
 	ttower_resumetimer
 	ttower_shouldexit
-	goto_if_eq VAR_RESULT, FALSE, TrainerTower_Lobby_OnResumeEnd
+	goto_if_eq VAR_0x800D, FALSE, TrainerTower_Lobby_OnResumeEnd
 	@ Never reached, above always FALSE
 	setvar VAR_TEMP_0, 0
 	setobjectxy LOCALID_PLAYER, 9, 7
@@ -36,7 +36,7 @@ TrainerTower_Lobby_OpenCounterBarrier::
 
 TrainerTower_Lobby_OnTransition::
 	setworldmapflag FLAG_WORLD_MAP_TRAINER_TOWER_LOBBY
-	getplayerxy VAR_TEMP_D, VAR_RESULT
+	getplayerxy VAR_TEMP_D, VAR_0x800D
 	end
 
 TrainerTower_Lobby_OnFrame::
@@ -64,7 +64,7 @@ TrainerTower_Lobby_Movement_ExitElevator::
 TrainerTower_Lobby_EventScript_Enter::
 	setvar VAR_TEMP_0, 1
 	ttower_getchallengestatus
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case TT_CHALLENGE_STATUS_LOST, TrainerTower_Lobby_EventScript_LostChallenge
 	case TT_CHALLENGE_STATUS_UNK, TrainerTower_Lobby_EventScript_ExitChallengeSpeakToReceptionist
 	case TT_CHALLENGE_STATUS_NORMAL, TrainerTower_Lobby_EventScript_EnterEnd
@@ -104,7 +104,7 @@ TrainerTower_Lobby_EventScript_Receptionist::
 	lock
 	faceplayer
 	ttower_getbeatchallenge
-	goto_if_eq VAR_RESULT, TRUE, TrainerTower_Lobby_EventScript_ThanksForCompeting
+	goto_if_eq VAR_0x800D, TRUE, TrainerTower_Lobby_EventScript_ThanksForCompeting
 	msgbox TrainerTower_Lobby_Text_GiveItYourBest
 	goto TrainerTower_Lobby_EventScript_ReceptionistEnd
 
@@ -131,7 +131,7 @@ TrainerTower_Lobby_EventScript_EntryTrigger::
 	textcolor NPC_TEXT_COLOR_FEMALE
 	msgbox TrainerTower_Lobby_Text_WelcomeToTrainerTower
 	ttower_getnumfloors
-	goto_if_eq VAR_RESULT, FALSE, TrainerTower_Lobby_EventScript_AllFloorsUsed
+	goto_if_eq VAR_0x800D, FALSE, TrainerTower_Lobby_EventScript_AllFloorsUsed
 	msgbox TrainerTower_Lobby_Text_TrainersUpToFloorNum
 	goto TrainerTower_Lobby_EventScript_AskEnterChallenge
 
@@ -141,7 +141,7 @@ TrainerTower_Lobby_EventScript_AskEnterChallenge::
 	message TrainerTower_Lobby_Text_LikeToChallengeTrainers
 	waitmessage
 	multichoice 18, 6, MULTI_YES_NO_INFO, FALSE
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, TrainerTower_Lobby_EventScript_ChooseChallenge
 	case 1, TrainerTower_Lobby_EventScript_DeclineChallenge
 	case 2, TrainerTower_Lobby_EventScript_ChallengeInfo
@@ -155,7 +155,7 @@ TrainerTower_Lobby_EventScript_ChallengeInfo::
 
 TrainerTower_Lobby_EventScript_ChooseChallenge::
 	multichoice 13, 3, MULTI_TRAINER_TOWER_MODE, FALSE
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, TrainerTower_Lobby_EventScript_BeginChallenge
 	case 1, TrainerTower_Lobby_EventScript_BeginChallenge
 	case 2, TrainerTower_Lobby_EventScript_BeginChallenge
@@ -165,7 +165,7 @@ TrainerTower_Lobby_EventScript_ChooseChallenge::
 	end
 
 TrainerTower_Lobby_EventScript_BeginChallenge::
-	copyvar VAR_0x8005, VAR_RESULT
+	copyvar VAR_0x8005, VAR_0x800D
 	setvar VAR_MAP_SCENE_TRAINER_TOWER, 1
 	special HealPlayerParty
 	msgbox TrainerTower_Lobby_Text_StartClockGetSetGo

@@ -3,7 +3,7 @@ SaffronCity_Dojo_MapScripts::
 
 SaffronCity_Dojo_EventScript_TriggerMasterBattleLeft::
 	lockall
-	setvar VAR_MAP_SCENE_SAFFRON_CITY_DOJO, 1
+	setvar VAR_0x4081, 1
 	applymovement LOCALID_KARATE_MASTER, Common_Movement_WalkInPlaceFasterLeft
 	waitmovement 0
 	releaseall
@@ -11,7 +11,7 @@ SaffronCity_Dojo_EventScript_TriggerMasterBattleLeft::
 
 SaffronCity_Dojo_EventScript_TriggerMasterBattleRight::
 	lockall
-	setvar VAR_MAP_SCENE_SAFFRON_CITY_DOJO, 1
+	setvar VAR_0x4081, 1
 	applymovement LOCALID_KARATE_MASTER, Common_Movement_WalkInPlaceFasterRight
 	waitmovement 0
 	releaseall
@@ -20,7 +20,7 @@ SaffronCity_Dojo_EventScript_TriggerMasterBattleRight::
 SaffronCity_Dojo_EventScript_HitmonleeBall::
 	lock
 	faceplayer
-	goto_if_set FLAG_GOT_HITMON_FROM_DOJO, SaffronCity_Dojo_EventScript_AlreadyGotHitmon
+	goto_if_set FLAG_0x278, SaffronCity_Dojo_EventScript_AlreadyGotHitmon
 	showmonpic SPECIES_HITMONLEE, 10, 3
 	setvar VAR_TEMP_1, SPECIES_HITMONLEE
 	applymovement LOCALID_KARATE_MASTER, Common_Movement_WalkInPlaceFasterUp
@@ -28,7 +28,7 @@ SaffronCity_Dojo_EventScript_HitmonleeBall::
 	textcolor NPC_TEXT_COLOR_MALE
 	msgbox SaffronCity_Dojo_Text_YouWantHitmonlee, MSGBOX_YESNO
 	call EventScript_RestorePrevTextColor
-	goto_if_eq VAR_RESULT, YES, SaffronCity_Dojo_EventScript_GiveHitmon
+	goto_if_eq VAR_0x800D, YES, SaffronCity_Dojo_EventScript_GiveHitmon
 	hidemonpic
 	release
 	end
@@ -41,7 +41,7 @@ SaffronCity_Dojo_EventScript_AlreadyGotHitmon::
 SaffronCity_Dojo_EventScript_HitmonchanBall::
 	lock
 	faceplayer
-	goto_if_set FLAG_GOT_HITMON_FROM_DOJO, SaffronCity_Dojo_EventScript_AlreadyGotHitmon
+	goto_if_set FLAG_0x278, SaffronCity_Dojo_EventScript_AlreadyGotHitmon
 	showmonpic SPECIES_HITMONCHAN, 10, 3
 	setvar VAR_TEMP_1, SPECIES_HITMONCHAN
 	applymovement LOCALID_KARATE_MASTER, Common_Movement_WalkInPlaceFasterUp
@@ -49,7 +49,7 @@ SaffronCity_Dojo_EventScript_HitmonchanBall::
 	textcolor NPC_TEXT_COLOR_MALE
 	msgbox SaffronCity_Dojo_Text_YouWantHitmonchan, MSGBOX_YESNO
 	call EventScript_RestorePrevTextColor
-	goto_if_eq VAR_RESULT, YES, SaffronCity_Dojo_EventScript_GiveHitmon
+	goto_if_eq VAR_0x800D, YES, SaffronCity_Dojo_EventScript_GiveHitmon
 	hidemonpic
 	release
 	end
@@ -57,37 +57,37 @@ SaffronCity_Dojo_EventScript_HitmonchanBall::
 SaffronCity_Dojo_EventScript_GiveHitmon::
 	hidemonpic
 	givemon VAR_TEMP_1, 25
-	goto_if_eq VAR_RESULT, 0, SaffronCity_Dojo_EventScript_ReceivedHitmonParty
-	goto_if_eq VAR_RESULT, 1, SaffronCity_Dojo_EventScript_ReceivedHitmonPC
-	goto_if_eq VAR_RESULT, 2, EventScript_NoMoreRoomForPokemon
+	goto_if_eq VAR_0x800D, 0, SaffronCity_Dojo_EventScript_ReceivedHitmonParty
+	goto_if_eq VAR_0x800D, 1, SaffronCity_Dojo_EventScript_ReceivedHitmonPC
+	goto_if_eq VAR_0x800D, 2, EventScript_NoMoreRoomForPokemon
 	release
 	end
 
 SaffronCity_Dojo_EventScript_ReceivedHitmonParty::
-	removeobject VAR_LAST_TALKED
+	removeobject VAR_0x800F
 	bufferspeciesname STR_VAR_1, VAR_TEMP_1
 	playfanfare MUS_LEVEL_UP
 	message SaffronCity_Dojo_Text_ReceivedMonFromKarateMaster
 	waitmessage
 	waitfanfare
-	setflag FLAG_GOT_HITMON_FROM_DOJO
+	setflag FLAG_0x278
 	msgbox Text_GiveNicknameToThisMon, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, SaffronCity_Dojo_EventScript_EndGiveMon
+	goto_if_eq VAR_0x800D, NO, SaffronCity_Dojo_EventScript_EndGiveMon
 	call EventScript_GetGiftMonPartySlot
 	call EventScript_ChangePokemonNickname
 	goto SaffronCity_Dojo_EventScript_EndGiveMon
 	end
 
 SaffronCity_Dojo_EventScript_ReceivedHitmonPC::
-	removeobject VAR_LAST_TALKED
+	removeobject VAR_0x800F
 	bufferspeciesname STR_VAR_1, VAR_TEMP_1
 	playfanfare MUS_LEVEL_UP
 	message SaffronCity_Dojo_Text_ReceivedMonFromKarateMaster
 	waitmessage
 	waitfanfare
-	setflag FLAG_GOT_HITMON_FROM_DOJO
+	setflag FLAG_0x278
 	msgbox Text_GiveNicknameToThisMon, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, SaffronCity_Dojo_EventScript_TransferredHitmonToPC
+	goto_if_eq VAR_0x800D, NO, SaffronCity_Dojo_EventScript_TransferredHitmonToPC
 	call EventScript_NameReceivedBoxMon
 	goto SaffronCity_Dojo_EventScript_TransferredHitmonToPC
 	end
@@ -135,7 +135,7 @@ SaffronCity_Dojo_EventScript_Mike::
 
 SaffronCity_Dojo_EventScript_MasterKoichi::
 	trainerbattle_single TRAINER_BLACK_BELT_KOICHI, SaffronCity_Dojo_Text_MasterKoichiIntro, SaffronCity_Dojo_Text_MasterKoichiDefeat, SaffronCity_Dojo_EventScript_DefeatedMasterKoichi
-	goto_if_set FLAG_GOT_HITMON_FROM_DOJO, SaffronCity_Dojo_EventScript_MasterKoichiAlreadyGotHitmon
+	goto_if_set FLAG_0x278, SaffronCity_Dojo_EventScript_MasterKoichiAlreadyGotHitmon
 	msgbox SaffronCity_Dojo_Text_ChoosePrizedFightingMon, MSGBOX_AUTOCLOSE
 	end
 
@@ -145,6 +145,6 @@ SaffronCity_Dojo_EventScript_MasterKoichiAlreadyGotHitmon::
 	end
 
 SaffronCity_Dojo_EventScript_DefeatedMasterKoichi::
-	setvar VAR_MAP_SCENE_SAFFRON_CITY_DOJO, 1
+	setvar VAR_0x4081, 1
 	release
 	end

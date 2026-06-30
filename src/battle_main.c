@@ -2022,7 +2022,7 @@ u8 CreateNPCTrainerPartyFromTrainer(struct Pokemon *party, const struct Trainer 
                 otId.value = HIHALF(personalityValue) ^ LOHALF(personalityValue);
             }
             u8 level = partyData[monIndex].lvl;
-            if (FlagGet(FLAG_SCALE_BOSS_BATTLE))
+            if (FlagGet(FLAG_0x2E9))
             {
                 u8 maxPlayerLvl = 1;
                 u32 p;

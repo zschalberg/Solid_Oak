@@ -62,6 +62,7 @@
 #include "constants/tv.h"
 #include "constants/union_room.h"
 #include "constants/vars.h"
+#include "constants/map_event_ids_fallback.h"
 #include "constants/mugshots.h"
 #include "constants/weather.h"
 	.include "asm/macros.inc"
@@ -1060,11 +1061,11 @@ EventScript_Return::
 	return
 
 EventScript_SetResultTrue::
-	setvar VAR_RESULT, TRUE
+	setvar VAR_0x800D, TRUE
 	return
 
 EventScript_SetResultFalse::
-	setvar VAR_RESULT, FALSE
+	setvar VAR_0x800D, FALSE
 	return
 
 EventScript_SetExitingCyclingRoad::
@@ -1120,7 +1121,7 @@ Std_PutItemAway::
 	return
 
 EventScript_BufferPutAwayPocketName::
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case POCKET_ITEMS,       EventScript_BufferPutAwayPocketItems
 	case POCKET_KEY_ITEMS,   EventScript_BufferPutAwayPocketKeyItems
 	case POCKET_POKE_BALLS,  EventScript_BufferPutAwayPocketPokeBalls

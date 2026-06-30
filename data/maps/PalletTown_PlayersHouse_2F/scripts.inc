@@ -4,7 +4,7 @@ PalletTown_PlayersHouse_2F_MapScripts::
 	.byte 0
 
 PalletTown_PlayersHouse_2F_OnTransition::
-	call_if_eq VAR_MAP_SCENE_PALLET_TOWN_PLAYERS_HOUSE_2F, 0, PalletTown_PlayersHouse_2F_EventScript_SetRespawn
+	call_if_eq VAR_0x4056, 0, PalletTown_PlayersHouse_2F_EventScript_SetRespawn
 	end
 
 PalletTown_PlayersHouse_2F_EventScript_SetRespawn::
@@ -12,52 +12,52 @@ PalletTown_PlayersHouse_2F_EventScript_SetRespawn::
 	return
 
 PalletTown_PlayersHouse_2F_OnWarp::
-	map_script_2 VAR_MAP_SCENE_PALLET_TOWN_PLAYERS_HOUSE_2F, 0, PalletTown_PlayersHouse_2F_FirstWarpIn
+	map_script_2 VAR_0x4056, 0, PalletTown_PlayersHouse_2F_FirstWarpIn
 	.2byte 0
 
 PalletTown_PlayersHouse_2F_FirstWarpIn::
 	turnobject LOCALID_PLAYER, DIR_NORTH
-	setvar VAR_MAP_SCENE_PALLET_TOWN_PLAYERS_HOUSE_2F, 1
+	setvar VAR_0x4056, 1
 	end
 
 PalletTown_PlayersHouse_2F_EventScript_NES::
 	lockall
 	msgbox PalletTown_PlayersHouse_2F_Text_ToggleTestQuests, MSGBOX_YESNO
-	compare VAR_RESULT, YES
+	compare VAR_0x800D, YES
 	goto_if_eq PalletTown_PlayersHouse_2F_EventScript_DoToggleTestQuests
 	msgbox PalletTown_PlayersHouse_2F_Text_PlayedWithNES, MSGBOX_SIGN
 	releaseall
 	end
 
 PalletTown_PlayersHouse_2F_EventScript_DoToggleTestQuests::
-	goto_if_set FLAG_QUEST_1_ACTIVE, PalletTown_PlayersHouse_2F_EventScript_ClearTestQuests
-	setflag FLAG_QUEST_1_ACTIVE
-	setflag FLAG_QUEST_1_COMPLETED
-	setflag FLAG_QUEST_2_ACTIVE
-	setflag FLAG_QUEST_3_ACTIVE
-	setflag FLAG_QUEST_4_ACTIVE
-	setflag FLAG_QUEST_4_COMPLETED
-	setflag FLAG_QUEST_6_ACTIVE
-	setflag FLAG_QUEST_7_ACTIVE
+	goto_if_set FLAG_0x4C0, PalletTown_PlayersHouse_2F_EventScript_ClearTestQuests
+	setflag FLAG_0x4C0
+	setflag FLAG_0x4C1
+	setflag FLAG_0x4C2
+	setflag FLAG_0x4C4
+	setflag FLAG_0x4C6
+	setflag FLAG_0x4C7
+	setflag FLAG_0x4CA
+	setflag FLAG_0x4CC
 	msgbox PalletTown_PlayersHouse_2F_Text_TestQuestsActivated, MSGBOX_DEFAULT
 	releaseall
 	end
 
 PalletTown_PlayersHouse_2F_EventScript_ClearTestQuests::
-	clearflag FLAG_QUEST_1_ACTIVE
-	clearflag FLAG_QUEST_1_COMPLETED
-	clearflag FLAG_QUEST_2_ACTIVE
-	clearflag FLAG_QUEST_2_COMPLETED
-	clearflag FLAG_QUEST_3_ACTIVE
-	clearflag FLAG_QUEST_3_COMPLETED
-	clearflag FLAG_QUEST_4_ACTIVE
-	clearflag FLAG_QUEST_4_COMPLETED
-	clearflag FLAG_QUEST_5_ACTIVE
-	clearflag FLAG_QUEST_5_COMPLETED
-	clearflag FLAG_QUEST_6_ACTIVE
-	clearflag FLAG_QUEST_6_COMPLETED
-	clearflag FLAG_QUEST_7_ACTIVE
-	clearflag FLAG_QUEST_7_COMPLETED
+	clearflag FLAG_0x4C0
+	clearflag FLAG_0x4C1
+	clearflag FLAG_0x4C2
+	clearflag FLAG_0x4C3
+	clearflag FLAG_0x4C4
+	clearflag FLAG_0x4C5
+	clearflag FLAG_0x4C6
+	clearflag FLAG_0x4C7
+	clearflag FLAG_0x4C8
+	clearflag FLAG_0x4C9
+	clearflag FLAG_0x4CA
+	clearflag FLAG_0x4CB
+	clearflag FLAG_0x4CC
+	clearflag FLAG_0x4CD
 	msgbox PalletTown_PlayersHouse_2F_Text_TestQuestsCleared, MSGBOX_DEFAULT
 	releaseall
 	end

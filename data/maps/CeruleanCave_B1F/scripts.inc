@@ -8,17 +8,17 @@ CeruleanCave_B1F_OnResume::
 	end
 
 CeruleanCave_B1F_EventScript_TryRemoveMewtwo::
-	specialvar VAR_RESULT, GetBattleOutcome
-	goto_if_ne VAR_RESULT, B_OUTCOME_CAUGHT, EventScript_Return
-	removeobject VAR_LAST_TALKED
+	specialvar VAR_0x800D, GetBattleOutcome
+	goto_if_ne VAR_0x800D, B_OUTCOME_CAUGHT, EventScript_Return
+	removeobject VAR_0x800F
 	return
 
 CeruleanCave_B1F_OnTransition::
-	call_if_unset FLAG_FOUGHT_MEWTWO, CeruleanCave_B1F_EventScript_ShowMewtwo
+	call_if_unset FLAG_0x2BC, CeruleanCave_B1F_EventScript_ShowMewtwo
 	end
 
 CeruleanCave_B1F_EventScript_ShowMewtwo::
-	clearflag FLAG_HIDE_MEWTWO
+	clearflag FLAG_0x081
 	return
 
 CeruleanCave_B1F_EventScript_Mewtwo::
@@ -39,16 +39,16 @@ CeruleanCave_B1F_EventScript_Mewtwo::
 	special BattleSetup_StartLegendaryBattle
 	waitstate
 	clearflag FLAG_SYS_SPECIAL_WILD_BATTLE
-	specialvar VAR_RESULT, GetBattleOutcome
-	goto_if_eq VAR_RESULT, B_OUTCOME_WON, CeruleanCave_B1F_EventScript_DefeatedMewtwo
-	goto_if_eq VAR_RESULT, B_OUTCOME_RAN, CeruleanCave_B1F_EventScript_RanFromMewtwo
-	goto_if_eq VAR_RESULT, B_OUTCOME_PLAYER_TELEPORTED, CeruleanCave_B1F_EventScript_RanFromMewtwo
-	setflag FLAG_FOUGHT_MEWTWO
+	specialvar VAR_0x800D, GetBattleOutcome
+	goto_if_eq VAR_0x800D, B_OUTCOME_WON, CeruleanCave_B1F_EventScript_DefeatedMewtwo
+	goto_if_eq VAR_0x800D, B_OUTCOME_RAN, CeruleanCave_B1F_EventScript_RanFromMewtwo
+	goto_if_eq VAR_0x800D, B_OUTCOME_PLAYER_TELEPORTED, CeruleanCave_B1F_EventScript_RanFromMewtwo
+	setflag FLAG_0x2BC
 	release
 	end
 
 CeruleanCave_B1F_EventScript_DefeatedMewtwo::
-	setflag FLAG_FOUGHT_MEWTWO
+	setflag FLAG_0x2BC
 	goto EventScript_RemoveStaticMon
 	end
 

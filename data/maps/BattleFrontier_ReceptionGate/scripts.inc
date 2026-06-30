@@ -8,12 +8,12 @@ BattleFrontier_ReceptionGate_OnTransition:
 	end
 
 BattleFrontier_ReceptionGate_OnFrame:
-	map_script_2 VAR_HAS_ENTERED_BATTLE_FRONTIER, 0, BattleFrontier_ReceptionGate_EventScript_FirstTimeEntering
+	map_script_2 VAR_0x40D0, 0, BattleFrontier_ReceptionGate_EventScript_FirstTimeEntering
 	.2byte 0
 
 BattleFrontier_ReceptionGate_EventScript_FirstTimeEntering::
 	lockall
-	setvar VAR_HAS_ENTERED_BATTLE_FRONTIER, 1
+	setvar VAR_0x40D0, 1
 	playse SE_PIN
 	applymovement LOCALID_FRONTIER_RECEPTION_GREETER, Common_Movement_ExclamationMark
 	waitmovement 0
@@ -140,7 +140,7 @@ BattleFrontier_ReceptionGate_EventScript_ChooseFacilityToLearnAbout::
 	setvar VAR_0x8004, SCROLL_MULTI_BF_RECEPTIONIST
 	special ShowScrollableMultichoice
 	waitstate
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, BattleFrontier_ReceptionGate_EventScript_BattleTower
 	case 1, BattleFrontier_ReceptionGate_EventScript_BattleDome
 	case 2, BattleFrontier_ReceptionGate_EventScript_BattlePalace
@@ -215,7 +215,7 @@ BattleFrontier_ReceptionGate_EventScript_ChooseRuleToLearnAbout::
 	message BattleFrontier_ReceptionGate_Text_LearnAboutWhat
 	waitmessage
 	multichoice 15, 0, MULTI_FRONTIER_RULES, FALSE
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, BattleFrontier_ReceptionGate_EventScript_LevelMode
 	case 1, BattleFrontier_ReceptionGate_EventScript_Level50
 	case 2, BattleFrontier_ReceptionGate_EventScript_OpenLevel
@@ -266,7 +266,7 @@ BattleFrontier_ReceptionGate_EventScript_ChooseFrontierPassInfoToLearnAbout::
 	message BattleFrontier_ReceptionGate_Text_LearnAboutWhich1
 	waitmessage
 	multichoice 16, 4, MULTI_FRONTIER_PASS_INFO, FALSE
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, BattleFrontier_ReceptionGate_EventScript_Symbols
 	case 1, BattleFrontier_ReceptionGate_EventScript_RecordBattle
 	case 2, BattleFrontier_ReceptionGate_EventScript_BattlePoints

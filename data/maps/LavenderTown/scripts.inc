@@ -4,15 +4,15 @@ LavenderTown_MapScripts::
 
 LavenderTown_OnTransition::
 	setworldmapflag FLAG_WORLD_MAP_LAVENDER_TOWN
-	setvar VAR_MAP_SCENE_S_S_ANNE_2F_CORRIDOR, 1
-	setflag FLAG_HIDE_SS_ANNE_RIVAL
+	setvar VAR_0x405B, 1
+	setflag FLAG_0x03D
 	end
 
 LavenderTown_EventScript_LittleGirl::
 	lock
 	faceplayer
 	msgbox LavenderTown_Text_DoYouBelieveInGhosts, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, YES, LavenderTown_EventScript_LittleGirlBelieve
+	goto_if_eq VAR_0x800D, YES, LavenderTown_EventScript_LittleGirlBelieve
 	msgbox LavenderTown_Text_JustImaginingWhiteHand
 	release
 	end

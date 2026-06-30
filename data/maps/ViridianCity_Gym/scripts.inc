@@ -4,7 +4,7 @@ ViridianCity_Gym_MapScripts::
 ViridianCity_Gym_EventScript_Giovanni::
 	famechecker FAMECHECKER_GIOVANNI, FCPICKSTATE_COLORED, UpdatePickStateFromSpecialVar8005
 	trainerbattle_single TRAINER_LEADER_GIOVANNI, ViridianCity_Gym_Text_GiovanniIntro, ViridianCity_Gym_Text_GiovanniDefeat, ViridianCity_Gym_EventScript_DefeatedGiovanni, NO_MUSIC
-	goto_if_unset FLAG_GOT_TM26_FROM_GIOVANNI, ViridianCity_Gym_EventScript_GiveTM26
+	goto_if_unset FLAG_0x298, ViridianCity_Gym_EventScript_GiveTM26
 	msgbox ViridianCity_Gym_Text_GiovanniPostBattle
 	closemessage
 	fadescreen FADE_TO_BLACK
@@ -15,10 +15,10 @@ ViridianCity_Gym_EventScript_Giovanni::
 
 ViridianCity_Gym_EventScript_DefeatedGiovanni::
 	famechecker FAMECHECKER_GIOVANNI, 3
-	setflag FLAG_HIDE_MISC_KANTO_ROCKETS
-	setflag FLAG_DEFEATED_LEADER_GIOVANNI
+	setflag FLAG_0x0AD
+	setflag FLAG_0x4B7
 	setflag FLAG_BADGE08_GET
-	setvar VAR_MAP_SCENE_ROUTE22, 3
+	setvar VAR_0x4054, 3
 	set_gym_trainers 8
 	goto ViridianCity_Gym_EventScript_GiveTM26
 	end
@@ -26,9 +26,9 @@ ViridianCity_Gym_EventScript_DefeatedGiovanni::
 ViridianCity_Gym_EventScript_GiveTM26::
 	msgbox ViridianCity_Gym_Text_ExplainEarthBadgeTakeThis
 	checkitemspace ITEM_TM26
-	goto_if_eq VAR_RESULT, FALSE, ViridianCity_Gym_EventScript_NoRoomForTM26
+	goto_if_eq VAR_0x800D, FALSE, ViridianCity_Gym_EventScript_NoRoomForTM26
 	giveitem_msg ViridianCity_Gym_Text_ReceivedTM26FromGiovanni, ITEM_TM26
-	setflag FLAG_GOT_TM26_FROM_GIOVANNI
+	setflag FLAG_0x298
 	msgbox ViridianCity_Gym_Text_ExplainTM26
 	release
 	end
@@ -81,7 +81,7 @@ ViridianCity_Gym_EventScript_Warren::
 ViridianCity_Gym_EventScript_GymGuy::
 	lock
 	faceplayer
-	goto_if_set FLAG_DEFEATED_LEADER_GIOVANNI, ViridianCity_Gym_EventScript_GymGuyPostVictory
+	goto_if_set FLAG_0x4B7, ViridianCity_Gym_EventScript_GymGuyPostVictory
 	msgbox ViridianCity_Gym_Text_GymGuyAdvice
 	release
 	end

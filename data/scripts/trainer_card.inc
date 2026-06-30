@@ -2,9 +2,9 @@ CeladonCity_GameCorner_EventScript_PhotoPrinter::
 	lockall
 	showmoneybox 0, 0
 	msgbox CeladonCity_GameCorner_Text_TryPokemonPrinter, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, CeladonCity_GameCorner_EventScript_DeclinePhoto
+	goto_if_eq VAR_0x800D, NO, CeladonCity_GameCorner_EventScript_DeclinePhoto
 	checkmoney 50
-	goto_if_eq VAR_RESULT, FALSE, CeladonCity_GameCorner_EventScript_NotEnoughMoneyForPhoto
+	goto_if_eq VAR_0x800D, FALSE, CeladonCity_GameCorner_EventScript_NotEnoughMoneyForPhoto
 	playse SE_SHOP
 	removemoney 50
 	updatemoneybox
@@ -12,7 +12,7 @@ CeladonCity_GameCorner_EventScript_PhotoPrinter::
 	message CeladonCity_GameCorner_Text_ChoosePrintType
 	waitmessage
 	multichoice 21, 0, MULTI_TRAINER_CARD_ICON_TINT, TRUE
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, CeladonCity_GameCorner_EventScript_PrintTypeNormal
 	case 1, CeladonCity_GameCorner_EventScript_PrintTypeBlack
 	case 2, CeladonCity_GameCorner_EventScript_PrintTypePink
@@ -65,12 +65,12 @@ CeladonCity_GameCorner_EventScript_NotEnoughMoneyForPhoto::
 FourIsland_House2_EventScript_StickerMan::
 	lock
 	specialvar VAR_0x8008, StickerManGetBragFlags
-	goto_if_unset FLAG_MET_STICKER_MAN, FourIsland_House2_EventScript_MeetStickerMan
-	goto_if_set FLAG_MET_STICKER_MAN, FourIsland_House2_EventScript_StickerManAskForBrag
+	goto_if_unset FLAG_0x290, FourIsland_House2_EventScript_MeetStickerMan
+	goto_if_set FLAG_0x290, FourIsland_House2_EventScript_StickerManAskForBrag
 	end
 
 FourIsland_House2_EventScript_MeetStickerMan::
-	setflag FLAG_MET_STICKER_MAN
+	setflag FLAG_0x290
 	msgbox FourIsland_House2_Text_WishICouldShowOffStickers
 	applymovement LOCALID_STICKER_MAN, Common_Movement_FacePlayer
 	waitmovement 0
@@ -114,7 +114,7 @@ FourIsland_House2_EventScript_ChooseBrag::
 
 FourIsland_House2_EventScript_ChooseBragHoF::
 	multichoice 15, 8, MULTI_HOF_QUIT, FALSE
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, FourIsland_House2_EventScript_BragHoF
 	case 1, FourIsland_House2_EventScript_QuitBrag
 	case MULTI_B_PRESSED, FourIsland_House2_EventScript_QuitBrag
@@ -122,7 +122,7 @@ FourIsland_House2_EventScript_ChooseBragHoF::
 
 FourIsland_House2_EventScript_ChooseBragEggs::
 	multichoice 16, 8, MULTI_EGGS_QUIT, FALSE
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, FourIsland_House2_EventScript_BragEggs
 	case 1, FourIsland_House2_EventScript_QuitBrag
 	case MULTI_B_PRESSED, FourIsland_House2_EventScript_QuitBrag
@@ -130,7 +130,7 @@ FourIsland_House2_EventScript_ChooseBragEggs::
 
 FourIsland_House2_EventScript_ChooseBragLinkWins::
 	multichoice 15, 8, MULTI_VICTORIES_QUIT, FALSE
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, FourIsland_House2_EventScript_BragLinkWins
 	case 1, FourIsland_House2_EventScript_QuitBrag
 	case MULTI_B_PRESSED, FourIsland_House2_EventScript_QuitBrag
@@ -138,7 +138,7 @@ FourIsland_House2_EventScript_ChooseBragLinkWins::
 
 FourIsland_House2_EventScript_ChooseBragHoFEggs::
 	multichoice 15, 6, MULTI_HOF_EGGS_QUIT, FALSE
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, FourIsland_House2_EventScript_BragHoF
 	case 1, FourIsland_House2_EventScript_BragEggs
 	case 2, FourIsland_House2_EventScript_QuitBrag
@@ -147,7 +147,7 @@ FourIsland_House2_EventScript_ChooseBragHoFEggs::
 
 FourIsland_House2_EventScript_ChooseBragHoFLinkWins::
 	multichoice 15, 6, MULTI_HOF_VICTORIES_QUIT, FALSE
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, FourIsland_House2_EventScript_BragHoF
 	case 1, FourIsland_House2_EventScript_BragLinkWins
 	case 2, FourIsland_House2_EventScript_QuitBrag
@@ -156,7 +156,7 @@ FourIsland_House2_EventScript_ChooseBragHoFLinkWins::
 
 FourIsland_House2_EventScript_ChooseBragEggsLinkWins::
 	multichoice 15, 6, MULTI_EGGS_VICTORIES_QUIT, FALSE
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, FourIsland_House2_EventScript_BragEggs
 	case 1, FourIsland_House2_EventScript_BragLinkWins
 	case 2, FourIsland_House2_EventScript_QuitBrag
@@ -165,7 +165,7 @@ FourIsland_House2_EventScript_ChooseBragEggsLinkWins::
 
 FourIsland_House2_EventScript_ChooseBragHofEggsLinkWins::
 	multichoice 15, 5, MULTI_HOF_EGGS_VICTORIES_QUIT, FALSE
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, FourIsland_House2_EventScript_BragHoF
 	case 1, FourIsland_House2_EventScript_BragEggs
 	case 2, FourIsland_House2_EventScript_BragLinkWins

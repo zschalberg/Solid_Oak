@@ -41,7 +41,7 @@ FuchsiaCity_SafariZone_Entrance_EventScript_ExitEarly::
 	lockall
 	textcolor NPC_TEXT_COLOR_MALE
 	msgbox FuchsiaCity_SafariZone_Entrance_Text_GoingToLeaveSafariZoneEarly, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, FuchsiaCity_SafariZone_Entrance_EventScript_ReturnToSafariZone
+	goto_if_eq VAR_0x800D, NO, FuchsiaCity_SafariZone_Entrance_EventScript_ReturnToSafariZone
 	msgbox FuchsiaCity_SafariZone_Entrance_Text_PleaseReturnSafariBalls
 	closemessage
 	applymovement LOCALID_PLAYER, FuchsiaCity_SafariZone_Entrance_Movement_Exit
@@ -104,7 +104,7 @@ FuchsiaCity_SafariZone_Entrance_EventScript_AskEnterSafariZone::
 	waitmovement 0
 	showmoneybox 0, 0
 	msgbox FuchsiaCity_SafariZone_Entrance_Text_PlaySafariGameFor500, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, YES, FuchsiaCity_SafariZone_Entrance_EventScript_TryEnterSafariZone
+	goto_if_eq VAR_0x800D, YES, FuchsiaCity_SafariZone_Entrance_EventScript_TryEnterSafariZone
 	msgbox FuchsiaCity_SafariZone_Entrance_Text_OkayPleaseComeAgain
 	goto FuchsiaCity_SafariZone_Entrance_EventScript_ForcePlayerBack
 	end
@@ -112,7 +112,7 @@ FuchsiaCity_SafariZone_Entrance_EventScript_AskEnterSafariZone::
 FuchsiaCity_SafariZone_Entrance_EventScript_TryEnterSafariZone::
 	call FuchsiaCity_SafariZone_Entrance_EventScript_CheckSpaceForMons
 	checkmoney 500
-	goto_if_eq VAR_RESULT, FALSE, FuchsiaCity_SafariZone_Entrance_EventScript_NotEnoughMoney
+	goto_if_eq VAR_0x800D, FALSE, FuchsiaCity_SafariZone_Entrance_EventScript_NotEnoughMoney
 	removemoney 500
 	updatemoneybox
 	msgbox FuchsiaCity_SafariZone_Entrance_Text_ThatllBe500WeOnlyUseSpecialBalls
@@ -150,9 +150,9 @@ FuchsiaCity_SafariZone_Entrance_EventScript_EnterSafariZoneLeft::
 
 FuchsiaCity_SafariZone_Entrance_EventScript_CheckSpaceForMons::
 	getpartysize
-	goto_if_ne VAR_RESULT, PARTY_SIZE, EventScript_Return
-	specialvar VAR_RESULT, IsThereRoomInAnyBoxForMorePokemon
-	goto_if_eq VAR_RESULT, TRUE, EventScript_Return
+	goto_if_ne VAR_0x800D, PARTY_SIZE, EventScript_Return
+	specialvar VAR_0x800D, IsThereRoomInAnyBoxForMorePokemon
+	goto_if_eq VAR_0x800D, TRUE, EventScript_Return
 	msgbox SafariZone_Text_ExcuseMeYourPCBoxIsFull
 	goto FuchsiaCity_SafariZone_Entrance_EventScript_ForcePlayerBack
 	end
@@ -195,7 +195,7 @@ FuchsiaCity_SafariZone_Entrance_EventScript_InfoAttendant::
 	lock
 	faceplayer
 	msgbox FuchsiaCity_SafariZone_Entrance_Text_FirstTimeAtSafariZone, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, YES, FuchsiaCity_SafariZone_Entrance_EventScript_ExplainSafariZone
+	goto_if_eq VAR_0x800D, YES, FuchsiaCity_SafariZone_Entrance_EventScript_ExplainSafariZone
 	msgbox FuchsiaCity_SafariZone_Entrance_Text_SorryYoureARegularHere
 	release
 	end

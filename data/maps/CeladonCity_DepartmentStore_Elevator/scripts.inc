@@ -10,8 +10,8 @@ CeladonCity_DepartmentStore_Elevator_EventScript_FloorSelect::
 	message Text_WantWhichFloor
 	waitmessage
 	setvar VAR_0x8004, 3
-	specialvar VAR_RESULT, InitElevatorFloorSelectMenuPos
-	switch VAR_RESULT
+	specialvar VAR_0x800D, InitElevatorFloorSelectMenuPos
+	switch VAR_0x800D
 	case 0, CeladonCity_DepartmentStore_Elevator_EventScript_FloorSelectFrom5F
 	case 1, CeladonCity_DepartmentStore_Elevator_EventScript_FloorSelectFrom4F
 	case 2, CeladonCity_DepartmentStore_Elevator_EventScript_FloorSelectFrom3F
@@ -45,7 +45,7 @@ CeladonCity_DepartmentStore_Elevator_EventScript_FloorSelectFrom1F::
 	end
 
 CeladonCity_DepartmentStore_Elevator_EventScript_ChooseFloor::
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, CeladonCity_DepartmentStore_Elevator_EventScript_To5F
 	case 1, CeladonCity_DepartmentStore_Elevator_EventScript_To4F
 	case 2, CeladonCity_DepartmentStore_Elevator_EventScript_To3F

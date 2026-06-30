@@ -1,7 +1,7 @@
 EventScript_GetGiftMonPartySlot::
 	getpartysize
-	subvar VAR_RESULT, 1
-	copyvar VAR_0x8004, VAR_RESULT
+	subvar VAR_0x800D, 1
+	copyvar VAR_0x8004, VAR_0x800D
 	return
 
 EventScript_NameReceivedBoxMon::
@@ -20,25 +20,25 @@ EventScript_TransferredToPC::
 	return
 
 EventScript_TransferredSomeonesPC::
-	specialvar VAR_RESULT, ShouldShowBoxWasFullMessage
-	goto_if_eq VAR_RESULT, TRUE, EventScript_TransferredSomeonesPCBoxFull
+	specialvar VAR_0x800D, ShouldShowBoxWasFullMessage
+	goto_if_eq VAR_0x800D, TRUE, EventScript_TransferredSomeonesPCBoxFull
 	msgbox gText_PkmnTransferredSomeonesPC
 	return
 
 EventScript_TransferredSomeonesPCBoxFull::
-	specialvar VAR_RESULT, GetPCBoxToSendMon
-	bufferboxname STR_VAR_3, VAR_RESULT
+	specialvar VAR_0x800D, GetPCBoxToSendMon
+	bufferboxname STR_VAR_3, VAR_0x800D
 	msgbox gText_PkmnTransferredSomeonesPCBoxFull
 	return
 
 EventScript_TransferredBillsPC::
-	specialvar VAR_RESULT, ShouldShowBoxWasFullMessage
-	goto_if_eq VAR_RESULT, TRUE, EventScript_TransferredBillsPCBoxFull
+	specialvar VAR_0x800D, ShouldShowBoxWasFullMessage
+	goto_if_eq VAR_0x800D, TRUE, EventScript_TransferredBillsPCBoxFull
 	msgbox gText_PkmnTransferredBillsPC
 	return
 
 EventScript_TransferredBillsPCBoxFull::
-	specialvar VAR_RESULT, GetPCBoxToSendMon
-	bufferboxname STR_VAR_3, VAR_RESULT
+	specialvar VAR_0x800D, GetPCBoxToSendMon
+	bufferboxname STR_VAR_3, VAR_0x800D
 	msgbox gText_PkmnTransferredBillsPCBoxFull
 	return

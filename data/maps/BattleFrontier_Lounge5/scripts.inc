@@ -5,14 +5,14 @@ BattleFrontier_Lounge5_EventScript_NatureGirl::
 	lock
 	faceplayer
 	msgbox BattleFrontier_Lounge5_Text_NatureGirlGreeting, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, BattleFrontier_Lounge5_EventScript_NatureGirlNoneShown
+	goto_if_eq VAR_0x800D, NO, BattleFrontier_Lounge5_EventScript_NatureGirlNoneShown
 	chooseboxmon
 	waitstate
 	lock
 	faceplayer
 	goto_if_eq VAR_0x8004, PARTY_NOTHING_CHOSEN, BattleFrontier_Lounge5_EventScript_NatureGirlNoneShown
-	specialvar VAR_RESULT, ScriptGetPartyMonSpecies
-	goto_if_eq VAR_RESULT, SPECIES_EGG, BattleFrontier_Lounge5_EventScript_NatureGirlEgg
+	specialvar VAR_0x800D, ScriptGetPartyMonSpecies
+	goto_if_eq VAR_0x800D, SPECIES_EGG, BattleFrontier_Lounge5_EventScript_NatureGirlEgg
 	special ShowNatureGirlMessage
 	waitmessage
 	waitbuttonpress

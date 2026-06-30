@@ -4,8 +4,8 @@ ThreeIsland_DunsparceTunnel_MapScripts::
 
 ThreeIsland_DunsparceTunnel_OnTransition::
 	setworldmapflag FLAG_WORLD_MAP_THREE_ISLAND_DUNSPARCE_TUNNEL
-	specialvar VAR_RESULT, IsNationalPokedexEnabled
-	copyvar VAR_0x8008, VAR_RESULT
+	specialvar VAR_0x800D, IsNationalPokedexEnabled
+	copyvar VAR_0x8008, VAR_0x800D
 	call_if_eq VAR_0x8008, TRUE, ThreeIsland_DunsparceTunnel_EventScript_SetLayoutDugOut
 	call_if_eq VAR_0x8008, FALSE, ThreeIsland_DunsparceTunnel_EventScript_MoveProspectorToWall
 	end
@@ -22,9 +22,9 @@ ThreeIsland_DunsparceTunnel_EventScript_MoveProspectorToWall::
 ThreeIsland_DunsparceTunnel_EventScript_Prospector::
 	lock
 	faceplayer
-	goto_if_set FLAG_GOT_NUGGET_FROM_DUNSPARCE_TUNNEL, ThreeIsland_DunsparceTunnel_EventScript_ProspectorAlreadyGaveNugget
-	specialvar VAR_RESULT, IsNationalPokedexEnabled
-	goto_if_eq VAR_RESULT, TRUE, ThreeIsland_DunsparceTunnel_EventScript_ProspectorStruckGold
+	goto_if_set FLAG_0x2E2, ThreeIsland_DunsparceTunnel_EventScript_ProspectorAlreadyGaveNugget
+	specialvar VAR_0x800D, IsNationalPokedexEnabled
+	goto_if_eq VAR_0x800D, TRUE, ThreeIsland_DunsparceTunnel_EventScript_ProspectorStruckGold
 	msgbox ThreeIsland_DunsparceTunnel_Text_ProspectingForGold
 	closemessage
 	applymovement LOCALID_PROSPECTOR, Common_Movement_FaceOriginalDirection
@@ -35,8 +35,8 @@ ThreeIsland_DunsparceTunnel_EventScript_Prospector::
 ThreeIsland_DunsparceTunnel_EventScript_ProspectorStruckGold::
 	msgbox ThreeIsland_DunsparceTunnel_Text_StruckGoldThisIsForYou
 	giveitem ITEM_NUGGET
-	goto_if_eq VAR_RESULT, FALSE, ThreeIsland_DunsparceTunnel_EventScript_NoRoomForNugget
-	setflag FLAG_GOT_NUGGET_FROM_DUNSPARCE_TUNNEL
+	goto_if_eq VAR_0x800D, FALSE, ThreeIsland_DunsparceTunnel_EventScript_NoRoomForNugget
+	setflag FLAG_0x2E2
 	goto ThreeIsland_DunsparceTunnel_EventScript_ProspectorAlreadyGaveNugget
 	end
 

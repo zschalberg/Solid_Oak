@@ -10,7 +10,7 @@ PokemonTower_6F_EventScript_MarowakGhost::
 	special StartMarowakBattle
 	waitstate
 	special QuestLog_CutRecording
-	goto_if_eq VAR_RESULT, FALSE, PokemonTower_6F_EventScript_DefeatedMarowakGhost  @ VAR_RESULT set by CB2_EndMarowakBattle
+	goto_if_eq VAR_0x800D, FALSE, PokemonTower_6F_EventScript_DefeatedMarowakGhost  @ VAR_0x800D set by CB2_EndMarowakBattle
 	applymovement LOCALID_PLAYER, PokemonTower_6F_Movement_ForcePlayerUp
 	waitmovement 0
 	releaseall
@@ -24,7 +24,7 @@ PokemonTower_6F_EventScript_DefeatedMarowakGhost::
 	waitbuttonpress
 	waitmoncry
 	msgbox PokemonTower_6F_Text_MothersSpiritWasCalmed
-	setvar VAR_MAP_SCENE_POKEMON_TOWER_6F, 1
+	setvar VAR_0x4059, 1
 	releaseall
 	end
 

@@ -4,11 +4,11 @@ FuchsiaCity_WardensHouse_MapScripts::
 FuchsiaCity_WardensHouse_EventScript_Warden::
 	lock
 	faceplayer
-	goto_if_set FLAG_GOT_HM04, FuchsiaCity_WardensHouse_EventScript_ExplainStrength
-	goto_if_set FLAG_HIDE_SAFARI_ZONE_WEST_GOLD_TEETH, FuchsiaCity_WardensHouse_EventScript_GiveGoldTeeth
+	goto_if_set FLAG_0x23A, FuchsiaCity_WardensHouse_EventScript_ExplainStrength
+	goto_if_set FLAG_0x189, FuchsiaCity_WardensHouse_EventScript_GiveGoldTeeth
 	msgbox FuchsiaCity_WardensHouse_Text_HifFuffHefifoo, MSGBOX_YESNO
-	call_if_eq VAR_RESULT, YES, FuchsiaCity_WardensHouse_EventScript_WardenYes
-	call_if_eq VAR_RESULT, NO, FuchsiaCity_WardensHouse_EventScript_WardenNo
+	call_if_eq VAR_0x800D, YES, FuchsiaCity_WardensHouse_EventScript_WardenYes
+	call_if_eq VAR_0x800D, NO, FuchsiaCity_WardensHouse_EventScript_WardenNo
 	release
 	end
 
@@ -21,10 +21,10 @@ FuchsiaCity_WardensHouse_EventScript_GiveGoldTeeth::
 	msgbox FuchsiaCity_WardensHouse_Text_WardenPoppedInHisTeeth
 	call EventScript_RestorePrevTextColor
 	checkplayergender
-	call_if_eq VAR_RESULT, MALE, FuchsiaCity_WardensHouse_EventScript_WardenThanksMale
-	call_if_eq VAR_RESULT, FEMALE, FuchsiaCity_WardensHouse_EventScript_WardenThanksFemale
+	call_if_eq VAR_0x800D, MALE, FuchsiaCity_WardensHouse_EventScript_WardenThanksMale
+	call_if_eq VAR_0x800D, FEMALE, FuchsiaCity_WardensHouse_EventScript_WardenThanksFemale
 	giveitem_msg FuchsiaCity_WardensHouse_Text_ReceivedHM04FromWarden, ITEM_HM04
-	setflag FLAG_GOT_HM04
+	setflag FLAG_0x23A
 	removeitem ITEM_GOLD_TEETH
 	release
 	end

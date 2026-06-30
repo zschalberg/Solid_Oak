@@ -21,7 +21,7 @@ FiveIsland_RocketWarehouse_EventScript_SetArrowsForReEntry::
 
 FiveIsland_RocketWarehouse_EventScript_Cage::
 	lockall
-	goto_if_set FLAG_DEFEATED_ROCKETS_IN_WAREHOUSE, FiveIsland_RocketWarehouse_EventScript_CageUnlocked
+	goto_if_set FLAG_0x2D5, FiveIsland_RocketWarehouse_EventScript_CageUnlocked
 	msgbox FiveIsland_RocketWarehouse_Text_ManyMonsLockedInPen
 	releaseall
 	end
@@ -39,7 +39,7 @@ FiveIsland_RocketWarehouse_EventScript_Admin2Trigger::
 	lockall
 	applymovement LOCALID_WAREHOUSE_ADMIN2, Common_Movement_WalkInPlaceFasterLeft
 	waitmovement 0
-	setvar VAR_MAP_SCENE_ROCKET_WAREHOUSE, 1
+	setvar VAR_0x4088, 1
 	releaseall
 	end
 
@@ -56,7 +56,7 @@ FiveIsland_RocketWarehouse_EventScript_MentionGiovannisKid::
 
 FiveIsland_RocketWarehouse_EventScript_DefeatedGideon::
 	msgbox FiveIsland_RocketWarehouse_Text_GideonPostBattle
-	setflag FLAG_RECOVERED_SAPPHIRE
+	setflag FLAG_0x2DC
 	giveitem ITEM_SAPPHIRE
 	release
 	end
@@ -86,10 +86,10 @@ FiveIsland_RocketWarehouse_EventScript_DefeatedAdmin2::
 	removeobject LOCALID_WAREHOUSE_GRUNT3
 	removeobject LOCALID_WAREHOUSE_ADMIN2
 	removeobject LOCALID_WAREHOUSE_ADMIN1
-	setflag FLAG_HIDE_FIVE_ISLAND_ROCKETS
+	setflag FLAG_0x088
 	fadescreen FADE_FROM_BLACK
-	setvar VAR_MAP_SCENE_ROCKET_WAREHOUSE, 1
-	setflag FLAG_DEFEATED_ROCKETS_IN_WAREHOUSE
+	setvar VAR_0x4088, 1
+	setflag FLAG_0x2D5
 	release
 	end
 
@@ -110,8 +110,8 @@ FiveIsland_RocketWarehouse_EventScript_Admin1::
 
 FiveIsland_RocketWarehouse_EventScript_DefeatedAdmin1::
 	getplayerxy PLAYER_X_POS, PLAYER_Y_POS
-	specialvar VAR_RESULT, GetPlayerFacingDirection
-	call_if_eq VAR_RESULT, DIR_NORTH, FiveIsland_RocketWarehouse_EventScript_PlayerFaceAdmin1
+	specialvar VAR_0x800D, GetPlayerFacingDirection
+	call_if_eq VAR_0x800D, DIR_NORTH, FiveIsland_RocketWarehouse_EventScript_PlayerFaceAdmin1
 	msgbox FiveIsland_RocketWarehouse_Text_Admin1PostBattle
 	closemessage
 	call_if_le PLAYER_X_POS, 24, FiveIsland_RocketWarehouse_EventScript_AdminWalkToSwitchFar

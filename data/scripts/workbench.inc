@@ -1,12 +1,12 @@
 EventScript_WorkbenchCrafting::
 	lockall
 	msgbox Text_AccessWorkbench, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, EventScript_WorkbenchCancel
+	goto_if_eq VAR_0x800D, NO, EventScript_WorkbenchCancel
 EventScript_CraftingLoop::
 	message Text_CraftingSelectCategory
 	waitmessage
 	multichoice 0, 0, MULTI_WORKBENCH_MENU, FALSE
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, EventScript_SelectBallCrafting
 	case 1, EventScript_SelectMedicineCrafting
 	case 2, EventScript_WorkbenchCancel
@@ -15,11 +15,11 @@ EventScript_CraftingLoop::
 
 EventScript_SelectBallCrafting::
 	checkitem ITEM_CONVERSION_KIT, 1
-	goto_if_eq VAR_RESULT, FALSE, EventScript_CraftingNoKits
+	goto_if_eq VAR_0x800D, FALSE, EventScript_CraftingNoKits
 	message Text_CraftingSelectBall
 	waitmessage
 	multichoice 0, 0, MULTI_WORKBENCH, FALSE
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, EventScript_CraftRedProtoball
 	case 1, EventScript_CraftBluProtoball
 	case 2, EventScript_CraftGrnProtoball
@@ -51,7 +51,7 @@ EventScript_CheckMaxQuantity::
 	message Text_ChooseQuantity
 	waitmessage
 	multichoice 0, 0, MULTI_CRAFT_QUANTITY, FALSE
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, EventScript_CraftOne
 	case 1, EventScript_CraftFive
 	case 2, EventScript_CraftTen
@@ -81,8 +81,8 @@ EventScript_DoCraft::
 	goto_if_gt EventScript_NotEnoughMaterials
 
 	copyvar VAR_0x8005, VAR_0x8006
-	specialvar VAR_RESULT, CraftProtoballs
-	goto_if_eq VAR_RESULT, FALSE, EventScript_NotEnoughMaterials
+	specialvar VAR_0x800D, CraftProtoballs
+	goto_if_eq VAR_0x800D, FALSE, EventScript_NotEnoughMaterials
 
 	playfanfare MUS_OBTAIN_ITEM
 	buffernumberstring STR_VAR_2, VAR_0x8006
@@ -152,11 +152,11 @@ EventScript_CraftingNoKits::
 
 EventScript_SelectMedicineCrafting::
 	checkitem ITEM_BREWING_KIT, 1
-	goto_if_eq VAR_RESULT, FALSE, EventScript_CraftingNoBrewingKits
+	goto_if_eq VAR_0x800D, FALSE, EventScript_CraftingNoBrewingKits
 	message Text_CraftingSelectMedicine
 	waitmessage
 	multichoice 0, 0, MULTI_MEDICINE_CRAFTING, FALSE
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, EventScript_CraftPotion
 	case 1, EventScript_CraftSuperPotion
 	case 2, EventScript_CraftHyperPotion
@@ -197,7 +197,7 @@ EventScript_CheckMaxMedicineQuantity::
 	message Text_ChooseQuantity
 	waitmessage
 	multichoice 0, 0, MULTI_CRAFT_QUANTITY, FALSE
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, EventScript_CraftMedicineOne
 	case 1, EventScript_CraftMedicineFive
 	case 2, EventScript_CraftMedicineTen
@@ -227,8 +227,8 @@ EventScript_DoMedicineCraft::
 	goto_if_gt EventScript_NotEnoughMaterials
 
 	copyvar VAR_0x8005, VAR_0x8006
-	specialvar VAR_RESULT, CraftMedicine
-	goto_if_eq VAR_RESULT, FALSE, EventScript_NotEnoughMaterials
+	specialvar VAR_0x800D, CraftMedicine
+	goto_if_eq VAR_0x800D, FALSE, EventScript_NotEnoughMaterials
 
 	playfanfare MUS_OBTAIN_ITEM
 	buffernumberstring STR_VAR_2, VAR_0x8006

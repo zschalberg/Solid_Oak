@@ -5,8 +5,8 @@ PalletTown_RivalsHouse_MapScripts::
 	.byte 0
 
 PalletTown_RivalsHouse_OnTransition::
-	call_if_lt VAR_MAP_SCENE_PALLET_TOWN_RIVALS_HOUSE, 2, PalletTown_RivalsHouse_EventScript_MoveDaisyToTable
-	call_if_ge VAR_MAP_SCENE_PALLET_TOWN_RIVALS_HOUSE, 2, PalletTown_RivalsHouse_EventScript_AlreadyReceivedTownMap
+	call_if_lt VAR_0x4058, 2, PalletTown_RivalsHouse_EventScript_MoveDaisyToTable
+	call_if_ge VAR_0x4058, 2, PalletTown_RivalsHouse_EventScript_AlreadyReceivedTownMap
 	end
 
 PalletTown_RivalsHouse_EventScript_MoveDaisyToTable::
@@ -24,9 +24,9 @@ PalletTown_RivalsHouse_EventScript_Daisy::
 	famechecker FAMECHECKER_DAISY, FCPICKSTATE_COLORED, UpdatePickStateFromSpecialVar8005
 	goto_if_set FLAG_SYS_GAME_CLEAR, PalletTown_RivalsHouse_EventScript_GroomMon
 	goto_if_eq RECEIVED_TOWN_MAP, TRUE, PalletTown_RivalsHouse_EventScript_PleaseGiveMonsRest
-	goto_if_eq VAR_MAP_SCENE_PALLET_TOWN_RIVALS_HOUSE, 2, PalletTown_RivalsHouse_EventScript_ExplainTownMap
-	goto_if_eq VAR_MAP_SCENE_PALLET_TOWN_RIVALS_HOUSE, 1, PalletTown_RivalsHouse_EventScript_GiveTownMap
-	goto_if_ge VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB, 1, PalletTown_RivalsHouse_EventScript_HeardBattledRival
+	goto_if_eq VAR_0x4058, 2, PalletTown_RivalsHouse_EventScript_ExplainTownMap
+	goto_if_eq VAR_0x4058, 1, PalletTown_RivalsHouse_EventScript_GiveTownMap
+	goto_if_ge VAR_0x4055, 1, PalletTown_RivalsHouse_EventScript_HeardBattledRival
 	msgbox PalletTown_RivalsHouse_Text_HiBrothersAtLab
 	closemessage
 	applymovement LOCALID_DAISY, Common_Movement_FaceOriginalDirection
@@ -44,15 +44,15 @@ PalletTown_RivalsHouse_EventScript_GroomMon::
 	special QuestLog_CutRecording
 	goto_if_lt VAR_MASSAGE_COOLDOWN_STEP_COUNTER, 500, PalletTown_RivalsHouse_EventScript_RateMonFriendship
 	msgbox PalletTown_RivalsHouse_Text_LikeMeToGroomMon, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, PalletTown_RivalsHouse_EventScript_DeclineGrooming
+	goto_if_eq VAR_0x800D, NO, PalletTown_RivalsHouse_EventScript_DeclineGrooming
 	msgbox PalletTown_RivalsHouse_Text_GroomWhichOne
 	special ChoosePartyMon
 	waitstate
 	lock
 	faceplayer
 	goto_if_ge VAR_0x8004, PARTY_SIZE, PalletTown_RivalsHouse_EventScript_DeclineGrooming
-	specialvar VAR_RESULT, ScriptGetPartyMonSpecies
-	goto_if_eq VAR_RESULT, SPECIES_EGG, PalletTown_RivalsHouse_EventScript_CantGroomEgg
+	specialvar VAR_0x800D, ScriptGetPartyMonSpecies
+	goto_if_eq VAR_0x800D, SPECIES_EGG, PalletTown_RivalsHouse_EventScript_CantGroomEgg
 	msgbox PalletTown_RivalsHouse_Text_LookingNiceInNoTime
 	closemessage
 	fadescreen FADE_TO_BLACK
@@ -77,8 +77,8 @@ PalletTown_RivalsHouse_EventScript_DeclineGrooming::
 
 PalletTown_RivalsHouse_EventScript_RateMonFriendship::
 	msgbox PalletTown_RivalsHouse_Text_MayISeeFirstMon
-	specialvar VAR_RESULT, GetLeadMonFriendship
-	switch VAR_RESULT
+	specialvar VAR_0x800D, GetLeadMonFriendship
+	switch VAR_0x800D
 	case 0, PalletTown_RivalsHouse_EventScript_MonFriendshipLowest
 	case 1, PalletTown_RivalsHouse_EventScript_MonFriendshipLower
 	case 2, PalletTown_RivalsHouse_EventScript_MonFriendshipLow
@@ -132,11 +132,11 @@ PalletTown_RivalsHouse_EventScript_GiveTownMap::
 	msgbox PalletTown_RivalsHouse_Text_ErrandForGrandpaThisWillHelp
 	closemessage
 	checkitemspace ITEM_TOWN_MAP
-	goto_if_eq VAR_RESULT, FALSE, PalletTown_RivalsHouse_EventScript_NoRoomForTownMap
+	goto_if_eq VAR_0x800D, FALSE, PalletTown_RivalsHouse_EventScript_NoRoomForTownMap
 	applymovement LOCALID_DAISY, Common_Movement_WalkInPlaceFasterRight
 	waitmovement 0
 	removeobject LOCALID_TOWN_MAP
-	setvar VAR_MAP_SCENE_PALLET_TOWN_RIVALS_HOUSE, 2
+	setvar VAR_0x4058, 2
 	delay 15
 	applymovement LOCALID_DAISY, Common_Movement_FacePlayer
 	waitmovement 0
@@ -170,7 +170,7 @@ PalletTown_RivalsHouse_EventScript_Picture::
 PalletTown_RivalsHouse_EventScript_TestNPC::
 	lock
 	faceplayer
-	goto_if_unset FLAG_PREVIEW_BATTLE, PalletTown_RivalsHouse_EventScript_TestNPC_ShowGreetingOff
+	goto_if_unset FLAG_0x2E6, PalletTown_RivalsHouse_EventScript_TestNPC_ShowGreetingOff
 	
 	copyvar VAR_0x8004, 0x8008
 	goto_if_eq VAR_0x8004, 0, PalletTown_RivalsHouse_EventScript_TestNPC_SetPlayerCountDefault3
@@ -209,7 +209,7 @@ PalletTown_RivalsHouse_EventScript_TestNPC_ShowGreetingOff::
 
 PalletTown_RivalsHouse_EventScript_TestNPC_Menu::
 	multichoice 0, 0, MULTI_TEST_NPC_CHOICES, TRUE
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, PalletTown_RivalsHouse_EventScript_TestNPC_SelectMode
 	case 1, PalletTown_RivalsHouse_EventScript_TestNPC_GetMons
 	case 2, PalletTown_RivalsHouse_EventScript_TestNPC_Battle
@@ -219,7 +219,7 @@ PalletTown_RivalsHouse_EventScript_TestNPC_Menu::
 
 PalletTown_RivalsHouse_EventScript_TestNPC_SelectMode::
 	multichoice 0, 0, MULTI_TEST_NPC_PREVIEW_MODES, TRUE
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, PalletTown_RivalsHouse_EventScript_TestNPC_Set1v1
 	case 1, PalletTown_RivalsHouse_EventScript_TestNPC_Set2v2
 	case 2, PalletTown_RivalsHouse_EventScript_TestNPC_Set3v3
@@ -232,7 +232,7 @@ PalletTown_RivalsHouse_EventScript_TestNPC_SelectMode::
 	end
 
 PalletTown_RivalsHouse_EventScript_TestNPC_Set1v1::
-	setflag FLAG_PREVIEW_BATTLE
+	setflag FLAG_0x2E6
 	setvar 0x8008, 1
 	setvar 0x800A, 0
 	msgbox PalletTown_RivalsHouse_Text_TestNPC_SetMode1v1
@@ -240,7 +240,7 @@ PalletTown_RivalsHouse_EventScript_TestNPC_Set1v1::
 	end
 
 PalletTown_RivalsHouse_EventScript_TestNPC_Set2v2::
-	setflag FLAG_PREVIEW_BATTLE
+	setflag FLAG_0x2E6
 	setvar 0x8008, 2
 	setvar 0x800A, 0
 	msgbox PalletTown_RivalsHouse_Text_TestNPC_SetMode2v2
@@ -248,7 +248,7 @@ PalletTown_RivalsHouse_EventScript_TestNPC_Set2v2::
 	end
 
 PalletTown_RivalsHouse_EventScript_TestNPC_Set3v3::
-	setflag FLAG_PREVIEW_BATTLE
+	setflag FLAG_0x2E6
 	setvar 0x8008, 3
 	setvar 0x800A, 0
 	msgbox PalletTown_RivalsHouse_Text_TestNPC_SetMode3v3
@@ -256,7 +256,7 @@ PalletTown_RivalsHouse_EventScript_TestNPC_Set3v3::
 	end
 
 PalletTown_RivalsHouse_EventScript_TestNPC_Set4v4::
-	setflag FLAG_PREVIEW_BATTLE
+	setflag FLAG_0x2E6
 	setvar 0x8008, 4
 	setvar 0x800A, 0
 	msgbox PalletTown_RivalsHouse_Text_TestNPC_SetMode4v4
@@ -264,7 +264,7 @@ PalletTown_RivalsHouse_EventScript_TestNPC_Set4v4::
 	end
 
 PalletTown_RivalsHouse_EventScript_TestNPC_Set5v5::
-	setflag FLAG_PREVIEW_BATTLE
+	setflag FLAG_0x2E6
 	setvar 0x8008, 5
 	setvar 0x800A, 0
 	msgbox PalletTown_RivalsHouse_Text_TestNPC_SetMode5v5
@@ -272,7 +272,7 @@ PalletTown_RivalsHouse_EventScript_TestNPC_Set5v5::
 	end
 
 PalletTown_RivalsHouse_EventScript_TestNPC_Set6v6::
-	setflag FLAG_PREVIEW_BATTLE
+	setflag FLAG_0x2E6
 	setvar 0x8008, 6
 	setvar 0x800A, 0
 	msgbox PalletTown_RivalsHouse_Text_TestNPC_SetMode6v6
@@ -280,7 +280,7 @@ PalletTown_RivalsHouse_EventScript_TestNPC_Set6v6::
 	end
 
 PalletTown_RivalsHouse_EventScript_TestNPC_Set2v4::
-	setflag FLAG_PREVIEW_BATTLE
+	setflag FLAG_0x2E6
 	setvar 0x8008, 2
 	setvar 0x800A, 4
 	msgbox PalletTown_RivalsHouse_Text_TestNPC_SetMode2v4
@@ -288,7 +288,7 @@ PalletTown_RivalsHouse_EventScript_TestNPC_Set2v4::
 	end
 
 PalletTown_RivalsHouse_EventScript_TestNPC_SetDisable::
-	clearflag FLAG_PREVIEW_BATTLE
+	clearflag FLAG_0x2E6
 	setvar 0x8008, 0
 	setvar 0x800A, 0
 	msgbox PalletTown_RivalsHouse_Text_TestNPC_Disabled
@@ -318,7 +318,7 @@ PalletTown_RivalsHouse_EventScript_TestNPC_Exit::
 	end
 
 EventScript_Abort3v3Battle::
-	goto_if_set FLAG_MONOTYPE_BATTLE, EventScript_AbortMonotype3v3Battle
+	goto_if_set FLAG_0x2E7, EventScript_AbortMonotype3v3Battle
 	fadedefaultbgm
 	msgbox PalletTown_RivalsHouse_Text_NotEnoughMonsFor3v3, MSGBOX_DEFAULT
 	releaseall
@@ -340,28 +340,28 @@ EventScript_AbortMonotypeBattle::
 PalletTown_RivalsHouse_EventScript_MonotypeNPC::
 	lock
 	faceplayer
-	goto_if_set FLAG_MONOTYPE_BATTLE, PalletTown_RivalsHouse_EventScript_MonotypeNPC_On
+	goto_if_set FLAG_0x2E7, PalletTown_RivalsHouse_EventScript_MonotypeNPC_On
 	msgbox PalletTown_RivalsHouse_Text_MonotypeNPC_Greeting_Off, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, YES, PalletTown_RivalsHouse_EventScript_MonotypeNPC_TurnOn
+	goto_if_eq VAR_0x800D, YES, PalletTown_RivalsHouse_EventScript_MonotypeNPC_TurnOn
 	release
 	end
 
 PalletTown_RivalsHouse_EventScript_MonotypeNPC_TurnOn::
-	setflag FLAG_MONOTYPE_BATTLE
-	setvar VAR_MONOTYPE_RESTRICTION, TYPE_FIRE
+	setflag FLAG_0x2E7
+	setvar VAR_0x40D2, TYPE_FIRE
 	msgbox PalletTown_RivalsHouse_Text_MonotypeNPC_ToggledOn
 	release
 	end
 
 PalletTown_RivalsHouse_EventScript_MonotypeNPC_On::
 	msgbox PalletTown_RivalsHouse_Text_MonotypeNPC_Greeting_On, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, YES, PalletTown_RivalsHouse_EventScript_MonotypeNPC_TurnOff
+	goto_if_eq VAR_0x800D, YES, PalletTown_RivalsHouse_EventScript_MonotypeNPC_TurnOff
 	release
 	end
 
 PalletTown_RivalsHouse_EventScript_MonotypeNPC_TurnOff::
-	clearflag FLAG_MONOTYPE_BATTLE
-	setvar VAR_MONOTYPE_RESTRICTION, TYPE_NONE
+	clearflag FLAG_0x2E7
+	setvar VAR_0x40D2, TYPE_NONE
 	msgbox PalletTown_RivalsHouse_Text_MonotypeNPC_ToggledOff
 	release
 	end

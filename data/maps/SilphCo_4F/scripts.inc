@@ -3,14 +3,14 @@ SilphCo_4F_MapScripts::
 	.byte 0
 
 SilphCo_4F_OnLoad::
-	call_if_unset FLAG_SILPH_4F_DOOR_1, EventScript_Close4FDoor1
-	call_if_unset FLAG_SILPH_4F_DOOR_2, EventScript_Close4FDoor2
+	call_if_unset FLAG_0x27E, EventScript_Close4FDoor1
+	call_if_unset FLAG_0x27F, EventScript_Close4FDoor2
 	end
 
 SilphCo_4F_EventScript_WorkerM::
 	lock
 	faceplayer
-	goto_if_ge VAR_MAP_SCENE_SILPH_CO_11F, 1, SilphCo_4F_EventScript_WorkerMRocketsGone
+	goto_if_ge VAR_0x4060, 1, SilphCo_4F_EventScript_WorkerMRocketsGone
 	msgbox SilphCo_4F_Text_CantYouSeeImHiding
 	release
 	end

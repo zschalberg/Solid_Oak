@@ -6,11 +6,11 @@ FiveIsland_WaterLabyrinth_EventScript_EggGentleman::
 	special QuestLog_CutRecording
 	lock
 	faceplayer
-	goto_if_set FLAG_GOT_TOGEPI_EGG, FiveIsland_WaterLabyrinth_EventScript_PostEggComment
-	goto_if_set FLAG_NO_ROOM_FOR_TOGEPI_EGG, FiveIsland_WaterLabyrinth_EventScript_ReturnForEgg
+	goto_if_set FLAG_0x2DA, FiveIsland_WaterLabyrinth_EventScript_PostEggComment
+	goto_if_set FLAG_0x2DB, FiveIsland_WaterLabyrinth_EventScript_ReturnForEgg
 	msgbox FiveIsland_WaterLabyrinth_Text_LetMeTakeLookAtMons
-	specialvar VAR_RESULT, GetLeadMonFriendship
-	goto_if_eq VAR_RESULT, 6, FiveIsland_WaterLabyrinth_EventScript_LeadMonMaxFriendship
+	specialvar VAR_0x800D, GetLeadMonFriendship
+	goto_if_eq VAR_0x800D, 6, FiveIsland_WaterLabyrinth_EventScript_LeadMonMaxFriendship
 	msgbox FiveIsland_WaterLabyrinth_Text_HmmISeeIsee
 	release
 	end
@@ -28,8 +28,8 @@ FiveIsland_WaterLabyrinth_EventScript_LeadMonMaxFriendship::
 
 FiveIsland_WaterLabyrinth_EventScript_TryGiveEgg::
 	getpartysize
-	goto_if_eq VAR_RESULT, PARTY_SIZE, FiveIsland_WaterLabyrinth_EventScript_NoRoomForEgg
-	setflag FLAG_GOT_TOGEPI_EGG
+	goto_if_eq VAR_0x800D, PARTY_SIZE, FiveIsland_WaterLabyrinth_EventScript_NoRoomForEgg
+	setflag FLAG_0x2DA
 	giveegg SPECIES_TOGEPI
 	textcolor NPC_TEXT_COLOR_NEUTRAL
 	playfanfare MUS_LEVEL_UP
@@ -45,18 +45,18 @@ FiveIsland_WaterLabyrinth_EventScript_TryGiveEgg::
 FiveIsland_WaterLabyrinth_EventScript_PostEggComment::
 	bufferspeciesname STR_VAR_2, SPECIES_TOGEPI
 	setvar VAR_0x8004, SPECIES_TOGEPI
-	specialvar VAR_RESULT, PlayerPartyContainsSpeciesWithPlayerID
-	goto_if_eq VAR_RESULT, TRUE, FiveIsland_WaterLabyrinth_EventScript_MonDaisyComment
+	specialvar VAR_0x800D, PlayerPartyContainsSpeciesWithPlayerID
+	goto_if_eq VAR_0x800D, TRUE, FiveIsland_WaterLabyrinth_EventScript_MonDaisyComment
 	bufferspeciesname STR_VAR_2, SPECIES_TOGETIC
 	setvar VAR_0x8004, SPECIES_TOGETIC
-	specialvar VAR_RESULT, PlayerPartyContainsSpeciesWithPlayerID
-	goto_if_eq VAR_RESULT, TRUE, FiveIsland_WaterLabyrinth_EventScript_MonDaisyComment
+	specialvar VAR_0x800D, PlayerPartyContainsSpeciesWithPlayerID
+	goto_if_eq VAR_0x800D, TRUE, FiveIsland_WaterLabyrinth_EventScript_MonDaisyComment
 	msgbox FiveIsland_WaterLabyrinth_Text_GladIMetSomeoneLikeYou
 	release
 	end
 
 FiveIsland_WaterLabyrinth_EventScript_NoRoomForEgg::
-	setflag FLAG_NO_ROOM_FOR_TOGEPI_EGG
+	setflag FLAG_0x2DB
 	msgbox FiveIsland_WaterLabyrinth_Text_DontHaveSpaceInYourParty
 	release
 	end

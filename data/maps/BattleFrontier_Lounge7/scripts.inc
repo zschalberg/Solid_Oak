@@ -6,9 +6,9 @@ BattleFrontier_Lounge7_EventScript_LeftMoveTutor::
 	lock
 	faceplayer
 	setvar VAR_TEMP_C, SCROLL_MULTI_BF_MOVE_TUTOR_1
-	goto_if_set FLAG_MET_FRONTIER_BEAUTY_MOVE_TUTOR, BattleFrontier_Lounge7_EventScript_AlreadyMetLeftTutor
+	goto_if_set FLAG_0x304, BattleFrontier_Lounge7_EventScript_AlreadyMetLeftTutor
 	msgbox BattleFrontier_Lounge7_Text_LeftTutorIntro, MSGBOX_DEFAULT
-	setflag FLAG_MET_FRONTIER_BEAUTY_MOVE_TUTOR
+	setflag FLAG_0x304
 	goto BattleFrontier_Lounge7_EventScript_ChooseLeftTutorMove
 	end
 
@@ -26,8 +26,8 @@ BattleFrontier_Lounge7_EventScript_ChooseLeftTutorMove::
 	setvar VAR_0x8006, 0
 	special ShowScrollableMultichoice
 	waitstate
-	copyvar VAR_TEMP_FRONTIER_TUTOR_SELECTION, VAR_RESULT
-	switch VAR_RESULT
+	copyvar VAR_TEMP_FRONTIER_TUTOR_SELECTION, VAR_0x800D
+	switch VAR_0x800D
 	case 0, BattleFrontier_Lounge7_EventScript_Softboiled
 	case 1, BattleFrontier_Lounge7_EventScript_SeismicToss
 	case 2, BattleFrontier_Lounge7_EventScript_DreamEater
@@ -50,8 +50,8 @@ BattleFrontier_Lounge7_EventScript_ChooseNewLeftTutorMove::
 	setvar VAR_0x8006, 1
 	special ShowScrollableMultichoice
 	waitstate
-	copyvar VAR_TEMP_FRONTIER_TUTOR_SELECTION, VAR_RESULT
-	switch VAR_RESULT
+	copyvar VAR_TEMP_FRONTIER_TUTOR_SELECTION, VAR_0x800D
+	switch VAR_0x800D
 	case 0, BattleFrontier_Lounge7_EventScript_Softboiled
 	case 1, BattleFrontier_Lounge7_EventScript_SeismicToss
 	case 2, BattleFrontier_Lounge7_EventScript_DreamEater
@@ -130,9 +130,9 @@ BattleFrontier_Lounge7_EventScript_RightMoveTutor::
 	lock
 	faceplayer
 	setvar VAR_TEMP_C, SCROLL_MULTI_BF_MOVE_TUTOR_2
-	goto_if_set FLAG_MET_FRONTIER_SWIMMER_MOVE_TUTOR, BattleFrontier_Lounge7_EventScript_AlreadyMetRightTutor
+	goto_if_set FLAG_0x305, BattleFrontier_Lounge7_EventScript_AlreadyMetRightTutor
 	msgbox BattleFrontier_Lounge7_Text_RightTutorIntro, MSGBOX_DEFAULT
-	setflag FLAG_MET_FRONTIER_SWIMMER_MOVE_TUTOR
+	setflag FLAG_0x305
 	goto BattleFrontier_Lounge7_EventScript_ChooseRightTutorMove
 	end
 
@@ -150,8 +150,8 @@ BattleFrontier_Lounge7_EventScript_ChooseRightTutorMove::
 	setvar VAR_0x8006, 0
 	special ShowScrollableMultichoice
 	waitstate
-	copyvar VAR_TEMP_FRONTIER_TUTOR_SELECTION, VAR_RESULT
-	switch VAR_RESULT
+	copyvar VAR_TEMP_FRONTIER_TUTOR_SELECTION, VAR_0x800D
+	switch VAR_0x800D
 	case 0, BattleFrontier_Lounge7_EventScript_DefenseCurl
 	case 1, BattleFrontier_Lounge7_EventScript_Snore
 	case 2, BattleFrontier_Lounge7_EventScript_MudSlap
@@ -174,8 +174,8 @@ BattleFrontier_Lounge7_EventScript_ChooseNewRightTutorMove::
 	setvar VAR_0x8006, 1
 	special ShowScrollableMultichoice
 	waitstate
-	copyvar VAR_TEMP_FRONTIER_TUTOR_SELECTION, VAR_RESULT
-	switch VAR_RESULT
+	copyvar VAR_TEMP_FRONTIER_TUTOR_SELECTION, VAR_0x800D
+	switch VAR_0x800D
 	case 0, BattleFrontier_Lounge7_EventScript_DefenseCurl
 	case 1, BattleFrontier_Lounge7_EventScript_Snore
 	case 2, BattleFrontier_Lounge7_EventScript_MudSlap
@@ -270,7 +270,7 @@ BattleFrontier_Lounge7_EventScript_ConfirmMoveSelection::
 	special BufferBattleFrontierTutorMoveName
 	buffernumberstring STR_VAR_2, VAR_0x8008
 	msgbox BattleFrontier_Lounge7_Text_MoveWillBeXBattlePoints, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, BattleFrontier_Lounge7_EventScript_ChooseNewMove
+	goto_if_eq VAR_0x800D, NO, BattleFrontier_Lounge7_EventScript_ChooseNewMove
 	specialvar VAR_TEMP_1, GetFrontierBattlePoints
 	goto_if_ge VAR_TEMP_1, VAR_0x8008, BattleFrontier_Lounge7_EventScript_TeachTutorMove
 	msgbox BattleFrontier_Lounge7_Text_HaventGotEnoughPoints, MSGBOX_DEFAULT
@@ -285,7 +285,7 @@ BattleFrontier_Lounge7_EventScript_TeachTutorMove::
 	special CloseBattleFrontierTutorWindow
 	chooseboxmon SELECT_PC_MON_MOVE_TUTOR
 	waitstate
-	goto_if_eq VAR_RESULT, FALSE, BattleFrontier_Lounge7_EventScript_CancelChooseMon
+	goto_if_eq VAR_0x800D, FALSE, BattleFrontier_Lounge7_EventScript_CancelChooseMon
 	msgbox BattleFrontier_Lounge7_Text_IllTakeBattlePoints, MSGBOX_DEFAULT
 	copyvar VAR_0x8004, VAR_0x8008
 	special TakeFrontierBattlePoints

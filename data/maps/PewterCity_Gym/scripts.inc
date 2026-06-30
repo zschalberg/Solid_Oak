@@ -4,18 +4,18 @@ PewterCity_Gym_MapScripts::
 PewterCity_Gym_EventScript_Brock::
 	famechecker FAMECHECKER_BROCK, FCPICKSTATE_COLORED, UpdatePickStateFromSpecialVar8005
 	trainerbattle_single TRAINER_LEADER_BROCK, PewterCity_Gym_Text_BrockIntro, PewterCity_Gym_Text_BrockDefeat, PewterCity_Gym_EventScript_DefeatedBrock, NO_MUSIC
-	goto_if_unset FLAG_GOT_TM39_FROM_BROCK, PewterCity_Gym_EventScript_GiveTM39
+	goto_if_unset FLAG_0x254, PewterCity_Gym_EventScript_GiveTM39
 	msgbox PewterCity_Gym_Text_BrockPostBattle
 	release
 	end
 
 PewterCity_Gym_EventScript_DefeatedBrock::
 	famechecker FAMECHECKER_BROCK, 1
-	setflag FLAG_DEFEATED_BROCK
+	setflag FLAG_0x4B0
 	setflag FLAG_BADGE01_GET
-	setvar VAR_MAP_SCENE_PEWTER_CITY, 1
-	setflag FLAG_HIDE_PEWTER_CITY_GYM_GUIDE
-	clearflag FLAG_HIDE_PEWTER_CITY_RUNNING_SHOES_GUY
+	setvar VAR_0x406C, 1
+	setflag FLAG_0x02E
+	clearflag FLAG_0x092
 	set_gym_trainers 1
 	goto PewterCity_Gym_EventScript_GiveTM39
 	end
@@ -23,9 +23,9 @@ PewterCity_Gym_EventScript_DefeatedBrock::
 PewterCity_Gym_EventScript_GiveTM39::
 	msgbox PewterCity_Gym_Text_TakeThisWithYou
 	checkitemspace ITEM_TM39
-	goto_if_eq VAR_RESULT, FALSE, PewterCity_Gym_EventScript_NoRoomForTM39
+	goto_if_eq VAR_0x800D, FALSE, PewterCity_Gym_EventScript_NoRoomForTM39
 	giveitem_msg PewterCity_Gym_Text_ReceivedTM39FromBrock, ITEM_TM39
-	setflag FLAG_GOT_TM39_FROM_BROCK
+	setflag FLAG_0x254
 	msgbox PewterCity_Gym_Text_ExplainTM39
 	release
 	end
@@ -43,10 +43,10 @@ PewterCity_Gym_EventScript_Liam::
 PewterCity_Gym_EventScript_GymGuy::
 	lock
 	faceplayer
-	goto_if_set FLAG_DEFEATED_BROCK, PewterCity_Gym_EventScript_GymGuyPostVictory
+	goto_if_set FLAG_0x4B0, PewterCity_Gym_EventScript_GymGuyPostVictory
 	msgbox PewterCity_Gym_Text_LetMeTakeYouToTheTop, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, YES, PewterCity_Gym_EventScript_GymGuyTakeMeToTop
-	goto_if_eq VAR_RESULT, NO, PewterCity_Gym_EventScript_GymGuyDontTakeMeToTop
+	goto_if_eq VAR_0x800D, YES, PewterCity_Gym_EventScript_GymGuyTakeMeToTop
+	goto_if_eq VAR_0x800D, NO, PewterCity_Gym_EventScript_GymGuyDontTakeMeToTop
 	end
 
 PewterCity_Gym_EventScript_GymGuyPostVictory::

@@ -2596,18 +2596,18 @@ bool8 ScrCmd_dotrainerbattle(struct ScriptContext *ctx)
         selectCount = maxPoolSize;
     }
 
-    if (FlagGet(FLAG_MONOTYPE_BATTLE))
+    if (FlagGet(FLAG_0x2E7))
     {
         u8 restrictedType = GetMonotypeRestrictionType();
         if (restrictedType != TYPE_NONE)
         {
-            if (FlagGet(FLAG_PREVIEW_BATTLE))
+            if (FlagGet(FLAG_0x2E6))
             {
                 if (GetUsable3v3PartyCount() < selectCount)
                 {
-                    FlagClear(FLAG_PREVIEW_BATTLE);
-                    FlagClear(FLAG_MONOTYPE_BATTLE);
-                    VarSet(VAR_MONOTYPE_RESTRICTION, TYPE_NONE);
+                    FlagClear(FLAG_0x2E6);
+                    FlagClear(FLAG_0x2E7);
+                    VarSet(VAR_0x40D2, TYPE_NONE);
                     
                     StringCopy(gStringVar1, gTypesInfo[restrictedType].name);
                     ConvertIntToDecimalStringN(gStringVar2, selectCount, STR_CONV_MODE_LEFT_ALIGN, 1);
@@ -2641,8 +2641,8 @@ bool8 ScrCmd_dotrainerbattle(struct ScriptContext *ctx)
                 
                 if (hasNonConforming || count == 0)
                 {
-                    FlagClear(FLAG_MONOTYPE_BATTLE);
-                    VarSet(VAR_MONOTYPE_RESTRICTION, TYPE_NONE);
+                    FlagClear(FLAG_0x2E7);
+                    VarSet(VAR_0x40D2, TYPE_NONE);
                     
                     StringCopy(gStringVar1, gTypesInfo[restrictedType].name);
                     ctx->scriptPtr = EventScript_AbortMonotypeBattle;
@@ -2652,9 +2652,9 @@ bool8 ScrCmd_dotrainerbattle(struct ScriptContext *ctx)
         }
     }
 
-    if (FlagGet(FLAG_PREVIEW_BATTLE))
+    if (FlagGet(FLAG_0x2E6))
     {
-        FlagClear(FLAG_PREVIEW_BATTLE);
+        FlagClear(FLAG_0x2E6);
         
         if (GetUsable3v3PartyCount() < selectCount)
         {

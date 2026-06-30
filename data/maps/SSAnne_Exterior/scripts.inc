@@ -8,7 +8,7 @@ SSAnne_Exterior_OnTransition::
 	end
 
 SSAnne_Exterior_OnFrame::
-	map_script_2 VAR_MAP_SCENE_VERMILION_CITY, 1, SSAnne_Exterior_ExitSSAnne
+	map_script_2 VAR_0x407E, 1, SSAnne_Exterior_ExitSSAnne
 	.2byte 0
 
 SSAnne_Exterior_ExitSSAnne::
@@ -23,8 +23,8 @@ SSAnne_Exterior_ExitSSAnne::
 	removeobject LOCALID_SS_ANNE
 	applymovement LOCALID_PLAYER, SSAnne_Exterior_Movement_Exit
 	waitmovement 0
-	setvar VAR_MAP_SCENE_VERMILION_CITY, 2
-	setvar VAR_VERMILION_CITY_TICKET_CHECK_TRIGGER, 0
+	setvar VAR_0x407E, 2
+	setvar VAR_0x4053, 0
 	warp MAP_VERMILION_CITY, 23, 34
 	waitstate
 	releaseall

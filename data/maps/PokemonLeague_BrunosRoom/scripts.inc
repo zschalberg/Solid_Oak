@@ -11,8 +11,8 @@ PokemonLeague_BrunosRoom_OnResume::
 	end
 
 PokemonLeague_BrunosRoom_OnLoad::
-	call_if_set FLAG_DEFEATED_BRUNO, PokemonLeague_BrunosRoom_EventScript_SetDoorOpen
-	call_if_eq VAR_MAP_SCENE_POKEMON_LEAGUE, 2, PokemonLeague_BrunosRoom_EventScript_CloseEntry
+	call_if_set FLAG_0x4B9, PokemonLeague_BrunosRoom_EventScript_SetDoorOpen
+	call_if_eq VAR_0x4068, 2, PokemonLeague_BrunosRoom_EventScript_CloseEntry
 	end
 
 PokemonLeague_BrunosRoom_EventScript_CloseEntry::
@@ -32,13 +32,13 @@ PokemonLeague_BrunosRoom_EventScript_TurnPlayerNorth::
 	end
 
 PokemonLeague_BrunosRoom_OnFrame::
-	map_script_2 VAR_MAP_SCENE_POKEMON_LEAGUE, 1, PokemonLeague_BrunosRoom_EventScript_EnterRoom
+	map_script_2 VAR_0x4068, 1, PokemonLeague_BrunosRoom_EventScript_EnterRoom
 	.2byte 0
 
 PokemonLeague_BrunosRoom_EventScript_EnterRoom::
 	lockall
 	call PokemonLeague_EventScript_EnterRoom
-	setvar VAR_MAP_SCENE_POKEMON_LEAGUE, 2
+	setvar VAR_0x4068, 2
 	releaseall
 	end
 
@@ -46,7 +46,7 @@ PokemonLeague_BrunosRoom_EventScript_Bruno::
 	lock
 	faceplayer
 	famechecker FAMECHECKER_BRUNO, FCPICKSTATE_COLORED, UpdatePickStateFromSpecialVar8005
-	goto_if_set FLAG_DEFEATED_BRUNO, PokemonLeague_BrunosRoom_EventScript_PostBattle
+	goto_if_set FLAG_0x4B9, PokemonLeague_BrunosRoom_EventScript_PostBattle
 	famechecker FAMECHECKER_BRUNO, 0
 	famechecker FAMECHECKER_BRUNO, 1
 	call_if_unset FLAG_SYS_GAME_CLEAR, PokemonLeague_BrunosRoom_EventScript_Intro
@@ -78,22 +78,22 @@ PokemonLeague_BrunosRoom_EventScript_Rematch::
 PokemonLeague_BrunosRoom_EventScript_PostBattle::
 	msgbox PokemonLeague_BrunosRoom_Text_PostBattle
 	closemessage
-	call_if_eq VAR_FACING, DIR_NORTH, PokemonLeague_BrunosRoom_EventScript_BrunoLookAwayRight
-	call_if_eq VAR_FACING, DIR_SOUTH, PokemonLeague_BrunosRoom_EventScript_BrunoLookAwayLeft
-	call_if_eq VAR_FACING, DIR_WEST, PokemonLeague_BrunosRoom_EventScript_BrunoLookAwayDown
-	call_if_eq VAR_FACING, DIR_EAST, PokemonLeague_BrunosRoom_EventScript_BrunoLookAwayDown
+	call_if_eq VAR_0x800C, DIR_NORTH, PokemonLeague_BrunosRoom_EventScript_BrunoLookAwayRight
+	call_if_eq VAR_0x800C, DIR_SOUTH, PokemonLeague_BrunosRoom_EventScript_BrunoLookAwayLeft
+	call_if_eq VAR_0x800C, DIR_WEST, PokemonLeague_BrunosRoom_EventScript_BrunoLookAwayDown
+	call_if_eq VAR_0x800C, DIR_EAST, PokemonLeague_BrunosRoom_EventScript_BrunoLookAwayDown
 	release
 	end
 
 PokemonLeague_BrunosRoom_EventScript_DefeatedBruno::
-	setflag FLAG_DEFEATED_BRUNO
+	setflag FLAG_0x4B9
 	call PokemonLeague_EventScript_OpenDoor
 	msgbox PokemonLeague_BrunosRoom_Text_PostBattle
 	closemessage
-	call_if_eq VAR_FACING, DIR_NORTH, PokemonLeague_BrunosRoom_EventScript_BrunoLookAwayRight
-	call_if_eq VAR_FACING, DIR_SOUTH, PokemonLeague_BrunosRoom_EventScript_BrunoLookAwayLeft
-	call_if_eq VAR_FACING, DIR_WEST, PokemonLeague_BrunosRoom_EventScript_BrunoLookAwayDown
-	call_if_eq VAR_FACING, DIR_EAST, PokemonLeague_BrunosRoom_EventScript_BrunoLookAwayDown
+	call_if_eq VAR_0x800C, DIR_NORTH, PokemonLeague_BrunosRoom_EventScript_BrunoLookAwayRight
+	call_if_eq VAR_0x800C, DIR_SOUTH, PokemonLeague_BrunosRoom_EventScript_BrunoLookAwayLeft
+	call_if_eq VAR_0x800C, DIR_WEST, PokemonLeague_BrunosRoom_EventScript_BrunoLookAwayDown
+	call_if_eq VAR_0x800C, DIR_EAST, PokemonLeague_BrunosRoom_EventScript_BrunoLookAwayDown
 	release
 	end
 

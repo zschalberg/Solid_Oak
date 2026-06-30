@@ -188,7 +188,7 @@ TEST("canhypertrain/hypertrain affect MON_DATA_HYPER_TRAINED_* and recalculate s
     RUN_OVERWORLD_SCRIPT(
         canhypertrain STAT_ATK, 0;
     );
-    EXPECT(VarGet(VAR_RESULT));
+    EXPECT(VarGet(VAR_0x800D));
 
     RUN_OVERWORLD_SCRIPT(
         hypertrain STAT_ATK, 0;
@@ -196,7 +196,7 @@ TEST("canhypertrain/hypertrain affect MON_DATA_HYPER_TRAINED_* and recalculate s
     );
     EXPECT(GetMonData(&gPlayerParty[0], MON_DATA_HYPER_TRAINED_ATK));
     EXPECT_EQ(atk + 31, GetMonData(&gPlayerParty[0], MON_DATA_ATK));
-    EXPECT(!VarGet(VAR_RESULT));
+    EXPECT(!VarGet(VAR_0x800D));
 }
 
 TEST("hasgigantamaxfactor/togglegigantamaxfactor affect MON_DATA_GIGANTAMAX_FACTOR")
@@ -206,20 +206,20 @@ TEST("hasgigantamaxfactor/togglegigantamaxfactor affect MON_DATA_GIGANTAMAX_FACT
     RUN_OVERWORLD_SCRIPT(
         hasgigantamaxfactor 0;
     );
-    EXPECT(!VarGet(VAR_RESULT));
+    EXPECT(!VarGet(VAR_0x800D));
 
     RUN_OVERWORLD_SCRIPT(
         togglegigantamaxfactor 0;
         hasgigantamaxfactor 0;
     );
-    EXPECT(VarGet(VAR_RESULT));
+    EXPECT(VarGet(VAR_0x800D));
     EXPECT(GetMonData(&gPlayerParty[0], MON_DATA_GIGANTAMAX_FACTOR));
 
     RUN_OVERWORLD_SCRIPT(
         togglegigantamaxfactor 0;
         hasgigantamaxfactor 0;
     );
-    EXPECT(!VarGet(VAR_RESULT));
+    EXPECT(!VarGet(VAR_0x800D));
     EXPECT(!GetMonData(&gPlayerParty[0], MON_DATA_GIGANTAMAX_FACTOR));
 }
 
@@ -230,12 +230,12 @@ TEST("togglegigantamaxfactor fails for Melmetal")
     RUN_OVERWORLD_SCRIPT(
         hasgigantamaxfactor 0;
     );
-    EXPECT(!VarGet(VAR_RESULT));
+    EXPECT(!VarGet(VAR_0x800D));
 
     RUN_OVERWORLD_SCRIPT(
         togglegigantamaxfactor 0;
     );
-    EXPECT(!VarGet(VAR_RESULT));
+    EXPECT(!VarGet(VAR_0x800D));
     EXPECT(!GetMonData(&gPlayerParty[0], MON_DATA_GIGANTAMAX_FACTOR));
 }
 
@@ -493,13 +493,13 @@ TEST("checkteratype/setteratype work")
     RUN_OVERWORLD_SCRIPT(
         checkteratype 0;
     );
-    EXPECT(VarGet(VAR_RESULT) == TYPE_PSYCHIC);
+    EXPECT(VarGet(VAR_0x800D) == TYPE_PSYCHIC);
 
     RUN_OVERWORLD_SCRIPT(
         setteratype TYPE_FIRE, 0;
         checkteratype 0;
     );
-    EXPECT(VarGet(VAR_RESULT) == TYPE_FIRE);
+    EXPECT(VarGet(VAR_0x800D) == TYPE_FIRE);
 }
 
 TEST("createmon [simple]")

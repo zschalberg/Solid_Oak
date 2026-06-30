@@ -10,11 +10,11 @@ LavenderTown_VolunteerPokemonHouse_OnTransition::
 LavenderTown_VolunteerPokemonHouse_EventScript_MrFuji::
 	lock
 	faceplayer
-	goto_if_set FLAG_GOT_POKE_FLUTE, LavenderTown_VolunteerPokemonHouse_EventScript_AlreadyHavePokeFlute
+	goto_if_set FLAG_0x23D, LavenderTown_VolunteerPokemonHouse_EventScript_AlreadyHavePokeFlute
 	msgbox LavenderTown_VolunteerPokemonHouse_Text_IdLikeYouToHaveThis
 	checkitemspace ITEM_POKE_FLUTE
-	goto_if_eq VAR_RESULT, FALSE, LavenderTown_VolunteerPokemonHouse_EventScript_NoRoomForPokeFlute
-	setflag FLAG_GOT_POKE_FLUTE
+	goto_if_eq VAR_0x800D, FALSE, LavenderTown_VolunteerPokemonHouse_EventScript_NoRoomForPokeFlute
+	setflag FLAG_0x23D
 	giveitem_msg LavenderTown_VolunteerPokemonHouse_Text_ReceivedPokeFluteFromMrFuji, ITEM_POKE_FLUTE, 1, MUS_OBTAIN_KEY_ITEM
 	msgbox LavenderTown_VolunteerPokemonHouse_Text_ExplainPokeFlute
 	release
@@ -45,7 +45,7 @@ LavenderTown_VolunteerPokemonHouse_EventScript_LittleBoy::
 LavenderTown_VolunteerPokemonHouse_EventScript_Youngster::
 	lock
 	faceplayer
-	goto_if_set FLAG_RESCUED_MR_FUJI, LavenderTown_VolunteerPokemonHouse_EventScript_YoungsterFujiBack
+	goto_if_set FLAG_0x23C, LavenderTown_VolunteerPokemonHouse_EventScript_YoungsterFujiBack
 	msgbox LavenderTown_VolunteerPokemonHouse_Text_WhereDidMrFujiGo
 	release
 	end

@@ -10,16 +10,16 @@
  * Note that each script command must be followed by a ;, e.g.:
  *     const u8 *myScript = OVERWORLD_SCRIPT(
  *         random 2;
- *         addvar VAR_RESULT, 1;
+ *         addvar VAR_0x800D, 1;
  *     );
  *
  * RUN_OVERWORLD_SCRIPT(instructions...)
  * Runs an overworld script in the immediate script context, which means
  * that commands like waitstate are not supported.
  *     RUN_OVERWORLD_SCRIPT(
- *         setvar VAR_RESULT, 3;
+ *         setvar VAR_0x800D, 3;
  *     );
- *     EXPECT_EQ(GetVar(VAR_RESULT), 3); */
+ *     EXPECT_EQ(GetVar(VAR_0x800D), 3); */
 #ifndef GUARD_TEST_OVERWORLD_SCRIPT
 #define GUARD_TEST_OVERWORLD_SCRIPT
 

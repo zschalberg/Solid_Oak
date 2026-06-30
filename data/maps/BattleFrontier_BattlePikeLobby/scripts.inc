@@ -39,7 +39,7 @@ BattleFrontier_BattlePikeLobby_EventScript_QuitWithoutSaving::
 BattleFrontier_BattlePikeLobby_EventScript_WonChallenge::
 	lockall
 	frontier_isbrain
-	goto_if_eq VAR_RESULT, TRUE, BattleFrontier_BattlePikeLobby_EventScript_DefeatedQueen
+	goto_if_eq VAR_0x800D, TRUE, BattleFrontier_BattlePikeLobby_EventScript_DefeatedQueen
 	msgbox BattleFrontier_BattlePikeLobby_Text_PossessLuckInAbundance, MSGBOX_DEFAULT
 	waitmessage
 	goto BattleFrontier_BattlePikeLobby_EventScript_GiveBattlePoints
@@ -53,8 +53,8 @@ BattleFrontier_BattlePikeLobby_EventScript_GiveBattlePoints::
 	msgbox BattleFrontier_Text_ObtainedXBattlePoints, MSGBOX_GETPOINTS
 	frontier_checkairshow
 	pike_get PIKE_DATA_TOTAL_STREAKS
-	addvar VAR_RESULT, 1
-	pike_set PIKE_DATA_TOTAL_STREAKS, VAR_RESULT
+	addvar VAR_0x800D, 1
+	pike_set PIKE_DATA_TOTAL_STREAKS, VAR_0x800D
 	special LoadPlayerParty
 	special HealPlayerParty
 	callnative UpdateFollowingPokemon
@@ -101,7 +101,7 @@ BattleFrontier_BattlePikeLobby_EventScript_AskTakeChallenge::
 	message BattleFrontier_BattlePikeLobby_Text_TakeChallenge
 	waitmessage
 	multichoice 17, 6, MULTI_CHALLENGEINFO, FALSE
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, BattleFrontier_BattlePikeLobby_EventScript_TryEnterChallenge
 	case 1, BattleFrontier_BattlePikeLobby_EventScript_ExplainChallenge
 	case 2, BattleFrontier_BattlePikeLobby_EventScript_CancelChallenge
@@ -111,23 +111,23 @@ BattleFrontier_BattlePikeLobby_EventScript_TryEnterChallenge::
 	message BattleFrontier_BattlePikeLobby_Text_WhichChallengeMode
 	waitmessage
 	multichoice 17, 6, MULTI_LEVEL_MODE, FALSE
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case FRONTIER_LVL_TENT, BattleFrontier_BattlePikeLobby_EventScript_CancelChallenge
 	case MULTI_B_PRESSED, BattleFrontier_BattlePikeLobby_EventScript_CancelChallenge
 	frontier_checkineligible
 	goto_if_eq VAR_0x8004, TRUE, BattleFrontier_BattlePikeLobby_EventScript_NotEnoughValidMons
-	frontier_set FRONTIER_DATA_LVL_MODE, VAR_RESULT
+	frontier_set FRONTIER_DATA_LVL_MODE, VAR_0x800D
 	msgbox BattleFrontier_BattlePikeLobby_Text_PleaseChooseThreeMons, MSGBOX_DEFAULT
 	fadescreen FADE_TO_BLACK
 	callnative RemoveFollowingPokemon
 	call BattleFrontier_EventScript_GetLvlMode
-	copyvar VAR_0x8004, VAR_RESULT
+	copyvar VAR_0x8004, VAR_0x800D
 	setvar VAR_0x8005, FRONTIER_PARTY_SIZE
 	special ChoosePartyForBattleFrontier
 	waitstate
-	goto_if_eq VAR_RESULT, 0, BattleFrontier_BattlePikeLobby_EventScript_LoadPartyAndCancelChallenge
+	goto_if_eq VAR_0x800D, 0, BattleFrontier_BattlePikeLobby_EventScript_LoadPartyAndCancelChallenge
 	msgbox BattleFrontier_BattlePikeLobby_Text_SaveBeforeChallenge, MSGBOX_YESNO
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case NO, BattleFrontier_BattlePikeLobby_EventScript_LoadPartyAndCancelChallenge
 	case YES, BattleFrontier_BattlePikeLobby_EventScript_SaveBeforeChallenge
 	case MULTI_B_PRESSED, BattleFrontier_BattlePikeLobby_EventScript_LoadPartyAndCancelChallenge
@@ -147,7 +147,7 @@ BattleFrontier_BattlePikeLobby_EventScript_SaveBeforeChallenge::
 	call EventScript_AskSaveGame
 	setvar VAR_TEMP_CHALLENGE_STATUS, 255
 	pike_savehelditems
-	goto_if_eq VAR_RESULT, 0, BattleFrontier_BattlePikeLobby_EventScript_CancelChallengeSaveFailed
+	goto_if_eq VAR_0x800D, 0, BattleFrontier_BattlePikeLobby_EventScript_CancelChallengeSaveFailed
 	special SavePlayerParty
 	frontier_setpartyorder FRONTIER_PARTY_SIZE
 	msgbox BattleFrontier_BattlePikeLobby_Text_StepThisWay, MSGBOX_DEFAULT
@@ -166,7 +166,7 @@ BattleFrontier_BattlePikeLobby_EventScript_ExplainChallenge::
 	goto BattleFrontier_BattlePikeLobby_EventScript_AskTakeChallenge
 
 BattleFrontier_BattlePikeLobby_EventScript_NotEnoughValidMons::
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case FRONTIER_LVL_50, BattleFrontier_BattlePikeLobby_EventScript_NotEnoughValidMonsLv50
 	case FRONTIER_LVL_OPEN, BattleFrontier_BattlePikeLobby_EventScript_NotEnoughValidMonsLvOpen
 
@@ -239,7 +239,7 @@ BattleFrontier_BattlePikeLobby_EventScript_ReadRulesBoard::
 	message BattleFrontier_BattlePikeLobby_Text_ReadWhichHeading
 	waitmessage
 	multichoice 16, 4, MULTI_BATTLE_PIKE_RULES, FALSE
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, BattleFrontier_BattlePikeLobby_EventScript_RulesPokenavBag
 	case 1, BattleFrontier_BattlePikeLobby_EventScript_RulesHeldItems
 	case 2, BattleFrontier_BattlePikeLobby_EventScript_RulesMonOrder

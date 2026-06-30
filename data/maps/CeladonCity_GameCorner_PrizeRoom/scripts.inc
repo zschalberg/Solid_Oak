@@ -12,7 +12,7 @@ CeladonCity_GameCorner_PrizeRoom_EventScript_OldMan::
 CeladonCity_GameCorner_PrizeRoom_EventScript_PrizeClerkMons::
 	lock
 	faceplayer
-	goto_if_unset FLAG_GOT_COIN_CASE, CeladonCity_GameCorner_PrizeRoom_EventScript_NeedCoinCase
+	goto_if_unset FLAG_0x243, CeladonCity_GameCorner_PrizeRoom_EventScript_NeedCoinCase
 	goto_if_questlog EventScript_ReleaseEnd
 	showcoinsbox 0, 0
 	msgbox CeladonCity_GameCorner_PrizeRoom_Text_WeExchangeCoinsForPrizes
@@ -23,7 +23,7 @@ CeladonCity_GameCorner_PrizeRoom_EventScript_ChoosePrizeMon::
 	message CeladonCity_GameCorner_PrizeRoom_Text_WhichPrize
 	waitmessage
 	multichoice 11, 0, MULTI_GAME_CORNER_POKEMON_PRIZES, FALSE
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, CeladonCity_GameCorner_PrizeRoom_EventScript_Abra
 	case 1, CeladonCity_GameCorner_PrizeRoom_EventScript_Clefairy
 	case 2, CeladonCity_GameCorner_PrizeRoom_EventScript_DratiniPinsir
@@ -106,9 +106,9 @@ CeladonCity_GameCorner_PrizeRoom_EventScript_Porygon::
 CeladonCity_GameCorner_PrizeRoom_EventScript_ConfirmPrizeMon::
 	bufferspeciesname STR_VAR_1, VAR_TEMP_1
 	msgbox CeladonCity_GameCorner_PrizeRoom_Text_YouWantPrize, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, CeladonCity_GameCorner_PrizeRoom_EventScript_EndPrizeExchange
-	checkcoins VAR_RESULT
-	goto_if_lt VAR_RESULT, VAR_TEMP_2, CeladonCity_GameCorner_PrizeRoom_EventScript_NotEnoughCoins
+	goto_if_eq VAR_0x800D, NO, CeladonCity_GameCorner_PrizeRoom_EventScript_EndPrizeExchange
+	checkcoins VAR_0x800D
+	goto_if_lt VAR_0x800D, VAR_TEMP_2, CeladonCity_GameCorner_PrizeRoom_EventScript_NotEnoughCoins
 	textcolor NPC_TEXT_COLOR_NEUTRAL
 	switch VAR_TEMP_1
 	case SPECIES_ABRA,     CeladonCity_GameCorner_PrizeRoom_EventScript_GiveAbra
@@ -174,9 +174,9 @@ CeladonCity_GameCorner_PrizeRoom_EventScript_GivePinsir::
 	end
 
 CeladonCity_GameCorner_PrizeRoom_EventScript_CheckReceivedMon::
-	goto_if_eq VAR_RESULT, 0, CeladonCity_GameCorner_PrizeRoom_EventScript_ReceivedMonParty
-	goto_if_eq VAR_RESULT, 1, CeladonCity_GameCorner_PrizeRoom_EventScript_ReceivedMonPC
-	goto_if_eq VAR_RESULT, 2, CeladonCity_GameCorner_PrizeRoom_EventScript_PartyFull
+	goto_if_eq VAR_0x800D, 0, CeladonCity_GameCorner_PrizeRoom_EventScript_ReceivedMonParty
+	goto_if_eq VAR_0x800D, 1, CeladonCity_GameCorner_PrizeRoom_EventScript_ReceivedMonPC
+	goto_if_eq VAR_0x800D, 2, CeladonCity_GameCorner_PrizeRoom_EventScript_PartyFull
 	end
 
 CeladonCity_GameCorner_PrizeRoom_EventScript_PartyFull::
@@ -188,8 +188,8 @@ CeladonCity_GameCorner_PrizeRoom_EventScript_PartyFull::
 
 CeladonCity_GameCorner_PrizeRoom_EventScript_NicknamePartyMon::
 	getpartysize
-	subvar VAR_RESULT, 1
-	copyvar VAR_0x8004, VAR_RESULT
+	subvar VAR_0x800D, 1
+	copyvar VAR_0x8004, VAR_0x800D
 	call EventScript_ChangePokemonNickname
 	goto CeladonCity_GameCorner_PrizeRoom_EventScript_EndPrizeExchange
 	end
@@ -214,7 +214,7 @@ CeladonCity_GameCorner_PrizeRoom_EventScript_ReceivedMonParty::
 	waitmessage
 	waitfanfare
 	msgbox Text_GiveNicknameToThisMon, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, YES, CeladonCity_GameCorner_PrizeRoom_EventScript_NicknamePartyMon
+	goto_if_eq VAR_0x800D, YES, CeladonCity_GameCorner_PrizeRoom_EventScript_NicknamePartyMon
 	goto CeladonCity_GameCorner_PrizeRoom_EventScript_EndPrizeExchange
 	end
 
@@ -227,7 +227,7 @@ CeladonCity_GameCorner_PrizeRoom_EventScript_ReceivedMonPC::
 	waitmessage
 	waitfanfare
 	msgbox Text_GiveNicknameToThisMon, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, CeladonCity_GameCorner_PrizeRoom_EventScript_TransferredToPC
+	goto_if_eq VAR_0x800D, NO, CeladonCity_GameCorner_PrizeRoom_EventScript_TransferredToPC
 	call EventScript_NameReceivedBoxMon
 	goto CeladonCity_GameCorner_PrizeRoom_EventScript_TransferredToPC
 	end
@@ -240,7 +240,7 @@ CeladonCity_GameCorner_PrizeRoom_EventScript_TransferredToPC::
 CeladonCity_GameCorner_PrizeRoom_EventScript_PrizeClerkTMs::
 	lock
 	faceplayer
-	goto_if_unset FLAG_GOT_COIN_CASE, CeladonCity_GameCorner_PrizeRoom_EventScript_NeedCoinCase
+	goto_if_unset FLAG_0x243, CeladonCity_GameCorner_PrizeRoom_EventScript_NeedCoinCase
 	goto_if_questlog EventScript_ReleaseEnd
 	showcoinsbox 0, 0
 	msgbox CeladonCity_GameCorner_PrizeRoom_Text_WeExchangeCoinsForPrizes
@@ -251,7 +251,7 @@ CeladonCity_GameCorner_PrizeRoom_EventScript_ChoosePrizeTM::
 	message CeladonCity_GameCorner_PrizeRoom_Text_WhichPrize
 	waitmessage
 	multichoice 11, 0, MULTI_GAME_CORNER_TMPRIZES, FALSE
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, CeladonCity_GameCorner_PrizeRoom_EventScript_TM13
 	case 1, CeladonCity_GameCorner_PrizeRoom_EventScript_TM23
 	case 2, CeladonCity_GameCorner_PrizeRoom_EventScript_TM24
@@ -298,23 +298,23 @@ CeladonCity_GameCorner_PrizeRoom_EventScript_TM35::
 
 CeladonCity_GameCorner_PrizeRoom_EventScript_ConfirmPrizeTM::
 	msgbox CeladonCity_GameCorner_PrizeRoom_Text_YouWantTM, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, CeladonCity_GameCorner_PrizeRoom_EventScript_EndPrizeExchange
+	goto_if_eq VAR_0x800D, NO, CeladonCity_GameCorner_PrizeRoom_EventScript_EndPrizeExchange
 	goto CeladonCity_GameCorner_PrizeRoom_EventScript_TryGivePrize
 	end
 
 CeladonCity_GameCorner_PrizeRoom_EventScript_ConfirmPrizeItem::
 	bufferitemname STR_VAR_1, VAR_TEMP_1
 	msgbox CeladonCity_GameCorner_PrizeRoom_Text_YouWantPrize, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, CeladonCity_GameCorner_PrizeRoom_EventScript_EndPrizeExchange
+	goto_if_eq VAR_0x800D, NO, CeladonCity_GameCorner_PrizeRoom_EventScript_EndPrizeExchange
 	goto CeladonCity_GameCorner_PrizeRoom_EventScript_TryGivePrize
 	end
 
 CeladonCity_GameCorner_PrizeRoom_EventScript_TryGivePrize::
 	bufferitemname STR_VAR_1, VAR_TEMP_1
-	checkcoins VAR_RESULT
-	goto_if_lt VAR_RESULT, VAR_TEMP_2, CeladonCity_GameCorner_PrizeRoom_EventScript_NotEnoughCoins
+	checkcoins VAR_0x800D
+	goto_if_lt VAR_0x800D, VAR_TEMP_2, CeladonCity_GameCorner_PrizeRoom_EventScript_NotEnoughCoins
 	checkitemspace VAR_TEMP_1
-	goto_if_eq VAR_RESULT, FALSE, CeladonCity_GameCorner_PrizeRoom_EventScript_BagFull
+	goto_if_eq VAR_0x800D, FALSE, CeladonCity_GameCorner_PrizeRoom_EventScript_BagFull
 	removecoins VAR_TEMP_2
 	updatecoinsbox 0, 5
 	giveitem VAR_TEMP_1
@@ -331,7 +331,7 @@ CeladonCity_GameCorner_PrizeRoom_EventScript_BagFull::
 CeladonCity_GameCorner_PrizeRoom_EventScript_PrizeClerkItems::
 	lock
 	faceplayer
-	goto_if_unset FLAG_GOT_COIN_CASE, CeladonCity_GameCorner_PrizeRoom_EventScript_NeedCoinCase
+	goto_if_unset FLAG_0x243, CeladonCity_GameCorner_PrizeRoom_EventScript_NeedCoinCase
 	goto_if_questlog EventScript_ReleaseEnd
 	showcoinsbox 0, 0
 	msgbox CeladonCity_GameCorner_PrizeRoom_Text_WeExchangeCoinsForPrizes
@@ -342,7 +342,7 @@ CeladonCity_GameCorner_PrizeRoom_EventScript_ChoosePrizeItem::
 	message CeladonCity_GameCorner_PrizeRoom_Text_WhichPrize
 	waitmessage
 	multichoice 10, 0, MULTI_GAME_CORNER_BATTLE_ITEM_PRIZES, FALSE
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, CeladonCity_GameCorner_PrizeRoom_EventScript_SmokeBall
 	case 1, CeladonCity_GameCorner_PrizeRoom_EventScript_MiracleSeed
 	case 2, CeladonCity_GameCorner_PrizeRoom_EventScript_Charcoal

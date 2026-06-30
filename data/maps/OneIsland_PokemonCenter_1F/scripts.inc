@@ -6,7 +6,7 @@ OneIsland_PokemonCenter_1F_MapScripts::
 	.byte 0
 
 OneIsland_PokemonCenter_1F_OnLoad::
-	call_if_ge VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 5, OneIsland_PokemonCenter_1F_EventScript_SetRubyMetatile
+	call_if_ge VAR_0x4076, 5, OneIsland_PokemonCenter_1F_EventScript_SetRubyMetatile
 	call_if_set FLAG_SYS_CAN_LINK_WITH_RS, OneIsland_PokemonCenter_1F_EventScript_SetNetworkMachineOn
 	end
 
@@ -26,13 +26,13 @@ OneIsland_PokemonCenter_1F_EventScript_SetNetworkMachineOn::
 
 OneIsland_PokemonCenter_1F_OnTransition::
 	setrespawn HEAL_LOCATION_ONE_ISLAND
-	call_if_eq VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 6, OneIsland_PokemonCenter_1F_EventScript_SetCelioQuestDone
-	call_if_eq VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 0, OneIsland_PokemonCenter_1F_EventScript_SetBillCelioFirstMeetingPos
-	call_if_eq VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 2, OneIsland_PokemonCenter_1F_EventScript_SetBillCelioReadyToLeavePos
+	call_if_eq VAR_0x4076, 6, OneIsland_PokemonCenter_1F_EventScript_SetCelioQuestDone
+	call_if_eq VAR_0x4076, 0, OneIsland_PokemonCenter_1F_EventScript_SetBillCelioFirstMeetingPos
+	call_if_eq VAR_0x4076, 2, OneIsland_PokemonCenter_1F_EventScript_SetBillCelioReadyToLeavePos
 	end
 
 OneIsland_PokemonCenter_1F_EventScript_SetCelioQuestDone::
-	setvar VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 7
+	setvar VAR_0x4076, 7
 	return
 
 OneIsland_PokemonCenter_1F_EventScript_SetBillCelioFirstMeetingPos::
@@ -50,7 +50,7 @@ OneIsland_PokemonCenter_1F_EventScript_SetBillCelioReadyToLeavePos::
 	return
 
 OneIsland_PokemonCenter_1F_OnFrame::
-	map_script_2 VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 0, OneIsland_PokemonCenter_1F_EventScript_MeetCelioScene
+	map_script_2 VAR_0x4076, 0, OneIsland_PokemonCenter_1F_EventScript_MeetCelioScene
 	.2byte 0
 
 OneIsland_PokemonCenter_1F_EventScript_MeetCelioScene::
@@ -104,8 +104,8 @@ OneIsland_PokemonCenter_1F_EventScript_MeetCelioScene::
 	msgbox OneIsland_PokemonCenter_1F_Text_CelioPleaseTakeThis
 	giveitem_msg OneIsland_PokemonCenter_1F_Text_ObtainedTriPass, ITEM_TRI_PASS, 1, MUS_OBTAIN_KEY_ITEM
 	msgbox OneIsland_PokemonCenter_1F_Text_PassLetsYouTravelBetweenIslands
-	call_if_ge VAR_MAP_SCENE_PALLET_TOWN_RIVALS_HOUSE, 2, OneIsland_PokemonCenter_1F_EventScript_ReceiveTownMapPage
-	call_if_lt VAR_MAP_SCENE_PALLET_TOWN_RIVALS_HOUSE, 2, OneIsland_PokemonCenter_1F_EventScript_ReceiveTownMap
+	call_if_ge VAR_0x4058, 2, OneIsland_PokemonCenter_1F_EventScript_ReceiveTownMapPage
+	call_if_lt VAR_0x4058, 2, OneIsland_PokemonCenter_1F_EventScript_ReceiveTownMap
 	setflag FLAG_SYS_SEVII_MAP_123
 	msgbox OneIsland_PokemonCenter_1F_Text_BillCatchYouLater
 	closemessage
@@ -114,7 +114,7 @@ OneIsland_PokemonCenter_1F_EventScript_MeetCelioScene::
 	applymovement LOCALID_CELIO, Common_Movement_WalkInPlaceFasterUp
 	waitmovement 0
 	setflag FLAG_SYS_PC_STORAGE_DISABLED
-	setvar VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 1
+	setvar VAR_0x4076, 1
 	releaseall
 	end
 
@@ -136,8 +136,8 @@ OneIsland_PokemonCenter_1F_EventScript_ReceiveTownMapPage::
 	return
 
 OneIsland_PokemonCenter_1F_EventScript_ReceiveTownMap::
-	setflag FLAG_HIDE_TOWN_MAP
-	setvar VAR_MAP_SCENE_PALLET_TOWN_RIVALS_HOUSE, 2
+	setflag FLAG_0x039
+	setvar VAR_0x4058, 2
 	giveitem_msg OneIsland_PokemonCenter_1F_Text_ReceivedTownMap, ITEM_TOWN_MAP, 1, MUS_OBTAIN_KEY_ITEM
 	return
 
@@ -183,7 +183,7 @@ OneIsland_PokemonCenter_1F_EventScript_Nurse::
 
 OneIsland_PokemonCenter_1F_EventScript_Bill::
 	lock
-	goto_if_set FLAG_SEVII_DETOUR_FINISHED, OneIsland_PokemonCenter_1F_EventScript_BillGoTakeStroll
+	goto_if_set FLAG_0x2A1, OneIsland_PokemonCenter_1F_EventScript_BillGoTakeStroll
 	msgbox OneIsland_PokemonCenter_1F_Text_HmmHowAboutLikeThis
 	release
 	end
@@ -198,15 +198,15 @@ OneIsland_PokemonCenter_1F_EventScript_BillGoTakeStroll::
 OneIsland_PokemonCenter_1F_EventScript_Celio::
 	lock
 	faceplayer
-	goto_if_eq VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 7, OneIsland_PokemonCenter_1F_EventScript_CelioGiveBillFact
-	goto_if_eq VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 6, OneIsland_PokemonCenter_1F_EventScript_CelioJustGivenSapphire
-	goto_if_set FLAG_RECOVERED_SAPPHIRE, OneIsland_PokemonCenter_1F_EventScript_GiveCelioSapphire
-	goto_if_eq VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 5, OneIsland_PokemonCenter_1F_EventScript_ExplainRainbowPass
-	goto_if_set FLAG_GOT_RUBY, OneIsland_PokemonCenter_1F_EventScript_GiveCelioRuby
-	goto_if_eq VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 4, OneIsland_PokemonCenter_1F_EventScript_CelioWaitingForRuby
-	specialvar VAR_RESULT, IsNationalPokedexEnabled
-	goto_if_eq VAR_RESULT, TRUE, OneIsland_PokemonCenter_1F_EventScript_CelioRequestRuby
-	goto_if_eq VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 3, OneIsland_PokemonCenter_1F_EventScript_CelioPlayerMissingNationalDex
+	goto_if_eq VAR_0x4076, 7, OneIsland_PokemonCenter_1F_EventScript_CelioGiveBillFact
+	goto_if_eq VAR_0x4076, 6, OneIsland_PokemonCenter_1F_EventScript_CelioJustGivenSapphire
+	goto_if_set FLAG_0x2DC, OneIsland_PokemonCenter_1F_EventScript_GiveCelioSapphire
+	goto_if_eq VAR_0x4076, 5, OneIsland_PokemonCenter_1F_EventScript_ExplainRainbowPass
+	goto_if_set FLAG_0x2DD, OneIsland_PokemonCenter_1F_EventScript_GiveCelioRuby
+	goto_if_eq VAR_0x4076, 4, OneIsland_PokemonCenter_1F_EventScript_CelioWaitingForRuby
+	specialvar VAR_0x800D, IsNationalPokedexEnabled
+	goto_if_eq VAR_0x800D, TRUE, OneIsland_PokemonCenter_1F_EventScript_CelioRequestRuby
+	goto_if_eq VAR_0x4076, 3, OneIsland_PokemonCenter_1F_EventScript_CelioPlayerMissingNationalDex
 	msgbox OneIsland_PokemonCenter_1F_Text_SorryForBeingPoorHost
 	closemessage
 	applymovement LOCALID_CELIO, Common_Movement_FaceOriginalDirection
@@ -217,8 +217,8 @@ OneIsland_PokemonCenter_1F_EventScript_Celio::
 OneIsland_PokemonCenter_1F_EventScript_CelioGiveBillFact::
 	msgbox OneIsland_PokemonCenter_1F_Text_CelioHearingRumorsAboutYou
 	random 3
-	goto_if_eq VAR_RESULT, 0, OneIsland_PokemonCenter_1F_EventScript_BillFact1
-	goto_if_eq VAR_RESULT, 1, OneIsland_PokemonCenter_1F_EventScript_BillFact2
+	goto_if_eq VAR_0x800D, 0, OneIsland_PokemonCenter_1F_EventScript_BillFact1
+	goto_if_eq VAR_0x800D, 1, OneIsland_PokemonCenter_1F_EventScript_BillFact2
 	famechecker FAMECHECKER_BILL, 5
 	msgbox OneIsland_PokemonCenter_1F_Text_BillCantStomachMilk
 	release
@@ -274,9 +274,9 @@ OneIsland_PokemonCenter_1F_EventScript_GiveCelioSapphire::
 	msgbox OneIsland_PokemonCenter_1F_Text_ManagedToLinkWithHoennThankYou
 	special SetPostgameFlags
 	setflag FLAG_SYS_CAN_LINK_WITH_RS
-	setflag FLAG_HIDE_CERULEAN_CAVE_GUARD
-	setflag FLAG_HIDE_LORELEI_IN_HER_HOUSE
-	setvar VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 6
+	setflag FLAG_0x05C
+	setflag FLAG_0x08C
+	setvar VAR_0x4076, 6
 	special InitRoamer
 	release
 	end
@@ -304,13 +304,13 @@ OneIsland_PokemonCenter_1F_EventScript_GiveCelioRuby::
 	applymovement LOCALID_CELIO, Common_Movement_FacePlayer
 	waitmovement 0
 	msgbox OneIsland_PokemonCenter_1F_Text_MayIAskOneMoreFavor, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, OneIsland_PokemonCenter_1F_EventScript_DeclineHelpCelio
+	goto_if_eq VAR_0x800D, NO, OneIsland_PokemonCenter_1F_EventScript_DeclineHelpCelio
 	goto OneIsland_PokemonCenter_1F_EventScript_GiveRainbowPass
 	end
 
 OneIsland_PokemonCenter_1F_EventScript_DeclineHelpCelio::
 	msgbox OneIsland_PokemonCenter_1F_Text_PleaseINeedYourHelp, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, OneIsland_PokemonCenter_1F_EventScript_DeclineHelpCelio
+	goto_if_eq VAR_0x800D, NO, OneIsland_PokemonCenter_1F_EventScript_DeclineHelpCelio
 	goto OneIsland_PokemonCenter_1F_EventScript_GiveRainbowPass
 	end
 
@@ -318,7 +318,7 @@ OneIsland_PokemonCenter_1F_EventScript_GiveRainbowPass::
 	msgbox OneIsland_PokemonCenter_1F_Text_AnotherGemstoneInSeviiIslands
 	removeitem ITEM_RUBY
 	removeitem ITEM_TRI_PASS
-	setvar VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 5
+	setvar VAR_0x4076, 5
 	additem ITEM_RAINBOW_PASS
 	setflag FLAG_SYS_SEVII_MAP_4567
 	textcolor NPC_TEXT_COLOR_NEUTRAL
@@ -347,8 +347,8 @@ OneIsland_PokemonCenter_1F_EventScript_CelioRequestRuby::
 	applymovement LOCALID_CELIO, Common_Movement_FacePlayer
 	waitmovement 0
 	msgbox OneIsland_PokemonCenter_1F_Text_NeedsSpecialGemstone
-	setvar VAR_MAP_SCENE_MT_EMBER_EXTERIOR, 1
-	setvar VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 4
+	setvar VAR_0x407F, 1
+	setvar VAR_0x4076, 4
 	release
 	end
 
@@ -395,7 +395,7 @@ OneIsland_PokemonCenter_1F_EventScript_CrushGirlHoennLinked::
 OneIsland_PokemonCenter_1F_EventScript_NetworkMachine::
 	lockall
 	goto_if_set FLAG_SYS_CAN_LINK_WITH_RS, OneIsland_PokemonCenter_1F_EventScript_NetworkMachineLinkedWithHoenn
-	goto_if_set FLAG_SEVII_DETOUR_FINISHED, OneIsland_PokemonCenter_1F_EventScript_NetworkMachineLinkedWithKanto
+	goto_if_set FLAG_0x2A1, OneIsland_PokemonCenter_1F_EventScript_NetworkMachineLinkedWithKanto
 	msgbox OneIsland_PokemonCenter_1F_Text_MachineUnderAdjustment
 	releaseall
 	end
@@ -479,10 +479,10 @@ OneIsland_PokemonCenter_1F_EventScript_LeaveOneIslandScene::
 	applymovement LOCALID_ONE_ISLAND_POKEMON_CENTER_BILL, OneIsland_PokemonCenter_1F_Movement_BillExit
 	waitmovement 0
 	playse SE_EXIT
-	setflag FLAG_HIDE_ONE_ISLAND_POKECENTER_BILL
-	setvar VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 3
-	clearflag FLAG_HIDE_CINNABAR_BILL
-	setvar VAR_MAP_SCENE_CINNABAR_ISLAND, 3
+	setflag FLAG_0x072
+	setvar VAR_0x4076, 3
+	clearflag FLAG_0x062
+	setvar VAR_0x4071, 3
 	setvar VAR_0x8004, SEAGALLOP_ONE_ISLAND
 	setvar VAR_0x8006, SEAGALLOP_CINNABAR_ISLAND
 	goto EventScript_SetSail

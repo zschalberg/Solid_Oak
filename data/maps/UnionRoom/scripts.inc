@@ -30,7 +30,7 @@ UnionRoom_OnTransition::
 UnionRoom_EventScript_Player1::
 	lock
 	faceplayer
-	setvar VAR_RESULT, 1
+	setvar VAR_0x800D, 1
 	waitstate
 	release
 	end
@@ -38,7 +38,7 @@ UnionRoom_EventScript_Player1::
 UnionRoom_EventScript_Player2::
 	lock
 	faceplayer
-	setvar VAR_RESULT, 2
+	setvar VAR_0x800D, 2
 	waitstate
 	release
 	end
@@ -46,7 +46,7 @@ UnionRoom_EventScript_Player2::
 UnionRoom_EventScript_Player3::
 	lock
 	faceplayer
-	setvar VAR_RESULT, 3
+	setvar VAR_0x800D, 3
 	waitstate
 	release
 	end
@@ -54,7 +54,7 @@ UnionRoom_EventScript_Player3::
 UnionRoom_EventScript_Player4::
 	lock
 	faceplayer
-	setvar VAR_RESULT, 4
+	setvar VAR_0x800D, 4
 	waitstate
 	release
 	end
@@ -62,7 +62,7 @@ UnionRoom_EventScript_Player4::
 UnionRoom_EventScript_Player5::
 	lock
 	faceplayer
-	setvar VAR_RESULT, 5
+	setvar VAR_0x800D, 5
 	waitstate
 	release
 	end
@@ -70,7 +70,7 @@ UnionRoom_EventScript_Player5::
 UnionRoom_EventScript_Player6::
 	lock
 	faceplayer
-	setvar VAR_RESULT, 6
+	setvar VAR_0x800D, 6
 	waitstate
 	release
 	end
@@ -78,7 +78,7 @@ UnionRoom_EventScript_Player6::
 UnionRoom_EventScript_Player7::
 	lock
 	faceplayer
-	setvar VAR_RESULT, 7
+	setvar VAR_0x800D, 7
 	waitstate
 	release
 	end
@@ -86,7 +86,7 @@ UnionRoom_EventScript_Player7::
 UnionRoom_EventScript_Player8::
 	lock
 	faceplayer
-	setvar VAR_RESULT, 8
+	setvar VAR_0x800D, 8
 	waitstate
 	release
 	end
@@ -94,14 +94,14 @@ UnionRoom_EventScript_Player8::
 UnionRoom_EventScript_Attendant::
 	lock
 	faceplayer
-	setvar VAR_RESULT, 9
+	setvar VAR_0x800D, 9
 	waitstate
 	release
 	end
 
 UnionRoom_EventScript_Unused::
 	lockall
-	setvar VAR_RESULT, 10
+	setvar VAR_0x800D, 10
 	waitstate
 	releaseall
 	end

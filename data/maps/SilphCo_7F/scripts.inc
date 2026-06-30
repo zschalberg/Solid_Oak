@@ -4,13 +4,13 @@ SilphCo_7F_MapScripts::
 	.byte 0
 
 SilphCo_7F_OnLoad::
-	call_if_unset FLAG_SILPH_7F_DOOR_1, EventScript_Close7FDoor1
-	call_if_unset FLAG_SILPH_7F_DOOR_2, EventScript_Close7FDoor2
-	call_if_unset FLAG_SILPH_7F_DOOR_3, EventScript_Close7FDoor3
+	call_if_unset FLAG_0x284, EventScript_Close7FDoor1
+	call_if_unset FLAG_0x285, EventScript_Close7FDoor2
+	call_if_unset FLAG_0x286, EventScript_Close7FDoor3
 	end
 
 SilphCo_7F_OnTransition::
-	call_if_ge VAR_MAP_SCENE_SILPH_CO_11F, 1, SilphCo_7F_EventScript_SetObjRocketsGone
+	call_if_ge VAR_0x4060, 1, SilphCo_7F_EventScript_SetObjRocketsGone
 	end
 
 SilphCo_7F_EventScript_SetObjRocketsGone::
@@ -41,7 +41,7 @@ SilphCo_7F_EventScript_RivalScene::
 	call_if_eq VAR_TEMP_1, 0, SilphCo_7F_EventScript_RivalApproachTop
 	call_if_eq VAR_TEMP_1, 1, SilphCo_7F_EventScript_RivalApproachBottom
 	msgbox SilphCo_7F_Text_RivalIntro
-	setvar VAR_LAST_TALKED, LOCALID_SILPH_CO_RIVAL
+	setvar VAR_0x800F, LOCALID_SILPH_CO_RIVAL
 	call_if_eq VAR_STARTER_MON, 2, SilphCo_7F_EventScript_RivalSquirtle
 	call_if_eq VAR_STARTER_MON, 1, SilphCo_7F_EventScript_RivalBulbasaur
 	call_if_eq VAR_STARTER_MON, 0, SilphCo_7F_EventScript_RivalCharmander
@@ -54,7 +54,7 @@ SilphCo_7F_EventScript_RivalScene::
 	fadedefaultbgm
 	removeobject LOCALID_SILPH_CO_RIVAL
 	waitse
-	setvar VAR_MAP_SCENE_SILPH_CO_7F, 1
+	setvar VAR_0x405C, 1
 	releaseall
 	end
 
@@ -115,13 +115,13 @@ SilphCo_7F_Movement_RivalExitBottom::
 SilphCo_7F_EventScript_LaprasGuy::
 	lock
 	faceplayer
-	goto_if_set FLAG_GOT_LAPRAS_FROM_SILPH, SilphCo_7F_EventScript_AlreadyGotLapras
+	goto_if_set FLAG_0x246, SilphCo_7F_EventScript_AlreadyGotLapras
 	msgbox SilphCo_7F_Text_HaveMonForSavingUs
 	setvar VAR_TEMP_1, SPECIES_LAPRAS
 	givemon SPECIES_LAPRAS, 25
-	goto_if_eq VAR_RESULT, 0, SilphCo_7F_EventScript_ReceiveLaprasParty
-	goto_if_eq VAR_RESULT, 1, SilphCo_7F_EventScript_ReceiveLaprasPC
-	goto_if_eq VAR_RESULT, 2, EventScript_NoMoreRoomForPokemon
+	goto_if_eq VAR_0x800D, 0, SilphCo_7F_EventScript_ReceiveLaprasParty
+	goto_if_eq VAR_0x800D, 1, SilphCo_7F_EventScript_ReceiveLaprasPC
+	goto_if_eq VAR_0x800D, 2, EventScript_NoMoreRoomForPokemon
 	release
 	end
 
@@ -133,7 +133,7 @@ SilphCo_7F_EventScript_ReceiveLaprasParty::
 	waitfanfare
 	bufferspeciesname STR_VAR_1, SPECIES_LAPRAS
 	msgbox Text_GiveNicknameToThisMon, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, SilphCo_7F_EventScript_EndReceiveLapras
+	goto_if_eq VAR_0x800D, NO, SilphCo_7F_EventScript_EndReceiveLapras
 	call EventScript_GetGiftMonPartySlot
 	call EventScript_ChangePokemonNickname
 	goto SilphCo_7F_EventScript_EndReceiveLapras
@@ -147,7 +147,7 @@ SilphCo_7F_EventScript_ReceiveLaprasPC::
 	waitfanfare
 	bufferspeciesname STR_VAR_1, SPECIES_LAPRAS
 	msgbox Text_GiveNicknameToThisMon, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, SilphCo_7F_EventScript_LaprasTransferredToPC
+	goto_if_eq VAR_0x800D, NO, SilphCo_7F_EventScript_LaprasTransferredToPC
 	call EventScript_NameReceivedBoxMon
 	goto SilphCo_7F_EventScript_LaprasTransferredToPC
 	end
@@ -160,7 +160,7 @@ SilphCo_7F_EventScript_LaprasTransferredToPC::
 SilphCo_7F_EventScript_EndReceiveLapras::
 	textcolor NPC_TEXT_COLOR_MALE
 	msgbox SilphCo_7F_Text_ExplainLapras
-	setflag FLAG_GOT_LAPRAS_FROM_SILPH
+	setflag FLAG_0x246
 	release
 	end
 
@@ -172,7 +172,7 @@ SilphCo_7F_EventScript_AlreadyGotLapras::
 SilphCo_7F_EventScript_WorkerM1::
 	lock
 	faceplayer
-	goto_if_ge VAR_MAP_SCENE_SILPH_CO_11F, 1, SilphCo_7F_EventScript_WorkerM1RocketsGone
+	goto_if_ge VAR_0x4060, 1, SilphCo_7F_EventScript_WorkerM1RocketsGone
 	msgbox SilphCo_7F_Text_RocketsAfterMasterBall
 	release
 	end
@@ -185,7 +185,7 @@ SilphCo_7F_EventScript_WorkerM1RocketsGone::
 SilphCo_7F_EventScript_WorkerM2::
 	lock
 	faceplayer
-	goto_if_ge VAR_MAP_SCENE_SILPH_CO_11F, 1, SilphCo_7F_EventScript_WorkerM2RocketsGone
+	goto_if_ge VAR_0x4060, 1, SilphCo_7F_EventScript_WorkerM2RocketsGone
 	msgbox SilphCo_7F_Text_BadIfTeamRocketTookOver
 	release
 	end
@@ -198,7 +198,7 @@ SilphCo_7F_EventScript_WorkerM2RocketsGone::
 SilphCo_7F_EventScript_WorkerF::
 	lock
 	faceplayer
-	goto_if_ge VAR_MAP_SCENE_SILPH_CO_11F, 1, SilphCo_7F_EventScript_WorkerFRocketsGone
+	goto_if_ge VAR_0x4060, 1, SilphCo_7F_EventScript_WorkerFRocketsGone
 	msgbox SilphCo_7F_Text_ReallyDangerousHere
 	release
 	end

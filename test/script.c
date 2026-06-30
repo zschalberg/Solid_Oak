@@ -38,7 +38,7 @@ TEST("Script_HasNoEffect variables")
         subvar VAR_0x8000, VAR_TEMP_0;
         copyvar VAR_0x8000, VAR_TEMP_0;
         setorcopyvar VAR_0x8000, VAR_TEMP_0;
-        specialvar VAR_RESULT, GetPlayerFacingDirection;
+        specialvar VAR_0x800D, GetPlayerFacingDirection;
         getplayerxy VAR_0x8000, VAR_0x8001;
         getpartysize;
         checkitemspace ITEM_POTION, 1;
@@ -52,7 +52,7 @@ TEST("Script_HasNoEffect variables")
         checkmoney 5000;
         // getpokenewsactive POKENEWS_LILYCOVE;
         checkplayergender;
-        checkcoins VAR_RESULT;
+        checkcoins VAR_0x800D;
         checkmodernfatefulencounter 0;
         end;
     );
@@ -75,12 +75,12 @@ TEST("Script_HasNoEffect variables")
     );
 
     const u8 *copyVariable = OVERWORLD_SCRIPT(
-        copyvar VAR_TEMP_0, VAR_RESULT;
+        copyvar VAR_TEMP_0, VAR_0x800D;
         end;
     );
 
     const u8 *setorcopyVariable = OVERWORLD_SCRIPT(
-        setorcopyvar VAR_TEMP_0, VAR_RESULT;
+        setorcopyvar VAR_TEMP_0, VAR_0x800D;
         end;
     );
 
@@ -90,12 +90,12 @@ TEST("Script_HasNoEffect variables")
     );
 
     const u8 *getPlayerXYVariable1 = OVERWORLD_SCRIPT(
-        getplayerxy VAR_TEMP_0, VAR_RESULT;
+        getplayerxy VAR_TEMP_0, VAR_0x800D;
         end;
     );
 
     const u8 *getPlayerXYVariable2 = OVERWORLD_SCRIPT(
-        getplayerxy VAR_RESULT, VAR_TEMP_0;
+        getplayerxy VAR_0x800D, VAR_TEMP_0;
         end;
     );
 

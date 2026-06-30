@@ -533,7 +533,7 @@ static u8 TryGetRematchTrainerIdGivenGameState(const enum TrainerID *trainerIds,
     switch (rematchIndex)
     {
      case 1:
-        isFlagSet = FlagGet(FLAG_GOT_VS_SEEKER);
+        isFlagSet = FlagGet(FLAG_0x292);
          break;
      case 2:
         isFlagSet = FlagGet(FLAG_WORLD_MAP_CELADON_CITY);

@@ -6818,7 +6818,7 @@ static bool8 GetBattleEntryEligibility(struct Pokemon *mon)
         return FALSE;
     }
 
-    if (FlagGet(FLAG_MONOTYPE_BATTLE))
+    if (FlagGet(FLAG_0x2E7))
     {
         u8 restrictedType = GetMonotypeRestrictionType();
         if (restrictedType != TYPE_NONE)
@@ -7115,7 +7115,7 @@ static bool8 TrySwitchInPokemon(void)
     u8 newSlot;
     u8 i;
 
-    if (FlagGet(FLAG_MONOTYPE_BATTLE))
+    if (FlagGet(FLAG_0x2E7))
     {
         u8 restrictedType = GetMonotypeRestrictionType();
         if (restrictedType != TYPE_NONE)

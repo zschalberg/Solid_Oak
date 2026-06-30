@@ -14,68 +14,7 @@
   "floor_number": 0,
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
   "connections": null,
-  "object_events": [
-    {
-      "local_id": "LOCALID_DAISY",
-      "type": "object",
-      "graphics_id": "OBJ_EVENT_GFX_DAISY",
-      "x": 10,
-      "y": 6,
-      "elevation": 3,
-      "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
-      "movement_range_x": 1,
-      "movement_range_y": 3,
-      "trainer_type": "TRAINER_TYPE_NONE",
-      "trainer_sight_or_berry_tree_id": "0",
-      "script": "PalletTown_RivalsHouse_EventScript_Daisy",
-      "flag": "0"
-    },
-    {
-      "local_id": "LOCALID_TOWN_MAP",
-      "type": "object",
-      "graphics_id": "OBJ_EVENT_GFX_TOWN_MAP",
-      "x": 6,
-      "y": 4,
-      "elevation": 3,
-      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
-      "movement_range_x": 1,
-      "movement_range_y": 1,
-      "trainer_type": "TRAINER_TYPE_NONE",
-      "trainer_sight_or_berry_tree_id": "0",
-      "script": "PalletTown_RivalsHouse_EventScript_TownMap",
-      "flag": "FLAG_HIDE_TOWN_MAP"
-    },
-    {
-      "local_id": "LOCALID_TESTER_NPC",
-      "type": "object",
-      "graphics_id": "OBJ_EVENT_GFX_SCIENTIST",
-      "x": 2,
-      "y": 4,
-      "elevation": 3,
-      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
-      "movement_range_x": 1,
-      "movement_range_y": 1,
-      "trainer_type": "TRAINER_TYPE_NONE",
-      "trainer_sight_or_berry_tree_id": "0",
-      "script": "PalletTown_RivalsHouse_EventScript_TestNPC",
-      "flag": "0"
-    },
-    {
-      "local_id": "LOCALID_MONOTYPE_NPC",
-      "type": "object",
-      "graphics_id": "OBJ_EVENT_GFX_BLACK_BELT",
-      "x": 3,
-      "y": 4,
-      "elevation": 3,
-      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
-      "movement_range_x": 1,
-      "movement_range_y": 1,
-      "trainer_type": "TRAINER_TYPE_NONE",
-      "trainer_sight_or_berry_tree_id": "0",
-      "script": "PalletTown_RivalsHouse_EventScript_MonotypeNPC",
-      "flag": "0"
-    }
-  ],
+  "object_events": [],
   "warp_events": [
     {
       "x": 4,
@@ -100,30 +39,5 @@
     }
   ],
   "coord_events": [],
-  "bg_events": [
-    {
-      "type": "sign",
-      "x": 12,
-      "y": 1,
-      "elevation": 0,
-      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
-      "script": "PalletTown_RivalsHouse_EventScript_Bookshelf"
-    },
-    {
-      "type": "sign",
-      "x": 11,
-      "y": 1,
-      "elevation": 0,
-      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
-      "script": "PalletTown_RivalsHouse_EventScript_Bookshelf"
-    },
-    {
-      "type": "sign",
-      "x": 9,
-      "y": 1,
-      "elevation": 0,
-      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
-      "script": "PalletTown_RivalsHouse_EventScript_Picture"
-    }
-  ]
+  "bg_events": []
 }

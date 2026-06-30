@@ -12,8 +12,8 @@ TrainerTower_Elevator_EventScript_FloorSelect::
 	message Text_WantWhichFloor
 	waitmessage
 	setvar VAR_0x8004, 6
-	specialvar VAR_RESULT, InitElevatorFloorSelectMenuPos
-	switch VAR_RESULT
+	specialvar VAR_0x800D, InitElevatorFloorSelectMenuPos
+	switch VAR_0x800D
 	case 0, TrainerTower_Elevator_EventScript_FloorSelectFromRoof
 	case 1, TrainerTower_Elevator_EventScript_FloorSelectFromLobby
 	end
@@ -29,7 +29,7 @@ TrainerTower_Elevator_EventScript_FloorSelectFromLobby::
 	end
 
 TrainerTower_Elevator_EventScript_ChooseFloor::
-	switch VAR_RESULT
+	switch VAR_0x800D
 	case 0, TrainerTower_Elevator_EventScript_SelectRoof
 	case 1, TrainerTower_Elevator_EventScript_SelectLobby
 	case 2, TrainerTower_Elevator_EventScript_CloseFloorSelect
