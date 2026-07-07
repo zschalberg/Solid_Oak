@@ -9,6 +9,7 @@
 #include "constants/items.h"
 #include "battle_util.h"
 #include "fpmath.h"
+#include "move.h"
 #include "team_preview.h"
 #include "constants/pokeball.h"
 
@@ -366,43 +367,89 @@ static void PrunePool(const struct Trainer *trainer, u8 *poolIndexArray, const s
     }
 }
 
-static s32 GetMatchupScore(u16 candidateSpecies, u16 playerSpecies)
+// Old species-type-vs-species-type offense estimate, used as a fallback when a candidate
+// has no explicit damaging moves defined (e.g. relies on an auto-generated level-up moveset)
+static s32 GetSpeciesOffenseScoreFallback(u16 candidateSpecies, u8 pt1, u8 pt2)
 {
     s32 score = 0;
+    u8 ct1 = GetSpeciesType(candidateSpecies, 0);
+    u8 ct2 = GetSpeciesType(candidateSpecies, 1);
+
+    uq4_12_t eff = GetTypeModifier(ct1, pt1);
+    if (pt2 != pt1)
+        eff = uq4_12_multiply(eff, GetTypeModifier(ct1, pt2));
+
+    if (eff > UQ_4_12(1.0))
+        score += 2;
+    else if (eff < UQ_4_12(1.0))
+        score -= 1;
+
+    if (ct2 != ct1)
+    {
+        eff = GetTypeModifier(ct2, pt1);
+        if (pt2 != pt1)
+            eff = uq4_12_multiply(eff, GetTypeModifier(ct2, pt2));
+
+        if (eff > UQ_4_12(1.0))
+            score += 2;
+        else if (eff < UQ_4_12(1.0))
+            score -= 1;
+    }
+
+    return score;
+}
+
+// How effective is the candidate's best damaging move against the player's dual types?
+static s32 GetCandidateOffenseScore(const struct TrainerMon *candidateMon, u8 pt1, u8 pt2)
+{
+    bool32 foundDamagingMove = FALSE;
+    uq4_12_t bestEff = UQ_4_12(0.0);
+    u32 j;
+
+    for (j = 0; j < MAX_MON_MOVES; j++)
+    {
+        enum Move move = candidateMon->moves[j];
+        if (move == MOVE_NONE || GetMovePower(move) == 0)
+            continue;
+
+        enum Type moveType = GetMoveType(move);
+        uq4_12_t eff = GetTypeModifier(moveType, pt1);
+        if (pt2 != pt1)
+            eff = uq4_12_multiply(eff, GetTypeModifier(moveType, pt2));
+
+        if (!foundDamagingMove || eff > bestEff)
+            bestEff = eff;
+        foundDamagingMove = TRUE;
+    }
+
+    if (!foundDamagingMove)
+        return GetSpeciesOffenseScoreFallback(candidateMon->species, pt1, pt2);
+
+    if (bestEff > UQ_4_12(1.0))
+        return 2;
+    if (bestEff < UQ_4_12(1.0))
+        return -1;
+    return 0;
+}
+
+static s32 GetMatchupScore(const struct TrainerMon *candidateMon, u16 playerSpecies)
+{
+    s32 score = 0;
+    u16 candidateSpecies = candidateMon->species;
     u8 ct1 = GetSpeciesType(candidateSpecies, 0);
     u8 ct2 = GetSpeciesType(candidateSpecies, 1);
     u8 pt1 = GetSpeciesType(playerSpecies, 0);
     u8 pt2 = GetSpeciesType(playerSpecies, 1);
 
-    // 1. Candidate offense: how effective is candidate's types against player's dual types?
-    {
-        uq4_12_t eff = GetTypeModifier(ct1, pt1);
-        if (pt2 != pt1)
-            eff = uq4_12_multiply(eff, GetTypeModifier(ct1, pt2));
-        
-        if (eff > UQ_4_12(1.0))
-            score += 2;
-        else if (eff < UQ_4_12(1.0))
-            score -= 1;
-    }
-    if (ct2 != ct1)
-    {
-        uq4_12_t eff = GetTypeModifier(ct2, pt1);
-        if (pt2 != pt1)
-            eff = uq4_12_multiply(eff, GetTypeModifier(ct2, pt2));
-        
-        if (eff > UQ_4_12(1.0))
-            score += 2;
-        else if (eff < UQ_4_12(1.0))
-            score -= 1;
-    }
+    // 1. Candidate offense: how effective is the candidate's best damaging move against player's dual types?
+    score += GetCandidateOffenseScore(candidateMon, pt1, pt2);
 
     // 2. Candidate defense: how effective is player's types against candidate's dual types?
     {
         uq4_12_t eff = GetTypeModifier(pt1, ct1);
         if (ct2 != ct1)
             eff = uq4_12_multiply(eff, GetTypeModifier(pt1, ct2));
-        
+
         if (eff > UQ_4_12(1.0))
             score -= 2;
         else if (eff < UQ_4_12(1.0))
@@ -413,7 +460,7 @@ static s32 GetMatchupScore(u16 candidateSpecies, u16 playerSpecies)
         uq4_12_t eff = GetTypeModifier(pt2, ct1);
         if (ct2 != ct1)
             eff = uq4_12_multiply(eff, GetTypeModifier(pt2, ct2));
-        
+
         if (eff > UQ_4_12(1.0))
             score -= 2;
         else if (eff < UQ_4_12(1.0))
@@ -423,7 +470,7 @@ static s32 GetMatchupScore(u16 candidateSpecies, u16 playerSpecies)
     return score;
 }
 
-static s32 GetTotalMatchupScore(u16 candidateSpecies)
+static s32 GetTotalMatchupScore(const struct TrainerMon *candidateMon)
 {
     s32 totalScore = 0;
     struct Pokemon *party = GetPreviewPlayerParty();
@@ -437,7 +484,7 @@ static s32 GetTotalMatchupScore(u16 candidateSpecies)
     {
         struct Pokemon *mon = &party[i];
         u16 species = GetMonData(mon, MON_DATA_SPECIES);
-        
+
         // Skip Eggs, empty slots, fainted pokemon, and research balls
         if (species == SPECIES_NONE || species == SPECIES_EGG)
             continue;
@@ -448,7 +495,7 @@ static s32 GetTotalMatchupScore(u16 candidateSpecies)
         if (GetMonData(mon, MON_DATA_POKEBALL) == BALL_RESEARCH)
             continue;
 
-        totalScore += GetMatchupScore(candidateSpecies, species);
+        totalScore += GetMatchupScore(candidateMon, species);
     }
 
     return totalScore;
@@ -510,8 +557,7 @@ void DoTrainerPartyPool(const struct Trainer *trainer, u32 *monIndices, u8 monsC
 
             for (i = 0; i < candidatesCount; i++)
             {
-                u16 species = trainer->party[candidates[i]].species;
-                scores[i] = GetTotalMatchupScore(species);
+                scores[i] = GetTotalMatchupScore(&trainer->party[candidates[i]]);
                 if (scores[i] < minScore)
                 {
                     minScore = scores[i];
