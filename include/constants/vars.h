@@ -144,7 +144,6 @@
 #define VAR_MAP_SCENE_SILPH_CO_7F                                              0x405C
 #define VAR_MAP_SCENE_POKEMON_TOWER_2F                                         0x405D
 #define VAR_MAP_SCENE_ROUTE16                                                  0x405E
-#define VAR_MAP_SCENE_ROUTE23                                                  0x405F
 #define VAR_MAP_SCENE_SILPH_CO_11F                                             0x4060
 #define VAR_MAP_SCENE_PEWTER_CITY_MUSEUM_1F                                    0x4061
 #define VAR_MAP_SCENE_ROUTE5_ROUTE6_ROUTE7_ROUTE8_GATES                        0x4062

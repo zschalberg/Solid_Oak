@@ -416,7 +416,7 @@
       "height": 20,
       "border_width": 2,
       "border_height": 2,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_GeneralAutumn",
       "secondary_tileset": "gTileset_LavenderTown",
       "border_filepath": "data/layouts/LavenderTown/border.bin",
       "blockdata_filepath": "data/layouts/LavenderTown/map.bin"
@@ -1196,8 +1196,8 @@
       "height": 36,
       "border_width": 3,
       "border_height": 2,
-      "primary_tileset": "gTileset_General",
-      "secondary_tileset": "gTileset_FuchsiaCity",
+      "primary_tileset": "gTileset_GeneralSummer",
+      "secondary_tileset": "gTileset_FuchsiaCitySummer",
       "border_filepath": "data/layouts/SafariZone_Center/border.bin",
       "blockdata_filepath": "data/layouts/SafariZone_Center/map.bin"
     },

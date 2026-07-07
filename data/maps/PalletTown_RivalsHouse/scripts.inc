@@ -170,8 +170,9 @@ PalletTown_RivalsHouse_EventScript_Picture::
 PalletTown_RivalsHouse_EventScript_TestNPC::
 	lock
 	faceplayer
+	goto_if_set FLAG_VARIABLE_PREVIEW_MODE, PalletTown_RivalsHouse_EventScript_TestNPC_ShowGreetingVariable
 	goto_if_unset FLAG_PREVIEW_BATTLE, PalletTown_RivalsHouse_EventScript_TestNPC_ShowGreetingOff
-	
+
 	copyvar VAR_0x8004, 0x8008
 	goto_if_eq VAR_0x8004, 0, PalletTown_RivalsHouse_EventScript_TestNPC_SetPlayerCountDefault3
 	buffernumberstring 0, VAR_0x8004
@@ -207,13 +208,19 @@ PalletTown_RivalsHouse_EventScript_TestNPC_ShowGreetingOff::
 	goto PalletTown_RivalsHouse_EventScript_TestNPC_Menu
 	end
 
+PalletTown_RivalsHouse_EventScript_TestNPC_ShowGreetingVariable::
+	msgbox PalletTown_RivalsHouse_Text_TestNPC_Greeting_FlagVariable
+	goto PalletTown_RivalsHouse_EventScript_TestNPC_Menu
+	end
+
 PalletTown_RivalsHouse_EventScript_TestNPC_Menu::
 	multichoice 0, 0, MULTI_TEST_NPC_CHOICES, TRUE
 	switch VAR_RESULT
 	case 0, PalletTown_RivalsHouse_EventScript_TestNPC_SelectMode
 	case 1, PalletTown_RivalsHouse_EventScript_TestNPC_GetMons
 	case 2, PalletTown_RivalsHouse_EventScript_TestNPC_Battle
-	case 3, PalletTown_RivalsHouse_EventScript_TestNPC_Exit
+	case 3, PalletTown_RivalsHouse_EventScript_TestNPC_SetVariable
+	case 4, PalletTown_RivalsHouse_EventScript_TestNPC_Exit
 	case MULTI_B_PRESSED, PalletTown_RivalsHouse_EventScript_TestNPC_Exit
 	end
 
@@ -287,8 +294,17 @@ PalletTown_RivalsHouse_EventScript_TestNPC_Set2v4::
 	goto PalletTown_RivalsHouse_EventScript_TestNPC_Menu
 	end
 
+PalletTown_RivalsHouse_EventScript_TestNPC_SetVariable::
+	setflag FLAG_VARIABLE_PREVIEW_MODE
+	setvar 0x8008, 0
+	setvar 0x800A, 0
+	msgbox PalletTown_RivalsHouse_Text_TestNPC_SetModeVariable
+	goto PalletTown_RivalsHouse_EventScript_TestNPC_Menu
+	end
+
 PalletTown_RivalsHouse_EventScript_TestNPC_SetDisable::
 	clearflag FLAG_PREVIEW_BATTLE
+	clearflag FLAG_VARIABLE_PREVIEW_MODE
 	setvar 0x8008, 0
 	setvar 0x800A, 0
 	msgbox PalletTown_RivalsHouse_Text_TestNPC_Disabled
@@ -408,6 +424,13 @@ PalletTown_RivalsHouse_Text_TestNPC_Greeting_FlagOn::
 	.string "for a {STR_VAR_1}v{STR_VAR_2} battle.\p"
 	.string "What would you like to do?$"
 
+PalletTown_RivalsHouse_Text_TestNPC_Greeting_FlagVariable::
+	.string "Hi! I am the preview tester.\n"
+	.string "Currently, variable preview mode\l"
+	.string "is ON. Every battle will match\l"
+	.string "the opponent's party size.\p"
+	.string "What would you like to do?$"
+
 PalletTown_RivalsHouse_Text_TestNPC_SetMode1v1::
 	.string "Set preview to 1v1 mode.$"
 
@@ -429,6 +452,12 @@ PalletTown_RivalsHouse_Text_TestNPC_SetMode6v6::
 PalletTown_RivalsHouse_Text_TestNPC_SetMode2v4::
 	.string "Set preview to 2v4 mode.\n"
 	.string "You pick 2, opponent uses 4.$"
+
+PalletTown_RivalsHouse_Text_TestNPC_SetModeVariable::
+	.string "Set variable preview mode ON.\n"
+	.string "Every battle will now match the\l"
+	.string "opponent's party size until you\l"
+	.string "disable it.$"
 
 PalletTown_RivalsHouse_Text_TestNPC_Disabled::
 	.string "Disabled the team preview.$"
