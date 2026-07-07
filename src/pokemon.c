@@ -16,6 +16,8 @@
 #include "data.h"
 #include "daycare.h"
 #include "dexnav.h"
+#include "advanced_iv_scanner.h"
+#include "easy_chat.h"
 #include "event_data.h"
 #include "event_object_movement.h"
 #include "evolution_scene.h"
@@ -931,6 +933,7 @@ void CreateBoxMon(struct BoxPokemon *boxMon, enum Species species, u8 level, u32
             totalRerolls += CalculateChainFishingShinyRolls();
             if (gDexNavSpecies)
                 totalRerolls += CalculateDexNavShinyRolls();
+            totalRerolls += CalculateAdvIvScannerShinyRolls();
 
             u32 shinyPersonality = personality;
             while (GET_SHINY_VALUE(value, shinyPersonality) >= SHINY_ODDS && totalRerolls > 0)

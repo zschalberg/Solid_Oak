@@ -270,6 +270,8 @@ struct SaveBlock3
 {
     struct BerryTree berryTrees[BERRY_TREES_COUNT];
     u8 dexNavChain;
+    u8 advIvScannerChain;
+    u8 advIvScannerRoute;
 #if OW_USE_FAKE_RTC
     struct SiiRtcInfo fakeRTC;
 #endif
@@ -286,7 +288,7 @@ struct SaveBlock3
     struct LinkBattleRecords linkBattleRecords;
 #endif //FREE_LINK_BATTLE_RECORDS
 
-    u8 unused[812 - (OW_SHOW_ITEM_DESCRIPTIONS == OW_ITEM_DESCRIPTIONS_FIRST_TIME ? ITEM_FLAGS_COUNT : 0)];
+    u8 unused[810 - (OW_SHOW_ITEM_DESCRIPTIONS == OW_ITEM_DESCRIPTIONS_FIRST_TIME ? ITEM_FLAGS_COUNT : 0)];
 };
 
 extern struct SaveBlock3 *gSaveBlock3Ptr;

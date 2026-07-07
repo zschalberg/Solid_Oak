@@ -29,6 +29,7 @@
 #include "item_icon.h"
 #include "item_use.h"
 #include "test_runner.h"
+#include "research_turnin.h"
 #include "constants/battle_anim.h"
 #include "constants/rgb.h"
 #include "constants/songs.h"
@@ -170,6 +171,7 @@ enum
     HEALTHBOX_GFX_123,
     HEALTHBOX_GFX_FRAME_END,
     HEALTHBOX_GFX_FRAME_END_BAR,
+    HEALTHBOX_GFX_STATUS_FAMILY_RESERVED,
 };
 
 static const u8 *GetHealthboxElementGfxPtr(u8);
@@ -352,6 +354,14 @@ static const struct Subsprite sHealthBar_Subsprites_Opponent[] =
         .shape = SPRITE_SHAPE(8x8),
         .size = SPRITE_SIZE(8x8),
         .tileOffset = 8,
+        .priority = 1
+    },
+    {
+        .x = -24,
+        .y = 0,
+        .shape = SPRITE_SHAPE(8x8),
+        .size = SPRITE_SIZE(8x8),
+        .tileOffset = 9,
         .priority = 1
     }
 };
@@ -1755,6 +1765,32 @@ void TryAddPokeballIconToHealthbox(u8 healthboxSpriteId, bool8 noStatus)
         CpuFill32(0, (void *)(OBJ_VRAM0 + (gSprites[healthBarSpriteId].oam.tileNum + 8) * TILE_SIZE_4BPP), 32);
 }
 
+void TryAddFamilyReserveIconToHealthbox(u8 healthboxSpriteId, bool8 noStatus)
+{
+    enum BattlerId battler;
+    u8 healthBarSpriteId;
+
+    if (gBattleTypeFlags & (BATTLE_TYPE_FIRST_BATTLE | BATTLE_TYPE_CATCH_TUTORIAL | BATTLE_TYPE_POKEDUDE))
+        return;
+    if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
+        return;
+
+    battler = gSprites[healthboxSpriteId].hMain_Battler;
+    if (IsOnPlayerSide(battler))
+        return;
+    if (GetBattlerSide(battler) == B_SIDE_OPPONENT && IsGhostBattleWithoutScope())
+        return;
+    if (!IsSpeciesFamilyReserved(GetMonData(GetBattlerMon(battler), MON_DATA_SPECIES)))
+        return;
+
+    healthBarSpriteId = gSprites[healthboxSpriteId].hMain_HealthBarSpriteId;
+
+    if (noStatus)
+        CpuCopy32(GetHealthboxElementGfxPtr(HEALTHBOX_GFX_STATUS_FAMILY_RESERVED), (void *)(OBJ_VRAM0 + (gSprites[healthBarSpriteId].oam.tileNum + 9) * TILE_SIZE_4BPP), 32);
+    else
+        CpuFill32(0, (void *)(OBJ_VRAM0 + (gSprites[healthBarSpriteId].oam.tileNum + 9) * TILE_SIZE_4BPP), 32);
+}
+
 static void UpdateStatusIconInHealthbox(u8 healthboxSpriteId)
 {
     s32 i;
@@ -1826,6 +1862,7 @@ static void UpdateStatusIconInHealthbox(u8 healthboxSpriteId)
             CpuCopy32(GetHealthboxElementGfxPtr(HEALTHBOX_GFX_1), (void *)(OBJ_VRAM0 + gSprites[healthBarSpriteId].oam.tileNum * TILE_SIZE_4BPP), 64);
 
         TryAddPokeballIconToHealthbox(healthboxSpriteId, TRUE);
+        TryAddFamilyReserveIconToHealthbox(healthboxSpriteId, TRUE);
         return;
     }
 
@@ -1844,6 +1881,7 @@ static void UpdateStatusIconInHealthbox(u8 healthboxSpriteId)
         }
     }
     TryAddPokeballIconToHealthbox(healthboxSpriteId, FALSE);
+    TryAddFamilyReserveIconToHealthbox(healthboxSpriteId, FALSE);
 }
 
 static u8 GetStatusIconForBattlerId(u8 statusElementId, enum BattlerId battler)
@@ -3243,13 +3281,14 @@ void TryAddIVScannerItemSprites(void)
         return;
     if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
         return;
-    if (!CheckBagHasItem(ITEM_IV_SCANNER, 1))
+    if (!CheckBagHasItem(ITEM_IV_SCANNER, 1) && !CheckBagHasItem(ITEM_ADVANCED_IV_SCANNER, 1))
         return;
 
-    // IV Scanner icon (34px below Poke Ball shortcut)
+    // IV Scanner icon (34px below Poké Ball shortcut)
     if (gBattleStruct->ivScannerSpriteIds[0] == MAX_SPRITES)
     {
-        gBattleStruct->ivScannerSpriteIds[0] = AddItemIconSprite(TAG_IV_SCANNER_ICON, TAG_IV_SCANNER_ICON, ITEM_IV_SCANNER);
+        u16 scannerItemId = CheckBagHasItem(ITEM_ADVANCED_IV_SCANNER, 1) ? ITEM_ADVANCED_IV_SCANNER : ITEM_IV_SCANNER;
+        gBattleStruct->ivScannerSpriteIds[0] = AddItemIconSprite(TAG_IV_SCANNER_ICON, TAG_IV_SCANNER_ICON, scannerItemId);
         gSprites[gBattleStruct->ivScannerSpriteIds[0]].x = LAST_USED_BALL_X_0;
         gSprites[gBattleStruct->ivScannerSpriteIds[0]].y = LAST_USED_BALL_Y + 36;
         gSprites[gBattleStruct->ivScannerSpriteIds[0]].sHide = FALSE;

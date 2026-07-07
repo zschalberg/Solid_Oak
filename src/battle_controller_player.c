@@ -335,7 +335,7 @@ static void HandleInputChooseAction(enum BattlerId battler)
 
     if (JOY_NEW(L_BUTTON))
     {
-        if (!(gBattleTypeFlags & BATTLE_TYPE_TRAINER) && CheckBagHasItem(ITEM_IV_SCANNER, 1) && !gBattleStruct->ivScannerUsed)
+        if (!(gBattleTypeFlags & BATTLE_TYPE_TRAINER) && (CheckBagHasItem(ITEM_IV_SCANNER, 1) || CheckBagHasItem(ITEM_ADVANCED_IV_SCANNER, 1)) && !gBattleStruct->ivScannerUsed)
         {
             PlaySE(SE_SELECT);
             TryHideLastUsedBall();

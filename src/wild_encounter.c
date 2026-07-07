@@ -21,6 +21,7 @@
 #include "safari_zone.h"
 #include "script.h"
 #include "wild_encounter.h"
+#include "advanced_iv_scanner.h"
 #include "constants/maps.h"
 #include "constants/abilities.h"
 #include "constants/item.h"
@@ -598,6 +599,22 @@ bool8 TryStandardWildLandEncounter(u16 headerId, u32 currMetatileAttrs, enum Met
     GetSeasonAndTimeOfDayForEncounters(headerId, WILD_AREA_LAND, &season, &timeOfDay);
     if (gWildMonHeaders[headerId].encounterTypes[season][timeOfDay].landMonsInfo == NULL)
         return FALSE;
+
+    if (IsPlayerOnActiveHotspot())
+    {
+        gIsAdvIvScannerEncounter = TRUE;
+        if (TryGenerateWildMon(gWildMonHeaders[headerId].encounterTypes[season][timeOfDay].landMonsInfo, WILD_AREA_LAND, 0) == TRUE)
+        {
+            ApplyAdvancedIVScannerIVs(&gEnemyParty[0]);
+            BattleSetup_StartWildBattle();
+            ResolveAdvancedIVScannerHotspot(TRUE);
+            return TRUE;
+        }
+        gIsAdvIvScannerEncounter = FALSE;
+        ResolveAdvancedIVScannerHotspot(FALSE);
+        return FALSE;
+    }
+
     if (previousMetatileBehavior != ExtractMetatileAttribute(currMetatileAttrs, METATILE_ATTRIBUTE_BEHAVIOR) && !AllowWildCheckOnNewMetatile())
         return FALSE;
     if (WildEncounterCheck(gWildMonHeaders[headerId].encounterTypes[season][timeOfDay].landMonsInfo->encounterRate, FALSE) != TRUE)
@@ -645,6 +662,23 @@ bool8 TryStandardWildSurfEncounter(u16 headerId, u32 currMetatileAttrs, enum Met
     GetSeasonAndTimeOfDayForEncounters(headerId, WILD_AREA_WATER, &season, &timeOfDay);
     if (gWildMonHeaders[headerId].encounterTypes[season][timeOfDay].waterMonsInfo == NULL)
         return FALSE;
+
+    if (IsPlayerOnActiveHotspot())
+    {
+        gIsAdvIvScannerEncounter = TRUE;
+        if (TryGenerateWildMon(gWildMonHeaders[headerId].encounterTypes[season][timeOfDay].waterMonsInfo, WILD_AREA_WATER, 0) == TRUE)
+        {
+            ApplyAdvancedIVScannerIVs(&gEnemyParty[0]);
+            gIsSurfingEncounter = TRUE;
+            BattleSetup_StartWildBattle();
+            ResolveAdvancedIVScannerHotspot(TRUE);
+            return TRUE;
+        }
+        gIsAdvIvScannerEncounter = FALSE;
+        ResolveAdvancedIVScannerHotspot(FALSE);
+        return FALSE;
+    }
+
     if (previousMetatileBehavior != ExtractMetatileAttribute(currMetatileAttrs, METATILE_ATTRIBUTE_BEHAVIOR) && !AllowWildCheckOnNewMetatile())
         return FALSE;
     if (WildEncounterCheck(gWildMonHeaders[headerId].encounterTypes[season][timeOfDay].waterMonsInfo->encounterRate, FALSE) != TRUE)
@@ -1208,6 +1242,18 @@ static bool8 HandleWildEncounterCooldown(u32 currMetatileAttrs)
 bool8 TryStandardWildEncounter(u32 currMetatileAttrs)
 {
     u16 headerId = GetCurrentMapWildMonHeaderId();
+
+    if (IsPlayerOnActiveHotspot())
+    {
+        if (StandardWildEncounter(currMetatileAttrs, sWildEncounterData.prevMetatileBehavior) == TRUE)
+        {
+            sWildEncounterData.encounterRateBuff = 0;
+            sWildEncounterData.stepsSinceLastEncounter = 0;
+            sWildEncounterData.prevMetatileBehavior = ExtractMetatileAttribute(currMetatileAttrs, METATILE_ATTRIBUTE_BEHAVIOR);
+            return TRUE;
+        }
+    }
+
     if (headerId != HEADER_NONE && !HandleWildEncounterCooldown(currMetatileAttrs))
     {
         sWildEncounterData.prevMetatileBehavior = ExtractMetatileAttribute(currMetatileAttrs, METATILE_ATTRIBUTE_BEHAVIOR);

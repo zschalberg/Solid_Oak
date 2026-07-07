@@ -24,6 +24,7 @@
 #include "debug.h"
 #include "decompress.h"
 #include "dexnav.h"
+#include "advanced_iv_scanner.h"
 #include "dma3.h"
 #include "event_data.h"
 #include "evolution_scene.h"
@@ -5738,6 +5739,26 @@ static void FreeResetData_ReturnToOvOrDoEvolutions(void)
             gSaveBlock3Ptr->dexNavChain = 0;
 
         gDexNavSpecies = SPECIES_NONE;
+
+        if (gIsAdvIvScannerEncounter)
+        {
+            if (gBattleOutcome == B_OUTCOME_WON || gBattleOutcome == B_OUTCOME_CAUGHT)
+            {
+                if (gSaveBlock3Ptr->advIvScannerChain < 10)
+                    gSaveBlock3Ptr->advIvScannerChain++;
+            }
+            else
+            {
+                gSaveBlock3Ptr->advIvScannerChain = 0;
+            }
+            ClearAdvancedIVScannerHotspot();
+            gIsAdvIvScannerEncounter = FALSE;
+        }
+        else if (!(gBattleTypeFlags & (BATTLE_TYPE_TRAINER | BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK | BATTLE_TYPE_SAFARI | BATTLE_TYPE_FRONTIER | BATTLE_TYPE_EREADER_TRAINER | BATTLE_TYPE_POKEDUDE | BATTLE_TYPE_CATCH_TUTORIAL)))
+        {
+            gSaveBlock3Ptr->advIvScannerChain = 0;
+        }
+
         ResetSpriteData();
         if (!(gBattleTypeFlags & (BATTLE_TYPE_LINK
                                   | BATTLE_TYPE_RECORDED_LINK

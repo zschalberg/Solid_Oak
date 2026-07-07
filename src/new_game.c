@@ -201,4 +201,6 @@ static void ResetDexNav(void)
     memset(gSaveBlock3Ptr->dexNavSearchLevels, 0, sizeof(gSaveBlock3Ptr->dexNavSearchLevels));
 #endif
     gSaveBlock3Ptr->dexNavChain = 0;
+    gSaveBlock3Ptr->advIvScannerChain = 0;
+    gSaveBlock3Ptr->advIvScannerRoute = 0;
 }

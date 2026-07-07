@@ -6,6 +6,7 @@
 #include "clock.h"
 #include "credits.h"
 #include "dexnav.h"
+#include "advanced_iv_scanner.h"
 #include "event_data.h"
 #include "event_object_lock.h"
 #include "event_object_movement.h"
@@ -818,6 +819,7 @@ void LoadMapFromCameraTransition(u8 mapGroup, u8 mapNum)
     TrySetMapSaveWarpStatus();
     ClearTempFieldEventData();
     ResetDexNavSearch();
+    ResetAdvancedIVScannerSearch();
     ResetCyclingRoadChallengeData();
     RestartWildEncounterImmunitySteps();
     MapResetTrainerRematches(mapGroup, mapNum);
@@ -867,6 +869,7 @@ static void LoadMapFromWarp(bool32 unused)
     TrySetMapSaveWarpStatus();
     ClearTempFieldEventData();
     ResetDexNavSearch();
+    ResetAdvancedIVScannerSearch();
     // reset hours override on every warp
     sHoursOverride = 0;
     ResetCyclingRoadChallengeData();

@@ -7339,6 +7339,22 @@ const struct ItemInfo gItemsInfo[] =
         .iconPalette = gItemIconPalette_SilphScope,
     },
 
+    [ITEM_ADVANCED_IV_SCANNER] =
+    {
+        .name = ITEM_NAME("Adv. IV Scanner"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "An upgraded scanner\n"
+            "that locates wild\n"
+            "Pokémon with high IVs."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_FIELD,
+        .fieldUseFunc = ItemUseOutOfBattle_AdvancedIVScanner,
+        .iconPic = gItemIcon_SilphScope,
+        .iconPalette = gItemIconPalette_SilphScope,
+    },
+
 // Gems
     #if I_PRICE >= GEN_9
         #define GEM_PRICE 15000

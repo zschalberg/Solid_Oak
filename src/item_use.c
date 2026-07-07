@@ -22,6 +22,7 @@
 #include "follower_npc.h"
 #include "item_menu.h"
 #include "item_use.h"
+#include "advanced_iv_scanner.h"
 #include "item.h"
 #include "itemfinder.h"
 #include "mail.h"
@@ -424,6 +425,12 @@ void ItemUseOutOfBattle_Itemfinder(u8 taskId)
 {
     IncrementGameStat(GAME_STAT_USED_ITEMFINDER);
     sItemUseOnFieldCB = ItemUseOnFieldCB_Itemfinder;
+    SetUpItemUseOnFieldCallback(taskId);
+}
+
+void ItemUseOutOfBattle_AdvancedIVScanner(u8 taskId)
+{
+    sItemUseOnFieldCB = ItemUseOnFieldCB_AdvancedIVScanner;
     SetUpItemUseOnFieldCallback(taskId);
 }
 

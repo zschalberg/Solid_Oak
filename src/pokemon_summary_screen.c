@@ -519,12 +519,12 @@ static bool32 ShouldShowIvEvPrompt(void)
 {
     if (P_SUMMARY_SCREEN_IV_EV_BOX_ONLY)
     {
-        return (P_SUMMARY_SCREEN_IV_EV_INFO || FlagGet(P_FLAG_SUMMARY_SCREEN_IV_EV_INFO) || CheckBagHasItem(ITEM_IV_SCANNER, 1))
+        return (P_SUMMARY_SCREEN_IV_EV_INFO || FlagGet(P_FLAG_SUMMARY_SCREEN_IV_EV_INFO) || CheckBagHasItem(ITEM_IV_SCANNER, 1) || CheckBagHasItem(ITEM_ADVANCED_IV_SCANNER, 1))
             && sMonSummaryScreen->isBoxMon;
     }
     else if (!P_SUMMARY_SCREEN_IV_EV_BOX_ONLY)
     {
-        return (P_SUMMARY_SCREEN_IV_EV_INFO || FlagGet(P_FLAG_SUMMARY_SCREEN_IV_EV_INFO) || CheckBagHasItem(ITEM_IV_SCANNER, 1));
+        return (P_SUMMARY_SCREEN_IV_EV_INFO || FlagGet(P_FLAG_SUMMARY_SCREEN_IV_EV_INFO) || CheckBagHasItem(ITEM_IV_SCANNER, 1) || CheckBagHasItem(ITEM_ADVANCED_IV_SCANNER, 1));
     }
     return FALSE;
 }
