@@ -98,7 +98,7 @@ static const struct CompressedSpriteSheet sSpriteSheets_HealthBar[MAX_BATTLERS_C
     },
     {
         .data = gBlankGfxCompressed,
-        .size = 0x120,
+        .size = 0x140,
         .tag = TAG_HEALTHBAR_OPPONENT1_TILE,
     },
     {
@@ -108,7 +108,7 @@ static const struct CompressedSpriteSheet sSpriteSheets_HealthBar[MAX_BATTLERS_C
     },
     {
         .data = gBlankGfxCompressed,
-        .size = 0x120,
+        .size = 0x140,
         .tag = TAG_HEALTHBAR_OPPONENT2_TILE,
     },
 };
@@ -1009,6 +1009,7 @@ void HandleSpeciesGfxDataChange(enum BattlerId battlerAtk, enum BattlerId battle
         SetMonData(&gEnemyParty[gBattlerPartyIndexes[battlerAtk]], MON_DATA_NICKNAME, gSpeciesInfo[targetSpecies].speciesName);
         UpdateNickInHealthbox(gHealthboxSpriteIds[battlerAtk], &gEnemyParty[gBattlerPartyIndexes[battlerAtk]]);
         TryAddPokeballIconToHealthbox(gHealthboxSpriteIds[battlerAtk], TRUE);
+        TryAddFamilyReserveIconToHealthbox(gHealthboxSpriteIds[battlerAtk], TRUE);
     }
     else if (changeType == SPECIES_GFX_CHANGE_TRANSFORM)
     {

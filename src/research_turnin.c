@@ -65,16 +65,21 @@ bool8 IsSelectedMonResearchBall(void)
 }
 
 
+bool32 IsSpeciesFamilyReserved(enum Species species)
+{
+    enum Species baseSpecies = GetFamilyBaseSpecies(species);
+    u16 nationalNum = SpeciesToNationalPokedexNum(baseSpecies);
+
+    if (nationalNum == NATIONAL_DEX_NONE)
+        return FALSE;
+
+    return (gSaveBlock1Ptr->reserveSpeciesTurnedIn[nationalNum / 8] & (1 << (nationalNum % 8))) != 0;
+}
+
 static bool32 CheckIsNewFamily(struct Pokemon *mon)
 {
     enum Species species = GetMonData(mon, MON_DATA_SPECIES);
-    enum Species baseSpecies = GetFamilyBaseSpecies(species);
-    u16 nationalNum = SpeciesToNationalPokedexNum(baseSpecies);
-    
-    if (nationalNum == NATIONAL_DEX_NONE)
-        return FALSE;
-        
-    return !(gSaveBlock1Ptr->reserveSpeciesTurnedIn[nationalNum / 8] & (1 << (nationalNum % 8)));
+    return !IsSpeciesFamilyReserved(species);
 }
 
 bool8 IsSelectedMonNewFamily(void)
