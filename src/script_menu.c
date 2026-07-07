@@ -666,6 +666,7 @@ static const struct MenuAction sMultichoiceList_TestNpc[] =
     {COMPOUND_STRING("Select Mode")},
     {COMPOUND_STRING("Get Pokemon")},
     {COMPOUND_STRING("Battle Tester")},
+    {COMPOUND_STRING("Variable Mode")},
     {COMPOUND_STRING("Exit")},
 };
 

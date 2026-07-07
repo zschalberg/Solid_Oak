@@ -2584,9 +2584,14 @@ bool8 ScrCmd_dotrainerbattle(struct ScriptContext *ctx)
 
     u16 trainerId = gTrainerBattleParameter.params.opponentA;
     const struct Trainer *trainer = GetTrainerStructFromId(trainerId);
-    u8 selectCount = gSpecialVar_0x8008;
     u8 maxPoolSize = (trainer->poolSize != 0) ? trainer->poolSize : trainer->partySize;
-    
+    bool8 variablePreviewMode = FlagGet(FLAG_VARIABLE_PREVIEW_MODE);
+
+    if (variablePreviewMode && gSpecialVar_0x8008 == 0)
+        gSpecialVar_0x8008 = maxPoolSize;
+
+    u8 selectCount = gSpecialVar_0x8008;
+
     if (selectCount == 0 || selectCount > 6)
     {
         selectCount = 3;
@@ -2601,7 +2606,7 @@ bool8 ScrCmd_dotrainerbattle(struct ScriptContext *ctx)
         u8 restrictedType = GetMonotypeRestrictionType();
         if (restrictedType != TYPE_NONE)
         {
-            if (FlagGet(FLAG_PREVIEW_BATTLE))
+            if (FlagGet(FLAG_PREVIEW_BATTLE) || variablePreviewMode)
             {
                 if (GetUsable3v3PartyCount() < selectCount)
                 {
@@ -2612,6 +2617,8 @@ bool8 ScrCmd_dotrainerbattle(struct ScriptContext *ctx)
                     StringCopy(gStringVar1, gTypesInfo[restrictedType].name);
                     ConvertIntToDecimalStringN(gStringVar2, selectCount, STR_CONV_MODE_LEFT_ALIGN, 1);
                     ctx->scriptPtr = EventScript_AbortMonotype3v3Battle;
+                    gSpecialVar_0x8008 = 0;
+                    gSpecialVar_0x800A = 0;
                     return FALSE;
                 }
             }
@@ -2652,19 +2659,24 @@ bool8 ScrCmd_dotrainerbattle(struct ScriptContext *ctx)
         }
     }
 
-    if (FlagGet(FLAG_PREVIEW_BATTLE))
+    if (FlagGet(FLAG_PREVIEW_BATTLE) || variablePreviewMode)
     {
         FlagClear(FLAG_PREVIEW_BATTLE);
-        
+
         if (GetUsable3v3PartyCount() < selectCount)
         {
             ConvertIntToDecimalStringN(gStringVar1, selectCount, STR_CONV_MODE_LEFT_ALIGN, 1);
             ctx->scriptPtr = EventScript_Abort3v3Battle;
+            gSpecialVar_0x8008 = 0;
+            gSpecialVar_0x800A = 0;
             return FALSE;
         }
         else
         {
             ShowOpponentTeamPreview(trainerId, NULL);
+            gSpecialVar_0x8008 = 0;
+            gSpecialVar_0x800A = 0;
+            ScriptContext_Stop();
             return TRUE;
         }
     }

@@ -771,7 +771,7 @@
 #define FLAG_UNLOCK_POKEBALLS_IN_MARTS                   0x2E8
 #define FLAG_SCALE_BOSS_BATTLE                           0x2E9
 #define FLAG_SCALE_WILD_POKEMON                          0x2EA
-#define FLAG_0x2EB                                       0x2EB
+#define FLAG_VARIABLE_PREVIEW_MODE                       0x2EB
 #define FLAG_REVIVED_DOME                                0x2EC
 #define FLAG_REVIVED_HELIX                               0x2ED
 #define FLAG_REVIVED_AMBER                               0x2EE
