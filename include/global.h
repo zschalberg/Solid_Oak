@@ -662,7 +662,8 @@ struct SaveBlock2
     u8 optionsSound:1; // OPTIONS_SOUND_[MONO/STEREO]
     u8 optionsBattleStyle:1; // OPTIONS_BATTLE_STYLE_[SHIFT/SET]
     bool8 optionsBattleSceneOff:1; // whether battle animations are disabled
-    u8 unused1:5;
+    u8 optionsMusicSpeed:2; // 0 = NORMAL, 1 = 1/2 (2x SLOW), 2 = 1/3 (3x SLOW)
+    u8 unused1:3;
 
 #if FREE_POKEMON_JUMP == FALSE
     struct PokemonJumpRecords pokeJump;
