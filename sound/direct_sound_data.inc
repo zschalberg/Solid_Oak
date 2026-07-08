@@ -9042,3 +9042,19 @@ DirectSoundWaveData_sd90_classical_whistle::
 	.align 2
 DirectSoundWaveData_sd90_enhanced_delay_shaku::
 	.incbin "sound/direct_sound_samples/sd90_enhanced_delay_shaku.bin"
+
+	.align 2
+DirectSoundWaveData_osrs_accordion::
+	.incbin "sound/direct_sound_samples/osrs_accordion.bin"
+
+	.align 2
+DirectSoundWaveData_osrs_flute::
+	.incbin "sound/direct_sound_samples/osrs_flute.bin"
+
+	.align 2
+DirectSoundWaveData_osrs_guitar::
+	.incbin "sound/direct_sound_samples/osrs_guitar.bin"
+
+	.align 2
+DirectSoundWaveData_osrs_oboe::
+	.incbin "sound/direct_sound_samples/osrs_oboe.bin"
