@@ -31,6 +31,7 @@
 #include "pokemon_summary_screen.h"
 #include "region_map.h"
 #include "pokemon.h"
+#include "research_turnin.h"
 #include "reset_rtc_screen.h"
 #include "rtc.h"
 #include "scanline_effect.h"
@@ -130,6 +131,7 @@ extern const u16 gPokedexOrder_Weight[];
 
 static const u8 sText_No0000[] = _("0000");
 static const u8 sCaughtBall_Gfx[] = INCBIN_U8("graphics/pokedex/emerald/caught_ball.4bpp");
+static const u8 sReserveIndicator_Gfx[] = INCBIN_U8("graphics/pokedex/emerald/reserve_indicator.4bpp");
 static const u8 sText_TenDashes[] = _("----------");
 ALIGNED(4) static const u8 sExpandedPlaceholder_PokedexDescription[] = _("");
 static const u16 sSizeScreenSilhouette_Pal[] = INCBIN_U16("graphics/pokedex/emerald/size_silhouette.gbapal");
@@ -341,6 +343,7 @@ struct PokedexListItem
     enum NationalDexOrder dexNum;
     u16 seen:1;
     u16 owned:1;
+    u16 inReserve:1;
 };
 
 
@@ -476,6 +479,7 @@ static void FreeWindowAndBgBuffers(void);
 static void CreatePokedexList(u8, u8);
 static void CreateMonDexNum(u16, u8, u8, u16);
 static void CreateCaughtBall(u16, u8, u8, u16);
+static void CreateReserveIndicator(u16, u8, u8, u16);
 static u8 CreateMonName(u16, u8, u8);
 static void ClearMonListEntry(u8 x, u8 y, u16 unused);
 static void CreateMonSpritesAtPos(u16, u16);
@@ -2084,10 +2088,12 @@ static void ResetPokedexView(struct PokedexView *pokedexView)
         pokedexView->pokedexList[i].dexNum = 0xFFFF;
         pokedexView->pokedexList[i].seen = FALSE;
         pokedexView->pokedexList[i].owned = FALSE;
+        pokedexView->pokedexList[i].inReserve = FALSE;
     }
     pokedexView->pokedexList[NATIONAL_DEX_COUNT].dexNum = 0;
     pokedexView->pokedexList[NATIONAL_DEX_COUNT].seen = FALSE;
     pokedexView->pokedexList[NATIONAL_DEX_COUNT].owned = FALSE;
+    pokedexView->pokedexList[NATIONAL_DEX_COUNT].inReserve = FALSE;
     pokedexView->pokemonListCount = 0;
     pokedexView->selectedPokemon = 0;
     pokedexView->selectedPokemonBackup = 0;
@@ -2521,6 +2527,7 @@ static void CreatePokedexList(u8 dexMode, u8 order)
                 sPokedexView->pokedexList[i].dexNum = temp_dexNum;
                 sPokedexView->pokedexList[i].seen = GetSetPokedexFlag(temp_dexNum, FLAG_GET_SEEN);
                 sPokedexView->pokedexList[i].owned = GetSetPokedexFlag(temp_dexNum, FLAG_GET_CAUGHT);
+                sPokedexView->pokedexList[i].inReserve = IsSpeciesFamilyReserved(NationalPokedexNumToSpeciesHGSS(temp_dexNum));
                 if (sPokedexView->pokedexList[i].seen)
                     sPokedexView->pokemonListCount = i + 1;
             }
@@ -2538,6 +2545,7 @@ static void CreatePokedexList(u8 dexMode, u8 order)
                     sPokedexView->pokedexList[r5].dexNum = temp_dexNum;
                     sPokedexView->pokedexList[r5].seen = GetSetPokedexFlag(temp_dexNum, FLAG_GET_SEEN);
                     sPokedexView->pokedexList[r5].owned = GetSetPokedexFlag(temp_dexNum, FLAG_GET_CAUGHT);
+                    sPokedexView->pokedexList[r5].inReserve = IsSpeciesFamilyReserved(NationalPokedexNumToSpeciesHGSS(temp_dexNum));
                     if (sPokedexView->pokedexList[r5].seen)
                         sPokedexView->pokemonListCount = r5 + 1;
                     r5++;
@@ -2555,6 +2563,7 @@ static void CreatePokedexList(u8 dexMode, u8 order)
                 sPokedexView->pokedexList[sPokedexView->pokemonListCount].dexNum = temp_dexNum;
                 sPokedexView->pokedexList[sPokedexView->pokemonListCount].seen = TRUE;
                 sPokedexView->pokedexList[sPokedexView->pokemonListCount].owned = GetSetPokedexFlag(temp_dexNum, FLAG_GET_CAUGHT);
+                sPokedexView->pokedexList[sPokedexView->pokemonListCount].inReserve = IsSpeciesFamilyReserved(NationalPokedexNumToSpeciesHGSS(temp_dexNum));
                 sPokedexView->pokemonListCount++;
             }
         }
@@ -2569,6 +2578,7 @@ static void CreatePokedexList(u8 dexMode, u8 order)
                 sPokedexView->pokedexList[sPokedexView->pokemonListCount].dexNum = temp_dexNum;
                 sPokedexView->pokedexList[sPokedexView->pokemonListCount].seen = TRUE;
                 sPokedexView->pokedexList[sPokedexView->pokemonListCount].owned = TRUE;
+                sPokedexView->pokedexList[sPokedexView->pokemonListCount].inReserve = IsSpeciesFamilyReserved(NationalPokedexNumToSpeciesHGSS(temp_dexNum));
                 sPokedexView->pokemonListCount++;
             }
         }
@@ -2583,6 +2593,7 @@ static void CreatePokedexList(u8 dexMode, u8 order)
                 sPokedexView->pokedexList[sPokedexView->pokemonListCount].dexNum = temp_dexNum;
                 sPokedexView->pokedexList[sPokedexView->pokemonListCount].seen = TRUE;
                 sPokedexView->pokedexList[sPokedexView->pokemonListCount].owned = TRUE;
+                sPokedexView->pokedexList[sPokedexView->pokemonListCount].inReserve = IsSpeciesFamilyReserved(NationalPokedexNumToSpeciesHGSS(temp_dexNum));
                 sPokedexView->pokemonListCount++;
             }
         }
@@ -2597,6 +2608,7 @@ static void CreatePokedexList(u8 dexMode, u8 order)
                 sPokedexView->pokedexList[sPokedexView->pokemonListCount].dexNum = temp_dexNum;
                 sPokedexView->pokedexList[sPokedexView->pokemonListCount].seen = TRUE;
                 sPokedexView->pokedexList[sPokedexView->pokemonListCount].owned = TRUE;
+                sPokedexView->pokedexList[sPokedexView->pokemonListCount].inReserve = IsSpeciesFamilyReserved(NationalPokedexNumToSpeciesHGSS(temp_dexNum));
                 sPokedexView->pokemonListCount++;
             }
         }
@@ -2611,6 +2623,7 @@ static void CreatePokedexList(u8 dexMode, u8 order)
                 sPokedexView->pokedexList[sPokedexView->pokemonListCount].dexNum = temp_dexNum;
                 sPokedexView->pokedexList[sPokedexView->pokemonListCount].seen = TRUE;
                 sPokedexView->pokedexList[sPokedexView->pokemonListCount].owned = TRUE;
+                sPokedexView->pokedexList[sPokedexView->pokemonListCount].inReserve = IsSpeciesFamilyReserved(NationalPokedexNumToSpeciesHGSS(temp_dexNum));
                 sPokedexView->pokemonListCount++;
             }
         }
@@ -2622,6 +2635,7 @@ static void CreatePokedexList(u8 dexMode, u8 order)
         sPokedexView->pokedexList[i].dexNum = 0xFFFF;
         sPokedexView->pokedexList[i].seen = FALSE;
         sPokedexView->pokedexList[i].owned = FALSE;
+        sPokedexView->pokedexList[i].inReserve = FALSE;
     }
 }
 
@@ -2670,13 +2684,15 @@ static void CreateMonListEntry(u8 position, u16 b, u16 ignored)
                 if (sPokedexView->pokedexList[entryNum].seen)
                 {
                     CreateMonDexNum(entryNum, MON_LIST_X+1, i * 2, ignored);
-                    CreateCaughtBall(sPokedexView->pokedexList[entryNum].owned, MON_LIST_X, i * 2, ignored);
+                    CreateCaughtBall(sPokedexView->pokedexList[entryNum].owned, 4, i * 2, ignored);
+                    CreateReserveIndicator(sPokedexView->pokedexList[entryNum].inReserve, 12, i * 2, ignored);
                     CreateMonName(sPokedexView->pokedexList[entryNum].dexNum, MON_LIST_X + 5, i * 2);
                 }
                 else
                 {
                     CreateMonDexNum(entryNum, MON_LIST_X+1, i * 2, ignored);
-                    CreateCaughtBall(FALSE, MON_LIST_X, i * 2, ignored);
+                    CreateCaughtBall(FALSE, 4, i * 2, ignored);
+                    CreateReserveIndicator(FALSE, 12, i * 2, ignored);
                     CreateMonName(0, MON_LIST_X + 5, i * 2);
                 }
             }
@@ -2695,13 +2711,15 @@ static void CreateMonListEntry(u8 position, u16 b, u16 ignored)
             if (sPokedexView->pokedexList[entryNum].seen)
             {
                 CreateMonDexNum(entryNum, MON_LIST_X+1, sPokedexView->listVOffset * 2, ignored);
-                CreateCaughtBall(sPokedexView->pokedexList[entryNum].owned, MON_LIST_X, sPokedexView->listVOffset * 2, ignored);
+                CreateCaughtBall(sPokedexView->pokedexList[entryNum].owned, 4, sPokedexView->listVOffset * 2, ignored);
+                CreateReserveIndicator(sPokedexView->pokedexList[entryNum].inReserve, 12, sPokedexView->listVOffset * 2, ignored);
                 CreateMonName(sPokedexView->pokedexList[entryNum].dexNum, MON_LIST_X + 5, sPokedexView->listVOffset * 2);
             }
             else
             {
                 CreateMonDexNum(entryNum, MON_LIST_X+1, sPokedexView->listVOffset * 2, ignored);
-                CreateCaughtBall(FALSE, MON_LIST_X, sPokedexView->listVOffset * 2, ignored);
+                CreateCaughtBall(FALSE, 4, sPokedexView->listVOffset * 2, ignored);
+                CreateReserveIndicator(FALSE, 12, sPokedexView->listVOffset * 2, ignored);
                 CreateMonName(0, MON_LIST_X + 5, sPokedexView->listVOffset * 2);
             }
         }
@@ -2719,13 +2737,15 @@ static void CreateMonListEntry(u8 position, u16 b, u16 ignored)
             if (sPokedexView->pokedexList[entryNum].seen)
             {
                 CreateMonDexNum(entryNum, MON_LIST_X+1, vOffset * 2, ignored);
-                CreateCaughtBall(sPokedexView->pokedexList[entryNum].owned, MON_LIST_X, vOffset * 2, ignored);
+                CreateCaughtBall(sPokedexView->pokedexList[entryNum].owned, 4, vOffset * 2, ignored);
+                CreateReserveIndicator(sPokedexView->pokedexList[entryNum].inReserve, 12, vOffset * 2, ignored);
                 CreateMonName(sPokedexView->pokedexList[entryNum].dexNum, MON_LIST_X + 5, vOffset * 2);
             }
             else
             {
                 CreateMonDexNum(entryNum, MON_LIST_X+1, vOffset * 2, ignored);
-                CreateCaughtBall(FALSE, MON_LIST_X, vOffset * 2, ignored);
+                CreateCaughtBall(FALSE, 4, vOffset * 2, ignored);
+                CreateReserveIndicator(FALSE, 12, vOffset * 2, ignored);
                 CreateMonName(0, MON_LIST_X + 5, vOffset * 2);
             }
         }
@@ -2755,12 +2775,20 @@ static void CreateMonDexNum(u16 entryNum, u8 left, u8 top, u16 unused)
     PrintMonDexNumAndName(0, FONT_NARROW, text, left, top);
 }
 
-static void CreateCaughtBall(bool16 owned, u8 x, u8 y, u16 unused)
+static void CreateCaughtBall(bool16 owned, u8 pixelX, u8 y, u16 unused)
 {
     if (owned)
-        BlitBitmapToWindow(0, sCaughtBall_Gfx, x * 6, y * 8, 8, 16);
+        BlitBitmapToWindow(0, sCaughtBall_Gfx, pixelX, y * 8, 8, 16);
     else
-        FillWindowPixelRect(0, PIXEL_FILL(0), x * 6, y * 8, 8, 16);
+        FillWindowPixelRect(0, PIXEL_FILL(0), pixelX, y * 8, 8, 16);
+}
+
+static void CreateReserveIndicator(bool16 inReserve, u8 pixelX, u8 y, u16 unused)
+{
+    if (inReserve)
+        BlitBitmapToWindow(0, sReserveIndicator_Gfx, pixelX, y * 8, 8, 16);
+    else
+        FillWindowPixelRect(0, PIXEL_FILL(0), pixelX, y * 8, 8, 16);
 }
 
 static u8 CreateMonName(u16 num, u8 left, u8 top)
@@ -2778,7 +2806,7 @@ static u8 CreateMonName(u16 num, u8 left, u8 top)
 
 static void ClearMonListEntry(u8 x, u8 y, u16 unused)
 {
-    FillWindowPixelRect(0, PIXEL_FILL(0), x * 6, y * 8, 0x60, 16);
+    FillWindowPixelRect(0, PIXEL_FILL(0), 4, y * 8, 0x64, 16);
 }
 
 // u16 ignored is passed but never used
@@ -6281,12 +6309,19 @@ static void CreateCaughtBallEvolutionScreen(u16 targetSpecies, u8 x, u8 y, u16 u
 {
     bool8 owned = GetSetPokedexFlag(SpeciesToNationalPokedexNum(targetSpecies), FLAG_GET_CAUGHT);
     if (owned)
-        BlitBitmapToWindow(0, sCaughtBall_Gfx, x, y-1, 8, 16);
+        BlitBitmapToWindow(0, sCaughtBall_Gfx, x - 8, y-1, 8, 16);
     else
     {
         //FillWindowPixelRect(0, PIXEL_FILL(0), x, y, 8, 16); //not sure why this was even here
         PrintInfoScreenTextSmall(gText_BattleSwitchWhich5, FONT_SMALL, x+1, y-1);
     }
+}
+
+static void CreateReserveIndicatorEvolutionScreen(u16 targetSpecies, u8 x, u8 y, u16 unused)
+{
+    bool8 reserved = IsSpeciesFamilyReserved(targetSpecies);
+    if (reserved)
+        BlitBitmapToWindow(0, sReserveIndicator_Gfx, x, y-1, 8, 16);
 }
 
 static void HandlePreEvolutionSpeciesPrint(u8 taskId, enum Species preSpecies, enum Species species, u8 base_x, u8 base_y, u8 base_y_offset, u8 base_i)
@@ -6364,6 +6399,7 @@ static u8 PrintPreEvolutions(u8 taskId, enum Species species)
 
                 CopyItemName(GetSpeciesFormChanges(species)->param1, gStringVar2); //item
                 CreateCaughtBallEvolutionScreen(preEvolutionOne, base_x - 9 - 8, base_y + base_y_offset*(numPreEvolutions - 1), 0);
+                CreateReserveIndicatorEvolutionScreen(preEvolutionOne, base_x - 9 - 8, base_y + base_y_offset*(numPreEvolutions - 1), 0);
                 HandlePreEvolutionSpeciesPrint(taskId, preEvolutionOne, species, base_x - 8, base_y, base_y_offset, numPreEvolutions - 1);
                 return numPreEvolutions;
             }
@@ -6401,9 +6437,11 @@ static u8 PrintPreEvolutions(u8 taskId, enum Species species)
     if (HasTwoPreEvolutions(species))
     {
         CreateCaughtBallEvolutionScreen(preEvolutionOne, base_x - 9, base_y + base_y_offset*0, 0);
+        CreateReserveIndicatorEvolutionScreen(preEvolutionOne, base_x - 9, base_y + base_y_offset*0, 0);
         HandlePreEvolutionSpeciesPrint(taskId, preEvolutionOne, species, base_x, base_y, base_y_offset, 0);
 
         CreateCaughtBallEvolutionScreen(preEvolutionTwo, base_x - 9, base_y + base_y_offset*(numPreEvolutions - 1), 0);
+        CreateReserveIndicatorEvolutionScreen(preEvolutionTwo, base_x - 9, base_y + base_y_offset*(numPreEvolutions - 1), 0);
         HandlePreEvolutionSpeciesPrint(taskId, preEvolutionTwo, species, base_x, base_y, base_y_offset, numPreEvolutions - 1);
 
         sPokedexView->sEvoScreenData.targetSpecies[0] = preEvolutionOne;
@@ -6430,6 +6468,7 @@ static u8 PrintPreEvolutions(u8 taskId, enum Species species)
                     preEvolutionTwo = i;
                     numPreEvolutions += 1;
                     CreateCaughtBallEvolutionScreen(preEvolutionTwo, base_x - 9, base_y + base_y_offset*0, 0);
+                    CreateReserveIndicatorEvolutionScreen(preEvolutionTwo, base_x - 9, base_y + base_y_offset*0, 0);
                     HandlePreEvolutionSpeciesPrint(taskId, preEvolutionTwo, preEvolutionOne, base_x, base_y, base_y_offset, 0);
                     break;
                 }
@@ -6441,6 +6480,7 @@ static u8 PrintPreEvolutions(u8 taskId, enum Species species)
     if (preEvolutionOne != 0)
     {
         CreateCaughtBallEvolutionScreen(preEvolutionOne, base_x - 9, base_y + base_y_offset*(numPreEvolutions - 1), 0);
+        CreateReserveIndicatorEvolutionScreen(preEvolutionOne, base_x - 9, base_y + base_y_offset*(numPreEvolutions - 1), 0);
         HandlePreEvolutionSpeciesPrint(taskId, preEvolutionOne, species, base_x, base_y, base_y_offset, numPreEvolutions - 1);
     }
 
@@ -6559,6 +6599,7 @@ static void PrintEvolutionTargetSpeciesAndMethod(u8 taskId, enum Species species
 
         sPokedexView->sEvoScreenData.targetSpecies[*depth_i] = targetSpecies;
         CreateCaughtBallEvolutionScreen(targetSpecies, base_x + depth_x*depth-9, base_y + base_y_offset*(*depth_i) + numLines, 0);
+        CreateReserveIndicatorEvolutionScreen(targetSpecies, base_x + depth_x*depth-9, base_y + base_y_offset*(*depth_i) + numLines, 0);
         HandleTargetSpeciesPrintText(targetSpecies, base_x + depth_x*depth, base_y, base_y_offset + numLines, *depth_i); //evolution mon name
 
         for (j = 0; j < MAX_EVOLUTION_ICONS; j++)
@@ -7948,6 +7989,7 @@ static int DoPokedexSearch(u8 dexMode, u8 order, u8 abcGroup, enum BodyColor bod
             sPokedexView->pokedexList[i].dexNum = 0xFFFF;
             sPokedexView->pokedexList[i].seen = FALSE;
             sPokedexView->pokedexList[i].owned = FALSE;
+            sPokedexView->pokedexList[i].inReserve = FALSE;
         }
     }
 
