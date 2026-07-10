@@ -7,33 +7,14 @@ LavenderTown_FujiLab_Lobby_EventScript_Assistant::
 	msgbox LavenderTown_FujiLab_Lobby_Text_AssistantGreeting, MSGBOX_DEFAULT
 
 LavenderTown_FujiLab_Lobby_EventScript_LoopDeposit::
-	specialvar VAR_RESULT, CalculatePlayerPartyCount
-	compare VAR_RESULT, 1
-	goto_if_le LavenderTown_FujiLab_Lobby_EventScript_CantStoreLast
-
-	specialvar VAR_RESULT, IsThereRoomInAnyBoxForMorePokemon
-	compare VAR_RESULT, FALSE
-	goto_if_eq LavenderTown_FujiLab_Lobby_EventScript_StorageFull
-
 	msgbox LavenderTown_FujiLab_Lobby_Text_AskDeposit, MSGBOX_YESNO
 	compare VAR_RESULT, NO
 	goto_if_eq LavenderTown_FujiLab_Lobby_EventScript_AskUpgrade
 
-	special ChoosePartyMon
+	special ShowPokemonStorageSystemPC_MoveMode
 	waitstate
-	compare VAR_0x8004, 255 @ PARTY_NOTHING_CHOSEN
-	goto_if_eq LavenderTown_FujiLab_Lobby_EventScript_AskUpgrade
-
-	setvar VAR_0x8005, 255 @ Automatic box selection
-	fadescreenswapbuffers FADE_TO_BLACK
-	special FujiLab_Deposit
-	fadescreenswapbuffers FADE_FROM_BLACK
-	compare VAR_RESULT, FALSE
-	goto_if_eq LavenderTown_FujiLab_Lobby_EventScript_DepositFailed
-
-	playse SE_PC_LOGIN
-	msgbox LavenderTown_FujiLab_Lobby_Text_DepositSuccess, MSGBOX_DEFAULT
-	goto LavenderTown_FujiLab_Lobby_EventScript_LoopDeposit
+	callnative UpdateFollowingPokemon
+	goto LavenderTown_FujiLab_Lobby_EventScript_AskUpgrade
 
 LavenderTown_FujiLab_Lobby_EventScript_AskUpgrade::
 	goto_if_set FLAG_FUJI_LAB_UPGRADE, LavenderTown_FujiLab_Lobby_EventScript_Exit
@@ -55,18 +36,6 @@ LavenderTown_FujiLab_Lobby_EventScript_AskUpgrade::
 	hidemoneybox
 	release
 	end
-
-LavenderTown_FujiLab_Lobby_EventScript_CantStoreLast::
-	msgbox LavenderTown_FujiLab_Lobby_Text_CantStoreLast, MSGBOX_DEFAULT
-	goto LavenderTown_FujiLab_Lobby_EventScript_AskUpgrade
-
-LavenderTown_FujiLab_Lobby_EventScript_StorageFull::
-	msgbox LavenderTown_FujiLab_Lobby_Text_StorageFull, MSGBOX_DEFAULT
-	goto LavenderTown_FujiLab_Lobby_EventScript_AskUpgrade
-
-LavenderTown_FujiLab_Lobby_EventScript_DepositFailed::
-	msgbox LavenderTown_FujiLab_Lobby_Text_DepositFailed, MSGBOX_DEFAULT
-	goto LavenderTown_FujiLab_Lobby_EventScript_AskUpgrade
 
 LavenderTown_FujiLab_Lobby_EventScript_NotEnoughMoney::
 	msgbox LavenderTown_FujiLab_Lobby_Text_NotEnoughMoney, MSGBOX_DEFAULT
@@ -92,22 +61,8 @@ LavenderTown_FujiLab_Lobby_Text_AssistantGreeting:
 	.string "POKéMON SANCTUARY LAB.$"
 
 LavenderTown_FujiLab_Lobby_Text_AskDeposit:
-	.string "Would you like to store one of\n"
-	.string "your POKéMON with us?$"
-
-LavenderTown_FujiLab_Lobby_Text_DepositSuccess:
-	.string "Thank you! We've taken custody of\n"
-	.string "your POKéMON.$"
-
-LavenderTown_FujiLab_Lobby_Text_CantStoreLast:
-	.string "You cannot store your last POKéMON!$"
-
-LavenderTown_FujiLab_Lobby_Text_StorageFull:
-	.string "I'm sorry, but our Sanctuary rooms\n"
-	.string "are completely full!$"
-
-LavenderTown_FujiLab_Lobby_Text_DepositFailed:
-	.string "Failed to deposit POKéMON.$"
+	.string "Would you like to manage your\n"
+	.string "Sanctuary POKéMON?$"
 
 LavenderTown_FujiLab_Lobby_Text_AskUpgrade:
 	.string "We are currently looking for a donation\n"
