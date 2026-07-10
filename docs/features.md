@@ -130,6 +130,9 @@ Players can exchange Research Points for items and Pokémon:
 * **Porygon**: 1500 points (Level 20)
 * **Beldum**: 2000 points (Level 20)
 
+### Family Cataloged HP Bar Indicator
+* To aid cataloging wild species without duplicate turn-ins, a custom family indicator icon appears on the wild Pokémon's healthbar in battle if a member of that Pokémon's evolutionary family has **already been turned in to the Reserve**. This helps the player identify newly cataloged lines at a glance.
+
 ---
 
 ## 5. Mr. Fuji's Pokémon Sanctuary & Pidgeot Courier
@@ -148,9 +151,9 @@ Since modern PC storage systems do not yet exist, players store their boxed Pok�
 
 ---
 
-## 6. IV Scanner & Summary Screen Enhancements
+## 6. IV Scanner, Advanced IV Scanner & Summary Screen Enhancements
 
-A specialized analytical tool has been added to aid research on wild Pokémon statistics.
+Specialized analytical tools have been added to aid research on wild Pokémon statistics.
 
 ### IV/EV Summary Screen Unlock
 * The **IV Scanner** Key Item (`ITEM_IV_SCANNER`) dynamically unlocks a detailed IV/EV viewer tab in the Pokémon Summary Screen, exposing exact values.
@@ -164,6 +167,24 @@ A specialized analytical tool has been added to aid research on wild Pokémon st
 * **Aesthetic Fanfares**:
   * Scanning a Pokémon with perfect IVs plays the `MUS_LEVEL_UP` fanfare in battle.
   * Scanning an "Outstanding" Pokémon (total IVs $\ge 151$) triggers shiny sparkles (`DoShinySparkles`) on the opponent to represent its high IVs, superseding the fanfare.
+
+### Advanced IV Scanner & Chaining
+* **Advanced IV Scanner Key Item**: A new key item, the **Advanced IV Scanner** (`ITEM_ADVANCED_IV_SCANNER`), allows players to scan the surrounding overworld for wild Pokémon.
+* **Overworld Hotspot Detection**:
+  * Scans a $\pm 7$ by $\pm 5$ metatile range around the player.
+  * On foot: searches for tall grass or long grass.
+  * Surfing: searches for surfable water.
+  * If valid metatiles are found, one is randomly selected as an active **Hotspot**. The scanner plays directional audio beeps (`SE_DEX_SEARCH`) and visual overworld arrow/star indicators pointing to it.
+* **Visual Metatile Shaking**: When the player approaches within 3 tiles of the active Hotspot, the tile will visually shake (shaking grass, shaking long grass, or surfacing water ripples).
+* **Scanner Chaining & IV/Shiny Bonuses**:
+  * Stepping onto the Hotspot triggers a wild battle. Defeating or catching the Pokémon increments the Scanner Chain.
+  * The chain is preserved as long as the player remains in the same route map section.
+  * **IV Guarantees**:
+    * Chain $\ge 1$: At least 1 guaranteed perfect (31) IV stat.
+    * Chain $\ge 3$: At least 2 guaranteed perfect (31) IV stats.
+    * Chain $\ge 6$: At least 3 guaranteed perfect (31) IV stats.
+  * **Shiny Hunting**: Every chain count (up to 10) adds 2 extra shiny rolls during personality generation:
+    $$\text{Extra Shiny Rolls} = 2 \times \min(\text{Chain}, 10)$$
 
 ---
 
@@ -272,7 +293,8 @@ A team preview mechanism has been built to support competitive-style battle form
 * **Variable Selection Limits**: The system supports selection limits (from 1v1 up to 6v6) set via the game variable `gSpecialVar_0x8008` (defaulting to 3v3).
 * **Party Reordering and Restoration**: When the player selects their combatants, the engine reorders the party to put the chosen Pokémon at the front, zeroes out the rest of the party slots, and sets the active party size to the selection count. Once the battle ends, the engine automatically restores the full original party, positions, and stats.
 * **Asymmetric Team Selection**: Added support for asymmetric team selection counts for team preview battles.
-* **Matchup-Based AI Counter-Selection**: Opponent AI matchups now perform dynamic counter-selections based on typing and stats during preview.
+* **Matchup-Based AI Counter-Selection**: Opponent AI matchups now perform dynamic counter-selections based on typing and stats during preview. Move coverage type advantages are factored into matchup selection.
+* **Variable Team Preview Mode**: When `FLAG_VARIABLE_PREVIEW_MODE` is active, selection limits dynamically scale to match the opponent's party size rather than remaining locked to a fixed size limit.
 
 ---
 
@@ -282,6 +304,7 @@ New games no longer start in the player's bedroom in Pallet Town. Instead:
 * The player spawns in **S.S. Anne 1F Room 6** (a custom cabin room).
 * The player starts with the **S.S. Ticket** in their bag, the Pokédex activated, and standard starter flags already set.
 * Starter choices (Growlithe, Nidoran M, Exeggcute) are available in the room, where players choose their first partner to begin.
+* **Custom BGM (Sea Shanty 2)**: All S.S. Anne maps feature a custom MIDI track of RuneScape's *Sea Shanty 2*. The arrangement includes four custom-rendered 16kHz instruments (Accordion, Flute, Guitar, and Oboe) with looping support.
 
 ---
 
@@ -316,7 +339,23 @@ Specific trade and special evolutions are blocked until their respective story/r
 
 ---
 
-## 18. QoL & Miscellaneous Adjustments
+## 18. Route 23 Gate Removals
+
+* Traditional badge checkpoints, guards, and gate triggers on Route 23 checking for the player's 8 badges have been completely removed.
+* Access to Indigo Plateau and Victory Road is fully open, bypassing the gym badge check scripts.
+
+---
+
+## 19. Progressive Safari Zone Stages
+
+* **Dynamic Wild Encounters**: The wild encounters in all Safari Zone maps (Center, East, North, and West) are split into **5 progressive stages** (Stage 0 to Stage 4), governed by the game variable `VAR_SAFARI_ZONE_STAGE`.
+* **Stage-Based Wild Pools**: As the stage variable changes, the game automatically switches the active wild encounter table (header) to pull from different species pools and levels defined in `wild_encounters.json`.
+* **Pokédex Area Map Integration**: The Pokédex Area tracking system (`GetSpeciesPokedexAreaMarkers` and the Pokédex Emerald Area screen) dynamically filters Safari Zone map section markers to only display area highlights for a species if it is catchable in the *currently active* Safari Zone stage.
+* **Visual map & tileset updates**: Safari Zone layouts and Fuchsia City assets have been updated to support stage-specific visual transitions.
+
+---
+
+## 20. QoL & Miscellaneous Adjustments
 
 * **Help System Removal**: Disables all help system triggers in the main callbacks and removes the "HELP" mode option from the options menu (defaulting to LR buttons).
 * **Pokédex Interface Enhancements**:
@@ -332,6 +371,10 @@ Specific trade and special evolutions are blocked until their respective story/r
   * Updates the trainer card research title based on research milestones.
 * **Trainer Rematch Requirements**:
   * Sets badge requirements for rematches (`OW_REMATCH_BADGE_COUNT`) to **0**, allowing immediate rematches.
+* **Option Menu BGM Speed Options**:
+  * Adds a new "BGM SPEED" setting in the Option Menu. Players can adjust the playback speed of all background music to **NORMAL**, **1/2 (2x SLOW)**, or **1/3 (3x SLOW)**. This configuration is stored persistently in the player's Save Block (`SaveBlock2`) and regulates tempo controls dynamically in the GBA sound engine.
+* **Option Menu Layout Fix**:
+  * Resolved VRAM block overlapping conflicts in the Option Menu by shifting the top instruction bar's VRAM baseBlock, allowing clean background graphics rendering with the expanded menu height.
 * **Default Configurations Enabled**:
   * Default 10% chance for wild double battles (`B_DOUBLE_WILD_CHANCE`).
   * Double wild, smart wild AI, and no catching flags registered.
@@ -347,6 +390,16 @@ The following commits represent the custom features introduced in the `Solid-Oak
 
 | Commit Hash | Author | Description |
 | :--- | :--- | :--- |
+| `c64975cf9` | Zachary Schalberg | Commit BGM speed option sound wrappers, header declarations, and SaveBlock2 bitfield allocation |
+| `6acb75637` | Zachary Schalberg | Fix Option Menu background graphics glitch by shifting top instruction bar baseBlock to 0x1BC to resolve VRAM conflict |
+| `df2631016` | Zachary Schalberg | Add Sea Shanty 2 (original MIDI BGM) to S.S. Anne maps with custom looping 16kHz OSRS soundfont instruments |
+| `df0a3b296` | Zachary Schalberg | feat: Remove Route 23 badge check gates, triggers, and corresponding scripts |
+| `a8fb7c703` | Zachary Schalberg | feat: Declare TryAddFamilyReserveIconToHealthbox for healthbox indicator |
+| `04ad0a0c4` | Zachary Schalberg | feat: Implement Variable Team Preview Mode and add menu option to Battle Tester |
+| `aeb9e791a` | Zachary Schalberg | Factor move coverage into trainer pool matchup scoring |
+| `ed800d36c` | Zachary Schalberg | feat: Add opponent HP bar indicator for family turned in at reserve |
+| `4aaf7a699` | Zachary Schalberg | feat: Implement Advanced IV Scanner overworld key item with chaining, water surfing, and visual shake effects |
+| `8d10c1dbe` | Zachary Schalberg | Update features documentation table and adjust map layouts and warp configurations for Lavender Town Fuji Lab Lobby and Vermilion Gym |
 | `cc7471a0e` | Zachary Schalberg | Revise medicine crafting recipes to use bitter herbs |
 | `b4ef257f8` | Zachary Schalberg | Configure repel variables, follower disable flag, and gate Gengar/Slowpoke evolutions behind quests |
 | `c911404a9` | Zachary Schalberg | Commit converted mugshot graphics and test script text |
