@@ -1165,3 +1165,6 @@ EventScript_NoMoreRoomForPokemon::
 	msgbox Text_NoMoreRoomForPokemon
 	release
 	end
+
+	.include "data/maps/Fishing_Village_New/scripts.inc"
+	.include "data/maps/Fishing_Village_New/text.inc"
