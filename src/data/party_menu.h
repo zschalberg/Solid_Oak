@@ -61,6 +61,7 @@ static const u8 sText_OakImportantToGetToKnowPokemonThroughly[] = _("OAK: It's i
 static const u8 sText_OakThisIsListOfPokemon[] = _("This is a list of your POKéMON,\n{PLAYER}.\pOpen this to check the skills\nand moves of your POKéMON.\pYou also choose POKéMON here if\nyou want to use an item on one.{PAUSE_UNTIL_PRESS}");
 static const u8 sText_EscapeFromHereAndReturnTo[] = _("Want to escape from here and return\nto {STR_VAR_1}?");
 static const u8 sText_CancelBattle[] = _("Cancel the battle?");
+static const u8 sText_PreviewFewerSelected[] = _("{STR_VAR_1} Pokémon selected, {STR_VAR_2} allowed.\nContinue?");
 static const u8 sText_MonotypeRestrictionCantSwitch[] = _("This battle is restricted to\n{STR_VAR_2}-type POKéMON!\p{STR_VAR_1} cannot participate!{PAUSE_UNTIL_PRESS}");
 static const u8 sText_CantBattleInWater[] = _("{STR_VAR_1} can't battle\nin the water!{PAUSE_UNTIL_PRESS}");
 

@@ -281,6 +281,9 @@ static void CancelParticipationPrompt(u8 taskId);
 static void DisplayCancelChooseMonYesNo(u8 taskId);
 static void Task_CancelChooseMonYesNo(u8 taskId);
 static void Task_HandleCancelChooseMonYesNoInput(u8 taskId);
+static void DisplayFewerMonsSelectedYesNo(u8 taskId, u8 numSelected);
+static void Task_FewerMonsSelectedYesNo(u8 taskId);
+static void Task_HandleFewerMonsSelectedYesNoInput(u8 taskId);
 static void PartyMenuDisplayYesNoMenu(void);
 static void Task_ReturnToChooseMonAfterText(u8 taskId);
 static void UpdateCurrentPartySelection(s8 *slotPtr, s8 movementDir);
@@ -6915,8 +6918,22 @@ static void Task_ValidateChosenMonsForBattle(u8 taskId)
     {
         if (gSelectedOrderFromParty[0] != 0)
         {
-            PlaySE(SE_SELECT);
-            Task_ClosePartyMenu(taskId);
+            u8 numSelected = 0;
+            while (numSelected < gSelectCount && gSelectedOrderFromParty[numSelected] != 0)
+            {
+                numSelected++;
+            }
+
+            if (gIsPreviewChooseMons && numSelected < gSelectCount)
+            {
+                PlaySE(SE_SELECT);
+                DisplayFewerMonsSelectedYesNo(taskId, numSelected);
+            }
+            else
+            {
+                PlaySE(SE_SELECT);
+                Task_ClosePartyMenu(taskId);
+            }
         }
         else
         {
@@ -6924,6 +6941,41 @@ static void Task_ValidateChosenMonsForBattle(u8 taskId)
             DisplayPartyMenuStdMessage(PARTY_MSG_NO_MON_FOR_BATTLE);
             gTasks[taskId].func = Task_ContinueChoosingMonsForBattle;
         }
+    }
+}
+
+static void DisplayFewerMonsSelectedYesNo(u8 taskId, u8 numSelected)
+{
+    PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[1]);
+    ConvertIntToDecimalStringN(gStringVar1, numSelected, STR_CONV_MODE_LEFT_ALIGN, 1);
+    ConvertIntToDecimalStringN(gStringVar2, gSelectCount, STR_CONV_MODE_LEFT_ALIGN, 1);
+    StringExpandPlaceholders(gStringVar4, sText_PreviewFewerSelected);
+    DisplayPartyMenuMessage(gStringVar4, TRUE);
+    gTasks[taskId].func = Task_FewerMonsSelectedYesNo;
+}
+
+static void Task_FewerMonsSelectedYesNo(u8 taskId)
+{
+    if (IsPartyMenuTextPrinterActive() != TRUE)
+    {
+        PartyMenuDisplayYesNoMenu();
+        gTasks[taskId].func = Task_HandleFewerMonsSelectedYesNoInput;
+    }
+}
+
+static void Task_HandleFewerMonsSelectedYesNoInput(u8 taskId)
+{
+    switch (Menu_ProcessInputNoWrapClearOnChoose())
+    {
+    case 0: // Yes
+        PlaySE(SE_SELECT);
+        Task_ClosePartyMenu(taskId);
+        break;
+    case MENU_B_PRESSED:
+    case 1: // No
+        PlaySE(SE_SELECT);
+        Task_ReturnToChooseMonAfterText(taskId);
+        break;
     }
 }
 
@@ -6952,6 +7004,9 @@ static u8 GetMaxBattleEntries(void)
 
 static u8 GetMinBattleEntries(void)
 {
+    if (gIsPreviewChooseMons)
+        return 1;
+
     switch (VarGet(VAR_FRONTIER_FACILITY))
     {
     case FACILITY_MULTI_OR_EREADER:
