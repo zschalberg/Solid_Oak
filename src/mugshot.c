@@ -32,6 +32,7 @@ static const struct MugshotData sMugshots[] =
 };
 
 static EWRAM_DATA u8 sMugshotSpriteIds[2] = {0, 0};
+static EWRAM_DATA bool8 sMugshotActive[2] = {FALSE, FALSE};
 
 static const struct OamData sOamData_Mugshot =
 {
@@ -64,6 +65,8 @@ void InitMugshot(void)
 {
     sMugshotSpriteIds[MUGSHOT_LEFT] = MAX_SPRITES;
     sMugshotSpriteIds[MUGSHOT_RIGHT] = MAX_SPRITES;
+    sMugshotActive[MUGSHOT_LEFT] = FALSE;
+    sMugshotActive[MUGSHOT_RIGHT] = FALSE;
 }
 
 void ShowMugshot(u16 mugshotId, u8 position)
@@ -102,6 +105,7 @@ void ShowMugshot(u16 mugshotId, u8 position)
 
     // Render OBJ sprite
     sMugshotSpriteIds[position] = CreateSprite(&template, x, MUGSHOT_Y, 0);
+    sMugshotActive[position] = (sMugshotSpriteIds[position] != MAX_SPRITES);
 
     // If sprite slot allocation failed, release VRAM tiles/palette immediately
     if (sMugshotSpriteIds[position] == MAX_SPRITES)
@@ -116,12 +120,13 @@ void ClearMugshotAt(u8 position)
     if (position > MUGSHOT_RIGHT)
         return;
 
-    if (sMugshotSpriteIds[position] != MAX_SPRITES)
+    if (sMugshotActive[position])
     {
         DestroySprite(&gSprites[sMugshotSpriteIds[position]]);
         FreeSpriteTilesByTag(MUGSHOT_TILE_TAG(position));
         FreeSpritePaletteByTag(MUGSHOT_PALETTE_TAG(position));
         sMugshotSpriteIds[position] = MAX_SPRITES;
+        sMugshotActive[position] = FALSE;
     }
 }
 

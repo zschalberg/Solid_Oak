@@ -5670,8 +5670,18 @@ static void HandleEndTurn_FinishBattle(void)
 
                 for (u32 partySlot = 0; partySlot < PARTY_SIZE; partySlot++)
                 {
-                    if (side == B_SIDE_PLAYER && partySlot < 3)
-                        continue;
+                    if (side == B_SIDE_PLAYER)
+                    {
+                        if (gBattleTypeFlags & (BATTLE_TYPE_MULTI | BATTLE_TYPE_INGAME_PARTNER))
+                        {
+                            if (partySlot < 3)
+                                continue;
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                    }
 
                     if (gBattleOutcome == B_OUTCOME_CAUGHT && side == B_SIDE_OPPONENT && partySlot == gBattlerPartyIndexes[gBattlerTarget])
                         continue;

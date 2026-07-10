@@ -7606,6 +7606,8 @@ static inline s32 DoMoveDamageCalcVars(struct BattleContext *ctx)
         if (baseWeight > 0)
         {
             dmg = (dmg * (4 * baseWeight + actualWeight)) / (5 * baseWeight);
+            if (dmg == 0)
+                dmg = 1;
         }
     }
     DAMAGE_APPLY_MODIFIER(GetTargetDamageModifier(ctx));
