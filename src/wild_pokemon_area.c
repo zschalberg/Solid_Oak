@@ -193,6 +193,11 @@ s32 GetSpeciesPokedexAreaMarkers(enum Species species, struct Subsprite *subspri
     s32 alteringCaveCount;
     s32 alteringCaveNum;
     s32 i;
+    s32 centerHeaderCount = 0;
+    s32 eastHeaderCount = 0;
+    s32 northHeaderCount = 0;
+    s32 westHeaderCount = 0;
+    s32 activeSafariZoneStage;
 
     if (GetRoamerIndex(species) < ROAMER_COUNT)
         return GetRoamerPokedexAreaMarkers(species, subsprites);
@@ -203,11 +208,45 @@ s32 GetSpeciesPokedexAreaMarkers(enum Species species, struct Subsprite *subspri
     if (alteringCaveNum >= NUM_ALTERING_CAVE_TABLES)
         alteringCaveNum = 0;
 
+    activeSafariZoneStage = VarGet(VAR_SAFARI_ZONE_STAGE);
+    if (activeSafariZoneStage >= NUM_SAFARI_ZONE_STAGES)
+        activeSafariZoneStage = 0;
+
     if (forms == NULL)
         forms = fallbackFormTable;
 
     for (i = 0, areaCount = 0; gWildMonHeaders[i].mapGroup != MAP_GROUP(MAP_UNDEFINED); i++)
     {
+        // Filter Safari Zone headers to only check the active stage
+        if (gWildMonHeaders[i].mapGroup == MAP_GROUP(MAP_SAFARI_ZONE_CENTER) &&
+            gWildMonHeaders[i].mapNum == MAP_NUM(MAP_SAFARI_ZONE_CENTER))
+        {
+            centerHeaderCount++;
+            if (centerHeaderCount != activeSafariZoneStage + 1)
+                continue;
+        }
+        else if (gWildMonHeaders[i].mapGroup == MAP_GROUP(MAP_SAFARI_ZONE_EAST) &&
+                 gWildMonHeaders[i].mapNum == MAP_NUM(MAP_SAFARI_ZONE_EAST))
+        {
+            eastHeaderCount++;
+            if (eastHeaderCount != activeSafariZoneStage + 1)
+                continue;
+        }
+        else if (gWildMonHeaders[i].mapGroup == MAP_GROUP(MAP_SAFARI_ZONE_NORTH) &&
+                 gWildMonHeaders[i].mapNum == MAP_NUM(MAP_SAFARI_ZONE_NORTH))
+        {
+            northHeaderCount++;
+            if (northHeaderCount != activeSafariZoneStage + 1)
+                continue;
+        }
+        else if (gWildMonHeaders[i].mapGroup == MAP_GROUP(MAP_SAFARI_ZONE_WEST) &&
+                 gWildMonHeaders[i].mapNum == MAP_NUM(MAP_SAFARI_ZONE_WEST))
+        {
+            westHeaderCount++;
+            if (westHeaderCount != activeSafariZoneStage + 1)
+                continue;
+        }
+
         mapSecId = GetMapSecIdFromWildMonHeader(&gWildMonHeaders[i]);
         if (mapSecId == MAPSEC_ALTERING_CAVE_FRLG)
         {

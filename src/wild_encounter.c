@@ -340,6 +340,15 @@ u16 GetCurrentMapWildMonHeaderId(void)
                 i += alteringCaveId;
             }
 
+            if (IsSafariZoneMap(gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum))
+            {
+                u16 safariZoneStage = VarGet(VAR_SAFARI_ZONE_STAGE);
+                if (safariZoneStage >= NUM_SAFARI_ZONE_STAGES)
+                    safariZoneStage = 0;
+
+                i += safariZoneStage;
+            }
+
             if (!UnlockedTanobyOrAreNotInTanoby())
                 break;
             return i;

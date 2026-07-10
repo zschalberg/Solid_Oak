@@ -100,8 +100,6 @@ struct
     /*0x620*/ mapsec_u16_t specialAreaRegionMapSectionIds[MAX_AREA_MARKERS];
     /*0x660*/ struct Sprite *areaMarkerSprites[MAX_AREA_MARKERS];
     /*0x6E0*/ u16 numAreaMarkerSprites;
-    /*0x6E2*/ u16 alteringCaveCounter;
-    /*0x6E4*/ u16 alteringCaveId;
     /*0x6E8*/ u8 *screenSwitchState;
     /*0x6EC*/ struct RegionMap regionMap;
     /*0xF70*/ u8 charBuffer[64];
@@ -291,11 +289,19 @@ static void FindMapsWithMon(enum Species species)
     enum RegionMapType currentRegionMapType;
     u16 i;
     struct Roamer *roamer;
+    u16 alteringCaveCounter = 0;
+    u16 alteringCaveId = VarGet(VAR_ALTERING_CAVE_WILD_SET);
+    u16 centerHeaderCount = 0;
+    u16 eastHeaderCount = 0;
+    u16 northHeaderCount = 0;
+    u16 westHeaderCount = 0;
+    u16 activeSafariZoneStage = VarGet(VAR_SAFARI_ZONE_STAGE);
 
-    sPokedexAreaScreen->alteringCaveCounter = 0;
-    sPokedexAreaScreen->alteringCaveId = VarGet(VAR_ALTERING_CAVE_WILD_SET);
-    if (sPokedexAreaScreen->alteringCaveId >= NUM_ALTERING_CAVE_TABLES)
-        sPokedexAreaScreen->alteringCaveId = 0;
+    if (alteringCaveId >= NUM_ALTERING_CAVE_TABLES)
+        alteringCaveId = 0;
+
+    if (activeSafariZoneStage >= NUM_SAFARI_ZONE_STAGES)
+        activeSafariZoneStage = 0;
 
     sPokedexAreaScreen->numOverworldAreas = 0;
     sPokedexAreaScreen->numSpecialAreas = 0;
@@ -333,7 +339,45 @@ static void FindMapsWithMon(enum Species species)
     // Add regular species to the area map
     for (i = 0; gWildMonHeaders[i].mapGroup != MAP_GROUP(MAP_UNDEFINED); i++)
     {
+        // Filter Safari Zone headers to only check the active stage
+        if (gWildMonHeaders[i].mapGroup == MAP_GROUP(MAP_SAFARI_ZONE_CENTER) &&
+            gWildMonHeaders[i].mapNum == MAP_NUM(MAP_SAFARI_ZONE_CENTER))
+        {
+            centerHeaderCount++;
+            if (centerHeaderCount != activeSafariZoneStage + 1)
+                continue;
+        }
+        else if (gWildMonHeaders[i].mapGroup == MAP_GROUP(MAP_SAFARI_ZONE_EAST) &&
+                 gWildMonHeaders[i].mapNum == MAP_NUM(MAP_SAFARI_ZONE_EAST))
+        {
+            eastHeaderCount++;
+            if (eastHeaderCount != activeSafariZoneStage + 1)
+                continue;
+        }
+        else if (gWildMonHeaders[i].mapGroup == MAP_GROUP(MAP_SAFARI_ZONE_NORTH) &&
+                 gWildMonHeaders[i].mapNum == MAP_NUM(MAP_SAFARI_ZONE_NORTH))
+        {
+            northHeaderCount++;
+            if (northHeaderCount != activeSafariZoneStage + 1)
+                continue;
+        }
+        else if (gWildMonHeaders[i].mapGroup == MAP_GROUP(MAP_SAFARI_ZONE_WEST) &&
+                 gWildMonHeaders[i].mapNum == MAP_NUM(MAP_SAFARI_ZONE_WEST))
+        {
+            westHeaderCount++;
+            if (westHeaderCount != activeSafariZoneStage + 1)
+                continue;
+        }
+
         u32 headerSectionId = Overworld_GetMapHeaderByGroupAndId(gWildMonHeaders[i].mapGroup, gWildMonHeaders[i].mapNum)->regionMapSectionId;
+
+        // Filter Altering Cave headers to only check the active set
+        if (headerSectionId == MAPSEC_ALTERING_CAVE_FRLG)
+        {
+            alteringCaveCounter++;
+            if (alteringCaveCounter != alteringCaveId + 1)
+                continue;
+        }
 
         if (GetRegionMapType(headerSectionId) != currentRegionMapType)
             continue;
@@ -425,17 +469,6 @@ static mapsec_u16_t GetRegionMapSectionId(u8 mapGroup, u8 mapNum)
 
 static bool8 MapHasSpecies(const struct WildEncounterTypes *info, enum Species species)
 {
-    u32 headerId = GetCurrentMapWildMonHeaderId();
-    u8 currentMapGroup = gWildMonHeaders[headerId].mapGroup;
-    u8 currentMapNum = gWildMonHeaders[headerId].mapNum;
-    // If this is a header for Altering Cave, skip it if it's not the current Altering Cave encounter set
-    if (GetRegionMapSectionId(currentMapGroup, currentMapNum) == MAPSEC_ALTERING_CAVE_FRLG)
-    {
-        sPokedexAreaScreen->alteringCaveCounter++;
-        if (sPokedexAreaScreen->alteringCaveCounter != sPokedexAreaScreen->alteringCaveId + 1)
-            return FALSE;
-    }
-
     if (MonListHasSpecies(info->landMonsInfo, species, LAND_WILD_COUNT))
         return TRUE;
     if (MonListHasSpecies(info->waterMonsInfo, species, WATER_WILD_COUNT))

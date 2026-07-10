@@ -1196,8 +1196,8 @@
       "height": 36,
       "border_width": 3,
       "border_height": 2,
-      "primary_tileset": "gTileset_GeneralSummer",
-      "secondary_tileset": "gTileset_FuchsiaCitySummer",
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_FuchsiaCity",
       "border_filepath": "data/layouts/SafariZone_Center/border.bin",
       "blockdata_filepath": "data/layouts/SafariZone_Center/map.bin"
     },
@@ -1220,8 +1220,8 @@
       "height": 40,
       "border_width": 3,
       "border_height": 2,
-      "primary_tileset": "gTileset_General",
-      "secondary_tileset": "gTileset_FuchsiaCity",
+      "primary_tileset": "gTileset_GeneralSummer",
+      "secondary_tileset": "gTileset_FuchsiaCitySummer",
       "border_filepath": "data/layouts/SafariZone_North/border.bin",
       "blockdata_filepath": "data/layouts/SafariZone_North/map.bin"
     },
@@ -1232,8 +1232,8 @@
       "height": 36,
       "border_width": 3,
       "border_height": 2,
-      "primary_tileset": "gTileset_General",
-      "secondary_tileset": "gTileset_FuchsiaCity",
+      "primary_tileset": "gTileset_GeneralSummer",
+      "secondary_tileset": "gTileset_FuchsiaCitySummer",
       "border_filepath": "data/layouts/SafariZone_West/border.bin",
       "blockdata_filepath": "data/layouts/SafariZone_West/map.bin"
     },
@@ -4584,6 +4584,18 @@
       "secondary_tileset": "gTileset_Lab",
       "border_filepath": "data/layouts/Fuji_Lab/border.bin",
       "blockdata_filepath": "data/layouts/Fuji_Lab/map.bin"
+    },
+    {
+      "id": "LAYOUT_FISHING_VILLAGE",
+      "name": "Fishing_Village",
+      "width": 20,
+      "height": 20,
+      "border_width": 2,
+      "border_height": 2,
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_LavenderTown",
+      "border_filepath": "data/layouts/Fishing_Village/border.bin",
+      "blockdata_filepath": "data/layouts/Fishing_Village/map.bin"
     }
   ]
 }
