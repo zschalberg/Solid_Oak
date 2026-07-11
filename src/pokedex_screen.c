@@ -31,6 +31,7 @@
 #include "config/pokedex_plus_hgss.h"
 #include "constants/songs.h"
 #include "constants/sound.h"
+#include "research_turnin.h"
 
 #define POKEDEX_WINDOW_COUNT 16
 #define MAX_DEX_ITEMS_SHOWN 9
@@ -281,6 +282,7 @@ const u16 sTopMenuIconPals_Type[] = INCBIN_U16("graphics/pokedex/cat_icon_type.g
 const u16 sTopMenuIconPals_Lightest[] = INCBIN_U16("graphics/pokedex/cat_icon_lightest.gbapal");
 const u16 sTopMenuIconPals_Smallest[] = INCBIN_U16("graphics/pokedex/cat_icon_smallest.gbapal");
 const u8 sDexScreen_CaughtIcon[] = INCBIN_U8("graphics/pokedex/caught_marker.4bpp");
+static const u8 sReserveIndicator_Gfx[] = INCBIN_U8("graphics/pokedex/reserve_indicator.4bpp");
 const u32 sTilemap_AreaMap_Kanto[] = INCBIN_U32("graphics/pokedex/map_kanto.4bpp.smol");
 const u32 sTilemap_AreaMap_OneIsland[] = INCBIN_U32("graphics/pokedex/map_one_island.4bpp.smol");
 const u32 sTilemap_AreaMap_TwoIsland[] = INCBIN_U32("graphics/pokedex/map_two_island.4bpp.smol");
@@ -1811,7 +1813,7 @@ static u8 DexScreen_CreateDexOrderScrollArrows(void)
 
 static void ItemPrintFunc_OrderedListMenu(u8 windowId, u32 itemId, u8 y)
 {
-    enum Species species = itemId;
+    enum Species species = itemId & 0xFFFF;
     bool8 caught = (itemId >> 17) & 1;
     if (caught)
     {
@@ -1824,6 +1826,11 @@ static void ItemPrintFunc_OrderedListMenu(u8 windowId, u32 itemId, u8 y)
             if (type1 != gSpeciesInfo[species].types[1])
                 BlitMenuTypeIcon(sPokedexScreenData->numericalOrderWindowId, gSpeciesInfo[species].types[1], 162, y);
         }
+    }
+
+    if (IsSpeciesFamilyReserved(species))
+    {
+        BlitBitmapRectToWindow(sPokedexScreenData->numericalOrderWindowId, sReserveIndicator_Gfx, 0, 0, 8, 16, 24, y - 2, 8, 16);
     }
 }
 
