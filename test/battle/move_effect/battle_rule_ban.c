@@ -62,3 +62,32 @@ SINGLE_BATTLE_TEST("Without setting a Battle Rule, no move type/category restric
         ANIMATION(ANIM_TYPE_MOVE, MOVE_GROWL, player);
     }
 }
+
+SINGLE_BATTLE_TEST("Battle Rule with battleRuleAffectsOpponent bans the opponent too")
+{
+    GIVEN {
+        SetBattleRuleBanMoveType(TYPE_FIRE);
+        SetBattleRuleAffectsOpponent(TRUE);
+        PLAYER(SPECIES_WOBBUFFET) { Moves(MOVE_EMBER, MOVE_TACKLE); }
+        OPPONENT(SPECIES_WOBBUFFET) { Moves(MOVE_EMBER, MOVE_TACKLE); }
+    } WHEN {
+        TURN { MOVE(player, MOVE_EMBER, allowed: FALSE); MOVE(player, MOVE_TACKLE); MOVE(opponent, MOVE_EMBER, allowed: FALSE); MOVE(opponent, MOVE_TACKLE); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, player);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, opponent);
+    }
+}
+
+SINGLE_BATTLE_TEST("Battle Rule without battleRuleAffectsOpponent leaves the opponent unrestricted")
+{
+    GIVEN {
+        SetBattleRuleBanMoveType(TYPE_FIRE);
+        PLAYER(SPECIES_WOBBUFFET) { Moves(MOVE_EMBER, MOVE_TACKLE); }
+        OPPONENT(SPECIES_WOBBUFFET) { Moves(MOVE_EMBER); }
+    } WHEN {
+        TURN { MOVE(player, MOVE_EMBER, allowed: FALSE); MOVE(player, MOVE_TACKLE); MOVE(opponent, MOVE_EMBER); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, player);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_EMBER, opponent);
+    }
+}

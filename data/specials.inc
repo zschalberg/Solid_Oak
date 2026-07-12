@@ -352,5 +352,6 @@ gSpecials::
 	def_special CanTeachMoveBoxMon
 	def_special SetBattleRuleBanMoveTypeFromVar
 	def_special SetBattleRuleBanMoveCategoryFromVar
+	def_special SetBattleRuleAffectsOpponentFromVar
 	def_special ClearPendingBattleRules
 gSpecialsEnd::

@@ -2038,19 +2038,28 @@
 	.4byte \func
 	.endm
 
-	@ Bans the player from selecting moves of the given type in the next battle only. Stacks across multiple calls.
+	@ Bans moves of the given type in the next battle only. Stacks across multiple calls.
+	@ Applies to the player only, unless battleruleaffectsopponent TRUE has also been called.
 	.macro banmovetype type:req
 	setvar VAR_0x8004, \type
 	special SetBattleRuleBanMoveTypeFromVar
 	.endm
 
-	@ Bans the player from selecting moves of the given category (e.g. DAMAGE_CATEGORY_STATUS) in the next battle only. Stacks across multiple calls.
+	@ Bans moves of the given category (e.g. DAMAGE_CATEGORY_STATUS) in the next battle only. Stacks across multiple calls.
+	@ Applies to the player only, unless battleruleaffectsopponent TRUE has also been called.
 	.macro banmovecategory category:req
 	setvar VAR_0x8004, \category
 	special SetBattleRuleBanMoveCategoryFromVar
 	.endm
 
-	@ Clears any pending banmovetype/banmovecategory restrictions that have not yet been consumed by a battle.
+	@ Controls whether pending banmovetype/banmovecategory restrictions apply to the opponent as well as the player
+	@ in the next battle. Defaults to FALSE (player only) if never called.
+	.macro battleruleaffectsopponent value:req
+	setvar VAR_0x8004, \value
+	special SetBattleRuleAffectsOpponentFromVar
+	.endm
+
+	@ Clears any pending banmovetype/banmovecategory/battleruleaffectsopponent state that has not yet been consumed by a battle.
 	.macro clearbattlerules
 	special ClearPendingBattleRules
 	.endm

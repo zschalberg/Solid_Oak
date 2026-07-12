@@ -78,6 +78,7 @@ EWRAM_DATA static bool8 sShouldCheckTrainerBScript = FALSE;
 EWRAM_DATA static u8 sNoOfPossibleTrainerRetScripts = 0;
 EWRAM_DATA static u32 sPendingBattleRuleBannedMoveTypes = 0;
 EWRAM_DATA static u8 sPendingBattleRuleBannedMoveCategories = 0;
+EWRAM_DATA static bool8 sPendingBattleRuleAffectsOpponent = FALSE;
 
 // The first transition is used if the enemy Pokémon are lower level than our Pokémon.
 // Otherwise, the second transition is used.
@@ -864,6 +865,11 @@ void SetBattleRuleBanMoveCategory(enum DamageCategory category)
     sPendingBattleRuleBannedMoveCategories |= (1u << category);
 }
 
+void SetBattleRuleAffectsOpponent(bool8 affectsOpponent)
+{
+    sPendingBattleRuleAffectsOpponent = affectsOpponent;
+}
+
 void SetBattleRuleBanMoveTypeFromVar(void)
 {
     SetBattleRuleBanMoveType(gSpecialVar_0x8004);
@@ -874,16 +880,23 @@ void SetBattleRuleBanMoveCategoryFromVar(void)
     SetBattleRuleBanMoveCategory(gSpecialVar_0x8004);
 }
 
+void SetBattleRuleAffectsOpponentFromVar(void)
+{
+    SetBattleRuleAffectsOpponent(gSpecialVar_0x8004);
+}
+
 void ClearPendingBattleRules(void)
 {
     sPendingBattleRuleBannedMoveTypes = 0;
     sPendingBattleRuleBannedMoveCategories = 0;
+    sPendingBattleRuleAffectsOpponent = FALSE;
 }
 
 void ConsumePendingBattleRules(void)
 {
     gBattleStruct->battleRuleBannedMoveTypes = sPendingBattleRuleBannedMoveTypes;
     gBattleStruct->battleRuleBannedMoveCategories = sPendingBattleRuleBannedMoveCategories;
+    gBattleStruct->battleRuleAffectsOpponent = sPendingBattleRuleAffectsOpponent;
     ClearPendingBattleRules();
 }
 

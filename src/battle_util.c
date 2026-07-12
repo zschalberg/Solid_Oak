@@ -1440,7 +1440,7 @@ u32 TrySetCantSelectMoveBattleScript(enum BattlerId battler)
         }
     }
 
-    if (IsOnPlayerSide(battler)
+    if ((IsOnPlayerSide(battler) || gBattleStruct->battleRuleAffectsOpponent)
      && ((gBattleStruct->battleRuleBannedMoveTypes & (1u << GetBattleMoveType(move)))
       || (gBattleStruct->battleRuleBannedMoveCategories & (1u << GetBattleMoveCategory(move)))))
     {
@@ -1637,9 +1637,9 @@ u32 CheckMoveLimitations(enum BattlerId battler, u8 unusableMoves, u32 check)
         // Can't Use Twice flag
         else if (check & MOVE_LIMITATION_CANT_USE_TWICE && MoveCantBeUsedTwice(move) && move == gLastResultingMoves[battler])
             unusableMoves |= 1u << i;
-        // Battle Rule: banned move type/category (script-set, player only)
+        // Battle Rule: banned move type/category (script-set, player-only unless battleRuleAffectsOpponent is set)
         else if (check & MOVE_LIMITATION_BATTLE_RULE
-              && IsOnPlayerSide(battler)
+              && (IsOnPlayerSide(battler) || gBattleStruct->battleRuleAffectsOpponent)
               && ((gBattleStruct->battleRuleBannedMoveTypes & (1u << GetBattleMoveType(move)))
                || (gBattleStruct->battleRuleBannedMoveCategories & (1u << GetBattleMoveCategory(move)))))
             unusableMoves |= 1u << i;
