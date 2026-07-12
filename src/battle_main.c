@@ -13,6 +13,8 @@
 #include "battle_pyramid.h"
 #include "battle_scripts.h"
 #include "battle_setup.h"
+#include "battle_util.h"
+#include "water_battle.h"
 #include "battle_tower.h"
 #include "battle_z_move.h"
 #include "battle_gimmick.h"
@@ -22,6 +24,7 @@
 #include "debug.h"
 #include "decompress.h"
 #include "dexnav.h"
+#include "advanced_iv_scanner.h"
 #include "dma3.h"
 #include "event_data.h"
 #include "evolution_scene.h"
@@ -61,6 +64,7 @@
 #include "test_runner.h"
 #include "text.h"
 #include "trainer_pools.h"
+#include "team_preview.h"
 #include "trig.h"
 #include "type_icon_sprite.h"
 #include "util.h"
@@ -81,6 +85,8 @@
 #include "constants/trainer_slide.h"
 #include "constants/trainers.h"
 #include "constants/weather.h"
+#include "constants/flags.h"
+#include "constants/vars.h"
 #include "cable_club.h"
 #include "test/test_runner_battle.h"
 
@@ -1975,6 +1981,10 @@ u8 CreateNPCTrainerPartyFromTrainer(struct Pokemon *party, const struct Trainer 
             else
                 monsCount = trainer->partySize;
         }
+        else if (battleTypeFlags & BATTLE_TYPE_PREVIEW)
+        {
+            monsCount = gOpponentSelectCount;
+        }
         else
         {
             monsCount = trainer->partySize;
@@ -2012,7 +2022,36 @@ u8 CreateNPCTrainerPartyFromTrainer(struct Pokemon *party, const struct Trainer 
                 otId.method = OT_ID_PRESET;
                 otId.value = HIHALF(personalityValue) ^ LOHALF(personalityValue);
             }
-            CreateMon(&party[i], partyData[monIndex].species, partyData[monIndex].lvl, personalityValue, otId);
+            u8 level = partyData[monIndex].lvl;
+            if (FlagGet(FLAG_SCALE_BOSS_BATTLE))
+            {
+                u8 maxPlayerLvl = 1;
+                u32 p;
+                s32 offset = (s16)VarGet(VAR_SCALE_LEVEL_OFFSET);
+                for (p = 0; p < gPlayerPartyCount; p++)
+                {
+                    u8 lvl = GetMonData(&gPlayerParty[p], MON_DATA_LEVEL);
+                    if (lvl > maxPlayerLvl)
+                        maxPlayerLvl = lvl;
+                }
+                s32 scaledLevel = (s32)maxPlayerLvl + offset;
+                if (offset >= 0)
+                {
+                    if (scaledLevel < level)
+                        scaledLevel = level;
+                }
+                else
+                {
+                    if (scaledLevel > level)
+                        scaledLevel = level;
+                    if (scaledLevel < 1)
+                        scaledLevel = 1;
+                }
+                if (scaledLevel > 100)
+                    scaledLevel = 100;
+                level = (u8)scaledLevel;
+            }
+            CreateMon(&party[i], partyData[monIndex].species, level, personalityValue, otId);
             SetMonData(&party[i], MON_DATA_HELD_ITEM, &partyData[monIndex].heldItem);
 
             CustomTrainerPartyAssignMoves(&party[i], &partyData[monIndex]);
@@ -3848,7 +3887,15 @@ static void TryDoEventsBeforeFirstTurn(void)
             {
                 gBattleStruct->monToSwitchIntoId[battler] = PARTY_SIZE; // Included here because switches can happen before during set ups (eg. eject pack)
                 struct Pokemon *mon = GetBattlerMon(battler);
-                if (!IsBattlerAlive(battler) || gBattleMons[battler].species == SPECIES_NONE || GetMonData(mon, MON_DATA_IS_EGG))
+                bool32 waterIneligible = FALSE;
+                if (GetBattlerSide(battler) == B_SIDE_PLAYER)
+                {
+                    if (gBattleStruct->isUnderwaterBattle)
+                        waterIneligible = !CanMonParticipateInWaterBattle(mon);
+                    else if (gBattleStruct->isWaterBattle)
+                        waterIneligible = !CanMonParticipateInWaterBattle(mon) && !CanMonParticipateInSkyBattle(mon);
+                }
+                if (!IsBattlerAlive(battler) || gBattleMons[battler].species == SPECIES_NONE || GetMonData(mon, MON_DATA_IS_EGG) || waterIneligible)
                     gAbsentBattlerFlags |= 1u << battler;
             }
         }
@@ -4808,6 +4855,21 @@ u32 GetBattlerTotalSpeedStat(enum BattlerId battler, enum Ability ability, enum 
     if (gSideStatuses[GetBattlerSide(battler)] & SIDE_STATUS_SWAMP)
         speed /= 4;
 
+    {
+        u32 baseWeight = GetSpeciesWeight(gBattleMons[battler].species);
+        u32 actualWeight = GetIndividualWeight(gBattleMons[battler].species, gBattleMons[battler].personality);
+        if (baseWeight > 0)
+        {
+            u32 modifierNumerator = 6 * baseWeight;
+            if (modifierNumerator > actualWeight)
+                modifierNumerator -= actualWeight;
+            else
+                modifierNumerator = baseWeight; // floor speed multiplier at 0.2x if weight is extremely large
+            
+            speed = (speed * modifierNumerator) / (5 * baseWeight);
+        }
+    }
+
     return speed;
 }
 
@@ -5608,6 +5670,22 @@ static void HandleEndTurn_FinishBattle(void)
 
                 for (u32 partySlot = 0; partySlot < PARTY_SIZE; partySlot++)
                 {
+                    if (side == B_SIDE_PLAYER)
+                    {
+                        if (gBattleTypeFlags & (BATTLE_TYPE_MULTI | BATTLE_TYPE_INGAME_PARTNER))
+                        {
+                            if (partySlot < 3)
+                                continue;
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                    }
+
+                    if (gBattleOutcome == B_OUTCOME_CAUGHT && side == B_SIDE_OPPONENT && partySlot == gBattlerPartyIndexes[gBattlerTarget])
+                        continue;
+
                     if (gBattleStruct->partyState[side][partySlot].sentOut)
                         HandleSetPokedexFlagFromMon(&party[partySlot], FLAG_SET_SEEN);
                 }
@@ -5671,6 +5749,26 @@ static void FreeResetData_ReturnToOvOrDoEvolutions(void)
             gSaveBlock3Ptr->dexNavChain = 0;
 
         gDexNavSpecies = SPECIES_NONE;
+
+        if (gIsAdvIvScannerEncounter)
+        {
+            if (gBattleOutcome == B_OUTCOME_WON || gBattleOutcome == B_OUTCOME_CAUGHT)
+            {
+                if (gSaveBlock3Ptr->advIvScannerChain < 10)
+                    gSaveBlock3Ptr->advIvScannerChain++;
+            }
+            else
+            {
+                gSaveBlock3Ptr->advIvScannerChain = 0;
+            }
+            ClearAdvancedIVScannerHotspot();
+            gIsAdvIvScannerEncounter = FALSE;
+        }
+        else if (!(gBattleTypeFlags & (BATTLE_TYPE_TRAINER | BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK | BATTLE_TYPE_SAFARI | BATTLE_TYPE_FRONTIER | BATTLE_TYPE_EREADER_TRAINER | BATTLE_TYPE_POKEDUDE | BATTLE_TYPE_CATCH_TUTORIAL)))
+        {
+            gSaveBlock3Ptr->advIvScannerChain = 0;
+        }
+
         ResetSpriteData();
         if (!(gBattleTypeFlags & (BATTLE_TYPE_LINK
                                   | BATTLE_TYPE_RECORDED_LINK

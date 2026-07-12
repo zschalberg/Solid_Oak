@@ -26,12 +26,12 @@ static void Task_ItemfinderResponsePrintMessage(u8 taskId);
 static void Task_ItemfinderResponseCleanUp(u8 taskId);
 static void Task_ItemfinderUnderfootPrintMessage(u8 taskId);
 static void Task_ItemfinderUnderfootDigUpItem(u8 taskId);
-static void DestroyArrowAndStarTiles(void);
-static void LoadArrowAndStarTiles(void);
-static void CreateArrowSprite(u8 animNum, enum Direction direction);
+void DestroyArrowAndStarTiles(void);
+void LoadArrowAndStarTiles(void);
+void CreateArrowSprite(u8 animNum, enum Direction direction);
 static void SpriteCallback_Arrow(struct Sprite *sprite);
 static void SpriteCallback_DestroyArrow(struct Sprite *sprite);
-static u8 CreateStarSprite(void);
+u8 CreateStarSprite(void);
 static void SpriteCallback_Star(struct Sprite *sprite);
 static void SpriteCallback_DestroyStar(struct Sprite *sprite);
 
@@ -546,17 +546,17 @@ static void Task_ItemfinderUnderfootDigUpItem(u8 taskId)
 #define spCenterY data[6]
 #define spAnimNum data[7]
 
-static void LoadArrowAndStarTiles(void)
+void LoadArrowAndStarTiles(void)
 {
     LoadSpriteSheet(&sArrowAndStarSpriteSheet);
 }
 
-static void DestroyArrowAndStarTiles(void)
+void DestroyArrowAndStarTiles(void)
 {
     FreeSpriteTilesByTag(ARROW_TILE_TAG);
 }
 
-static void CreateArrowSprite(u8 animNum, enum Direction direction)
+void CreateArrowSprite(u8 animNum, enum Direction direction)
 {
     u8 spriteId = CreateSprite(&sSpriteTemplate_ArrowAndStar, 120, 76, 0);
     gSprites[spriteId].oam.paletteNum = gSaveBlock2Ptr->playerGender == MALE ? IndexOfSpritePaletteTag(OBJ_EVENT_PAL_TAG_PLAYER_RED) : IndexOfSpritePaletteTag(OBJ_EVENT_PAL_TAG_PLAYER_GREEN);
@@ -639,7 +639,7 @@ static void SpriteCallback_DestroyArrow(struct Sprite *sprite)
     DestroySprite(sprite);
 }
 
-static u8 CreateStarSprite(void)
+u8 CreateStarSprite(void)
 {
     u8 spriteId = CreateSprite(&sSpriteTemplate_ArrowAndStar, 120, 76, 0);
     gSprites[spriteId].oam.paletteNum = 0;

@@ -372,6 +372,14 @@ Text_DiveCantBeUsedHere::
 	.string "There is an obstacle above.\n"
 	.string "DIVE can't be used here.$"
 
+EventScript_AbortNoEligibleMon::
+	msgbox Text_NoEligibleMonForBattle, MSGBOX_DEFAULT
+	releaseall
+	end
+
+Text_NoEligibleMonForBattle::
+	.string "None of your POKéMON can\nparticipate in this battle!$"
+
 EventScript_FailSweetScent::
 	msgbox Text_LooksLikeNothingHere, MSGBOX_SIGN
 	end

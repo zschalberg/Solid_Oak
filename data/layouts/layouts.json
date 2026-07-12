@@ -197,11 +197,11 @@
       "id": "LAYOUT_VERMILION_CITY_GYM",
       "name": "VermilionCity_Gym_Layout",
       "width": 11,
-      "height": 21,
+      "height": 16,
       "border_width": 2,
       "border_height": 2,
       "primary_tileset": "gTileset_Building",
-      "secondary_tileset": "gTileset_VermilionGym",
+      "secondary_tileset": "gTileset_PewterGym",
       "border_filepath": "data/layouts/VermilionCity_Gym/border.bin",
       "blockdata_filepath": "data/layouts/VermilionCity_Gym/map.bin"
     },
@@ -380,7 +380,7 @@
       "height": 40,
       "border_width": 2,
       "border_height": 2,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_GeneralCustom",
       "secondary_tileset": "gTileset_ViridianCity",
       "border_filepath": "data/layouts/ViridianCity/border.bin",
       "blockdata_filepath": "data/layouts/ViridianCity/map.bin"
@@ -416,7 +416,7 @@
       "height": 20,
       "border_width": 2,
       "border_height": 2,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_GeneralAutumn",
       "secondary_tileset": "gTileset_LavenderTown",
       "border_filepath": "data/layouts/LavenderTown/border.bin",
       "blockdata_filepath": "data/layouts/LavenderTown/map.bin"
@@ -1220,8 +1220,8 @@
       "height": 40,
       "border_width": 3,
       "border_height": 2,
-      "primary_tileset": "gTileset_General",
-      "secondary_tileset": "gTileset_FuchsiaCity",
+      "primary_tileset": "gTileset_GeneralSummer",
+      "secondary_tileset": "gTileset_FuchsiaCitySummer",
       "border_filepath": "data/layouts/SafariZone_North/border.bin",
       "blockdata_filepath": "data/layouts/SafariZone_North/map.bin"
     },
@@ -1232,8 +1232,8 @@
       "height": 36,
       "border_width": 3,
       "border_height": 2,
-      "primary_tileset": "gTileset_General",
-      "secondary_tileset": "gTileset_FuchsiaCity",
+      "primary_tileset": "gTileset_GeneralSummer",
+      "secondary_tileset": "gTileset_FuchsiaCitySummer",
       "border_filepath": "data/layouts/SafariZone_West/border.bin",
       "blockdata_filepath": "data/layouts/SafariZone_West/map.bin"
     },
@@ -1852,12 +1852,12 @@
     {
       "id": "LAYOUT_CINNABAR_ISLAND_POKEMON_LAB_ENTRANCE",
       "name": "CinnabarIsland_PokemonLab_Entrance_Layout",
-      "width": 28,
-      "height": 11,
+      "width": 11,
+      "height": 30,
       "border_width": 2,
       "border_height": 2,
       "primary_tileset": "gTileset_Building",
-      "secondary_tileset": "gTileset_Lab",
+      "secondary_tileset": "gTileset_GenericBuilding2",
       "border_filepath": "data/layouts/CinnabarIsland_PokemonLab_Entrance/border.bin",
       "blockdata_filepath": "data/layouts/CinnabarIsland_PokemonLab_Entrance/map.bin"
     },
@@ -4572,6 +4572,30 @@
       "secondary_tileset": "gTileset_ArtisanCave",
       "border_filepath": "data/layouts/ArtisanCave_1F/border.bin",
       "blockdata_filepath": "data/layouts/ArtisanCave_1F/map.bin"
+    },
+    {
+      "id": "LAYOUT_FUJI_LAB",
+      "name": "Fuji_Lab",
+      "width": 34,
+      "height": 11,
+      "border_width": 2,
+      "border_height": 2,
+      "primary_tileset": "gTileset_Building",
+      "secondary_tileset": "gTileset_Lab",
+      "border_filepath": "data/layouts/Fuji_Lab/border.bin",
+      "blockdata_filepath": "data/layouts/Fuji_Lab/map.bin"
+    },
+    {
+      "id": "LAYOUT_FISHING_VILLAGE",
+      "name": "Fishing_Village",
+      "width": 20,
+      "height": 20,
+      "border_width": 2,
+      "border_height": 2,
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_LavenderTown",
+      "border_filepath": "data/layouts/Fishing_Village/border.bin",
+      "blockdata_filepath": "data/layouts/Fishing_Village/map.bin"
     }
   ]
 }

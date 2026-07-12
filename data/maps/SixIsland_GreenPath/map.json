@@ -71,9 +71,7 @@
       "dest_warp_id": "4"
     }
   ],
-  "coord_events": [
-
-  ],
+  "coord_events": [],
   "bg_events": [
     {
       "type": "sign",
@@ -96,7 +94,7 @@
       "x": 12,
       "y": 9,
       "elevation": 3,
-      "item": "ITEM_ULTRA_BALL",
+      "item": "ITEM_POKE_BALL",
       "flag": "FLAG_HIDDEN_ITEM_SIX_ISLAND_GREEN_PATH_ULTRA_BALL",
       "quantity": 1,
       "underfoot": false

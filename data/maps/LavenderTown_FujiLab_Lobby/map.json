@@ -1,0 +1,156 @@
+{
+  "id": "MAP_LAVENDER_TOWN_FUJI_LAB_LOBBY",
+  "name": "LavenderTown_FujiLab_Lobby",
+  "layout": "LAYOUT_CINNABAR_ISLAND_POKEMON_LAB_ENTRANCE",
+  "music": "MUS_CINNABAR",
+  "region_map_section": "MAPSEC_LAVENDER_TOWN",
+  "requires_flash": false,
+  "weather": "WEATHER_NONE",
+  "map_type": "MAP_TYPE_INDOOR",
+  "allow_cycling": false,
+  "allow_escaping": false,
+  "allow_running": true,
+  "show_map_name": false,
+  "floor_number": 0,
+  "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
+  "connections": null,
+  "object_events": [
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_SCIENTIST",
+      "x": 5,
+      "y": 23,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_LOOK_AROUND",
+      "movement_range_x": 1,
+      "movement_range_y": 1,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "LavenderTown_FujiLab_Lobby_EventScript_Assistant",
+      "flag": "0"
+    },
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_WORKER_M",
+      "x": 4,
+      "y": 19,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 1,
+      "movement_range_y": 1,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "LavenderTown_FujiLab_Lobby_EventScript_BlockedWorker",
+      "flag": "FLAG_FUJI_LAB_UPGRADE"
+    },
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_WORKER_M",
+      "x": 6,
+      "y": 19,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 1,
+      "movement_range_y": 1,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "LavenderTown_FujiLab_Lobby_EventScript_BlockedWorker",
+      "flag": "FLAG_FUJI_LAB_UPGRADE"
+    }
+  ],
+  "warp_events": [
+    {
+      "x": 5,
+      "y": 28,
+      "elevation": 3,
+      "dest_map": "MAP_LAVENDER_TOWN_VOLUNTEER_POKEMON_HOUSE",
+      "dest_warp_id": "3"
+    },
+    {
+      "x": 4,
+      "y": 28,
+      "elevation": 3,
+      "dest_map": "MAP_LAVENDER_TOWN_VOLUNTEER_POKEMON_HOUSE",
+      "dest_warp_id": "3"
+    },
+    {
+      "x": 6,
+      "y": 28,
+      "elevation": 3,
+      "dest_map": "MAP_LAVENDER_TOWN_VOLUNTEER_POKEMON_HOUSE",
+      "dest_warp_id": "3"
+    },
+    {
+      "x": 1,
+      "y": 24,
+      "elevation": 3,
+      "dest_map": "MAP_LAVENDER_TOWN_FUJI_LAB_ROOM1",
+      "dest_warp_id": "0"
+    },
+    {
+      "x": 9,
+      "y": 24,
+      "elevation": 3,
+      "dest_map": "MAP_LAVENDER_TOWN_FUJI_LAB_ROOM2",
+      "dest_warp_id": "0"
+    },
+    {
+      "x": 1,
+      "y": 19,
+      "elevation": 3,
+      "dest_map": "MAP_LAVENDER_TOWN_FUJI_LAB_ROOM3",
+      "dest_warp_id": "0"
+    },
+    {
+      "x": 9,
+      "y": 19,
+      "elevation": 0,
+      "dest_map": "MAP_LAVENDER_TOWN_FUJI_LAB_ROOM4",
+      "dest_warp_id": "0"
+    },
+    {
+      "x": 1,
+      "y": 14,
+      "elevation": 0,
+      "dest_map": "MAP_LAVENDER_TOWN_FUJI_LAB_ROOM5",
+      "dest_warp_id": "0"
+    },
+    {
+      "x": 9,
+      "y": 14,
+      "elevation": 0,
+      "dest_map": "MAP_LAVENDER_TOWN_FUJI_LAB_ROOM6",
+      "dest_warp_id": "0"
+    },
+    {
+      "x": 1,
+      "y": 9,
+      "elevation": 0,
+      "dest_map": "MAP_LAVENDER_TOWN_FUJI_LAB_ROOM7",
+      "dest_warp_id": "0"
+    },
+    {
+      "x": 9,
+      "y": 9,
+      "elevation": 0,
+      "dest_map": "MAP_LAVENDER_TOWN_FUJI_LAB_ROOM8",
+      "dest_warp_id": "0"
+    },
+    {
+      "x": 1,
+      "y": 4,
+      "elevation": 0,
+      "dest_map": "MAP_LAVENDER_TOWN_FUJI_LAB_ROOM9",
+      "dest_warp_id": "0"
+    },
+    {
+      "x": 9,
+      "y": 4,
+      "elevation": 0,
+      "dest_map": "MAP_LAVENDER_TOWN_FUJI_LAB_ROOM10",
+      "dest_warp_id": "0"
+    }
+  ],
+  "coord_events": [],
+  "bg_events": []
+}

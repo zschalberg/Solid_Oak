@@ -364,6 +364,9 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_PKMNPROTECTEDITSELF2]                 = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} protected itself!"),
     [STRINGID_PKMNBUFFETEDBYSANDSTORM]              = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} is buffeted by the sandstorm!"),
     [STRINGID_PKMNPELTEDBYHAIL]                     = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} is buffeted by the hail!"),
+    [STRINGID_ELECTRICFLOORHEALS]                   = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} is healed by the electric floor!"),
+    [STRINGID_ELECTRICFLOORHURTS]                   = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} is hurt by the electric floor!"),
+    [STRINGID_POISONFOGPOISONS]                     = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} was poisoned by the poison fog!"),
     [STRINGID_PKMNSEEDED]                           = COMPOUND_STRING("{B_DEF_NAME_WITH_PREFIX} was seeded!"),
     [STRINGID_PKMNEVADEDATTACK]                     = COMPOUND_STRING("{B_DEF_NAME_WITH_PREFIX} avoided the attack!"),
     [STRINGID_PKMNSAPPEDBYLEECHSEED]                = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX}'s health is sapped by Leech Seed!"),
@@ -498,6 +501,12 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_STARTEDHAIL]                          = COMPOUND_STRING("It started to hail!"),
     [STRINGID_HAILCONTINUES]                        = COMPOUND_STRING("The hail is crashing down."),
     [STRINGID_HAILSTOPPED]                          = COMPOUND_STRING("The hail stopped."),
+    [STRINGID_STARTEDELECTRICFLOOR]                 = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} charged the ground!"),
+    [STRINGID_STARTEDPOISONFOG]                     = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} created a poison fog!"),
+    [STRINGID_WEATHERENDEDELECTRICFLOOR]            = COMPOUND_STRING("The ground lost its charge."),
+    [STRINGID_WEATHERENDEDPOISONFOG]                = COMPOUND_STRING("The poison fog dissipated."),
+    [STRINGID_WEATHERTURNELECTRICFLOOR]             = COMPOUND_STRING("The ground continues to be charged."),
+    [STRINGID_WEATHERTURNPOISONFOG]                 = COMPOUND_STRING("The poison fog is thick."),
     [STRINGID_STATCHANGESGONE]                      = COMPOUND_STRING("All stat changes were eliminated!"),
     [STRINGID_COINSSCATTERED]                       = COMPOUND_STRING("Coins were scattered everywhere!"),
     [STRINGID_TOOWEAKFORSUBSTITUTE]                 = COMPOUND_STRING("But it does not have enough HP left to make a substitute!"),
@@ -511,6 +520,15 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_TRAINERBLOCKEDBALL]                   = COMPOUND_STRING("The Trainer blocked your Poké Ball!"),
     [STRINGID_DONTBEATHIEF]                         = COMPOUND_STRING("Don't be a thief!"),
     [STRINGID_ITDODGEDBALL]                         = COMPOUND_STRING("It dodged your thrown Poké Ball! This Pokémon can't be caught!"),
+    [STRINGID_PROTOBALL_FAILED]                     = COMPOUND_STRING("This Ball doesn't work on a Pokémon that strong!"),
+    [STRINGID_UNCOMMON_SIZE_CAUGHT]                 = COMPOUND_STRING("{B_DEF_NAME} was of exceptional size!\n(HT: {STR_VAR_1}% / WT: {STR_VAR_2}% - {COLOR BLUE}{SHADOW LIGHT_BLUE}Uncommon{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}!)\p"),
+    [STRINGID_RARE_SIZE_CAUGHT]                     = COMPOUND_STRING("{B_DEF_NAME} was of exceptional size!\n(HT: {STR_VAR_1}% / WT: {STR_VAR_2}% - {COLOR BLUE}{SHADOW LIGHT_BLUE}Rare{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}!)\p"),
+    [STRINGID_VERY_RARE_SIZE_CAUGHT]                = COMPOUND_STRING("{B_DEF_NAME} was of exceptional size!\n(HT: {STR_VAR_1}% / WT: {STR_VAR_2}% - {COLOR BLUE}{SHADOW LIGHT_BLUE}Very Rare{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}!)\p"),
+    [STRINGID_BERRY_CATCH_BOOST_RAZZ]              = COMPOUND_STRING("It's a little easier to catch wild Pokémon!"),
+    [STRINGID_BERRY_CATCH_BOOST_NANAB]             = COMPOUND_STRING("It's much easier to catch wild Pokémon now!"),
+    [STRINGID_BERRY_CATCH_EXPIRED]                 = COMPOUND_STRING("The berry's effect has worn off."),
+    [STRINGID_IVSCANNER_USE_AND_SCAN]              = COMPOUND_STRING("You used the {B_LAST_ITEM}!\nScanning {B_DEF_NAME}...\p"),
+    [STRINGID_IVSCANNER_RATING]                    = COMPOUND_STRING("Its overall potential is {STR_VAR_1}!{STR_VAR_2}"),
     [STRINGID_PKMNBROKEFREE]                        = COMPOUND_STRING("Oh no! The Pokémon broke free!"),
     [STRINGID_ITAPPEAREDCAUGHT]                     = COMPOUND_STRING("Aww! It appeared to be caught!"),
     [STRINGID_AARGHALMOSTHADIT]                     = COMPOUND_STRING("Aargh! Almost had it!"),
@@ -521,6 +539,8 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_PKMNDATAADDEDTODEX]                   = COMPOUND_STRING("{B_DEF_NAME}'s data has been added to the Pokédex!\p"),
     [STRINGID_ITISRAINING]                          = COMPOUND_STRING("It's raining!"),
     [STRINGID_SANDSTORMISRAGING]                    = COMPOUND_STRING("The sandstorm is raging!"),
+    [STRINGID_ELECTRICFLOORSTART]                   = COMPOUND_STRING("The ground is charged!"),
+    [STRINGID_POISONFOGSTART]                       = COMPOUND_STRING("The poison fog is thick!"),
     [STRINGID_CANTESCAPE2]                          = COMPOUND_STRING("You couldn't get away!\p"),
     [STRINGID_PKMNIGNORESASLEEP]                    = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} ignored orders and kept sleeping!"),
     [STRINGID_PKMNIGNOREDORDERS]                    = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} ignored orders!"),
@@ -1103,6 +1123,8 @@ const u16 gMoveWeatherChangeStringIds[] =
     [B_MSG_STARTED_HAIL]      = STRINGID_STARTEDHAIL,
     [B_MSG_STARTED_SNOW]      = STRINGID_STARTEDSNOW,
     [B_MSG_STARTED_FOG]       = STRINGID_FOGCREPTUP, // Unused, can use for custom moves that set fog
+    [B_MSG_STARTED_ELECTRIC_FLOOR] = STRINGID_STARTEDELECTRICFLOOR,
+    [B_MSG_STARTED_POISON_FOG]     = STRINGID_STARTEDPOISONFOG,
 };
 
 const u16 gAbilityWeatherChangeStringId[] =
@@ -1126,6 +1148,8 @@ const u16 gWeatherEndsStringIds[B_MSG_WEATHER_END_COUNT] =
     [B_MSG_WEATHER_END_SNOW]         = STRINGID_SNOWSTOPPED,
     [B_MSG_WEATHER_END_FOG]          = STRINGID_FOGLIFTED,
     [B_MSG_WEATHER_END_STRONG_WINDS] = STRINGID_STRONGWINDSDISSIPATED,
+    [B_MSG_WEATHER_END_ELECTRIC_FLOOR] = STRINGID_WEATHERENDEDELECTRICFLOOR,
+    [B_MSG_WEATHER_END_POISON_FOG]     = STRINGID_WEATHERENDEDPOISONFOG,
 };
 
 const u16 gWeatherTurnStringIds[] =
@@ -1138,12 +1162,15 @@ const u16 gWeatherTurnStringIds[] =
     [B_MSG_WEATHER_TURN_SNOW]         = STRINGID_SNOWCONTINUES,
     [B_MSG_WEATHER_TURN_FOG]          = STRINGID_FOGISDEEP,
     [B_MSG_WEATHER_TURN_STRONG_WINDS] = STRINGID_MYSTERIOUSAIRCURRENTBLOWSON,
+    [B_MSG_WEATHER_TURN_ELECTRIC_FLOOR] = STRINGID_WEATHERTURNELECTRICFLOOR,
+    [B_MSG_WEATHER_TURN_POISON_FOG]     = STRINGID_WEATHERTURNPOISONFOG,
 };
 
 const u16 gSandStormHailDmgStringIds[] =
 {
     [B_MSG_SANDSTORM] = STRINGID_PKMNBUFFETEDBYSANDSTORM,
-    [B_MSG_HAIL]      = STRINGID_PKMNPELTEDBYHAIL
+    [B_MSG_HAIL]      = STRINGID_PKMNPELTEDBYHAIL,
+    [B_MSG_ELECTRIC_FLOOR_DAMAGE] = STRINGID_ELECTRICFLOORHURTS,
 };
 
 const u16 gProtectLikeUsedStringIds[] =
@@ -1349,6 +1376,12 @@ const u16 gBallEscapeStringIds[] =
     [BALL_3_SHAKES_FAIL] = STRINGID_SHOOTSOCLOSE
 };
 
+const u16 gBerryCatchBoostStringIds[] =
+{
+    [0] = STRINGID_BERRY_CATCH_BOOST_RAZZ,
+    [1] = STRINGID_BERRY_CATCH_BOOST_NANAB,
+};
+
 // Overworld weathers that don't have an associated battle weather default to "It is raining."
 const u16 gWeatherStartsStringIds[] =
 {
@@ -1367,7 +1400,9 @@ const u16 gWeatherStartsStringIds[] =
     [WEATHER_DROUGHT]            = STRINGID_SUNLIGHTISHARSH,
     [WEATHER_DOWNPOUR]           = STRINGID_ITISRAINING,
     [WEATHER_UNDERWATER_BUBBLES] = STRINGID_ITISRAINING,
-    [WEATHER_ABNORMAL]           = STRINGID_ITISRAINING
+    [WEATHER_ABNORMAL]           = STRINGID_ITISRAINING,
+    [WEATHER_ELECTRIC_FLOOR]     = STRINGID_ELECTRICFLOORSTART,
+    [WEATHER_POISON_FOG]         = STRINGID_POISONFOGSTART,
 };
 
 const u16 gTerrainStartsStringIds[] =

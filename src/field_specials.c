@@ -61,7 +61,9 @@
 #include "constants/metatile_labels.h"
 #include "constants/moves.h"
 #include "constants/region_map_sections.h"
+#include "constants/flags.h"
 #include "constants/songs.h"
+#include "fuji_lab.h"
 
 #define TAG_ITEM_ICON 5500
 
@@ -672,9 +674,11 @@ bool8 IsThereRoomInAnyBoxForMorePokemon(void)
 {
     u16 i;
     u16 j;
-    for (i = 0; i < TOTAL_BOXES_COUNT; i++)
+    u16 boxCount = FlagGet(FLAG_SYS_CONVENTIONAL_PC_UNLOCKED) ? TOTAL_BOXES_COUNT : GetFujiLabRoomsCount();
+    u16 boxCapacity = FlagGet(FLAG_SYS_CONVENTIONAL_PC_UNLOCKED) ? IN_BOX_COUNT : GetBoxCapacityLimit();
+    for (i = 0; i < boxCount; i++)
     {
-        for (j = 0; j < IN_BOX_COUNT; j++)
+        for (j = 0; j < boxCapacity; j++)
         {
             if (GetBoxMonDataAt(i, j, MON_DATA_SPECIES) == SPECIES_NONE)
                 return TRUE;
@@ -3949,3 +3953,128 @@ static void Task_ReturnToFieldWhileLearningMove(u8 taskId)
 #undef tState
 #undef tPartyIndex
 #undef tMove
+
+u16 GetMaxCraftableQuantity(void)
+{
+    u16 ballType = gSpecialVar_0x8004;
+    u16 apricornId;
+    u16 apricornCount, kitCount;
+
+    switch (ballType)
+    {
+    case 0: apricornId = ITEM_RED_APRICORN; break;
+    case 1: apricornId = ITEM_BLUE_APRICORN; break;
+    case 2: apricornId = ITEM_GREEN_APRICORN; break;
+    case 3: apricornId = ITEM_BLACK_APRICORN; break;
+    default: return 0;
+    }
+
+    apricornCount = CountTotalItemQuantityInBag(apricornId);
+    kitCount = CountTotalItemQuantityInBag(ITEM_CONVERSION_KIT);
+
+    return (apricornCount < kitCount) ? apricornCount : kitCount;
+}
+
+u16 CraftProtoballs(void)
+{
+    u16 ballType = gSpecialVar_0x8004;
+    u16 quantity = gSpecialVar_0x8005;
+    u16 apricornId, ballId;
+
+    switch (ballType)
+    {
+    case 0:
+        apricornId = ITEM_RED_APRICORN;
+        ballId = ITEM_LEVEL_BALL;
+        break;
+    case 1:
+        apricornId = ITEM_BLUE_APRICORN;
+        ballId = ITEM_LURE_BALL;
+        break;
+    case 2:
+        apricornId = ITEM_GREEN_APRICORN;
+        ballId = ITEM_FRIEND_BALL;
+        break;
+    case 3:
+        apricornId = ITEM_BLACK_APRICORN;
+        ballId = ITEM_HEAVY_BALL;
+        break;
+    default:
+        return FALSE;
+    }
+
+    if (CountTotalItemQuantityInBag(apricornId) >= quantity &&
+        CountTotalItemQuantityInBag(ITEM_CONVERSION_KIT) >= quantity)
+    {
+        RemoveBagItem(apricornId, quantity);
+        RemoveBagItem(ITEM_CONVERSION_KIT, quantity);
+        AddBagItem(ballId, quantity);
+        return TRUE;
+    }
+    return FALSE;
+}
+
+u16 GetMaxMedicineCraftableQuantity(void)
+{
+    u16 medicineType = gSpecialVar_0x8004;
+    u16 berryId;
+    u16 berryCount, kitCount;
+
+    switch (medicineType)
+    {
+    case 0: berryId = ITEM_RAZZ_BERRY; break;
+    case 1: berryId = ITEM_BLUK_BERRY; break;
+    case 2: berryId = ITEM_NANAB_BERRY; break;
+    case 3: berryId = ITEM_WEPEAR_BERRY; break;
+    case 4: berryId = ITEM_PINAP_BERRY; break;
+    default: return 0;
+    }
+
+    berryCount = CountTotalItemQuantityInBag(berryId);
+    kitCount = CountTotalItemQuantityInBag(ITEM_BREWING_KIT);
+
+    return (berryCount < kitCount) ? berryCount : kitCount;
+}
+
+u16 CraftMedicine(void)
+{
+    u16 medicineType = gSpecialVar_0x8004;
+    u16 quantity = gSpecialVar_0x8005;
+    u16 berryId, medicineId;
+
+    switch (medicineType)
+    {
+    case 0:
+        berryId = ITEM_RAZZ_BERRY;
+        medicineId = ITEM_ENERGY_POWDER;
+        break;
+    case 1:
+        berryId = ITEM_BLUK_BERRY;
+        medicineId = ITEM_ENERGY_TONIC;
+        break;
+    case 2:
+        berryId = ITEM_NANAB_BERRY;
+        medicineId = ITEM_ENERGY_ROOT;
+        break;
+    case 3:
+        berryId = ITEM_WEPEAR_BERRY;
+        medicineId = ITEM_HEAL_POWDER;
+        break;
+    case 4:
+        berryId = ITEM_PINAP_BERRY;
+        medicineId = ITEM_REVIVAL_HERB;
+        break;
+    default:
+        return FALSE;
+    }
+
+    if (CountTotalItemQuantityInBag(berryId) >= quantity &&
+        CountTotalItemQuantityInBag(ITEM_BREWING_KIT) >= quantity)
+    {
+        RemoveBagItem(berryId, quantity);
+        RemoveBagItem(ITEM_BREWING_KIT, quantity);
+        AddBagItem(medicineId, quantity);
+        return TRUE;
+    }
+    return FALSE;
+}

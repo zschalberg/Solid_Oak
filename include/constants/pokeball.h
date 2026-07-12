@@ -34,4 +34,6 @@ enum PokeBall
     POKEBALL_COUNT
 };
 
+#define BALL_RESEARCH BALL_CHERISH
+
 #endif // GUARD_CONSTANTS_POKEBALL_H

@@ -21,6 +21,7 @@
 #include "safari_zone.h"
 #include "script.h"
 #include "wild_encounter.h"
+#include "advanced_iv_scanner.h"
 #include "constants/maps.h"
 #include "constants/abilities.h"
 #include "constants/item.h"
@@ -238,6 +239,7 @@ static u8 ChooseWildMonLevel(const struct WildPokemon *wildPokemon, u8 wildMonIn
     u8 max;
     u8 range;
     u8 rand;
+    u8 level;
 
     if (LURE_STEP_COUNT == 0)
     {
@@ -262,23 +264,57 @@ static u8 ChooseWildMonLevel(const struct WildPokemon *wildPokemon, u8 wildMonIn
             if (ability == ABILITY_HUSTLE || ability == ABILITY_VITAL_SPIRIT || ability == ABILITY_PRESSURE)
             {
                 if (Random() % 2 == 0)
-                    return max;
-
-                if (rand != 0)
+                    rand = range - 1;
+                else if (rand != 0)
                     rand--;
             }
         }
-        return min + rand;
+        level = min + rand;
     }
     else
     {
         // Looks for the max level of all slots that share the same species as the selected slot.
         max = GetMaxLevelOfSpeciesInWildTable(wildPokemon, wildPokemon[wildMonIndex].species, area);
         if (max > 0)
-            return max + 1;
+            level = max + 1;
         else // Failsafe
-            return wildPokemon[wildMonIndex].maxLevel + 1;
+            level = wildPokemon[wildMonIndex].maxLevel + 1;
     }
+
+    if (FlagGet(FLAG_SCALE_WILD_POKEMON))
+    {
+        u8 maxPlayerLvl = 1;
+        u32 p;
+        for (p = 0; p < gPlayerPartyCount; p++)
+        {
+            u8 lvl = GetMonData(&gPlayerParty[p], MON_DATA_LEVEL);
+            if (lvl > maxPlayerLvl)
+                maxPlayerLvl = lvl;
+        }
+
+        u8 scaledMax = maxPlayerLvl;
+        u8 scaledMin = (maxPlayerLvl > 10) ? (maxPlayerLvl - 10) : 1;
+        u8 scaledRange = scaledMax - scaledMin + 1;
+        u8 scaledRand = Random() % scaledRange;
+
+        if (!GetMonData(&gPlayerParty[0], MON_DATA_SANITY_IS_EGG))
+        {
+            u16 ability = GetMonAbility(&gPlayerParty[0]);
+            if (ability == ABILITY_HUSTLE || ability == ABILITY_VITAL_SPIRIT || ability == ABILITY_PRESSURE)
+            {
+                if (Random() % 2 == 0)
+                    scaledRand = scaledRange - 1;
+                else if (scaledRand != 0)
+                    scaledRand--;
+            }
+        }
+
+        u8 scaledLevel = scaledMin + scaledRand;
+        if (scaledLevel > level)
+            level = scaledLevel;
+    }
+
+    return level;
 }
 
 u16 GetCurrentMapWildMonHeaderId(void)
@@ -302,6 +338,15 @@ u16 GetCurrentMapWildMonHeaderId(void)
                     alteringCaveId = 0;
 
                 i += alteringCaveId;
+            }
+
+            if (IsSafariZoneMap(gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum))
+            {
+                u16 safariZoneStage = VarGet(VAR_SAFARI_ZONE_STAGE);
+                if (safariZoneStage >= NUM_SAFARI_ZONE_STAGES)
+                    safariZoneStage = 0;
+
+                i += safariZoneStage;
             }
 
             if (!UnlockedTanobyOrAreNotInTanoby())
@@ -563,6 +608,22 @@ bool8 TryStandardWildLandEncounter(u16 headerId, u32 currMetatileAttrs, enum Met
     GetSeasonAndTimeOfDayForEncounters(headerId, WILD_AREA_LAND, &season, &timeOfDay);
     if (gWildMonHeaders[headerId].encounterTypes[season][timeOfDay].landMonsInfo == NULL)
         return FALSE;
+
+    if (IsPlayerOnActiveHotspot())
+    {
+        gIsAdvIvScannerEncounter = TRUE;
+        if (TryGenerateWildMon(gWildMonHeaders[headerId].encounterTypes[season][timeOfDay].landMonsInfo, WILD_AREA_LAND, 0) == TRUE)
+        {
+            ApplyAdvancedIVScannerIVs(&gEnemyParty[0]);
+            BattleSetup_StartWildBattle();
+            ResolveAdvancedIVScannerHotspot(TRUE);
+            return TRUE;
+        }
+        gIsAdvIvScannerEncounter = FALSE;
+        ResolveAdvancedIVScannerHotspot(FALSE);
+        return FALSE;
+    }
+
     if (previousMetatileBehavior != ExtractMetatileAttribute(currMetatileAttrs, METATILE_ATTRIBUTE_BEHAVIOR) && !AllowWildCheckOnNewMetatile())
         return FALSE;
     if (WildEncounterCheck(gWildMonHeaders[headerId].encounterTypes[season][timeOfDay].landMonsInfo->encounterRate, FALSE) != TRUE)
@@ -610,6 +671,23 @@ bool8 TryStandardWildSurfEncounter(u16 headerId, u32 currMetatileAttrs, enum Met
     GetSeasonAndTimeOfDayForEncounters(headerId, WILD_AREA_WATER, &season, &timeOfDay);
     if (gWildMonHeaders[headerId].encounterTypes[season][timeOfDay].waterMonsInfo == NULL)
         return FALSE;
+
+    if (IsPlayerOnActiveHotspot())
+    {
+        gIsAdvIvScannerEncounter = TRUE;
+        if (TryGenerateWildMon(gWildMonHeaders[headerId].encounterTypes[season][timeOfDay].waterMonsInfo, WILD_AREA_WATER, 0) == TRUE)
+        {
+            ApplyAdvancedIVScannerIVs(&gEnemyParty[0]);
+            gIsSurfingEncounter = TRUE;
+            BattleSetup_StartWildBattle();
+            ResolveAdvancedIVScannerHotspot(TRUE);
+            return TRUE;
+        }
+        gIsAdvIvScannerEncounter = FALSE;
+        ResolveAdvancedIVScannerHotspot(FALSE);
+        return FALSE;
+    }
+
     if (previousMetatileBehavior != ExtractMetatileAttribute(currMetatileAttrs, METATILE_ATTRIBUTE_BEHAVIOR) && !AllowWildCheckOnNewMetatile())
         return FALSE;
     if (WildEncounterCheck(gWildMonHeaders[headerId].encounterTypes[season][timeOfDay].waterMonsInfo->encounterRate, FALSE) != TRUE)
@@ -1173,6 +1251,18 @@ static bool8 HandleWildEncounterCooldown(u32 currMetatileAttrs)
 bool8 TryStandardWildEncounter(u32 currMetatileAttrs)
 {
     u16 headerId = GetCurrentMapWildMonHeaderId();
+
+    if (IsPlayerOnActiveHotspot())
+    {
+        if (StandardWildEncounter(currMetatileAttrs, sWildEncounterData.prevMetatileBehavior) == TRUE)
+        {
+            sWildEncounterData.encounterRateBuff = 0;
+            sWildEncounterData.stepsSinceLastEncounter = 0;
+            sWildEncounterData.prevMetatileBehavior = ExtractMetatileAttribute(currMetatileAttrs, METATILE_ATTRIBUTE_BEHAVIOR);
+            return TRUE;
+        }
+    }
+
     if (headerId != HEADER_NONE && !HandleWildEncounterCooldown(currMetatileAttrs))
     {
         sWildEncounterData.prevMetatileBehavior = ExtractMetatileAttribute(currMetatileAttrs, METATILE_ATTRIBUTE_BEHAVIOR);

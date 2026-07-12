@@ -37,6 +37,12 @@ void AllocateBattleResources(void)
 #if B_FLAG_SKY_BATTLE
     gBattleStruct->isSkyBattle = FlagGet(B_FLAG_SKY_BATTLE);
 #endif
+#if B_FLAG_WATER_BATTLE
+    gBattleStruct->isWaterBattle      = FlagGet(B_FLAG_WATER_BATTLE);
+#endif
+#if B_FLAG_UNDERWATER_BATTLE
+    gBattleStruct->isUnderwaterBattle = FlagGet(B_FLAG_UNDERWATER_BATTLE);
+#endif
 
     gBattleResources = AllocZeroed(sizeof(*gBattleResources));
     gBattleResources->secretBase = AllocZeroed(sizeof(*gBattleResources->secretBase));

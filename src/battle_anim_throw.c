@@ -103,6 +103,7 @@ static void TimerBallOpenParticleAnimation(u8);
 static void PremierBallOpenParticleAnimation(u8);
 static void CB_CriticalCaptureThrownBallMovement(struct Sprite *sprite);
 static void SpriteCB_SafariBaitOrRock_Throw(struct Sprite *);
+static void SpriteCB_Berry_Throw(struct Sprite *);
 static void GhostBallDodge(struct Sprite *sprite);
 static void GhostBallDodge2(struct Sprite *sprite);
 
@@ -467,6 +468,14 @@ const struct SpriteTemplate gSafariBaitSpriteTemplate =
     .paletteTag = ANIM_TAG_SAFARI_BAIT,
     .oam = &gOamData_AffineOff_ObjNormal_16x16,
     .callback = SpriteCB_SafariBaitOrRock_Throw,
+};
+
+const struct SpriteTemplate gBerryBaitSpriteTemplate =
+{
+    .tileTag = ANIM_TAG_SAFARI_BAIT,
+    .paletteTag = ANIM_TAG_SAFARI_BAIT,
+    .oam = &gOamData_AffineOff_ObjNormal_16x16,
+    .callback = SpriteCB_Berry_Throw,
 };
 
 static const union AnimCmd sAnim_SafariRock[] =
@@ -2298,6 +2307,27 @@ void TryShinyAnimation(enum BattlerId battler, struct Pokemon *mon)
     gBattleSpritesDataPtr->healthBoxesData[battler].finishedShinyMonAnim = TRUE;
 }
 
+void DoShinySparkles(u8 battler)
+{
+    u8 taskCirc, taskDgnl;
+
+    if (IsBattlerSpriteVisible(battler) && !gTestRunnerHeadless)
+    {
+        if (GetSpriteTileStartByTag(ANIM_TAG_GOLD_STARS) == 0xFFFF)
+        {
+            LoadCompressedSpriteSheetUsingHeap(&gBattleAnimTable[GET_TRUE_SPRITE_INDEX(ANIM_TAG_GOLD_STARS)].pic);
+            LoadSpritePalette(&gBattleAnimTable[GET_TRUE_SPRITE_INDEX(ANIM_TAG_GOLD_STARS)].palette);
+        }
+
+        taskCirc = CreateTask(Task_ShinyStars, 10);
+        taskDgnl = CreateTask(Task_ShinyStars, 10);
+        gTasks[taskCirc].tBattler = battler;
+        gTasks[taskDgnl].tBattler = battler;
+        gTasks[taskCirc].tStarMove = SHINY_STAR_ENCIRCLE;
+        gTasks[taskDgnl].tStarMove = SHINY_STAR_DIAGONAL;
+    }
+}
+
 static void Task_ShinyStars(u8 taskId)
 {
     enum BattlerId battler;
@@ -2453,6 +2483,17 @@ void AnimTask_FreeBaitGfx(u8 taskId)
 #define sTargetX data[2]
 #define sTargetY data[4]
 #define sAmplitude data[5]
+
+static void SpriteCB_Berry_Throw(struct Sprite *sprite)
+{
+    InitSpritePosToAnimAttacker(sprite, FALSE);
+    sprite->sDuration = 30;
+    sprite->sTargetX = GetBattlerSpriteCoord(GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT), BATTLER_COORD_X) + gBattleAnimArgs[2];
+    sprite->sTargetY = GetBattlerSpriteCoord(GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT), BATTLER_COORD_Y) + gBattleAnimArgs[3];
+    sprite->sAmplitude = -32;
+    InitAnimArcTranslation(sprite);
+    sprite->callback = SpriteCB_SafariBaitOrRock_Arc;
+}
 
 static void SpriteCB_SafariBaitOrRock_Throw(struct Sprite *sprite)
 {

@@ -35,6 +35,9 @@ gBattlescriptsForUsingItem::
 	.4byte BattleScript_ItemRestorePP                @ EFFECT_ITEM_RESTORE_PP
 	.4byte BattleScript_ItemIncreaseAllStats         @ EFFECT_ITEM_INCREASE_ALL_STATS
 	.4byte BattleScript_UsePokeFlute                 @ EFFECT_ITEM_USE_POKE_FLUTE
+	.4byte BattleScript_ItemEnd                      @ EFFECT_ITEM_USE_BERRY_POUCH (gap filler)
+	.4byte BattleScript_BerryCatchBoost              @ EFFECT_ITEM_BERRY_CATCH_BOOST
+	.4byte BattleScript_IVScanner                    @ EFFECT_ITEM_IV_SCANNER
 
 BattleScript_WatchesCarefully::
 	printfromtable gSafariReactionStringIds
@@ -55,6 +58,15 @@ BattleScript_ThrowBait::
 	end2
 
 BattleScript_ItemEnd:
+	end
+
+BattleScript_BerryCatchBoost::
+	call BattleScript_UseItemMessage
+	playanimation BS_ATTACKER, B_ANIM_BERRY_THROW
+	waitanimation
+	callnative BS_ActivateBerryCatchModifier
+	printfromtable gBerryCatchBoostStringIds
+	waitmessage B_WAIT_TIME_LONG
 	end
 
 BattleScript_UseItemMessage:
@@ -253,6 +265,12 @@ BattleScript_ShakeBallThrow::
 	waitmessage B_WAIT_TIME_LONG
 	setbyte gBattleOutcome, B_OUTCOME_NO_SAFARI_BALLS
 BattleScript_ShakeBallThrowEnd::
+	callnative BS_CheckBerryCatchExpiry
+	finishaction
+
+BattleScript_BerryCatchExpiredMsg::
+	printstring STRINGID_BERRY_CATCH_EXPIRED
+	waitmessage B_WAIT_TIME_LONG
 	finishaction
 
 BattleScript_TrainerBallBlock::
@@ -312,3 +330,27 @@ BattleScript_GhostBallDodge::
 	printstring STRINGID_ITDODGEDBALL
 	waitmessage B_WAIT_TIME_LONG
 	finishaction
+
+BattleScript_ProtoBallFailed::
+	animatewildpokemonafterfailedpokeball BS_TARGET
+	waitmessage B_WAIT_TIME_LONG
+	printstring STRINGID_PROTOBALL_FAILED
+	waitmessage B_WAIT_TIME_LONG
+	finishaction
+
+
+BattleScript_PrintExceptionalSize::
+	printsavedstring
+	waitmessage B_WAIT_TIME_LONG
+	return
+
+BattleScript_IVScanner::
+	playse SE_USE_ITEM
+	printstring STRINGID_IVSCANNER_USE_AND_SCAN
+	waitmessage B_WAIT_TIME_LONG
+	callnative BS_UseIVScanner
+	printstring STRINGID_IVSCANNER_RATING
+	waitmessage B_WAIT_TIME_LONG
+	end
+
+

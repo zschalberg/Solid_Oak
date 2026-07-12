@@ -91,3 +91,5 @@ tools/compresSmol/compresSmolTilemap
 *.fastSmol
 *.smolTM
 __pycache__
+Backup_Files/
+

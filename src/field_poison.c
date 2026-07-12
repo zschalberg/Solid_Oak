@@ -15,6 +15,7 @@
 #include "constants/battle.h"
 #include "constants/field_poison.h"
 #include "constants/form_change_types.h"
+#include "constants/pokeball.h"
 
 #if OW_POISON_DAMAGE < GEN_4
 static const u8 sText_PkmnFainted_FldPsn[] = _("{STR_VAR_1} fainted…\p\n");
@@ -26,7 +27,8 @@ static bool32 IsMonValidSpecies(struct Pokemon *pokemon)
 {
     enum Species species = GetMonData(pokemon, MON_DATA_SPECIES_OR_EGG);
 
-    return species != SPECIES_NONE && species != SPECIES_EGG;
+    return species != SPECIES_NONE && species != SPECIES_EGG
+        && GetMonData(pokemon, MON_DATA_POKEBALL) != BALL_RESEARCH;
 }
 
 static bool32 AllMonsFainted(void)

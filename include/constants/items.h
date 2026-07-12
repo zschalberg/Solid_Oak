@@ -36,6 +36,8 @@ enum __attribute__((packed)) Item
     ITEM_PARK_BALL = 25,
     ITEM_BEAST_BALL = 26,
     ITEM_CHERISH_BALL = 27,
+#define ITEM_RESEARCH_BALL ITEM_CHERISH_BALL
+
 
     // Medicine
     ITEM_POTION = 28,
@@ -1048,6 +1050,13 @@ enum __attribute__((packed)) Item
     ITEM_BAXCALIBRITE = 871,
     ITEM_TATSUGIRINITE = 872,
     ITEM_GLIMMORANITE = 873,
+    ITEM_CONVERSION_KIT = 874,
+    ITEM_WORKBENCH = 875,
+    ITEM_BREWING_KIT = 876,
+    ITEM_COURIER_WHISTLE = 877,
+    ITEM_IV_SCANNER = 878,
+    ITEM_ENERGY_TONIC = 879,
+    ITEM_ADVANCED_IV_SCANNER = 880,
 
     ITEMS_COUNT,
     ITEM_FIELD_ARROW = ITEMS_COUNT,
@@ -1121,6 +1130,8 @@ enum ItemType
 #define EFFECT_ITEM_INCREASE_ALL_STATS      11
 #define EFFECT_ITEM_USE_POKE_FLUTE          12
 #define EFFECT_ITEM_USE_BERRY_POUCH         13
+#define EFFECT_ITEM_BERRY_CATCH_BOOST       14
+#define EFFECT_ITEM_IV_SCANNER              15
 
 // Enigma Berry dummy constant
 #define EFFECT_ITEM_ENIGMA_BERRY_EREADER    1

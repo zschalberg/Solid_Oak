@@ -13,6 +13,7 @@
 #include "strings.h"
 #include "task.h"
 #include "text_window.h"
+#include "sound.h"
 #include "gba/m4a_internal.h"
 
 // Menu items
@@ -23,6 +24,7 @@ enum
     MENUITEM_BATTLESTYLE,
     MENUITEM_SOUND,
     MENUITEM_BUTTONMODE,
+    MENUITEM_BGMSPEED,
     MENUITEM_FRAMETYPE,
     MENUITEM_CANCEL,
     MENUITEM_COUNT
@@ -86,7 +88,7 @@ static const struct WindowTemplate sOptionMenuWinTemplates[] =
         .tilemapLeft = 2,
         .tilemapTop = 7,
         .width = 26,
-        .height = 12,
+        .height = 14,
         .paletteNum = 1,
         .baseBlock = 0x36
     },
@@ -97,7 +99,7 @@ static const struct WindowTemplate sOptionMenuWinTemplates[] =
         .width = 30,
         .height = 2,
         .paletteNum = 15,
-        .baseBlock = 0x16e
+        .baseBlock = 0x1BC
     },
     DUMMY_WIN_TEMPLATE
 };
@@ -134,7 +136,7 @@ static const struct BgTemplate sOptionMenuBgTemplates[] =
 };
 
 static const u16 sOptionMenuPalette[] = INCBIN_U16("graphics/misc/option_menu.gbapal");
-static const u16 sOptionMenuItemCounts[MENUITEM_COUNT] = {3, 2, 2, 2, 3, 10, 0};
+static const u16 sOptionMenuItemCounts[MENUITEM_COUNT] = {3, 2, 2, 2, 2, 3, 10, 0};
 
 static const u8 *const sOptionMenuItemsNames[MENUITEM_COUNT] =
 {
@@ -143,8 +145,16 @@ static const u8 *const sOptionMenuItemsNames[MENUITEM_COUNT] =
     [MENUITEM_BATTLESTYLE] = COMPOUND_STRING("BATTLE STYLE"),
     [MENUITEM_SOUND]       = COMPOUND_STRING("SOUND"),
     [MENUITEM_BUTTONMODE]  = COMPOUND_STRING("BUTTON MODE"),
+    [MENUITEM_BGMSPEED]    = COMPOUND_STRING("BGM SPEED"),
     [MENUITEM_FRAMETYPE]   = COMPOUND_STRING("FRAME"),
     [MENUITEM_CANCEL]      = gText_Cancel,
+};
+
+static const u8 *const sBgmSpeedOptions[] =
+{
+    COMPOUND_STRING("NORMAL"),
+    COMPOUND_STRING("1/2 (2x SLOW)"),
+    COMPOUND_STRING("1/3 (3x SLOW)"),
 };
 
 static const u8 *const sTextSpeedOptions[] =
@@ -174,7 +184,6 @@ static const u8 *const sSoundOptions[] =
 
 static const u8 *const sButtonTypeOptions[] =
 {
-    gText_Help,
 	COMPOUND_STRING("LR"),
 	COMPOUND_STRING("L=A"),
 };
@@ -213,7 +222,8 @@ void CB2_InitOptionMenu(void)
     sOptionMenuPtr->option[MENUITEM_BATTLESCENE] = gSaveBlock2Ptr->optionsBattleSceneOff;
     sOptionMenuPtr->option[MENUITEM_BATTLESTYLE] = gSaveBlock2Ptr->optionsBattleStyle;
     sOptionMenuPtr->option[MENUITEM_SOUND] = gSaveBlock2Ptr->optionsSound;
-    sOptionMenuPtr->option[MENUITEM_BUTTONMODE] = gSaveBlock2Ptr->optionsButtonMode;
+    sOptionMenuPtr->option[MENUITEM_BUTTONMODE] = gSaveBlock2Ptr->optionsButtonMode - 1;
+    sOptionMenuPtr->option[MENUITEM_BGMSPEED] = gSaveBlock2Ptr->optionsMusicSpeed;
     sOptionMenuPtr->option[MENUITEM_FRAMETYPE] = gSaveBlock2Ptr->optionsWindowFrameType;
 
     for (i = 0; i < MENUITEM_COUNT - 1; i++)
@@ -495,6 +505,9 @@ static void BufferOptionMenuString(u8 selection)
     case MENUITEM_BUTTONMODE:
         AddTextPrinterParameterized3(1, FONT_NORMAL, x, y, dst, -1, sButtonTypeOptions[sOptionMenuPtr->option[selection]]);
         break;
+    case MENUITEM_BGMSPEED:
+        AddTextPrinterParameterized3(1, FONT_NORMAL, x, y, dst, -1, sBgmSpeedOptions[sOptionMenuPtr->option[selection]]);
+        break;
     case MENUITEM_FRAMETYPE:
         StringCopy(str, gText_Type);
         ConvertIntToDecimalStringN(buf, sOptionMenuPtr->option[selection] + 1, 1, 2);
@@ -517,8 +530,10 @@ static void CloseAndSaveOptionMenu(u8 taskId)
     gSaveBlock2Ptr->optionsBattleSceneOff = sOptionMenuPtr->option[MENUITEM_BATTLESCENE];
     gSaveBlock2Ptr->optionsBattleStyle = sOptionMenuPtr->option[MENUITEM_BATTLESTYLE];
     gSaveBlock2Ptr->optionsSound = sOptionMenuPtr->option[MENUITEM_SOUND];
-    gSaveBlock2Ptr->optionsButtonMode = sOptionMenuPtr->option[MENUITEM_BUTTONMODE];
+    gSaveBlock2Ptr->optionsButtonMode = sOptionMenuPtr->option[MENUITEM_BUTTONMODE] + 1;
+    gSaveBlock2Ptr->optionsMusicSpeed = sOptionMenuPtr->option[MENUITEM_BGMSPEED];
     gSaveBlock2Ptr->optionsWindowFrameType = sOptionMenuPtr->option[MENUITEM_FRAMETYPE];
+    ApplyBgmSpeedOption();
     SetPokemonCryStereo(gSaveBlock2Ptr->optionsSound);
     FREE_AND_SET_NULL(sOptionMenuPtr);
     DestroyTask(taskId);

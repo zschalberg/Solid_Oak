@@ -431,7 +431,8 @@ const u8 gHealthboxElementsGfxTable[][32] = INCBIN_U8("graphics/battle_interface
                                                   "graphics/battle_interface/status3.4bpp",
                                                   "graphics/battle_interface/status4.4bpp",
                                                   "graphics/battle_interface/healthbox_doubles_frameend.4bpp",
-                                                  "graphics/battle_interface/healthbox_doubles_frameend_bar.4bpp");
+                                                  "graphics/battle_interface/healthbox_doubles_frameend_bar.4bpp",
+                                                  "graphics/battle_interface/family_reserved_indicator.4bpp");
 
 const u32 gBattleInterfaceGfx_UnusedWindow3[] = INCBIN_U32("graphics/battle_interface/unused_window3.4bpp.smol");
 const u32 gBattleInterfaceGfx_UnusedWindow4[] = INCBIN_U32("graphics/battle_interface/unused_window4.4bpp.smol");
@@ -1363,7 +1364,28 @@ const u16 ALIGNED(4) gTilesetPalettes_General[][16] =
     INCBIN_U16("data/tilesets/primary/general/palettes/15.gbapal"),
 };
 
+const u16 ALIGNED(4) gTilesetPalettes_GeneralCustom[][16] =
+{
+    INCBIN_U16("data/tilesets/primary/general_custom/palettes/00.gbapal"),
+    INCBIN_U16("data/tilesets/primary/general_custom/palettes/01.gbapal"),
+    INCBIN_U16("data/tilesets/primary/general_custom/palettes/02.gbapal"),
+    INCBIN_U16("data/tilesets/primary/general_custom/palettes/03.gbapal"),
+    INCBIN_U16("data/tilesets/primary/general_custom/palettes/04.gbapal"),
+    INCBIN_U16("data/tilesets/primary/general_custom/palettes/05.gbapal"),
+    INCBIN_U16("data/tilesets/primary/general_custom/palettes/06.gbapal"),
+    INCBIN_U16("data/tilesets/primary/general_custom/palettes/07.gbapal"),
+    INCBIN_U16("data/tilesets/primary/general_custom/palettes/08.gbapal"),
+    INCBIN_U16("data/tilesets/primary/general_custom/palettes/09.gbapal"),
+    INCBIN_U16("data/tilesets/primary/general_custom/palettes/10.gbapal"),
+    INCBIN_U16("data/tilesets/primary/general_custom/palettes/11.gbapal"),
+    INCBIN_U16("data/tilesets/primary/general_custom/palettes/12.gbapal"),
+    INCBIN_U16("data/tilesets/primary/general_custom/palettes/13.gbapal"),
+    INCBIN_U16("data/tilesets/primary/general_custom/palettes/14.gbapal"),
+    INCBIN_U16("data/tilesets/primary/general_custom/palettes/15.gbapal"),
+};
+
 const u32 gTilesetTiles_General[] = INCBIN_U32("data/tilesets/primary/general/tiles.4bpp.smol");
+const u32 gTilesetTiles_GeneralCustom[] = INCBIN_U32("data/tilesets/primary/general_custom/tiles.4bpp.smol");
 
 const u16 gWallClockMale_Pal[]      = INCBIN_U16("graphics/wallclock/male.gbapal");
 const u16 gWallClockFemale_Pal[]    = INCBIN_U16("graphics/wallclock/female.gbapal");

@@ -179,6 +179,7 @@ void SetWarpDestinationToMapWarp(s8 mapGroup, s8 mapNum, s8 warpNum);
 void StoreInitialPlayerAvatarState(void);
 void TryFadeOutOldMapMusic(void);
 void UpdateAltBgPalettes(u16 palettes);
+void UpdateOverworldWindowLights(void);
 void UpdateAmbientCry(s16 *state, u16 *delayCounter);
 void UpdateEscapeWarp(s16 x, s16 y);
 void UpdatePalettesWithTime(u32);

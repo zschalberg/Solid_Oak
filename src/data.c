@@ -11,6 +11,7 @@
 #include "constants/items.h"
 #include "constants/moves.h"
 #include "constants/trainers.h"
+#include "trainer_pools.h"
 
 #define BATTLER_OFFSET(i) (gHeap + 0x8000 + MON_PIC_SIZE * (i))
 

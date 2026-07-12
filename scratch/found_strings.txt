@@ -1,0 +1,179 @@
+131: static const u8 sText_No0000[] = _("0000");
+133: static const u8 sText_TenDashes[] = _("----------");
+134: ALIGNED(4) static const u8 sExpandedPlaceholder_PokedexDescription[] = _("");
+137: static const u8 sText_Stats_Buttons[] = _("{A_BUTTON}TOGGLE   {DPAD_UPDOWN}MOVES");
+138: static const u8 sText_Stats_Buttons_Decapped[] = _("{A_BUTTON}Toggle   {DPAD_UPDOWN}Moves");
+139: static const u8 sText_Stats_HP[] = _("HP");
+140: static const u8 sText_Stats_Attack[] = _("ATK");
+141: static const u8 sText_Stats_Defense[] = _("DEF");
+142: static const u8 sText_Stats_Speed[] = _("SPE");
+143: static const u8 sText_Stats_SpAttack[] = _("SP.A");
+144: static const u8 sText_Stats_SpDefense[] = _("SP.D");
+145: static const u8 sText_Stats_EV_Plus1[] = _("{UP_ARROW_2}");
+146: static const u8 sText_Stats_EV_Plus2[] = _("{UP_ARROW_2}{UP_ARROW_2}");
+147: static const u8 sText_Stats_EV_Plus3[] = _("{UP_ARROW_2}{UP_ARROW_2}{UP_ARROW_2}");
+148: static const u8 sText_Stats_EvStr1Str2[] = _("{STR_VAR_1}{STR_VAR_2}");
+149: static const u8 sText_Stats_MoveSelectedMax[] = _("{STR_VAR_1} / {STR_VAR_2}");
+150: static const u8 sText_Stats_MoveLevel[] = _("LVL");
+151: static const u8 sText_Stats_Gender_0[] = _("♂");
+152: static const u8 sText_Stats_Gender_12_5[] = _("♀ 1/7 ♂"); //_("♀ 12.5 / 87.5 ♂");
+153: static const u8 sText_Stats_Gender_25[] = _("♀ 1/3 ♂");     //_("♀ 25 / 75 ♂");
+154: static const u8 sText_Stats_Gender_50[] = _("♀ 1/1 ♂");     //_("♀ 50 / 50 ♂");
+155: static const u8 sText_Stats_Gender_75[] = _("♀ 3/1 ♂");     //_("♀ 75 / 25 ♂");
+156: static const u8 sText_Stats_Gender_87_5[] = _("♀ 7/1 ♂");
+157: static const u8 sText_Stats_Gender_100[] = _("♀");
+158: static const u8 sText_Stats_CatchRate[] = _("CATCH{0x5B}: ");
+159: static const u8 sText_Stats_CatchRate_Legend[] = _("LEGENDARY");
+160: static const u8 sText_Stats_CatchRate_VeryHard[] = _("VERY HARD");
+161: static const u8 sText_Stats_CatchRate_Difficult[] = _("DIFFICULT");
+162: static const u8 sText_Stats_CatchRate_Medium[] = _("MEDIUM");
+163: static const u8 sText_Stats_CatchRate_Relaxed[] = _("RELAXED");
+164: static const u8 sText_Stats_CatchRate_Easy[] = _("EASY");
+165: static const u8 sText_Stats_ExpYield[] = _("EXP YIELD: ");
+166: static const u8 sText_Stats_EggCycles[] = _("HATCH STEPS:");
+167: static const u8 sText_Stats_EggCycles_VeryFast[] = _("{EMOJI_BOLT}{EMOJI_DIZZYEGG}");
+168: static const u8 sText_Stats_EggCycles_Fast[] = _("{EMOJI_DIZZYEGG}");
+169: static const u8 sText_Stats_EggCycles_Normal[] = _("{EMOJI_DIZZYEGG}{EMOJI_DIZZYEGG}");
+170: static const u8 sText_Stats_EggCycles_Slow[] = _("{EMOJI_DIZZYEGG}{EMOJI_DIZZYEGG}{EMOJI_DIZZYEGG}");
+171: static const u8 sText_Stats_Growthrate[] = _("GROW: ");
+172: static const u8 sText_Stats_Friendship[] = _("FRIENDSHIP:");
+173: static const u8 sText_Stats_Friendship_BigAnger[] = _("{EMOJI_BIGANGER}");
+174: static const u8 sText_Stats_Friendship_Neutral[] = _("{EMOJI_NEUTRAL}");
+175: static const u8 sText_Stats_Friendship_Happy[] = _("{EMOJI_HAPPY}");
+176: static const u8 sText_Stats_Friendship_BigSmile[] = _("{EMOJI_BIGSMILE}");
+177: static const u8 sText_Stats_MEDIUM_FAST[] = _("MED. FAST");
+178: static const u8 sText_Stats_ERRATIC[] = _("ERRATIC");
+179: static const u8 sText_Stats_FLUCTUATING[] = _("FLUCTUATING");
+180: static const u8 sText_Stats_MEDIUM_SLOW[] = _("MED. SLOW");
+181: static const u8 sText_Stats_FAST[] = _("FAST");
+182: static const u8 sText_Stats_SLOW[] = _("SLOW");
+183: static const u8 sText_Stats_ContestHeart[] = _("H");
+184: static const u8 sText_Stats_Minus[] = _("-");
+185: static const u8 sText_Stats_eggGroup[] = _("EGG G1:");
+186: static const u8 sText_Stats_eggGroup_Groups[] = _("{STR_VAR_1}/{STR_VAR_2}");
+187: static const u8 sText_Stats_eggGroup_MONSTER[] = _("MONSTER");
+188: static const u8 sText_Stats_eggGroup_WATER_1[] = _("WATER {CIRCLE_1}");
+189: static const u8 sText_Stats_eggGroup_BUG[] = _("BUG");
+190: static const u8 sText_Stats_eggGroup_FLYING[] = _("FLYING");
+191: static const u8 sText_Stats_eggGroup_FIELD[] = _("FIELD");
+192: static const u8 sText_Stats_eggGroup_FAIRY[] = _("FAIRY");
+193: static const u8 sText_Stats_eggGroup_GRASS[] = _("GRASS");
+194: static const u8 sText_Stats_eggGroup_HUMAN_LIKE[] = _("HUMANE");
+195: static const u8 sText_Stats_eggGroup_WATER_3[] = _("WATER {CIRCLE_3}");
+196: static const u8 sText_Stats_eggGroup_MINERAL[] = _("MINERAL");
+197: static const u8 sText_Stats_eggGroup_AMORPHOUS[] = _("AMORPHOUS");
+198: static const u8 sText_Stats_eggGroup_WATER_2[] = _("WATER {CIRCLE_2}");
+199: static const u8 sText_Stats_eggGroup_DITTO[] = _("DITTO");
+200: static const u8 sText_Stats_eggGroup_DRAGON[] = _("DRAGON");
+201: static const u8 sText_Stats_eggGroup_NO_EGGS_DISCOVERED[] = _("---");
+202: static const u8 sText_Stats_eggGroup_UNKNOWN[] = _("???");
+203: static const u8 sText_Dex_SEEN[] = _("SEEN");
+204: static const u8 sText_Dex_OWN[] = _("OWN");
+206: static const u8 sText_EVO_Buttons[] = _("{DPAD_UPDOWN}EVOs  {A_BUTTON}CHECK");
+207: static const u8 sText_EVO_Buttons_Decapped[] = _("{DPAD_UPDOWN}Evos  {A_BUTTON}Check");
+208: static const u8 sText_EVO_Buttons_PE[] = _("{DPAD_UPDOWN}EVOs  {A_BUTTON}CHECK  {START_BUTTON}FORMs");
+209: static const u8 sText_EVO_Buttons_Decapped_PE[] = _("{DPAD_UPDOWN}Evos  {A_BUTTON}Check  {START_BUTTON}Forms");
+210: static const u8 sText_EVO_Name[] = _("{STR_VAR_3}:");
+211: static const u8 sText_EVO_PreEvo[] = _("{STR_VAR_1} evolves from {STR_VAR_2}");
+212: static const u8 sText_EVO_PreEvo_PE_Mega[] = _("{STR_VAR_1} Mega Evolves with {STR_VAR_2}");
+213: static const u8 sText_EVO_LEVEL_SILCOON[] = _("{LV}{UP_ARROW} to {STR_VAR_2}, Silcoon persona");
+214: static const u8 sText_EVO_LEVEL_CASCOON[] = _("{LV}{UP_ARROW} to {STR_VAR_2}, Cascoon persona");
+215: static const u8 sText_EVO_MOVE[] = _("{LV}{UP_ARROW}, knows {STR_VAR_2}");
+216: static const u8 sText_EVO_LEVEL_RAIN[] = _("{LV}{UP_ARROW} to {STR_VAR_2} while raining");
+217: static const u8 sText_EVO_TRADE_SPECIFIC_MON[] = _("Traded for {STR_VAR_2}");
+218: static const u8 sText_EVO_CRITICAL_HITS[] = _("Land {STR_VAR_2} critical hits in\nsingle battle");
+219: static const u8 sText_EVO_SCRIPT_TRIGGER_DMG[] = _("Takes at least {STR_VAR_2} HP in damage");
+220: static const u8 sText_EVO_DARK_SCROLL[] = _("ScrllOfDrknss is used");
+221: static const u8 sText_EVO_WATER_SCROLL[] = _("ScrollOfWatrs is used");
+222: static const u8 sText_EVO_USE_MOVE_TWENTY_TIMES[] = _("{LV}{UP_ARROW} after 20x {STR_VAR_2}");
+223: static const u8 sText_EVO_RECOIL_DAMAGE_MALE[] = _("{LV}{UP_ARROW} with {STR_VAR_2} recoil, male");
+224: static const u8 sText_EVO_RECOIL_DAMAGE_FEMALE[] = _("{LV}{UP_ARROW} with {STR_VAR_2} recoil, female");
+225: static const u8 sText_EVO_DEFEAT_THREE_WITH_ITEM[] = _("{LV}{UP_ARROW} defeating 3 {STR_VAR_3} holding {STR_VAR_2}");
+226: static const u8 sText_EVO_NONE[] = _("{STR_VAR_1} has no evolution.");
+228: static const u8 sText_FORMS_Buttons_PE[] = _("{A_BUTTON}FORM MODE  {START_BUTTON}EVOs");
+229: static const u8 sText_FORMS_Buttons_Decapped_PE[] = _("{START_BUTTON}Evos");
+230: static const u8 sText_FORMS_Buttons_Submenu_PE[] = _("{DPAD_ANY}FORMs {A_BUTTON}CHECK {START_BUTTON}EVOs");
+231: static const u8 sText_FORMS_Buttons_Submenu_Decapped_PE[] = _("{START_BUTTON}Evos");
+232: static const u8 sText_FORMS_NONE[] = _("{STR_VAR_1} has no alternate forms.");
+233: static const u8 sText_PlusSymbol[] = _("+");
+235: static const u8 sText_Power[] = _("POWER");
+236: static const u8 sText_Accuracy2[] = _("ACCURACY");
+237: static const u8 sText_Appeal[] = _("APPEAL");
+238: static const u8 sText_Jam[] = _("JAM");
+1531: .description = gText_SearchForPkmnBasedOnParameters,
+1538: .description = gText_SwitchPokedexListings,
+1545: .description = gText_ReturnToPokedex,
+1556: .description = gText_ListByFirstLetter,
+1566: .description = gText_ListByBodyColor,
+1576: .description = gText_ListByType,
+1586: .description = gText_ListByType,
+1596: .description = gText_SelectPokedexListingMode,
+1606: .description = gText_SelectPokedexMode,
+1616: .description = gText_ExecuteSearchSwitch,
+1842: [DEX_MODE_KANTO]    = {gText_DexKantoDescription, gText_DexKantoTitle},
+1843: [DEX_MODE_NATIONAL] = {gText_DexNatDescription,   gText_DexNatTitle},
+1849: [ORDER_NUMERICAL]    = {gText_DexSortNumericalDescription, gText_DexSortNumericalTitle},
+1850: [ORDER_ALPHABETICAL] = {gText_DexSortAtoZDescription,      gText_DexSortAtoZTitle},
+1851: [ORDER_HEAVIEST]     = {gText_DexSortHeaviestDescription,  gText_DexSortHeaviestTitle},
+1852: [ORDER_LIGHTEST]     = {gText_DexSortLightestDescription,  gText_DexSortLightestTitle},
+1853: [ORDER_TALLEST]      = {gText_DexSortTallestDescription,   gText_DexSortTallestTitle},
+1854: [ORDER_SMALLEST]     = {gText_DexSortSmallestDescription,  gText_DexSortSmallestTitle},
+1860: {gText_DexEmptyString, gText_DexSearchDontSpecify},
+1861: [NAME_ABC] = {gText_DexEmptyString, gText_DexSearchAlphaABC},
+1862: [NAME_DEF] = {gText_DexEmptyString, gText_DexSearchAlphaDEF},
+1863: [NAME_GHI] = {gText_DexEmptyString, gText_DexSearchAlphaGHI},
+1864: [NAME_JKL] = {gText_DexEmptyString, gText_DexSearchAlphaJKL},
+1865: [NAME_MNO] = {gText_DexEmptyString, gText_DexSearchAlphaMNO},
+1866: [NAME_PQR] = {gText_DexEmptyString, gText_DexSearchAlphaPQR},
+1867: [NAME_STU] = {gText_DexEmptyString, gText_DexSearchAlphaSTU},
+1868: [NAME_VWX] = {gText_DexEmptyString, gText_DexSearchAlphaVWX},
+1869: [NAME_YZ]  = {gText_DexEmptyString, gText_DexSearchAlphaYZ},
+1875: {gText_DexEmptyString, gText_DexSearchDontSpecify},
+1876: [BODY_COLOR_RED + 1]    = {gText_DexEmptyString, gText_DexSearchColorRed},
+1877: [BODY_COLOR_BLUE + 1]   = {gText_DexEmptyString, gText_DexSearchColorBlue},
+1878: [BODY_COLOR_YELLOW + 1] = {gText_DexEmptyString, gText_DexSearchColorYellow},
+1879: [BODY_COLOR_GREEN + 1]  = {gText_DexEmptyString, gText_DexSearchColorGreen},
+1880: [BODY_COLOR_BLACK + 1]  = {gText_DexEmptyString, gText_DexSearchColorBlack},
+1881: [BODY_COLOR_BROWN + 1]  = {gText_DexEmptyString, gText_DexSearchColorBrown},
+1882: [BODY_COLOR_PURPLE + 1] = {gText_DexEmptyString, gText_DexSearchColorPurple},
+1883: [BODY_COLOR_GRAY + 1]   = {gText_DexEmptyString, gText_DexSearchColorGray},
+1884: [BODY_COLOR_WHITE + 1]  = {gText_DexEmptyString, gText_DexSearchColorWhite},
+1885: [BODY_COLOR_PINK + 1]   = {gText_DexEmptyString, gText_Pink},
+1891: {gText_DexEmptyString, gTypesInfo[TYPE_NONE].name},
+1892: {gText_DexEmptyString, gTypesInfo[TYPE_NORMAL].name},
+1893: {gText_DexEmptyString, gTypesInfo[TYPE_FIGHTING].name},
+1894: {gText_DexEmptyString, gTypesInfo[TYPE_FLYING].name},
+1895: {gText_DexEmptyString, gTypesInfo[TYPE_POISON].name},
+1896: {gText_DexEmptyString, gTypesInfo[TYPE_GROUND].name},
+1897: {gText_DexEmptyString, gTypesInfo[TYPE_ROCK].name},
+1898: {gText_DexEmptyString, gTypesInfo[TYPE_BUG].name},
+1899: {gText_DexEmptyString, gTypesInfo[TYPE_GHOST].name},
+1900: {gText_DexEmptyString, gTypesInfo[TYPE_STEEL].name},
+1901: {gText_DexEmptyString, gTypesInfo[TYPE_FIRE].name},
+1902: {gText_DexEmptyString, gTypesInfo[TYPE_WATER].name},
+1903: {gText_DexEmptyString, gTypesInfo[TYPE_GRASS].name},
+1904: {gText_DexEmptyString, gTypesInfo[TYPE_ELECTRIC].name},
+1905: {gText_DexEmptyString, gTypesInfo[TYPE_PSYCHIC].name},
+1906: {gText_DexEmptyString, gTypesInfo[TYPE_ICE].name},
+1907: {gText_DexEmptyString, gTypesInfo[TYPE_DRAGON].name},
+1908: {gText_DexEmptyString, gTypesInfo[TYPE_DARK].name},
+1909: {gText_DexEmptyString, gTypesInfo[TYPE_FAIRY].name},
+4428: ConvertIntToDecimalStringN(StringCopy(str, gText_NumberClear01), value, STR_CONV_MODE_LEADING_ZEROS, digitCount);
+4443: category = gText_5MarksPokemon;
+5241: PrintStatsScreenTextSmall(WIN_STATS_MOVES_TOP, gText_ThreeHyphens, moves_x + 113, moves_y + 9);
+5260: PrintStatsScreenTextSmall(WIN_STATS_MOVES_TOP, gText_ThreeHyphens, moves_x + 113, moves_y + 9);
+5265: StringCopy(gStringVar4, gText_CommunicationError);
+5337: StringCopy(gStringVar1, gText_ThreeHyphens);
+5347: StringCopy(gStringVar1, gText_ThreeHyphens);
+5392: ConvertIntToDecimalStringN(StringCopy(str, gText_NumberClear01), value, STR_CONV_MODE_LEADING_ZEROS, 4);
+5422: PrintStatsScreenTextSmall(WIN_STATS_NAME_GENDER, gText_ThreeHyphens, gender_x, gender_y);
+5731: PrintStatsScreenTextSmall(WIN_STATS_LEFT, gText_ThreeHyphens, 78, base_y + base_y_offset*base_i);
+6264: StringCopy(gStringVar3, gText_ThreeQuestionMarks); //show questionmarks instead of name
+6288: PrintInfoScreenTextSmall(gText_BattleSwitchWhich5, FONT_SMALL, x+1, y-1);
+6306: StringCopy(gStringVar2, gText_ThreeQuestionMarks); //show questionmarks instead of name
+7293: PrintInfoScreenText(gText_CryOf, 82, 33);
+7477: StringCopy(string, gText_SizeComparedTo);
+8206: EraseAndPrintSearchTextBox(gText_SearchingPleaseWait);
+8274: EraseAndPrintSearchTextBox(gText_SearchCompleted);
+8279: EraseAndPrintSearchTextBox(gText_NoMatchingPkmnWereFound);
+8822: PrintSearchText(gText_SelectorArrow, 144, y * 16 + 9);

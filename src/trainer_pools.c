@@ -7,6 +7,11 @@
 #include "trainer_pools.h"
 #include "constants/battle.h"
 #include "constants/items.h"
+#include "battle_util.h"
+#include "fpmath.h"
+#include "move.h"
+#include "team_preview.h"
+#include "constants/pokeball.h"
 
 #include "data/battle_pool_rules.h"
 
@@ -362,8 +367,238 @@ static void PrunePool(const struct Trainer *trainer, u8 *poolIndexArray, const s
     }
 }
 
+// Old species-type-vs-species-type offense estimate, used as a fallback when a candidate
+// has no explicit damaging moves defined (e.g. relies on an auto-generated level-up moveset)
+static s32 GetSpeciesOffenseScoreFallback(u16 candidateSpecies, u8 pt1, u8 pt2)
+{
+    s32 score = 0;
+    u8 ct1 = GetSpeciesType(candidateSpecies, 0);
+    u8 ct2 = GetSpeciesType(candidateSpecies, 1);
+
+    uq4_12_t eff = GetTypeModifier(ct1, pt1);
+    if (pt2 != pt1)
+        eff = uq4_12_multiply(eff, GetTypeModifier(ct1, pt2));
+
+    if (eff > UQ_4_12(1.0))
+        score += 2;
+    else if (eff < UQ_4_12(1.0))
+        score -= 1;
+
+    if (ct2 != ct1)
+    {
+        eff = GetTypeModifier(ct2, pt1);
+        if (pt2 != pt1)
+            eff = uq4_12_multiply(eff, GetTypeModifier(ct2, pt2));
+
+        if (eff > UQ_4_12(1.0))
+            score += 2;
+        else if (eff < UQ_4_12(1.0))
+            score -= 1;
+    }
+
+    return score;
+}
+
+// How effective is the candidate's best damaging move against the player's dual types?
+static s32 GetCandidateOffenseScore(const struct TrainerMon *candidateMon, u8 pt1, u8 pt2)
+{
+    bool32 foundDamagingMove = FALSE;
+    uq4_12_t bestEff = UQ_4_12(0.0);
+    u32 j;
+
+    for (j = 0; j < MAX_MON_MOVES; j++)
+    {
+        enum Move move = candidateMon->moves[j];
+        if (move == MOVE_NONE || GetMovePower(move) == 0)
+            continue;
+
+        enum Type moveType = GetMoveType(move);
+        uq4_12_t eff = GetTypeModifier(moveType, pt1);
+        if (pt2 != pt1)
+            eff = uq4_12_multiply(eff, GetTypeModifier(moveType, pt2));
+
+        if (!foundDamagingMove || eff > bestEff)
+            bestEff = eff;
+        foundDamagingMove = TRUE;
+    }
+
+    if (!foundDamagingMove)
+        return GetSpeciesOffenseScoreFallback(candidateMon->species, pt1, pt2);
+
+    if (bestEff > UQ_4_12(1.0))
+        return 2;
+    if (bestEff < UQ_4_12(1.0))
+        return -1;
+    return 0;
+}
+
+static s32 GetMatchupScore(const struct TrainerMon *candidateMon, u16 playerSpecies)
+{
+    s32 score = 0;
+    u16 candidateSpecies = candidateMon->species;
+    u8 ct1 = GetSpeciesType(candidateSpecies, 0);
+    u8 ct2 = GetSpeciesType(candidateSpecies, 1);
+    u8 pt1 = GetSpeciesType(playerSpecies, 0);
+    u8 pt2 = GetSpeciesType(playerSpecies, 1);
+
+    // 1. Candidate offense: how effective is the candidate's best damaging move against player's dual types?
+    score += GetCandidateOffenseScore(candidateMon, pt1, pt2);
+
+    // 2. Candidate defense: how effective is player's types against candidate's dual types?
+    {
+        uq4_12_t eff = GetTypeModifier(pt1, ct1);
+        if (ct2 != ct1)
+            eff = uq4_12_multiply(eff, GetTypeModifier(pt1, ct2));
+
+        if (eff > UQ_4_12(1.0))
+            score -= 2;
+        else if (eff < UQ_4_12(1.0))
+            score += 2;
+    }
+    if (pt2 != pt1)
+    {
+        uq4_12_t eff = GetTypeModifier(pt2, ct1);
+        if (ct2 != ct1)
+            eff = uq4_12_multiply(eff, GetTypeModifier(pt2, ct2));
+
+        if (eff > UQ_4_12(1.0))
+            score -= 2;
+        else if (eff < UQ_4_12(1.0))
+            score += 2;
+    }
+
+    return score;
+}
+
+static s32 GetTotalMatchupScore(const struct TrainerMon *candidateMon)
+{
+    s32 totalScore = 0;
+    struct Pokemon *party = GetPreviewPlayerParty();
+    u8 partyCount = GetPreviewPlayerPartyCount();
+    u8 i;
+
+    if (party == NULL || partyCount == 0)
+        return 0;
+
+    for (i = 0; i < partyCount && i < PARTY_SIZE; i++)
+    {
+        struct Pokemon *mon = &party[i];
+        u16 species = GetMonData(mon, MON_DATA_SPECIES);
+
+        // Skip Eggs, empty slots, fainted pokemon, and research balls
+        if (species == SPECIES_NONE || species == SPECIES_EGG)
+            continue;
+        if (GetMonData(mon, MON_DATA_IS_EGG))
+            continue;
+        if (GetMonData(mon, MON_DATA_HP) == 0)
+            continue;
+        if (GetMonData(mon, MON_DATA_POKEBALL) == BALL_RESEARCH)
+            continue;
+
+        totalScore += GetMatchupScore(candidateMon, species);
+    }
+
+    return totalScore;
+}
+
 void DoTrainerPartyPool(const struct Trainer *trainer, u32 *monIndices, u8 monsCount, u32 battleTypeFlags)
 {
+    if (battleTypeFlags & BATTLE_TYPE_PREVIEW)
+    {
+        s32 aceIndex = -1;
+        s32 i;
+        u8 poolSize = trainer->poolSize;
+
+        for (i = 0; i < poolSize; i++)
+        {
+            if (trainer->party[i].tags & MON_POOL_TAG_ACE)
+            {
+                aceIndex = i;
+                break;
+            }
+        }
+
+        u8 candidates[6];
+        u8 candidatesCount = 0;
+        for (i = 0; i < poolSize && i < 6; i++)
+        {
+            candidates[candidatesCount] = i;
+            candidatesCount++;
+        }
+
+        u8 chosen[6];
+        u8 chosenCount = 0;
+
+        if (aceIndex != -1 && (Random32() % 100) < 80)
+        {
+            chosen[chosenCount] = aceIndex;
+            chosenCount++;
+
+            for (i = 0; i < candidatesCount; i++)
+            {
+                if (candidates[i] == aceIndex)
+                {
+                    candidates[i] = candidates[candidatesCount - 1];
+                    candidatesCount--;
+                    break;
+                }
+            }
+        }
+
+        while (chosenCount < monsCount && candidatesCount > 0)
+        {
+            s32 scores[6];
+            s32 minScore = 999999;
+            u32 weights[6];
+            u32 totalWeight = 0;
+            u32 randVal;
+            u32 cumulativeWeight = 0;
+            u8 selectedIdx = 0;
+
+            for (i = 0; i < candidatesCount; i++)
+            {
+                scores[i] = GetTotalMatchupScore(&trainer->party[candidates[i]]);
+                if (scores[i] < minScore)
+                {
+                    minScore = scores[i];
+                }
+            }
+
+            for (i = 0; i < candidatesCount; i++)
+            {
+                weights[i] = scores[i] - minScore + 1;
+                totalWeight += weights[i];
+            }
+
+            randVal = Random32() % totalWeight;
+            for (i = 0; i < candidatesCount; i++)
+            {
+                cumulativeWeight += weights[i];
+                if (randVal < cumulativeWeight)
+                {
+                    selectedIdx = i;
+                    break;
+                }
+            }
+
+            chosen[chosenCount] = candidates[selectedIdx];
+            chosenCount++;
+
+            candidates[selectedIdx] = candidates[candidatesCount - 1];
+            candidatesCount--;
+        }
+
+        for (i = 0; i < monsCount; i++)
+        {
+            if (i < chosenCount)
+                monIndices[i] = chosen[i];
+            else
+                monIndices[i] = i;
+        }
+        return;
+    }
+
+    {
         bool32 usingPool = FALSE;
         struct PoolRules rules = defaultPoolRules;
         if (trainer->poolSize != 0)
@@ -393,4 +628,5 @@ void DoTrainerPartyPool(const struct Trainer *trainer, u32 *monIndices, u8 monsC
         if (!usingPool)
             for (u32 i = 0; i < monsCount; i++)
                 monIndices[i] = i;
+    }
 }

@@ -20,6 +20,7 @@ bool32 FieldMove_SetUpStrength(void);
 bool32 FieldMove_SetUpFlash(void);
 bool32 FieldMove_SetUpRockSmash(void);
 bool32 FieldMove_SetUpWaterfall(void);
+bool32 FieldMove_SetUpDive(void);
 bool32 FieldMove_SetUpDig(void);
 bool32 FieldMove_SetUpTeleport(void);
 bool32 FieldMove_SetUpSoftBoiled(void);

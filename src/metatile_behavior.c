@@ -442,7 +442,10 @@ bool32 MetatileBehavior_IsTallGrass(enum MetatileBehavior metatileBehavior)
         return FALSE;
 }
 
-bool32 MetatileBehavior_IsLongGrass(enum MetatileBehavior metatileBehavior) { return FALSE; }
+bool32 MetatileBehavior_IsLongGrass(enum MetatileBehavior metatileBehavior)
+{
+    return metatileBehavior == MB_LONG_GRASS || metatileBehavior == MB_LONG_GRASS_SOUTH_EDGE;
+}
 bool32 MetatileBehavior_IsAshGrass(enum MetatileBehavior metatileBehavior) { return FALSE; }
 bool32 MetatileBehavior_IsFootprints(enum MetatileBehavior metatileBehavior) { return FALSE; }
 bool32 MetatileBehavior_IsBridge(enum MetatileBehavior metatileBehavior) { return FALSE; }
@@ -699,7 +702,7 @@ bool32 MetatileBehavior_IsSeaweed(enum MetatileBehavior metatileBehavior)
 
 bool32 MetatileBehavior_IsRunningDisallowed(enum MetatileBehavior metatileBehavior)
 {
-    if (metatileBehavior == MB_RUNNING_DISALLOWED)
+    if (metatileBehavior == MB_RUNNING_DISALLOWED || metatileBehavior == MB_LONG_GRASS)
         return TRUE;
     else
         return FALSE;

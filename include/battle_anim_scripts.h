@@ -955,6 +955,7 @@ extern const u8 gBattleAnimGeneral_StatsChange[];
 extern const u8 gBattleAnimGeneral_SubstituteFade[];
 extern const u8 gBattleAnimGeneral_SubstituteAppear[];
 extern const u8 gBattleAnimGeneral_BaitThrow[];
+extern const u8 gBattleAnimGeneral_BerryThrow[];
 extern const u8 gBattleAnimGeneral_ItemKnockoff[];
 extern const u8 gBattleAnimGeneral_TurnTrap[];
 extern const u8 gBattleAnimGeneral_HeldItemEffect[];

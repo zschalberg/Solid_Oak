@@ -29,6 +29,7 @@
 #include "item_icon.h"
 #include "item_use.h"
 #include "test_runner.h"
+#include "research_turnin.h"
 #include "constants/battle_anim.h"
 #include "constants/rgb.h"
 #include "constants/songs.h"
@@ -170,6 +171,7 @@ enum
     HEALTHBOX_GFX_123,
     HEALTHBOX_GFX_FRAME_END,
     HEALTHBOX_GFX_FRAME_END_BAR,
+    HEALTHBOX_GFX_STATUS_FAMILY_RESERVED,
 };
 
 static const u8 *GetHealthboxElementGfxPtr(u8);
@@ -352,6 +354,14 @@ static const struct Subsprite sHealthBar_Subsprites_Opponent[] =
         .shape = SPRITE_SHAPE(8x8),
         .size = SPRITE_SIZE(8x8),
         .tileOffset = 8,
+        .priority = 1
+    },
+    {
+        .x = -24,
+        .y = 0,
+        .shape = SPRITE_SHAPE(8x8),
+        .size = SPRITE_SIZE(8x8),
+        .tileOffset = 9,
         .priority = 1
     }
 };
@@ -688,6 +698,8 @@ u8 CreateBattlerHealthboxSprites(enum BattlerId battler)
 
     gBattleStruct->ballSpriteIds[0] = MAX_SPRITES;
     gBattleStruct->ballSpriteIds[1] = MAX_SPRITES;
+    gBattleStruct->ivScannerSpriteIds[0] = MAX_SPRITES;
+    gBattleStruct->ivScannerSpriteIds[1] = MAX_SPRITES;
     gBattleStruct->moveInfoSpriteId = MAX_SPRITES;
 
     return healthboxLeftSpriteId;
@@ -1753,6 +1765,32 @@ void TryAddPokeballIconToHealthbox(u8 healthboxSpriteId, bool8 noStatus)
         CpuFill32(0, (void *)(OBJ_VRAM0 + (gSprites[healthBarSpriteId].oam.tileNum + 8) * TILE_SIZE_4BPP), 32);
 }
 
+void TryAddFamilyReserveIconToHealthbox(u8 healthboxSpriteId, bool8 noStatus)
+{
+    enum BattlerId battler;
+    u8 healthBarSpriteId;
+
+    if (gBattleTypeFlags & (BATTLE_TYPE_FIRST_BATTLE | BATTLE_TYPE_CATCH_TUTORIAL | BATTLE_TYPE_POKEDUDE))
+        return;
+    if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
+        return;
+
+    battler = gSprites[healthboxSpriteId].hMain_Battler;
+    if (IsOnPlayerSide(battler))
+        return;
+    if (GetBattlerSide(battler) == B_SIDE_OPPONENT && IsGhostBattleWithoutScope())
+        return;
+    if (!IsSpeciesFamilyReserved(GetMonData(GetBattlerMon(battler), MON_DATA_SPECIES)))
+        return;
+
+    healthBarSpriteId = gSprites[healthboxSpriteId].hMain_HealthBarSpriteId;
+
+    if (noStatus)
+        CpuCopy32(GetHealthboxElementGfxPtr(HEALTHBOX_GFX_STATUS_FAMILY_RESERVED), (void *)(OBJ_VRAM0 + (gSprites[healthBarSpriteId].oam.tileNum + 9) * TILE_SIZE_4BPP), 32);
+    else
+        CpuFill32(0, (void *)(OBJ_VRAM0 + (gSprites[healthBarSpriteId].oam.tileNum + 9) * TILE_SIZE_4BPP), 32);
+}
+
 static void UpdateStatusIconInHealthbox(u8 healthboxSpriteId)
 {
     s32 i;
@@ -1824,6 +1862,7 @@ static void UpdateStatusIconInHealthbox(u8 healthboxSpriteId)
             CpuCopy32(GetHealthboxElementGfxPtr(HEALTHBOX_GFX_1), (void *)(OBJ_VRAM0 + gSprites[healthBarSpriteId].oam.tileNum * TILE_SIZE_4BPP), 64);
 
         TryAddPokeballIconToHealthbox(healthboxSpriteId, TRUE);
+        TryAddFamilyReserveIconToHealthbox(healthboxSpriteId, TRUE);
         return;
     }
 
@@ -1842,6 +1881,7 @@ static void UpdateStatusIconInHealthbox(u8 healthboxSpriteId)
         }
     }
     TryAddPokeballIconToHealthbox(healthboxSpriteId, FALSE);
+    TryAddFamilyReserveIconToHealthbox(healthboxSpriteId, FALSE);
 }
 
 static u8 GetStatusIconForBattlerId(u8 statusElementId, enum BattlerId battler)
@@ -2837,18 +2877,11 @@ void TryAddLastUsedBallItemSprites(void)
 {
     if (B_LAST_USED_BALL == FALSE)
         return;
-    if (gLastThrownBall == 0
-      || (gLastThrownBall != 0 && !CheckBagHasItem(gLastThrownBall, 1)))
+    if (!CheckBagHasItem(gBallToDisplay, 1))
     {
-        // we're out of the last used ball, so just set it to the first ball in the bag
-        u16 firstBall;
-
-        // we have to compact the bag first bc it is typically only compacted when you open it
-        CompactItemsInBagPocket(POCKET_POKE_BALLS);
-
-        firstBall = GetBagItemId(POCKET_POKE_BALLS, 0);
-        if (firstBall > ITEM_NONE)
-            gBallToDisplay = firstBall;
+        u16 first = GetFirstAvailableThrowable();
+        if (first != ITEM_NONE)
+            gBallToDisplay = first;
     }
 
     if (!CanThrowLastUsedBall())
@@ -2989,53 +3022,65 @@ static void SpriteCB_MoveInfoWin(struct Sprite *sprite)
 
 static void TryHideOrRestoreLastUsedBall(u8 caseId)
 {
-    if (B_LAST_USED_BALL == FALSE)
-        return;
-    if (gBattleStruct->ballSpriteIds[0] == MAX_SPRITES)
-        return;
+    if (B_LAST_USED_BALL != FALSE && gBattleStruct->ballSpriteIds[0] != MAX_SPRITES)
+    {
+        switch (caseId)
+        {
+        case 0: // hide
+            if (gBattleStruct->ballSpriteIds[0] != MAX_SPRITES)
+                gSprites[gBattleStruct->ballSpriteIds[0]].sHide = TRUE;
+            if (gBattleStruct->ballSpriteIds[1] != MAX_SPRITES)
+                gSprites[gBattleStruct->ballSpriteIds[1]].sHide = TRUE;
+            gLastUsedBallMenuPresent = FALSE;
+            break;
+        case 1: // restore
+            if (gBattleStruct->ballSpriteIds[0] != MAX_SPRITES)
+                gSprites[gBattleStruct->ballSpriteIds[0]].sHide = FALSE;
+            if (gBattleStruct->ballSpriteIds[1] != MAX_SPRITES)
+                gSprites[gBattleStruct->ballSpriteIds[1]].sHide = FALSE;
+            gLastUsedBallMenuPresent = TRUE;
+            break;
+        }
+        if (B_LAST_USED_BALL_CYCLE == TRUE)
+            ArrowsChangeColorLastBallCycle(0); //Default the arrows to be invisible
+    }
 
+    // Hide/Restore IV Scanner
     switch (caseId)
     {
     case 0: // hide
-        if (gBattleStruct->ballSpriteIds[0] != MAX_SPRITES)
-            gSprites[gBattleStruct->ballSpriteIds[0]].sHide = TRUE;
-        if (gBattleStruct->ballSpriteIds[1] != MAX_SPRITES)
-            gSprites[gBattleStruct->ballSpriteIds[1]].sHide = TRUE;
-        gLastUsedBallMenuPresent = FALSE;
+        if (gBattleStruct->ivScannerSpriteIds[0] != MAX_SPRITES)
+            gSprites[gBattleStruct->ivScannerSpriteIds[0]].sHide = TRUE;
+        if (gBattleStruct->ivScannerSpriteIds[1] != MAX_SPRITES)
+            gSprites[gBattleStruct->ivScannerSpriteIds[1]].sHide = TRUE;
         break;
     case 1: // restore
-        if (gBattleStruct->ballSpriteIds[0] != MAX_SPRITES)
-            gSprites[gBattleStruct->ballSpriteIds[0]].sHide = FALSE;
-        if (gBattleStruct->ballSpriteIds[1] != MAX_SPRITES)
-            gSprites[gBattleStruct->ballSpriteIds[1]].sHide = FALSE;
-        gLastUsedBallMenuPresent = TRUE;
+        if (!gBattleStruct->ivScannerUsed)
+        {
+            if (gBattleStruct->ivScannerSpriteIds[0] != MAX_SPRITES)
+                gSprites[gBattleStruct->ivScannerSpriteIds[0]].sHide = FALSE;
+            if (gBattleStruct->ivScannerSpriteIds[1] != MAX_SPRITES)
+                gSprites[gBattleStruct->ivScannerSpriteIds[1]].sHide = FALSE;
+        }
         break;
     }
-    if (B_LAST_USED_BALL_CYCLE == TRUE)
-        ArrowsChangeColorLastBallCycle(0); //Default the arrows to be invisible
 }
 
 void TryHideLastUsedBall(void)
 {
-    if (B_LAST_USED_BALL_BUTTON == L_BUTTON && gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_L_EQUALS_A)
-        return;
-
-    if (B_LAST_USED_BALL == TRUE)
-        TryHideOrRestoreLastUsedBall(0);
+    TryHideOrRestoreLastUsedBall(0);
 }
 
 void TryRestoreLastUsedBall(void)
 {
-    if (B_LAST_USED_BALL == FALSE)
-        return;
-
-    if (B_LAST_USED_BALL_BUTTON == L_BUTTON && gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_L_EQUALS_A)
-        return;
-
-    if (gBattleStruct->ballSpriteIds[0] != MAX_SPRITES)
-        TryHideOrRestoreLastUsedBall(1);
-    else
-        TryAddLastUsedBallItemSprites();
+    if (B_LAST_USED_BALL == TRUE)
+    {
+        if (gBattleStruct->ballSpriteIds[0] != MAX_SPRITES)
+            TryHideOrRestoreLastUsedBall(1);
+        else
+            TryAddLastUsedBallItemSprites();
+    }
+    TryAddIVScannerItemSprites();
 }
 
 static void SpriteCB_LastUsedBallBounce(struct Sprite *sprite)
@@ -3159,4 +3204,107 @@ void CategoryIcons_LoadSpritesGfx(void)
 {
     LoadCompressedSpriteSheet(&gSpriteSheet_CategoryIcons);
     LoadSpritePalette(&gSpritePal_CategoryIcons);
+}
+
+#define TAG_IV_SCANNER_WINDOW 0xE723
+#define TAG_IV_SCANNER_ICON   103
+
+static const u8 ALIGNED(4) sIVScannerWindowGfx[] = INCBIN_U8("graphics/battle_interface/last_used_ball_l.4bpp");
+static const struct SpriteSheet sSpriteSheet_IVScannerWindow =
+{
+    sIVScannerWindowGfx, sizeof(sIVScannerWindowGfx), TAG_IV_SCANNER_WINDOW
+};
+
+static void SpriteCB_IVScannerWin(struct Sprite *sprite);
+static void SpriteCB_IVScannerIcon(struct Sprite *sprite);
+
+static const struct SpriteTemplate sSpriteTemplate_IVScannerWindow =
+{
+    .tileTag = TAG_IV_SCANNER_WINDOW,
+    .paletteTag = TAG_ABILITY_POP_UP,
+    .oam = &sOamData_LastUsedBall,
+    .callback = SpriteCB_IVScannerWin
+};
+
+static void DestroyIVScannerWinGfx(struct Sprite *sprite)
+{
+    FreeSpriteTilesByTag(TAG_IV_SCANNER_WINDOW);
+    DestroySprite(sprite);
+    gBattleStruct->ivScannerSpriteIds[1] = MAX_SPRITES;
+}
+
+static void DestroyIVScannerGfx(struct Sprite *sprite)
+{
+    FreeSpriteTilesByTag(TAG_IV_SCANNER_ICON);
+    FreeSpritePaletteByTag(TAG_IV_SCANNER_ICON);
+    DestroySprite(sprite);
+    gBattleStruct->ivScannerSpriteIds[0] = MAX_SPRITES;
+}
+
+static void SpriteCB_IVScannerWin(struct Sprite *sprite)
+{
+    if (sprite->sHide)
+    {
+        if (sprite->x != LAST_BALL_WIN_X_0)
+            sprite->x--;
+        if (sprite->x == LAST_BALL_WIN_X_0)
+            DestroyIVScannerWinGfx(sprite);
+    }
+    else
+    {
+        if (sprite->x != LAST_BALL_WIN_X_F)
+            sprite->x++;
+    }
+}
+
+static void SpriteCB_IVScannerIcon(struct Sprite *sprite)
+{
+    if (sprite->sHide)
+    {
+        if (sprite->x != LAST_USED_BALL_X_0)
+            sprite->x--;
+        else
+            DestroyIVScannerGfx(sprite);
+    }
+    else
+    {
+        if (sprite->x != LAST_USED_BALL_X_F)
+            sprite->x++;
+    }
+}
+
+void TryAddIVScannerItemSprites(void)
+{
+    if (gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_L_EQUALS_A)
+        return;
+    if (gBattleStruct->ivScannerUsed)
+        return;
+    if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
+        return;
+    if (!CheckBagHasItem(ITEM_IV_SCANNER, 1) && !CheckBagHasItem(ITEM_ADVANCED_IV_SCANNER, 1))
+        return;
+
+    // IV Scanner icon (34px below Poké Ball shortcut)
+    if (gBattleStruct->ivScannerSpriteIds[0] == MAX_SPRITES)
+    {
+        u16 scannerItemId = CheckBagHasItem(ITEM_ADVANCED_IV_SCANNER, 1) ? ITEM_ADVANCED_IV_SCANNER : ITEM_IV_SCANNER;
+        gBattleStruct->ivScannerSpriteIds[0] = AddItemIconSprite(TAG_IV_SCANNER_ICON, TAG_IV_SCANNER_ICON, scannerItemId);
+        gSprites[gBattleStruct->ivScannerSpriteIds[0]].x = LAST_USED_BALL_X_0;
+        gSprites[gBattleStruct->ivScannerSpriteIds[0]].y = LAST_USED_BALL_Y + 36;
+        gSprites[gBattleStruct->ivScannerSpriteIds[0]].sHide = FALSE;
+        gSprites[gBattleStruct->ivScannerSpriteIds[0]].callback = SpriteCB_IVScannerIcon;
+    }
+
+    // L-Button window (34px below R-Button shortcut window)
+    LoadSpritePalette(&sSpritePalette_AbilityPopUp);
+    if (GetSpriteTileStartByTag(TAG_IV_SCANNER_WINDOW) == 0xFFFF)
+        LoadSpriteSheet(&sSpriteSheet_IVScannerWindow);
+
+    if (gBattleStruct->ivScannerSpriteIds[1] == MAX_SPRITES)
+    {
+        gBattleStruct->ivScannerSpriteIds[1] = CreateSprite(&sSpriteTemplate_IVScannerWindow,
+                                                       LAST_BALL_WIN_X_0,
+                                                       LAST_USED_WIN_Y + 54, 5);
+        gSprites[gBattleStruct->ivScannerSpriteIds[1]].sHide = FALSE;
+    }
 }

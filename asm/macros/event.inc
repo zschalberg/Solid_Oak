@@ -2517,3 +2517,14 @@
 	callnative ScrCmd_istmrelearneractive, requests_effects=1
 	.4byte \destination
 	.endm
+
+	.macro showmugshot mugshotId:req, position=MUGSHOT_LEFT
+	.byte SCR_OP_SHOWMUGSHOT
+	.2byte \mugshotId
+	.byte \position
+	.endm
+
+	.macro clearmugshot
+	.byte SCR_OP_CLEARMUGSHOT
+	.endm
+

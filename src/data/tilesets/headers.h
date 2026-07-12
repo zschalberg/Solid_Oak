@@ -9,6 +9,17 @@ const struct Tileset gTileset_General =
     .callback = InitTilesetAnim_General,
 };
 
+const struct Tileset gTileset_GeneralCustom =
+{
+    .isCompressed = TRUE,
+    .isSecondary = FALSE,
+    .tiles = gTilesetTiles_GeneralCustom,
+    .palettes = gTilesetPalettes_GeneralCustom,
+    .metatiles = gMetatiles_GeneralCustom,
+    .metatileAttributes = gMetatileAttributes_GeneralCustom,
+    .callback = InitTilesetAnim_General,
+};
+
 const struct Tileset gTileset_PalletTown =
 {
     .isCompressed = TRUE,

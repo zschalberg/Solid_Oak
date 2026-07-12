@@ -3,6 +3,8 @@
 
 extern const u32 gTilesetTiles_General[];
 extern const u16 gTilesetPalettes_General[][16];
+extern const u32 gTilesetTiles_GeneralCustom[];
+extern const u16 gTilesetPalettes_GeneralCustom[][16];
 
 extern const u32 gTilesetTiles_GenericBuilding1[];
 extern const u16 gTilesetPalettes_GenericBuilding1[][16];
@@ -14,7 +16,14 @@ extern const struct Tileset gTileset_Building;
 extern const struct Tileset gTileset_GenericBuilding1;
 
 extern const struct Tileset gTileset_General;
+extern const struct Tileset gTileset_GeneralCustom;
+extern const struct Tileset gTileset_GeneralSummer;
+extern const struct Tileset gTileset_GeneralAutumn;
+extern const struct Tileset gTileset_GeneralWinter;
 extern const struct Tileset gTileset_PalletTown;
+extern const struct Tileset gTileset_PalletTownSummer;
+extern const struct Tileset gTileset_PalletTownAutumn;
+extern const struct Tileset gTileset_PalletTownWinter;
 extern const struct Tileset gTileset_ViridianCity;
 extern const struct Tileset gTileset_PewterCity;
 extern const struct Tileset gTileset_SaffronCity;
@@ -22,6 +31,9 @@ extern const struct Tileset gTileset_CeruleanCity;
 extern const struct Tileset gTileset_LavenderTown;
 extern const struct Tileset gTileset_VermilionCity;
 extern const struct Tileset gTileset_CeladonCity;
+extern const struct Tileset gTileset_CeladonCitySummer;
+extern const struct Tileset gTileset_CeladonCityAutumn;
+extern const struct Tileset gTileset_CeladonCityWinter;
 extern const struct Tileset gTileset_FuchsiaCity;
 extern const struct Tileset gTileset_CinnabarIsland;
 extern const struct Tileset gTileset_SeviiIslands123;

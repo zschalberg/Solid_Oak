@@ -46,6 +46,9 @@ u8 *GetMapNameGeneric_(u8 *dest, u16 mapsec);
 void InitRegionMapWithExitCB(u8 type, void (*callback)(void));
 void CB2_OpenFlyMap(void);
 
+extern u16 gRegionMapSelectedMapsecOverride;
+extern bool8 gRegionMapHasOverride;
+
 extern const struct RegionMapLocation gRegionMapEntries[];
 extern const struct RegionMapInfo gRegionMapInfos[];
 

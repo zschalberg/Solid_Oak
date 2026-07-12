@@ -198,38 +198,68 @@ static void CompleteOnBattlerSpritePosX_0(enum BattlerId battler)
         BtlController_Complete(battler);
 }
 
-static u16 GetPrevBall(u16 ballId)
+static const u16 sBattleThrowables[] = {
+    // Pokéballs - mirror the order of gPokeBalls[]
+    ITEM_POKE_BALL, ITEM_GREAT_BALL, ITEM_ULTRA_BALL, ITEM_MASTER_BALL,
+    ITEM_PREMIER_BALL, ITEM_NEST_BALL, ITEM_NET_BALL, ITEM_DIVE_BALL,
+    ITEM_TIMER_BALL, ITEM_REPEAT_BALL, ITEM_LUXURY_BALL,
+    ITEM_LEVEL_BALL, ITEM_LURE_BALL, ITEM_FRIEND_BALL, ITEM_HEAVY_BALL,
+    // Catch-boost berries
+    ITEM_RAZZ_BERRY,
+    ITEM_NANAB_BERRY,
+};
+
+static u16 GetPrevThrowable(u16 itemId)
 {
-    s32 i;
-    s32 index = ItemIdToBallId(ballId);
-    u32 newBall = 0;
-     for (i = 0; i < POKEBALL_COUNT; i++)
+    s32 i, index = 0;
+    for (i = 0; i < (s32)ARRAY_COUNT(sBattleThrowables); i++)
     {
-        index--;
-        if (index == -1)
-            index = POKEBALL_COUNT - 1;
-        newBall = gPokeBalls[index].itemId;
-        if (CheckBagHasItem(newBall, 1))
-            return newBall;
+        if (sBattleThrowables[i] == itemId)
+        {
+            index = i;
+            break;
+        }
     }
-    return ballId;
+    for (i = 0; i < (s32)ARRAY_COUNT(sBattleThrowables); i++)
+    {
+        if (--index == -1)
+            index = (s32)ARRAY_COUNT(sBattleThrowables) - 1;
+        if (CheckBagHasItem(sBattleThrowables[index], 1))
+            return sBattleThrowables[index];
+    }
+    return itemId;
 }
 
-static u32 GetNextBall(u32 ballId)
+static u16 GetNextThrowable(u16 itemId)
 {
-    s32 i;
-    s32 index = ItemIdToBallId(ballId);
-    u32 newBall = 0;
-    for (i = 0; i < POKEBALL_COUNT; i++)
+    s32 i, index = 0;
+    for (i = 0; i < (s32)ARRAY_COUNT(sBattleThrowables); i++)
     {
-        index++;
-        if (index == POKEBALL_COUNT)
-            index = 0;
-        newBall = gPokeBalls[index].itemId;
-        if (CheckBagHasItem(newBall, 1))
-            return newBall;
+        if (sBattleThrowables[i] == itemId)
+        {
+            index = i;
+            break;
+        }
     }
-    return ballId;
+    for (i = 0; i < (s32)ARRAY_COUNT(sBattleThrowables); i++)
+    {
+        if (++index == (s32)ARRAY_COUNT(sBattleThrowables))
+            index = 0;
+        if (CheckBagHasItem(sBattleThrowables[index], 1))
+            return sBattleThrowables[index];
+    }
+    return itemId;
+}
+
+u16 GetFirstAvailableThrowable(void)
+{
+    u32 i;
+    for (i = 0; i < ARRAY_COUNT(sBattleThrowables); i++)
+    {
+        if (CheckBagHasItem(sBattleThrowables[i], 1))
+            return sBattleThrowables[i];
+    }
+    return ITEM_NONE;
 }
 
 static void HandleInputChooseAction(enum BattlerId battler)
@@ -263,7 +293,7 @@ static void HandleInputChooseAction(enum BattlerId battler)
             if (JOY_HELD(B_LAST_USED_BALL_BUTTON) && (JOY_NEW(DPAD_DOWN) || JOY_NEW(DPAD_RIGHT)))
             {
                 bool32 sameBall = FALSE;
-                u32 nextBall = GetNextBall(gBallToDisplay);
+                u32 nextBall = GetNextThrowable(gBallToDisplay);
                 gBattleStruct->ballSwapped = TRUE;
                 if (gBallToDisplay == nextBall)
                     sameBall = TRUE;
@@ -275,7 +305,7 @@ static void HandleInputChooseAction(enum BattlerId battler)
             else if (JOY_HELD(B_LAST_USED_BALL_BUTTON) && (JOY_NEW(DPAD_UP) || JOY_NEW(DPAD_LEFT)))
             {
                 bool32 sameBall = FALSE;
-                u32 prevBall = GetPrevBall(gBallToDisplay);
+                u32 prevBall = GetPrevThrowable(gBallToDisplay);
                 gBattleStruct->ballSwapped = TRUE;
                 if (gBallToDisplay == prevBall)
                     sameBall = TRUE;
@@ -299,6 +329,19 @@ static void HandleInputChooseAction(enum BattlerId battler)
                 BtlController_EmitTwoReturnValues(battler, B_COMM_TO_ENGINE, B_ACTION_THROW_BALL, 0);
                 BtlController_Complete(battler);
             }
+            return;
+        }
+    }
+
+    if (JOY_NEW(L_BUTTON))
+    {
+        if (!(gBattleTypeFlags & BATTLE_TYPE_TRAINER) && (CheckBagHasItem(ITEM_IV_SCANNER, 1) || CheckBagHasItem(ITEM_ADVANCED_IV_SCANNER, 1)) && !gBattleStruct->ivScannerUsed)
+        {
+            PlaySE(SE_SELECT);
+            TryHideLastUsedBall();
+            gBattleStruct->useIVScannerShortcut = TRUE;
+            BtlController_EmitTwoReturnValues(battler, B_COMM_TO_ENGINE, B_ACTION_USE_ITEM, 0);
+            BtlController_Complete(battler);
             return;
         }
     }
@@ -1860,6 +1903,8 @@ static void MoveSelectionDisplayMoveDescription(enum BattlerId battler)
     }
 
     u8 pwr_num[3], acc_num[3];
+    u8 desc[200];
+    u32 i;
     u8 cat_desc[7] = _("CAT: ");
     u8 pwr_desc[7] = _("PWR: ");
     u8 acc_desc[7] = _("ACC: ");
@@ -1885,7 +1930,15 @@ static void MoveSelectionDisplayMoveDescription(enum BattlerId battler)
     StringAppend(gDisplayedStringBattle, acc_desc);
     StringAppend(gDisplayedStringBattle, acc_num);
     StringAppend(gDisplayedStringBattle, gText_Newline);
-    StringAppend(gDisplayedStringBattle, GetMoveDescription(move));
+
+    StringCopy(desc, GetMoveDescription(move));
+    for (i = 0; desc[i] != EOS; i++)
+    {
+        if (desc[i] == CHAR_NEWLINE)
+            desc[i] = CHAR_SPACE;
+    }
+    StringAppend(gDisplayedStringBattle, desc);
+
     BattlePutTextOnWindow(gDisplayedStringBattle, B_WIN_MOVE_DESCRIPTION);
 
     if (gCategoryIconSpriteId == 0xFF)
@@ -2238,6 +2291,15 @@ void InitMoveSelectionsVarsAndStrings(enum BattlerId battler)
 static void PlayerHandleChooseItem(enum BattlerId battler)
 {
     s32 i;
+
+    if (gBattleStruct->useIVScannerShortcut)
+    {
+        gBattleStruct->useIVScannerShortcut = FALSE;
+        gSpecialVar_ItemId = ITEM_IV_SCANNER;
+        BtlController_EmitOneReturnValue(battler, B_COMM_TO_ENGINE, ITEM_IV_SCANNER);
+        BtlController_Complete(battler);
+        return;
+    }
 
     BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_BLACK);
     gBattlerControllerFuncs[battler] = OpenBagAndChooseItem;

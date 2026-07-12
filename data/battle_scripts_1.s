@@ -4483,6 +4483,22 @@ BattleScript_WeatherFaded::
 	call BattleScript_ActivateWeatherAbilities
 	end2
 
+BattleScript_ElectricFloorHeals::
+	playanimation BS_ATTACKER, B_ANIM_SIMPLE_HEAL
+	printstring STRINGID_ELECTRICFLOORHEALS
+	waitmessage B_WAIT_TIME_LONG
+	healthbarupdate BS_ATTACKER, PASSIVE_HP_UPDATE
+	datahpupdate BS_ATTACKER, PASSIVE_HP_UPDATE
+	end2
+
+BattleScript_PoisonFogPoisons::
+	printstring STRINGID_POISONFOGPOISONS
+	waitmessage B_WAIT_TIME_LONG
+	statusanimation BS_ATTACKER
+	updatestatusicon BS_ATTACKER
+	waitstate
+	end2
+
 BattleScript_DamagingWeather::
 	printfromtable gSandStormHailDmgStringIds
 	waitmessage B_WAIT_TIME_LONG

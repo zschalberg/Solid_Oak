@@ -23,6 +23,7 @@
 #include "recorded_battle.h"
 #include "window.h"
 #include "reshow_battle_screen.h"
+#include "pokemon_size_record.h"
 #include "main.h"
 #include "palette.h"
 #include "money.h"
@@ -67,6 +68,7 @@
 #include "constants/trainers.h"
 #include "test/battle.h"
 #include "battle_util.h"
+#include "water_battle.h"
 #include "constants/pokemon.h"
 #include "config/battle.h"
 #include "pokedex_emerald.h"
@@ -4469,7 +4471,8 @@ static u32 CountAliveMonsForBattlerSide(enum BattlerId battler)
     {
         if (GetMonData(&party[partyMon], MON_DATA_SPECIES)
          && GetMonData(&party[partyMon], MON_DATA_HP) > 0
-         && !GetMonData(&party[partyMon], MON_DATA_IS_EGG))
+         && !GetMonData(&party[partyMon], MON_DATA_IS_EGG)
+         && GetMonData(&party[partyMon], MON_DATA_POKEBALL) != BALL_RESEARCH)
             aliveMons++;
     }
 
@@ -4494,13 +4497,33 @@ bool32 NoAliveMonsForPlayer(void)
     // Get total HP for the player's party to determine if the player has lost
     for (i = 0; i < maxI; i++)
     {
+        // A mon already sent out as an active battler must always count toward
+        // the alive check, even if it's water-ineligible — it's already fighting
+        // and there was no opportunity to keep it from being chosen as the lead.
+        bool32 isActiveBattler = FALSE;
+        u32 battler;
+        for (battler = 0; battler < gBattlersCount; battler++)
+        {
+            if (GetBattlerSide(battler) == B_SIDE_PLAYER && gBattlerPartyIndexes[battler] == i)
+            {
+                isActiveBattler = TRUE;
+                break;
+            }
+        }
+
         if (GetMonData(&gPlayerParty[i], MON_DATA_SPECIES) && !GetMonData(&gPlayerParty[i], MON_DATA_IS_EGG)
-            && (!(gBattleTypeFlags & BATTLE_TYPE_ARENA) || !(gBattleStruct->arenaLostPlayerMons & (1u << i))))
+            && GetMonData(&gPlayerParty[i], MON_DATA_POKEBALL) != BALL_RESEARCH
+            && (!(gBattleTypeFlags & BATTLE_TYPE_ARENA) || !(gBattleStruct->arenaLostPlayerMons & (1u << i)))
+            && (isActiveBattler
+                || ((!gBattleStruct->isUnderwaterBattle || CanMonParticipateInWaterBattle(&gPlayerParty[i]))
+                    && (!gBattleStruct->isWaterBattle
+                        || CanMonParticipateInWaterBattle(&gPlayerParty[i])
+                        || CanMonParticipateInSkyBattle(&gPlayerParty[i])))))
         {
             HP_count += GetMonData(&gPlayerParty[i], MON_DATA_HP);
         }
         // Get the number of fainted mons or eggs (not empty slots) in the first three party slots.
-        if (i < 3 && ((GetMonData(&gPlayerParty[i], MON_DATA_SPECIES) && !GetMonData(&gPlayerParty[i], MON_DATA_HP))
+        if (i < 3 && ((GetMonData(&gPlayerParty[i], MON_DATA_SPECIES) && (!GetMonData(&gPlayerParty[i], MON_DATA_HP) || GetMonData(&gPlayerParty[i], MON_DATA_POKEBALL) == BALL_RESEARCH))
          || GetMonData(&gPlayerParty[i], MON_DATA_IS_EGG)))
             ineligibleMonsCount++;
     }
@@ -4512,7 +4535,8 @@ bool32 NoAliveMonsForPlayer(void)
         {
             if (!GetMonData(GetSavedPlayerPartyMon(i), MON_DATA_SPECIES)
              || !GetMonData(GetSavedPlayerPartyMon(i), MON_DATA_HP)
-             || GetMonData(GetSavedPlayerPartyMon(i), MON_DATA_IS_EGG))
+             || GetMonData(GetSavedPlayerPartyMon(i), MON_DATA_IS_EGG)
+             || GetMonData(GetSavedPlayerPartyMon(i), MON_DATA_POKEBALL) == BALL_RESEARCH)
                 ineligibleMonsCount++;
         }
 
@@ -10606,11 +10630,7 @@ static void FinalizeCapture(void)
         gBattleMons[gBattlerTarget].hp = gBattleMons[gBattlerTarget].maxHP;
         SetMonData(caughtMon, MON_DATA_HP, &gBattleMons[gBattlerTarget].hp);
     }
-    else if (ballId == BALL_FRIEND)
-    {
-        u32 friendship = (B_FRIEND_BALL_MODIFIER >= GEN_8 ? 150 : 200);
-        SetMonData(caughtMon, MON_DATA_FRIENDSHIP, &friendship);
-    }
+
 }
 
 struct BallData
@@ -10707,23 +10727,7 @@ static void ComputeBallData(u32 wildMonBattler, u32 playerBattler, struct BallDa
             ball->multiplier = (B_REPEAT_BALL_MODIFIER >= GEN_7 ? 350 : 300);
         break;
     case BALL_LEVEL:
-        if (gBattleMons[playerBattler].level >= 4 * battleMon->level)
-            ball->multiplier = 800;
-        else if (gBattleMons[playerBattler].level > 2 * battleMon->level)
-            ball->multiplier = 400;
-        else if (gBattleMons[playerBattler].level > battleMon->level)
-            ball->multiplier = 200;
-        break;
     case BALL_LURE:
-        if (gIsFishingEncounter)
-        {
-            if (B_LURE_BALL_MODIFIER >= GEN_8)
-                ball->multiplier = 400;
-            else if (B_LURE_BALL_MODIFIER >= GEN_7)
-                ball->multiplier = 500;
-            else
-                ball->multiplier = 300;
-        }
         break;
     case BALL_MOON:
     {
@@ -10753,42 +10757,6 @@ static void ComputeBallData(u32 wildMonBattler, u32 playerBattler, struct BallDa
             ball->multiplier = 400;
         break;
     case BALL_HEAVY:
-        i = GetSpeciesWeight(battleMon->species);
-        if (B_HEAVY_BALL_MODIFIER >= GEN_7)
-        {
-            if (i < 1000)
-                ball->flatBonus = -20;
-            else if (i < 2000)
-                ball->flatBonus = 0;
-            else if (i < 3000)
-                ball->flatBonus = 20;
-            else
-                ball->flatBonus = 30;
-        }
-        else if (B_HEAVY_BALL_MODIFIER >= GEN_4)
-        {
-            if (i < 2048)
-                ball->flatBonus = -20;
-            else if (i < 3072)
-                ball->flatBonus = 20;
-            else if (i < 4096)
-                ball->flatBonus = 30;
-            else
-                ball->flatBonus = 40;
-        }
-        else
-        {
-            if (i < 1024)
-                ball->flatBonus = -20;
-            else if (i < 2048)
-                ball->flatBonus = 0;
-            else if (i < 3072)
-                ball->flatBonus = 20;
-            else if (i < 4096)
-                ball->flatBonus = 30;
-            else
-                ball->flatBonus = 40;
-        }
         break;
     case BALL_DREAM:
         if (B_DREAM_BALL_MODIFIER >= GEN_8 && (battleMon->status1 & STATUS1_SLEEP || (GetBattlerAbilityIgnoreMoldBreaker(wildMonBattler) == ABILITY_COMATOSE)))
@@ -10808,6 +10776,9 @@ static void ComputeBallData(u32 wildMonBattler, u32 playerBattler, struct BallDa
         ball->multiplier = 410;
         ball->divider = 4096;
         break;
+    case BALL_RESEARCH:
+        ball->multiplier = 150;
+        break;
     }
 
 }
@@ -10823,6 +10794,15 @@ static const u8 sBadgeLevel[] = {
     60,
     100,
 };
+
+static u32 GetResearchTierNumerator(void)
+{
+    u32 caught = GetNationalPokedexCount(FLAG_GET_CAUGHT);
+    if (caught >= 100) return 15; // 1.5x
+    if (caught >= 50)  return 12; // 1.2x
+    if (caught >= 20)  return 11; // 1.1x
+    return 10;                    // no bonus
+}
 
 static u32 ComputeCaptureOdds(u32 wildMonBattler, u32 playerBattler)
 {
@@ -10847,12 +10827,7 @@ static u32 ComputeCaptureOdds(u32 wildMonBattler, u32 playerBattler)
     odds = odds * catchRate / (battleMon->maxHP * 3);
     odds = odds * ball.multiplier / ball.divider;
 
-    u8 badgeCount = 0;
-    for (u32 i = FLAG_BADGE01_GET; i < FLAG_BADGE01_GET + NUM_BADGES; i++)
-    {
-        if (FlagGet(i))
-            badgeCount++;
-    }
+    u8 badgeCount = NUM_BADGES;
     if (GetConfig(B_MISSING_BADGE_CATCH_MALUS) == GEN_8 && badgeCount < NUM_BADGES && gBattleMons[playerBattler].level < battleMon->level)
         odds = odds * 410 / 4096;
     if (GetConfig(B_MISSING_BADGE_CATCH_MALUS) == GEN_9 && badgeCount < NUM_BADGES)
@@ -10875,6 +10850,25 @@ static u32 ComputeCaptureOdds(u32 wildMonBattler, u32 playerBattler)
     }
     if (battleMon->status1 & STATUS1_CAN_MOVE)
         odds = odds * 15 / 10;
+
+    if (gBattleStruct->berryCatchTurnsRemaining > 0)
+    {
+        odds = odds * gBattleStruct->berryCatchModifier / 10;
+        if (--gBattleStruct->berryCatchTurnsRemaining == 0)
+        {
+            gBattleStruct->berryCatchExpired = 1;
+            gBattleStruct->berryCatchModifier = 0;
+        }
+    }
+
+    {
+        u32 researchMult = GetResearchTierNumerator();
+        if (researchMult > 10)
+            odds = odds * researchMult / 10;
+    }
+
+    if (odds > 255)
+        odds = 255;
 
     return odds;
 }
@@ -10957,6 +10951,17 @@ static void Cmd_handleballthrow(void)
     else
     {
         gBallToDisplay = gLastThrownBall = gLastUsedItem;
+        // Check protoball level caps
+        if ((gLastUsedItem == ITEM_LEVEL_BALL && gBattleMons[gBattlerTarget].level > 10)
+            || (gLastUsedItem == ITEM_LURE_BALL && gBattleMons[gBattlerTarget].level > 20)
+            || (gLastUsedItem == ITEM_FRIEND_BALL && gBattleMons[gBattlerTarget].level > 30)
+            || (gLastUsedItem == ITEM_HEAVY_BALL && gBattleMons[gBattlerTarget].level > 40))
+        {
+            BtlController_EmitBallThrowAnim(gBattlerAttacker, B_COMM_TO_CONTROLLER, BALL_NO_SHAKES);
+            MarkBattlerForControllerExec(gBattlerAttacker);
+            gBattlescriptCurrInstr = BattleScript_ProtoBallFailed;
+            return;
+        }
         u32 odds = ComputeCaptureOdds(gBattlerTarget, gBattlerAttacker);
         if (gTestRunnerEnabled)
             TestRunner_Battle_RecordCatchChance(odds);
@@ -11125,10 +11130,10 @@ static void Cmd_givecaughtmon(void)
         break;
     case GIVECAUGHTMON_GIVE_AND_SHOW_MSG:
     {
-        struct Pokemon *caughtMon = GetBattlerMon(GetCatchingBattler());
+        struct Pokemon *caughtMon = GetBattlerMon(gBattlerTarget);
         if (B_RESTORE_HELD_BATTLE_ITEMS >= GEN_9)
         {
-            u16 lostItem = gBattleStruct->itemLost[B_SIDE_OPPONENT][gBattlerPartyIndexes[GetCatchingBattler()]].originalItem;
+            u16 lostItem = gBattleStruct->itemLost[B_SIDE_OPPONENT][gBattlerPartyIndexes[gBattlerTarget]].originalItem;
             if (lostItem != ITEM_NONE && GetItemPocket(lostItem) != POCKET_BERRIES)
                 SetMonData(caughtMon, MON_DATA_HELD_ITEM, &lostItem);  // Restore non-berry items
         }
@@ -11164,7 +11169,7 @@ static void Cmd_givecaughtmon(void)
 
         // Copy changedSpecies to allow caught mon to revert to its original species.
         if (emptySlot != PARTY_SIZE)
-            gBattleStruct->partyState[B_SIDE_PLAYER][emptySlot].changedSpecies = GetBattlerPartyState(GetCatchingBattler())->changedSpecies;
+            gBattleStruct->partyState[B_SIDE_PLAYER][emptySlot].changedSpecies = GetBattlerPartyState(gBattlerTarget)->changedSpecies;
 
         gBattleResults.caughtMonSpecies = GetMonData(caughtMon, MON_DATA_SPECIES);
         GetMonData(caughtMon, MON_DATA_NICKNAME, gBattleResults.caughtMonNick);
@@ -11185,22 +11190,122 @@ static void Cmd_givecaughtmon(void)
         SavePlayerParty();
 }
 
+extern const u8 BattleScript_PrintExceptionalSize[];
+
+static u8 GetSizeCategoryTier(u8 category)
+{
+    switch (category)
+    {
+    case 0:
+    case 1:
+    case 2:
+    case 13:
+    case 14:
+    case 15:
+        return 3; // Very Rare
+    case 3:
+    case 4:
+    case 11:
+    case 12:
+        return 2; // Rare
+    case 5:
+    case 10:
+        return 1; // Uncommon
+    default:
+        return 0; // Average
+    }
+}
+
 static void Cmd_trysetcaughtmondexflags(void)
 {
     CMD_ARGS(const u8 *failInstr);
 
-    struct Pokemon *caughtMon = GetBattlerMon(GetCatchingBattler());
+    struct Pokemon *caughtMon = GetBattlerMon(gBattlerTarget);
     u32 species = GetMonData(caughtMon, MON_DATA_SPECIES);
     u32 personality = GetMonData(caughtMon, MON_DATA_PERSONALITY);
+    u32 heightPercentile = ((personality & 0xFFFF) * 1000) / 65535;
+    u32 weightPercentile = (((personality >> 16) & 0xFFFF) * 1000) / 65535;
+    u16 heightHash = personality & 0xFFFF;
+    u16 weightHash = personality >> 16;
+    u8 heightCategory = TranslateBigMonSizeTableIndex(heightHash);
+    u8 weightCategory = TranslateBigMonSizeTableIndex(weightHash);
+    u8 heightTier = GetSizeCategoryTier(heightCategory);
+    u8 weightTier = GetSizeCategoryTier(weightCategory);
+    u8 overallTier = (heightTier > weightTier) ? heightTier : weightTier;
+    u16 sizeStringId = 0;
+    bool32 exceptional = FALSE;
 
-    if (GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_GET_CAUGHT))
+    if (overallTier > 0)
     {
-        gBattlescriptCurrInstr = cmd->failInstr;
+        u8 heightPercentileStr[24];
+        u8 weightPercentileStr[24];
+        u8 *pStr;
+        bool8 heightIsExceptional = (heightTier == overallTier);
+        bool8 weightIsExceptional = (weightTier == overallTier);
+
+        pStr = heightPercentileStr;
+        if (heightIsExceptional)
+        {
+            pStr = WriteColorChangeControlCode(pStr, TEXT_COLOR_TYPE_FOREGROUND, TEXT_COLOR_BLUE);
+            pStr = WriteColorChangeControlCode(pStr, TEXT_COLOR_TYPE_SHADOW, TEXT_COLOR_LIGHT_BLUE);
+        }
+        pStr = ConvertIntToDecimalStringN(pStr, heightPercentile / 10, STR_CONV_MODE_LEFT_ALIGN, 3);
+        *pStr++ = CHAR_PERIOD;
+        pStr = ConvertIntToDecimalStringN(pStr, heightPercentile % 10, STR_CONV_MODE_LEFT_ALIGN, 1);
+        if (heightIsExceptional)
+        {
+            pStr = WriteColorChangeControlCode(pStr, TEXT_COLOR_TYPE_FOREGROUND, 1);
+            pStr = WriteColorChangeControlCode(pStr, TEXT_COLOR_TYPE_SHADOW, 6);
+        }
+        *pStr = EOS;
+
+        pStr = weightPercentileStr;
+        if (weightIsExceptional)
+        {
+            pStr = WriteColorChangeControlCode(pStr, TEXT_COLOR_TYPE_FOREGROUND, TEXT_COLOR_BLUE);
+            pStr = WriteColorChangeControlCode(pStr, TEXT_COLOR_TYPE_SHADOW, TEXT_COLOR_LIGHT_BLUE);
+        }
+        pStr = ConvertIntToDecimalStringN(pStr, weightPercentile / 10, STR_CONV_MODE_LEFT_ALIGN, 3);
+        *pStr++ = CHAR_PERIOD;
+        pStr = ConvertIntToDecimalStringN(pStr, weightPercentile % 10, STR_CONV_MODE_LEFT_ALIGN, 1);
+        if (weightIsExceptional)
+        {
+            pStr = WriteColorChangeControlCode(pStr, TEXT_COLOR_TYPE_FOREGROUND, 1);
+            pStr = WriteColorChangeControlCode(pStr, TEXT_COLOR_TYPE_SHADOW, 6);
+        }
+        *pStr = EOS;
+
+        StringCopy(gStringVar1, heightPercentileStr);
+        StringCopy(gStringVar2, weightPercentileStr);
+
+        if (overallTier == 3)
+            sizeStringId = STRINGID_VERY_RARE_SIZE_CAUGHT;
+        else if (overallTier == 2)
+            sizeStringId = STRINGID_RARE_SIZE_CAUGHT;
+        else
+            sizeStringId = STRINGID_UNCOMMON_SIZE_CAUGHT;
+
+        exceptional = TRUE;
+    }
+
+    // Update size records for every captured Pokémon
+    UpdatePokedexSizeRecordBySpeciesPersonality(species, personality);
+
+    bool32 isCaught = GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_GET_CAUGHT);
+    const u8 *nextInstr = isCaught ? cmd->failInstr : cmd->nextInstr;
+
+    HandleSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_SET_SEEN, personality);
+    HandleSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_SET_CAUGHT, personality);
+
+    if (exceptional)
+    {
+        BattleScriptPush(nextInstr);
+        gBattleScripting.savedStringId = sizeStringId;
+        gBattlescriptCurrInstr = BattleScript_PrintExceptionalSize;
     }
     else
     {
-        HandleSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_SET_CAUGHT, personality);
-        gBattlescriptCurrInstr = cmd->nextInstr;
+        gBattlescriptCurrInstr = nextInstr;
     }
 }
 
@@ -11208,7 +11313,7 @@ static void Cmd_displaydexinfo(void)
 {
     CMD_ARGS();
 
-    u32 caughtBattler = GetCatchingBattler();
+    u32 caughtBattler = gBattlerTarget;
     struct Pokemon *mon = GetBattlerMon(caughtBattler);
     u16 species = GetMonData(mon, MON_DATA_SPECIES);
 
@@ -11604,6 +11709,39 @@ static void Cmd_callnative(void)
 }
 
 // Callnative Funcs
+
+void BS_ActivateBerryCatchModifier(void)
+{
+    NATIVE_ARGS();
+    if (gLastUsedItem == ITEM_NANAB_BERRY)
+    {
+        gBattleStruct->berryCatchModifier = 15;
+        gBattleCommunication[MULTISTRING_CHOOSER] = 1;
+    }
+    else
+    {
+        gBattleStruct->berryCatchModifier = 12;
+        gBattleCommunication[MULTISTRING_CHOOSER] = 0;
+    }
+    gBattleStruct->berryCatchTurnsRemaining = 3;
+    gBattlescriptCurrInstr = cmd->nextInstr;
+}
+
+extern const u8 BattleScript_BerryCatchExpiredMsg[];
+
+void BS_CheckBerryCatchExpiry(void)
+{
+    NATIVE_ARGS();
+    if (gBattleStruct->berryCatchExpired)
+    {
+        gBattleStruct->berryCatchExpired = 0;
+        gBattlescriptCurrInstr = BattleScript_BerryCatchExpiredMsg;
+    }
+    else
+    {
+        gBattlescriptCurrInstr = cmd->nextInstr;
+    }
+}
 
 void SaveBattlerTarget(enum BattlerId battler)
 {
@@ -15069,6 +15207,86 @@ void BS_GetBattlersForRecall(void)
             gBattleCommunication[MULTISTRING_CHOOSER] |= (1u << i);
         i++;
     }
+
+    gBattlescriptCurrInstr = cmd->nextInstr;
+}
+
+static const u8 sText_IVGrade_Outstanding[] = _("outstanding");
+static const u8 sText_IVGrade_Good[]        = _("good");
+static const u8 sText_IVGrade_Decent[]      = _("decent");
+static const u8 sText_IVGrade_Poor[]        = _("poor");
+
+void BS_UseIVScanner(void)
+{
+    NATIVE_ARGS();
+    u8 opponent = GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT);
+    if (gBattleTypeFlags & BATTLE_TYPE_DOUBLE)
+    {
+        if (!IsBattlerAlive(opponent))
+            opponent = GetBattlerAtPosition(B_POSITION_OPPONENT_RIGHT);
+    }
+
+    gBattlerTarget = opponent;
+
+    u32 partyIndex = gBattlerPartyIndexes[opponent];
+    struct Pokemon *mon = &gEnemyParty[partyIndex];
+
+    u32 hpIV = GetMonData(mon, MON_DATA_HP_IV);
+    u32 atkIV = GetMonData(mon, MON_DATA_ATK_IV);
+    u32 defIV = GetMonData(mon, MON_DATA_DEF_IV);
+    u32 speedIV = GetMonData(mon, MON_DATA_SPEED_IV);
+    u32 spatkIV = GetMonData(mon, MON_DATA_SPATK_IV);
+    u32 spdefIV = GetMonData(mon, MON_DATA_SPDEF_IV);
+    u32 totalIV = hpIV + atkIV + defIV + speedIV + spatkIV + spdefIV;
+
+    const u8 *gradeString;
+    if (totalIV >= 151)
+        gradeString = sText_IVGrade_Outstanding;
+    else if (totalIV >= 111)
+        gradeString = sText_IVGrade_Good;
+    else if (totalIV >= 60)
+        gradeString = sText_IVGrade_Decent;
+    else
+        gradeString = sText_IVGrade_Poor;
+
+    StringCopy(gStringVar1, gradeString);
+
+    u32 perfectCount = 0;
+    if (hpIV == 31) perfectCount++;
+    if (atkIV == 31) perfectCount++;
+    if (defIV == 31) perfectCount++;
+    if (speedIV == 31) perfectCount++;
+    if (spatkIV == 31) perfectCount++;
+    if (spdefIV == 31) perfectCount++;
+
+    if (perfectCount == 0)
+    {
+        gStringVar2[0] = EOS;
+    }
+    else if (perfectCount == 1)
+    {
+        static const u8 sText_OnePerfect[] = _("\nIt has 1 perfect stat.");
+        StringCopy(gStringVar2, sText_OnePerfect);
+    }
+    else
+    {
+        static const u8 sText_Prefix[] = _("\nIt has ");
+        static const u8 sText_Suffix[] = _(" perfect stats.");
+        u8 *ptr = StringCopy(gStringVar2, sText_Prefix);
+        ptr = ConvertIntToDecimalStringN(ptr, perfectCount, STR_CONV_MODE_LEFT_ALIGN, 1);
+        StringCopy(ptr, sText_Suffix);
+    }
+
+    if (totalIV >= 151)
+    {
+        DoShinySparkles(opponent);
+    }
+    else if (perfectCount > 0)
+    {
+        PlayFanfare(MUS_LEVEL_UP);
+    }
+
+    gBattleStruct->ivScannerUsed = TRUE;
 
     gBattlescriptCurrInstr = cmd->nextInstr;
 }

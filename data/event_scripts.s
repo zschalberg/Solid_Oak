@@ -62,6 +62,7 @@
 #include "constants/tv.h"
 #include "constants/union_room.h"
 #include "constants/vars.h"
+#include "constants/mugshots.h"
 #include "constants/weather.h"
 	.include "asm/macros.inc"
 	.include "asm/macros/event.inc"
@@ -356,6 +357,17 @@
 	.include "data/maps/LavenderTown_PokemonCenter_1F/scripts.inc"
 	.include "data/maps/LavenderTown_PokemonCenter_2F/scripts.inc"
 	.include "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.inc"
+	.include "data/maps/LavenderTown_FujiLab_Lobby/scripts.inc"
+	.include "data/maps/LavenderTown_FujiLab_Room1/scripts.inc"
+	.include "data/maps/LavenderTown_FujiLab_Room2/scripts.inc"
+	.include "data/maps/LavenderTown_FujiLab_Room3/scripts.inc"
+	.include "data/maps/LavenderTown_FujiLab_Room4/scripts.inc"
+	.include "data/maps/LavenderTown_FujiLab_Room5/scripts.inc"
+	.include "data/maps/LavenderTown_FujiLab_Room6/scripts.inc"
+	.include "data/maps/LavenderTown_FujiLab_Room7/scripts.inc"
+	.include "data/maps/LavenderTown_FujiLab_Room8/scripts.inc"
+	.include "data/maps/LavenderTown_FujiLab_Room9/scripts.inc"
+	.include "data/maps/LavenderTown_FujiLab_Room10/scripts.inc"
 	.include "data/maps/LavenderTown_House1/scripts.inc"
 	.include "data/maps/LavenderTown_House2/scripts.inc"
 	.include "data/maps/LavenderTown_Mart/scripts.inc"
@@ -838,6 +850,7 @@
 	.include "data/scripts/battle_frontier.inc"
 	.include "data/scripts/battle_pike.inc"
 	.include "data/scripts/apprentice.inc"
+	.include "data/scripts/workbench.inc"
 
 @ General
 	.include "data/scripts/aide.inc"
@@ -866,13 +879,13 @@
 	.include "data/scripts/obtain_item.inc"
 	.include "data/scripts/pc_transfer.inc"
 	.include "data/scripts/pc.inc"
+	.include "data/scripts/courier.inc"
 	.include "data/scripts/pkmn_center_nurse.inc"
 	.include "data/scripts/pokedex_rating.inc"
 	.include "data/scripts/pokemon_league.inc"
 	.include "data/scripts/pokemon_mansion.inc"
 	.include "data/scripts/questionnaire.inc"
 	.include "data/scripts/repel.inc"
-	.include "data/scripts/route23.inc"
 	.include "data/scripts/safari_zone.inc"
 	.include "data/scripts/seagallop.inc"
 	.include "data/scripts/set_gym_trainers.inc"
@@ -907,7 +920,6 @@
 	.include "data/text/poke_mart.inc"
 	.include "data/text/pokedex_rating.inc"
 	.include "data/text/pokedude.inc"
-	.include "data/text/route23.inc"
 	.include "data/text/safari_zone.inc"
 	.include "data/text/save.inc"
 	.include "data/text/seagallop.inc"
@@ -975,12 +987,12 @@ Text_ItNeedsCardKey::
 
 Text_AccessedProfOaksPC::
 	.string "Accessed PROF. OAK's PC…\p"
-	.string "Accessed the POKéDEX Rating\n"
+	.string "Accessed the JOURNAL Rating\n"
 	.string "System…$"
 
 Text_HavePokedexRated::
 	.string "Would you like to have your\n"
-	.string "POKéDEX rated?$"
+	.string "JOURNAL rated?$"
 
 Text_ClosedLinkToProfOaksPC::
 	.string "Closed link to PROF. OAK's PC.$"
@@ -1153,3 +1165,6 @@ EventScript_NoMoreRoomForPokemon::
 	msgbox Text_NoMoreRoomForPokemon
 	release
 	end
+
+	.include "data/maps/Fishing_Village_New/scripts.inc"
+	.include "data/maps/Fishing_Village_New/text.inc"

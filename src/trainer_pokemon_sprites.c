@@ -6,6 +6,7 @@
 #include "trainer_pokemon_sprites.h"
 #include "trainer.h"
 #include "window.h"
+#include "data/graphics/pokedex_gen2_sprites.h"
 
 #define PICS_COUNT 8
 
@@ -86,6 +87,71 @@ void LoadMonFrontPicInWindow(enum Species species, bool32 isShiny, u32 personali
     Free(framePics);
 }
 
+// Set to TRUE to render Pokédex Gen 2 sprites in hand-drawn journal style grayscale.
+#define POKEDEX_GEN2_GRAYSCALE FALSE
+
+#if POKEDEX_GEN2_GRAYSCALE
+static void ConvertPaletteToGrayscale(const u16 *src, u16 *dst)
+{
+    int i;
+    dst[0] = src[0]; // Preserve transparent background color index 0
+    for (i = 1; i < 16; i++)
+    {
+        u16 color = src[i];
+        u32 r = color & 0x1F;
+        u32 g = (color >> 5) & 0x1F;
+        u32 b = (color >> 10) & 0x1F;
+        // Luminance formula (0.299R + 0.587G + 0.114B)
+        u32 gray = (r * 77 + g * 150 + b * 29) >> 8;
+        if (gray > 31) gray = 31;
+        dst[i] = gray | (gray << 5) | (gray << 10);
+    }
+}
+#endif
+
+void LoadMonFrontPicInWindowPokedex(enum Species species, bool32 isShiny, u32 personality, u8 paletteSlot, u8 windowId)
+{
+    u8 *framePics = Alloc(MON_PIC_SIZE * MAX_MON_PIC_FRAMES);
+    const u16 *paletteData = NULL;
+    enum Species sanitizedSpecies = SanitizeSpeciesId(species);
+
+    if (!framePics)
+        return;
+
+    if (sanitizedSpecies < NUM_SPECIES && gPokedexGen2FrontPics[sanitizedSpecies] != NULL)
+    {
+        DecompressDataWithHeaderWram(gPokedexGen2FrontPics[sanitizedSpecies], framePics);
+    }
+    else
+    {
+        LoadSpecialPokePic(framePics, species, personality, TRUE);
+    }
+
+    BlitBitmapRectToWindow(windowId, framePics, 0, 0, MON_PIC_WIDTH, MON_PIC_HEIGHT, 0, 0, MON_PIC_WIDTH, MON_PIC_HEIGHT);
+
+    if (sanitizedSpecies < NUM_SPECIES)
+    {
+        if (isShiny && gPokedexGen2ShinyPalettes[sanitizedSpecies] != NULL)
+            paletteData = gPokedexGen2ShinyPalettes[sanitizedSpecies];
+        else if (!isShiny && gPokedexGen2Palettes[sanitizedSpecies] != NULL)
+            paletteData = gPokedexGen2Palettes[sanitizedSpecies];
+    }
+
+    if (paletteData == NULL)
+    {
+        paletteData = GetMonSpritePalFromSpeciesAndPersonality(species, isShiny, personality);
+    }
+
+#if POKEDEX_GEN2_GRAYSCALE
+    u16 grayscalePal[16];
+    ConvertPaletteToGrayscale(paletteData, grayscalePal);
+    paletteData = grayscalePal;
+#endif
+
+    LoadPalette(paletteData, BG_PLTT_ID(paletteSlot), PLTT_SIZE_4BPP);
+    Free(framePics);
+}
+
 void LoadTrainerFrontPicInWindow(enum TrainerPicID trainerPicId, u16 destX, u16 destY, u8 paletteSlot, u8 windowId)
 {
     u8 *framePics = Alloc(TRAINER_PIC_SIZE);
@@ -142,6 +208,104 @@ u16 CreateMonFrontPicSprite(enum Species species, bool32 isShiny, u32 personalit
     sCreatingSpriteTemplate.callback = DummyPicSpriteCallback;
 
     LoadMonPicPaletteByTagOrSlot(species, isShiny, personality, paletteSlot, paletteTag);
+    spriteId = CreateSprite(&sCreatingSpriteTemplate, x, y, 0);
+    if (paletteTag == TAG_NONE)
+        gSprites[spriteId].oam.paletteNum = paletteSlot;
+    sSpritePics[i].frames = framePics;
+    sSpritePics[i].images = images;
+    sSpritePics[i].paletteTag = paletteTag;
+    sSpritePics[i].spriteId = spriteId;
+    sSpritePics[i].active = TRUE;
+    return spriteId;
+}
+
+static void LoadMonPicPaletteByTagOrSlotPokedex(enum Species species, bool32 isShiny, u32 personality, u8 paletteSlot, u16 paletteTag)
+{
+    const u16 *paletteData = NULL;
+    species = SanitizeSpeciesId(species);
+
+    if (species < NUM_SPECIES)
+    {
+        if (isShiny && gPokedexGen2ShinyPalettes[species] != NULL)
+            paletteData = gPokedexGen2ShinyPalettes[species];
+        else if (!isShiny && gPokedexGen2Palettes[species] != NULL)
+            paletteData = gPokedexGen2Palettes[species];
+    }
+
+    if (paletteData == NULL)
+    {
+        paletteData = GetMonSpritePalFromSpeciesAndPersonality(species, isShiny, personality);
+    }
+
+#if POKEDEX_GEN2_GRAYSCALE
+    u16 grayscalePal[16];
+    ConvertPaletteToGrayscale(paletteData, grayscalePal);
+    paletteData = grayscalePal;
+#endif
+
+    if (paletteTag == TAG_NONE)
+    {
+        sCreatingSpriteTemplate.paletteTag = TAG_NONE;
+        LoadPalette(paletteData, OBJ_PLTT_ID(paletteSlot), PLTT_SIZE_4BPP);
+    }
+    else
+    {
+        sCreatingSpriteTemplate.paletteTag = paletteTag;
+        LoadSpritePaletteWithTag(paletteData, paletteTag);
+    }
+}
+
+u16 CreateMonFrontPicSpritePokedex(enum Species species, bool32 isShiny, u32 personality, s16 x, s16 y, u8 paletteSlot, u16 paletteTag)
+{
+    u8 i;
+    u8 *framePics;
+    struct SpriteFrameImage *images;
+    int j;
+    u8 spriteId;
+    enum Species sanitizedSpecies = SanitizeSpeciesId(species);
+
+    for (i = 0; i < PICS_COUNT; i ++)
+    {
+        if (!sSpritePics[i].active)
+            break;
+    }
+    if (i == PICS_COUNT)
+        return 0xFFFF;
+
+    framePics = Alloc(MON_PIC_SIZE * MAX_MON_PIC_FRAMES);
+    if (!framePics)
+        return 0xFFFF;
+
+    images = Alloc(sizeof(struct SpriteFrameImage) * MAX_MON_PIC_FRAMES);
+    if (!images)
+    {
+        Free(framePics);
+        return 0xFFFF;
+    }
+
+    if (sanitizedSpecies < NUM_SPECIES && gPokedexGen2FrontPics[sanitizedSpecies] != NULL)
+    {
+        DecompressDataWithHeaderWram(gPokedexGen2FrontPics[sanitizedSpecies], framePics);
+    }
+    else
+    {
+        LoadSpecialPokePic(framePics, species, personality, TRUE);
+    }
+
+    for (j = 0; j < MAX_MON_PIC_FRAMES; j ++)
+    {
+        images[j].data = framePics + MON_PIC_SIZE * j;
+        images[j].size = MON_PIC_SIZE;
+    }
+
+    sCreatingSpriteTemplate.tileTag = TAG_NONE;
+    sCreatingSpriteTemplate.oam = &sOamData_64x64;
+    sCreatingSpriteTemplate.anims = gAnims_MonPic;
+    sCreatingSpriteTemplate.images = images;
+    sCreatingSpriteTemplate.affineAnims = gDummySpriteAffineAnimTable;
+    sCreatingSpriteTemplate.callback = DummyPicSpriteCallback;
+
+    LoadMonPicPaletteByTagOrSlotPokedex(species, isShiny, personality, paletteSlot, paletteTag);
     spriteId = CreateSprite(&sCreatingSpriteTemplate, x, y, 0);
     if (paletteTag == TAG_NONE)
         gSprites[spriteId].oam.paletteNum = paletteSlot;

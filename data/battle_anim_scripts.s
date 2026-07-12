@@ -31088,6 +31088,19 @@ gBattleAnimGeneral_BaitThrow::
 	createvisualtask AnimTask_FreeBaitGfx, 2
 	end
 
+gBattleAnimGeneral_BerryThrow::
+	createvisualtask AnimTask_SetAttackerTargetLeftPos, 2, 0
+	createvisualtask AnimTask_LoadBaitGfx, 2
+	delay 0
+	waitplaysewithpan SE_M_JUMP_KICK, SOUND_PAN_ATTACKER, 22
+	createsprite gBerryBaitSpriteTemplate, ANIM_TARGET, 3, -18, 12, 0, 32
+	delay 50
+	loopsewithpan SE_M_TAIL_WHIP, SOUND_PAN_TARGET, 19, 2
+	createvisualtask AnimTask_SwayMon, 5, 1, 8, 1536, 2, ANIM_TARGET
+	waitforvisualfinish
+	createvisualtask AnimTask_FreeBaitGfx, 2
+	end
+
 gBattleAnimGeneral_ItemKnockoff::
 	loadspritegfx ANIM_TAG_ITEM_BAG
 	createsprite gKnockOffItemSpriteTemplate, ANIM_TARGET, 2

@@ -1,0 +1,11 @@
+#ifndef GUARD_CONSTANTS_MUGSHOTS_H
+#define GUARD_CONSTANTS_MUGSHOTS_H
+
+#define MUGSHOT_NONE       0
+#define MUGSHOT_PROF_OAK   1
+#define MUGSHOT_AGATHA     2
+
+#define MUGSHOT_LEFT       0
+#define MUGSHOT_RIGHT      1
+
+#endif // GUARD_CONSTANTS_MUGSHOTS_H

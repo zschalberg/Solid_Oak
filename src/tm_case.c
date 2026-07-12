@@ -28,6 +28,9 @@
 #include "text_window.h"
 #include "tm_case.h"
 #include "type_icon_sprite.h"
+#include "follower_npc.h"
+#include "overworld.h"
+#include "region_map.h"
 #include "constants/items.h"
 #include "constants/quest_log.h"
 #include "constants/songs.h"
@@ -1039,22 +1042,38 @@ static void Task_ContextMenu_HandleInput(u8 taskId)
 
 static void Action_Use(u8 taskId)
 {
-    RemoveContextMenu(&sTMCaseDynamicResources->contextMenuWindowId);
-    ClearStdWindowAndFrameToTransparent(WIN_SELECTED_MSG, FALSE);
-    ClearWindowTilemap(WIN_SELECTED_MSG);
-    PutWindowTilemap(WIN_LIST);
-    ScheduleBgCopyTilemapToVram(0);
-    ScheduleBgCopyTilemapToVram(1);
-    if (CalculatePlayerPartyCount() == 0)
+    s16 *data = gTasks[taskId].data;
+    enum Item itemId = GetBagItemId(POCKET_TM_HM, tListPos);
+
+    if (itemId == ITEM_HM02)
     {
-        PrintError_ThereIsNoPokemon(taskId);
+        if (!CheckFollowerNPCFlag(FOLLOWER_NPC_FLAG_CAN_LEAVE_ROUTE) || Overworld_MapTypeAllowsTeleportAndFly(gMapHeader.mapType) != TRUE)
+        {
+            static const u8 sText_CantFlyHere[] = _("Can't use that here.{PAUSE_UNTIL_PRESS}");
+            RemoveContextMenu(&sTMCaseDynamicResources->contextMenuWindowId);
+            ClearStdWindowAndFrameToTransparent(WIN_SELECTED_MSG, FALSE);
+            ClearWindowTilemap(WIN_SELECTED_MSG);
+            PutWindowTilemap(WIN_LIST);
+            ScheduleBgCopyTilemapToVram(0);
+            ScheduleBgCopyTilemapToVram(1);
+            PrintMessageWithFollowupTask(taskId, FONT_NORMAL, sText_CantFlyHere, Task_WaitButtonAfterErrorPrint);
+        }
+        else
+        {
+            sTMCaseDynamicResources->nextScreenCallback = CB2_OpenFlyMap;
+            Task_BeginFadeOutFromTMCase(taskId);
+        }
     }
     else
     {
-        // Chose a TM/HM to use, exit TM case for party menu
-        gItemUseCB = ItemUseCB_TMHM;
-        sTMCaseDynamicResources->nextScreenCallback = CB2_ShowPartyMenuForItemUse;
-        Task_BeginFadeOutFromTMCase(taskId);
+        static const u8 sText_TMsCannotBeUsed[] = _("TMs cannot be used directly.\nLearn moves from Dojo Tutors!{PAUSE_UNTIL_PRESS}");
+        RemoveContextMenu(&sTMCaseDynamicResources->contextMenuWindowId);
+        ClearStdWindowAndFrameToTransparent(WIN_SELECTED_MSG, FALSE);
+        ClearWindowTilemap(WIN_SELECTED_MSG);
+        PutWindowTilemap(WIN_LIST);
+        ScheduleBgCopyTilemapToVram(0);
+        ScheduleBgCopyTilemapToVram(1);
+        PrintMessageWithFollowupTask(taskId, FONT_NORMAL, sText_TMsCannotBeUsed, Task_WaitButtonAfterErrorPrint);
     }
 }
 

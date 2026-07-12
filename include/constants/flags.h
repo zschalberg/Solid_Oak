@@ -207,7 +207,7 @@
 #define FLAG_HIDE_BATTLE_FRONTIER_RECEPTION_GATE_SCOTT      0x0BD
 #define FLAG_CANCEL_BATTLE_ROOM_CHALLENGE                   0x0BE
 #define FLAG_BATTLE_FRONTIER_UNLOCKED                       0x0BF
-#define FLAG_0x0C0               0x0C0
+#define FLAG_B_FLAG_FOLLOWERS_DISABLED                      0x0C0
 #define FLAG_0x0C1               0x0C1
 #define FLAG_0x0C2               0x0C2
 #define FLAG_0x0C3               0x0C3
@@ -765,13 +765,13 @@
 #define FLAG_GOT_NUGGET_FROM_DUNSPARCE_TUNNEL            0x2E2
 #define FLAG_USED_CUT_ON_RUIN_VALLEY_BRAILLE             0x2E3
 #define FLAG_FOUGHT_DEOXYS                               0x2E4
-#define FLAG_0x2E5                                       0x2E5
-#define FLAG_0x2E6                                       0x2E6
-#define FLAG_0x2E7                                       0x2E7
-#define FLAG_0x2E8                                       0x2E8
-#define FLAG_0x2E9                                       0x2E9
-#define FLAG_0x2EA                                       0x2EA
-#define FLAG_0x2EB                                       0x2EB
+#define FLAG_DOUBLE_BATTLE_WITH_ONE_MON                  0x2E5
+#define FLAG_PREVIEW_BATTLE                              0x2E6
+#define FLAG_MONOTYPE_BATTLE                             0x2E7
+#define FLAG_UNLOCK_POKEBALLS_IN_MARTS                   0x2E8
+#define FLAG_SCALE_BOSS_BATTLE                           0x2E9
+#define FLAG_SCALE_WILD_POKEMON                          0x2EA
+#define FLAG_VARIABLE_PREVIEW_MODE                       0x2EB
 #define FLAG_REVIVED_DOME                                0x2EC
 #define FLAG_REVIVED_HELIX                               0x2ED
 #define FLAG_REVIVED_AMBER                               0x2EE
@@ -806,18 +806,18 @@
 #define FLAG_RECEIVED_SILVER_SHIELD                      0x309
 #define FLAG_RECEIVED_GOLD_SHIELD                        0x30A
 #define FLAG_CHOSEN_MULTI_BATTLE_NPC_PARTNER             0x30B
-#define FLAG_0x30C               0x30C
-#define FLAG_0x30D               0x30D
-#define FLAG_0x30E               0x30E
-#define FLAG_0x30F               0x30F
-#define FLAG_0x310               0x310
-#define FLAG_0x311               0x311
-#define FLAG_0x312               0x312
-#define FLAG_0x313               0x313
-#define FLAG_0x314               0x314
-#define FLAG_0x315               0x315
-#define FLAG_0x316               0x316
-#define FLAG_0x317               0x317
+#define FLAG_FORCE_DOUBLE_WILD                           0x30C
+#define FLAG_SMART_WILD_AI                               0x30D
+#define FLAG_NO_CATCHING                                 0x30E
+#define FLAG_AI_VS_AI_BATTLE                             0x30F
+#define FLAG_NO_WHITEOUT                                 0x310
+#define FLAG_FLAG_FORCE_SHINY                            0x311
+#define B_FLAG_INVERSE_BATTLE                            0x312
+#define B_FLAG_NO_RUNNING                                0x313
+#define B_FLAG_DYNAMAX_BATTLE                            0x314
+#define B_FLAG_SKY_BATTLE                                0x315
+#define B_FLAG_WATER_BATTLE                              0x316
+#define B_FLAG_UNDERWATER_BATTLE                         0x317
 #define FLAG_0x318               0x318
 #define FLAG_0x319               0x319
 #define FLAG_0x31A               0x31A
@@ -1232,8 +1232,8 @@
 #define FLAG_HIDDEN_ITEM_ARTISAN_CAVE_B1F_PROTEIN                          (FLAG_HIDDEN_ITEMS_START + 193)
 #define FLAG_HIDDEN_ITEM_ARTISAN_CAVE_B1F_IRON                             (FLAG_HIDDEN_ITEMS_START + 194)
 // Unused hidden item flags
-#define FLAG_UNUSED_0x4AB               0x4AB // Unused Flag
-#define FLAG_UNUSED_0x4AC               0x4AC // Unused Flag
+#define FLAG_FUJI_LAB_UPGRADE           0x4AB // Mr. Fuji's Lab dynamic expansion upgrade
+#define FLAG_SYS_CONVENTIONAL_PC_UNLOCKED 0x4AC // Conventional PC storage unlocked
 #define FLAG_UNUSED_0x4AD               0x4AD // Unused Flag
 #define FLAG_UNUSED_0x4AE               0x4AE // Unused Flag
 #define FLAG_UNUSED_0x4AF               0x4AF // Unused Flag
@@ -1257,22 +1257,22 @@
 #define FLAG_0x4BD               0x4BD
 #define FLAG_0x4BE               0x4BE
 #define FLAG_0x4BF               0x4BF
-#define FLAG_0x4C0               0x4C0
-#define FLAG_0x4C1               0x4C1
-#define FLAG_0x4C2               0x4C2
-#define FLAG_0x4C3               0x4C3
-#define FLAG_0x4C4               0x4C4
-#define FLAG_0x4C5               0x4C5
-#define FLAG_0x4C6               0x4C6
-#define FLAG_0x4C7               0x4C7
-#define FLAG_0x4C8               0x4C8
-#define FLAG_0x4C9               0x4C9
-#define FLAG_0x4CA               0x4CA
-#define FLAG_0x4CB               0x4CB
-#define FLAG_0x4CC               0x4CC
-#define FLAG_0x4CD               0x4CD
-#define FLAG_0x4CE               0x4CE
-#define FLAG_0x4CF               0x4CF
+#define FLAG_QUEST_1_ACTIVE      0x4C0
+#define FLAG_QUEST_1_COMPLETED   0x4C1
+#define FLAG_QUEST_2_ACTIVE      0x4C2
+#define FLAG_QUEST_2_COMPLETED   0x4C3
+#define FLAG_QUEST_3_ACTIVE      0x4C4
+#define FLAG_QUEST_3_COMPLETED   0x4C5
+#define FLAG_QUEST_4_ACTIVE      0x4C6
+#define FLAG_QUEST_4_COMPLETED   0x4C7
+#define FLAG_QUEST_5_ACTIVE      0x4C8
+#define FLAG_QUEST_5_COMPLETED   0x4C9
+#define FLAG_QUEST_6_ACTIVE      0x4CA
+#define FLAG_QUEST_6_COMPLETED   0x4CB
+#define FLAG_QUEST_7_ACTIVE      0x4CC
+#define FLAG_QUEST_7_COMPLETED   0x4CD
+#define FLAG_QUEST_KNOW_GENGAR_EVO     0x4CE
+#define FLAG_QUEST_KNOW_SLOWPOKE_EVOS  0x4CF
 #define FLAG_0x4D0               0x4D0
 #define FLAG_0x4D1               0x4D1
 #define FLAG_0x4D2               0x4D2

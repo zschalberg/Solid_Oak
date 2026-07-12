@@ -281,6 +281,7 @@ void FadeInNewBGM(u16 songNum, u8 speed)
     m4aMPlayVolumeControl(&gMPlayInfo_BGM, TRACKS_ALL, 0);
     m4aSongNumStop(songNum);
     m4aMPlayFadeIn(&gMPlayInfo_BGM, speed);
+    ApplyBgmSpeedOption();
 }
 
 void FadeOutBGMTemporarily(u8 speed)
@@ -570,6 +571,7 @@ void PlayBGM(u16 songNum)
     if (songNum == MUS_NONE)
         songNum = 0;
     m4aSongNumStart(songNum);
+    ApplyBgmSpeedOption();
 }
 
 void PlaySE(u16 songNum)
@@ -644,4 +646,19 @@ void BGMVolumeMax_EnableHelpSystemReduction(void)
 {
     gDisableHelpSystemVolumeReduce = FALSE;
     m4aMPlayVolumeControl(&gMPlayInfo_BGM, TRACKS_ALL, 256);
+}
+
+void ApplyBgmSpeedOption(void)
+{
+    if (gSaveBlock2Ptr != NULL)
+    {
+        u8 speed = gSaveBlock2Ptr->optionsMusicSpeed;
+        u16 tempoMultiplier = 0x100;
+        if (speed == 1)
+            tempoMultiplier = 0x80;  // 0.5x speed (2x slow)
+        else if (speed == 2)
+            tempoMultiplier = 0x55;  // 0.33x speed (3x slow)
+            
+        m4aMPlayTempoControl(&gMPlayInfo_BGM, tempoMultiplier);
+    }
 }

@@ -1,4 +1,10 @@
 #include "global.h"
+#include "battle_main.h"
+#include "battle_util.h"
+#include "water_battle.h"
+#include "team_preview.h"
+#include "constants/flags.h"
+#include "constants/pokeball.h"
 #include "battle_setup.h"
 #include "berry.h"
 #include "clock.h"
@@ -14,6 +20,7 @@
 #include "field_effect.h"
 #include "field_fadetransition.h"
 #include "field_message_box.h"
+#include "mugshot.h"
 #include "field_move.h"
 #include "field_player_avatar.h"
 #include "field_screen_effect.h"
@@ -2506,9 +2513,173 @@ bool8 ScrCmd_trainerbattle(struct ScriptContext *ctx)
     return FALSE;
 }
 
+extern const u8 EventScript_Abort3v3Battle[];
+
+static u8 GetUsable3v3PartyCount(void)
+{
+    u8 count = 0;
+    u8 i;
+    u8 restrictedType = GetMonotypeRestrictionType();
+    
+    for (i = 0; i < PARTY_SIZE; i++)
+    {
+        struct Pokemon *mon = &gPlayerParty[i];
+        u16 species = GetMonData(mon, MON_DATA_SPECIES);
+        if (species != SPECIES_NONE
+            && species != SPECIES_EGG
+            && !GetMonData(mon, MON_DATA_IS_EGG)
+            && GetMonData(mon, MON_DATA_HP) != 0
+            && GetMonData(mon, MON_DATA_POKEBALL) != BALL_RESEARCH)
+        {
+            if (restrictedType == TYPE_NONE
+                || gSpeciesInfo[species].types[0] == restrictedType
+                || gSpeciesInfo[species].types[1] == restrictedType)
+            {
+                count++;
+            }
+        }
+    }
+    return count;
+}
+
+extern const u8 EventScript_AbortMonotypeBattle[];
+extern const u8 EventScript_AbortMonotype3v3Battle[];
+extern const u8 EventScript_AbortNoEligibleMon[];
+
+static bool32 PlayerHasEligibleMonForCurrentBattleMode(void)
+{
+    bool32 waterBattle     = B_FLAG_WATER_BATTLE     && FlagGet(B_FLAG_WATER_BATTLE);
+    bool32 underwaterBattle = B_FLAG_UNDERWATER_BATTLE && FlagGet(B_FLAG_UNDERWATER_BATTLE);
+    bool32 skyBattle       = B_FLAG_SKY_BATTLE       && FlagGet(B_FLAG_SKY_BATTLE);
+
+    if (!waterBattle && !underwaterBattle && !skyBattle)
+        return TRUE;
+
+    u8 i;
+    for (i = 0; i < PARTY_SIZE; i++)
+    {
+        struct Pokemon *mon = &gPlayerParty[i];
+        if (!GetMonData(mon, MON_DATA_SPECIES) || GetMonData(mon, MON_DATA_IS_EGG)
+            || GetMonData(mon, MON_DATA_HP) == 0)
+            continue;
+        if (underwaterBattle && CanMonParticipateInWaterBattle(mon))
+            return TRUE;
+        if (waterBattle && (CanMonParticipateInWaterBattle(mon) || CanMonParticipateInSkyBattle(mon)))
+            return TRUE;
+        if (skyBattle && CanMonParticipateInSkyBattle(mon))
+            return TRUE;
+    }
+    return FALSE;
+}
+
 bool8 ScrCmd_dotrainerbattle(struct ScriptContext *ctx)
 {
     Script_RequestEffects(SCREFF_V1 | SCREFF_SAVE | SCREFF_HARDWARE);
+
+    if (!PlayerHasEligibleMonForCurrentBattleMode())
+    {
+        ctx->scriptPtr = EventScript_AbortNoEligibleMon;
+        return FALSE;
+    }
+
+    u16 trainerId = gTrainerBattleParameter.params.opponentA;
+    const struct Trainer *trainer = GetTrainerStructFromId(trainerId);
+    u8 maxPoolSize = (trainer->poolSize != 0) ? trainer->poolSize : trainer->partySize;
+    bool8 variablePreviewMode = FlagGet(FLAG_VARIABLE_PREVIEW_MODE);
+
+    if (variablePreviewMode && gSpecialVar_0x8008 == 0)
+        gSpecialVar_0x8008 = maxPoolSize;
+
+    u8 selectCount = gSpecialVar_0x8008;
+
+    if (selectCount == 0 || selectCount > 6)
+    {
+        selectCount = 3;
+    }
+    if (selectCount > maxPoolSize)
+    {
+        selectCount = maxPoolSize;
+    }
+
+    if (FlagGet(FLAG_MONOTYPE_BATTLE))
+    {
+        u8 restrictedType = GetMonotypeRestrictionType();
+        if (restrictedType != TYPE_NONE)
+        {
+            if (FlagGet(FLAG_PREVIEW_BATTLE) || variablePreviewMode)
+            {
+                if (GetUsable3v3PartyCount() < selectCount)
+                {
+                    FlagClear(FLAG_PREVIEW_BATTLE);
+                    FlagClear(FLAG_MONOTYPE_BATTLE);
+                    VarSet(VAR_MONOTYPE_RESTRICTION, TYPE_NONE);
+                    
+                    StringCopy(gStringVar1, gTypesInfo[restrictedType].name);
+                    ConvertIntToDecimalStringN(gStringVar2, selectCount, STR_CONV_MODE_LEFT_ALIGN, 1);
+                    ctx->scriptPtr = EventScript_AbortMonotype3v3Battle;
+                    gSpecialVar_0x8008 = 0;
+                    gSpecialVar_0x800A = 0;
+                    return FALSE;
+                }
+            }
+            else
+            {
+                u8 count = 0;
+                u8 i;
+                bool32 hasNonConforming = FALSE;
+                
+                for (i = 0; i < PARTY_SIZE; i++)
+                {
+                    struct Pokemon *mon = &gPlayerParty[i];
+                    u16 species = GetMonData(mon, MON_DATA_SPECIES);
+                    if (species == SPECIES_NONE || species == SPECIES_EGG
+                        || GetMonData(mon, MON_DATA_IS_EGG))
+                        continue;
+                    if (GetMonData(mon, MON_DATA_POKEBALL) == BALL_RESEARCH)
+                        continue;
+                    if (gSpeciesInfo[species].types[0] != restrictedType
+                        && gSpeciesInfo[species].types[1] != restrictedType)
+                    {
+                        hasNonConforming = TRUE;
+                        break;
+                    }
+                    count++;
+                }
+                
+                if (hasNonConforming || count == 0)
+                {
+                    FlagClear(FLAG_MONOTYPE_BATTLE);
+                    VarSet(VAR_MONOTYPE_RESTRICTION, TYPE_NONE);
+                    
+                    StringCopy(gStringVar1, gTypesInfo[restrictedType].name);
+                    ctx->scriptPtr = EventScript_AbortMonotypeBattle;
+                    return FALSE;
+                }
+            }
+        }
+    }
+
+    if (FlagGet(FLAG_PREVIEW_BATTLE) || variablePreviewMode)
+    {
+        FlagClear(FLAG_PREVIEW_BATTLE);
+
+        if (GetUsable3v3PartyCount() < selectCount)
+        {
+            ConvertIntToDecimalStringN(gStringVar1, selectCount, STR_CONV_MODE_LEFT_ALIGN, 1);
+            ctx->scriptPtr = EventScript_Abort3v3Battle;
+            gSpecialVar_0x8008 = 0;
+            gSpecialVar_0x800A = 0;
+            return FALSE;
+        }
+        else
+        {
+            ShowOpponentTeamPreview(trainerId, NULL);
+            gSpecialVar_0x8008 = 0;
+            gSpecialVar_0x800A = 0;
+            ScriptContext_Stop();
+            return TRUE;
+        }
+    }
 
     BattleSetup_StartTrainerBattle();
     return TRUE;
@@ -2586,6 +2757,12 @@ bool8 ScrCmd_setwildbattle(struct ScriptContext *ctx)
 bool8 ScrCmd_dowildbattle(struct ScriptContext *ctx)
 {
     Script_RequestEffects(SCREFF_V1 | SCREFF_HARDWARE);
+
+    if (!PlayerHasEligibleMonForCurrentBattleMode())
+    {
+        ctx->scriptPtr = EventScript_AbortNoEligibleMon;
+        return FALSE;
+    }
 
     if (sIsScriptedWildDouble == FALSE)
         BattleSetup_StartScriptedWildBattle();
@@ -3160,3 +3337,46 @@ bool8 ScrCmd_istmrelearneractive(struct ScriptContext *ctx)
 
     return FALSE;
 }
+
+void Script_SetScaledWildBattle(struct ScriptContext *ctx)
+{
+    enum Species species = gSpecialVar_0x8004;
+    u8 minLevel = gSpecialVar_0x8005;
+    s8 levelOffset = (s8)gSpecialVar_0x8006;
+    enum Item item = gSpecialVar_0x8007;
+    u8 maxLevel = 0;
+    u32 i;
+
+    for (i = 0; i < gPlayerPartyCount; i++)
+    {
+        u8 lvl = GetMonData(&gPlayerParty[i], MON_DATA_LEVEL);
+        if (lvl > maxLevel)
+            maxLevel = lvl;
+    }
+
+    s32 enemyLevel = (s32)maxLevel + levelOffset;
+    if (enemyLevel < minLevel)
+        enemyLevel = minLevel;
+    if (enemyLevel < 1)
+        enemyLevel = 1;
+    if (enemyLevel > 100)
+        enemyLevel = 100;
+
+    CreateScriptedWildMon(species, (u8)enemyLevel, item);
+    sIsScriptedWildDouble = FALSE;
+}
+
+bool8 ScrCmd_showmugshot(struct ScriptContext *ctx)
+{
+    u16 mugshotId = VarGet(ScriptReadHalfword(ctx));
+    u8 position = ScriptReadByte(ctx);
+    ShowMugshot(mugshotId, position);
+    return FALSE;
+}
+
+bool8 ScrCmd_clearmugshot(struct ScriptContext *ctx)
+{
+    ClearMugshot();
+    return FALSE;
+}
+

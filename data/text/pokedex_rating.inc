@@ -1,11 +1,11 @@
 PokedexRating_Text_HowIsPokedexComingAlong::
 	.string "OAK: Good to see you!\n"
-	.string "How is your POKéDEX coming along?\p"
+	.string "How is your JOURNAL coming along?\p"
 	.string "Here, let me take a look.$"
 
 PokedexRating_Text_SeenXOwnedY::
 	.string "The amount of progress you've made\n"
-	.string "on your POKéDEX is:\p"
+	.string "on your JOURNAL is:\p"
 	.string "{STR_VAR_1} POKéMON seen and\n"
 	.string "{STR_VAR_2} POKéMON owned.\p"
 	.string "{FONT_NORMAL}PROF. OAK's rating:$"
@@ -22,7 +22,7 @@ PokedexRating_Text_LessThan20::
 	.string "HM. Make sure you go get it!$"
 
 PokedexRating_Text_LessThan30::
-	.string "Your POKéDEX could use a bit more\n"
+	.string "Your JOURNAL could use a bit more\n"
 	.string "volume still!\p"
 	.string "Try to catch other species of\n"
 	.string "POKéMON!$"
@@ -34,7 +34,7 @@ PokedexRating_Text_LessThan40::
 	.string "ITEMFINDER. Be sure to collect it!$"
 
 PokedexRating_Text_LessThan50::
-	.string "Your POKéDEX is coming along quite\n"
+	.string "Your JOURNAL is coming along quite\n"
 	.string "well!\p"
 	.string "I've given one of my AIDES an\n"
 	.string "AMULET COIN. Be sure to get it!$"
@@ -47,7 +47,7 @@ PokedexRating_Text_LessThan60::
 
 PokedexRating_Text_LessThan70::
 	.string "Hoho! This is turning into quite the\n"
-	.string "respectable POKéDEX!$"
+	.string "respectable JOURNAL!$"
 
 PokedexRating_Text_LessThan80::
 	.string "Very good!\p"
@@ -83,22 +83,22 @@ PokedexRating_Text_LessThan150::
 	.string "You're the POKéMON PROFESSOR now!$"
 
 PokedexRating_Text_Complete::
-	.string "Your POKéDEX is entirely complete!\n"
+	.string "Your JOURNAL is entirely complete!\n"
 	.string "Congratulations!!$"
 
 PokedexRating_Text_NationalDexSeenXOwnedY::
-	.string "And your NATIONAL POKéDEX is:\p"
+	.string "And your NATIONAL JOURNAL is:\p"
 	.string "{STR_VAR_1} POKéMON seen and\n"
 	.string "{STR_VAR_2} POKéMON owned.$"
 
 PokedexRating_Text_LookForwardToFilledNationalDex::
 	.string "I'll be looking forward to seeing\n"
-	.string "you fill the NATIONAL POKéDEX!$"
+	.string "you fill the NATIONAL JOURNAL!$"
 
 PokedexRating_Text_YouveCompletedDex::
 	.string "Finally…\p"
 	.string "You've finally completed the\n"
-	.string "POKéDEX!\p"
+	.string "JOURNAL!\p"
 	.string "It's magnificent!\n"
 	.string "Truly, this is a fantastic feat!$"
 
@@ -115,7 +115,7 @@ PokedexRating_Text_ThankYouMadeDreamReality::
 
 PokedexRating_Text_LoveSeeingYourPokedex::
 	.string "OAK: Ah, welcome!\p"
-	.string "Tell me, how is your POKéDEX\n"
+	.string "Tell me, how is your JOURNAL\n"
 	.string "coming along?\p"
 	.string "Wahaha!\p"
 	.string "Actually, I know how it is, but I\n"

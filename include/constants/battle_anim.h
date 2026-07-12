@@ -605,7 +605,10 @@ enum AnimBattler
 #define B_ANIM_SAFARI_REACTION          60
 #define B_ANIM_FORM_CHANGE_INSTANT      61
 #define B_ANIM_FORM_CHANGE_DISGUISE     62
-#define NUM_B_ANIMS_GENERAL             63
+#define B_ANIM_ELECTRIC_FLOOR_CONTINUES 63
+#define B_ANIM_POISON_FOG_CONTINUES     64
+#define B_ANIM_BERRY_THROW              65
+#define NUM_B_ANIMS_GENERAL             66
 
 // special animations table (sBattleAnims_Special)
 #define B_ANIM_LVL_UP                   0

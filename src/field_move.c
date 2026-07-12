@@ -3,9 +3,11 @@
 #include "field_move.h"
 #include "fldeff.h"
 #include "pokemon.h"
+#include "item.h"
 #include "constants/field_move.h"
 #include "constants/moves.h"
 #include "constants/party_menu.h"
+#include "constants/items.h"
 
 static bool32 FieldMove_IsUnlockedCut(void);
 static bool32 FieldMove_IsUnlockedFly(void);
@@ -14,6 +16,7 @@ static bool32 FieldMove_IsUnlockedStrength(void);
 static bool32 FieldMove_IsUnlockedFlash(void);
 static bool32 FieldMove_IsUnlockedRockSmash(void);
 static bool32 FieldMove_IsUnlockedWaterfall(void);
+static bool32 FieldMove_IsUnlockedDive(void);
 #if OW_ROCK_CLIMB_FIELD_MOVE == TRUE
 static bool32 FieldMove_IsUnlockedRockClimb(void);
 #endif
@@ -108,12 +111,12 @@ const struct FieldMoveInfo gFieldMovesInfo[FIELD_MOVE_COUNT] =
     [FIELD_MOVE_DIVE] =
     {
         .defaultSpecies = SPECIES_SEEL,
-        .isUnlockedFunc = NULL,
-        .moveId = MOVE_NONE,
+        .isUnlockedFunc = FieldMove_IsUnlockedDive,
+        .moveId = MOVE_DIVE,
         .partyMessageId = PARTY_MSG_CANT_USE_HERE,
-        .description = COMPOUND_STRING("N/A"),
-        .setUpFunc = NULL,
-        .questLogText = COMPOUND_STRING("N/A"),
+        .description = COMPOUND_STRING("Dive underwater."),
+        .setUpFunc = FieldMove_SetUpDive,
+        .questLogText = COMPOUND_STRING("{STR_VAR_1} used DIVE here."),
     },
     [FIELD_MOVE_ROCK_CLIMB] =
     {
@@ -212,37 +215,42 @@ bool32 FieldMove_IsUnlocked(enum FieldMove fieldMove)
 
 static bool32 FieldMove_IsUnlockedCut(void)
 {
-    return FlagGet(FLAG_BADGE02_GET);
+    return CheckBagHasItem(ITEM_HM01, 1);
 }
 
 static bool32 FieldMove_IsUnlockedFly(void)
 {
-    return FlagGet(FLAG_BADGE03_GET);
+    return CheckBagHasItem(ITEM_HM02, 1);
 }
 
 static bool32 FieldMove_IsUnlockedSurf(void)
 {
-    return FlagGet(FLAG_BADGE05_GET);
+    return CheckBagHasItem(ITEM_HM03, 1);
 }
 
 static bool32 FieldMove_IsUnlockedStrength(void)
 {
-    return FlagGet(FLAG_BADGE04_GET);
+    return CheckBagHasItem(ITEM_HM04, 1);
 }
 
 static bool32 FieldMove_IsUnlockedFlash(void)
 {
-    return FlagGet(FLAG_BADGE01_GET);
+    return CheckBagHasItem(ITEM_HM05, 1);
 }
 
 static bool32 FieldMove_IsUnlockedRockSmash(void)
 {
-    return FlagGet(FLAG_BADGE06_GET);
+    return CheckBagHasItem(ITEM_HM06, 1);
 }
 
 static bool32 FieldMove_IsUnlockedWaterfall(void)
 {
-    return FlagGet(FLAG_BADGE07_GET);
+    return CheckBagHasItem(ITEM_HM07, 1);
+}
+
+static bool32 FieldMove_IsUnlockedDive(void)
+{
+    return CheckBagHasItem(ITEM_HM08, 1);
 }
 
 #if OW_ROCK_CLIMB_FIELD_MOVE == TRUE

@@ -129,3 +129,98 @@ VermilionCity_Text_Route2AideHasPackageForYou::
     .string "If you're in the ROUTE 2 area,\n"
     .string "please look for him.$"
 
+VermilionCity_Text_TesterSailor_FlagDisabledAskToggle::
+    .string "Ahoy! I can toggle the bypass flag\n"
+    .string "for entering double battles.\p"
+    .string "It is currently DISABLED.\n"
+    .string "Would you like to enable it?$"
+
+VermilionCity_Text_TesterSailor_FlagEnabledAskToggle::
+    .string "Ahoy! I can toggle the bypass flag\n"
+    .string "for entering double battles.\p"
+    .string "It is currently ENABLED.\n"
+    .string "Would you like to disable it?$"
+
+VermilionCity_Text_TesterSailor_FlagNowEnabled::
+    .string "The bypass flag has been enabled.\n"
+    .string "You can now double battle with one Mon!$"
+
+VermilionCity_Text_TesterSailor_FlagNowDisabled::
+    .string "The bypass flag has been disabled.\n"
+    .string "Normal double battle checks apply.$"
+
+VermilionCity_Text_TesterSailor_AskBattle::
+    .string "Would you like to challenge me\n"
+    .string "to a double battle?$"
+
+VermilionCity_Text_TesterSailor_NoBattle::
+    .string "Aww, alright. Smooth sailing to you!$"
+
+VermilionCity_Text_TesterSailorBattleIntro::
+    .string "Prepare yourself! Let's see how\n"
+    .string "you handle a double battle!$"
+
+VermilionCity_Text_TesterSailorBattleDefeat::
+    .string "Whoa! You washed me right out!$"
+
+VermilionCity_Text_TesterSailorNotEnoughMons::
+    .string "Wait, you need at least one Pokémon\n"
+    .string "to battle!$"
+
+VermilionCity_Text_TesterSailorPostBattle::
+    .string "That was a great match!\n"
+    .string "Good luck with your quest!$"
+
+VermilionCity_Text_Tester_ChooseOption::
+    .string "Ahoy! What would you like to test today?$"
+
+VermilionCity_Text_Tester_ToggleDoubleFlag::
+    .string "Toggle Double Battle Flag$"
+
+VermilionCity_Text_Tester_StandardBattle::
+    .string "Standard Trainer Battle$"
+
+VermilionCity_Text_Tester_ScaledBossBattle::
+    .string "Scaled Boss Trainer Battle$"
+
+VermilionCity_Text_Tester_ScaledWildBoss::
+    .string "Scaled Wild Boss (Tentacruel)$$"
+
+VermilionCity_Text_Tester_Close::
+    .string "Close$"
+
+VermilionCity_Text_Tester_ChooseOffset::
+    .string "Choose a level offset for scaling:$"
+
+VermilionCity_Text_Tester_OffsetPlus2::
+    .string "+2 levels$"
+
+VermilionCity_Text_Tester_OffsetPlus5::
+    .string "+5 levels (Default)$"
+
+VermilionCity_Text_Tester_OffsetPlus10::
+    .string "+10 levels$"
+
+VermilionCity_Text_Tester_OffsetPlus20::
+    .string "+20 levels$"
+
+VermilionCity_Text_Tester_OffsetMinus5::
+    .string "-5 levels (Easy Mode)$"
+
+VermilionCity_Text_Tester_OffsetMinus10::
+    .string "-10 levels (Very Easy)$"
+
+VermilionCity_Text_Tester_ToggleWildScaling::
+    .string "Toggle Wild Level Scaling$"
+
+VermilionCity_Text_TesterSailor_WildScalingNowEnabled::
+    .string "Wild Pokémon level scaling is now ENABLED.\p"
+    .string "Encountered wild Pokémon will scale\n"
+    .string "closer to your team's highest level.$"
+
+VermilionCity_Text_TesterSailor_WildScalingNowDisabled::
+    .string "Wild Pokémon level scaling is now DISABLED.\p"
+    .string "Overworld wild Pokémon will use their\n"
+    .string "default area levels.$"
+
+

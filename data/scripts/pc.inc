@@ -13,7 +13,7 @@ EventScript_PC::
 
 @ For when the player first arrives on One Island
 EventScript_PCDisabled::
-	msgbox OneIsland_PokemonCenter_1F_Text_UsualPCServicesUnavailable
+	msgbox Text_FujiLabPCServicesUnavailable
 	releaseall
 	end
 
@@ -107,3 +107,9 @@ EventScript_AccessPokemonBoxLink::
 	waitstate
 	goto EventScript_TurnOffPC
 	end
+
+Text_FujiLabPCServicesUnavailable::
+	.string "The connection to the PC storage\n"
+	.string "system is down…\p"
+	.string "Stored POKéMON are cared for at\n"
+	.string "FUJI'S LAB in LAVENDER TOWN.$"

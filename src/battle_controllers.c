@@ -9,6 +9,8 @@
 #include "battle_interface.h"
 #include "battle_message.h"
 #include "battle_setup.h"
+#include "battle_util.h"
+#include "water_battle.h"
 #include "cable_club.h"
 #include "event_data.h"
 #include "event_object_movement.h"
@@ -404,7 +406,8 @@ bool32 IsValidForBattle(struct Pokemon *mon)
     return (species != SPECIES_NONE
          && species != SPECIES_EGG
          && GetMonData(mon, MON_DATA_HP) != 0
-         && GetMonData(mon, MON_DATA_IS_EGG) == FALSE);
+         && GetMonData(mon, MON_DATA_IS_EGG) == FALSE
+         && GetMonData(mon, MON_DATA_POKEBALL) != BALL_RESEARCH);
 }
 
 bool32 IsValidForBattleButDead(struct Pokemon *mon)
@@ -412,7 +415,8 @@ bool32 IsValidForBattleButDead(struct Pokemon *mon)
     u32 species = GetMonData(mon, MON_DATA_SPECIES_OR_EGG);
     return (species != SPECIES_NONE
          && species != SPECIES_EGG
-         && GetMonData(mon, MON_DATA_IS_EGG) == FALSE);
+         && GetMonData(mon, MON_DATA_IS_EGG) == FALSE
+         && GetMonData(mon, MON_DATA_POKEBALL) != BALL_RESEARCH);
 }
 
 static inline bool32 IsControllerPlayer(enum BattlerId battler)
@@ -470,12 +474,65 @@ static inline bool32 IsControllerSafari(enum BattlerId battler)
     return (gBattlerControllerEndFuncs[battler] == SafariBufferExecCompleted);
 }
 
+static bool32 IsValidForCurrentWaterBattle(struct Pokemon *mon)
+{
+    if (gBattleStruct->isUnderwaterBattle)
+        return CanMonParticipateInWaterBattle(mon);
+    if (gBattleStruct->isWaterBattle)
+        return CanMonParticipateInWaterBattle(mon) || CanMonParticipateInSkyBattle(mon);
+    return TRUE;
+}
+
 static void SetBattlePartyIds(void)
 {
     if (!(gBattleTypeFlags & BATTLE_TYPE_MULTI))
     {
         for (enum BattlerId i = 0; i < gBattlersCount; i++)
         {
+            bool32 foundWaterEligibleLead = FALSE;
+
+            // For each of the player's battlers, prefer a mon that's actually
+            // eligible to fight in the current water/underwater battle over
+            // slot order (covers both the single lead and, in doubles, the
+            // player's second battler).
+            if (GetBattlerSide(i) == B_SIDE_PLAYER)
+            {
+                for (u32 j = 0; j < PARTY_SIZE; j++)
+                {
+                    if (i >= 2 && gBattlerPartyIndexes[i - 2] == j)
+                        continue; // already assigned to the player's other battler
+
+                    if (IsValidForBattle(&GetBattlerParty(i)[j]) && IsValidForCurrentWaterBattle(&GetBattlerParty(i)[j]))
+                    {
+                        gBattlerPartyIndexes[i] = j;
+                        foundWaterEligibleLead = TRUE;
+                        break;
+                    }
+                }
+
+                // No eligible substitute for the player's second double-battle
+                // slot: point at an empty party slot (if one exists) instead of
+                // forcing an ineligible mon out, so the existing absent-battler
+                // handling produces a clean Nv1 without ever sending it out.
+                if (!foundWaterEligibleLead && i >= 2
+                    && (gBattleStruct->isWaterBattle || gBattleStruct->isUnderwaterBattle))
+                {
+                    for (u32 j = 0; j < PARTY_SIZE; j++)
+                    {
+                        if (gBattlerPartyIndexes[i - 2] == j)
+                            continue;
+                        if (GetMonData(&GetBattlerParty(i)[j], MON_DATA_SPECIES_OR_EGG) == SPECIES_NONE)
+                        {
+                            gBattlerPartyIndexes[i] = j;
+                            foundWaterEligibleLead = TRUE;
+                            break;
+                        }
+                    }
+                }
+            }
+            if (foundWaterEligibleLead)
+                continue;
+
             for (u32 j = 0; j < PARTY_SIZE; j++)
             {
                 if (i < 2)

@@ -1243,15 +1243,7 @@ PalletTown_ProfessorOaksLab_EventScript_LastPokeBall::
 PalletTown_ProfessorOaksLab_EventScript_Aide1::
 	lock
 	faceplayer
-	goto_if_set FLAG_SYS_GAME_CLEAR, PalletTown_ProfessorOaksLab_EventScript_Aide1GameClear
-	msgbox PalletTown_ProfessorOaksLab_Text_StudyAsOaksAide
-	release
-	end
-
-PalletTown_ProfessorOaksLab_EventScript_Aide1GameClear::
-	famechecker FAMECHECKER_OAK, 5
-	msgbox PalletTown_ProfessorOaksLab_Text_OakIsGoingToHaveRadioShow
-	release
+	goto PalletTown_ProfessorOaksLab_EventScript_ResearchResearcher
 	end
 
 PalletTown_ProfessorOaksLab_EventScript_Aide2::
@@ -1299,3 +1291,424 @@ PalletTown_ProfessorOaksLab_EventScript_RightSignAlt::
 	msgbox PalletTown_ProfessorOaksLab_Text_AllMonTypesHaveStrongAndWeakPoints
 	releaseall
 	end
+
+PalletTown_ProfessorOaksLab_EventScript_ResearchResearcher::
+	lock
+	faceplayer
+	checkitem ITEM_COIN_CASE, 1
+	compare VAR_RESULT, FALSE
+	goto_if_eq PalletTown_ProfessorOaksLab_EventScript_ResearchNoCoinCase
+	msgbox PalletTown_ProfessorOaksLab_Text_ResearchWelcome, MSGBOX_DEFAULT
+PalletTown_ProfessorOaksLab_EventScript_ResearchMenu::
+	showcoinsbox 19, 0
+	multichoice 0, 0, MULTI_RESEARCH_MAIN, FALSE
+	switch VAR_RESULT
+	case 0, PalletTown_ProfessorOaksLab_EventScript_TurnInMon
+	case 1, PalletTown_ProfessorOaksLab_EventScript_ExchangeShop
+	case 2, PalletTown_ProfessorOaksLab_EventScript_TransferBall
+	case 3, PalletTown_ProfessorOaksLab_EventScript_ResearchInfo
+	case 4, PalletTown_ProfessorOaksLab_EventScript_ResearchExit
+	case MULTI_B_PRESSED, PalletTown_ProfessorOaksLab_EventScript_ResearchExit
+	end
+
+PalletTown_ProfessorOaksLab_EventScript_TurnInMon::
+	getpartysize
+	compare VAR_RESULT, 1
+	goto_if_le PalletTown_ProfessorOaksLab_EventScript_TurnInLastMonRefused
+	msgbox PalletTown_ProfessorOaksLab_Text_TurnInPrompt, MSGBOX_DEFAULT
+	special ChoosePartyMon
+	waitstate
+	compare VAR_0x8004, 255
+	goto_if_eq PalletTown_ProfessorOaksLab_EventScript_ResearchMenu
+	special IsSelectedMonEgg
+	compare VAR_RESULT, TRUE
+	goto_if_eq PalletTown_ProfessorOaksLab_EventScript_TurnInEggRefused
+	special IsSelectedMonResearchBall
+	compare VAR_RESULT, TRUE
+	goto_if_eq PalletTown_ProfessorOaksLab_EventScript_EvaluateMon
+	msgbox PalletTown_ProfessorOaksLab_Text_WarningNotResearchBall, MSGBOX_YESNO
+	compare VAR_RESULT, NO
+	goto_if_eq PalletTown_ProfessorOaksLab_EventScript_ResearchMenu
+
+PalletTown_ProfessorOaksLab_EventScript_EvaluateMon::
+	special EvaluateSelectedResearchMon
+	msgbox PalletTown_ProfessorOaksLab_Text_EvaluationResult, MSGBOX_YESNO
+	compare VAR_RESULT, NO
+	goto_if_eq PalletTown_ProfessorOaksLab_EventScript_ResearchMenu
+	special IsSelectedMonNewFamily
+	compare VAR_RESULT, TRUE
+	call_if_eq PalletTown_ProfessorOaksLab_EventScript_ShowNewFamilyText
+	special TurnInSelectedResearchMon
+	updatecoinsbox 19, 0
+	playfanfare MUS_LEVEL_UP
+	msgbox PalletTown_ProfessorOaksLab_Text_TurnInSuccess, MSGBOX_DEFAULT
+	waitfanfare
+	goto PalletTown_ProfessorOaksLab_EventScript_ResearchMenu
+
+PalletTown_ProfessorOaksLab_EventScript_ShowNewFamilyText::
+	msgbox PalletTown_ProfessorOaksLab_Text_NewFamilyBonusMsg, MSGBOX_DEFAULT
+	return
+
+PalletTown_ProfessorOaksLab_EventScript_TurnInLastMonRefused::
+	msgbox PalletTown_ProfessorOaksLab_Text_TurnInLastMonRefusedMsg, MSGBOX_DEFAULT
+	goto PalletTown_ProfessorOaksLab_EventScript_ResearchMenu
+
+PalletTown_ProfessorOaksLab_EventScript_TurnInEggRefused::
+	msgbox PalletTown_ProfessorOaksLab_Text_TurnInEggRefusedMsg, MSGBOX_DEFAULT
+	goto PalletTown_ProfessorOaksLab_EventScript_ResearchMenu
+
+PalletTown_ProfessorOaksLab_EventScript_TransferBall::
+	checkcoins VAR_TEMP_1
+	compare VAR_TEMP_1, 500
+	goto_if_lt PalletTown_ProfessorOaksLab_EventScript_NotEnoughCoinsTransfer
+	getpartysize
+	compare VAR_RESULT, 0
+	goto_if_eq PalletTown_ProfessorOaksLab_EventScript_ResearchMenu
+	msgbox PalletTown_ProfessorOaksLab_Text_TransferPrompt, MSGBOX_DEFAULT
+	special ChoosePartyMon
+	waitstate
+	compare VAR_0x8004, 255
+	goto_if_eq PalletTown_ProfessorOaksLab_EventScript_ResearchMenu
+	special IsSelectedMonEgg
+	compare VAR_RESULT, TRUE
+	goto_if_eq PalletTown_ProfessorOaksLab_EventScript_TransferEggRefused
+	special IsSelectedMonResearchBall
+	compare VAR_RESULT, FALSE
+	goto_if_eq PalletTown_ProfessorOaksLab_EventScript_TransferNotResearchBall
+	removecoins 500
+	updatecoinsbox 19, 0
+	special TransferSelectedMonToPokeBall
+	playfanfare MUS_LEVEL_UP
+	msgbox PalletTown_ProfessorOaksLab_Text_TransferSuccess, MSGBOX_DEFAULT
+	waitfanfare
+	goto PalletTown_ProfessorOaksLab_EventScript_ResearchMenu
+
+PalletTown_ProfessorOaksLab_EventScript_NotEnoughCoinsTransfer::
+	msgbox PalletTown_ProfessorOaksLab_Text_NotEnoughCoinsTransferMsg, MSGBOX_DEFAULT
+	goto PalletTown_ProfessorOaksLab_EventScript_ResearchMenu
+
+PalletTown_ProfessorOaksLab_EventScript_TransferEggRefused::
+	msgbox PalletTown_ProfessorOaksLab_Text_TransferEggRefusedMsg, MSGBOX_DEFAULT
+	goto PalletTown_ProfessorOaksLab_EventScript_ResearchMenu
+
+PalletTown_ProfessorOaksLab_EventScript_TransferNotResearchBall::
+	msgbox PalletTown_ProfessorOaksLab_Text_TransferNotResearchBallMsg, MSGBOX_DEFAULT
+	goto PalletTown_ProfessorOaksLab_EventScript_ResearchMenu
+
+PalletTown_ProfessorOaksLab_EventScript_ResearchInfo::
+	msgbox PalletTown_ProfessorOaksLab_Text_ResearchInfoMsg, MSGBOX_DEFAULT
+	goto PalletTown_ProfessorOaksLab_EventScript_ResearchMenu
+
+PalletTown_ProfessorOaksLab_EventScript_ResearchExit::
+	hidecoinsbox 19, 0
+	msgbox PalletTown_ProfessorOaksLab_Text_ResearchExitMsg, MSGBOX_DEFAULT
+	release
+	end
+
+PalletTown_ProfessorOaksLab_EventScript_ResearchNoCoinCase::
+	msgbox PalletTown_ProfessorOaksLab_Text_ResearchNoCoinCaseMsg, MSGBOX_DEFAULT
+	release
+	end
+
+PalletTown_ProfessorOaksLab_EventScript_ExchangeShop::
+	msgbox PalletTown_ProfessorOaksLab_Text_ShopWelcome, MSGBOX_DEFAULT
+PalletTown_ProfessorOaksLab_EventScript_ShopMenu::
+	multichoice 0, 0, MULTI_RESEARCH_SHOP, FALSE
+	switch VAR_RESULT
+	case 0, PalletTown_ProfessorOaksLab_EventScript_ShopItems
+	case 1, PalletTown_ProfessorOaksLab_EventScript_ShopPokemon
+	case 2, PalletTown_ProfessorOaksLab_EventScript_ShopUpgrade
+	case 3, PalletTown_ProfessorOaksLab_EventScript_ExitShop
+	case MULTI_B_PRESSED, PalletTown_ProfessorOaksLab_EventScript_ExitShop
+	end
+
+PalletTown_ProfessorOaksLab_EventScript_ShopItems::
+	multichoice 0, 0, MULTI_RESEARCH_ITEMS, FALSE
+	switch VAR_RESULT
+	case 0, PalletTown_ProfessorOaksLab_EventScript_BuyEvoStone
+	case 1, PalletTown_ProfessorOaksLab_EventScript_BuyRareCandy
+	case 2, PalletTown_ProfessorOaksLab_EventScript_BuyExpShare
+	case 3, PalletTown_ProfessorOaksLab_EventScript_ShopMenu
+	case MULTI_B_PRESSED, PalletTown_ProfessorOaksLab_EventScript_ShopMenu
+	end
+
+PalletTown_ProfessorOaksLab_EventScript_BuyEvoStone::
+	checkcoins VAR_TEMP_1
+	compare VAR_TEMP_1, 100
+	goto_if_lt PalletTown_ProfessorOaksLab_EventScript_NotEnoughCoins
+	msgbox PalletTown_ProfessorOaksLab_Text_ConfirmLeafStone, MSGBOX_YESNO
+	compare VAR_RESULT, NO
+	goto_if_eq PalletTown_ProfessorOaksLab_EventScript_ShopItems
+	checkitemspace ITEM_LEAF_STONE, 1
+	compare VAR_RESULT, FALSE
+	goto_if_eq PalletTown_ProfessorOaksLab_EventScript_BagFull
+	removecoins 100
+	updatecoinsbox 0, 0
+	giveitem_msg PalletTown_ProfessorOaksLab_Text_BoughtLeafStone, ITEM_LEAF_STONE, 1
+	goto PalletTown_ProfessorOaksLab_EventScript_ShopItems
+
+PalletTown_ProfessorOaksLab_EventScript_BuyRareCandy::
+	checkcoins VAR_TEMP_1
+	compare VAR_TEMP_1, 200
+	goto_if_lt PalletTown_ProfessorOaksLab_EventScript_NotEnoughCoins
+	msgbox PalletTown_ProfessorOaksLab_Text_ConfirmRareCandy, MSGBOX_YESNO
+	compare VAR_RESULT, NO
+	goto_if_eq PalletTown_ProfessorOaksLab_EventScript_ShopItems
+	checkitemspace ITEM_RARE_CANDY, 1
+	compare VAR_RESULT, FALSE
+	goto_if_eq PalletTown_ProfessorOaksLab_EventScript_BagFull
+	removecoins 200
+	updatecoinsbox 0, 0
+	giveitem_msg PalletTown_ProfessorOaksLab_Text_BoughtRareCandy, ITEM_RARE_CANDY, 1
+	goto PalletTown_ProfessorOaksLab_EventScript_ShopItems
+
+PalletTown_ProfessorOaksLab_EventScript_BuyExpShare::
+	checkcoins VAR_TEMP_1
+	compare VAR_TEMP_1, 1500
+	goto_if_lt PalletTown_ProfessorOaksLab_EventScript_NotEnoughCoins
+	msgbox PalletTown_ProfessorOaksLab_Text_ConfirmExpShare, MSGBOX_YESNO
+	compare VAR_RESULT, NO
+	goto_if_eq PalletTown_ProfessorOaksLab_EventScript_ShopItems
+	checkitemspace ITEM_EXP_SHARE, 1
+	compare VAR_RESULT, FALSE
+	goto_if_eq PalletTown_ProfessorOaksLab_EventScript_BagFull
+	removecoins 1500
+	updatecoinsbox 0, 0
+	giveitem_msg PalletTown_ProfessorOaksLab_Text_BoughtExpShare, ITEM_EXP_SHARE, 1
+	goto PalletTown_ProfessorOaksLab_EventScript_ShopItems
+
+PalletTown_ProfessorOaksLab_EventScript_ShopPokemon::
+	multichoice 0, 0, MULTI_RESEARCH_POKEMON, FALSE
+	switch VAR_RESULT
+	case 0, PalletTown_ProfessorOaksLab_EventScript_BuyPorygon
+	case 1, PalletTown_ProfessorOaksLab_EventScript_BuyBeldum
+	case 2, PalletTown_ProfessorOaksLab_EventScript_ShopMenu
+	case MULTI_B_PRESSED, PalletTown_ProfessorOaksLab_EventScript_ShopMenu
+	end
+
+PalletTown_ProfessorOaksLab_EventScript_BuyPorygon::
+	checkcoins VAR_TEMP_1
+	compare VAR_TEMP_1, 1500
+	goto_if_lt PalletTown_ProfessorOaksLab_EventScript_NotEnoughCoins
+	msgbox PalletTown_ProfessorOaksLab_Text_ConfirmPorygon, MSGBOX_YESNO
+	compare VAR_RESULT, NO
+	goto_if_eq PalletTown_ProfessorOaksLab_EventScript_ShopPokemon
+	getpartysize
+	compare VAR_RESULT, PARTY_SIZE
+	goto_if_eq PalletTown_ProfessorOaksLab_EventScript_NoPartySpacePokemon
+	removecoins 1500
+	updatecoinsbox 0, 0
+	bufferspeciesname 0, SPECIES_PORYGON
+	givemon SPECIES_PORYGON, 20
+	goto PalletTown_ProfessorOaksLab_EventScript_CheckReceivedMon
+	end
+
+PalletTown_ProfessorOaksLab_EventScript_BuyBeldum::
+	checkcoins VAR_TEMP_1
+	compare VAR_TEMP_1, 2000
+	goto_if_lt PalletTown_ProfessorOaksLab_EventScript_NotEnoughCoins
+	msgbox PalletTown_ProfessorOaksLab_Text_ConfirmBeldum, MSGBOX_YESNO
+	compare VAR_RESULT, NO
+	goto_if_eq PalletTown_ProfessorOaksLab_EventScript_ShopPokemon
+	getpartysize
+	compare VAR_RESULT, PARTY_SIZE
+	goto_if_eq PalletTown_ProfessorOaksLab_EventScript_NoPartySpacePokemon
+	removecoins 2000
+	updatecoinsbox 0, 0
+	bufferspeciesname 0, SPECIES_BELDUM
+	givemon SPECIES_BELDUM, 20
+	goto PalletTown_ProfessorOaksLab_EventScript_CheckReceivedMon
+	end
+
+PalletTown_ProfessorOaksLab_EventScript_CheckReceivedMon::
+	compare VAR_RESULT, 0
+	goto_if_eq PalletTown_ProfessorOaksLab_EventScript_ReceivedMonParty
+	compare VAR_RESULT, 1
+	goto_if_eq PalletTown_ProfessorOaksLab_EventScript_ReceivedMonPC
+	compare VAR_RESULT, 2
+	goto_if_eq PalletTown_ProfessorOaksLab_EventScript_NoPartySpacePokemon
+	end
+
+PalletTown_ProfessorOaksLab_EventScript_ReceivedMonParty::
+	playfanfare MUS_LEVEL_UP
+	msgbox PalletTown_ProfessorOaksLab_Text_BoughtPokemonMsg, MSGBOX_DEFAULT
+	waitfanfare
+	getpartysize
+	subvar VAR_RESULT, 1
+	copyvar VAR_0x8004, VAR_RESULT
+	call EventScript_ChangePokemonNickname
+	goto PalletTown_ProfessorOaksLab_EventScript_ShopPokemon
+	end
+
+PalletTown_ProfessorOaksLab_EventScript_ReceivedMonPC::
+	playfanfare MUS_LEVEL_UP
+	msgbox PalletTown_ProfessorOaksLab_Text_BoughtPokemonMsg, MSGBOX_DEFAULT
+	waitfanfare
+	msgbox PalletTown_ProfessorOaksLab_Text_PokemonSentToPCMsg, MSGBOX_DEFAULT
+	goto PalletTown_ProfessorOaksLab_EventScript_ShopPokemon
+	end
+
+PalletTown_ProfessorOaksLab_EventScript_ShopUpgrade::
+	goto_if_set FLAG_FUJI_LAB_UPGRADE, PalletTown_ProfessorOaksLab_EventScript_UpgradeAlreadyBought
+	checkcoins VAR_TEMP_1
+	compare VAR_TEMP_1, 1500
+	goto_if_lt PalletTown_ProfessorOaksLab_EventScript_NotEnoughCoins
+	msgbox PalletTown_ProfessorOaksLab_Text_ConfirmUpgrade, MSGBOX_YESNO
+	compare VAR_RESULT, NO
+	goto_if_eq PalletTown_ProfessorOaksLab_EventScript_ShopMenu
+	removecoins 1500
+	updatecoinsbox 0, 0
+	setflag FLAG_FUJI_LAB_UPGRADE
+	playfanfare MUS_LEVEL_UP
+	msgbox PalletTown_ProfessorOaksLab_Text_UpgradeSuccessMsg, MSGBOX_DEFAULT
+	waitfanfare
+	goto PalletTown_ProfessorOaksLab_EventScript_ShopMenu
+
+PalletTown_ProfessorOaksLab_EventScript_UpgradeAlreadyBought::
+	msgbox PalletTown_ProfessorOaksLab_Text_UpgradeAlreadyBoughtMsg, MSGBOX_DEFAULT
+	goto PalletTown_ProfessorOaksLab_EventScript_ShopMenu
+
+PalletTown_ProfessorOaksLab_EventScript_NotEnoughCoins::
+	msgbox PalletTown_ProfessorOaksLab_Text_NotEnoughCoinsMsg, MSGBOX_DEFAULT
+	goto PalletTown_ProfessorOaksLab_EventScript_ShopMenu
+
+PalletTown_ProfessorOaksLab_EventScript_BagFull::
+	msgbox PalletTown_ProfessorOaksLab_Text_BagFullMsg, MSGBOX_DEFAULT
+	goto PalletTown_ProfessorOaksLab_EventScript_ShopMenu
+
+PalletTown_ProfessorOaksLab_EventScript_NoPartySpacePokemon::
+	msgbox PalletTown_ProfessorOaksLab_Text_NoPartySpacePokemonMsg, MSGBOX_DEFAULT
+	goto PalletTown_ProfessorOaksLab_EventScript_ShopPokemon
+
+PalletTown_ProfessorOaksLab_EventScript_ExitShop::
+	goto PalletTown_ProfessorOaksLab_EventScript_ResearchMenu
+
+PalletTown_ProfessorOaksLab_Text_ResearchWelcome:
+	.string "Hello! Welcome to the Pokémon habitat\n"
+	.string "Research Department.\p"
+	.string "What can I help you with?$"
+
+PalletTown_ProfessorOaksLab_Text_ResearchIntro:
+	.string "I am assisting PROF. OAK in studying\n"
+	.string "POKéMON habitats for the Reserve.$"
+
+PalletTown_ProfessorOaksLab_Text_TurnInPrompt:
+	.string "Which POKéMON would you like to turn\n"
+	.string "in to the Reserve?$"
+
+PalletTown_ProfessorOaksLab_Text_WarningNotResearchBall:
+	.string "{STR_VAR_1} wasn't caught with a\n"
+	.string "research ball.\p"
+	.string "The Reserve will still accept it, but it\n"
+	.string "won't be returned to you. Are you sure?$"
+
+PalletTown_ProfessorOaksLab_Text_EvaluationResult:
+	.string "Let's see…\n"
+	.string "Ah, it's a {STR_VAR_2} specimen of {STR_VAR_1}!\p"
+	.string "Here is the points breakdown:\n"
+	.string "{STR_VAR_3}\p"
+	.string "Are you ready to turn in {STR_VAR_1}?$"
+
+PalletTown_ProfessorOaksLab_Text_NewFamilyBonusMsg:
+	.string "A member of the {STR_VAR_1} family hasn't\n"
+	.string "been registered in the Reserve before!\p"
+	.string "You get a first-time bonus of +250\n"
+	.string "Research Coins!$"
+
+PalletTown_ProfessorOaksLab_Text_TurnInSuccess:
+	.string "{STR_VAR_1} was sent to the Reserve!\n"
+	.string "Received {STR_VAR_3} Research Coins!$"
+
+PalletTown_ProfessorOaksLab_Text_TurnInLastMonRefusedMsg:
+	.string "You cannot turn in your last POKéMON!$"
+
+PalletTown_ProfessorOaksLab_Text_TurnInEggRefusedMsg:
+	.string "We cannot accept Eggs for research!$"
+
+PalletTown_ProfessorOaksLab_Text_ResearchInfoMsg:
+	.string "We study POKéMON size, shininess,\n"
+	.string "IVs, and evolutionary families.\p"
+	.string "We reward you with Research Coins for\n"
+	.string "sending POKéMON to the Reserve.\p"
+	.string "POKéMON caught in Research Balls can\n"
+	.string "be turned in without warning.\l"
+	.string "All turned-in POKéMON are gone for good!$"
+
+PalletTown_ProfessorOaksLab_Text_ResearchExitMsg:
+	.string "Thank you! Good luck with your research!$"
+
+PalletTown_ProfessorOaksLab_Text_ResearchNoCoinCaseMsg:
+	.string "Oh! You don't have a COIN CASE.\p"
+	.string "You need a COIN CASE to hold\n"
+	.string "Research Coins.$"
+
+PalletTown_ProfessorOaksLab_Text_ShopWelcome:
+	.string "What would you like to exchange your\n"
+	.string "Research Coins for?$"
+
+PalletTown_ProfessorOaksLab_Text_ConfirmLeafStone:
+	.string "Exchange 100 Coins for a LEAF STONE?$"
+
+PalletTown_ProfessorOaksLab_Text_ConfirmRareCandy:
+	.string "Exchange 200 Coins for a RARE CANDY?$"
+
+PalletTown_ProfessorOaksLab_Text_ConfirmExpShare:
+	.string "Exchange 1500 Coins for an EXP. SHARE?$"
+
+PalletTown_ProfessorOaksLab_Text_ConfirmPorygon:
+	.string "Exchange 1500 Coins for PORYGON?$"
+
+PalletTown_ProfessorOaksLab_Text_ConfirmBeldum:
+	.string "Exchange 2000 Coins for BELDUM?$"
+
+PalletTown_ProfessorOaksLab_Text_ConfirmUpgrade:
+	.string "Exchange 1500 Coins for the Fuji Lab\n"
+	.string "Sanctuary Upgrade?$"
+
+PalletTown_ProfessorOaksLab_Text_BoughtLeafStone:
+	.string "Exchanged coins for a LEAF STONE!$"
+
+PalletTown_ProfessorOaksLab_Text_BoughtRareCandy:
+	.string "Exchanged coins for a RARE CANDY!$"
+
+PalletTown_ProfessorOaksLab_Text_BoughtExpShare:
+	.string "Exchanged coins for an EXP. SHARE!$"
+
+PalletTown_ProfessorOaksLab_Text_BoughtPokemonMsg:
+	.string "Obtained the {STR_VAR_1}!$"
+
+PalletTown_ProfessorOaksLab_Text_PokemonSentToPCMsg:
+	.string "{STR_VAR_1} was sent to the PC!$"
+
+PalletTown_ProfessorOaksLab_Text_UpgradeSuccessMsg:
+	.string "Sanctuary Upgrade purchased!\n"
+	.string "Fuji's Sanctuary expanded by 2 rooms!$"
+
+PalletTown_ProfessorOaksLab_Text_UpgradeAlreadyBoughtMsg:
+	.string "The Fuji Lab Sanctuary Upgrade has\n"
+	.string "already been installed.$"
+
+PalletTown_ProfessorOaksLab_Text_NotEnoughCoinsMsg:
+	.string "You don't have enough Research Coins.$"
+
+PalletTown_ProfessorOaksLab_Text_BagFullMsg:
+	.string "Your BAG is full!$"
+
+PalletTown_ProfessorOaksLab_Text_NoPartySpacePokemonMsg:
+	.string "Your party is full!$"
+
+PalletTown_ProfessorOaksLab_Text_TransferPrompt:
+	.string "Which POKéMON would you like to\ntransfer to a standard POKéBALL?$"
+
+PalletTown_ProfessorOaksLab_Text_TransferSuccess:
+	.string "The transfer was successful!\p{STR_VAR_1} was moved into\na standard POKéBALL!$"
+
+PalletTown_ProfessorOaksLab_Text_NotEnoughCoinsTransferMsg:
+	.string "You don't have enough Research Coins.\nIt costs 500 Research Coins.$"
+
+PalletTown_ProfessorOaksLab_Text_TransferEggRefusedMsg:
+	.string "An Egg is not sealed in any ball!$"
+
+PalletTown_ProfessorOaksLab_Text_TransferNotResearchBallMsg:
+	.string "That POKéMON is not in a\nResearch Ball!$"
+

@@ -176,6 +176,44 @@ static bool32 HandleEndTurnWeatherDamage(enum BattlerId battler)
             }
         }
         break;
+    case BATTLE_WEATHER_ELECTRIC_FLOOR:
+        if (IS_BATTLER_OF_TYPE(battler, TYPE_ELECTRIC))
+        {
+            if (!IsBattlerAtMaxHp(battler) && !gBattleMons[battler].volatiles.healBlock)
+            {
+                SetHealAmount(battler, GetNonDynamaxMaxHP(battler) / 16);
+                BattleScriptExecute(BattleScript_ElectricFloorHeals);
+                effect = TRUE;
+            }
+        }
+        else if (!IS_BATTLER_OF_TYPE(battler, TYPE_GROUND)
+              && ability != ABILITY_OVERCOAT
+              && GetBattlerHoldEffect(battler) != HOLD_EFFECT_SAFETY_GOGGLES
+              && !IsAbilityAndRecord(battler, ability, ABILITY_MAGIC_GUARD)
+              && gBattleMons[battler].volatiles.semiInvulnerable != STATE_UNDERGROUND
+              && gBattleMons[battler].volatiles.semiInvulnerable != STATE_UNDERWATER)
+        {
+            SetPassiveDamageAmount(battler, GetNonDynamaxMaxHP(battler) / 16);
+            gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_ELECTRIC_FLOOR_DAMAGE;
+            BattleScriptExecute(BattleScript_DamagingWeather);
+            effect = TRUE;
+        }
+        break;
+    case BATTLE_WEATHER_POISON_FOG:
+        if (!IS_BATTLER_ANY_TYPE(battler, TYPE_ROCK, TYPE_GROUND, TYPE_GHOST)
+         && !gBattleMons[battler].volatiles.substitute
+         && ability != ABILITY_OVERCOAT
+         && GetBattlerHoldEffect(battler) != HOLD_EFFECT_SAFETY_GOGGLES
+         && !(gBattleMons[battler].status1 & (STATUS1_POISON | STATUS1_TOXIC_POISON))
+         && CanBePoisoned(battler, battler, ABILITY_NONE, ability))
+        {
+            gBattleMons[battler].status1 |= STATUS1_POISON;
+            BtlController_EmitSetMonData(battler, B_COMM_TO_CONTROLLER, REQUEST_STATUS_BATTLE, 0, sizeof(gBattleMons[battler].status1), &gBattleMons[battler].status1);
+            MarkBattlerForControllerExec(battler);
+            BattleScriptExecute(BattleScript_PoisonFogPoisons);
+            effect = TRUE;
+        }
+        break;
     }
 
     return effect;

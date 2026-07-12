@@ -32,7 +32,9 @@
 #include "trainer_tower.h"
 #include "union_room_chat.h"
 #include "wild_encounter.h"
+#include "save_location.h"
 #include "constants/maps.h"
+#include "constants/heal_locations.h"
 
 // this file's functions
 static void ResetMiniGamesResults(void);
@@ -75,7 +77,7 @@ static void SetDefaultOptions(void)
     gSaveBlock2Ptr->optionsSound = OPTIONS_SOUND_MONO;
     gSaveBlock2Ptr->optionsBattleStyle = OPTIONS_BATTLE_STYLE_SHIFT;
     gSaveBlock2Ptr->optionsBattleSceneOff = FALSE;
-    gSaveBlock2Ptr->optionsButtonMode = OPTIONS_BUTTON_MODE_HELP;
+    gSaveBlock2Ptr->optionsButtonMode = OPTIONS_BUTTON_MODE_LR;
 }
 
 static void ClearPokedexFlags(void)
@@ -94,7 +96,7 @@ static void ClearFrontierRecord(void)
 
 static void WarpToPlayersRoom(void)
 {
-    SetWarpDestination(MAP_GROUP(MAP_PALLET_TOWN_PLAYERS_HOUSE_2F), MAP_NUM(MAP_PALLET_TOWN_PLAYERS_HOUSE_2F), WARP_ID_NONE, 6, 6);
+    SetWarpDestination(MAP_GROUP(MAP_SSANNE_1F_ROOM6), MAP_NUM(MAP_SSANNE_1F_ROOM6), WARP_ID_NONE, 3, 4);
     WarpIntoMap();
 }
 
@@ -153,6 +155,15 @@ void NewGameInitData(void)
     gSaveBlock1Ptr->registeredItem = 0;
     ClearBag();
     NewGameInitPCItems();
+    AddBagItem(ITEM_SS_TICKET, 1);
+    AddBagItem(ITEM_COIN_CASE, 1);
+    FlagSet(FLAG_SYS_POKEDEX_GET);
+    FlagSet(FLAG_GOT_SS_TICKET);
+    FlagSet(FLAG_SYS_PC_STORAGE_DISABLED);
+    FlagSet(FLAG_SYS_B_DASH);
+    FlagSet(FLAG_SYS_NATIONAL_DEX);
+    SetUnlockedPokedexFlags();
+    SetLastHealLocationWarp(HEAL_LOCATION_VERMILION_CITY);
     // ClearEnigmaBerries();
     InitEasyChatPhrases();
     ResetTrainerFanClub();
@@ -190,4 +201,6 @@ static void ResetDexNav(void)
     memset(gSaveBlock3Ptr->dexNavSearchLevels, 0, sizeof(gSaveBlock3Ptr->dexNavSearchLevels));
 #endif
     gSaveBlock3Ptr->dexNavChain = 0;
+    gSaveBlock3Ptr->advIvScannerChain = 0;
+    gSaveBlock3Ptr->advIvScannerRoute = 0;
 }

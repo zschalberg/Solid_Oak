@@ -36,6 +36,8 @@ static enum FieldEffectOutcome BenefitsFromSun(enum BattlerId battler);
 static enum FieldEffectOutcome BenefitsFromSandstorm(enum BattlerId battler);
 static enum FieldEffectOutcome BenefitsFromHailOrSnow(enum BattlerId battler, u32 weather);
 static enum FieldEffectOutcome BenefitsFromRain(enum BattlerId battler);
+static enum FieldEffectOutcome BenefitsFromElectricFloor(enum BattlerId battler);
+static enum FieldEffectOutcome BenefitsFromPoisonFog(enum BattlerId battler);
 // The following functions all feed into FieldStatusChecker, which is then called by ShouldSetFieldStatus and ShouldClearFieldStatus.
 // They work approximately the same as the weather functions.
 static enum FieldEffectOutcome BenefitsFromElectricTerrain(enum BattlerId battler);
@@ -85,6 +87,10 @@ bool32 WeatherChecker(enum BattlerId battler, u32 weather, enum FieldEffectOutco
             result = BenefitsFromSandstorm(battler);
         else if (weather & B_WEATHER_ICY_ANY)
             result = BenefitsFromHailOrSnow(battler, weather);
+        else if (weather & B_WEATHER_ELECTRIC_FLOOR)
+            result = BenefitsFromElectricFloor(battler);
+        else if (weather & B_WEATHER_POISON_FOG)
+            result = BenefitsFromPoisonFog(battler);
 
         battler = BATTLE_PARTNER(battler);
 
@@ -317,6 +323,33 @@ static enum FieldEffectOutcome BenefitsFromRain(enum BattlerId battler)
         return FIELD_EFFECT_NEGATIVE;
 
     return FIELD_EFFECT_NEUTRAL;
+}
+
+// Electric Floor
+static enum FieldEffectOutcome BenefitsFromElectricFloor(enum BattlerId battler)
+{
+    if (IS_BATTLER_OF_TYPE(battler, TYPE_ELECTRIC))
+        return FIELD_EFFECT_POSITIVE;
+
+    if (IS_BATTLER_OF_TYPE(battler, TYPE_GROUND)
+     || gAiLogicData->holdEffects[battler] == HOLD_EFFECT_SAFETY_GOGGLES
+     || gAiLogicData->abilities[battler] == ABILITY_OVERCOAT
+     || gAiLogicData->abilities[battler] == ABILITY_MAGIC_GUARD)
+        return FIELD_EFFECT_NEUTRAL;
+
+    return FIELD_EFFECT_NEGATIVE;
+}
+
+// Poison Fog
+static enum FieldEffectOutcome BenefitsFromPoisonFog(enum BattlerId battler)
+{
+    if (IS_BATTLER_ANY_TYPE(battler, TYPE_POISON, TYPE_STEEL, TYPE_ROCK, TYPE_GROUND, TYPE_GHOST)
+     || gAiLogicData->holdEffects[battler] == HOLD_EFFECT_SAFETY_GOGGLES
+     || gAiLogicData->abilities[battler] == ABILITY_OVERCOAT
+     || gAiLogicData->abilities[battler] == ABILITY_IMMUNITY)
+        return FIELD_EFFECT_NEUTRAL;
+
+    return FIELD_EFFECT_NEGATIVE;
 }
 
 //TODO: when is electric terrain bad?
@@ -598,6 +631,27 @@ s32 CalcWeatherScore(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum 
             if (HasMoveWithEffect(battlerDef, EFFECT_MORNING_SUN)
              || HasMoveWithEffect(battlerDef, EFFECT_SYNTHESIS)
              || HasMoveWithEffect(battlerDef, EFFECT_MOONLIGHT))
+                score += WEAK_EFFECT;
+        }
+        break;
+    case BATTLE_WEATHER_ELECTRIC_FLOOR:
+        if (ShouldSetWeather(battlerAtk, B_WEATHER_ELECTRIC_FLOOR))
+        {
+            score += DECENT_EFFECT;
+
+            if (IS_BATTLER_OF_TYPE(battlerAtk, TYPE_ELECTRIC) || (HasPartner(battlerAtk) && IS_BATTLER_OF_TYPE(BATTLE_PARTNER(battlerAtk), TYPE_ELECTRIC)))
+                score += WEAK_EFFECT;
+
+            if (!IS_BATTLER_OF_TYPE(battlerDef, TYPE_GROUND) && !IS_BATTLER_OF_TYPE(battlerDef, TYPE_ELECTRIC))
+                score += WEAK_EFFECT;
+        }
+        break;
+    case BATTLE_WEATHER_POISON_FOG:
+        if (ShouldSetWeather(battlerAtk, B_WEATHER_POISON_FOG))
+        {
+            score += DECENT_EFFECT;
+
+            if (!IS_BATTLER_ANY_TYPE(battlerDef, TYPE_POISON, TYPE_STEEL, TYPE_ROCK, TYPE_GROUND, TYPE_GHOST))
                 score += WEAK_EFFECT;
         }
         break;

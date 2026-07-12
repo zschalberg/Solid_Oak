@@ -27,6 +27,8 @@
 #include "pokemon_storage_system.h"
 #include "pokemon_summary_screen.h"
 #include "quest_log.h"
+#include "fuji_lab.h"
+#include "constants/flags.h"
 #include "sound.h"
 #include "string_util.h"
 #include "strings.h"
@@ -35,6 +37,7 @@
 #include "trig.h"
 #include "constants/help_system.h"
 #include "constants/items.h"
+#include "constants/pokeball.h"
 #include "constants/party_menu.h"
 #include "constants/pokemon_icon.h"
 #include "constants/songs.h"
@@ -573,6 +576,9 @@ static EWRAM_DATA u8 sMovingMonOrigBoxId = 0;
 static EWRAM_DATA u8 sMovingMonOrigBoxPos = 0;
 static EWRAM_DATA bool8 sInMultiMoveMode = FALSE;
 static EWRAM_DATA u8 sSavedCursorPosition = 0;
+
+bool8 gCourierStorageChanged = FALSE;
+bool8 gFujiLabAccessPC = FALSE;
 
 
 // Main tasks
@@ -1438,8 +1444,9 @@ u8 CountMonsInBox(u8 boxId)
 s16 GetFirstFreeBoxSpot(u8 boxId)
 {
     u16 i;
+    u16 boxCapacity = GetBoxCapacityLimit();
 
-    for (i = 0; i < IN_BOX_COUNT; i++)
+    for (i = 0; i < boxCapacity; i++)
     {
         if (GetBoxMonDataAt(boxId, i, MON_DATA_SPECIES) == SPECIES_NONE)
             return i;
@@ -1455,7 +1462,8 @@ u32 CountPartyNonEggMons(void)
     for (i = 0, count = 0; i < PARTY_SIZE; i++)
     {
         if (GetMonData(&gPlayerParty[i], MON_DATA_SPECIES) != SPECIES_NONE
-                && !GetMonData(&gPlayerParty[i], MON_DATA_IS_EGG))
+                && !GetMonData(&gPlayerParty[i], MON_DATA_IS_EGG)
+                && GetMonData(&gPlayerParty[i], MON_DATA_POKEBALL) != BALL_RESEARCH)
             count++;
     }
 
@@ -1471,6 +1479,7 @@ u8 CountPartyAliveNonEggMonsExcept(u8 slotToIgnore)
         if (i != slotToIgnore
                 && GetMonData(&gPlayerParty[i], MON_DATA_SPECIES) != SPECIES_NONE
                 && !GetMonData(&gPlayerParty[i], MON_DATA_IS_EGG)
+                && GetMonData(&gPlayerParty[i], MON_DATA_POKEBALL) != BALL_RESEARCH
                 && GetMonData(&gPlayerParty[i], MON_DATA_HP) != 0)
             count++;
     }
@@ -1631,6 +1640,24 @@ void ShowPokemonStorageSystemPC(void)
     LockPlayerFieldControls();
 }
 
+static void Task_EnterPokeStorageMoveMode(u8 taskId)
+{
+    if (!gPaletteFade.active)
+    {
+        CleanupOverworldWindowsAndTilemaps();
+        EnterPokeStorage(OPTION_MOVE_MONS);
+        DestroyTask(taskId);
+    }
+}
+
+void ShowPokemonStorageSystemPC_MoveMode(void)
+{
+    LockPlayerFieldControls();
+    gFujiLabAccessPC = TRUE;
+    FadeScreen(FADE_TO_BLACK, 0);
+    CreateTask(Task_EnterPokeStorageMoveMode, 10);
+}
+
 static void FieldTask_ReturnToPcMenu(void)
 {
     u8 taskId;
@@ -1674,8 +1701,7 @@ void ResetPokemonStorageSystem(void)
     }
     for (boxId = 0; boxId < TOTAL_BOXES_COUNT; boxId++)
     {
-        u8 *dest = StringCopy(GetBoxNamePtr(boxId), sText_Box);
-        ConvertIntToDecimalStringN(dest, boxId + 1, STR_CONV_MODE_LEFT_ALIGN, 2);
+        ConvertIntToDecimalStringN(GetBoxNamePtr(boxId), boxId + 1, STR_CONV_MODE_LEFT_ALIGN, 2);
     }
 
     for (boxId = 0; boxId < TOTAL_BOXES_COUNT; boxId++)
@@ -1831,14 +1857,16 @@ static void ChooseBoxMenu_DestroySprites(void)
 
 static void ChooseBoxMenu_MoveRight(void)
 {
-    if (++sChooseBoxMenu->curBox >= TOTAL_BOXES_COUNT)
+    u16 maxBoxes = GetFujiLabRoomsCount();
+    if (++sChooseBoxMenu->curBox >= maxBoxes)
         sChooseBoxMenu->curBox = 0;
     ChooseBoxMenu_PrintBoxNameAndCount();
 }
 
 static void ChooseBoxMenu_MoveLeft(void)
 {
-    sChooseBoxMenu->curBox = (sChooseBoxMenu->curBox == 0 ? TOTAL_BOXES_COUNT - 1 : sChooseBoxMenu->curBox - 1);
+    u16 maxBoxes = GetFujiLabRoomsCount();
+    sChooseBoxMenu->curBox = (sChooseBoxMenu->curBox == 0 ? maxBoxes - 1 : sChooseBoxMenu->curBox - 1);
     ChooseBoxMenu_PrintBoxNameAndCount();
 }
 
@@ -2187,7 +2215,7 @@ static void Task_PokeStorageMain(u8 taskId)
         case INPUT_SCROLL_RIGHT:
             PlaySE(SE_SELECT);
             gStorage->newCurrBoxId = StorageGetCurrentBox() + 1;
-            if (gStorage->newCurrBoxId >= TOTAL_BOXES_COUNT)
+            if (gStorage->newCurrBoxId >= GetFujiLabRoomsCount())
                 gStorage->newCurrBoxId = 0;
             if (gStorage->boxOption != OPTION_MOVE_ITEMS)
             {
@@ -2204,7 +2232,7 @@ static void Task_PokeStorageMain(u8 taskId)
             PlaySE(SE_SELECT);
             gStorage->newCurrBoxId = StorageGetCurrentBox() - 1;
             if (gStorage->newCurrBoxId < 0)
-                gStorage->newCurrBoxId = TOTAL_BOXES_COUNT - 1;
+                gStorage->newCurrBoxId = GetFujiLabRoomsCount() - 1;
             if (gStorage->boxOption != OPTION_MOVE_ITEMS)
             {
                 SetUpScrollToBox(gStorage->newCurrBoxId);
@@ -3601,10 +3629,15 @@ static void Task_ChangeScreen(u8 taskId)
     {
     case SCREEN_CHANGE_EXIT_BOX:
     default:
-        if (gStorage->boxOption == OPTION_SELECT_MON)
+        if (gStorage->boxOption == OPTION_SELECT_MON || gFujiLabAccessPC)
+        {
             SetMainCallback2(CB2_ReturnToFieldContinueScript);
+            gFujiLabAccessPC = FALSE;
+        }
         else
+        {
             SetMainCallback2(CB2_ExitPokeStorage);
+        }
         FreePokeStorageData();
         break;
     case SCREEN_CHANGE_SUMMARY_SCREEN:
@@ -5224,15 +5257,16 @@ static s8 DetermineBoxScrollDirection(u8 boxId)
 {
     u8 i;
     u8 currentBox = StorageGetCurrentBox();
+    u16 maxBoxes = GetFujiLabRoomsCount();
 
     for (i = 0; currentBox != boxId; i++)
     {
         currentBox++;
-        if (currentBox >= TOTAL_BOXES_COUNT)
+        if (currentBox >= maxBoxes)
             currentBox = 0;
     }
 
-    return (i < TOTAL_BOXES_COUNT / 2) ? 1 : -1;
+    return (i < maxBoxes / 2) ? 1 : -1;
 }
 
 static void SetWallpaperForCurrentBox(u8 wallpaperId)
@@ -6813,10 +6847,10 @@ static u8 HandleInput_InBox_Normal(void)
         {
             input = INPUT_MOVE_CURSOR;
             cursorPosition += IN_BOX_COLUMNS;
-            if (cursorPosition >= IN_BOX_COUNT)
+            if (cursorPosition >= GetBoxCapacityLimit())
             {
                 cursorArea = CURSOR_AREA_BUTTONS;
-                cursorPosition -= IN_BOX_COUNT;
+                cursorPosition -= GetBoxCapacityLimit();
                 cursorPosition /= 3;
                 gStorage->cursorVerticalWrap = 1;
                 gStorage->cursorFlipTimer = 1;
@@ -7266,9 +7300,9 @@ static u8 HandleInput_OnButtons(void)
             cursorArea = CURSOR_AREA_IN_BOX;
             gStorage->cursorVerticalWrap = -1;
             if (sCursorPosition == 0)
-                cursorPosition = IN_BOX_COUNT - 1 - 5;
+                cursorPosition = GetBoxCapacityLimit() - 1 - 5;
             else
-                cursorPosition = IN_BOX_COUNT - 1;
+                cursorPosition = GetBoxCapacityLimit() - 1;
             gStorage->cursorFlipTimer = 1;
             break;
         }
@@ -9096,7 +9130,7 @@ u8 StorageGetCurrentBox(void)
 
 static void SetCurrentBox(u8 boxId)
 {
-    if (boxId < TOTAL_BOXES_COUNT)
+    if (boxId < GetFujiLabRoomsCount())
         gPokemonStoragePtr->currentBox = boxId;
 }
 
@@ -9173,7 +9207,10 @@ u32 GetAndCopyBoxMonDataAt(u8 boxId, u8 boxPosition, s32 request, void *dst)
 void SetBoxMonAt(u8 boxId, u8 boxPosition, struct BoxPokemon *src)
 {
     if (boxId < TOTAL_BOXES_COUNT && boxPosition < IN_BOX_COUNT)
+    {
         gPokemonStoragePtr->boxes[boxId][boxPosition] = *src;
+        gCourierStorageChanged = TRUE;
+    }
 }
 
 void CopyBoxMonAt(u8 boxId, u8 boxPosition, struct BoxPokemon *dst)
@@ -9185,7 +9222,10 @@ void CopyBoxMonAt(u8 boxId, u8 boxPosition, struct BoxPokemon *dst)
 void ZeroBoxMonAt(u8 boxId, u8 boxPosition)
 {
     if (boxId < TOTAL_BOXES_COUNT && boxPosition < IN_BOX_COUNT)
+    {
         ZeroBoxMonData(&gPokemonStoragePtr->boxes[boxId][boxPosition]);
+        gCourierStorageChanged = TRUE;
+    }
 }
 
 void BoxMonAtToMon(u8 boxId, u8 boxPosition, struct Pokemon *dst)

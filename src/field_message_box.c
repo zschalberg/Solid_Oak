@@ -5,6 +5,7 @@
 #include "script.h"
 #include "string_util.h"
 #include "text_window.h"
+#include "mugshot.h"
 
 static EWRAM_DATA u8 sMessageBoxType = 0;
 
@@ -17,6 +18,7 @@ void InitFieldMessageBox(void)
     gTextFlags.canABSpeedUpPrint = FALSE;
     gTextFlags.useAlternateDownArrow = FALSE;
     gTextFlags.autoScroll = FALSE;
+    InitMugshot();
 }
 
 static void Task_DrawFieldMessageBox(u8 taskId)
@@ -109,6 +111,7 @@ void HideFieldMessageBox(void)
     DestroyTask_DrawFieldMessageBox();
     ClearDialogWindowAndFrame(0, TRUE);
     sMessageBoxType = FIELD_MESSAGE_BOX_HIDDEN;
+    ClearMugshot();
 }
 
 u8 GetFieldMessageBoxType(void)

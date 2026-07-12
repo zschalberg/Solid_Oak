@@ -2434,8 +2434,6 @@ void InitPokedudeBag(u8 a0)
     AddBagItem(ITEM_TEACHY_TV, 1);
     AddBagItem(ITEM_TM_CASE, 1);
     AddBagItem(ITEM_POKE_BALL, 5);
-    AddBagItem(ITEM_GREAT_BALL, 1);
-    AddBagItem(ITEM_NEST_BALL, 1);
     switch (a0)
     {
     default:

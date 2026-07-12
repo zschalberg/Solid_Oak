@@ -1,5 +1,7 @@
 const u16 gMetatiles_General[] = INCBIN_U16("data/tilesets/primary/general/metatiles.bin");
 const u32 gMetatileAttributes_General[] = INCBIN_U32("data/tilesets/primary/general/metatile_attributes.bin");
+const u16 gMetatiles_GeneralCustom[] = INCBIN_U16("data/tilesets/primary/general_custom/metatiles.bin");
+const u32 gMetatileAttributes_GeneralCustom[] = INCBIN_U32("data/tilesets/primary/general_custom/metatile_attributes.bin");
 
 const u16 gMetatiles_PalletTown[] = INCBIN_U16("data/tilesets/secondary/pallet_town/metatiles.bin");
 const u32 gMetatileAttributes_PalletTown[] = INCBIN_U32("data/tilesets/secondary/pallet_town/metatile_attributes.bin");

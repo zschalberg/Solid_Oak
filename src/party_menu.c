@@ -1,4 +1,8 @@
 #include "global.h"
+#include "battle_util.h"
+#include "water_battle.h"
+#include "battle_setup.h"
+#include "battle_main.h"
 #include "battle_anim.h"
 #include "battle_controllers.h"
 #include "battle_gfx_sfx_util.h"
@@ -50,6 +54,8 @@
 #include "pokemon_storage_system.h"
 #include "pokemon_summary_screen.h"
 #include "pokemon.h"
+#include "constants/pokeball.h"
+#include "team_preview.h"
 #include "pokerus.h"
 #include "quest_log.h"
 #include "region_map.h"
@@ -275,6 +281,9 @@ static void CancelParticipationPrompt(u8 taskId);
 static void DisplayCancelChooseMonYesNo(u8 taskId);
 static void Task_CancelChooseMonYesNo(u8 taskId);
 static void Task_HandleCancelChooseMonYesNoInput(u8 taskId);
+static void DisplayFewerMonsSelectedYesNo(u8 taskId, u8 numSelected);
+static void Task_FewerMonsSelectedYesNo(u8 taskId);
+static void Task_HandleFewerMonsSelectedYesNoInput(u8 taskId);
 static void PartyMenuDisplayYesNoMenu(void);
 static void Task_ReturnToChooseMonAfterText(u8 taskId);
 static void UpdateCurrentPartySelection(s8 *slotPtr, s8 movementDir);
@@ -450,7 +459,7 @@ EWRAM_DATA MainCallback gPostMenuFieldCallback = NULL;
 static EWRAM_DATA u16 *sSlot1TilemapBuffer = NULL; // for switching party slots
 static EWRAM_DATA u16 *sSlot2TilemapBuffer = NULL;
 static EWRAM_DATA struct Pokemon *sSacredAshQuestLogMonBackup = NULL;
-EWRAM_DATA u8 gSelectedOrderFromParty[MAX_FRONTIER_PARTY_SIZE] = {0};
+EWRAM_DATA u8 gSelectedOrderFromParty[PARTY_SIZE] = {0};
 static EWRAM_DATA u16 sPartyMenuItemId = ITEM_NONE;
 ALIGNED(4) EWRAM_DATA u8 gBattlePartyCurrentOrder[PARTY_SIZE / 2] = {0}; // bits 0-3 are the current pos of Slot 1, 4-7 are Slot 2, and so on
 
@@ -993,6 +1002,21 @@ static void DisplayPartyPokemonDescriptionData(u8 slot, u8 stringId)
     DisplayPartyPokemonDescriptionText(stringId, &sPartyMenuBoxes[slot], DRAW_TEXT_ONLY);
 }
 
+static u8 GetPartyBoxDescForSlot(u8 orderIndex)
+{
+    static const u8 sSlotDescs[PARTY_SIZE] = {
+        PARTYBOX_DESC_FIRST,
+        PARTYBOX_DESC_SECOND,
+        PARTYBOX_DESC_THIRD,
+        PARTYBOX_DESC_FOURTH,
+        PARTYBOX_DESC_FIFTH,
+        PARTYBOX_DESC_SIXTH
+    };
+    if (orderIndex < PARTY_SIZE)
+        return sSlotDescs[orderIndex];
+    return PARTYBOX_DESC_ABLE_3;
+}
+
 static void DisplayPartyPokemonDataForChooseMultiple(u8 slot)
 {
     u8 i;
@@ -1009,7 +1033,7 @@ static void DisplayPartyPokemonDataForChooseMultiple(u8 slot)
     {
         if (order[i] != 0 && (order[i] - 1) == slot)
         {
-            DisplayPartyPokemonDescriptionData(slot, i + PARTYBOX_DESC_FIRST);
+            DisplayPartyPokemonDescriptionData(slot, GetPartyBoxDescForSlot(i));
             return;
         }
     }
@@ -1459,7 +1483,8 @@ static void HandleChooseMonSelection(u8 taskId, s8 *slotPtr)
 
 static bool8 IsSelectedMonNotEgg(u8 *slotPtr)
 {
-    if (GetMonData(&gPlayerParty[*slotPtr], MON_DATA_IS_EGG) == TRUE)
+    if (GetMonData(&gPlayerParty[*slotPtr], MON_DATA_IS_EGG) == TRUE
+     || GetMonData(&gPlayerParty[*slotPtr], MON_DATA_POKEBALL) == BALL_RESEARCH)
     {
         PlaySE(SE_FAILURE);
         return FALSE;
@@ -3276,7 +3301,7 @@ static u8 GetPartyMenuActionsType(struct Pokemon *mon)
     switch (gPartyMenu.menuType)
     {
     case PARTY_MENU_TYPE_FIELD:
-        if (GetMonData(mon, MON_DATA_IS_EGG))
+        if (GetMonData(mon, MON_DATA_IS_EGG) || GetMonData(mon, MON_DATA_POKEBALL) == BALL_RESEARCH)
             actionType = ACTIONS_SWITCH;
         else
             actionType = ACTIONS_NONE; // actions populated by SetPartyMonFieldSelectionActions
@@ -3299,7 +3324,7 @@ static u8 GetPartyMenuActionsType(struct Pokemon *mon)
         }
         break;
     case PARTY_MENU_TYPE_DAYCARE:
-        actionType = (GetMonData(mon, MON_DATA_IS_EGG)) ? ACTIONS_SUMMARY_ONLY : ACTIONS_STORE;
+        actionType = (GetMonData(mon, MON_DATA_IS_EGG) || GetMonData(mon, MON_DATA_POKEBALL) == BALL_RESEARCH) ? ACTIONS_SUMMARY_ONLY : ACTIONS_STORE;
         break;
     case PARTY_MENU_TYPE_UNION_ROOM_REGISTER:
         actionType = ACTIONS_REGISTER;
@@ -4179,7 +4204,7 @@ static void CursorCB_Enter(u8 taskId)
         {
             PlaySE(SE_SELECT);
             gSelectedOrderFromParty[i] = gPartyMenu.slotId + 1;
-            DisplayPartyPokemonDescriptionText(i + PARTYBOX_DESC_FIRST, &sPartyMenuBoxes[gPartyMenu.slotId], 1);
+            DisplayPartyPokemonDescriptionText(GetPartyBoxDescForSlot(i), &sPartyMenuBoxes[gPartyMenu.slotId], 1);
             if (i == (maxBattlers - 1))
                 MoveCursorToConfirm();
             DisplayPartyMenuStdMessage(PARTY_MSG_CHOOSE_MON);
@@ -4208,31 +4233,28 @@ static void CursorCB_NoEntry(u8 taskId)
     PlaySE(SE_SELECT);
     PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[0]);
     PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[1]);
-    for (i = 0; i < 3; ++i)
+    for (i = 0; i < PARTY_SIZE; ++i)
     {
-        if (gSelectedOrderFromParty[i] ==  gPartyMenu.slotId + 1)
+        if (gSelectedOrderFromParty[i] == gPartyMenu.slotId + 1)
         {
+            u8 j;
             gSelectedOrderFromParty[i] = 0;
-            switch (i)
+            for (j = i; j < PARTY_SIZE - 1; ++j)
             {
-            case 0:
-                gSelectedOrderFromParty[0] = gSelectedOrderFromParty[1];
-                gSelectedOrderFromParty[1] = gSelectedOrderFromParty[2];
-                gSelectedOrderFromParty[2] = 0;
-                break;
-            case 1:
-                gSelectedOrderFromParty[1] = gSelectedOrderFromParty[2];
-                gSelectedOrderFromParty[2] = 0;
-                break;
+                gSelectedOrderFromParty[j] = gSelectedOrderFromParty[j + 1];
             }
+            gSelectedOrderFromParty[PARTY_SIZE - 1] = 0;
             break;
         }
     }
     DisplayPartyPokemonDescriptionText(PARTYBOX_DESC_ABLE_3, &sPartyMenuBoxes[gPartyMenu.slotId], DRAW_MENU_BOX_AND_TEXT);
-    if (gSelectedOrderFromParty[0] != 0)
-        DisplayPartyPokemonDescriptionText(PARTYBOX_DESC_FIRST, &sPartyMenuBoxes[gSelectedOrderFromParty[0] - 1], DRAW_MENU_BOX_AND_TEXT);
-    if (gSelectedOrderFromParty[1] != 0)
-        DisplayPartyPokemonDescriptionText(PARTYBOX_DESC_SECOND, &sPartyMenuBoxes[gSelectedOrderFromParty[1] - 1], DRAW_MENU_BOX_AND_TEXT);
+    for (i = 0; i < PARTY_SIZE; ++i)
+    {
+        if (gSelectedOrderFromParty[i] != 0)
+        {
+            DisplayPartyPokemonDescriptionText(GetPartyBoxDescForSlot(i), &sPartyMenuBoxes[gSelectedOrderFromParty[i] - 1], DRAW_MENU_BOX_AND_TEXT);
+        }
+    }
     DisplayPartyMenuStdMessage(PARTY_MSG_CHOOSE_MON);
     gTasks[taskId].func = Task_HandleChooseMonInput;
 }
@@ -4573,6 +4595,39 @@ bool32 FieldMove_SetUpWaterfall(void)
         gPostMenuFieldCallback = FieldCallback_Waterfall;
         return TRUE;
     }
+    return FALSE;
+}
+
+static void FieldCallback_Dive(void)
+{
+    gFieldEffectArguments[0] = GetCursorSelectionMonId();
+    FieldEffectStart(FLDEFF_USE_DIVE);
+}
+
+bool32 FieldMove_SetUpDive(void)
+{
+    if (!CheckFollowerNPCFlag(FOLLOWER_NPC_FLAG_CAN_DIVE))
+        return FALSE;
+
+    struct ObjectEvent *playerObj = &gObjectEvents[gPlayerAvatar.objectEventId];
+    enum MetatileBehavior behavior = (enum MetatileBehavior)playerObj->currentMetatileBehavior;
+
+    if (TestPlayerAvatarState(PLAYER_AVATAR_STATE_SURFING)
+        && MetatileBehavior_IsDiveable(behavior) == TRUE)
+    {
+        gFieldCallback2 = FieldCallback_PrepareFadeInFromMenu;
+        gPostMenuFieldCallback = FieldCallback_Dive;
+        return TRUE;
+    }
+
+    if (gMapHeader.mapType == MAP_TYPE_UNDERWATER
+        && !MetatileBehavior_IsUnableToEmerge(behavior))
+    {
+        gFieldCallback2 = FieldCallback_PrepareFadeInFromMenu;
+        gPostMenuFieldCallback = FieldCallback_Dive;
+        return TRUE;
+    }
+
     return FALSE;
 }
 
@@ -6740,6 +6795,23 @@ static bool8 GetBattleEntryEligibility(struct Pokemon *mon)
 {
     u32 species;
 
+    if (GetMonData(mon, MON_DATA_POKEBALL) == BALL_RESEARCH)
+        return FALSE;
+
+    if (gBattleStruct != NULL)
+    {
+        if (gBattleStruct->isUnderwaterBattle)
+        {
+            if (!CanMonParticipateInWaterBattle(mon))
+                return FALSE;
+        }
+        else if (gBattleStruct->isWaterBattle)
+        {
+            if (!CanMonParticipateInWaterBattle(mon) && !CanMonParticipateInSkyBattle(mon))
+                return FALSE;
+        }
+    }
+
     if (GetMonData(mon, MON_DATA_IS_EGG)
         || GetMonData(mon, MON_DATA_LEVEL) > GetBattleEntryLevelCap()
         || (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAP_BATTLE_FRONTIER_BATTLE_PYRAMID_LOBBY)
@@ -6747,6 +6819,22 @@ static bool8 GetBattleEntryEligibility(struct Pokemon *mon)
             && GetMonData(mon, MON_DATA_HELD_ITEM) != ITEM_NONE))
     {
         return FALSE;
+    }
+
+    if (FlagGet(FLAG_MONOTYPE_BATTLE))
+    {
+        u8 restrictedType = GetMonotypeRestrictionType();
+        if (restrictedType != TYPE_NONE)
+        {
+            u16 monSpecies = GetMonData(mon, MON_DATA_SPECIES);
+            if (monSpecies == SPECIES_NONE
+                || GetMonData(mon, MON_DATA_IS_EGG)
+                || (gSpeciesInfo[monSpecies].types[0] != restrictedType
+                    && gSpeciesInfo[monSpecies].types[1] != restrictedType))
+            {
+                return FALSE;
+            }
+        }
     }
 
     switch (VarGet(VAR_FRONTIER_FACILITY))
@@ -6784,6 +6872,9 @@ static u8 CheckBattleEntriesAndGetMessage(void)
 
     facility = VarGet(VAR_FRONTIER_FACILITY);
     if (facility == FACILITY_UNION_ROOM || facility == FACILITY_MULTI_OR_EREADER)
+        return 0xFF;
+
+    if (gIsPreviewChooseMons)
         return 0xFF;
 
     maxBattlers = GetMaxBattleEntries();
@@ -6827,8 +6918,22 @@ static void Task_ValidateChosenMonsForBattle(u8 taskId)
     {
         if (gSelectedOrderFromParty[0] != 0)
         {
-            PlaySE(SE_SELECT);
-            Task_ClosePartyMenu(taskId);
+            u8 numSelected = 0;
+            while (numSelected < gSelectCount && gSelectedOrderFromParty[numSelected] != 0)
+            {
+                numSelected++;
+            }
+
+            if (gIsPreviewChooseMons && numSelected < gSelectCount)
+            {
+                PlaySE(SE_SELECT);
+                DisplayFewerMonsSelectedYesNo(taskId, numSelected);
+            }
+            else
+            {
+                PlaySE(SE_SELECT);
+                Task_ClosePartyMenu(taskId);
+            }
         }
         else
         {
@@ -6836,6 +6941,41 @@ static void Task_ValidateChosenMonsForBattle(u8 taskId)
             DisplayPartyMenuStdMessage(PARTY_MSG_NO_MON_FOR_BATTLE);
             gTasks[taskId].func = Task_ContinueChoosingMonsForBattle;
         }
+    }
+}
+
+static void DisplayFewerMonsSelectedYesNo(u8 taskId, u8 numSelected)
+{
+    PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[1]);
+    ConvertIntToDecimalStringN(gStringVar1, numSelected, STR_CONV_MODE_LEFT_ALIGN, 1);
+    ConvertIntToDecimalStringN(gStringVar2, gSelectCount, STR_CONV_MODE_LEFT_ALIGN, 1);
+    StringExpandPlaceholders(gStringVar4, sText_PreviewFewerSelected);
+    DisplayPartyMenuMessage(gStringVar4, TRUE);
+    gTasks[taskId].func = Task_FewerMonsSelectedYesNo;
+}
+
+static void Task_FewerMonsSelectedYesNo(u8 taskId)
+{
+    if (IsPartyMenuTextPrinterActive() != TRUE)
+    {
+        PartyMenuDisplayYesNoMenu();
+        gTasks[taskId].func = Task_HandleFewerMonsSelectedYesNoInput;
+    }
+}
+
+static void Task_HandleFewerMonsSelectedYesNoInput(u8 taskId)
+{
+    switch (Menu_ProcessInputNoWrapClearOnChoose())
+    {
+    case 0: // Yes
+        PlaySE(SE_SELECT);
+        Task_ClosePartyMenu(taskId);
+        break;
+    case MENU_B_PRESSED:
+    case 1: // No
+        PlaySE(SE_SELECT);
+        Task_ReturnToChooseMonAfterText(taskId);
+        break;
     }
 }
 
@@ -6864,6 +7004,9 @@ static u8 GetMaxBattleEntries(void)
 
 static u8 GetMinBattleEntries(void)
 {
+    if (gIsPreviewChooseMons)
+        return 1;
+
     switch (VarGet(VAR_FRONTIER_FACILITY))
     {
     case FACILITY_MULTI_OR_EREADER:
@@ -7027,6 +7170,39 @@ static bool8 TrySwitchInPokemon(void)
     u8 newSlot;
     u8 i;
 
+    if (FlagGet(FLAG_MONOTYPE_BATTLE))
+    {
+        u8 restrictedType = GetMonotypeRestrictionType();
+        if (restrictedType != TYPE_NONE)
+        {
+            u16 species = GetMonData(&gPlayerParty[slot], MON_DATA_SPECIES);
+            if (species != SPECIES_NONE && species != SPECIES_EGG
+                && gSpeciesInfo[species].types[0] != restrictedType
+                && gSpeciesInfo[species].types[1] != restrictedType)
+            {
+                GetMonNickname(&gPlayerParty[slot], gStringVar1);
+                StringCopy(gStringVar2, gTypesInfo[restrictedType].name);
+                StringExpandPlaceholders(gStringVar4, sText_MonotypeRestrictionCantSwitch);
+                return FALSE;
+            }
+        }
+    }
+
+    if (gBattleStruct != NULL)
+    {
+        bool32 ineligible = FALSE;
+        if (gBattleStruct->isUnderwaterBattle)
+            ineligible = !CanMonParticipateInWaterBattle(&gPlayerParty[slot]);
+        else if (gBattleStruct->isWaterBattle)
+            ineligible = !CanMonParticipateInWaterBattle(&gPlayerParty[slot]) && !CanMonParticipateInSkyBattle(&gPlayerParty[slot]);
+        if (ineligible)
+        {
+            GetMonNickname(&gPlayerParty[slot], gStringVar1);
+            StringExpandPlaceholders(gStringVar4, sText_CantBattleInWater);
+            return FALSE;
+        }
+    }
+
     // In a multi battle, slots 1, 4, and 5 are the partner's pokemon
     if (IsMultiBattle() == TRUE && (slot == 1 || slot == 4 || slot == 5))
     {
@@ -7052,6 +7228,12 @@ static bool8 TrySwitchInPokemon(void)
     if (GetMonData(&gPlayerParty[slot], MON_DATA_IS_EGG))
     {
         StringExpandPlaceholders(gStringVar4, sText_EggCantBattle);
+        return FALSE;
+    }
+    if (GetMonData(&gPlayerParty[slot], MON_DATA_POKEBALL) == BALL_RESEARCH)
+    {
+        GetMonNickname(&gPlayerParty[slot], gStringVar1);
+        StringExpandPlaceholders(gStringVar4, sText_ResearchBallCantBattle);
         return FALSE;
     }
     if (GetPartyIdFromBattleSlot(slot) == gBattleStruct->prevSelectedPartySlot)

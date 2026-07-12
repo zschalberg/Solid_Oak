@@ -1,9 +1,12 @@
 #include "global.h"
+#include "item.h"
+#include "constants/items.h"
 #include "bike.h"
 #include "coord_event_weather.h"
 #include "daycare.h"
 #include "debug.h"
 #include "dexnav.h"
+#include "advanced_iv_scanner.h"
 #include "event_data.h"
 #include "event_object_movement.h"
 #include "event_scripts.h"
@@ -11,6 +14,7 @@
 #include "field_effect.h"
 #include "field_player_avatar.h"
 #include "field_poison.h"
+#include "constants/field_poison.h"
 #include "field_screen_effect.h"
 #include "field_specials.h"
 #include "fieldmap.h"
@@ -91,6 +95,7 @@ void FieldClearPlayerInput(struct FieldInput *input)
     input->tookStep = FALSE;
     input->pressedBButton = FALSE;
     input->pressedRButton = FALSE;
+    input->pressedLButton = FALSE;
     input->input_field_1_0 = FALSE;
     input->input_field_1_1 = FALSE;
     input->input_field_1_2 = FALSE;
@@ -126,6 +131,8 @@ void FieldGetPlayerInput(struct FieldInput *input, u16 newKeys, u16 heldKeys)
                         input->pressedBButton = TRUE;
                     if (newKeys & R_BUTTON && !FlagGet(DN_FLAG_SEARCHING))
                         input->pressedRButton = TRUE;
+                    if (newKeys & L_BUTTON)
+                        input->pressedLButton = TRUE;
                 }
             }
         }
@@ -320,6 +327,19 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
 
     if (input->pressedRButton && TryStartDexNavSearch())
         return TRUE;
+
+    if (input->pressedLButton && CheckBagHasItem(ITEM_ADVANCED_IV_SCANNER, 1))
+    {
+        gFieldInputRecord.pressedLButton = TRUE;
+        LockPlayerFieldControls();
+        FreezeObjectEvents();
+        PlayerFreeze();
+        StopPlayerAvatar();
+        gSpecialVar_ItemId = ITEM_ADVANCED_IV_SCANNER;
+        u8 taskId = CreateTask(ItemUseOutOfBattle_AdvancedIVScanner, 8);
+        gTasks[taskId].data[3] = TRUE; // tUsingRegisteredKeyItem
+        return TRUE;
+    }
 
     if(input->input_field_1_2 && DEBUG_OVERWORLD_MENU && !DEBUG_OVERWORLD_IN_MENU)
     {
@@ -676,6 +696,9 @@ static const u8 *GetInteractedMetatileScript(struct MapPosition *position, enum 
     return NULL;
 }
 
+extern const u8 EventScript_DeepWater[];
+extern const u8 EventScript_TrySurface[];
+
 static const u8 *GetInteractedWaterScript(struct MapPosition *unused1, enum MetatileBehavior metatileBehavior, enum Direction direction)
 {
     if (MetatileBehavior_IsFastWater(metatileBehavior) == TRUE && !TestPlayerAvatarState(PLAYER_AVATAR_STATE_SURFING))
@@ -693,6 +716,18 @@ static const u8 *GetInteractedWaterScript(struct MapPosition *unused1, enum Meta
         else
             return EventScript_CantUseWaterfall;
     }
+
+    if (CheckFollowerNPCFlag(FOLLOWER_NPC_FLAG_CAN_DIVE) && CheckBagHasItem(ITEM_HM08, 1))
+    {
+        if (TestPlayerAvatarState(PLAYER_AVATAR_STATE_SURFING)
+            && MetatileBehavior_IsDiveable(metatileBehavior) == TRUE)
+            return EventScript_DeepWater;
+
+        if (gMapHeader.mapType == MAP_TYPE_UNDERWATER
+            && !MetatileBehavior_IsUnableToEmerge(metatileBehavior))
+            return EventScript_TrySurface;
+    }
+
     return NULL;
 }
 
@@ -709,6 +744,8 @@ static bool8 TryStartStepBasedScript(struct MapPosition *position, enum Metatile
     if (!gPlayerAvatar.forced && !MetatileBehavior_IsForcedMovementTile(metatileBehavior) && UpdateRepelCounter() == TRUE)
         return TRUE;
     if (OnStep_DexNavSearch())
+        return TRUE;
+    if (OnStep_AdvancedIVScanner())
         return TRUE;
     return FALSE;
 }

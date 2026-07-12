@@ -23,6 +23,7 @@
 #include "safari_zone.h"
 #include "sound.h"
 #include "sprite.h"
+#include "pokemon_size_record.h"
 #include "string_util.h"
 #include "task.h"
 #include "test_runner.h"
@@ -203,13 +204,35 @@ static const struct BattleWeatherInfo sBattleWeatherInfo[BATTLE_WEATHER_COUNT] =
 
     [BATTLE_WEATHER_STRONG_WINDS] =
     {
-        .flag = B_WEATHER_STRONG_WINDS,
-        .rock = HOLD_EFFECT_NONE,
+        .flag             = B_WEATHER_STRONG_WINDS,
+        .rock             = HOLD_EFFECT_NONE,
         .abilityStartMessage = B_MSG_STARTED_STRONG_WINDS,
         .moveStartMessage = B_MSG_STARTED_RAIN, // Placeholder
-        .endMessage = B_MSG_WEATHER_END_STRONG_WINDS,
+        .endMessage       = B_MSG_WEATHER_END_STRONG_WINDS,
         .continuesMessage = B_MSG_WEATHER_TURN_STRONG_WINDS,
-        .animation = B_ANIM_STRONG_WINDS,
+        .animation        = B_ANIM_STRONG_WINDS,
+    },
+
+    [BATTLE_WEATHER_ELECTRIC_FLOOR] =
+    {
+        .flag             = B_WEATHER_ELECTRIC_FLOOR,
+        .rock             = HOLD_EFFECT_NONE,
+        .abilityStartMessage = B_MSG_STARTED_ELECTRIC_FLOOR, // placeholder
+        .moveStartMessage = B_MSG_STARTED_ELECTRIC_FLOOR,
+        .endMessage       = B_MSG_WEATHER_END_ELECTRIC_FLOOR,
+        .continuesMessage = B_MSG_WEATHER_TURN_ELECTRIC_FLOOR,
+        .animation        = B_ANIM_ELECTRIC_FLOOR_CONTINUES,
+    },
+
+    [BATTLE_WEATHER_POISON_FOG] =
+    {
+        .flag             = B_WEATHER_POISON_FOG,
+        .rock             = HOLD_EFFECT_NONE,
+        .abilityStartMessage = B_MSG_STARTED_POISON_FOG, // placeholder
+        .moveStartMessage = B_MSG_STARTED_POISON_FOG,
+        .endMessage       = B_MSG_WEATHER_END_POISON_FOG,
+        .continuesMessage = B_MSG_WEATHER_TURN_POISON_FOG,
+        .animation        = B_ANIM_POISON_FOG_CONTINUES,
     },
 };
 
@@ -736,7 +759,28 @@ void HandleAction_ThrowBall(void)
     gLastUsedItem = gBallToDisplay;
     if (!GetItemImportance(gLastUsedItem))
         RemoveBagItem(gLastUsedItem, 1);
-    gBattlescriptCurrInstr = BattleScript_BallThrow;
+    if (GetItemBattleUsage(gLastUsedItem) == EFFECT_ITEM_BERRY_CATCH_BOOST)
+    {
+        u16 ballId = ITEM_NONE;
+        if (gLastThrownBall != ITEM_NONE && CheckBagHasItem(gLastThrownBall, 1))
+        {
+            ballId = gLastThrownBall;
+        }
+        else
+        {
+            CompactItemsInBagPocket(POCKET_POKE_BALLS);
+            ballId = GetBagItemId(POCKET_POKE_BALLS, 0);
+        }
+
+        if (ballId > ITEM_NONE)
+            gBallToDisplay = ballId;
+
+        gBattlescriptCurrInstr = BattleScript_BerryCatchBoost;
+    }
+    else
+    {
+        gBattlescriptCurrInstr = BattleScript_BallThrow;
+    }
     gCurrentActionFuncId = B_ACTION_EXEC_SCRIPT;
 }
 
@@ -2953,6 +2997,22 @@ bool32 TryFieldEffects(enum FieldEffectCases caseId)
                 {
                     gBattleWeather = B_WEATHER_FOG;
                     gBattleScripting.animArg1 = B_ANIM_FOG_CONTINUES;
+                    effect = TRUE;
+                }
+                break;
+            case WEATHER_ELECTRIC_FLOOR:
+                if (!(gBattleWeather & B_WEATHER_ELECTRIC_FLOOR))
+                {
+                    gBattleWeather = B_WEATHER_ELECTRIC_FLOOR;
+                    gBattleScripting.animArg1 = B_ANIM_ELECTRIC_FLOOR_CONTINUES;
+                    effect = TRUE;
+                }
+                break;
+            case WEATHER_POISON_FOG:
+                if (!(gBattleWeather & B_WEATHER_POISON_FOG))
+                {
+                    gBattleWeather = B_WEATHER_POISON_FOG;
+                    gBattleScripting.animArg1 = B_ANIM_POISON_FOG_CONTINUES;
                     effect = TRUE;
                 }
                 break;
@@ -5664,99 +5724,7 @@ u32 GetBattleMoveTarget(enum Move move, enum MoveTarget moveTarget)
 
 enum Obedience GetAttackerObedienceForAction(void)
 {
-    s32 rnd;
-    s32 calc;
-    u8 obedienceLevel = 0;
-    u8 levelReferenced;
-
-    if (gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK))
-        return OBEYS;
-    if (BattlerHasAi(gBattlerAttacker))
-        return OBEYS;
-    if ((gBattleTypeFlags & (BATTLE_TYPE_POKEDUDE)))
-        return OBEYS;
-
-    if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER && GetBattlerPosition(gBattlerAttacker) == B_POSITION_PLAYER_RIGHT)
-        return OBEYS;
-    if (gBattleTypeFlags & BATTLE_TYPE_FRONTIER)
-        return OBEYS;
-    if (gBattleTypeFlags & BATTLE_TYPE_RECORDED)
-        return OBEYS;
-    if (B_OBEDIENCE_MECHANICS < GEN_8 && !IsOtherTrainer(gBattleMons[gBattlerAttacker].otId, gBattleMons[gBattlerAttacker].otName))
-        return OBEYS;
-    if (FlagGet(FLAG_BADGE08_GET)) // Rain Badge, ignore obedience altogether
-        return OBEYS;
-
-    obedienceLevel = 10;
-
-    if (FlagGet(FLAG_BADGE02_GET))
-        obedienceLevel = 30;
-    if (FlagGet(FLAG_BADGE04_GET))
-        obedienceLevel = 50;
-    if (FlagGet(FLAG_BADGE06_GET))
-        obedienceLevel = 70;
-
-    if (B_OBEDIENCE_MECHANICS >= GEN_8
-     && !IsOtherTrainer(gBattleMons[gBattlerAttacker].otId, gBattleMons[gBattlerAttacker].otName))
-        levelReferenced = gBattleMons[gBattlerAttacker].metLevel;
-    else
-        levelReferenced = gBattleMons[gBattlerAttacker].level;
-
-    if (levelReferenced <= obedienceLevel)
-        return OBEYS;
-
-    rnd = Random();
-    calc = (levelReferenced + obedienceLevel) * (rnd & 255) >> 8;
-    if (calc < obedienceLevel)
-        return OBEYS;
-
-    //  Clear the Z-Move flags if the battler is disobedient as to not waste the Z-Move
-    if (GetActiveGimmick(gBattlerAttacker) == GIMMICK_Z_MOVE)
-    {
-        gBattleStruct->gimmick.activated[gBattlerAttacker][GIMMICK_Z_MOVE] = FALSE;
-        gBattleStruct->gimmick.activeGimmick[GetBattlerSide(gBattlerAttacker)][gBattlerPartyIndexes[gBattlerAttacker]] = GIMMICK_NONE;
-    }
-
-    // is not obedient
-    enum BattleMoveEffects moveEffect = GetMoveEffect(gCurrentMove);
-    if (MoveHasAdditionalEffect(gCurrentMove, MOVE_EFFECT_RAGE))
-        gBattleMons[gBattlerAttacker].volatiles.rage = FALSE;
-    if (gBattleMons[gBattlerAttacker].status1 & STATUS1_SLEEP && IsUsableWhileAsleepEffect(moveEffect))
-        return DISOBEYS_WHILE_ASLEEP;
-
-    calc = (levelReferenced + obedienceLevel) * ((rnd >> 8) & 255) >> 8;
-    if (calc < obedienceLevel)
-    {
-        calc = CheckMoveLimitations(gBattlerAttacker, 1u << gCurrMovePos, MOVE_LIMITATIONS_ALL);
-        if (calc == ALL_MOVES_MASK) // all moves cannot be used
-            return DISOBEYS_LOAFS;
-        else // use a random move
-            do
-                gCurrMovePos = gChosenMovePos = MOD(Random(), MAX_MON_MOVES);
-            while ((1u << gCurrMovePos) & calc);
-        return DISOBEYS_RANDOM_MOVE;
-    }
-    else
-    {
-        obedienceLevel = levelReferenced - obedienceLevel;
-
-        calc = ((rnd >> 16) & 255);
-        if (calc < obedienceLevel && CanBeSlept(gBattlerAttacker, gBattlerAttacker, GetBattlerAbility(gBattlerAttacker), NOT_BLOCKED_BY_SLEEP_CLAUSE))
-        {
-            // try putting asleep
-            enum BattlerId i;
-            for (i = 0; i < gBattlersCount; i++)
-                if (gBattleMons[i].volatiles.uproarTurns)
-                    break;
-            if (i == gBattlersCount)
-                return DISOBEYS_FALL_ASLEEP;
-        }
-        calc -= obedienceLevel;
-        if (calc < obedienceLevel)
-            return DISOBEYS_HITS_SELF;
-        else
-            return DISOBEYS_LOAFS;
-    }
+    return OBEYS;
 }
 
 enum HoldEffect GetBattlerHoldEffect(enum BattlerId battler)
@@ -6265,7 +6233,8 @@ static inline u32 CalcMoveBasePower(struct BattleContext *ctx)
     case EFFECT_WEATHER_BALL:
     {
         u32 weather = GetAttackerWeather(ctx->holdEffectAtk, ctx->abilityAtk, ctx->weather);
-        if (weather & B_WEATHER_ANY && !((weather & (B_WEATHER_SUN | B_WEATHER_RAIN)) && ctx->holdEffectAtk == HOLD_EFFECT_UTILITY_UMBRELLA))
+        if (weather & B_WEATHER_ANY && !((weather & (B_WEATHER_SUN | B_WEATHER_RAIN)) && ctx->holdEffectAtk == HOLD_EFFECT_UTILITY_UMBRELLA)
+         && !(weather & (B_WEATHER_ELECTRIC_FLOOR | B_WEATHER_POISON_FOG)))
             basePower *= 2;
         break;
     }
@@ -7653,6 +7622,17 @@ static inline s32 DoMoveDamageCalcVars(struct BattleContext *ctx)
     targetFinalDefense = CalcDefenseStat(ctx);
 
     dmg = CalculateBaseDamage(gBattleMovePower, userFinalAttack, gBattleMons[ctx->battlerAtk].level, targetFinalDefense);
+    if (IsBattleMovePhysical(ctx->move))
+    {
+        u32 baseWeight = GetSpeciesWeight(gBattleMons[ctx->battlerAtk].species);
+        u32 actualWeight = GetIndividualWeight(gBattleMons[ctx->battlerAtk].species, gBattleMons[ctx->battlerAtk].personality);
+        if (baseWeight > 0)
+        {
+            dmg = (dmg * (4 * baseWeight + actualWeight)) / (5 * baseWeight);
+            if (dmg == 0)
+                dmg = 1;
+        }
+    }
     DAMAGE_APPLY_MODIFIER(GetTargetDamageModifier(ctx));
     DAMAGE_APPLY_MODIFIER(GetParentalBondModifier(ctx->battlerAtk));
     DAMAGE_APPLY_MODIFIER(GetWeatherDamageModifier(ctx));
@@ -10438,6 +10418,24 @@ u32 GetTotalAccuracy(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum 
 
     if (HasWeatherEffect() && gBattleWeather & B_WEATHER_FOG)
         calc = (calc * 60) / 100; // modified by 3/5
+
+    // Size-based boosts (up to 5% accuracy for tall attackers, up to 5% evasiveness for short defenders)
+    {
+        u8 atkHeightCategory = TranslateBigMonSizeTableIndex(gBattleMons[battlerAtk].personality & 0xFFFF);
+        u8 defHeightCategory = TranslateBigMonSizeTableIndex(gBattleMons[battlerDef].personality & 0xFFFF);
+
+        if (atkHeightCategory > 8)
+        {
+            u32 boost = 1000 + (atkHeightCategory - 8) * 50 / 7;
+            calc = (calc * boost) / 1000;
+        }
+
+        if (defHeightCategory < 8)
+        {
+            u32 evasionMultiplier = 1000 - (8 - defHeightCategory) * 50 / 8;
+            calc = (calc * evasionMultiplier) / 1000;
+        }
+    }
 
     return calc;
 }

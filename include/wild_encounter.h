@@ -21,6 +21,15 @@ enum WildPokemonArea
 #define HIDDEN_WILD_COUNT   3
 
 #define NUM_ALTERING_CAVE_TABLES 9
+#define NUM_SAFARI_ZONE_STAGES 5  // Base (Stage 0) + 4 progressive stages
+
+static inline bool32 IsSafariZoneMap(u8 mapGroup, u8 mapNum)
+{
+    return (mapGroup == MAP_GROUP(MAP_SAFARI_ZONE_CENTER) && mapNum == MAP_NUM(MAP_SAFARI_ZONE_CENTER))
+        || (mapGroup == MAP_GROUP(MAP_SAFARI_ZONE_EAST) && mapNum == MAP_NUM(MAP_SAFARI_ZONE_EAST))
+        || (mapGroup == MAP_GROUP(MAP_SAFARI_ZONE_NORTH) && mapNum == MAP_NUM(MAP_SAFARI_ZONE_NORTH))
+        || (mapGroup == MAP_GROUP(MAP_SAFARI_ZONE_WEST) && mapNum == MAP_NUM(MAP_SAFARI_ZONE_WEST));
+}
 
 #define FISHING_CHAIN_LENGTH_MAX 999
 #define FISHING_CHAIN_SHINY_STREAK_MAX 20

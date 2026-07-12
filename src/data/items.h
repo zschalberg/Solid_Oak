@@ -418,12 +418,12 @@ const struct ItemInfo gItemsInfo[] =
 
     [ITEM_LEVEL_BALL] =
     {
-        .name = ITEM_NAME("Level Ball"),
+        .name = ITEM_NAME("Red Protoball"),
         .price = (I_PRICE >= GEN_7) ? 0 : 300,
         .description = COMPOUND_STRING(
-            "A Ball that works "
-            "well on lower "
-            "\nlevel Pokémon."),
+            "A past ball. Works\n"
+            "only on Pokémon\n"
+            "up to level 10."),
         .pocket = POCKET_POKE_BALLS,
         .type = ITEM_USE_BAG_MENU,
         .battleUsage = EFFECT_ITEM_THROW_BALL,
@@ -434,12 +434,12 @@ const struct ItemInfo gItemsInfo[] =
 
     [ITEM_LURE_BALL] =
     {
-        .name = ITEM_NAME("Lure Ball"),
+        .name = ITEM_NAME("Blu Protoball"),
         .price = (I_PRICE >= GEN_7) ? 0 : 300,
         .description = COMPOUND_STRING(
-            "A Ball that works "
-            "well on fished "
-            "\nup Pokémon."),
+            "A past ball. Works\n"
+            "only on Pokémon\n"
+            "up to level 20."),
         .pocket = POCKET_POKE_BALLS,
         .type = ITEM_USE_BAG_MENU,
         .battleUsage = EFFECT_ITEM_THROW_BALL,
@@ -466,12 +466,12 @@ const struct ItemInfo gItemsInfo[] =
 
     [ITEM_FRIEND_BALL] =
     {
-        .name = ITEM_NAME("Friend Ball"),
+        .name = ITEM_NAME("Grn Protoball"),
         .price = (I_PRICE >= GEN_7) ? 0 : 300,
         .description = COMPOUND_STRING(
-            "A Ball that makes "
-            "a Pokémon\nfriendly "
-            "when caught."),
+            "A past ball. Works\n"
+            "only on Pokémon\n"
+            "up to level 30."),
         .pocket = POCKET_POKE_BALLS,
         .type = ITEM_USE_BAG_MENU,
         .battleUsage = EFFECT_ITEM_THROW_BALL,
@@ -514,12 +514,12 @@ const struct ItemInfo gItemsInfo[] =
 
     [ITEM_HEAVY_BALL] =
     {
-        .name = ITEM_NAME("Heavy Ball"),
+        .name = ITEM_NAME("Blk Protoball"),
         .price = (I_PRICE >= GEN_7) ? 0 : 300,
         .description = COMPOUND_STRING(
-            "Works well on "
-            "very heavy "
-            "\nPokémon."),
+            "A past ball. Works\n"
+            "only on Pokémon\n"
+            "up to level 40."),
         .pocket = POCKET_POKE_BALLS,
         .type = ITEM_USE_BAG_MENU,
         .battleUsage = EFFECT_ITEM_THROW_BALL,
@@ -613,12 +613,12 @@ const struct ItemInfo gItemsInfo[] =
 
     [ITEM_CHERISH_BALL] =
     {
-        .name = ITEM_NAME("Cherish Ball"),
+        .name = ITEM_NAME("Research Ball"),
         .price = 0,
         .description = COMPOUND_STRING(
-            "A rare Ball made "
-            "in commemoration\n"
-            "of some event."),
+            "A field-sealed ball.\n"
+            "Pokémon inside cannot\n"
+            "be used in battle."),
         .pocket = POCKET_POKE_BALLS,
         .type = ITEM_USE_BAG_MENU,
         .battleUsage = EFFECT_ITEM_THROW_BALL,
@@ -881,6 +881,25 @@ const struct ItemInfo gItemsInfo[] =
         .fieldUseFunc = ItemUseOutOfBattle_Medicine,
         .battleUsage = EFFECT_ITEM_RESTORE_HP,
         .effect = gItemEffect_EnergyPowder,
+        .flingPower = 30,
+        .iconPic = gItemIcon_Powder,
+        .iconPalette = gItemIconPalette_EnergyPowder,
+    },
+
+    [ITEM_ENERGY_TONIC] =
+    {
+        .name = ITEM_NAME("Energy Tonic"),
+        .price = 650,
+        .description = COMPOUND_STRING(
+            "A bitter tonic "
+            "that restores HP "
+            "\nby 100 points."),
+        .pocket = POCKET_ITEMS,
+        .sortType = ITEM_TYPE_HEALTH_RECOVERY,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_Medicine,
+        .battleUsage = EFFECT_ITEM_RESTORE_HP,
+        .effect = gItemEffect_EnergyTonic,
         .flingPower = 30,
         .iconPic = gItemIcon_Powder,
         .iconPalette = gItemIconPalette_EnergyPowder,
@@ -7241,6 +7260,101 @@ const struct ItemInfo gItemsInfo[] =
         .iconPalette = gItemIconPalette_Glimmoranite,
     },
 
+    [ITEM_CONVERSION_KIT] =
+    {
+        .name = ITEM_NAME("ConversionKit"),
+        .price = 500,
+        .description = COMPOUND_STRING(
+            "The technology core\n"
+            "of a Poké Ball. Used\n"
+            "to craft Protoballs."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_DevonParts,
+        .iconPalette = gItemIconPalette_DevonParts,
+    },
+
+    [ITEM_WORKBENCH] =
+    {
+        .name = ITEM_NAME("Workbench"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "A portable kit used\n"
+            "to craft Protoballs\n"
+            "in the field."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_FIELD,
+        .fieldUseFunc = ItemUseOutOfBattle_Workbench,
+        .iconPic = gItemIcon_Parcel,
+        .iconPalette = gItemIconPalette_Parcel,
+    },
+
+    [ITEM_BREWING_KIT] =
+    {
+        .name = ITEM_NAME("Brewing Kit"),
+        .price = 500,
+        .description = COMPOUND_STRING(
+            "A kit with tubes\n"
+            "and filters. Used\n"
+            "to brew medicine."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_PowderJar,
+        .iconPalette = gItemIconPalette_PowderJar,
+    },
+
+    [ITEM_COURIER_WHISTLE] =
+    {
+        .name = ITEM_NAME("CourierWhistle"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "A whistle that calls\n"
+            "Pidgeot to exchange\n"
+            "Pokémon outdoors."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_FIELD,
+        .fieldUseFunc = ItemUseOutOfBattle_CourierWhistle,
+        .iconPic = gItemIcon_Flute,
+        .iconPalette = gItemIconPalette_BlueFlute,
+    },
+
+    [ITEM_IV_SCANNER] =
+    {
+        .name = ITEM_NAME("IV Scanner"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "Scans a wild POKéMON\n"
+            "and grades its IV\n"
+            "potential."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .battleUsage = EFFECT_ITEM_IV_SCANNER,
+        .iconPic = gItemIcon_SilphScope,
+        .iconPalette = gItemIconPalette_SilphScope,
+    },
+
+    [ITEM_ADVANCED_IV_SCANNER] =
+    {
+        .name = ITEM_NAME("Adv. IV Scanner"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "An upgraded scanner\n"
+            "that locates wild\n"
+            "Pokémon with high IVs."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_FIELD,
+        .fieldUseFunc = ItemUseOutOfBattle_AdvancedIVScanner,
+        .iconPic = gItemIcon_SilphScope,
+        .iconPalette = gItemIconPalette_SilphScope,
+    },
+
 // Gems
     #if I_PRICE >= GEN_9
         #define GEM_PRICE 15000
@@ -11204,12 +11318,12 @@ const struct ItemInfo gItemsInfo[] =
         .pluralName = ITEM_PLURAL_NAME("Razz Berries"),
         .price = (I_BERRY_PRICE >= GEN_8) ? 80 : 20,
         .description = COMPOUND_STRING(
-            "{POKEBLOCK} ingredient. "
-            "Plant in\nloamy soil "
-            "to grow Razz."),
+            "Thrown to lure a wild Pokémon,\n"
+            "slightly boosting catch rate."),
         .pocket = POCKET_BERRIES,
         .type = ITEM_USE_BAG_MENU,
         .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .battleUsage = EFFECT_ITEM_BERRY_CATCH_BOOST,
         .flingPower = 10,
         .iconPic = gItemIcon_RazzBerry,
         .iconPalette = gItemIconPalette_RazzBerry,
@@ -11238,12 +11352,12 @@ const struct ItemInfo gItemsInfo[] =
         .pluralName = ITEM_PLURAL_NAME("Nanab Berries"),
         .price = (I_BERRY_PRICE >= GEN_8) ? 80 : 20,
         .description = COMPOUND_STRING(
-            "{POKEBLOCK} ingredient. "
-            "Plant in\nloamy soil "
-            "to grow Nanab."),
+            "Thrown to calm a wild Pokémon,\n"
+            "greatly boosting catch rate."),
         .pocket = POCKET_BERRIES,
         .type = ITEM_USE_BAG_MENU,
         .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .battleUsage = EFFECT_ITEM_BERRY_CATCH_BOOST,
         .flingPower = 10,
         .iconPic = gItemIcon_NanabBerry,
         .iconPalette = gItemIconPalette_NanabBerry,
@@ -11397,9 +11511,8 @@ const struct ItemInfo gItemsInfo[] =
         .pluralName = ITEM_PLURAL_NAME("Cornn Berries"),
         .price = (I_BERRY_PRICE >= GEN_8) ? 80 : 20,
         .description = COMPOUND_STRING(
-            "{POKEBLOCK} ingredient. "
-            "Plant in\nloamy soil "
-            "to grow Cornn."),
+            "A brewing ingredient. Combine\n"
+            "with a kit to craft a Potion."),
         .pocket = POCKET_BERRIES,
         .type = ITEM_USE_BAG_MENU,
         .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
@@ -11414,9 +11527,8 @@ const struct ItemInfo gItemsInfo[] =
         .pluralName = ITEM_PLURAL_NAME("Magost Berries"),
         .price = (I_BERRY_PRICE >= GEN_8) ? 80 : 20,
         .description = COMPOUND_STRING(
-            "{POKEBLOCK} ingredient. "
-            "Plant in\nloamy soil "
-            "to grow Magost."),
+            "A brewing ingredient. Combine\n"
+            "with a kit to craft a Hyper Potion."),
         .pocket = POCKET_BERRIES,
         .type = ITEM_USE_BAG_MENU,
         .fieldUseFunc = ItemUseOutOfBattle_CannotUse,

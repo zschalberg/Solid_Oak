@@ -98,7 +98,7 @@ static const struct CompressedSpriteSheet sSpriteSheets_HealthBar[MAX_BATTLERS_C
     },
     {
         .data = gBlankGfxCompressed,
-        .size = 0x120,
+        .size = 0x140,
         .tag = TAG_HEALTHBAR_OPPONENT1_TILE,
     },
     {
@@ -108,7 +108,7 @@ static const struct CompressedSpriteSheet sSpriteSheets_HealthBar[MAX_BATTLERS_C
     },
     {
         .data = gBlankGfxCompressed,
-        .size = 0x120,
+        .size = 0x140,
         .tag = TAG_HEALTHBAR_OPPONENT2_TILE,
     },
 };
@@ -600,6 +600,8 @@ static bool8 ShouldAnimBeDoneRegardlessOfSubstitute(u8 animId)
     case B_ANIM_HAIL_CONTINUES:
     case B_ANIM_SNOW_CONTINUES:
     case B_ANIM_FOG_CONTINUES:
+    case B_ANIM_ELECTRIC_FLOOR_CONTINUES:
+    case B_ANIM_POISON_FOG_CONTINUES:
     case B_ANIM_SNATCH_MOVE:
     case B_ANIM_STATS_CHANGE:
         return TRUE;
@@ -1007,6 +1009,7 @@ void HandleSpeciesGfxDataChange(enum BattlerId battlerAtk, enum BattlerId battle
         SetMonData(&gEnemyParty[gBattlerPartyIndexes[battlerAtk]], MON_DATA_NICKNAME, gSpeciesInfo[targetSpecies].speciesName);
         UpdateNickInHealthbox(gHealthboxSpriteIds[battlerAtk], &gEnemyParty[gBattlerPartyIndexes[battlerAtk]]);
         TryAddPokeballIconToHealthbox(gHealthboxSpriteIds[battlerAtk], TRUE);
+        TryAddFamilyReserveIconToHealthbox(gHealthboxSpriteIds[battlerAtk], TRUE);
     }
     else if (changeType == SPECIES_GFX_CHANGE_TRANSFORM)
     {

@@ -1,26 +1,26 @@
 gText_PkmnTransferredSomeonesPC::
-    .string "{STR_VAR_2} was transferred to\n"
-    .string "Someone's PC.\p"
+    .string "{STR_VAR_2} was sent to\n"
+    .string "FUJI'S LAB.\p"
     .string "It was placed in \n"
-    .string "BOX “{STR_VAR_1}.”$"
+    .string "ROOM {STR_VAR_1}.$"
 
 gText_PkmnTransferredBillsPC::
-    .string "{STR_VAR_2} was transferred to\n"
-    .string "BILL'S PC.\p"
+    .string "{STR_VAR_2} was sent to\n"
+    .string "FUJI'S LAB.\p"
     .string "It was placed in \n"
-    .string "BOX “{STR_VAR_1}.”$"
+    .string "ROOM {STR_VAR_1}.$"
 
 gText_PkmnTransferredSomeonesPCBoxFull::
-    .string "BOX “{STR_VAR_3}” on\n"
-    .string "Someone's PC was full.\p"
+    .string "ROOM {STR_VAR_3} in\n"
+    .string "FUJI'S LAB was full.\p"
     .string "{STR_VAR_2} was transferred to\n"
-    .string "BOX “{STR_VAR_1}.”$"
+    .string "ROOM {STR_VAR_1}.$"
 
 gText_PkmnTransferredBillsPCBoxFull::
-    .string "BOX “{STR_VAR_3}” on\n"
-    .string "BILL'S PC was full.\p"
+    .string "ROOM {STR_VAR_3} in\n"
+    .string "FUJI'S LAB was full.\p"
     .string "{STR_VAR_2} was transferred to\n"
-    .string "BOX “{STR_VAR_1}.”$"
+    .string "ROOM {STR_VAR_1}.$"
 
 gText_PkmnSentToPCAfterCatch::
 	.string "{STR_VAR_2} was sent to\n"

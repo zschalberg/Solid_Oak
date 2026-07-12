@@ -2125,7 +2125,8 @@ struct Pokemon *GetFirstLiveMon(void)
          || (OW_FOLLOWERS_ALLOWED_MET_LOC && GetMonData(mon, MON_DATA_MET_LOCATION) != VarGet(OW_FOLLOWERS_ALLOWED_MET_LOC)))
             continue;
 
-        if (gPlayerParty[i].hp > 0 && !(gPlayerParty[i].box.isEgg || gPlayerParty[i].box.isBadEgg))
+        if (gPlayerParty[i].hp > 0 && !(gPlayerParty[i].box.isEgg || gPlayerParty[i].box.isBadEgg)
+         && GetMonData(&gPlayerParty[i], MON_DATA_POKEBALL) != BALL_RESEARCH)
             return &gPlayerParty[i];
     }
     return NULL;
@@ -2387,6 +2388,15 @@ void UpdateFollowingPokemon(void)
     {
         RemoveFollowingPokemon();
         return;
+    }
+
+    if (objEvent != NULL)
+    {
+        if (species != OW_SPECIES(objEvent) || shiny != OW_SHINY(objEvent) || female != OW_FEMALE(objEvent))
+        {
+            RemoveFollowingPokemon();
+            objEvent = NULL;
+        }
     }
 
     if (objEvent == NULL)

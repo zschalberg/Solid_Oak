@@ -2,6 +2,10 @@
 #include "event_data.h"
 #include "pokedex.h"
 #include "field_message_box.h"
+#include "pokemon.h"
+#include "pokemon_storage_system.h"
+#include "string_util.h"
+#include "constants/characters.h"
 
 extern const u8 PokedexRating_Text_LessThan10[];
 extern const u8 PokedexRating_Text_LessThan20[];
@@ -95,3 +99,175 @@ void GetProfOaksRatingMessage(void)
 {
     ShowFieldMessage(GetProfOaksRatingMessageByCount(gSpecialVar_0x8004));
 }
+
+u16 GetSpeciesSeenCount(void)
+{
+    u16 species = gSpecialVar_0x8004;
+    u32 seen = GET_DEX_SEEN_COUNT(species);
+    
+    if (seen == 0 && GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_GET_SEEN))
+        seen = 1;
+        
+    gSpecialVar_Result = seen;
+    return seen;
+}
+
+u16 GetSpeciesCaughtCount(void)
+{
+    u16 species = gSpecialVar_0x8004;
+    u32 caught = GET_DEX_CAUGHT_COUNT(species);
+    
+    if (caught == 0 && GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_GET_CAUGHT))
+        caught = 1;
+        
+    gSpecialVar_Result = caught;
+    return caught;
+}
+
+u16 GetMonHeight(void)
+{
+    u8 partySlot = gSpecialVar_0x8004;
+    if (partySlot < PARTY_SIZE)
+    {
+        struct Pokemon *mon = &gPlayerParty[partySlot];
+        u16 species = GetMonData(mon, MON_DATA_SPECIES, NULL);
+        if (species != SPECIES_NONE && !GetMonData(mon, MON_DATA_IS_EGG, NULL))
+        {
+            u32 personality = GetMonData(mon, MON_DATA_PERSONALITY, NULL);
+            u32 height = GetIndividualHeight(species, personality);
+            gSpecialVar_Result = height;
+            return height;
+        }
+    }
+    gSpecialVar_Result = 0;
+    return 0;
+}
+
+u16 GetMonWeight(void)
+{
+    u8 partySlot = gSpecialVar_0x8004;
+    if (partySlot < PARTY_SIZE)
+    {
+        struct Pokemon *mon = &gPlayerParty[partySlot];
+        u16 species = GetMonData(mon, MON_DATA_SPECIES, NULL);
+        if (species != SPECIES_NONE && !GetMonData(mon, MON_DATA_IS_EGG, NULL))
+        {
+            u32 personality = GetMonData(mon, MON_DATA_PERSONALITY, NULL);
+            u32 weight = GetIndividualWeight(species, personality);
+            gSpecialVar_Result = weight;
+            return weight;
+        }
+    }
+    gSpecialVar_Result = 0;
+    return 0;
+}
+
+u16 GetMonHeightPercentile(void)
+{
+    u8 partySlot = gSpecialVar_0x8004;
+    if (partySlot < PARTY_SIZE)
+    {
+        struct Pokemon *mon = &gPlayerParty[partySlot];
+        u16 species = GetMonData(mon, MON_DATA_SPECIES, NULL);
+        if (species != SPECIES_NONE && !GetMonData(mon, MON_DATA_IS_EGG, NULL))
+        {
+            u32 personality = GetMonData(mon, MON_DATA_PERSONALITY, NULL);
+            u16 percentile = ((personality & 0xFFFF) * 1000) / 65535;
+            gSpecialVar_Result = percentile;
+            return percentile;
+        }
+    }
+    gSpecialVar_Result = 0;
+    return 0;
+}
+
+u16 GetMonWeightPercentile(void)
+{
+    u8 partySlot = gSpecialVar_0x8004;
+    if (partySlot < PARTY_SIZE)
+    {
+        struct Pokemon *mon = &gPlayerParty[partySlot];
+        u16 species = GetMonData(mon, MON_DATA_SPECIES, NULL);
+        if (species != SPECIES_NONE && !GetMonData(mon, MON_DATA_IS_EGG, NULL))
+        {
+            u32 personality = GetMonData(mon, MON_DATA_PERSONALITY, NULL);
+            u16 percentile = (((personality >> 16) & 0xFFFF) * 1000) / 65535;
+            gSpecialVar_Result = percentile;
+            return percentile;
+        }
+    }
+    gSpecialVar_Result = 0;
+    return 0;
+}
+
+void RemoveSelectedPartyMon(void)
+{
+    u8 partySlot = gSpecialVar_0x8004;
+    u8 partyCount = CalculatePlayerPartyCount();
+    
+    if (partySlot < PARTY_SIZE && partyCount > 1)
+    {
+        struct Pokemon *mon = &gPlayerParty[partySlot];
+        u16 species = GetMonData(mon, MON_DATA_SPECIES, NULL);
+        
+        if (species != SPECIES_NONE)
+        {
+            // If it is a non-egg, verify we have another non-egg left in the party
+            if (species != SPECIES_EGG)
+            {
+                u8 usableCount = 0;
+                u8 i;
+                for (i = 0; i < PARTY_SIZE; i++)
+                {
+                    u16 s = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES, NULL);
+                    if (s != SPECIES_NONE && s != SPECIES_EGG)
+                        usableCount++;
+                }
+                
+                if (usableCount <= 1)
+                {
+                    gSpecialVar_Result = FALSE; // Cannot remove last usable pokemon
+                    return;
+                }
+            }
+            
+            ZeroMonData(mon);
+            CompactPartySlots();
+            CalculatePlayerPartyCount();
+            gSpecialVar_Result = TRUE;
+            return;
+        }
+    }
+    gSpecialVar_Result = FALSE;
+}
+
+void BufferMonPercentiles(void)
+{
+    u8 partySlot = gSpecialVar_0x8004;
+    if (partySlot < PARTY_SIZE)
+    {
+        struct Pokemon *mon = &gPlayerParty[partySlot];
+        u16 species = GetMonData(mon, MON_DATA_SPECIES, NULL);
+        if (species != SPECIES_NONE && !GetMonData(mon, MON_DATA_IS_EGG, NULL))
+        {
+            u32 personality = GetMonData(mon, MON_DATA_PERSONALITY, NULL);
+            u32 heightPercentileVal = ((personality & 0xFFFF) * 1000) / 65535;
+            u32 weightPercentileVal = (((personality >> 16) & 0xFFFF) * 1000) / 65535;
+            u8 *ptr;
+            
+            ptr = ConvertIntToDecimalStringN(gStringVar2, heightPercentileVal / 10, STR_CONV_MODE_LEFT_ALIGN, 3);
+            ptr[0] = CHAR_PERIOD;
+            ptr++;
+            ConvertIntToDecimalStringN(ptr, heightPercentileVal % 10, STR_CONV_MODE_LEFT_ALIGN, 1);
+            
+            ptr = ConvertIntToDecimalStringN(gStringVar3, weightPercentileVal / 10, STR_CONV_MODE_LEFT_ALIGN, 3);
+            ptr[0] = CHAR_PERIOD;
+            ptr++;
+            ConvertIntToDecimalStringN(ptr, weightPercentileVal % 10, STR_CONV_MODE_LEFT_ALIGN, 1);
+            return;
+        }
+    }
+    gStringVar2[0] = EOS;
+    gStringVar3[0] = EOS;
+}
+

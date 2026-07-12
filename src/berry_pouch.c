@@ -13,6 +13,7 @@
 #include "item_icon.h"
 #include "item_menu_icons.h"
 #include "item_use.h"
+#include "battle_controllers.h"
 #include "list_menu.h"
 #include "graphics.h"
 #include "berry.h"
@@ -1145,7 +1146,14 @@ static void Task_BerryPouch_Use(u8 taskId)
             return;
         }
         if (type == ITEM_USE_BAG_MENU) {
-            ItemUseInBattle_BagMenu(taskId);
+            // The bag menu is already closed and freed when the berry pouch is
+            // open. Calling ItemUseInBattle_BagMenu would write through the
+            // dangling gBagMenu pointer and trigger a second FreeBagMenu,
+            // double-freeing sListBuffer2 and corrupting the heap block magic.
+            RemoveBagItem(gSpecialVar_ItemId, 1);
+            CopyItemName(gSpecialVar_ItemId, gStringVar2);
+            sResources->exitCallback = CB2_SetUpReshowBattleScreenAfterMenu2;
+            BerryPouch_StartFadeToExitCallback(taskId);
         }
         else if (type == ITEM_USE_PARTY_MENU) {
             ItemUseInBattle_PartyMenu(taskId);

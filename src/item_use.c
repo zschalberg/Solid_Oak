@@ -22,6 +22,7 @@
 #include "follower_npc.h"
 #include "item_menu.h"
 #include "item_use.h"
+#include "advanced_iv_scanner.h"
 #include "item.h"
 #include "itemfinder.h"
 #include "mail.h"
@@ -58,6 +59,7 @@ static void Task_ItemUseWaitForFade(u8 taskId);
 static bool8 FieldCB2_UseItemFromField(void);
 static void CB2_CheckMail(void);
 static void Task_AccessPokemonBoxLink(u8);
+static void Task_AccessWorkbench(u8);
 static void ItemUseOnFieldCB_Bicycle(u8 taskId);
 static bool8 CanFish(void);
 static void ItemUseOnFieldCB_Rod(u8 taskId);
@@ -426,6 +428,12 @@ void ItemUseOutOfBattle_Itemfinder(u8 taskId)
     SetUpItemUseOnFieldCallback(taskId);
 }
 
+void ItemUseOutOfBattle_AdvancedIVScanner(u8 taskId)
+{
+    sItemUseOnFieldCB = ItemUseOnFieldCB_AdvancedIVScanner;
+    SetUpItemUseOnFieldCallback(taskId);
+}
+
 void ItemUseOutOfBattle_PokemonBoxLink(u8 taskId)
 {
     sItemUseOnFieldCB = Task_AccessPokemonBoxLink;
@@ -436,6 +444,39 @@ static void Task_AccessPokemonBoxLink(u8 taskId)
 {
     ScriptContext_SetupScript(EventScript_AccessPokemonBoxLink);
     DestroyTask(taskId);
+}
+
+void ItemUseOutOfBattle_Workbench(u8 taskId)
+{
+    sItemUseOnFieldCB = Task_AccessWorkbench;
+    SetUpItemUseOnFieldCallback(taskId);
+}
+
+static void Task_AccessWorkbench(u8 taskId)
+{
+    ScriptContext_SetupScript(EventScript_WorkbenchCrafting);
+    DestroyTask(taskId);
+}
+
+static void Task_UseCourierWhistle(u8 taskId)
+{
+    ScriptContext_SetupScript(EventScript_UseCourierWhistle);
+    DestroyTask(taskId);
+}
+
+void ItemUseOutOfBattle_CourierWhistle(u8 taskId)
+{
+    if (gMapHeader.mapType != MAP_TYPE_ROUTE
+     && gMapHeader.mapType != MAP_TYPE_TOWN
+     && gMapHeader.mapType != MAP_TYPE_CITY)
+    {
+        PrintNotTheTimeToUseThat(taskId, gTasks[taskId].tUsingRegisteredKeyItem);
+    }
+    else
+    {
+        sItemUseOnFieldCB = Task_UseCourierWhistle;
+        SetUpItemUseOnFieldCallback(taskId);
+    }
 }
 
 void ItemUseOutOfBattle_CoinCase(u8 taskId)
@@ -832,7 +873,8 @@ void ItemUseOutOfBattle_ResetEVs(u8 taskId)
 static void RemoveUsedItem(void)
 {
     u8 pocketId = GetItemPocket(gSpecialVar_ItemId);
-    RemoveBagItem(gSpecialVar_ItemId, 1);
+    if (pocketId != POCKET_KEY_ITEMS && !GetItemImportance(gSpecialVar_ItemId))
+        RemoveBagItem(gSpecialVar_ItemId, 1);
     CopyItemName(gSpecialVar_ItemId, gStringVar2);
     StringExpandPlaceholders(gStringVar4, gText_PlayerUsedVar2);
 
@@ -924,9 +966,23 @@ void Task_UseDigEscapeRopeOnField(u8 taskId)
     DestroyTask(taskId);
 }
 
+static bool8 CanUseFlyFromTownMap(void)
+{
+    if (!CheckBagHasItem(ITEM_HM02, 1))
+        return FALSE;
+    if (!CheckFollowerNPCFlag(FOLLOWER_NPC_FLAG_CAN_LEAVE_ROUTE))
+        return FALSE;
+    if (Overworld_MapTypeAllowsTeleportAndFly(gMapHeader.mapType) != TRUE)
+        return FALSE;
+    return TRUE;
+}
+
 static void UseTownMapFromBag(void)
 {
-    InitRegionMapWithExitCB(REGIONMAP_TYPE_NORMAL, CB2_BagMenuFromStartMenu);
+    if (CanUseFlyFromTownMap())
+        InitRegionMapWithExitCB(REGIONMAP_TYPE_FLY, CB2_BagMenuFromStartMenu);
+    else
+        InitRegionMapWithExitCB(REGIONMAP_TYPE_NORMAL, CB2_BagMenuFromStartMenu);
 }
 
 static void Task_UseTownMapFromField(u8 taskId)
@@ -935,7 +991,10 @@ static void Task_UseTownMapFromField(u8 taskId)
     {
         CleanupOverworldWindowsAndTilemaps();
         SetFieldCallback2ForItemUse();
-        InitRegionMapWithExitCB(REGIONMAP_TYPE_NORMAL, CB2_ReturnToField);
+        if (CanUseFlyFromTownMap())
+            InitRegionMapWithExitCB(REGIONMAP_TYPE_FLY, CB2_ReturnToField);
+        else
+            InitRegionMapWithExitCB(REGIONMAP_TYPE_NORMAL, CB2_ReturnToField);
         DestroyTask(taskId);
     }
 }
@@ -1063,6 +1122,7 @@ bool32 CanThrowBall(void)
 static const u8 sText_CantThrowPokeBall_TwoMons[] = _("Cannot throw a ball!\nThere are two Pokémon out there!\p");
 static const u8 sText_CantThrowPokeBall_SemiInvulnerable[] = _("Cannot throw a ball!\nThere's no Pokémon in sight!\p");
 static const u8 sText_CantThrowPokeBall_Disabled[] = _("POKé BALLS cannot be used\nright now!\p");
+static const u8 sText_PokemonAlreadyScanned[] = _("The POKéMON has already\nbeen scanned!\p");
 
 static bool32 IteamHealsMonVolatile(enum BattlerId battler, enum Item itemId)
 {
@@ -1093,7 +1153,9 @@ bool32 CannotUseItemsInBattle(enum Item itemId, struct Pokemon *mon)
     bool8 cannotUse = FALSE;
     const u8* failStr = NULL;
     u32 i, battlerTarget;
-    u16 hp = GetMonData(mon, MON_DATA_HP);
+    u16 hp = 0;
+    if (mon != NULL)
+        hp = GetMonData(mon, MON_DATA_HP);
 
     if (gPartyMenu.slotId == 0)
         battlerTarget = B_POSITION_PLAYER_LEFT;
@@ -1131,6 +1193,15 @@ bool32 CannotUseItemsInBattle(enum Item itemId, struct Pokemon *mon)
     case EFFECT_ITEM_ESCAPE:
         if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
             cannotUse = TRUE;
+        break;
+    case EFFECT_ITEM_IV_SCANNER:
+        if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
+            cannotUse = TRUE;
+        else if (gBattleStruct->ivScannerUsed)
+        {
+            cannotUse = TRUE;
+            failStr = sText_PokemonAlreadyScanned;
+        }
         break;
     case EFFECT_ITEM_THROW_BALL:
         switch (GetBallThrowableState())

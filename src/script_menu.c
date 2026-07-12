@@ -16,9 +16,14 @@
 #include "strings.h"
 #include "task.h"
 #include "util.h"
+#include "battle_setup.h"
+#include "move.h"
 #include "constants/menu.h"
 #include "constants/seagallop.h"
 #include "constants/songs.h"
+#include "constants/moves.h"
+#include "constants/opponents.h"
+#include "fuji_lab.h"
 
 #define GFXTAG_FOSSIL 7000
 
@@ -650,6 +655,146 @@ static const struct MenuAction sMultichoiceList_Satisfaction[] =
     {COMPOUND_STRING("Dissatisfied")},
 };
 
+static const struct MenuAction sMultichoiceList_Journal[] =
+{
+    {COMPOUND_STRING("POKéDEX")},
+    {COMPOUND_STRING("QUEST LOG")},
+};
+
+static const struct MenuAction sMultichoiceList_TestNpc[] =
+{
+    {COMPOUND_STRING("Select Mode")},
+    {COMPOUND_STRING("Get Pokemon")},
+    {COMPOUND_STRING("Battle Tester")},
+    {COMPOUND_STRING("Variable Mode")},
+    {COMPOUND_STRING("Exit")},
+};
+
+static const struct MenuAction sMultichoiceList_TestNpcPreviewModes[] =
+{
+    {COMPOUND_STRING("1v1 Mode")},
+    {COMPOUND_STRING("2v2 Mode")},
+    {COMPOUND_STRING("3v3 Mode")},
+    {COMPOUND_STRING("4v4 Mode")},
+    {COMPOUND_STRING("5v5 Mode")},
+    {COMPOUND_STRING("6v6 Mode")},
+    {COMPOUND_STRING("2v4 Mode")},
+    {COMPOUND_STRING("Disable")},
+};
+
+static const struct MenuAction sMultichoiceList_Workbench[] = {
+    { COMPOUND_STRING("Red Protoball") },
+    { COMPOUND_STRING("Blu Protoball") },
+    { COMPOUND_STRING("Grn Protoball") },
+    { COMPOUND_STRING("Blk Protoball") },
+    { gText_Exit }
+};
+
+static const struct MenuAction sMultichoiceList_CraftQuantity[] = {
+    { COMPOUND_STRING("1") },
+    { COMPOUND_STRING("5") },
+    { COMPOUND_STRING("10") },
+    { COMPOUND_STRING("Max") },
+    { gText_Cancel }
+};
+
+static const struct MenuAction sMultichoiceList_WorkbenchMain[] = {
+    { COMPOUND_STRING("Poke Balls") },
+    { COMPOUND_STRING("Medicine") },
+    { gText_Exit }
+};
+
+static const struct MenuAction sMultichoiceList_MedicineCrafting[] = {
+    { COMPOUND_STRING("Energy Powder") },
+    { COMPOUND_STRING("Energy Tonic") },
+    { COMPOUND_STRING("Energy Root") },
+    { COMPOUND_STRING("Heal Powder") },
+    { COMPOUND_STRING("Revival Herb") },
+    { gText_Exit }
+};
+
+static const struct MenuAction sMultichoiceList_FujiRoomMons[] = {
+    { gFujiRoomMonNames[0] },
+    { gFujiRoomMonNames[1] },
+    { gFujiRoomMonNames[2] },
+    { gFujiRoomMonNames[3] },
+    { gFujiRoomMonNames[4] },
+    { gFujiRoomMonNames[5] },
+    { gText_Cancel }
+};
+
+static const struct MenuAction sMultichoiceList_CourierMenu[] = {
+    { COMPOUND_STRING("Send POKéMON") },
+    { COMPOUND_STRING("Retrieve POKéMON") },
+    { COMPOUND_STRING("View Staged") },
+    { COMPOUND_STRING("Reset Staged") },
+    { COMPOUND_STRING("Confirm & Exchange") },
+    { COMPOUND_STRING("Cancel & Exit") }
+};
+
+static const struct MenuAction sMultichoiceList_CourierRoomRangesWithUpgrade[] = {
+    { COMPOUND_STRING("Rooms 1-4") },
+    { COMPOUND_STRING("Rooms 5-8") },
+    { COMPOUND_STRING("Rooms 9-10") },
+    { gText_Exit }
+};
+
+static const struct MenuAction sMultichoiceList_CourierRoomRangesNoUpgrade[] = {
+    { COMPOUND_STRING("Rooms 1-4") },
+    { COMPOUND_STRING("Rooms 5-8") },
+    { gText_Exit }
+};
+
+static const struct MenuAction sMultichoiceList_CourierRooms1_4[] = {
+    { COMPOUND_STRING("Room 1") },
+    { COMPOUND_STRING("Room 2") },
+    { COMPOUND_STRING("Room 3") },
+    { COMPOUND_STRING("Room 4") },
+    { gText_Cancel }
+};
+
+static const struct MenuAction sMultichoiceList_CourierRooms5_8[] = {
+    { COMPOUND_STRING("Room 5") },
+    { COMPOUND_STRING("Room 6") },
+    { COMPOUND_STRING("Room 7") },
+    { COMPOUND_STRING("Room 8") },
+    { gText_Cancel }
+};
+
+static const struct MenuAction sMultichoiceList_CourierRooms9_10[] = {
+    { COMPOUND_STRING("Room 9") },
+    { COMPOUND_STRING("Room 10") },
+    { gText_Cancel }
+};
+
+static const struct MenuAction sMultichoiceList_ResearchMain[] = {
+    { COMPOUND_STRING("Turn In Pokémon") },
+    { COMPOUND_STRING("Exchange Shop") },
+    { COMPOUND_STRING("Transfer Ball (500C)") },
+    { COMPOUND_STRING("Info") },
+    { gText_Cancel }
+};
+
+static const struct MenuAction sMultichoiceList_ResearchShop[] = {
+    { COMPOUND_STRING("Items Shop") },
+    { COMPOUND_STRING("Pokémon Shop") },
+    { COMPOUND_STRING("Sanctuary Upgrade") },
+    { gText_Cancel }
+};
+
+static const struct MenuAction sMultichoiceList_ResearchItems[] = {
+    { COMPOUND_STRING("Evolution Stone (100 C)") },
+    { COMPOUND_STRING("Rare Candy (200 C)") },
+    { COMPOUND_STRING("Exp. Share (1500 C)") },
+    { gText_Cancel }
+};
+
+static const struct MenuAction sMultichoiceList_ResearchPokemon[] = {
+    { COMPOUND_STRING("Porygon (1500 C)") },
+    { COMPOUND_STRING("Beldum (2000 C)") },
+    { gText_Cancel }
+};
+
 struct MultichoiceListStruct
 {
     const struct MenuAction *list;
@@ -733,6 +878,24 @@ static const struct MultichoiceListStruct sMultichoiceLists[] =
     [MULTI_BATTLE_TOWER_FEELINGS]                      = MULTICHOICE(sMultichoiceList_BattleTowerFeelings),
     [MULTI_LINK_LEADER]                                = MULTICHOICE(sMultichoiceList_LinkLeader),
     [MULTI_SATISFACTION]                               = MULTICHOICE(sMultichoiceList_Satisfaction),
+    [MULTI_JOURNAL]                                    = MULTICHOICE(sMultichoiceList_Journal),
+    [MULTI_TEST_NPC_CHOICES]                           = MULTICHOICE(sMultichoiceList_TestNpc),
+    [MULTI_TEST_NPC_PREVIEW_MODES]                     = MULTICHOICE(sMultichoiceList_TestNpcPreviewModes),
+    [MULTI_WORKBENCH]                                  = MULTICHOICE(sMultichoiceList_Workbench),
+    [MULTI_CRAFT_QUANTITY]                             = MULTICHOICE(sMultichoiceList_CraftQuantity),
+    [MULTI_WORKBENCH_MENU]                             = MULTICHOICE(sMultichoiceList_WorkbenchMain),
+    [MULTI_MEDICINE_CRAFTING]                          = MULTICHOICE(sMultichoiceList_MedicineCrafting),
+    [MULTI_FUJI_ROOM_MONS]                             = MULTICHOICE(sMultichoiceList_FujiRoomMons),
+    [MULTI_COURIER_MENU]                               = MULTICHOICE(sMultichoiceList_CourierMenu),
+    [MULTI_COURIER_ROOM_RANGES_WITH_UPGRADE]           = MULTICHOICE(sMultichoiceList_CourierRoomRangesWithUpgrade),
+    [MULTI_COURIER_ROOM_RANGES_NO_UPGRADE]             = MULTICHOICE(sMultichoiceList_CourierRoomRangesNoUpgrade),
+    [MULTI_COURIER_ROOMS_1_4]                          = MULTICHOICE(sMultichoiceList_CourierRooms1_4),
+    [MULTI_COURIER_ROOMS_5_8]                          = MULTICHOICE(sMultichoiceList_CourierRooms5_8),
+    [MULTI_COURIER_ROOMS_9_10]                         = MULTICHOICE(sMultichoiceList_CourierRooms9_10),
+    [MULTI_RESEARCH_MAIN]                              = MULTICHOICE(sMultichoiceList_ResearchMain),
+    [MULTI_RESEARCH_SHOP]                              = MULTICHOICE(sMultichoiceList_ResearchShop),
+    [MULTI_RESEARCH_ITEMS]                             = MULTICHOICE(sMultichoiceList_ResearchItems),
+    [MULTI_RESEARCH_POKEMON]                           = MULTICHOICE(sMultichoiceList_ResearchPokemon),
 };
 
 const u8 *const gStdStrings[] = {
@@ -1896,3 +2059,58 @@ static u32 GetMultiChoiceWindowHeight(u8 argc, u8 maxBeforeScroll)
 
     return (windowHeight + 7) / 8;
 }
+
+void DojoTutor_ResetStack(struct ScriptContext *ctx)
+{
+    if (sDynamicMultiChoiceStack != NULL)
+        MultichoiceDynamic_DestroyStack();
+}
+
+void DojoTutor_PushMoveIfTrainerDefeated(struct ScriptContext *ctx)
+{
+    u16 moveId = VarGet(VAR_0x8004);
+    u16 trainerId = VarGet(VAR_0x8005);
+
+    if (HasTrainerBeenFought(trainerId))
+    {
+        u8 *nameBuffer = Alloc(100);
+        StringCopy(nameBuffer, gMovesInfo[moveId].name);
+        struct ListMenuItem item = {nameBuffer, moveId};
+        MultichoiceDynamic_PushElement(item);
+    }
+}
+
+void DojoTutor_PushMoveIfFlagSet(struct ScriptContext *ctx)
+{
+    u16 moveId = VarGet(VAR_0x8004);
+    u16 flagId = VarGet(VAR_0x8005);
+
+    if (FlagGet(flagId))
+    {
+        u8 *nameBuffer = Alloc(100);
+        StringCopy(nameBuffer, gMovesInfo[moveId].name);
+        struct ListMenuItem item = {nameBuffer, moveId};
+        MultichoiceDynamic_PushElement(item);
+    }
+}
+
+void DojoTutor_PrepareMenu(struct ScriptContext *ctx)
+{
+    u32 stackSize = MultichoiceDynamic_StackSize();
+
+    if (stackSize == 0)
+    {
+        gSpecialVar_Result = 0xFE; // No moves unlocked
+    }
+    else
+    {
+        // Add Cancel option
+        u8 *cancelName = Alloc(100);
+        StringCopy(cancelName, COMPOUND_STRING("Cancel"));
+        struct ListMenuItem cancelItem = {cancelName, 0xFFFF};
+        MultichoiceDynamic_PushElement(cancelItem);
+        
+        gSpecialVar_Result = 0; // Success
+    }
+}
+

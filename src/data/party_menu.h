@@ -43,6 +43,7 @@ static const u8 sText_CannotSendMonToBoxHM[] = _("Cannot send that mon to the bo
 static const u8 sText_PauseUntilPress[] = _("{PAUSE_UNTIL_PRESS}");
 static const u8 sText_CantSwitchWithAlly[] = _("You can't switch {STR_VAR_1}'s\nPOKéMON with one of yours!{PAUSE_UNTIL_PRESS}");
 static const u8 sText_EggCantBattle[] = _("An EGG can't battle!{PAUSE_UNTIL_PRESS}");
+static const u8 sText_ResearchBallCantBattle[] = _("{STR_VAR_1} is in a Research Ball\nand cannot be opened in the field!{PAUSE_UNTIL_PRESS}");
 static const u8 sText_CantUseUntilNewBadge[] = _("This can't be used until a new\nBADGE is obtained.{PAUSE_UNTIL_PRESS}");
 static const u8 sText_NoMoreThanVar1Pkmn[] = _("No more than {STR_VAR_1} POKéMON\nmay enter.{PAUSE_UNTIL_PRESS}");
 static const u8 sText_SendMailToPC[] = _("Send the removed MAIL to\nyour PC?");
@@ -60,6 +61,9 @@ static const u8 sText_OakImportantToGetToKnowPokemonThroughly[] = _("OAK: It's i
 static const u8 sText_OakThisIsListOfPokemon[] = _("This is a list of your POKéMON,\n{PLAYER}.\pOpen this to check the skills\nand moves of your POKéMON.\pYou also choose POKéMON here if\nyou want to use an item on one.{PAUSE_UNTIL_PRESS}");
 static const u8 sText_EscapeFromHereAndReturnTo[] = _("Want to escape from here and return\nto {STR_VAR_1}?");
 static const u8 sText_CancelBattle[] = _("Cancel the battle?");
+static const u8 sText_PreviewFewerSelected[] = _("{STR_VAR_1} Pokémon selected, {STR_VAR_2} allowed.\nContinue?");
+static const u8 sText_MonotypeRestrictionCantSwitch[] = _("This battle is restricted to\n{STR_VAR_2}-type POKéMON!\p{STR_VAR_1} cannot participate!{PAUSE_UNTIL_PRESS}");
+static const u8 sText_CantBattleInWater[] = _("{STR_VAR_1} can't battle\nin the water!{PAUSE_UNTIL_PRESS}");
 
 static const struct BgTemplate sPartyMenuBgTemplates[] =
 {
@@ -755,6 +759,9 @@ static const u8 *const sDescriptionStringTable[] =
     [PARTYBOX_DESC_ABLE_2]     = COMPOUND_STRING("ABLE!"),
     [PARTYBOX_DESC_NOT_ABLE_2] = COMPOUND_STRING("NOT ABLE!"),
     [PARTYBOX_DESC_LEARNED]    = COMPOUND_STRING("LEARNED"),
+    [PARTYBOX_DESC_FOURTH]     = COMPOUND_STRING("FOURTH"),
+    [PARTYBOX_DESC_FIFTH]      = COMPOUND_STRING("FIFTH"),
+    [PARTYBOX_DESC_SIXTH]      = COMPOUND_STRING("SIXTH"),
 };
 
 static const u32 sHeldItemGfx[] = INCBIN_U32("graphics/party_menu/hold_icons.4bpp");

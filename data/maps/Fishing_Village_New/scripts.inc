@@ -1,0 +1,2 @@
+Fishing_Village_New_MapScripts::
+	.byte 0

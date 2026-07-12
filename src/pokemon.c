@@ -1,4 +1,5 @@
 #include "global.h"
+#include "pokemon_size_record.h"
 #include "malloc.h"
 #include "apprentice.h"
 #include "battle.h"
@@ -15,6 +16,8 @@
 #include "data.h"
 #include "daycare.h"
 #include "dexnav.h"
+#include "advanced_iv_scanner.h"
+#include "easy_chat.h"
 #include "event_data.h"
 #include "event_object_movement.h"
 #include "evolution_scene.h"
@@ -139,7 +142,7 @@ static const enum NationalDexOrder sHoennToNationalOrder[HOENN_DEX_COUNT - 1] =
     FOREACH_SPECIES_IN_HOENN_DEX_ORDER(HOENN_TO_NATIONAL)
 };
 
-static const enum Species sNationalOrderToSpecies[NATIONAL_DEX_COUNT] =
+static const enum Species sNationalOrderToSpecies[] =
 {
     FOREACH_SPECIES_IN_NATIONAL_DEX(NATIONAL_TO_SPECIES)
 };
@@ -930,6 +933,7 @@ void CreateBoxMon(struct BoxPokemon *boxMon, enum Species species, u8 level, u32
             totalRerolls += CalculateChainFishingShinyRolls();
             if (gDexNavSpecies)
                 totalRerolls += CalculateDexNavShinyRolls();
+            totalRerolls += CalculateAdvIvScannerShinyRolls();
 
             u32 shinyPersonality = personality;
             while (GET_SHINY_VALUE(value, shinyPersonality) >= SHINY_ODDS && totalRerolls > 0)
@@ -2944,17 +2948,37 @@ u8 GiveCapturedMonToPlayer(struct Pokemon *mon)
     return MON_GIVEN_TO_PARTY;
 }
 
+u8 GetFujiLabRoomsCount(void)
+{
+    if (FlagGet(FLAG_SYS_CONVENTIONAL_PC_UNLOCKED))
+        return TOTAL_BOXES_COUNT;
+    if (FlagGet(FLAG_FUJI_LAB_UPGRADE))
+        return 10;
+    return 8;
+}
+
+u8 GetBoxCapacityLimit(void)
+{
+    if (FlagGet(FLAG_SYS_CONVENTIONAL_PC_UNLOCKED))
+        return IN_BOX_COUNT;
+    return 6;
+}
+
 u8 CopyMonToPC(struct Pokemon *mon)
 {
     s32 boxNo, boxPos;
+    u8 roomsCount = GetFujiLabRoomsCount();
+    u8 roomCapacity = GetBoxCapacityLimit();
 
     SetPCBoxToSendMon(VarGet(VAR_PC_BOX_TO_SEND_MON));
 
     boxNo = StorageGetCurrentBox();
+    if (boxNo >= roomsCount)
+        boxNo = 0;
 
     do
     {
-        for (boxPos = 0; boxPos < IN_BOX_COUNT; boxPos++)
+        for (boxPos = 0; boxPos < roomCapacity; boxPos++)
         {
             struct BoxPokemon *checkingMon = GetBoxedMonPtr(boxNo, boxPos);
             if (GetBoxMonData(checkingMon, MON_DATA_SPECIES) == SPECIES_NONE)
@@ -2971,7 +2995,7 @@ u8 CopyMonToPC(struct Pokemon *mon)
         }
 
         boxNo++;
-        if (boxNo == TOTAL_BOXES_COUNT)
+        if (boxNo == roomsCount)
             boxNo = 0;
     } while (boxNo != StorageGetCurrentBox());
 
@@ -3028,7 +3052,7 @@ u8 GetMonsStateToDoubles(void)
     s32 i;
     CalculatePlayerPartyCount();
 
-    if (OW_DOUBLE_APPROACH_WITH_ONE_MON)
+    if (OW_DOUBLE_APPROACH_WITH_ONE_MON || FlagGet(FLAG_DOUBLE_BATTLE_WITH_ONE_MON))
         return PLAYER_HAS_TWO_USABLE_MONS;
 
     if (gPlayerPartyCount == 1)
@@ -3051,7 +3075,8 @@ u8 GetMonsStateToDoubles_2(void)
     s32 i;
 
     if (OW_DOUBLE_APPROACH_WITH_ONE_MON
-     || FollowerNPCIsBattlePartner())
+     || FollowerNPCIsBattlePartner()
+     || FlagGet(FLAG_DOUBLE_BATTLE_WITH_ONE_MON))
         return PLAYER_HAS_TWO_USABLE_MONS;
 
     for (i = 0; i < PARTY_SIZE; i++)
@@ -3156,9 +3181,11 @@ bool8 IsPlayerPartyAndPokemonStorageFull(void)
 bool8 IsPokemonStorageFull(void)
 {
     s32 i, j;
+    u8 roomsCount = GetFujiLabRoomsCount();
+    u8 roomCapacity = GetBoxCapacityLimit();
 
-    for (i = 0; i < TOTAL_BOXES_COUNT; i++)
-        for (j = 0; j < IN_BOX_COUNT; j++)
+    for (i = 0; i < roomsCount; i++)
+        for (j = 0; j < roomCapacity; j++)
             if (GetBoxMonDataAt(i, j, MON_DATA_SPECIES) == SPECIES_NONE)
                 return FALSE;
 
@@ -4460,6 +4487,20 @@ bool32 DoesMonMeetAdditionalConditions(struct Pokemon *mon, const struct Evoluti
     return TRUE;
 }
 
+static bool32 IsEvoTargetUnlocked(u16 targetSpecies)
+{
+    switch (targetSpecies)
+    {
+    case SPECIES_GENGAR:
+        return FlagGet(FLAG_QUEST_KNOW_GENGAR_EVO);
+    case SPECIES_SLOWBRO:
+    case SPECIES_SLOWKING:
+        return FlagGet(FLAG_QUEST_KNOW_SLOWPOKE_EVOS);
+    default:
+        return TRUE;
+    }
+}
+
 u32 GetEvolutionTargetSpecies(struct Pokemon *mon, enum EvolutionMode mode, u16 evolutionItem, struct Pokemon *tradePartner, bool32 *canStopEvo, enum EvoState evoState)
 {
     int i;
@@ -4642,6 +4683,10 @@ u32 GetEvolutionTargetSpecies(struct Pokemon *mon, enum EvolutionMode mode, u16 
         }
         break;
     }
+
+    // Quest-gate: block specific evolutions until their quest flags are set
+    if (targetSpecies != SPECIES_NONE && !IsEvoTargetUnlocked(targetSpecies))
+        return SPECIES_NONE;
 
     // Pikachu, Meowth, Eevee and Duraludon cannot evolve if they have the
     // Gigantamax Factor. We assume that is because their evolutions
@@ -5819,13 +5864,21 @@ enum TrainerPicID PlayerGenderToFrontTrainerPicId(enum Gender playerGender)
 void HandleSetPokedexFlag(enum NationalDexOrder nationalNum, u8 caseId, u32 personality)
 {
     u8 getFlagCaseId = (caseId == FLAG_SET_SEEN) ? FLAG_GET_SEEN : FLAG_GET_CAUGHT;
-    if (!GetSetPokedexFlag(nationalNum, getFlagCaseId)) // don't set if it's already set
+    bool8 alreadySet = GetSetPokedexFlag(nationalNum, getFlagCaseId);
+
+    GetSetPokedexFlag(nationalNum, caseId);
+
+    if (!alreadySet)
     {
-        GetSetPokedexFlag(nationalNum, caseId);
         if (NationalPokedexNumToSpecies(nationalNum) == SPECIES_UNOWN)
             gSaveBlock2Ptr->pokedex.unownPersonality = personality;
         if (NationalPokedexNumToSpecies(nationalNum) == SPECIES_SPINDA)
             gSaveBlock2Ptr->pokedex.spindaPersonality = personality;
+    }
+
+    if (caseId == FLAG_SET_CAUGHT)
+    {
+        UpdatePokedexSizeRecordBySpeciesPersonality(NationalPokedexNumToSpecies(nationalNum), personality);
     }
 }
 

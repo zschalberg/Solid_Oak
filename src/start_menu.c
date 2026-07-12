@@ -37,6 +37,8 @@
 #include "save.h"
 #include "scanline_effect.h"
 #include "script.h"
+#include "script_menu.h"
+#include "quest_log_menu.h"
 #include "sound.h"
 #include "start_menu.h"
 #include "string_util.h"
@@ -146,9 +148,10 @@ static void InitBattlePyramidRetire(void);
 static u8 BattlePyramidConfirmRetireCallback(void);
 static u8 BattlePyramidRetireYesNoCallback(void);
 static u8 BattlePyramidRetireInputCallback(void);
+static void Task_HandleJournalChoice(u8 taskId);
 
 // Start menu option descriptions
-static const u8 sStartMenuDesc_Pokedex[] = _("A device that records POKéMON secrets\nupon meeting or catching them.");
+static const u8 sStartMenuDesc_Pokedex[] = _("A journal that records POKéMON secrets\nupon meeting or catching them.");
 static const u8 sStartMenuDesc_Pokemon[] = _("Check and organize POKéMON that are\ntraveling with you in your party.");
 static const u8 sStartMenuDesc_Bag[] = _("Equipped with pockets for storing items\nyou bought, received, or found.");
 static const u8 sStartMenuDesc_Player[] = _("Check your money and other game data.");
@@ -692,7 +695,8 @@ static void StartMenu_FadeScreenIfLeavingOverworld(void)
      && gMenuCallback != StartMenuExitCallback
      && gMenuCallback != StartMenuDebugCallback
      && gMenuCallback != StartMenuSafariZoneRetireCallback
-     && gMenuCallback != StartMenuBattlePyramidRetireCallback)
+     && gMenuCallback != StartMenuBattlePyramidRetireCallback
+     && gMenuCallback != StartMenuPokedexCallback)
     {
         StopPokemonLeagueLightingEffectTask();
         FadeScreen(FADE_TO_BLACK, 0);
@@ -701,8 +705,6 @@ static void StartMenu_FadeScreenIfLeavingOverworld(void)
 
 static bool8 StartMenuPokedexSanityCheck(void)
 {
-    if (sStartMenuActionTable[sCurrentStartMenuActions[sStartMenuCursorPos]].func.u8_void == StartMenuPokedexCallback && GetNationalPokedexCount(FLAG_GET_SEEN) == 0)
-        return FALSE;
     return TRUE;
 }
 
@@ -710,11 +712,11 @@ static bool8 StartMenuPokedexCallback(void)
 {
     if (!gPaletteFade.active)
     {
-        IncrementGameStat(GAME_STAT_CHECKED_POKEDEX);
-        PlayRainStoppingSoundEffect();
+        PlaySE(SE_SELECT);
         RemoveExtraStartMenuWindows();
-        CleanupOverworldWindowsAndTilemaps();
-        SetMainCallback2(CB2_OpenPokedexFromStartMenu);
+        ClearStdWindowAndFrame(GetStartMenuWindowId(), TRUE);
+        RemoveStartMenuWindow();
+        CreateTask(Task_HandleJournalChoice, 80);
         return TRUE;
     }
     return FALSE;
@@ -1450,3 +1452,54 @@ void Script_ForceSaveGame(struct ScriptContext *ctx)
     sSaveDialogCallback = SaveSavingMessageCallback;
 }
 
+static void Task_HandleJournalChoice(u8 taskId)
+{
+    s16 *data = gTasks[taskId].data;
+
+    switch (data[0])
+    {
+    case 0:
+        gSpecialVar_Result = SCR_MENU_UNSET;
+        ScriptMenu_Multichoice(19, 6, MULTI_JOURNAL, FALSE);
+        data[0] = 1;
+        break;
+    case 1:
+        if (gSpecialVar_Result != SCR_MENU_UNSET)
+        {
+            if (gSpecialVar_Result == MULTI_B_PRESSED)
+            {
+                ShowStartMenu();
+                DestroyTask(taskId);
+            }
+            else if (gSpecialVar_Result == 0) // POKéDEX
+            {
+                FadeScreen(FADE_TO_BLACK, 0);
+                data[0] = 2;
+            }
+            else if (gSpecialVar_Result == 1) // QUEST LOG
+            {
+                FadeScreen(FADE_TO_BLACK, 0);
+                data[0] = 3;
+            }
+        }
+        break;
+    case 2:
+        if (!gPaletteFade.active)
+        {
+            IncrementGameStat(GAME_STAT_CHECKED_POKEDEX);
+            PlayRainStoppingSoundEffect();
+            CleanupOverworldWindowsAndTilemaps();
+            SetMainCallback2(CB2_OpenPokedexFromStartMenu);
+            DestroyTask(taskId);
+        }
+        break;
+    case 3:
+        if (!gPaletteFade.active)
+        {
+            CleanupOverworldWindowsAndTilemaps();
+            QuestLogMenu_Init(CB2_ReturnToFieldWithOpenMenu);
+            DestroyTask(taskId);
+        }
+        break;
+    }
+}

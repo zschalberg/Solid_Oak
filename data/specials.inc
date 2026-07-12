@@ -354,4 +354,34 @@ gSpecials::
 	def_special SetBattleRuleBanMoveCategoryFromVar
 	def_special SetBattleRuleAffectsOpponentFromVar
 	def_special ClearPendingBattleRules
+	def_special GetMaxCraftableQuantity
+	def_special CraftProtoballs
+	def_special GetSpeciesSeenCount
+	def_special GetSpeciesCaughtCount
+	def_special GetMonHeight
+	def_special GetMonWeight
+	def_special GetMonHeightPercentile
+	def_special GetMonWeightPercentile
+	def_special RemoveSelectedPartyMon
+	def_special BufferMonPercentiles
+	def_special GetMaxMedicineCraftableQuantity
+	def_special CraftMedicine
+	def_special FujiLab_InitRoomObjects
+	def_special FujiLab_GetPokemonInfo
+	def_special FujiLab_Withdraw
+	def_special FujiLab_Deposit
+	def_special FujiLab_Swap
+	def_special SpawnCourierBird
+	def_special RemoveCourierBird
+	def_special FujiLab_IsSlotEmpty
+	def_special FujiLab_BufferRoomMons
+	def_special ShowPokemonStorageSystemPC_MoveMode
+	def_special FujiLab_ResetStorageChangeFlag
+	def_special FujiLab_DidStorageChange
+	def_special IsSelectedMonResearchBall
+	def_special IsSelectedMonNewFamily
+	def_special EvaluateSelectedResearchMon
+	def_special TurnInSelectedResearchMon
+	def_special TransferSelectedMonToPokeBall
 gSpecialsEnd::
+

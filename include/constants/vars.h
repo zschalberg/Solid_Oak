@@ -85,8 +85,8 @@
 // Used by Quest Log.
 #define VAR_QUEST_LOG_MON_COUNTS           0x4027
 #define VAR_WONDER_NEWS_STEP_COUNTER       0x4028
-#define VAR_0x4029                         0x4029
-#define VAR_0x402A                         0x402A
+#define VAR_SCALE_LEVEL_OFFSET             0x4029
+#define VAR_SAFARI_ZONE_STAGE              0x402A
 #define VAR_0x402B                         0x402B
 #define VAR_DAYS                           0x402C // was VAR_RESET_RTC_ENABLE
 #define VAR_0x402D                         0x402D
@@ -110,7 +110,7 @@
 #define VAR_0x403C                         0x403C // Set to 0x0302, never read
 #define VAR_HERACROSS_SIZE_RECORD          0x403D
 #define VAR_DEOXYS_INTERACTION_NUM         0x403E
-#define VAR_0x403F                         0x403F
+#define VAR_LAST_REPEL_LURE_USED           0x403F
 #define VAR_MAGIKARP_SIZE_RECORD           0x4040
 #define VAR_0x4041                         0x4041
 #define VAR_TRAINER_CARD_MON_ICON_TINT_IDX 0x4042
@@ -144,7 +144,6 @@
 #define VAR_MAP_SCENE_SILPH_CO_7F                                              0x405C
 #define VAR_MAP_SCENE_POKEMON_TOWER_2F                                         0x405D
 #define VAR_MAP_SCENE_ROUTE16                                                  0x405E
-#define VAR_MAP_SCENE_ROUTE23                                                  0x405F
 #define VAR_MAP_SCENE_SILPH_CO_11F                                             0x4060
 #define VAR_MAP_SCENE_PEWTER_CITY_MUSEUM_1F                                    0x4061
 #define VAR_MAP_SCENE_ROUTE5_ROUTE6_ROUTE7_ROUTE8_GATES                        0x4062
@@ -260,7 +259,7 @@
 #define VAR_FRONTIER_FACILITY      0x40CF
 #define VAR_HAS_ENTERED_BATTLE_FRONTIER 0x40D0
 #define VAR_SCOTT_STATE            0x40D1
-#define VAR_0x40D2                 0x40D2
+#define VAR_MONOTYPE_RESTRICTION           0x40D2
 #define VAR_0x40D3                 0x40D3
 #define VAR_0x40D4                 0x40D4
 #define VAR_0x40D5                 0x40D5
@@ -322,7 +321,8 @@
 #define VAR_0x8007                 0x8007
 #define VAR_0x8008                 0x8008
 #define VAR_0x8009                 0x8009
-#define VAR_0x800A                 0x800A
+#define VAR_OPPONENT_SELECT_COUNT  0x800A
+#define VAR_0x800A                 VAR_OPPONENT_SELECT_COUNT
 #define VAR_0x800B                 0x800B
 #define VAR_FACING                 0x800C
 #define VAR_RESULT                 0x800D

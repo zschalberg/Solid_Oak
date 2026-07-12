@@ -270,6 +270,8 @@ struct SaveBlock3
 {
     struct BerryTree berryTrees[BERRY_TREES_COUNT];
     u8 dexNavChain;
+    u8 advIvScannerChain;
+    u8 advIvScannerRoute;
 #if OW_USE_FAKE_RTC
     struct SiiRtcInfo fakeRTC;
 #endif
@@ -286,7 +288,7 @@ struct SaveBlock3
     struct LinkBattleRecords linkBattleRecords;
 #endif //FREE_LINK_BATTLE_RECORDS
 
-    u8 unused[812];
+    u8 unused[810 - (OW_SHOW_ITEM_DESCRIPTIONS == OW_ITEM_DESCRIPTIONS_FIRST_TIME ? ITEM_FLAGS_COUNT : 0)];
 };
 
 extern struct SaveBlock3 *gSaveBlock3Ptr;
@@ -660,7 +662,8 @@ struct SaveBlock2
     u8 optionsSound:1; // OPTIONS_SOUND_[MONO/STEREO]
     u8 optionsBattleStyle:1; // OPTIONS_BATTLE_STYLE_[SHIFT/SET]
     bool8 optionsBattleSceneOff:1; // whether battle animations are disabled
-    u8 unused1:5;
+    u8 optionsMusicSpeed:2; // 0 = NORMAL, 1 = 1/2 (2x SLOW), 2 = 1/3 (3x SLOW)
+    u8 unused1:3;
 
 #if FREE_POKEMON_JUMP == FALSE
     struct PokemonJumpRecords pokeJump;
@@ -977,6 +980,8 @@ struct Bag
     struct ItemSlot berries[BAG_BERRIES_COUNT];
 };
 
+#define POKEDEX_SIZE_RECORDS_COUNT 400
+
 struct SaveBlock1
 {
     struct Apprentice apprentices[APPRENTICE_COUNT];
@@ -1046,7 +1051,39 @@ struct SaveBlock1
     u8 registeredTexts[UNION_ROOM_KB_ROW_COUNT][21];
 #endif //FREE_UNION_ROOM_CHAT
 
-    u8 unused2[100];
+#define DEX_COUNTS_MAX_SPECIES 400
+
+#define GET_DEX_SEEN_COUNT(species) \
+    (SpeciesToNationalPokedexNum(species) < DEX_COUNTS_MAX_SPECIES ? \
+     gSaveBlock1Ptr->pokedexSeen[SpeciesToNationalPokedexNum(species)] : \
+     (GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_GET_SEEN) ? 1 : 0))
+
+#define GET_DEX_CAUGHT_COUNT(species) \
+    (SpeciesToNationalPokedexNum(species) < DEX_COUNTS_MAX_SPECIES ? \
+     gSaveBlock1Ptr->pokedexCaught[SpeciesToNationalPokedexNum(species)] : \
+     (GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_GET_CAUGHT) ? 1 : 0))
+
+#define INCREMENT_DEX_SEEN_COUNT_BY_NATDEX(natDex) { \
+    if ((natDex) != NATIONAL_DEX_NONE && (natDex) < DEX_COUNTS_MAX_SPECIES) { \
+        if (gSaveBlock1Ptr->pokedexSeen[natDex] < 255) { \
+            gSaveBlock1Ptr->pokedexSeen[natDex]++; \
+        } \
+    } \
+}
+
+#define INCREMENT_DEX_CAUGHT_COUNT_BY_NATDEX(natDex) { \
+    if ((natDex) != NATIONAL_DEX_NONE && (natDex) < DEX_COUNTS_MAX_SPECIES) { \
+        if (gSaveBlock1Ptr->pokedexCaught[natDex] < 255) { \
+            gSaveBlock1Ptr->pokedexCaught[natDex]++; \
+        } \
+    } \
+}
+
+    u8 pokedexSizes[POKEDEX_SIZE_RECORDS_COUNT][2];
+    u8 pokedexSeen[DEX_COUNTS_MAX_SPECIES];
+    u8 pokedexCaught[DEX_COUNTS_MAX_SPECIES];
+    u8 reserveSpeciesTurnedIn[NUM_DEX_FLAG_BYTES];
+    u8 unused2[1180 - (DEX_COUNTS_MAX_SPECIES * 2) - NUM_DEX_FLAG_BYTES];
 };
 
 struct MapPosition

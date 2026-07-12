@@ -21,12 +21,58 @@ PalletTown_PlayersHouse_2F_FirstWarpIn::
 	end
 
 PalletTown_PlayersHouse_2F_EventScript_NES::
+	lockall
+	msgbox PalletTown_PlayersHouse_2F_Text_ToggleTestQuests, MSGBOX_YESNO
+	compare VAR_RESULT, YES
+	goto_if_eq PalletTown_PlayersHouse_2F_EventScript_DoToggleTestQuests
 	msgbox PalletTown_PlayersHouse_2F_Text_PlayedWithNES, MSGBOX_SIGN
+	releaseall
+	end
+
+PalletTown_PlayersHouse_2F_EventScript_DoToggleTestQuests::
+	goto_if_set FLAG_QUEST_1_ACTIVE, PalletTown_PlayersHouse_2F_EventScript_ClearTestQuests
+	setflag FLAG_QUEST_1_ACTIVE
+	setflag FLAG_QUEST_1_COMPLETED
+	setflag FLAG_QUEST_2_ACTIVE
+	setflag FLAG_QUEST_3_ACTIVE
+	setflag FLAG_QUEST_4_ACTIVE
+	setflag FLAG_QUEST_4_COMPLETED
+	setflag FLAG_QUEST_6_ACTIVE
+	setflag FLAG_QUEST_7_ACTIVE
+	msgbox PalletTown_PlayersHouse_2F_Text_TestQuestsActivated, MSGBOX_DEFAULT
+	releaseall
+	end
+
+PalletTown_PlayersHouse_2F_EventScript_ClearTestQuests::
+	clearflag FLAG_QUEST_1_ACTIVE
+	clearflag FLAG_QUEST_1_COMPLETED
+	clearflag FLAG_QUEST_2_ACTIVE
+	clearflag FLAG_QUEST_2_COMPLETED
+	clearflag FLAG_QUEST_3_ACTIVE
+	clearflag FLAG_QUEST_3_COMPLETED
+	clearflag FLAG_QUEST_4_ACTIVE
+	clearflag FLAG_QUEST_4_COMPLETED
+	clearflag FLAG_QUEST_5_ACTIVE
+	clearflag FLAG_QUEST_5_COMPLETED
+	clearflag FLAG_QUEST_6_ACTIVE
+	clearflag FLAG_QUEST_6_COMPLETED
+	clearflag FLAG_QUEST_7_ACTIVE
+	clearflag FLAG_QUEST_7_COMPLETED
+	msgbox PalletTown_PlayersHouse_2F_Text_TestQuestsCleared, MSGBOX_DEFAULT
+	releaseall
 	end
 
 PalletTown_PlayersHouse_2F_EventScript_Sign::
-	msgbox PalletTown_PlayersHouse_2F_Text_PressLRForHelp, MSGBOX_SIGN
+	lockall
+	showmugshot MUGSHOT_AGATHA, MUGSHOT_LEFT
+	showmugshot MUGSHOT_PROF_OAK, MUGSHOT_RIGHT
+	textcolor NPC_TEXT_COLOR_FEMALE
+	msgbox PalletTown_PlayersHouse_2F_Text_AgathaTest1, MSGBOX_DEFAULT
+	textcolor NPC_TEXT_COLOR_MALE
+	msgbox PalletTown_PlayersHouse_2F_Text_OakTest1, MSGBOX_DEFAULT
+	releaseall
 	end
+
 
 PalletTown_PlayersHouse_2F_EventScript_PC::
 	goto_if_questlog EventScript_ReleaseEnd
@@ -50,3 +96,15 @@ EventScript_PalletTown_PlayersHouse_2F_ShutDownPC::
 	special SetHelpContextForMap
 	releaseall
 	end
+
+PalletTown_PlayersHouse_2F_Text_ToggleTestQuests::
+	.string "Would you like to toggle the Quest\nLog test states?$"
+
+PalletTown_PlayersHouse_2F_Text_TestQuestsActivated::
+	.string "Quest Log test states activated!\n"
+	.string "Main tab populated. Side tab active.\n"
+	.string "Research tab populated with Gengar.$"
+
+PalletTown_PlayersHouse_2F_Text_TestQuestsCleared::
+	.string "Quest Log test states cleared!\n"
+	.string "All quests are now Locked.$"

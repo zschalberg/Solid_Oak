@@ -225,6 +225,7 @@ extern const u8 BattleScript_AskIfWantsToForfeitMatch[];
 extern const u8 BattleScript_PrintPlayerForfeited[];
 extern const u8 BattleScript_PrintPlayerForfeitedLinkBattle[];
 extern const u8 BattleScript_BallThrow[];
+extern const u8 BattleScript_BerryCatchBoost[];
 extern const u8 BattleScript_BallThrowByWally[];
 extern const u8 BattleScript_SafariBallThrow[];
 extern const u8 BattleScript_SuccessBallThrow[];
@@ -312,6 +313,8 @@ extern const u8 BattleScript_EffectLifeDew[];
 extern const u8 BattleScript_AbilityRaisesDefenderStat[];
 extern const u8 BattleScript_PowderMoveNoEffect[];
 extern const u8 BattleScript_GrassyTerrainHeals[];
+extern const u8 BattleScript_ElectricFloorHeals[];
+extern const u8 BattleScript_PoisonFogPoisons[];
 extern const u8 BattleScript_VCreateStatLoss[];
 extern const u8 BattleScript_SpikyShieldEffect[];
 extern const u8 BattleScript_KingsShieldEffect[];
@@ -814,5 +817,6 @@ extern const u8 BattleScript_OldMan_Pokedude_CaughtMessage[];
 extern const u8 BattleScript_WatchesCarefully[];
 extern const u8 BattleScript_ThrowRock[];
 extern const u8 BattleScript_ThrowBait[];
+extern const u8 BattleScript_ProtoBallFailed[];
 
 #endif // GUARD_BATTLE_SCRIPTS_H

@@ -339,10 +339,10 @@ const u8 gText_SearchingPleaseWait[] = _("Searching…\nPlease wait.");
 const u8 gText_SearchCompleted[] = _("Search completed.");
 const u8 gText_NoMatchingPkmnWereFound[] = _("No matching POKéMON were found.");
 const u8 gText_SearchForPkmnBasedOnParameters[] = _("Search for POKéMON based on\nselected parameters.");
-const u8 gText_SwitchPokedexListings[] = _("Switch POKéDEX listings.");
-const u8 gText_ReturnToPokedex[] = _("Return to the POKéDEX.");
-const u8 gText_SelectPokedexMode[] = _("Select the POKéDEX mode.");
-const u8 gText_SelectPokedexListingMode[] = _("Select the POKéDEX listing mode.");
+const u8 gText_SwitchPokedexListings[] = _("Switch JOURNAL listings.");
+const u8 gText_ReturnToPokedex[] = _("Return to the JOURNAL.");
+const u8 gText_SelectPokedexMode[] = _("Select the JOURNAL mode.");
+const u8 gText_SelectPokedexListingMode[] = _("Select the JOURNAL listing mode.");
 const u8 gText_ListByFirstLetter[] = _("List by the first letter in the name.\nSpotted POKéMON only.");
 const u8 gText_ListByBodyColor[] = _("List by body color.\nSpotted POKéMON only.");
 const u8 gText_ListByType[] = _("List by type.\nOwned POKéMON only.");
@@ -374,8 +374,8 @@ const u8 gText_DexSearchColorPurple[] = _("PURPLE");
 const u8 gText_DexSearchColorGray[] = _("GRAY");
 const u8 gText_DexSearchColorWhite[] = _("WHITE");
 const u8 gText_DexSearchColorPink[] = _("PINK");
-const u8 gText_DexKantoDescription[] = _("KANTO region's POKéDEX");
-const u8 gText_DexNatDescription[] = _("National edition POKéDEX");
+const u8 gText_DexKantoDescription[] = _("KANTO region's JOURNAL");
+const u8 gText_DexNatDescription[] = _("National edition JOURNAL");
 const u8 gText_DexSortNumericalDescription[] = _("POKéMON are listed according to their\nnumber.");
 const u8 gText_DexSortAtoZDescription[] = _("Spotted and owned POKéMON are listed\nalphabetically.");
 const u8 gText_DexSortHeaviestDescription[] = _("Owned POKéMON are listed from the\nheaviest to the lightest.");
@@ -392,7 +392,7 @@ const u8 gText_UnkWeightMetric[] = _("???.? kg.");
 
 const u8 gText_CryOf[] = _("CRY OF");
 const u8 gText_SizeComparedTo[] = _("SIZE COMPARED TO ");
-const u8 gText_PokedexRegistration[] = _("POKéDEX registration completed.");
+const u8 gText_PokedexRegistration[] = _("JOURNAL registration completed.");
 const u8 gText_HTHeight[] = _("HT");
 const u8 gText_WTWeight[] = _("WT");
 const u8 gText_5MarksPokemon[] = _("????? POKéMON");
@@ -4099,9 +4099,10 @@ static void LoadDexMonPalette(u32 taskId, bool32 isShiny)
 
 u32 Pokedex_CreateCaughtMonSprite(u32 species, s32 x, s32 y)
 {
+    extern enum BattlerId gBattlerTarget;
     u32 spriteId;
 
-    SetMultiuseSpriteTemplateToPokemon(species, GetCatchingBattler());
+    SetMultiuseSpriteTemplateToPokemon(species, (u8)gBattlerTarget);
     spriteId = CreateSprite(&gMultiuseSpriteTemplate, x, y, 0);
     gSprites[spriteId].oam.priority = 0;
     gSprites[spriteId].callback = SpriteCallbackDummy;
@@ -4823,7 +4824,7 @@ u16 CreateMonSpriteFromNationalDexNumber(enum NationalDexOrder nationalNum, s16 
 {
     enum Species species = NationalPokedexNumToSpecies(nationalNum);
 
-    return CreateMonFrontPicSprite(species, FALSE, GetPokedexMonPersonality(species), x, y, paletteSlot, TAG_NONE);
+    return CreateMonFrontPicSpritePokedex(species, FALSE, GetPokedexMonPersonality(species), x, y, paletteSlot, TAG_NONE);
 }
 
 static u16 GetPokemonScaleFromNationalDexNumber(u16 nationalNum)

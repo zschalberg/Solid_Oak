@@ -63,6 +63,8 @@ void SetBoxMonDataAt(u8 boxId, u8 boxPosition, s32 request, const void *value);
 void SetBoxMonNickAt(u8 boxId, u8 boxPosition, const u8 *nick);
 void SetCurrentBoxMonData(u8 boxPosition, s32 request, const void *value);
 void ShowPokemonStorageSystemPC(void);
+void ShowPokemonStorageSystemPC_MoveMode(void);
 void ZeroBoxMonAt(u8 boxId, u8 boxPosition);
+extern bool8 gFujiLabAccessPC;
 
 #endif // GUARD_POKEMON_STORAGE_SYSTEM_H

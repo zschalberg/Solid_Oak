@@ -52,13 +52,13 @@ SixIsland_WaterPath_House1_EventScript_ShownTiedHeracross::
 SixIsland_WaterPath_House1_EventScript_ShownBigHeracross::
 	setflag FLAG_GOT_NEST_BALL_FROM_WATER_PATH_HOUSE_1
 	msgbox SixIsland_WaterPath_House1_Text_ItsXInchesDeserveReward
-	giveitem ITEM_NEST_BALL
-	goto_if_eq VAR_RESULT, FALSE, SixIsland_WaterPath_House1_EventScript_NoRoomForNestBall
+	giveitem ITEM_POKE_BALL
+	goto_if_eq VAR_RESULT, FALSE, SixIsland_WaterPath_House1_EventScript_NoRoomForPokeBall
 	msgbox SixIsland_WaterPath_House1_Text_WantToSeeBiggerOne
 	release
 	end
 
-SixIsland_WaterPath_House1_EventScript_NoRoomForNestBall::
+SixIsland_WaterPath_House1_EventScript_NoRoomForPokeBall::
 	msgbox SixIsland_WaterPath_House1_Text_YourBagIsFull
 	release
 	end

@@ -118,6 +118,7 @@ static bool8 PrintAllOnCardFront(void);
 static bool8 PrintAllOnCardBack(void);
 static void BufferTextForCardBack(void);
 static void PrintNameOnCardFront(void);
+static void PrintResearchTitleOnCardFront(void);
 static void PrintIdOnCard(void);
 static void PrintMoneyOnCard(void);
 static u16 GetCaughtMonsCount(void);
@@ -172,6 +173,11 @@ static const u8 sText_WinLossRatio[] = _("W:{CLEAR_TO 0x30}L:");
 static const u8 sText_PokemonTrades[] = _("POKéMON TRADES");
 static const u8 sText_UnionRoomTradesBattles[] = _("UNION TRADES & BATTLES");
 static const u8 sText_WaitingTrainerFinishReading[] = _("Waiting for the other TRAINER to\nfinish reading your TRAINER CARD.");
+
+static const u8 sText_PokemonTrainer[] = _("POKéMON TRAINER");
+static const u8 sText_ResearchAssistant[] = _("RESEARCH ASSISTANT");
+static const u8 sText_FieldResearcher[] = _("FIELD RESEARCHER");
+static const u8 sText_LeadResearcher[] = _("LEAD RESEARCHER");
 
 static const u32 sTrainerCardStickers_Gfx[]           = INCBIN_U32("graphics/trainer_card/stickers.4bpp.smol");
 static const u32 sHoennTrainerCardFront_Tilemap[]     = INCBIN_U32("graphics/trainer_card/rse/front.bin.smolTM");
@@ -1134,6 +1140,9 @@ static bool8 PrintAllOnCardFront(void)
     case 5:
         PrintProfilePhraseOnCard();
         break;
+    case 6:
+        PrintResearchTitleOnCardFront();
+        break;
     default:
         sTrainerCardDataPtr->printState = 0;
         return TRUE;
@@ -1199,6 +1208,29 @@ static void PrintNameOnCardFront(void)
     ConvertInternationalString(txtPtr, sTrainerCardDataPtr->language);
     StringAppend(buffer[0], txtPtr);
     AddTextPrinterParameterized3(1, sTrainerCardFontIds[1], sTrainerCardFrontNameXPositions[sTrainerCardDataPtr->cardType], sTrainerCardFrontNameYPositions[sTrainerCardDataPtr->cardType], sTrainerCardTextColors, TEXT_SKIP_DRAW, buffer[0]);
+}
+
+static void PrintResearchTitleOnCardFront(void)
+{
+    u32 caught = GetNationalPokedexCount(FLAG_GET_CAUGHT);
+    const u8 *titleStr;
+    u8 x;
+
+    if (caught >= 100)
+        titleStr = sText_LeadResearcher;
+    else if (caught >= 50)
+        titleStr = sText_FieldResearcher;
+    else if (caught >= 20)
+        titleStr = sText_ResearchAssistant;
+    else
+        titleStr = sText_PokemonTrainer;
+
+    if (sTrainerCardDataPtr->cardType == CARD_TYPE_RSE)
+        x = 16;
+    else
+        x = 20;
+
+    AddTextPrinterParameterized3(1, sTrainerCardFontIds[1], x, 45, sTrainerCardTextColors, TEXT_SKIP_DRAW, titleStr);
 }
 
 static void PrintIdOnCard(void)

@@ -76,13 +76,13 @@ Route12_FishingHouse_EventScript_TieRecordMagikarp::
 Route12_FishingHouse_EventScript_NewRecordMagikarp::
 	setflag FLAG_GOT_RECORD_SETTING_MAGIKARP
 	msgbox Route12_FishingHouse_Text_WhoaXInchesTakeThis
-	giveitem ITEM_NET_BALL
-	goto_if_eq VAR_RESULT, FALSE, Route12_FishingHouse_EventScript_NoRoomForNetBall
+	giveitem ITEM_POKE_BALL
+	goto_if_eq VAR_RESULT, FALSE, Route12_FishingHouse_EventScript_NoRoomForPokeBall
 	msgbox Route12_FishingHouse_Text_LookForwardToGreaterRecords
 	release
 	end
 
-Route12_FishingHouse_EventScript_NoRoomForNetBall::
+Route12_FishingHouse_EventScript_NoRoomForPokeBall::
 	msgbox Route12_FishingHouse_Text_NoRoomForGift
 	release
 	end

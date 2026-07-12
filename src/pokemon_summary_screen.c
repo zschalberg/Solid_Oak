@@ -26,6 +26,7 @@
 #include "pokemon_storage_system.h"
 #include "pokemon_summary_screen.h"
 #include "pokemon.h"
+#include "pokedex.h"
 #include "pokerus.h"
 #include "region_map.h"
 #include "scanline_effect.h"
@@ -514,12 +515,23 @@ static const u8 *const sStatControlStrings[] =
     [PSS_SKILL_PAGE_IVS] = sText_PokeSum_Controls_PageIVs,
 };
 
+static bool32 ShouldShowIvEvPrompt(void)
+{
+    if (P_SUMMARY_SCREEN_IV_EV_BOX_ONLY)
+    {
+        return (P_SUMMARY_SCREEN_IV_EV_INFO || FlagGet(P_FLAG_SUMMARY_SCREEN_IV_EV_INFO) || CheckBagHasItem(ITEM_IV_SCANNER, 1) || CheckBagHasItem(ITEM_ADVANCED_IV_SCANNER, 1))
+            && sMonSummaryScreen->isBoxMon;
+    }
+    else if (!P_SUMMARY_SCREEN_IV_EV_BOX_ONLY)
+    {
+        return (P_SUMMARY_SCREEN_IV_EV_INFO || FlagGet(P_FLAG_SUMMARY_SCREEN_IV_EV_INFO) || CheckBagHasItem(ITEM_IV_SCANNER, 1) || CheckBagHasItem(ITEM_ADVANCED_IV_SCANNER, 1));
+    }
+    return FALSE;
+}
+
 static enum PokemonSummaryScreenSkillPageMode GetNextSkillsPageMode(void)
 {
-    if (!P_SUMMARY_SCREEN_IV_EV_INFO)
-        return PSS_SKILL_PAGE_STATS;
-
-    if (P_SUMMARY_SCREEN_IV_EV_BOX_ONLY && sMonSummaryScreen->mode != PSS_MODE_BOX)
+    if (!ShouldShowIvEvPrompt())
         return PSS_SKILL_PAGE_STATS;
 
     switch (sMonSummaryScreen->skillsPageMode)
@@ -542,16 +554,10 @@ static enum PokemonSummaryScreenSkillPageMode GetNextSkillsPageMode(void)
 
 static const u8 *GetStatControlString(void)
 {
-    if (!P_SUMMARY_SCREEN_IV_EV_INFO)
+    if (!ShouldShowIvEvPrompt())
         return sText_PokeSum_Controls_Page;
 
-    if (!P_SUMMARY_SCREEN_IV_EV_BOX_ONLY)
-        return sStatControlStrings[GetNextSkillsPageMode()];
-
-    if (sMonSummaryScreen->mode == PSS_MODE_BOX)
-        return sStatControlStrings[GetNextSkillsPageMode()];
-
-    return sText_PokeSum_Controls_Page;
+    return sStatControlStrings[GetNextSkillsPageMode()];
 }
 
 static bool32 CanRename(void)
@@ -568,20 +574,6 @@ static bool32 CanRename(void)
         return FALSE;
 
     return TRUE;
-}
-
-static bool32 ShouldShowIvEvPrompt()
-{
-    if (P_SUMMARY_SCREEN_IV_EV_BOX_ONLY)
-    {
-        return (P_SUMMARY_SCREEN_IV_EV_INFO || FlagGet(P_FLAG_SUMMARY_SCREEN_IV_EV_INFO))
-            && sMonSummaryScreen->isBoxMon;
-    }
-    else if (!P_SUMMARY_SCREEN_IV_EV_BOX_ONLY)
-    {
-        return (P_SUMMARY_SCREEN_IV_EV_INFO || FlagGet(P_FLAG_SUMMARY_SCREEN_IV_EV_INFO));
-    }
-    return FALSE;
 }
 
 static void Task_InputHandler_Info(u8 taskId)
@@ -2293,6 +2285,84 @@ static void PokeSum_PrintTrainerMemo(void)
         PokeSum_PrintTrainerMemo_Egg();
 }
 
+static void StripSpaces(const u8 *src, u8 *dst)
+{
+    while (*src != EOS)
+    {
+        if (*src != CHAR_SPACE && *src != CHAR_SPACER)
+        {
+            *dst++ = *src;
+        }
+        src++;
+    }
+    *dst = EOS;
+}
+
+static void AppendHeightAndWeightToMemo(u8 *natureMetOrHatchedAtLevelStr)
+{
+    u16 species = GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_SPECIES);
+    u32 personality = GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_PERSONALITY);
+    u32 height = GetIndividualHeight(species, personality);
+    u32 weight = GetIndividualWeight(species, personality);
+    u8 *heightStr = ConvertMonHeightToString(height);
+    u8 *weightStr = ConvertMonWeightToString(weight);
+    u8 cleanHeightStr[32];
+    u8 cleanWeightStr[32];
+    u8 sizeBuf[96];
+    u8 *ptr = sizeBuf;
+    u32 heightPercentile = ((personality & 0xFFFF) * 1000) / 65535;
+    u32 weightPercentile = (((personality >> 16) & 0xFFFF) * 1000) / 65535;
+    u8 heightPercentileStr[8];
+    u8 weightPercentileStr[8];
+
+    StripSpaces(heightStr, cleanHeightStr);
+    StripSpaces(weightStr, cleanWeightStr);
+
+    // Format height percentile (e.g. "84.5")
+    u8 *pStr = heightPercentileStr;
+    pStr = ConvertIntToDecimalStringN(pStr, heightPercentile / 10, STR_CONV_MODE_LEFT_ALIGN, 3);
+    *pStr++ = CHAR_PERIOD;
+    pStr = ConvertIntToDecimalStringN(pStr, heightPercentile % 10, STR_CONV_MODE_LEFT_ALIGN, 1);
+    *pStr = EOS;
+
+    // Format weight percentile
+    pStr = weightPercentileStr;
+    pStr = ConvertIntToDecimalStringN(pStr, weightPercentile / 10, STR_CONV_MODE_LEFT_ALIGN, 3);
+    *pStr++ = CHAR_PERIOD;
+    pStr = ConvertIntToDecimalStringN(pStr, weightPercentile % 10, STR_CONV_MODE_LEFT_ALIGN, 1);
+    *pStr = EOS;
+
+    *ptr++ = CHAR_NEWLINE;
+    *ptr++ = CHAR_H;
+    *ptr++ = CHAR_COLON;
+    *ptr++ = CHAR_SPACE;
+    ptr = StringCopy(ptr, cleanHeightStr);
+    *ptr++ = CHAR_SPACE;
+    *ptr++ = CHAR_LEFT_PAREN;
+    ptr = StringCopy(ptr, heightPercentileStr);
+    *ptr++ = CHAR_PERCENT;
+    *ptr++ = CHAR_RIGHT_PAREN;
+
+    *ptr++ = CHAR_SPACE;
+    *ptr++ = CHAR_SPACE;
+
+    *ptr++ = CHAR_W;
+    *ptr++ = CHAR_COLON;
+    *ptr++ = CHAR_SPACE;
+    ptr = StringCopy(ptr, cleanWeightStr);
+    *ptr++ = CHAR_SPACE;
+    *ptr++ = CHAR_LEFT_PAREN;
+    ptr = StringCopy(ptr, weightPercentileStr);
+    *ptr++ = CHAR_PERCENT;
+    *ptr++ = CHAR_RIGHT_PAREN;
+    *ptr = EOS;
+
+    StringAppend(natureMetOrHatchedAtLevelStr, sizeBuf);
+
+    Free(heightStr);
+    Free(weightStr);
+}
+
 static void PokeSum_PrintTrainerMemo_Mon_HeldByOT(void)
 {
     enum Nature nature;
@@ -2300,7 +2370,7 @@ static void PokeSum_PrintTrainerMemo_Mon_HeldByOT(void)
     u8 metLocation;
     u8 levelStr[5];
     u8 mapNameStr[32];
-    u8 natureMetOrHatchedAtLevelStr[152];
+    u8 natureMetOrHatchedAtLevelStr[256];
 
     DynamicPlaceholderTextUtil_Reset();
     nature = GetNature(&sMonSummaryScreen->currentMon);
@@ -2344,6 +2414,8 @@ static void PokeSum_PrintTrainerMemo_Mon_HeldByOT(void)
             DynamicPlaceholderTextUtil_ExpandPlaceholders(natureMetOrHatchedAtLevelStr, sText_PokeSum_Met);
     }
 
+    AppendHeightAndWeightToMemo(natureMetOrHatchedAtLevelStr);
+
     AddTextPrinterParameterized4(sMonSummaryScreen->windowIds[POKESUM_WIN_TRAINER_MEMO], FONT_NORMAL, 0, 3, 0, 0, sLevelNickTextColors[0], TEXT_SKIP_DRAW, natureMetOrHatchedAtLevelStr);
 }
 
@@ -2354,7 +2426,7 @@ static void PokeSum_PrintTrainerMemo_Mon_NotHeldByOT(void)
     u8 metLocation;
     u8 levelStr[5];
     u8 mapNameStr[32];
-    u8 natureMetOrHatchedAtLevelStr[152];
+    u8 natureMetOrHatchedAtLevelStr[256];
 
     DynamicPlaceholderTextUtil_Reset();
     nature = GetNature(&sMonSummaryScreen->currentMon);
@@ -2383,6 +2455,8 @@ static void PokeSum_PrintTrainerMemo_Mon_NotHeldByOT(void)
         else
             DynamicPlaceholderTextUtil_ExpandPlaceholders(natureMetOrHatchedAtLevelStr, sText_PokeSum_MetInATrade);
 
+        AppendHeightAndWeightToMemo(natureMetOrHatchedAtLevelStr);
+
         AddTextPrinterParameterized4(sMonSummaryScreen->windowIds[POKESUM_WIN_TRAINER_MEMO], FONT_NORMAL, 0, 3, 0, 0, sLevelNickTextColors[0], TEXT_SKIP_DRAW, natureMetOrHatchedAtLevelStr);
         return;
     }
@@ -2408,6 +2482,8 @@ static void PokeSum_PrintTrainerMemo_Mon_NotHeldByOT(void)
         else
             DynamicPlaceholderTextUtil_ExpandPlaceholders(natureMetOrHatchedAtLevelStr, sText_PokeSum_ApparentlyMet);
     }
+
+    AppendHeightAndWeightToMemo(natureMetOrHatchedAtLevelStr);
 
     AddTextPrinterParameterized4(sMonSummaryScreen->windowIds[POKESUM_WIN_TRAINER_MEMO], FONT_NORMAL, 0, 3, 0, 0, sLevelNickTextColors[0], TEXT_SKIP_DRAW, natureMetOrHatchedAtLevelStr);
 }

@@ -166,3 +166,318 @@ PalletTown_RivalsHouse_EventScript_Bookshelf::
 PalletTown_RivalsHouse_EventScript_Picture::
 	msgbox PalletTown_RivalsHouse_Text_LovelyAndSweetClefairy, MSGBOX_SIGN
 	end
+
+PalletTown_RivalsHouse_EventScript_TestNPC::
+	lock
+	faceplayer
+	goto_if_set FLAG_VARIABLE_PREVIEW_MODE, PalletTown_RivalsHouse_EventScript_TestNPC_ShowGreetingVariable
+	goto_if_unset FLAG_PREVIEW_BATTLE, PalletTown_RivalsHouse_EventScript_TestNPC_ShowGreetingOff
+
+	copyvar VAR_0x8004, 0x8008
+	goto_if_eq VAR_0x8004, 0, PalletTown_RivalsHouse_EventScript_TestNPC_SetPlayerCountDefault3
+	buffernumberstring 0, VAR_0x8004
+	goto PalletTown_RivalsHouse_EventScript_TestNPC_CheckOpponentCount
+
+PalletTown_RivalsHouse_EventScript_TestNPC_SetPlayerCountDefault3::
+	buffernumberstring 0, 3
+	goto PalletTown_RivalsHouse_EventScript_TestNPC_CheckOpponentCount
+
+PalletTown_RivalsHouse_EventScript_TestNPC_CheckOpponentCount::
+	copyvar VAR_0x8004, 0x800A
+	goto_if_eq VAR_0x8004, 0, PalletTown_RivalsHouse_EventScript_TestNPC_SetOpponentCountDefaultMirror
+	buffernumberstring 1, VAR_0x8004
+	goto PalletTown_RivalsHouse_EventScript_TestNPC_ShowGreetingOn
+
+PalletTown_RivalsHouse_EventScript_TestNPC_SetOpponentCountDefaultMirror::
+	copyvar VAR_0x8004, 0x8008
+	goto_if_eq VAR_0x8004, 0, PalletTown_RivalsHouse_EventScript_TestNPC_SetOpponentDefault3
+	buffernumberstring 1, VAR_0x8004
+	goto PalletTown_RivalsHouse_EventScript_TestNPC_ShowGreetingOn
+
+PalletTown_RivalsHouse_EventScript_TestNPC_SetOpponentDefault3::
+	buffernumberstring 1, 3
+	goto PalletTown_RivalsHouse_EventScript_TestNPC_ShowGreetingOn
+
+PalletTown_RivalsHouse_EventScript_TestNPC_ShowGreetingOn::
+	msgbox PalletTown_RivalsHouse_Text_TestNPC_Greeting_FlagOn
+	goto PalletTown_RivalsHouse_EventScript_TestNPC_Menu
+	end
+
+PalletTown_RivalsHouse_EventScript_TestNPC_ShowGreetingOff::
+	msgbox PalletTown_RivalsHouse_Text_TestNPC_Greeting_FlagOff
+	goto PalletTown_RivalsHouse_EventScript_TestNPC_Menu
+	end
+
+PalletTown_RivalsHouse_EventScript_TestNPC_ShowGreetingVariable::
+	msgbox PalletTown_RivalsHouse_Text_TestNPC_Greeting_FlagVariable
+	goto PalletTown_RivalsHouse_EventScript_TestNPC_Menu
+	end
+
+PalletTown_RivalsHouse_EventScript_TestNPC_Menu::
+	multichoice 0, 0, MULTI_TEST_NPC_CHOICES, TRUE
+	switch VAR_RESULT
+	case 0, PalletTown_RivalsHouse_EventScript_TestNPC_SelectMode
+	case 1, PalletTown_RivalsHouse_EventScript_TestNPC_GetMons
+	case 2, PalletTown_RivalsHouse_EventScript_TestNPC_Battle
+	case 3, PalletTown_RivalsHouse_EventScript_TestNPC_SetVariable
+	case 4, PalletTown_RivalsHouse_EventScript_TestNPC_Exit
+	case MULTI_B_PRESSED, PalletTown_RivalsHouse_EventScript_TestNPC_Exit
+	end
+
+PalletTown_RivalsHouse_EventScript_TestNPC_SelectMode::
+	multichoice 0, 0, MULTI_TEST_NPC_PREVIEW_MODES, TRUE
+	switch VAR_RESULT
+	case 0, PalletTown_RivalsHouse_EventScript_TestNPC_Set1v1
+	case 1, PalletTown_RivalsHouse_EventScript_TestNPC_Set2v2
+	case 2, PalletTown_RivalsHouse_EventScript_TestNPC_Set3v3
+	case 3, PalletTown_RivalsHouse_EventScript_TestNPC_Set4v4
+	case 4, PalletTown_RivalsHouse_EventScript_TestNPC_Set5v5
+	case 5, PalletTown_RivalsHouse_EventScript_TestNPC_Set6v6
+	case 6, PalletTown_RivalsHouse_EventScript_TestNPC_Set2v4
+	case 7, PalletTown_RivalsHouse_EventScript_TestNPC_SetDisable
+	case MULTI_B_PRESSED, PalletTown_RivalsHouse_EventScript_TestNPC_Menu
+	end
+
+PalletTown_RivalsHouse_EventScript_TestNPC_Set1v1::
+	setflag FLAG_PREVIEW_BATTLE
+	setvar 0x8008, 1
+	setvar 0x800A, 0
+	msgbox PalletTown_RivalsHouse_Text_TestNPC_SetMode1v1
+	goto PalletTown_RivalsHouse_EventScript_TestNPC_Menu
+	end
+
+PalletTown_RivalsHouse_EventScript_TestNPC_Set2v2::
+	setflag FLAG_PREVIEW_BATTLE
+	setvar 0x8008, 2
+	setvar 0x800A, 0
+	msgbox PalletTown_RivalsHouse_Text_TestNPC_SetMode2v2
+	goto PalletTown_RivalsHouse_EventScript_TestNPC_Menu
+	end
+
+PalletTown_RivalsHouse_EventScript_TestNPC_Set3v3::
+	setflag FLAG_PREVIEW_BATTLE
+	setvar 0x8008, 3
+	setvar 0x800A, 0
+	msgbox PalletTown_RivalsHouse_Text_TestNPC_SetMode3v3
+	goto PalletTown_RivalsHouse_EventScript_TestNPC_Menu
+	end
+
+PalletTown_RivalsHouse_EventScript_TestNPC_Set4v4::
+	setflag FLAG_PREVIEW_BATTLE
+	setvar 0x8008, 4
+	setvar 0x800A, 0
+	msgbox PalletTown_RivalsHouse_Text_TestNPC_SetMode4v4
+	goto PalletTown_RivalsHouse_EventScript_TestNPC_Menu
+	end
+
+PalletTown_RivalsHouse_EventScript_TestNPC_Set5v5::
+	setflag FLAG_PREVIEW_BATTLE
+	setvar 0x8008, 5
+	setvar 0x800A, 0
+	msgbox PalletTown_RivalsHouse_Text_TestNPC_SetMode5v5
+	goto PalletTown_RivalsHouse_EventScript_TestNPC_Menu
+	end
+
+PalletTown_RivalsHouse_EventScript_TestNPC_Set6v6::
+	setflag FLAG_PREVIEW_BATTLE
+	setvar 0x8008, 6
+	setvar 0x800A, 0
+	msgbox PalletTown_RivalsHouse_Text_TestNPC_SetMode6v6
+	goto PalletTown_RivalsHouse_EventScript_TestNPC_Menu
+	end
+
+PalletTown_RivalsHouse_EventScript_TestNPC_Set2v4::
+	setflag FLAG_PREVIEW_BATTLE
+	setvar 0x8008, 2
+	setvar 0x800A, 4
+	msgbox PalletTown_RivalsHouse_Text_TestNPC_SetMode2v4
+	goto PalletTown_RivalsHouse_EventScript_TestNPC_Menu
+	end
+
+PalletTown_RivalsHouse_EventScript_TestNPC_SetVariable::
+	setflag FLAG_VARIABLE_PREVIEW_MODE
+	setvar 0x8008, 0
+	setvar 0x800A, 0
+	msgbox PalletTown_RivalsHouse_Text_TestNPC_SetModeVariable
+	goto PalletTown_RivalsHouse_EventScript_TestNPC_Menu
+	end
+
+PalletTown_RivalsHouse_EventScript_TestNPC_SetDisable::
+	clearflag FLAG_PREVIEW_BATTLE
+	clearflag FLAG_VARIABLE_PREVIEW_MODE
+	setvar 0x8008, 0
+	setvar 0x800A, 0
+	msgbox PalletTown_RivalsHouse_Text_TestNPC_Disabled
+	goto PalletTown_RivalsHouse_EventScript_TestNPC_Menu
+	end
+
+PalletTown_RivalsHouse_EventScript_TestNPC_GetMons::
+	msgbox PalletTown_RivalsHouse_Text_TestNPC_GiveMons
+	givemon SPECIES_CHARIZARD, 50
+	givemon SPECIES_BLASTOISE, 50
+	givemon SPECIES_VENUSAUR, 50
+	special HealPlayerParty
+	msgbox PalletTown_RivalsHouse_Text_TestNPC_MonsGiven
+	goto PalletTown_RivalsHouse_EventScript_TestNPC_Menu
+	end
+
+PalletTown_RivalsHouse_EventScript_TestNPC_Battle::
+	msgbox PalletTown_RivalsHouse_Text_TestNPC_BattleIntro
+	trainerbattle_no_intro TRAINER_TESTER_3V3, PalletTown_RivalsHouse_Text_TestNPC_Defeat
+	msgbox PalletTown_RivalsHouse_Text_TestNPC_PostBattle
+	release
+	end
+
+PalletTown_RivalsHouse_EventScript_TestNPC_Exit::
+	msgbox PalletTown_RivalsHouse_Text_TestNPC_Goodbye
+	release
+	end
+
+EventScript_Abort3v3Battle::
+	goto_if_set FLAG_MONOTYPE_BATTLE, EventScript_AbortMonotype3v3Battle
+	fadedefaultbgm
+	msgbox PalletTown_RivalsHouse_Text_NotEnoughMonsFor3v3, MSGBOX_DEFAULT
+	releaseall
+	end
+
+EventScript_AbortMonotype3v3Battle::
+	fadedefaultbgm
+	msgbox PalletTown_RivalsHouse_Text_NotEnoughMonsForMonotype3v3, MSGBOX_DEFAULT
+	releaseall
+	end
+
+EventScript_AbortMonotypeBattle::
+	fadedefaultbgm
+	msgbox PalletTown_RivalsHouse_Text_NotEnoughMonsForMonotypeBattle, MSGBOX_DEFAULT
+	releaseall
+	end
+
+
+PalletTown_RivalsHouse_EventScript_MonotypeNPC::
+	lock
+	faceplayer
+	goto_if_set FLAG_MONOTYPE_BATTLE, PalletTown_RivalsHouse_EventScript_MonotypeNPC_On
+	msgbox PalletTown_RivalsHouse_Text_MonotypeNPC_Greeting_Off, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, YES, PalletTown_RivalsHouse_EventScript_MonotypeNPC_TurnOn
+	release
+	end
+
+PalletTown_RivalsHouse_EventScript_MonotypeNPC_TurnOn::
+	setflag FLAG_MONOTYPE_BATTLE
+	setvar VAR_MONOTYPE_RESTRICTION, TYPE_FIRE
+	msgbox PalletTown_RivalsHouse_Text_MonotypeNPC_ToggledOn
+	release
+	end
+
+PalletTown_RivalsHouse_EventScript_MonotypeNPC_On::
+	msgbox PalletTown_RivalsHouse_Text_MonotypeNPC_Greeting_On, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, YES, PalletTown_RivalsHouse_EventScript_MonotypeNPC_TurnOff
+	release
+	end
+
+PalletTown_RivalsHouse_EventScript_MonotypeNPC_TurnOff::
+	clearflag FLAG_MONOTYPE_BATTLE
+	setvar VAR_MONOTYPE_RESTRICTION, TYPE_NONE
+	msgbox PalletTown_RivalsHouse_Text_MonotypeNPC_ToggledOff
+	release
+	end
+
+PalletTown_RivalsHouse_Text_NotEnoughMonsForMonotype3v3::
+	.string "You need at least {STR_VAR_2} usable\n"
+	.string "{STR_VAR_1}-type Pokémon to battle!$"
+
+PalletTown_RivalsHouse_Text_NotEnoughMonsForMonotypeBattle::
+	.string "You have POKéMON that are not\n"
+	.string "allowed in this battle!\p"
+	.string "This battle is restricted to\n"
+	.string "{STR_VAR_1}-type POKéMON.$"
+
+PalletTown_RivalsHouse_Text_MonotypeNPC_Greeting_Off::
+	.string "Hi! I can set up a FIRE-type\n"
+	.string "monotype battle restriction.\p"
+	.string "Would you like to turn it ON?$"
+
+PalletTown_RivalsHouse_Text_MonotypeNPC_Greeting_On::
+	.string "The FIRE-type monotype battle\n"
+	.string "restriction is currently ON.\p"
+	.string "Would you like to turn it OFF?$"
+
+PalletTown_RivalsHouse_Text_MonotypeNPC_ToggledOn::
+	.string "Toggled the FIRE-type monotype\n"
+	.string "battle restriction to ON.$"
+
+PalletTown_RivalsHouse_Text_MonotypeNPC_ToggledOff::
+	.string "Toggled the monotype restriction to OFF.$"
+
+PalletTown_RivalsHouse_Text_NotEnoughMonsFor3v3::
+	.string "You need at least {STR_VAR_1} usable Pokémon\n"
+	.string "to battle!$"
+
+PalletTown_RivalsHouse_Text_TestNPC_Greeting_FlagOff::
+	.string "Hi! I am the preview tester.\n"
+	.string "Currently, the preview flag is OFF.\p"
+	.string "What would you like to do?$"
+
+PalletTown_RivalsHouse_Text_TestNPC_Greeting_FlagOn::
+	.string "Hi! I am the preview tester.\n"
+	.string "Currently, the preview flag is ON\l"
+	.string "for a {STR_VAR_1}v{STR_VAR_2} battle.\p"
+	.string "What would you like to do?$"
+
+PalletTown_RivalsHouse_Text_TestNPC_Greeting_FlagVariable::
+	.string "Hi! I am the preview tester.\n"
+	.string "Currently, variable preview mode\l"
+	.string "is ON. Every battle will match\l"
+	.string "the opponent's party size.\p"
+	.string "What would you like to do?$"
+
+PalletTown_RivalsHouse_Text_TestNPC_SetMode1v1::
+	.string "Set preview to 1v1 mode.$"
+
+PalletTown_RivalsHouse_Text_TestNPC_SetMode2v2::
+	.string "Set preview to 2v2 mode.$"
+
+PalletTown_RivalsHouse_Text_TestNPC_SetMode3v3::
+	.string "Set preview to 3v3 mode.$"
+
+PalletTown_RivalsHouse_Text_TestNPC_SetMode4v4::
+	.string "Set preview to 4v4 mode.$"
+
+PalletTown_RivalsHouse_Text_TestNPC_SetMode5v5::
+	.string "Set preview to 5v5 mode.$"
+
+PalletTown_RivalsHouse_Text_TestNPC_SetMode6v6::
+	.string "Set preview to 6v6 mode.$"
+
+PalletTown_RivalsHouse_Text_TestNPC_SetMode2v4::
+	.string "Set preview to 2v4 mode.\n"
+	.string "You pick 2, opponent uses 4.$"
+
+PalletTown_RivalsHouse_Text_TestNPC_SetModeVariable::
+	.string "Set variable preview mode ON.\n"
+	.string "Every battle will now match the\l"
+	.string "opponent's party size until you\l"
+	.string "disable it.$"
+
+PalletTown_RivalsHouse_Text_TestNPC_Disabled::
+	.string "Disabled the team preview.$"
+
+PalletTown_RivalsHouse_Text_TestNPC_GiveMons::
+	.string "Here, take these starter Pokémon\n"
+	.string "to fill out your party!$"
+
+PalletTown_RivalsHouse_Text_TestNPC_MonsGiven::
+	.string "Added Charizard, Blastoise, and\n"
+	.string "Venusaur. Your party is healed!$"
+
+PalletTown_RivalsHouse_Text_TestNPC_BattleIntro::
+	.string "Let's battle!$"
+
+PalletTown_RivalsHouse_Text_TestNPC_Defeat::
+	.string "Good game!$"
+
+PalletTown_RivalsHouse_Text_TestNPC_PostBattle::
+	.string "Hope that helped you test!$"
+
+PalletTown_RivalsHouse_Text_TestNPC_Goodbye::
+	.string "Come back anytime!$"

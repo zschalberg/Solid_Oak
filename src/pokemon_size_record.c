@@ -1,4 +1,5 @@
 #include "global.h"
+#include "pokemon_size_record.h"
 #include "data.h"
 #include "event_data.h"
 #include "pokedex.h"
@@ -59,7 +60,7 @@ static u32 GetMonSizeHash(struct Pokemon *pkmn)
     return (hibyte << 8) + lobyte;
 }
 
-static u8 TranslateBigMonSizeTableIndex(u16 a)
+u8 TranslateBigMonSizeTableIndex(u16 a)
 {
     u8 i;
 
@@ -212,3 +213,114 @@ void GiveGiftRibbonToParty(u8 index, u8 ribbonId)
             FlagSet(FLAG_SYS_RIBBON_GET);
     }
 }
+
+u32 GetIndividualHeight(enum Species species, u32 personality)
+{
+    u32 baseHeight = GetSpeciesHeight(species);
+    u16 hash = personality & 0xFFFF;
+    u32 var = TranslateBigMonSizeTableIndex(hash);
+    u32 multiplier = sBigMonSizeTable[var].unk0;
+    u32 height = (baseHeight * multiplier + 500) / 1000;
+    return height > 0 ? height : 1;
+}
+
+u32 GetIndividualWeight(enum Species species, u32 personality)
+{
+    u32 baseWeight = GetSpeciesWeight(species);
+    u16 hash = personality >> 16;
+    u32 var = TranslateBigMonSizeTableIndex(hash);
+    u32 multiplier = sBigMonSizeTable[var].unk0;
+    u32 weight = (baseWeight * multiplier + 500) / 1000;
+    return weight > 0 ? weight : 1;
+}
+
+void UpdatePokedexSizeRecordBySpeciesPersonality(u16 species, u32 personality)
+{
+    u16 heightHash, weightHash;
+    u8 heightCategory, weightCategory;
+    u8 currentTallest, currentShortest;
+    u8 currentHeaviest, currentLightest;
+
+    if (species == SPECIES_NONE || species >= POKEDEX_SIZE_RECORDS_COUNT)
+        return;
+
+    heightHash = personality & 0xFFFF;
+    weightHash = personality >> 16;
+
+    heightCategory = TranslateBigMonSizeTableIndex(heightHash);
+    weightCategory = TranslateBigMonSizeTableIndex(weightHash);
+
+    // Byte 0: Shortest (low 4 bits), Tallest (high 4 bits)
+    currentShortest = gSaveBlock1Ptr->pokedexSizes[species][0] & 0xF;
+    currentTallest = (gSaveBlock1Ptr->pokedexSizes[species][0] >> 4) & 0xF;
+
+    if (currentShortest == 0 && currentTallest == 0)
+    {
+        currentShortest = heightCategory;
+        currentTallest = heightCategory;
+    }
+    else
+    {
+        if (heightCategory > currentTallest)
+            currentTallest = heightCategory;
+        if (heightCategory < currentShortest)
+            currentShortest = heightCategory;
+    }
+    gSaveBlock1Ptr->pokedexSizes[species][0] = currentShortest | (currentTallest << 4);
+
+    // Byte 1: Lightest (low 4 bits), Heaviest (high 4 bits)
+    currentLightest = gSaveBlock1Ptr->pokedexSizes[species][1] & 0xF;
+    currentHeaviest = (gSaveBlock1Ptr->pokedexSizes[species][1] >> 4) & 0xF;
+
+    if (currentLightest == 0 && currentHeaviest == 0)
+    {
+        currentLightest = weightCategory;
+        currentHeaviest = weightCategory;
+    }
+    else
+    {
+        if (weightCategory > currentHeaviest)
+            currentHeaviest = weightCategory;
+        if (weightCategory < currentLightest)
+            currentLightest = weightCategory;
+    }
+    gSaveBlock1Ptr->pokedexSizes[species][1] = currentLightest | (currentHeaviest << 4);
+}
+
+void UpdatePokedexSizeRecord(struct Pokemon *mon)
+{
+    if (GetMonData(mon, MON_DATA_IS_EGG))
+        return;
+    UpdatePokedexSizeRecordBySpeciesPersonality(GetMonData(mon, MON_DATA_SPECIES), GetMonData(mon, MON_DATA_PERSONALITY));
+}
+
+u8 GetPokedexHeightRecord(u16 species, bool8 isTallest)
+{
+    if (species >= POKEDEX_SIZE_RECORDS_COUNT)
+        return 8; // default to median
+
+    if (isTallest)
+        return (gSaveBlock1Ptr->pokedexSizes[species][0] >> 4) & 0xF;
+    else
+        return gSaveBlock1Ptr->pokedexSizes[species][0] & 0xF;
+}
+
+u8 GetPokedexWeightRecord(u16 species, bool8 isHeaviest)
+{
+    if (species >= POKEDEX_SIZE_RECORDS_COUNT)
+        return 8; // default to median
+
+    if (isHeaviest)
+        return (gSaveBlock1Ptr->pokedexSizes[species][1] >> 4) & 0xF;
+    else
+        return gSaveBlock1Ptr->pokedexSizes[species][1] & 0xF;
+}
+
+u32 GetPokedexSizeMultiplier(u8 category)
+{
+    if (category >= 16)
+        return 1000;
+    return sBigMonSizeTable[category].unk0;
+}
+
+

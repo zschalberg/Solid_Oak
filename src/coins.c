@@ -51,16 +51,19 @@ bool8 RemoveCoins(u16 toSub)
     return FALSE;
 }
 
+static const u8 sText_CoinsSuffix[] = _(" COINS");
+
 void PrintCoinsString(u32 coinAmount)
 {
-    u8 windowId;
+    u8 coinStr[32];
+    u8 *ptr;
     int width;
 
-    ConvertIntToDecimalStringN(gStringVar1, coinAmount, STR_CONV_MODE_RIGHT_ALIGN, 4);
-    StringExpandPlaceholders(gStringVar4, sText_XCoins);
-    width = GetStringWidth(FONT_SMALL, gStringVar4, 0);
-    windowId = sCoinsWindowId;
-    AddTextPrinterParameterized(windowId, FONT_SMALL, gStringVar4, 64 - width, 0xC, 0, NULL);
+    ptr = ConvertIntToDecimalStringN(coinStr, coinAmount, STR_CONV_MODE_RIGHT_ALIGN, 4);
+    StringAppend(ptr, sText_CoinsSuffix);
+    width = GetStringWidth(FONT_SMALL, coinStr, 0);
+    AddTextPrinterParameterized(sCoinsWindowId, FONT_SMALL, coinStr, 64 - width, 0xC, 0, NULL);
+    CopyWindowToVram(sCoinsWindowId, COPYWIN_FULL);
 }
 
 void ShowCoinsWindow(u32 coinAmount, u8 x, u8 y)
@@ -75,6 +78,7 @@ void ShowCoinsWindow(u32 coinAmount, u8 x, u8 y)
     DrawStdFrameWithCustomTileAndPalette(sCoinsWindowId, FALSE, 0x21D, 13);
     AddTextPrinterParameterized(sCoinsWindowId, FONT_NORMAL, gText_Coins, 0, 0, 0xFF, 0);
     PrintCoinsString(coinAmount);
+    CopyWindowToVram(sCoinsWindowId, COPYWIN_FULL);
 }
 
 void HideCoinsWindow(void)

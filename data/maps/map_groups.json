@@ -48,7 +48,8 @@
     "TradeCenter",
     "RecordCorner",
     "BattleColosseum_4P",
-    "UnionRoom"
+    "UnionRoom",
+    "Fishing_Village_New"
   ],
   "gMapGroup_Dungeons": [
     "ViridianForest",
@@ -391,7 +392,18 @@
     "LavenderTown_VolunteerPokemonHouse",
     "LavenderTown_House1",
     "LavenderTown_House2",
-    "LavenderTown_Mart"
+    "LavenderTown_Mart",
+    "LavenderTown_FujiLab_Lobby",
+    "LavenderTown_FujiLab_Room1",
+    "LavenderTown_FujiLab_Room2",
+    "LavenderTown_FujiLab_Room3",
+    "LavenderTown_FujiLab_Room4",
+    "LavenderTown_FujiLab_Room5",
+    "LavenderTown_FujiLab_Room6",
+    "LavenderTown_FujiLab_Room7",
+    "LavenderTown_FujiLab_Room8",
+    "LavenderTown_FujiLab_Room9",
+    "LavenderTown_FujiLab_Room10"
   ],
   "gMapGroup_IndoorVermilion": [
     "VermilionCity_House1",
