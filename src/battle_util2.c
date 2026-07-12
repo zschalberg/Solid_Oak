@@ -2,6 +2,7 @@
 #include "battle.h"
 #include "battle_anim.h"
 #include "battle_controllers.h"
+#include "battle_setup.h"
 #include "bg.h"
 #include "malloc.h"
 #include "pokemon.h"
@@ -26,6 +27,7 @@ void AllocateBattleResources(void)
     }
 
     gBattleStruct = AllocZeroed(sizeof(*gBattleStruct));
+    ConsumePendingBattleRules();
     gAiBattleData = AllocZeroed(sizeof(*gAiBattleData));
     gAiThinkingStruct = AllocZeroed(sizeof(*gAiThinkingStruct));
     gAiLogicData = AllocZeroed(sizeof(*gAiLogicData));

@@ -1440,6 +1440,23 @@ u32 TrySetCantSelectMoveBattleScript(enum BattlerId battler)
         }
     }
 
+    if (IsOnPlayerSide(battler)
+     && ((gBattleStruct->battleRuleBannedMoveTypes & (1u << GetBattleMoveType(move)))
+      || (gBattleStruct->battleRuleBannedMoveCategories & (1u << GetBattleMoveCategory(move)))))
+    {
+        gCurrentMove = move;
+        if (gBattleTypeFlags & BATTLE_TYPE_PALACE)
+        {
+            gPalaceSelectionBattleScripts[battler] = BattleScript_SelectingNotAllowedMoveBattleRuleInPalace;
+            gProtectStructs[battler].palaceUnableToUseMove = TRUE;
+        }
+        else
+        {
+            gSelectionBattleScripts[battler] = BattleScript_SelectingNotAllowedMoveBattleRule;
+            limitations++;
+        }
+    }
+
     if (DYNAMAX_BYPASS_CHECK && moveEffect == EFFECT_STUFF_CHEEKS && GetItemPocket(gBattleMons[battler].item) != POCKET_BERRIES)
     {
         gCurrentMove = move;
@@ -1552,7 +1569,7 @@ u32 TrySetCantSelectMoveBattleScript(enum BattlerId battler)
     return limitations;
 }
 
-u32 CheckMoveLimitations(enum BattlerId battler, u8 unusableMoves, u16 check)
+u32 CheckMoveLimitations(enum BattlerId battler, u8 unusableMoves, u32 check)
 {
     enum Move move;
     enum BattleMoveEffects moveEffect;
@@ -1619,6 +1636,12 @@ u32 CheckMoveLimitations(enum BattlerId battler, u8 unusableMoves, u16 check)
             unusableMoves |= 1u << i;
         // Can't Use Twice flag
         else if (check & MOVE_LIMITATION_CANT_USE_TWICE && MoveCantBeUsedTwice(move) && move == gLastResultingMoves[battler])
+            unusableMoves |= 1u << i;
+        // Battle Rule: banned move type/category (script-set, player only)
+        else if (check & MOVE_LIMITATION_BATTLE_RULE
+              && IsOnPlayerSide(battler)
+              && ((gBattleStruct->battleRuleBannedMoveTypes & (1u << GetBattleMoveType(move)))
+               || (gBattleStruct->battleRuleBannedMoveCategories & (1u << GetBattleMoveCategory(move)))))
             unusableMoves |= 1u << i;
     }
     return unusableMoves;

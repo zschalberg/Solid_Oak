@@ -5194,6 +5194,14 @@ BattleScript_SelectingNotAllowedBelchInPalace::
 	printstring STRINGID_BELCHCANTSELECT
 	goto BattleScript_SelectingUnusableMoveInPalace
 
+BattleScript_SelectingNotAllowedMoveBattleRule::
+	printselectionstring STRINGID_PKMNCANTUSEMOVEBATTLERULE
+	endselectionscript
+
+BattleScript_SelectingNotAllowedMoveBattleRuleInPalace::
+	printstring STRINGID_PKMNCANTUSEMOVEBATTLERULE
+	goto BattleScript_SelectingUnusableMoveInPalace
+
 BattleScript_MoveUsedGravityPrevents::
 	printstring STRINGID_GRAVITYPREVENTSUSAGE
 	waitmessage B_WAIT_TIME_LONG
