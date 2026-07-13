@@ -3,6 +3,8 @@
 #include "data.h"
 #include "event_data.h"
 #include "pokedex.h"
+#include "pokemon.h"
+#include "constants/pokedex.h"
 #include "string_util.h"
 #include "strings.h"
 #include "text.h"
@@ -240,9 +242,16 @@ void UpdatePokedexSizeRecordBySpeciesPersonality(u16 species, u32 personality)
     u8 heightCategory, weightCategory;
     u8 currentTallest, currentShortest;
     u8 currentHeaviest, currentLightest;
+    bool32 hasRecord;
 
     if (species == SPECIES_NONE || species >= POKEDEX_SIZE_RECORDS_COUNT)
         return;
+
+    // A stored 0/0 record is ambiguous between "never recorded" and a genuine
+    // category-0 specimen, so the caught flag disambiguates: once the species
+    // has been caught, 0/0 is a real record. Callers must therefore update
+    // records before setting the caught flag.
+    hasRecord = GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_GET_CAUGHT);
 
     heightHash = personality & 0xFFFF;
     weightHash = personality >> 16;
@@ -254,7 +263,7 @@ void UpdatePokedexSizeRecordBySpeciesPersonality(u16 species, u32 personality)
     currentShortest = gSaveBlock1Ptr->pokedexSizes[species][0] & 0xF;
     currentTallest = (gSaveBlock1Ptr->pokedexSizes[species][0] >> 4) & 0xF;
 
-    if (currentShortest == 0 && currentTallest == 0)
+    if (!hasRecord && currentShortest == 0 && currentTallest == 0)
     {
         currentShortest = heightCategory;
         currentTallest = heightCategory;
@@ -272,7 +281,7 @@ void UpdatePokedexSizeRecordBySpeciesPersonality(u16 species, u32 personality)
     currentLightest = gSaveBlock1Ptr->pokedexSizes[species][1] & 0xF;
     currentHeaviest = (gSaveBlock1Ptr->pokedexSizes[species][1] >> 4) & 0xF;
 
-    if (currentLightest == 0 && currentHeaviest == 0)
+    if (!hasRecord && currentLightest == 0 && currentHeaviest == 0)
     {
         currentLightest = weightCategory;
         currentHeaviest = weightCategory;

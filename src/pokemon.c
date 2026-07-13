@@ -5866,6 +5866,13 @@ void HandleSetPokedexFlag(enum NationalDexOrder nationalNum, u8 caseId, u32 pers
     u8 getFlagCaseId = (caseId == FLAG_SET_SEEN) ? FLAG_GET_SEEN : FLAG_GET_CAUGHT;
     bool8 alreadySet = GetSetPokedexFlag(nationalNum, getFlagCaseId);
 
+    // Size records must be updated before the caught flag is set so that the
+    // first catch of a species initializes the record.
+    if (caseId == FLAG_SET_CAUGHT)
+    {
+        UpdatePokedexSizeRecordBySpeciesPersonality(NationalPokedexNumToSpecies(nationalNum), personality);
+    }
+
     GetSetPokedexFlag(nationalNum, caseId);
 
     if (!alreadySet)
@@ -5874,11 +5881,6 @@ void HandleSetPokedexFlag(enum NationalDexOrder nationalNum, u8 caseId, u32 pers
             gSaveBlock2Ptr->pokedex.unownPersonality = personality;
         if (NationalPokedexNumToSpecies(nationalNum) == SPECIES_SPINDA)
             gSaveBlock2Ptr->pokedex.spindaPersonality = personality;
-    }
-
-    if (caseId == FLAG_SET_CAUGHT)
-    {
-        UpdatePokedexSizeRecordBySpeciesPersonality(NationalPokedexNumToSpecies(nationalNum), personality);
     }
 }
 

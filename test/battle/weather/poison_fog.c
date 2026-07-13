@@ -135,12 +135,8 @@ SINGLE_BATTLE_TEST("Cloud Nine and Air Lock suppress Poison Fog poisoning")
     }
 }
 
-// BenefitsFromPoisonFog never returns FIELD_EFFECT_POSITIVE, so
-// ShouldSetWeather rejects Poison Fog even for an immune attacker against a
-// vulnerable target and the AI never chooses Miasma for its effect.
 AI_SINGLE_BATTLE_TEST("AI sets Poison Fog against a target that can be poisoned by it")
 {
-    KNOWN_FAILING;
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_MIASMA) == EFFECT_WEATHER);
         ASSUME(GetMoveWeatherType(MOVE_MIASMA) == BATTLE_WEATHER_POISON_FOG);
@@ -149,5 +145,18 @@ AI_SINGLE_BATTLE_TEST("AI sets Poison Fog against a target that can be poisoned 
         OPPONENT(SPECIES_GRIMER) { Moves(MOVE_MIASMA, MOVE_POUND); }
     } WHEN {
         TURN { MOVE(player, MOVE_CELEBRATE); EXPECT_MOVE(opponent, MOVE_MIASMA); }
+    }
+}
+
+AI_SINGLE_BATTLE_TEST("AI does not favor Poison Fog when the target is already immune to it")
+{
+    GIVEN {
+        ASSUME(GetMoveEffect(MOVE_MIASMA) == EFFECT_WEATHER);
+        ASSUME(GetMoveWeatherType(MOVE_MIASMA) == BATTLE_WEATHER_POISON_FOG);
+        AI_FLAGS(AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_TRY_TO_FAINT | AI_FLAG_CHECK_VIABILITY);
+        PLAYER(SPECIES_SANDSLASH); // Ground-type: immune to Poison Fog
+        OPPONENT(SPECIES_GRIMER) { Moves(MOVE_MIASMA, MOVE_POUND); }
+    } WHEN {
+        TURN { MOVE(player, MOVE_CELEBRATE); EXPECT_MOVE(opponent, MOVE_POUND); }
     }
 }

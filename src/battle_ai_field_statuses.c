@@ -341,13 +341,25 @@ static enum FieldEffectOutcome BenefitsFromElectricFloor(enum BattlerId battler)
 }
 
 // Poison Fog
+static bool32 IsImmuneToPoisonFog(enum BattlerId battler)
+{
+    return IS_BATTLER_ANY_TYPE(battler, TYPE_POISON, TYPE_STEEL, TYPE_ROCK, TYPE_GROUND, TYPE_GHOST)
+        || gAiLogicData->holdEffects[battler] == HOLD_EFFECT_SAFETY_GOGGLES
+        || gAiLogicData->abilities[battler] == ABILITY_OVERCOAT
+        || gAiLogicData->abilities[battler] == ABILITY_IMMUNITY;
+}
+
 static enum FieldEffectOutcome BenefitsFromPoisonFog(enum BattlerId battler)
 {
-    if (IS_BATTLER_ANY_TYPE(battler, TYPE_POISON, TYPE_STEEL, TYPE_ROCK, TYPE_GROUND, TYPE_GHOST)
-     || gAiLogicData->holdEffects[battler] == HOLD_EFFECT_SAFETY_GOGGLES
-     || gAiLogicData->abilities[battler] == ABILITY_OVERCOAT
-     || gAiLogicData->abilities[battler] == ABILITY_IMMUNITY)
-        return FIELD_EFFECT_NEUTRAL;
+    if (IsImmuneToPoisonFog(battler))
+    {
+        // An immune user benefits when the fog can actually poison a foe.
+        if (!IsImmuneToPoisonFog(LEFT_FOE(battler))
+         || (HasPartner(LEFT_FOE(battler)) && !IsImmuneToPoisonFog(RIGHT_FOE(battler))))
+            return FIELD_EFFECT_POSITIVE;
+        else
+            return FIELD_EFFECT_NEUTRAL;
+    }
 
     return FIELD_EFFECT_NEGATIVE;
 }

@@ -128,17 +128,39 @@ TEST("Size records: species beyond the record table are ignored and read as medi
     EXPECT_EQ(GetPokedexWeightRecord(species, TRUE), 8);
 }
 
-// A category-0/0 first record is indistinguishable from the empty save state,
-// so a later capture overwrites the recorded minimum instead of keeping it.
-TEST("Size records: category 0 records survive later updates")
+TEST("Size records: category 0 records survive later updates once the species is caught")
 {
+    // UpdatePokedexSizeRecordBySpeciesPersonality treats a stored 0/0 record
+    // as "uninitialized" unless the species is already marked caught, so the
+    // caught flag must be set (via HandleSetPokedexFlag) between catches for
+    // a genuine category-0 record to be preserved.
     u16 species = SPECIES_WOBBUFFET;
-    KNOWN_FAILING;
-    UpdatePokedexSizeRecordBySpeciesPersonality(species, SIZE_PERSONALITY(0, 0));
-    UpdatePokedexSizeRecordBySpeciesPersonality(species, SIZE_PERSONALITY(0xFFFF, 0xFFFF));
+    u16 natDex = SpeciesToNationalPokedexNum(species);
+
+    HandleSetPokedexFlag(natDex, FLAG_SET_CAUGHT, SIZE_PERSONALITY(0, 0));
+    EXPECT_EQ(GetPokedexHeightRecord(species, FALSE), 0);
+    EXPECT_EQ(GetPokedexHeightRecord(species, TRUE), 0);
+    EXPECT_EQ(GetPokedexWeightRecord(species, FALSE), 0);
+    EXPECT_EQ(GetPokedexWeightRecord(species, TRUE), 0);
+
+    HandleSetPokedexFlag(natDex, FLAG_SET_CAUGHT, SIZE_PERSONALITY(0xFFFF, 0xFFFF));
     EXPECT_EQ(GetPokedexHeightRecord(species, FALSE), 0);
     EXPECT_EQ(GetPokedexHeightRecord(species, TRUE), 15);
     EXPECT_EQ(GetPokedexWeightRecord(species, FALSE), 0);
+    EXPECT_EQ(GetPokedexWeightRecord(species, TRUE), 15);
+}
+
+TEST("Size records: a direct call with no prior catch still treats 0/0 as uninitialized")
+{
+    // Without ever marking the species caught, UpdatePokedexSizeRecordBySpeciesPersonality
+    // cannot tell a real 0/0 catch apart from an empty record, so it (correctly,
+    // per the documented tradeoff) reinitializes on the second call.
+    u16 species = SPECIES_WOBBUFFET;
+    UpdatePokedexSizeRecordBySpeciesPersonality(species, SIZE_PERSONALITY(0, 0));
+    UpdatePokedexSizeRecordBySpeciesPersonality(species, SIZE_PERSONALITY(0xFFFF, 0xFFFF));
+    EXPECT_EQ(GetPokedexHeightRecord(species, FALSE), 15);
+    EXPECT_EQ(GetPokedexHeightRecord(species, TRUE), 15);
+    EXPECT_EQ(GetPokedexWeightRecord(species, FALSE), 15);
     EXPECT_EQ(GetPokedexWeightRecord(species, TRUE), 15);
 }
 
