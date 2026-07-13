@@ -319,6 +319,7 @@
  * The Pokémon can be further customized with the following functions:
  * - Gender(MON_MALE | MON_FEMALE)
  * - Nature(nature)
+ * - Personality(personality) [overrides Gender, Nature, and Shiny]
  * - Ability(ability)
  * - Level(level)
  * - MaxHP(n), HP(n), Attack(n), Defense(n), SpAttack(n), SpDefense(n)
@@ -794,6 +795,8 @@ struct BattleTestData
     u8 gender;
     u8 nature;
     bool8 isShiny;
+    bool8 hasExplicitPersonality;
+    u32 explicitPersonality;
     enum Ability forcedAbilities[MAX_BATTLE_TRAINERS][PARTY_SIZE];
     u8 chosenGimmick[MAX_BATTLE_TRAINERS][PARTY_SIZE];
     enum BattleTrainer partyTrainers[NUM_BATTLE_SIDES][PARTY_SIZE];
@@ -1033,6 +1036,7 @@ struct moveWithPP {
 
 #define Gender(gender) Gender_(__LINE__, gender)
 #define Nature(nature) Nature_(__LINE__, nature)
+#define Personality(personality) Personality_(__LINE__, personality)
 #define Ability(ability) Ability_(__LINE__, ability)
 #define Level(level) Level_(__LINE__, level)
 #define MaxHP(maxHP) MaxHP_(__LINE__, maxHP)
@@ -1078,6 +1082,7 @@ void BattlerAIFlags_(u32 sourceLine, struct BattlePokemon *, u64 flags);
 void AILogScores(u32 sourceLine);
 void Gender_(u32 sourceLine, u32 gender);
 void Nature_(u32 sourceLine, u32 nature);
+void Personality_(u32 sourceLine, u32 personality);
 void Ability_(u32 sourceLine, enum Ability ability);
 void Level_(u32 sourceLine, u32 level);
 void MaxHP_(u32 sourceLine, u32 maxHP);

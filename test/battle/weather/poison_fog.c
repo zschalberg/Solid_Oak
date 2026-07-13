@@ -110,3 +110,40 @@ SINGLE_BATTLE_TEST("Poison Fog ends after 5 turns")
         MESSAGE("The poison fog dissipated.");
     }
 }
+
+SINGLE_BATTLE_TEST("Cloud Nine and Air Lock suppress Poison Fog poisoning")
+{
+    u32 species = SPECIES_NONE;
+    u32 ability = ABILITY_NONE;
+
+    PARAMETRIZE { species = SPECIES_GOLDUCK;  ability = ABILITY_CLOUD_NINE; }
+    PARAMETRIZE { species = SPECIES_RAYQUAZA; ability = ABILITY_AIR_LOCK; }
+
+    GIVEN {
+        PLAYER(species) { Ability(ability); }
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(opponent, MOVE_MIASMA); }
+    } SCENE {
+        NOT MESSAGE("Golduck was poisoned by the poison fog!");
+        NOT MESSAGE("Rayquaza was poisoned by the poison fog!");
+        NOT MESSAGE("The opposing Wobbuffet was poisoned by the poison fog!");
+    }
+}
+
+// BenefitsFromPoisonFog never returns FIELD_EFFECT_POSITIVE, so
+// ShouldSetWeather rejects Poison Fog even for an immune attacker against a
+// vulnerable target and the AI never chooses Miasma for its effect.
+AI_SINGLE_BATTLE_TEST("AI sets Poison Fog against a target that can be poisoned by it")
+{
+    KNOWN_FAILING;
+    GIVEN {
+        ASSUME(GetMoveEffect(MOVE_MIASMA) == EFFECT_WEATHER);
+        ASSUME(GetMoveWeatherType(MOVE_MIASMA) == BATTLE_WEATHER_POISON_FOG);
+        AI_FLAGS(AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_TRY_TO_FAINT | AI_FLAG_CHECK_VIABILITY);
+        PLAYER(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_GRIMER) { Moves(MOVE_MIASMA, MOVE_POUND); }
+    } WHEN {
+        TURN { MOVE(player, MOVE_CELEBRATE); EXPECT_MOVE(opponent, MOVE_MIASMA); }
+    }
+}

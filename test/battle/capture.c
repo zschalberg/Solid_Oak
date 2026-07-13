@@ -232,3 +232,102 @@ WILD_BATTLE_TEST("Capture: ball data is properly set in captured pokemon")
         EXPECT_EQ(GetMonData(&gPlayerParty[1], MON_DATA_POKEBALL), GetItemSecondaryId(item));
     }
 }
+
+WILD_BATTLE_TEST("Capture: Research Ball has a 1.5x catch multiplier")
+{
+    u32 ball = ITEM_NONE;
+    u32 expectedOdds = 0;
+    u32 recordedOdds;
+
+    PARAMETRIZE { ball = ITEM_POKE_BALL;     expectedOdds = 50; }
+    PARAMETRIZE { ball = ITEM_RESEARCH_BALL; expectedOdds = 75; }
+
+    GIVEN {
+        WITH_CONFIG(B_MISSING_BADGE_CATCH_MALUS, GEN_7);
+        WITH_CONFIG(B_LOW_LEVEL_CATCH_BONUS, GEN_7);
+        PLAYER(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_CLEFFA);
+    } WHEN {
+        TURN { USE_ITEM(player, ball); }
+    } SCENE {
+        CATCHING_CHANCE(&recordedOdds);
+    } THEN {
+        EXPECT_EQ(expectedOdds, recordedOdds);
+    }
+}
+
+WILD_BATTLE_TEST("Capture: catch odds scale with the National Dex caught count (research tiers)")
+{
+    u32 caughtCount = 0;
+    u32 expectedOdds = 0;
+    u32 recordedOdds;
+    u32 dex;
+
+    // Runs are ordered by ascending caught count because dex flags set in
+    // one run persist into the next.
+    PARAMETRIZE { caughtCount = 0;   expectedOdds = 50; } // no bonus
+    PARAMETRIZE { caughtCount = 20;  expectedOdds = 55; } // 1.1x
+    PARAMETRIZE { caughtCount = 50;  expectedOdds = 60; } // 1.2x
+    PARAMETRIZE { caughtCount = 100; expectedOdds = 75; } // 1.5x
+
+    GIVEN {
+        WITH_CONFIG(B_MISSING_BADGE_CATCH_MALUS, GEN_7);
+        WITH_CONFIG(B_LOW_LEVEL_CATCH_BONUS, GEN_7);
+        for (dex = 0; dex < caughtCount; dex++)
+            GetSetPokedexFlag(dex + 1, FLAG_SET_CAUGHT);
+        PLAYER(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_CLEFFA);
+    } WHEN {
+        TURN { USE_ITEM(player, ITEM_POKE_BALL); }
+    } SCENE {
+        CATCHING_CHANCE(&recordedOdds);
+    } THEN {
+        EXPECT_EQ(expectedOdds, recordedOdds);
+    }
+}
+
+WILD_BATTLE_TEST("Capture: proto Poké Balls fail outright above their level caps")
+{
+    u32 ball = ITEM_NONE;
+    u32 level = 0;
+
+    PARAMETRIZE { ball = ITEM_LEVEL_BALL;  level = 11; }
+    PARAMETRIZE { ball = ITEM_LURE_BALL;   level = 21; }
+    PARAMETRIZE { ball = ITEM_FRIEND_BALL; level = 31; }
+    PARAMETRIZE { ball = ITEM_HEAVY_BALL;  level = 41; }
+
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_CLEFFA) { Level(level); }
+    } WHEN {
+        TURN { USE_ITEM(player, ball); }
+    } SCENE {
+        MESSAGE("This Ball doesn't work on a Pokémon that strong!");
+    }
+}
+
+WILD_BATTLE_TEST("Capture: proto Poké Balls work normally at or below their level caps")
+{
+    u32 ball = ITEM_NONE;
+    u32 level = 0;
+    u32 recordedOdds;
+
+    PARAMETRIZE { ball = ITEM_LEVEL_BALL;  level = 10; }
+    PARAMETRIZE { ball = ITEM_LURE_BALL;   level = 20; }
+    PARAMETRIZE { ball = ITEM_FRIEND_BALL; level = 30; }
+    PARAMETRIZE { ball = ITEM_HEAVY_BALL;  level = 40; }
+
+    GIVEN {
+        WITH_CONFIG(B_MISSING_BADGE_CATCH_MALUS, GEN_7);
+        WITH_CONFIG(B_LOW_LEVEL_CATCH_BONUS, GEN_7);
+        PLAYER(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_CLEFFA) { Level(level); }
+    } WHEN {
+        TURN { USE_ITEM(player, ball); }
+    } SCENE {
+        NOT MESSAGE("This Ball doesn't work on a Pokémon that strong!");
+        CATCHING_CHANCE(&recordedOdds);
+    } THEN {
+        EXPECT_EQ(recordedOdds, 50);
+    }
+}
