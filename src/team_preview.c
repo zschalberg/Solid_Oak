@@ -229,7 +229,9 @@ static void CB2_End3v3PreviewBattle(void)
     
     FlagClear(FLAG_MONOTYPE_BATTLE);
     VarSet(VAR_MONOTYPE_RESTRICTION, TYPE_NONE);
-    
+    FlagClear(FLAG_TURN_LIMIT_BATTLE);
+    VarSet(VAR_TURN_LIMIT, 0);
+
     // 5. Call the original battle end callback
     if (sOriginalBattleSavedCallback)
     {

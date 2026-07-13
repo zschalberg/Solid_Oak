@@ -382,6 +382,35 @@ PalletTown_RivalsHouse_EventScript_MonotypeNPC_TurnOff::
 	release
 	end
 
+PalletTown_RivalsHouse_EventScript_TurnLimitNPC::
+	lock
+	faceplayer
+	goto_if_set FLAG_TURN_LIMIT_BATTLE, PalletTown_RivalsHouse_EventScript_TurnLimitNPC_On
+	msgbox PalletTown_RivalsHouse_Text_TurnLimitNPC_Greeting_Off, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, YES, PalletTown_RivalsHouse_EventScript_TurnLimitNPC_TurnOn
+	release
+	end
+
+PalletTown_RivalsHouse_EventScript_TurnLimitNPC_TurnOn::
+	setflag FLAG_TURN_LIMIT_BATTLE
+	setvar VAR_TURN_LIMIT, 3
+	msgbox PalletTown_RivalsHouse_Text_TurnLimitNPC_ToggledOn
+	release
+	end
+
+PalletTown_RivalsHouse_EventScript_TurnLimitNPC_On::
+	msgbox PalletTown_RivalsHouse_Text_TurnLimitNPC_Greeting_On, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, YES, PalletTown_RivalsHouse_EventScript_TurnLimitNPC_TurnOff
+	release
+	end
+
+PalletTown_RivalsHouse_EventScript_TurnLimitNPC_TurnOff::
+	clearflag FLAG_TURN_LIMIT_BATTLE
+	setvar VAR_TURN_LIMIT, 0
+	msgbox PalletTown_RivalsHouse_Text_TurnLimitNPC_ToggledOff
+	release
+	end
+
 PalletTown_RivalsHouse_Text_NotEnoughMonsForMonotype3v3::
 	.string "You need at least {STR_VAR_2} usable\n"
 	.string "{STR_VAR_1}-type Pokémon to battle!$"
@@ -408,6 +437,23 @@ PalletTown_RivalsHouse_Text_MonotypeNPC_ToggledOn::
 
 PalletTown_RivalsHouse_Text_MonotypeNPC_ToggledOff::
 	.string "Toggled the monotype restriction to OFF.$"
+
+PalletTown_RivalsHouse_Text_TurnLimitNPC_Greeting_Off::
+	.string "Hi! I can set up a 3-turn battle\n"
+	.string "limit restriction.\p"
+	.string "Would you like to turn it ON?$"
+
+PalletTown_RivalsHouse_Text_TurnLimitNPC_Greeting_On::
+	.string "The 3-turn battle limit\n"
+	.string "restriction is currently ON.\p"
+	.string "Would you like to turn it OFF?$"
+
+PalletTown_RivalsHouse_Text_TurnLimitNPC_ToggledOn::
+	.string "Toggled the 3-turn battle limit\n"
+	.string "restriction to ON.$"
+
+PalletTown_RivalsHouse_Text_TurnLimitNPC_ToggledOff::
+	.string "Toggled the turn limit restriction to OFF.$"
 
 PalletTown_RivalsHouse_Text_NotEnoughMonsFor3v3::
 	.string "You need at least {STR_VAR_1} usable Pokémon\n"

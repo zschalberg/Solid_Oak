@@ -513,6 +513,9 @@ static void DowngradeBadPoison(void)
 
 static void CB2_EndWildBattle(void)
 {
+    FlagClear(FLAG_TURN_LIMIT_BATTLE);
+    VarSet(VAR_TURN_LIMIT, 0);
+
     CpuFill16(0, (void *)(BG_PLTT), BG_PLTT_SIZE);
     ResetOamRange(0, 128);
 
@@ -1206,6 +1209,8 @@ static void CB2_EndTrainerBattle(void)
 {
     FlagClear(FLAG_MONOTYPE_BATTLE);
     VarSet(VAR_MONOTYPE_RESTRICTION, TYPE_NONE);
+    FlagClear(FLAG_TURN_LIMIT_BATTLE);
+    VarSet(VAR_TURN_LIMIT, 0);
 
     HandleBattleVariantEndParty();
 

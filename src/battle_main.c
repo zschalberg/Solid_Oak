@@ -4083,6 +4083,24 @@ void BattleTurnPassed(void)
         gBattleStruct->eventState.arenaTurn++;
     }
 
+    if (FlagGet(FLAG_TURN_LIMIT_BATTLE) && gBattleOutcome == 0)
+    {
+        u16 turnsLeft = VarGet(VAR_TURN_LIMIT);
+        if (turnsLeft > 0)
+            turnsLeft--;
+        VarSet(VAR_TURN_LIMIT, turnsLeft);
+
+        if (turnsLeft == 0)
+        {
+            gBattleOutcome = B_OUTCOME_LOST;
+            gCurrentActionFuncId = B_ACTION_FINISHED;
+            gBattleMainFunc = RunTurnActionsFunctions;
+            return;
+        }
+
+        PREPARE_BYTE_NUMBER_BUFFER(gBattleTextBuff1, 2, turnsLeft);
+    }
+
     for (enum BattlerId battler = 0; battler < gBattlersCount; battler++)
     {
         gChosenActionByBattler[battler] = B_ACTION_NONE;
@@ -4114,6 +4132,8 @@ void BattleTurnPassed(void)
         BattleScriptExecute(BattleScript_PalacePrintFlavorText);
     else if (gBattleTypeFlags & BATTLE_TYPE_ARENA && gBattleStruct->eventState.arenaTurn == 0)
         BattleScriptExecute(BattleScript_ArenaTurnBeginning);
+    else if (FlagGet(FLAG_TURN_LIMIT_BATTLE))
+        BattleScriptExecute(BattleScript_TurnsRemaining);
 }
 
 u8 IsRunningFromBattleImpossible(enum BattlerId battler)
@@ -5563,7 +5583,10 @@ static void HandleEndTurn_BattleLost(void)
         {
             gBattleCommunication[MULTISTRING_CHOOSER] = 0;
         }
-        gBattlescriptCurrInstr = BattleScript_LocalBattleLost;
+        if (FlagGet(FLAG_TURN_LIMIT_BATTLE) && VarGet(VAR_TURN_LIMIT) == 0)
+            gBattlescriptCurrInstr = BattleScript_TurnLimitExpired;
+        else
+            gBattlescriptCurrInstr = BattleScript_LocalBattleLost;
     }
 
     gBattleMainFunc = HandleEndTurn_FinishBattle;

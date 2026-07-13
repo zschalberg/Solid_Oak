@@ -4219,6 +4219,16 @@ BattleScript_RivalBattleLostSkipMonRecall::
 	jumpifbyte CMP_EQUAL, cMULTISTRING_CHOOSER, 2, BattleScript_LocalBattleLostPrintWhiteOut
 	end2
 
+BattleScript_TurnsRemaining::
+	printstring STRINGID_TURNSREMAINING
+	waitmessage B_WAIT_TIME_LONG
+	end2
+
+BattleScript_TurnLimitExpired::
+	printstring STRINGID_OUTOFTURNS
+	waitmessage B_WAIT_TIME_LONG
+	goto BattleScript_LocalBattleLost
+
 BattleScript_LocalBattleLost::
 	jumpifbattletype BATTLE_TYPE_DOME, BattleScript_CheckDomeDrew
 	jumpifbattletype BATTLE_TYPE_FRONTIER, BattleScript_LocalBattleLostPrintTrainersWinText
