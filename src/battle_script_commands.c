@@ -10827,7 +10827,9 @@ static u32 ComputeCaptureOdds(u32 wildMonBattler, u32 playerBattler)
     odds = odds * catchRate / (battleMon->maxHP * 3);
     odds = odds * ball.multiplier / ball.divider;
 
-    u8 badgeCount = NUM_BADGES;
+    // Solid-Oak has no gym-badge-gated catch difficulty by design, so this
+    // reads a standalone placeholder counter rather than real badge flags.
+    u8 badgeCount = min(gSaveBlock1Ptr->catchMalusBadgeCount, (u8)NUM_BADGES);
     if (GetConfig(B_MISSING_BADGE_CATCH_MALUS) == GEN_8 && badgeCount < NUM_BADGES && gBattleMons[playerBattler].level < battleMon->level)
         odds = odds * 410 / 4096;
     if (GetConfig(B_MISSING_BADGE_CATCH_MALUS) == GEN_9 && badgeCount < NUM_BADGES)
@@ -10869,6 +10871,10 @@ static u32 ComputeCaptureOdds(u32 wildMonBattler, u32 playerBattler)
 
     if (odds > 255)
         odds = 255;
+    // ComputeBallShakeOdds divides by odds; a low catch rate combined with the
+    // missing-badge malus could otherwise truncate this to 0 and divide by zero.
+    if (odds < 1)
+        odds = 1;
 
     return odds;
 }

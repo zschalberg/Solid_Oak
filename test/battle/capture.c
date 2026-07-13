@@ -65,11 +65,10 @@ WILD_BATTLE_TEST("Capture: Low level catch bonus apply correcly with all gen con
     }
 }
 
-// Solid-Oak hardcodes badgeCount = NUM_BADGES in ComputeCaptureOdds, so the
-// missing-badge malus never applies regardless of the badge flags set below.
+// Solid-Oak drives the missing-badge malus from catchMalusBadgeCount, a
+// standalone placeholder counter, rather than real badge flags.
 WILD_BATTLE_TEST("Capture: Missing badge malus apply correcly in gen 8")
 {
-    KNOWN_FAILING;
     u32 expectedOdds = 0;
     u32 recordedOdds;
     u32 playerLevel = 0;
@@ -85,13 +84,7 @@ WILD_BATTLE_TEST("Capture: Missing badge malus apply correcly in gen 8")
     PARAMETRIZE(expectedOdds = 50, playerLevel = 21, numBadges = 8);
 
     GIVEN {
-        for (u32 j = 0; j < 8; j++)
-        {
-            if (j < numBadges)
-                FlagSet(FLAG_BADGE01_GET + j);
-            else
-                FlagClear(FLAG_BADGE01_GET + j);
-        }
+        gSaveBlock1Ptr->catchMalusBadgeCount = numBadges;
         WITH_CONFIG(B_MISSING_BADGE_CATCH_MALUS, GEN_8);
         PLAYER(SPECIES_WOBBUFFET) {Level(playerLevel);}
         OPPONENT(SPECIES_CLEFFA);
@@ -104,11 +97,10 @@ WILD_BATTLE_TEST("Capture: Missing badge malus apply correcly in gen 8")
     }
 }
 
-// Solid-Oak hardcodes badgeCount = NUM_BADGES in ComputeCaptureOdds (and caps
-// odds at 255), so the gen 9 missing-badge malus expectations no longer hold.
+// Solid-Oak drives the missing-badge malus from catchMalusBadgeCount, a
+// standalone placeholder counter, rather than real badge flags.
 WILD_BATTLE_TEST("Capture: Missing badge malus apply correcly in gen 9")
 {
-    KNOWN_FAILING;
     u32 expectedOdds;
     u32 recordedOdds;
     u32 level = 0;
@@ -125,13 +117,7 @@ WILD_BATTLE_TEST("Capture: Missing badge malus apply correcly in gen 9")
     PARAMETRIZE(expectedOdds = 128, level = 40, numBadges = 0);
 
     GIVEN {
-        for (u32 j = 0; j < 8; j++)
-        {
-            if (j < numBadges)
-                FlagSet(FLAG_BADGE01_GET + j);
-            else
-                FlagClear(FLAG_BADGE01_GET + j);
-        }
+        gSaveBlock1Ptr->catchMalusBadgeCount = numBadges;
         WITH_CONFIG(B_MISSING_BADGE_CATCH_MALUS, GEN_9);
         PLAYER(SPECIES_WOBBUFFET);
         OPPONENT(SPECIES_CLEFFA)  {Level(level);};
@@ -336,5 +322,33 @@ WILD_BATTLE_TEST("Capture: proto Poké Balls work normally at or below their lev
         CATCHING_CHANCE(&recordedOdds);
     } THEN {
         EXPECT_EQ(recordedOdds, 50);
+    }
+}
+
+WILD_BATTLE_TEST("Capture: Critical Capture stays disabled even at a near-complete Kanto Dex, so it cannot stack with the research-tier catch bonus")
+{
+    u32 dex;
+
+    GIVEN {
+        ASSUME(B_CRITICAL_CAPTURE == FALSE);
+        // B_CRITICAL_CAPTURE_IF_OWNED is a separate, per-species "already
+        // caught" critical capture trigger unrelated to the caught-count
+        // scaling this test targets; disable it so marking species caught
+        // below doesn't trip it instead.
+        WITH_CONFIG(B_CRITICAL_CAPTURE_IF_OWNED, GEN_8);
+        // Well past every Critical Capture caught-count threshold and the
+        // research tier's own 100-caught cap. Cleffa itself is left
+        // unmarked so FLAG_GET_CAUGHT stays FALSE for the wild mon.
+        for (dex = 1; dex <= KANTO_DEX_COUNT; dex++)
+        {
+            if (dex != SpeciesToNationalPokedexNum(SPECIES_CLEFFA))
+                GetSetPokedexFlag(dex, FLAG_SET_CAUGHT);
+        }
+        PLAYER(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_CLEFFA);
+    } WHEN {
+        TURN { USE_ITEM(player, ITEM_POKE_BALL, WITH_RNG(RNG_BALLTHROW_SHAKE, 0)); }
+    } SCENE {
+        NOT ANIMATION(ANIM_TYPE_SPECIAL, B_ANIM_CRITICAL_CAPTURE_THROW);
     }
 }

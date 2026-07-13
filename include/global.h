@@ -1083,7 +1083,12 @@ struct SaveBlock1
     u8 pokedexSeen[DEX_COUNTS_MAX_SPECIES];
     u8 pokedexCaught[DEX_COUNTS_MAX_SPECIES];
     u8 reserveSpeciesTurnedIn[NUM_DEX_FLAG_BYTES];
-    u8 unused2[1180 - (DEX_COUNTS_MAX_SPECIES * 2) - NUM_DEX_FLAG_BYTES];
+    // Placeholder input for the missing-badge catch malus (see ComputeCaptureOdds
+    // in battle_script_commands.c). Solid-Oak has no gym-badge-gated catch
+    // difficulty by design, so this isn't tied to FLAG_BADGE0X_GET; it's a
+    // standalone 0-NUM_BADGES counter until a real progression signal is chosen.
+    u8 catchMalusBadgeCount;
+    u8 unused2[1180 - (DEX_COUNTS_MAX_SPECIES * 2) - NUM_DEX_FLAG_BYTES - 1];
 };
 
 struct MapPosition
