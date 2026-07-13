@@ -1,6 +1,4 @@
 #include "global.h"
-#include "pokedex.h"
-#include "pokemon_size_record.h"
 #include "test/battle.h"
 
 // The individual size system reads the height hash from the low half of the
@@ -80,20 +78,7 @@ SINGLE_BATTLE_TEST("Individual weight does not scale special damage", s16 damage
     }
 }
 
-WILD_BATTLE_TEST("Catching a Pokémon records its size categories in the Pokédex size records")
-{
-    GIVEN {
-        // Pre-set the caught flag so the catch skips the dex registration screen.
-        GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_WOBBUFFET), FLAG_SET_CAUGHT);
-        PLAYER(SPECIES_WOBBUFFET);
-        // Height hash 15 -> category 1, weight hash 65535 -> category 15.
-        OPPONENT(SPECIES_WOBBUFFET) { Personality(PERSONALITY_HEAVIEST); }
-    } WHEN {
-        TURN { USE_ITEM(player, ITEM_MASTER_BALL); }
-    } THEN {
-        EXPECT_EQ(GetPokedexHeightRecord(SPECIES_WOBBUFFET, FALSE), 1);
-        EXPECT_EQ(GetPokedexHeightRecord(SPECIES_WOBBUFFET, TRUE), 1);
-        EXPECT_EQ(GetPokedexWeightRecord(SPECIES_WOBBUFFET, FALSE), 15);
-        EXPECT_EQ(GetPokedexWeightRecord(SPECIES_WOBBUFFET, TRUE), 15);
-    }
-}
+// Catch-time dex registration (trysetcaughtmondexflags) cannot be exercised
+// here: battle tests run as recorded battles, and BattleScript_SuccessBallThrow
+// skips dex registration for BATTLE_TYPE_RECORDED. The size-record update it
+// performs is covered by the HandleSetPokedexFlag test in test/pokemon_size.c.

@@ -41,12 +41,14 @@ SINGLE_BATTLE_TEST("Poison, Steel, Rock, Ground, and Ghost type Pokémon are imm
     } WHEN {
         TURN { MOVE(player, MOVE_MIASMA); }
     } SCENE {
-        NOT MESSAGE("The opposing Wobbuffet was poisoned by the poison fog!");
-        NOT MESSAGE("The opposing Toxicroak was poisoned by the poison fog!");
-        NOT MESSAGE("The opposing Registeel was poisoned by the poison fog!");
-        NOT MESSAGE("The opposing Nosepass was poisoned by the poison fog!");
-        NOT MESSAGE("The opposing Sandslash was poisoned by the poison fog!");
-        NOT MESSAGE("The opposing Dusclops was poisoned by the poison fog!");
+        NONE_OF {
+            MESSAGE("The opposing Wobbuffet was poisoned by the poison fog!");
+            MESSAGE("The opposing Toxicroak was poisoned by the poison fog!");
+            MESSAGE("The opposing Registeel was poisoned by the poison fog!");
+            MESSAGE("The opposing Nosepass was poisoned by the poison fog!");
+            MESSAGE("The opposing Sandslash was poisoned by the poison fog!");
+            MESSAGE("The opposing Dusclops was poisoned by the poison fog!");
+        }
     }
 }
 
@@ -125,9 +127,11 @@ SINGLE_BATTLE_TEST("Cloud Nine and Air Lock suppress Poison Fog poisoning")
     } WHEN {
         TURN { MOVE(opponent, MOVE_MIASMA); }
     } SCENE {
-        NOT MESSAGE("Golduck was poisoned by the poison fog!");
-        NOT MESSAGE("Rayquaza was poisoned by the poison fog!");
-        NOT MESSAGE("The opposing Wobbuffet was poisoned by the poison fog!");
+        NONE_OF {
+            MESSAGE("Golduck was poisoned by the poison fog!");
+            MESSAGE("Rayquaza was poisoned by the poison fog!");
+            MESSAGE("The opposing Wobbuffet was poisoned by the poison fog!");
+        }
     }
 }
 

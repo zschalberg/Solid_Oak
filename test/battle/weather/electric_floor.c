@@ -11,8 +11,8 @@ SINGLE_BATTLE_TEST("Electric Floor deals 1/16 damage per turn to non-Ground, non
     } WHEN {
         TURN { MOVE(player, MOVE_CHARGED_GROUND); }
     } SCENE {
-        HP_BAR(opponent, captureDamage: &dmg);
         MESSAGE("The opposing Wobbuffet is hurt by the electric floor!");
+        HP_BAR(opponent, captureDamage: &dmg);
     } THEN {
         EXPECT_EQ(dmg, opponent->maxHP / 16);
     }
@@ -28,8 +28,8 @@ SINGLE_BATTLE_TEST("Electric Floor heals Electric-type Pokémon by 1/16 HP per t
     } WHEN {
         TURN { MOVE(opponent, MOVE_CHARGED_GROUND); }
     } SCENE {
-        HP_BAR(player, captureDamage: &dmg);
         MESSAGE("Pikachu is healed by the electric floor!");
+        HP_BAR(player, captureDamage: &dmg);
     } THEN {
         EXPECT_EQ(dmg, -(player->maxHP / 16));
     }
@@ -57,8 +57,8 @@ SINGLE_BATTLE_TEST("Electric/Ground dual type Stunfisk heals under Electric Floo
     } WHEN {
         TURN { MOVE(opponent, MOVE_CHARGED_GROUND); }
     } SCENE {
-        HP_BAR(player, captureDamage: &dmg);
         MESSAGE("Stunfisk is healed by the electric floor!");
+        HP_BAR(player, captureDamage: &dmg);
     } THEN {
         EXPECT_EQ(dmg, -(player->maxHP / 16));
     }
@@ -135,9 +135,11 @@ SINGLE_BATTLE_TEST("Cloud Nine and Air Lock suppress Electric Floor damage")
     } WHEN {
         TURN { MOVE(opponent, MOVE_CHARGED_GROUND); }
     } SCENE {
-        NOT MESSAGE("Golduck is hurt by the electric floor!");
-        NOT MESSAGE("Rayquaza is hurt by the electric floor!");
-        NOT MESSAGE("The opposing Wobbuffet is hurt by the electric floor!");
+        NONE_OF {
+            MESSAGE("Golduck is hurt by the electric floor!");
+            MESSAGE("Rayquaza is hurt by the electric floor!");
+            MESSAGE("The opposing Wobbuffet is hurt by the electric floor!");
+        }
     }
 }
 
@@ -151,8 +153,10 @@ SINGLE_BATTLE_TEST("Rain Dance replaces Electric Floor")
         TURN { MOVE(player, MOVE_RAIN_DANCE); }
     } SCENE {
         MESSAGE("It started to rain!");
-        NOT MESSAGE("Wobbuffet is hurt by the electric floor!");
-        NOT MESSAGE("The opposing Wobbuffet is hurt by the electric floor!");
+        NONE_OF {
+            MESSAGE("Wobbuffet is hurt by the electric floor!");
+            MESSAGE("The opposing Wobbuffet is hurt by the electric floor!");
+        }
     }
 }
 

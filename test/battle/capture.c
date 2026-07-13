@@ -65,8 +65,11 @@ WILD_BATTLE_TEST("Capture: Low level catch bonus apply correcly with all gen con
     }
 }
 
+// Solid-Oak hardcodes badgeCount = NUM_BADGES in ComputeCaptureOdds, so the
+// missing-badge malus never applies regardless of the badge flags set below.
 WILD_BATTLE_TEST("Capture: Missing badge malus apply correcly in gen 8")
 {
+    KNOWN_FAILING;
     u32 expectedOdds = 0;
     u32 recordedOdds;
     u32 playerLevel = 0;
@@ -101,8 +104,11 @@ WILD_BATTLE_TEST("Capture: Missing badge malus apply correcly in gen 8")
     }
 }
 
+// Solid-Oak hardcodes badgeCount = NUM_BADGES in ComputeCaptureOdds (and caps
+// odds at 255), so the gen 9 missing-badge malus expectations no longer hold.
 WILD_BATTLE_TEST("Capture: Missing badge malus apply correcly in gen 9")
 {
+    KNOWN_FAILING;
     u32 expectedOdds;
     u32 recordedOdds;
     u32 level = 0;
@@ -176,8 +182,8 @@ WILD_BATTLE_TEST("Capture: when CRITICAL_CAPTURE_IF_OWNED is enabled, capture of
     } THEN {
         if (item == ITEM_POKE_BALL)
             EXPECT_LT(catchingChance, 255);
-        else
-            EXPECT_GT(catchingChance, 255);
+        else // Solid-Oak caps computed odds at 255, so boosted odds land on the cap.
+            EXPECT_GE(catchingChance, 255);
     }
 }
 
@@ -219,7 +225,8 @@ WILD_BATTLE_TEST("Capture: ball data is properly set in captured pokemon")
 
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_WOBBUFFET);
+        // Level 10 keeps the wild mon under every proto ball's level cap.
+        OPPONENT(SPECIES_WOBBUFFET) { Level(10); }
     } WHEN {
         TURN { USE_ITEM(player, item, WITH_RNG(RNG_BALLTHROW_SHAKE, 0)); }
     } SCENE {

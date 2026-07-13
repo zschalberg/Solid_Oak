@@ -1735,7 +1735,7 @@ void TestRunner_Battle_RecordCatchChance(u32 catchChance)
             if (event->groupType == QUEUE_GROUP_NONE_OF)
                 continue;
 
-            if (TryCatchChance(DATA.trial.queuedEvent, event->groupSize, catchChance) != -1)
+            if (TryCatchChance(queuedEvent, event->groupSize, catchChance) != -1)
                 DATA.trial.queuedEvent = queuedEvent + event->groupSize;
         } while (FALSE);
         break;

@@ -142,6 +142,20 @@ TEST("Size records: category 0 records survive later updates")
     EXPECT_EQ(GetPokedexWeightRecord(species, TRUE), 15);
 }
 
+TEST("Registering a catch with HandleSetPokedexFlag updates the size records")
+{
+    // Height hash 15 -> category 1, weight hash 65535 -> category 15.
+    u32 personality = SIZE_PERSONALITY(15, 0xFFFF);
+    u16 natDex = SpeciesToNationalPokedexNum(SPECIES_WOBBUFFET);
+
+    HandleSetPokedexFlag(natDex, FLAG_SET_CAUGHT, personality);
+    EXPECT_EQ(GetSetPokedexFlag(natDex, FLAG_GET_CAUGHT), TRUE);
+    EXPECT_EQ(GetPokedexHeightRecord(SPECIES_WOBBUFFET, FALSE), 1);
+    EXPECT_EQ(GetPokedexHeightRecord(SPECIES_WOBBUFFET, TRUE), 1);
+    EXPECT_EQ(GetPokedexWeightRecord(SPECIES_WOBBUFFET, FALSE), 15);
+    EXPECT_EQ(GetPokedexWeightRecord(SPECIES_WOBBUFFET, TRUE), 15);
+}
+
 TEST("Dex counters: seen/caught counts increment and saturate at 255")
 {
     u16 natDex = SpeciesToNationalPokedexNum(SPECIES_WOBBUFFET);
@@ -180,9 +194,12 @@ TEST("Dex counters: GetSpeciesSeenCount/GetSpeciesCaughtCount fall back to 1 whe
     u16 natDex = SpeciesToNationalPokedexNum(SPECIES_WOBBUFFET);
     ASSUME(natDex < DEX_COUNTS_MAX_SPECIES);
 
-    // Flag set (e.g. by a pre-counter save) but counter still zero.
+    // Flag set (e.g. by a pre-counter save) but counter still zero. Setting
+    // the flag also increments the counter, so zero it back out afterwards.
     GetSetPokedexFlag(natDex, FLAG_SET_SEEN);
     GetSetPokedexFlag(natDex, FLAG_SET_CAUGHT);
+    gSaveBlock1Ptr->pokedexSeen[natDex] = 0;
+    gSaveBlock1Ptr->pokedexCaught[natDex] = 0;
 
     gSpecialVar_0x8004 = SPECIES_WOBBUFFET;
     EXPECT_EQ(GetSpeciesSeenCount(), 1);
