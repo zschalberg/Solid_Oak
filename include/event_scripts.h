@@ -886,6 +886,7 @@ extern const u8 gText_PkmnTransferredBillsPC[];
 extern const u8 gText_PkmnTransferredSomeonesPCBoxFull[];
 extern const u8 gText_PkmnTransferredBillsPCBoxFull[];
 extern const u8 gText_PkmnSentToPCAfterCatch[];
+extern const u8 gText_PkmnSentToFujiAfterCatch[];
 
 extern const u8 EventScript_SelectWithoutRegisteredItem[];
 

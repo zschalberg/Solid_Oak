@@ -28,6 +28,12 @@ gText_PkmnSentToPCAfterCatch::
 	.string "It was placed in \n"
 	.string "BOX “{STR_VAR_1}”.$"
 
+gText_PkmnSentToFujiAfterCatch::
+	.string "{STR_VAR_2} was sent to\n"
+	.string "FUJI'S LAB.\p"
+	.string "It was placed in \n"
+	.string "ROOM {STR_VAR_1}.$"
+
 Text_PlayerObtainedTheMon::
     .string "{PLAYER} obtained\n"
     .string "the {STR_VAR_1}!$"

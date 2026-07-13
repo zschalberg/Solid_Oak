@@ -7,6 +7,7 @@
 #include "battle_z_move.h"
 #include "battle.h"
 #include "event_data.h"
+#include "constants/flags.h"
 #include "event_scripts.h"
 #include "field_specials.h"
 #include "frontier_util.h"
@@ -2925,7 +2926,10 @@ void BufferStringBattle(enum StringID stringID, enum BattlerId battler)
         }
         else
         {
-            stringPtr = gBattleStringsTable[stringID];
+            if (stringID == STRINGID_PKMNSENTTOPCAFTERCATCH && !FlagGet(FLAG_SYS_CONVENTIONAL_PC_UNLOCKED))
+                stringPtr = gText_PkmnSentToFujiAfterCatch;
+            else
+                stringPtr = gBattleStringsTable[stringID];
         }
         break;
     }

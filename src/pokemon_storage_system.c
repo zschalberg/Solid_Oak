@@ -1786,6 +1786,8 @@ static void ChooseBoxMenu_CreateSprites(u8 curBox)
     };
     {
     const u8 sText_OutOf30[] = _("/30");
+    const u8 sText_OutOf6[] = _("/ 6");
+    const u8 *outOfText = FlagGet(FLAG_SYS_CONVENTIONAL_PC_UNLOCKED) ? sText_OutOf30 : sText_OutOf6;
 
     sChooseBoxMenu->curBox = curBox;
     template.tileTag = sChooseBoxMenu->tileTag;
@@ -1828,7 +1830,7 @@ static void ChooseBoxMenu_CreateSprites(u8 curBox)
         }
     }
     ChooseBoxMenu_PrintBoxNameAndCount();
-    ChooseBoxMenu_PrintTextToSprite(sText_OutOf30, 5, 3);
+    ChooseBoxMenu_PrintTextToSprite(outOfText, 5, 3);
     }
 }
 
