@@ -350,6 +350,10 @@ gSpecials::
 	def_special CloseFrontierExchangeCornerItemIconWindow
 	def_special HasMovesToRelearn
 	def_special CanTeachMoveBoxMon
+	def_special SetBattleRuleBanMoveTypeFromVar
+	def_special SetBattleRuleBanMoveCategoryFromVar
+	def_special SetBattleRuleAffectsOpponentFromVar
+	def_special ClearPendingBattleRules
 	def_special GetMaxCraftableQuantity
 	def_special CraftProtoballs
 	def_special GetSpeciesSeenCount

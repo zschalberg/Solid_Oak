@@ -567,6 +567,9 @@ struct BattleStruct
     u8 expSentInMons; // As bits for player party mons - not including exp share mons.
     u8 wildVictorySong;
     enum Type dynamicMoveType;
+    u32 battleRuleBannedMoveTypes; // bitmask of (1u << enum Type), script-set, cleared every battle
+    u8 battleRuleBannedMoveCategories; // bitmask of (1u << enum DamageCategory), script-set, cleared every battle
+    bool8 battleRuleAffectsOpponent; // if FALSE (default), the above bans only apply to the player's side; if TRUE, they apply to both sides
     enum BattlerId battlerPreventingSwitchout;
     u8 moneyMultiplier:6;
     u8 moneyMultiplierItem:1;
