@@ -1735,7 +1735,7 @@ void TestRunner_Battle_RecordCatchChance(u32 catchChance)
             if (event->groupType == QUEUE_GROUP_NONE_OF)
                 continue;
 
-            if (TryCatchChance(DATA.trial.queuedEvent, event->groupSize, catchChance) != -1)
+            if (TryCatchChance(queuedEvent, event->groupSize, catchChance) != -1)
                 DATA.trial.queuedEvent = queuedEvent + event->groupSize;
         } while (FALSE);
         break;
@@ -2066,6 +2066,7 @@ void OpenPokemon(u32 sourceLine, enum BattleTrainer trainer, u32 species)
     DATA.currentMon = &party[DATA.currentPartyIndex];
     DATA.gender = 0xFF; // Male
     DATA.nature = NATURE_HARDY;
+    DATA.hasExplicitPersonality = FALSE;
     (*partySize)++;
 
     CreateMon(DATA.currentMon, species, 100, 0, OTID_STRUCT_PRESET(0));
@@ -2121,6 +2122,7 @@ void OpenPokemonMulti(u32 sourceLine, enum BattleTrainer trainer, u32 species)
     DATA.gender = 0xFF; // Male
     DATA.nature = NATURE_HARDY;
     DATA.isShiny = FALSE;
+    DATA.hasExplicitPersonality = FALSE;
     (*partySize)++;
 
     CreateMon(DATA.currentMon, species, 100, 0, OTID_STRUCT_PRESET(0));
@@ -2173,7 +2175,10 @@ void ClosePokemon(u32 sourceLine)
             INVALID_IF(GetMonData(DATA.currentMon, MON_DATA_HP) == 0, "Battlers cannot be fainted");
         }
     }
-    UpdateMonPersonality(&DATA.currentMon->box, GenerateNature(DATA.nature, DATA.gender % NUM_NATURES) | DATA.gender);
+    if (DATA.hasExplicitPersonality)
+        UpdateMonPersonality(&DATA.currentMon->box, DATA.explicitPersonality);
+    else
+        UpdateMonPersonality(&DATA.currentMon->box, GenerateNature(DATA.nature, DATA.gender % NUM_NATURES) | DATA.gender);
     data = DATA.isShiny;
     SetMonData(DATA.currentMon, MON_DATA_IS_SHINY, &data);
     DATA.currentMon = NULL;
@@ -2216,6 +2221,13 @@ void Nature_(u32 sourceLine, u32 nature)
     INVALID_IF(!DATA.currentMon, "Nature outside of PLAYER/OPPONENT");
     INVALID_IF(nature >= NUM_NATURES, "Illegal nature: %d", nature);
     DATA.nature = nature;
+}
+
+void Personality_(u32 sourceLine, u32 personality)
+{
+    INVALID_IF(!DATA.currentMon, "Personality outside of PLAYER/OPPONENT");
+    DATA.hasExplicitPersonality = TRUE;
+    DATA.explicitPersonality = personality;
 }
 
 void Ability_(u32 sourceLine, enum Ability ability)

@@ -41,12 +41,14 @@ SINGLE_BATTLE_TEST("Poison, Steel, Rock, Ground, and Ghost type Pokémon are imm
     } WHEN {
         TURN { MOVE(player, MOVE_MIASMA); }
     } SCENE {
-        NOT MESSAGE("The opposing Wobbuffet was poisoned by the poison fog!");
-        NOT MESSAGE("The opposing Toxicroak was poisoned by the poison fog!");
-        NOT MESSAGE("The opposing Registeel was poisoned by the poison fog!");
-        NOT MESSAGE("The opposing Nosepass was poisoned by the poison fog!");
-        NOT MESSAGE("The opposing Sandslash was poisoned by the poison fog!");
-        NOT MESSAGE("The opposing Dusclops was poisoned by the poison fog!");
+        NONE_OF {
+            MESSAGE("The opposing Wobbuffet was poisoned by the poison fog!");
+            MESSAGE("The opposing Toxicroak was poisoned by the poison fog!");
+            MESSAGE("The opposing Registeel was poisoned by the poison fog!");
+            MESSAGE("The opposing Nosepass was poisoned by the poison fog!");
+            MESSAGE("The opposing Sandslash was poisoned by the poison fog!");
+            MESSAGE("The opposing Dusclops was poisoned by the poison fog!");
+        }
     }
 }
 
@@ -108,5 +110,53 @@ SINGLE_BATTLE_TEST("Poison Fog ends after 5 turns")
         TURN {}
     } SCENE {
         MESSAGE("The poison fog dissipated.");
+    }
+}
+
+SINGLE_BATTLE_TEST("Cloud Nine and Air Lock suppress Poison Fog poisoning")
+{
+    u32 species = SPECIES_NONE;
+    u32 ability = ABILITY_NONE;
+
+    PARAMETRIZE { species = SPECIES_GOLDUCK;  ability = ABILITY_CLOUD_NINE; }
+    PARAMETRIZE { species = SPECIES_RAYQUAZA; ability = ABILITY_AIR_LOCK; }
+
+    GIVEN {
+        PLAYER(species) { Ability(ability); }
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(opponent, MOVE_MIASMA); }
+    } SCENE {
+        NONE_OF {
+            MESSAGE("Golduck was poisoned by the poison fog!");
+            MESSAGE("Rayquaza was poisoned by the poison fog!");
+            MESSAGE("The opposing Wobbuffet was poisoned by the poison fog!");
+        }
+    }
+}
+
+AI_SINGLE_BATTLE_TEST("AI sets Poison Fog against a target that can be poisoned by it")
+{
+    GIVEN {
+        ASSUME(GetMoveEffect(MOVE_MIASMA) == EFFECT_WEATHER);
+        ASSUME(GetMoveWeatherType(MOVE_MIASMA) == BATTLE_WEATHER_POISON_FOG);
+        AI_FLAGS(AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_TRY_TO_FAINT | AI_FLAG_CHECK_VIABILITY);
+        PLAYER(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_GRIMER) { Moves(MOVE_MIASMA, MOVE_POUND); }
+    } WHEN {
+        TURN { MOVE(player, MOVE_CELEBRATE); EXPECT_MOVE(opponent, MOVE_MIASMA); }
+    }
+}
+
+AI_SINGLE_BATTLE_TEST("AI does not favor Poison Fog when the target is already immune to it")
+{
+    GIVEN {
+        ASSUME(GetMoveEffect(MOVE_MIASMA) == EFFECT_WEATHER);
+        ASSUME(GetMoveWeatherType(MOVE_MIASMA) == BATTLE_WEATHER_POISON_FOG);
+        AI_FLAGS(AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_TRY_TO_FAINT | AI_FLAG_CHECK_VIABILITY);
+        PLAYER(SPECIES_SANDSLASH); // Ground-type: immune to Poison Fog
+        OPPONENT(SPECIES_GRIMER) { Moves(MOVE_MIASMA, MOVE_POUND); }
+    } WHEN {
+        TURN { MOVE(player, MOVE_CELEBRATE); EXPECT_MOVE(opponent, MOVE_POUND); }
     }
 }

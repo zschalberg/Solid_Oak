@@ -65,7 +65,8 @@ WILD_BATTLE_TEST("Light Metal doesn't affect Heavy Ball's multiplier", u32 catch
     GIVEN {
         ASSUME(GetSpeciesWeight(SPECIES_SCIZOR) == 1180);
         PLAYER(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_SCIZOR) { Ability(ability); }
+        // Heavy Ball ("Red Protoball") fails outright above level 40 in Solid-Oak.
+        OPPONENT(SPECIES_SCIZOR) { Ability(ability); Level(40); }
     } WHEN {
         TURN { USE_ITEM(player, ITEM_HEAVY_BALL); }
     } SCENE {
@@ -84,7 +85,8 @@ WILD_BATTLE_TEST("Heavy Metal doesn't affect Heavy Ball's multiplier", u32 catch
     GIVEN {
         ASSUME(GetSpeciesWeight(SPECIES_BRONZONG) == 1870);
         PLAYER(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_BRONZONG) { Ability(ability); }
+        // Heavy Ball ("Red Protoball") fails outright above level 40 in Solid-Oak.
+        OPPONENT(SPECIES_BRONZONG) { Ability(ability); Level(40); }
     } WHEN {
         TURN { USE_ITEM(player, ITEM_HEAVY_BALL); }
     } SCENE {
