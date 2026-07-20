@@ -1204,6 +1204,13 @@ bool32 CannotUseItemsInBattle(enum Item itemId, struct Pokemon *mon)
         }
         break;
     case EFFECT_ITEM_THROW_BALL:
+        if (FlagGet(FLAG_RESERVE_CONTEST_ACTIVE) && itemId != ITEM_RESEARCH_BALL)
+        {
+            static const u8 sText_CantUseNonResearchBall[] = _("Only Research Balls can be used\nduring the Reserve Contest!");
+            failStr = sText_CantUseNonResearchBall;
+            cannotUse = TRUE;
+            break;
+        }
         switch (GetBallThrowableState())
         {
         case BALL_THROW_UNABLE_TWO_MONS:

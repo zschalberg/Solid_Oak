@@ -45,8 +45,8 @@
     {
       "id": "HEAL_LOCATION_VERMILION_CITY",
       "map": "MAP_VERMILION_CITY",
-      "x": 15,
-      "y": 7,
+      "x": 36,
+      "y": 8,
       "respawn_map": "MAP_VERMILION_CITY_POKEMON_CENTER_1F",
       "respawn_npc": "LOCALID_VERMILION_NURSE"
     },

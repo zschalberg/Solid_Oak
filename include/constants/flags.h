@@ -43,9 +43,9 @@
 #define FLAG_TEMP_1F     (TEMP_FLAGS_START + 0x1F)
 #define TEMP_FLAGS_END   FLAG_TEMP_1F
 
-#define FLAG_0x020               0x020
-#define FLAG_0x021               0x021
-#define FLAG_0x022               0x022
+#define FLAG_AGATHA_AND_JOURNAL                            0x020
+#define FLAG_HIDE_SS_ANNE_ROOM1_AGATHA                     0x021
+#define FLAG_SS_ANNE_ROOM1_AGATHA_SCENE_COMPLETED          0x022
 #define FLAG_0x023               0x023
 #define FLAG_0x024               0x024
 #define FLAG_0x025               0x025
@@ -818,8 +818,8 @@
 #define B_FLAG_SKY_BATTLE                                0x315
 #define B_FLAG_WATER_BATTLE                              0x316
 #define B_FLAG_UNDERWATER_BATTLE                         0x317
-#define FLAG_0x318               0x318
-#define FLAG_0x319               0x319
+#define FLAG_RESERVE_CONTEST_ACTIVE                     0x318
+#define FLAG_RESERVE_CONTEST_CAUGHT                     0x319
 #define FLAG_0x31A               0x31A
 #define FLAG_0x31B               0x31B
 #define FLAG_0x31C               0x31C

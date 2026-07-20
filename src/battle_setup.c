@@ -36,6 +36,7 @@
 #include "data.h"
 #include "vs_seeker.h"
 #include "item.h"
+#include "reserve_contest.h"
 #include "script.h"
 #include "constants/battle_frontier.h"
 #include "constants/battle_setup.h"
@@ -529,6 +530,19 @@ static void CB2_EndWildBattle(void)
          && (FNPC_FLAG_HEAL_AFTER_FOLLOWER_BATTLE == FNPC_ALWAYS
          || FlagGet(FNPC_FLAG_HEAL_AFTER_FOLLOWER_BATTLE)))
             HealPlayerParty();
+    }
+
+    if (gBattleOutcome == B_OUTCOME_CAUGHT && FlagGet(FLAG_RESERVE_CONTEST_ACTIVE))
+    {
+        if (!FlagGet(FLAG_RESERVE_CONTEST_CAUGHT))
+        {
+            FlagSet(FLAG_RESERVE_CONTEST_CAUGHT);
+            ScriptContext_SetupScript(EventScript_ReserveContestFirstCatch);
+        }
+        else
+        {
+            ScriptContext_SetupScript(EventScript_ReserveContestSecondCatch);
+        }
     }
 
     if (IsPlayerDefeated(gBattleOutcome) == TRUE && CurrentBattlePyramidLocation() == PYRAMID_LOCATION_NONE && !InBattlePike())

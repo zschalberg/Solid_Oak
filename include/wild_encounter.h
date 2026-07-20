@@ -22,6 +22,7 @@ enum WildPokemonArea
 
 #define NUM_ALTERING_CAVE_TABLES 9
 #define NUM_SAFARI_ZONE_STAGES 5  // Base (Stage 0) + 4 progressive stages
+#define HEADER_NONE 0xFFFF
 
 static inline bool32 IsSafariZoneMap(u8 mapGroup, u8 mapNum)
 {
@@ -77,6 +78,8 @@ bool8 TryDoDoubleWildBattle(void);
 bool8 TryStandardWildEncounter(u32 currMetatileAttrs);
 bool8 UpdateRepelCounter(void);
 u16 GetCurrentMapWildMonHeaderId(void);
+u16 GetWildMonHeaderIdForLocation(u8 mapGroup, u8 mapNum);
+u8 ChooseWildMonLevel(const struct WildPokemon *wildPokemon, u8 wildMonIndex, u8 area);
 u16 GetLocalWaterMon(void);
 u16 GetLocalWildMon(bool8 *isWaterMon);
 u32 ChooseWildMonIndex_Rocks(void);

@@ -28,6 +28,7 @@
 #include "item.h"
 #include "item_icon.h"
 #include "item_use.h"
+#include "event_data.h"
 #include "test_runner.h"
 #include "research_turnin.h"
 #include "constants/battle_anim.h"
@@ -2863,6 +2864,8 @@ bool32 CanThrowLastUsedBall(void)
 {
     if (B_LAST_USED_BALL == FALSE)
         return FALSE;
+    if (FlagGet(FLAG_RESERVE_CONTEST_ACTIVE) && gBallToDisplay != ITEM_RESEARCH_BALL)
+        return FALSE;
     if (!CanThrowBall())
         return FALSE;
     if (gBattleTypeFlags & (BATTLE_TYPE_TRAINER | BATTLE_TYPE_FRONTIER))
@@ -2877,7 +2880,11 @@ void TryAddLastUsedBallItemSprites(void)
 {
     if (B_LAST_USED_BALL == FALSE)
         return;
-    if (!CheckBagHasItem(gBallToDisplay, 1))
+    if (FlagGet(FLAG_RESERVE_CONTEST_ACTIVE))
+    {
+        gBallToDisplay = ITEM_RESEARCH_BALL;
+    }
+    else if (!CheckBagHasItem(gBallToDisplay, 1))
     {
         u16 first = GetFirstAvailableThrowable();
         if (first != ITEM_NONE)

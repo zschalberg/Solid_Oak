@@ -34,8 +34,6 @@
 #define WILD_CHECK_REPEL    0x1
 #define WILD_CHECK_KEEN_EYE 0x2
 
-#define HEADER_NONE 0xFFFF
-
 struct WildEncounterData
 {
     u32 rngState;
@@ -52,7 +50,7 @@ EWRAM_DATA bool8 gIsFishingEncounter = 0;
 EWRAM_DATA bool8 gIsSurfingEncounter = 0;
 EWRAM_DATA u8 gChainFishingDexNavStreak = 0;
 
-static bool8 UnlockedTanobyOrAreNotInTanoby(void);
+static bool8 UnlockedTanobyOrNotInTanoby(u8 mapGroup, u8 mapNum);
 static bool8 IsWildLevelAllowedByRepel(u8 level);
 static void ApplyFluteEncounterRateMod(u32 *rate);
 static u8 GetMaxLevelOfSpeciesInWildTable(const struct WildPokemon *wildMon, enum Species species, u8 area);
@@ -233,7 +231,7 @@ static u8 ChooseWildMonIndex_Fishing(u8 rod)
     return wildMonIndex;
 }
 
-static u8 ChooseWildMonLevel(const struct WildPokemon *wildPokemon, u8 wildMonIndex, u8 area)
+u8 ChooseWildMonLevel(const struct WildPokemon *wildPokemon, u8 wildMonIndex, u8 area)
 {
     u8 min;
     u8 max;
@@ -317,7 +315,7 @@ static u8 ChooseWildMonLevel(const struct WildPokemon *wildPokemon, u8 wildMonIn
     return level;
 }
 
-u16 GetCurrentMapWildMonHeaderId(void)
+u16 GetWildMonHeaderIdForLocation(u8 mapGroup, u8 mapNum)
 {
     u16 i;
 
@@ -327,11 +325,11 @@ u16 GetCurrentMapWildMonHeaderId(void)
         if (wildHeader->mapGroup == MAP_GROUP(MAP_UNDEFINED))
             break;
 
-        if (gWildMonHeaders[i].mapGroup == gSaveBlock1Ptr->location.mapGroup &&
-            gWildMonHeaders[i].mapNum == gSaveBlock1Ptr->location.mapNum)
+        if (gWildMonHeaders[i].mapGroup == mapGroup &&
+            gWildMonHeaders[i].mapNum == mapNum)
         {
-            if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAP_SIX_ISLAND_ALTERING_CAVE) &&
-                gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_SIX_ISLAND_ALTERING_CAVE))
+            if (mapGroup == MAP_GROUP(MAP_SIX_ISLAND_ALTERING_CAVE) &&
+                mapNum == MAP_NUM(MAP_SIX_ISLAND_ALTERING_CAVE))
             {
                 u16 alteringCaveId = VarGet(VAR_ALTERING_CAVE_WILD_SET);
                 if (alteringCaveId >= NUM_ALTERING_CAVE_TABLES)
@@ -340,7 +338,7 @@ u16 GetCurrentMapWildMonHeaderId(void)
                 i += alteringCaveId;
             }
 
-            if (IsSafariZoneMap(gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum))
+            if (IsSafariZoneMap(mapGroup, mapNum))
             {
                 u16 safariZoneStage = VarGet(VAR_SAFARI_ZONE_STAGE);
                 if (safariZoneStage >= NUM_SAFARI_ZONE_STAGES)
@@ -349,13 +347,18 @@ u16 GetCurrentMapWildMonHeaderId(void)
                 i += safariZoneStage;
             }
 
-            if (!UnlockedTanobyOrAreNotInTanoby())
+            if (!UnlockedTanobyOrNotInTanoby(mapGroup, mapNum))
                 break;
             return i;
         }
     }
 
     return HEADER_NONE;
+}
+
+u16 GetCurrentMapWildMonHeaderId(void)
+{
+    return GetWildMonHeaderIdForLocation(gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum);
 }
 
 enum EncounterFallbacks
@@ -414,19 +417,19 @@ void GetSeasonAndTimeOfDayForEncounters(u32 headerId, enum WildPokemonArea area,
     }
 }
 
-static bool8 UnlockedTanobyOrAreNotInTanoby(void)
+static bool8 UnlockedTanobyOrNotInTanoby(u8 mapGroup, u8 mapNum)
 {
     if (FlagGet(FLAG_SYS_UNLOCKED_TANOBY_RUINS))
         return TRUE;
-    if (gSaveBlock1Ptr->location.mapGroup != MAP_GROUP(MAP_SEVEN_ISLAND_TANOBY_RUINS_DILFORD_CHAMBER))
+    if (mapGroup != MAP_GROUP(MAP_SEVEN_ISLAND_TANOBY_RUINS_DILFORD_CHAMBER))
         return TRUE;
-    if (!(gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_SEVEN_ISLAND_TANOBY_RUINS_MONEAN_CHAMBER)
-    ||  gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_SEVEN_ISLAND_TANOBY_RUINS_LIPTOO_CHAMBER)
-    ||  gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_SEVEN_ISLAND_TANOBY_RUINS_WEEPTH_CHAMBER)
-    ||  gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_SEVEN_ISLAND_TANOBY_RUINS_DILFORD_CHAMBER)
-    ||  gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_SEVEN_ISLAND_TANOBY_RUINS_SCUFIB_CHAMBER)
-    ||  gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_SEVEN_ISLAND_TANOBY_RUINS_RIXY_CHAMBER)
-    ||  gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_SEVEN_ISLAND_TANOBY_RUINS_VIAPOIS_CHAMBER)
+    if (!(mapNum == MAP_NUM(MAP_SEVEN_ISLAND_TANOBY_RUINS_MONEAN_CHAMBER)
+    ||  mapNum == MAP_NUM(MAP_SEVEN_ISLAND_TANOBY_RUINS_LIPTOO_CHAMBER)
+    ||  mapNum == MAP_NUM(MAP_SEVEN_ISLAND_TANOBY_RUINS_WEEPTH_CHAMBER)
+    ||  mapNum == MAP_NUM(MAP_SEVEN_ISLAND_TANOBY_RUINS_DILFORD_CHAMBER)
+    ||  mapNum == MAP_NUM(MAP_SEVEN_ISLAND_TANOBY_RUINS_SCUFIB_CHAMBER)
+    ||  mapNum == MAP_NUM(MAP_SEVEN_ISLAND_TANOBY_RUINS_RIXY_CHAMBER)
+    ||  mapNum == MAP_NUM(MAP_SEVEN_ISLAND_TANOBY_RUINS_VIAPOIS_CHAMBER)
     ))
         return TRUE;
     return FALSE;

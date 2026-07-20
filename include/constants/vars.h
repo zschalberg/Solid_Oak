@@ -196,7 +196,7 @@
 #define VAR_FRONTIER_GAMBLER_STATE          0x408F
 #define VAR_FRONTIER_GAMBLER_SET_CHALLENGE  0x4090
 #define VAR_FRONTIER_GAMBLER_AMOUNT_BET     0x4091
-#define VAR_0x4092                 0x4092
+#define VAR_MAP_SCENE_S_S_MINNOW_1F_CORRIDOR                                    0x4092
 #define VAR_0x4093                 0x4093
 #define VAR_0x4094                 0x4094
 #define VAR_0x4095                 0x4095
@@ -281,6 +281,7 @@
 #define VAR_0x40E5                 0x40E5
 #define VAR_DAILY_SLOTS            0x40E6
 #define VAR_DAILY_WILDS            0x40E7
+#define VAR_RESERVE_CONTEST_ATTEMPTS VAR_DAILY_WILDS
 #define VAR_DAILY_BLENDER          0x40E8
 #define VAR_DAILY_PLANTED_BERRIES  0x40E9
 #define VAR_DAILY_PICKED_BERRIES   0x40EA

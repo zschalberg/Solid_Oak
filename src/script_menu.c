@@ -795,6 +795,24 @@ static const struct MenuAction sMultichoiceList_ResearchPokemon[] = {
     { gText_Cancel }
 };
 
+static const struct MenuAction sMultichoiceList_ReserveContestCategory[] = {
+    { COMPOUND_STRING("Size") },
+    { COMPOUND_STRING("Vitality (IVs)") },
+    { COMPOUND_STRING("Rarity") },
+    { gText_Cancel }
+};
+
+static const struct MenuAction sMultichoiceList_ReserveContestLogDecision[] = {
+    { COMPOUND_STRING("Log for cataloging") },
+    { COMPOUND_STRING("Keep exploring") },
+    { COMPOUND_STRING("Leave without logging") }
+};
+
+static const struct MenuAction sMultichoiceList_ReserveContestKeepSpecimen[] = {
+    { gStringVar1 },
+    { gStringVar2 }
+};
+
 struct MultichoiceListStruct
 {
     const struct MenuAction *list;
@@ -896,6 +914,9 @@ static const struct MultichoiceListStruct sMultichoiceLists[] =
     [MULTI_RESEARCH_SHOP]                              = MULTICHOICE(sMultichoiceList_ResearchShop),
     [MULTI_RESEARCH_ITEMS]                             = MULTICHOICE(sMultichoiceList_ResearchItems),
     [MULTI_RESEARCH_POKEMON]                           = MULTICHOICE(sMultichoiceList_ResearchPokemon),
+    [MULTI_RESERVE_CONTEST_CATEGORY]                   = MULTICHOICE(sMultichoiceList_ReserveContestCategory),
+    [MULTI_RESERVE_CONTEST_LOG_DECISION]               = MULTICHOICE(sMultichoiceList_ReserveContestLogDecision),
+    [MULTI_RESERVE_CONTEST_KEEP_SPECIMEN]               = MULTICHOICE(sMultichoiceList_ReserveContestKeepSpecimen),
 };
 
 const u8 *const gStdStrings[] = {

@@ -1972,12 +1972,20 @@ static void ItemMenu_Cancel(u8 taskId)
     ReturnToItemList(taskId);
 }
 
+static const u8 sText_CantUseNonResearchBall[] = _("Only Research Balls can be used\nduring the Reserve Contest!");
+
 static void ItemMenu_UseInBattle(u8 taskId)
 {
     // Safety check
     u16 type = GetItemType(gSpecialVar_ItemId);
     if (!GetItemBattleUsage(gSpecialVar_ItemId))
         return;
+
+    if (FlagGet(FLAG_RESERVE_CONTEST_ACTIVE) && GetPocketByItemId(gSpecialVar_ItemId) == POCKET_POKE_BALLS && gSpecialVar_ItemId != ITEM_RESEARCH_BALL)
+    {
+        DisplayItemMessage(taskId, FONT_NORMAL, sText_CantUseNonResearchBall, HandleErrorMessage);
+        return;
+    }
 
     RemoveContextWindow();
     BagMenu_RemoveWindow(ITEMWIN_SELECTIONTEXT);

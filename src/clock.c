@@ -12,6 +12,7 @@
 #include "overworld.h"
 #include "wallclock.h"
 #include "pokerus.h"
+#include "reserve_contest.h"
 
 static void UpdatePerDay(struct Time *localTime);
 static void UpdatePerMinute(struct Time *localTime);
@@ -54,6 +55,7 @@ static void UpdatePerDay(struct Time *localTime)
         // SetShoalItemFlag(daysSince);
         // SetRandomLotteryNumber(daysSince);
         UpdateDaysPassedSinceFormChange(daysSince);
+        ResetReserveContestAttempts();
         *days = localTime->days;
     }
 }
