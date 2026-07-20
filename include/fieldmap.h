@@ -13,7 +13,10 @@
 #define MAX_MAP_DATA_SIZE 0x2800
 #define VIRTUAL_MAP_SIZE (MAX_MAP_DATA_SIZE)
 
-#define NUM_TILES_PER_METATILE 8
+// Porymap's project-constant auto-detection only understands a plain integer literal here
+// (it doesn't evaluate expressions), so this must be kept in sync with OW_TRIPLE_LAYER_METATILES
+// (include/config/overworld.h) by hand: 12 when TRUE, 8 when FALSE.
+#define NUM_TILES_PER_METATILE 12
 
 // Map coordinates are offset by 7 when using the map
 // buffer because it needs to load sufficient border

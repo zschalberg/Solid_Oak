@@ -211,13 +211,21 @@ void CurrentMapDrawMetatileAt(int x, int y)
     }
 }
 
+// Door tiles come from a standalone 8-tile buffer (not the tileset's metatile array), so doors
+// always draw with the legacy 2-layer covered style, even when OW_TRIPLE_LAYER_METATILES is on.
+#define METATILE_LAYER_TYPE_DOOR 0xFF
+
 void DrawDoorMetatileAt(int x, int y, const u16 *tiles)
 {
     int offset = MapPosToBgTilemapOffset(&sFieldCameraOffset, x, y);
 
     if (offset >= 0)
     {
+#if OW_TRIPLE_LAYER_METATILES
+        DrawMetatile(METATILE_LAYER_TYPE_DOOR, tiles, offset);
+#else
         DrawMetatile(METATILE_LAYER_TYPE_COVERED, tiles, offset);
+#endif
        // sFieldCameraOffset.copyBGToVRAM = TRUE;
     }
 }
@@ -239,6 +247,51 @@ static void DrawMetatileAt(const struct MapLayout *mapLayout, u16 offset, int x,
     DrawMetatile(MapGridGetMetatileLayerTypeAt(x, y), metatiles + metatileId * NUM_TILES_PER_METATILE, offset);
 }
 
+#if OW_TRIPLE_LAYER_METATILES
+static void DrawMetatile(s32 metatileLayerType, const u16 *tiles, u16 offset)
+{
+    if (metatileLayerType == METATILE_LAYER_TYPE_DOOR)
+    {
+        // Legacy 2-layer covered-style draw, for the 8-tile door buffer.
+        gOverworldTilemapBuffer_Bg3[offset] = tiles[0];
+        gOverworldTilemapBuffer_Bg3[offset + 1] = tiles[1];
+        gOverworldTilemapBuffer_Bg3[offset + 0x20] = tiles[2];
+        gOverworldTilemapBuffer_Bg3[offset + 0x21] = tiles[3];
+
+        gOverworldTilemapBuffer_Bg2[offset] = tiles[4];
+        gOverworldTilemapBuffer_Bg2[offset + 1] = tiles[5];
+        gOverworldTilemapBuffer_Bg2[offset + 0x20] = tiles[6];
+        gOverworldTilemapBuffer_Bg2[offset + 0x21] = tiles[7];
+
+        gOverworldTilemapBuffer_Bg1[offset] = 0;
+        gOverworldTilemapBuffer_Bg1[offset + 1] = 0;
+        gOverworldTilemapBuffer_Bg1[offset + 0x20] = 0;
+        gOverworldTilemapBuffer_Bg1[offset + 0x21] = 0;
+    }
+    else
+    {
+        // Every metatile uses all 3 real background layers.
+        gOverworldTilemapBuffer_Bg3[offset] = tiles[0];
+        gOverworldTilemapBuffer_Bg3[offset + 1] = tiles[1];
+        gOverworldTilemapBuffer_Bg3[offset + 0x20] = tiles[2];
+        gOverworldTilemapBuffer_Bg3[offset + 0x21] = tiles[3];
+
+        gOverworldTilemapBuffer_Bg2[offset] = tiles[4];
+        gOverworldTilemapBuffer_Bg2[offset + 1] = tiles[5];
+        gOverworldTilemapBuffer_Bg2[offset + 0x20] = tiles[6];
+        gOverworldTilemapBuffer_Bg2[offset + 0x21] = tiles[7];
+
+        // Top layer covers object event sprites.
+        gOverworldTilemapBuffer_Bg1[offset] = tiles[8];
+        gOverworldTilemapBuffer_Bg1[offset + 1] = tiles[9];
+        gOverworldTilemapBuffer_Bg1[offset + 0x20] = tiles[10];
+        gOverworldTilemapBuffer_Bg1[offset + 0x21] = tiles[11];
+    }
+    ScheduleBgCopyTilemapToVram(1);
+    ScheduleBgCopyTilemapToVram(2);
+    ScheduleBgCopyTilemapToVram(3);
+}
+#else
 static void DrawMetatile(s32 metatileLayerType, const u16 *tiles, u16 offset)
 {
     switch (metatileLayerType)
@@ -305,6 +358,7 @@ static void DrawMetatile(s32 metatileLayerType, const u16 *tiles, u16 offset)
     ScheduleBgCopyTilemapToVram(2);
     ScheduleBgCopyTilemapToVram(3);
 }
+#endif
 
 static s32 MapPosToBgTilemapOffset(struct FieldCameraOffset *cameraOffset, s32 x, s32 y)
 {

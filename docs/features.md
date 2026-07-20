@@ -384,6 +384,16 @@ Specific trade and special evolutions are blocked until their respective story/r
 
 ---
 
+## 21. Triple-Layer Metatiles (opt-in, disabled by default)
+
+* **Engine support**: `OW_TRIPLE_LAYER_METATILES` (`include/config/overworld.h`) is a global switch that changes metatiles from 8 tiles/2-layer to 12 tiles/3-layer, letting a single metatile use all 3 real overworld background layers at once instead of only ever 2 (`METATILE_LAYER_TYPE_NORMAL/COVERED/SPLIT`). This unlocks richer terrain stacking (e.g. grass overlapping a ledge overlapping a tree canopy) directly in Porymap.
+* **Off by default**: This is a global, all-or-nothing format change — `NUM_TILES_PER_METATILE` is a single compile-time constant used by every tileset, so there's no per-map opt-in. Flipping the flag on requires migrating every existing `data/tilesets/*/metatiles.bin` first.
+* **Migration**: Run `tools/migrate_triple_layer_metatiles.py` (supports `--dry-run`) once before enabling the flag — it expands every metatile to 12 tiles, padding in a blank layer wherever the metatile's old layer type left one unused, so existing maps render unchanged until you start repainting the new layer.
+* **Porymap**: After migrating and setting `OW_TRIPLE_LAYER_METATILES TRUE`, also set `enable_triple_layer_metatiles=1` in `porymap.project.cfg` so Porymap's metatile editor agrees with the C build on the 12-tiles-per-metatile format.
+* **Doors**: Door-open tile animations (`DrawDoorMetatileAt` in `src/field_camera.c`) always use the legacy 2-layer covered-style draw, since door tiles come from a small standalone buffer rather than the tileset's metatile array.
+
+---
+
 ## Fork Commit Log
 
 The following commits represent the custom features introduced in the `Solid-Oak` branch:
