@@ -205,6 +205,15 @@ static void Task_BeginEvolutionScene(u8 taskId)
     }
 }
 
+static void TrySetGengarEvolutionQuestFlags(u16 postEvoSpecies)
+{
+    if (postEvoSpecies == SPECIES_GENGAR)
+    {
+        FlagSet(FLAG_QUEST_KNOW_GENGAR_EVO);
+        FlagSet(FLAG_QUEST_7_COMPLETED);
+    }
+}
+
 void BeginEvolutionScene(struct Pokemon* mon, u16 postEvoSpecies, bool8 canStopEvo, u8 partyId)
 {
     u8 taskId = CreateTask(Task_BeginEvolutionScene, 0);
@@ -808,6 +817,7 @@ static void Task_EvolutionScene(u8 taskId)
             GetSetPokedexFlag(SpeciesToNationalPokedexNum(gTasks[taskId].tPostEvoSpecies), FLAG_SET_SEEN);
             GetSetPokedexFlag(SpeciesToNationalPokedexNum(gTasks[taskId].tPostEvoSpecies), FLAG_SET_CAUGHT);
             IncrementGameStat(GAME_STAT_EVOLVED_POKEMON);
+            TrySetGengarEvolutionQuestFlags(gTasks[taskId].tPostEvoSpecies);
         }
         break;
     case EVOSTATE_TRY_LEARN_MOVE:
@@ -1241,6 +1251,7 @@ static void Task_TradeEvolutionScene(u8 taskId)
             GetSetPokedexFlag(SpeciesToNationalPokedexNum(gTasks[taskId].tPostEvoSpecies), FLAG_SET_SEEN);
             GetSetPokedexFlag(SpeciesToNationalPokedexNum(gTasks[taskId].tPostEvoSpecies), FLAG_SET_CAUGHT);
             IncrementGameStat(GAME_STAT_EVOLVED_POKEMON);
+            TrySetGengarEvolutionQuestFlags(gTasks[taskId].tPostEvoSpecies);
         }
         break;
     case T_EVOSTATE_TRY_LEARN_MOVE:

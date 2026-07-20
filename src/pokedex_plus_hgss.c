@@ -6898,6 +6898,17 @@ static void PrintEvolutionTargetSpeciesAndMethod(u8 taskId, enum Species species
                     StringAppend(gStringVar4, gStringVar2);
                     StringAppend(gStringVar4, COMPOUND_STRING(" in bag"));
                     break;
+                // Custom
+                case IF_HP_DRAINED_IN_MAPSEC_GE:
+                    StringAppend(gStringVar4, COMPOUND_STRING("drain >= "));
+                    ConvertIntToDecimalStringN(gStringVar2, evolutions[i].params[j].arg3, STR_CONV_MODE_LEFT_ALIGN, 3);
+                    StringAppend(gStringVar4, gStringVar2);
+                    StringAppend(gStringVar4, COMPOUND_STRING(" HP with "));
+                    StringAppend(gStringVar4, GetMoveName(evolutions[i].params[j].arg2));
+                    StringAppend(gStringVar4, COMPOUND_STRING(" in "));
+                    StringCopy(gStringVar2, gRegionMapEntries[evolutions[i].params[j].arg1].name);
+                    StringAppend(gStringVar4, gStringVar2);
+                    break;
                 case CONDITIONS_END:
                     break;
                 }

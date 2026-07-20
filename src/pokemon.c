@@ -4463,6 +4463,13 @@ bool32 DoesMonMeetAdditionalConditions(struct Pokemon *mon, const struct Evoluti
             if (GetCurrentRegion() != params[i].arg1)
                 currentCondition = TRUE;
             break;
+        // Custom
+        case IF_HP_DRAINED_IN_MAPSEC_GE:
+            // arg1: required mapsec, arg2: required move, arg3: required cumulative HP drained
+            if (gMapHeader.regionMapSectionId == params[i].arg1
+             && evolutionTracker >= params[i].arg3)
+                currentCondition = TRUE;
+            break;
         case CONDITIONS_END:
             break;
         }
@@ -4492,7 +4499,7 @@ static bool32 IsEvoTargetUnlocked(u16 targetSpecies)
     switch (targetSpecies)
     {
     case SPECIES_GENGAR:
-        return FlagGet(FLAG_QUEST_KNOW_GENGAR_EVO);
+        return FlagGet(FLAG_QUEST_7_ACTIVE) || FlagGet(FLAG_QUEST_KNOW_GENGAR_EVO);
     case SPECIES_SLOWBRO:
     case SPECIES_SLOWKING:
         return FlagGet(FLAG_QUEST_KNOW_SLOWPOKE_EVOS);
@@ -7043,4 +7050,15 @@ enum Move GetFirstPartnerMove(enum Species species)
         default:
             return MOVE_NONE;
     }
+}
+
+enum IVRatingTier GetIVSumRatingTier(u32 ivSum)
+{
+    if (ivSum >= 151)
+        return IV_RATING_OUTSTANDING;
+    if (ivSum >= 111)
+        return IV_RATING_GOOD;
+    if (ivSum >= 60)
+        return IV_RATING_DECENT;
+    return IV_RATING_POOR;
 }

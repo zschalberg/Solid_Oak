@@ -11,6 +11,7 @@
 #include "battle_controllers.h"
 #include "move.h"
 #include "constants/battle_move_resolution.h"
+#include "constants/region_map_sections.h"
 
 static void ValidateBattlers(void);
 static enum Move GetOriginallyUsedMove(enum Move chosenMove);
@@ -2234,6 +2235,8 @@ static enum MoveEndResult MoveEndAbsorb(void)
          && IsBattlerAlive(gBattlerAttacker))
         {
             s32 healAmount = (gBattleStruct->moveDamage[gBattlerTarget] * GetMoveAbsorbPercentage(gCurrentMove) / 100);
+            if (moveEffect == EFFECT_DREAM_EATER && healAmount > 0 && gMapHeader.regionMapSectionId == MAPSEC_POKEMON_TOWER)
+                TryUpdateEvolutionTracker(IF_HP_DRAINED_IN_MAPSEC_GE, healAmount, gCurrentMove);
             SetHealScript(healAmount);
             result = MOVEEND_RESULT_RUN_SCRIPT;
         }

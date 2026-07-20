@@ -12143,7 +12143,11 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .levelUpLearnset = sHaunterLevelUpLearnset,
         .teachableLearnset = sHaunterTeachableLearnset,
         .evolutions = EVOLUTION({EVO_TRADE, 0, SPECIES_GENGAR},
-                                {EVO_ITEM, ITEM_LINKING_CORD, SPECIES_GENGAR}),
+                                {EVO_ITEM, ITEM_LINKING_CORD, SPECIES_GENGAR},
+                                {EVO_BATTLE_END, 0, SPECIES_GENGAR,
+                                CONDITIONS({IF_HP_DRAINED_IN_MAPSEC_GE, MAPSEC_POKEMON_TOWER, MOVE_DREAM_EATER, GENGAR_DREAM_EATER_EVO_HP})},
+                                {EVO_LEVEL, 1, SPECIES_GENGAR,
+                                CONDITIONS({IF_HP_DRAINED_IN_MAPSEC_GE, MAPSEC_POKEMON_TOWER, MOVE_DREAM_EATER, GENGAR_DREAM_EATER_EVO_HP})}),
     },
 
 #define GENGAR_SP_DEF (P_UPDATED_STATS >= GEN_2 ? 75 : 130)

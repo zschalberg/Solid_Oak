@@ -322,8 +322,12 @@ enum EvolutionConditions {
     IF_BAG_ITEM_COUNT,                  // The Player has the specific amount of an item in the bag. It then removes those items.
     IF_REGION,                          // The Player is in the specific region.
     IF_NOT_REGION,                      // The Player is NOT in the specific region.
+    // Custom
+    IF_HP_DRAINED_IN_MAPSEC_GE,         // The Pokémon has drained at least the specified amount of HP with the specified move while in the specified map section.
     CONDITIONS_END
 };
+
+#define GENGAR_DREAM_EATER_EVO_HP 200 // Cumulative HP Haunter must drain with Dream Eater in Pokemon Tower to become eligible to evolve into Gengar.
 
 enum EvolutionMethods {
     EVO_NONE,                   // Not an actual evolution, used to generate offspring that can't evolve into the specified species, like regional forms.

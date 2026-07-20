@@ -10854,6 +10854,12 @@ void TryUpdateEvolutionTracker(enum EvolutionConditions evolutionCondition, u32 
                      && GetMonData(monDef, MON_DATA_HELD_ITEM) == evolutions[i].params[j].arg2)
                         SetMonData(monAtk, MON_DATA_EVOLUTION_TRACKER, &val);
                     break;
+                case IF_HP_DRAINED_IN_MAPSEC_GE:
+                    // Progress persists across fainting/switching; only cleared once the mon evolves.
+                    if (gMapHeader.regionMapSectionId == evolutions[i].params[j].arg1
+                     && usedMove == evolutions[i].params[j].arg2)
+                        SetMonData(monAtk, MON_DATA_EVOLUTION_TRACKER, &val);
+                    break;
                 default:
                     assertf(FALSE, "evolution condition %d is not handled within TryUpdateEvolutionTracker", evolutionCondition) {}
                     break;
