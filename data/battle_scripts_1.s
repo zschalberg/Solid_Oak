@@ -4464,6 +4464,24 @@ BattleScript_LearnedNewMove::
 BattleScript_LearnMoveReturn::
 	return
 
+BattleScript_MidBattleEvolution::
+	printstring STRINGID_PKMNISEVOLVING
+	waitmessage B_WAIT_TIME_LONG
+	trycancelmidbattleevolution BattleScript_MidBattleEvolutionStopped
+	handlemidbattleevolution BS_SCRIPTING
+	handleformchange BS_SCRIPTING, 0, FALSE
+	playanimation BS_SCRIPTING, B_ANIM_FORM_CHANGE_INSTANT
+	waitanimation
+	handleformchange BS_SCRIPTING, 1
+	fanfare MUS_EVOLVED
+	printstring STRINGID_PKMNEVOLVEDINTO
+	waitmessage B_WAIT_TIME_LONG
+	return
+BattleScript_MidBattleEvolutionStopped::
+	printstring STRINGID_PKMNSTOPPEDEVOLVING
+	waitmessage B_WAIT_TIME_LONG
+	return
+
 BattleScript_WeatherAbilityActivates::
 	pause B_WAIT_TIME_SHORT
 	call BattleScript_AbilityPopUp

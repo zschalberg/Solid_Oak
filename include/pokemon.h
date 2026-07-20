@@ -956,5 +956,14 @@ bool32 CheckBattleTypeGhost(struct Pokemon *mon, enum BattlerId battler);
 u32 GetIndividualHeight(enum Species species, u32 personality);
 u32 GetIndividualWeight(enum Species species, u32 personality);
 
+enum IVRatingTier {
+    IV_RATING_POOR,
+    IV_RATING_DECENT,
+    IV_RATING_GOOD,
+    IV_RATING_OUTSTANDING
+};
+
+enum IVRatingTier GetIVSumRatingTier(u32 ivSum);
+
 #endif // GUARD_POKEMON_H
 

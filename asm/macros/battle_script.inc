@@ -1987,6 +1987,16 @@
 	.byte \bufferSpeciesName
 	.endm
 
+	.macro trycancelmidbattleevolution failInstr:req
+	callnative BS_TryCancelMidBattleEvolution
+	.4byte \failInstr
+	.endm
+
+	.macro handlemidbattleevolution battler:req
+	callnative BS_HandleMidBattleEvolution
+	.byte \battler
+	.endm
+
 	.macro tryautotomize failInstr:req
 	callnative BS_TryAutotomize
 	.4byte \failInstr

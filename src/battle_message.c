@@ -996,6 +996,9 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_TRAINER1MON2COMEBACK]          = COMPOUND_STRING("{B_TRAINER1_NAME}: {B_OPPONENT_MON2_NAME}, come back!"),
     [STRINGID_TRAINER1MON1AND2COMEBACK]      = COMPOUND_STRING("{B_TRAINER1_NAME}: {B_OPPONENT_MON1_NAME} and\n{B_OPPONENT_MON2_NAME}, come back!"),
     [STRINGID_PKMNCANTUSEMOVEBATTLERULE]     = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} can't use {B_CURRENT_MOVE}! It's not allowed this battle!\p"),
+    [STRINGID_PKMNISEVOLVING]                = COMPOUND_STRING("What?\n{B_BUFF1} is evolving!\pHold the B Button to\nstop the evolution!\p"),
+    [STRINGID_PKMNEVOLVEDINTO]               = COMPOUND_STRING("Congratulations! Your {B_BUFF1}\nevolved into {B_BUFF2}!{WAIT_SE}\p"),
+    [STRINGID_PKMNSTOPPEDEVOLVING]           = COMPOUND_STRING("Huh?\n{B_BUFF1} stopped evolving!\p"),
 };
 
 const u16 gTrainerUsedItemStringIds[] =

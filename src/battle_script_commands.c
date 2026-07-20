@@ -1,5 +1,6 @@
 #include "global.h"
 #include "battle.h"
+#include "battle_script_commands.h"
 #include "battle_hold_effects.h"
 #include "battle_message.h"
 #include "battle_anim.h"
@@ -4143,6 +4144,15 @@ static u32 GetMonHoldEffect(struct Pokemon *mon)
     return holdEffect;
 }
 
+static enum BattlerId GetActiveBattlerForPartyMon(u8 partyIndex)
+{
+    if (gBattlerPartyIndexes[0] == partyIndex && gBattleMons[0].hp)
+        return 0;
+    if (IsDoubleBattle() && gBattlerPartyIndexes[2] == partyIndex && gBattleMons[2].hp)
+        return 2;
+    return MAX_BATTLERS_COUNT;
+}
+
 static void Cmd_getexp(void)
 {
     CMD_ARGS(u8 battler);
@@ -4431,7 +4441,48 @@ static void Cmd_getexp(void)
             }
         }
         break;
-    case 5: // looper increment
+    case 5: // check for mid-battle evolution now that BattleScript_LevelUp (if any) has fully presented
+        {
+            enum BattlerId battler = gLeveledUpInBattle & (1u << *expMonId)
+                ? GetActiveBattlerForPartyMon(*expMonId)
+                : MAX_BATTLERS_COUNT;
+            // If the opposing side has no mons left standing, this battle is about to end - let the
+            // normal post-battle evolution scene (TryEvolvePokemon in battle_main.c) handle it instead.
+            bool32 battleIsEnding = NoAliveMonsForBattlerSide(GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT))
+                && (!IsDoubleBattle() || NoAliveMonsForBattlerSide(GetBattlerAtPosition(B_POSITION_OPPONENT_RIGHT)));
+
+            if (battler != MAX_BATTLERS_COUNT && !battleIsEnding && !gBattleMons[battler].volatiles.transformed)
+            {
+                bool32 canStopEvo = TRUE;
+                enum EvolutionMode mode = EVO_MODE_BATTLE_SPECIAL;
+                u32 targetSpecies = GetEvolutionTargetSpecies(&gPlayerParty[*expMonId], mode, *expMonId, NULL, &canStopEvo, CHECK_EVO);
+                if (targetSpecies == SPECIES_NONE)
+                {
+                    mode = EVO_MODE_BATTLE_ONLY;
+                    targetSpecies = GetEvolutionTargetSpecies(&gPlayerParty[*expMonId], mode, gLeveledUpInBattle, NULL, &canStopEvo, CHECK_EVO);
+                }
+
+                if (targetSpecies != SPECIES_NONE)
+                {
+                    gBattleStruct->battleEvoTargetSpecies = targetSpecies;
+                    gBattleScripting.battler = battler;
+                    // Snapshot the pre-evolution nickname as literal text (not the usual lazy
+                    // battler+partyId buffer) so it stays correct even after the species/nickname
+                    // change later in BattleScript_MidBattleEvolution re-resolves gBattleTextBuff1.
+                    GetMonData(&gPlayerParty[*expMonId], MON_DATA_NICKNAME, gBattleTextBuff1);
+                    StringGet_Nickname(gBattleTextBuff1);
+                    BattleScriptCall(BattleScript_MidBattleEvolution);
+                    gBattleScripting.getexpState = 7;
+                    break;
+                }
+            }
+            gBattleScripting.getexpState = 8;
+        }
+        break;
+    case 7: // waiting for BattleScript_MidBattleEvolution to finish
+        gBattleScripting.getexpState = 8;
+        break;
+    case 8: // looper increment
         if (gBattleStruct->battlerExpReward) // there is exp to give, goto case 3 that gives exp
         {
             gBattleScripting.getexpState = 3;
@@ -14391,6 +14442,48 @@ void BS_HandleFormChange(void)
     gBattlescriptCurrInstr = cmd->nextInstr;
 }
 
+// Gives the player a brief window to hold B and decline a mid-battle evolution, mirroring the
+// hold-B-to-cancel window in the overworld evolution scene (Task_EvolutionScene in evolution_scene.c).
+#define MID_BATTLE_EVOLUTION_CANCEL_WINDOW 40
+
+void BS_TryCancelMidBattleEvolution(void)
+{
+    NATIVE_ARGS(const u8 *failInstr);
+
+    if (JOY_HELD(B_BUTTON))
+    {
+        gBattleCommunication[MULTIUSE_STATE] = 0;
+        gBattlescriptCurrInstr = cmd->failInstr;
+    }
+    else if (++gBattleCommunication[MULTIUSE_STATE] >= MID_BATTLE_EVOLUTION_CANCEL_WINDOW)
+    {
+        gBattleCommunication[MULTIUSE_STATE] = 0;
+        gBattlescriptCurrInstr = cmd->nextInstr;
+    }
+}
+
+void BS_HandleMidBattleEvolution(void)
+{
+    NATIVE_ARGS(u8 battler);
+
+    enum BattlerId battler = GetBattlerForBattleScript(cmd->battler);
+    struct Pokemon *mon = GetBattlerMon(battler);
+    u32 targetSpecies = gBattleStruct->battleEvoTargetSpecies;
+    u32 previousSpecies = GetMonData(mon, MON_DATA_SPECIES);
+
+    SetMonData(mon, MON_DATA_SPECIES, &targetSpecies);
+    CalculateMonStats(mon);
+    EvolutionRenameMon(mon, previousSpecies, targetSpecies);
+    UpdatePokedexSizeRecord(mon);
+    GetSetPokedexFlag(SpeciesToNationalPokedexNum(targetSpecies), FLAG_SET_SEEN);
+    GetSetPokedexFlag(SpeciesToNationalPokedexNum(targetSpecies), FLAG_SET_CAUGHT);
+    IncrementGameStat(GAME_STAT_EVOLVED_POKEMON);
+    gBattleMons[battler].species = targetSpecies;
+    RecalcBattlerStats(battler, mon, FALSE);
+    PREPARE_SPECIES_BUFFER(gBattleTextBuff2, targetSpecies);
+    gBattlescriptCurrInstr = cmd->nextInstr;
+}
+
 void BS_TryAutotomize(void)
 {
     NATIVE_ARGS(const u8 *failInstr);
@@ -15246,14 +15339,22 @@ void BS_UseIVScanner(void)
     u32 totalIV = hpIV + atkIV + defIV + speedIV + spatkIV + spdefIV;
 
     const u8 *gradeString;
-    if (totalIV >= 151)
-        gradeString = sText_IVGrade_Outstanding;
-    else if (totalIV >= 111)
-        gradeString = sText_IVGrade_Good;
-    else if (totalIV >= 60)
-        gradeString = sText_IVGrade_Decent;
-    else
-        gradeString = sText_IVGrade_Poor;
+    switch (GetIVSumRatingTier(totalIV))
+    {
+        case IV_RATING_OUTSTANDING:
+            gradeString = sText_IVGrade_Outstanding;
+            break;
+        case IV_RATING_GOOD:
+            gradeString = sText_IVGrade_Good;
+            break;
+        case IV_RATING_DECENT:
+            gradeString = sText_IVGrade_Decent;
+            break;
+        default:
+        case IV_RATING_POOR:
+            gradeString = sText_IVGrade_Poor;
+            break;
+    }
 
     StringCopy(gStringVar1, gradeString);
 
