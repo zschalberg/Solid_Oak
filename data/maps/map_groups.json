@@ -176,7 +176,8 @@
     "SixIsland_PatternBush",
     "SixIsland_AlteringCave",
     "ArtisanCave_B1F",
-    "ArtisanCave_1F"
+    "ArtisanCave_1F",
+    "SSMinnow_1F"
   ],
   "gMapGroup_SpecialArea": [
     "NavelRock_Exterior",

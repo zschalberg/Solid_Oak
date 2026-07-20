@@ -1168,3 +1168,6 @@ EventScript_NoMoreRoomForPokemon::
 
 	.include "data/maps/Fishing_Village_New/scripts.inc"
 	.include "data/maps/Fishing_Village_New/text.inc"
+
+	.include "data/maps/SSMinnow_1F/scripts.inc"
+	.include "data/maps/SSMinnow_1F/text.inc"
