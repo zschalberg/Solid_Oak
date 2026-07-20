@@ -383,5 +383,14 @@ gSpecials::
 	def_special EvaluateSelectedResearchMon
 	def_special TurnInSelectedResearchMon
 	def_special TransferSelectedMonToPokeBall
+	def_special ResetReserveContestAttempts
+	def_special GetReserveContestAttemptsRemaining
+	def_special CheckCanRegisterReserveContest
+	def_special StartReserveContestSession
+	def_special GetReserveContestCatchNicknames
+	def_special OpenReserveContestSpecimenSummary
+	def_special ProcessReserveContestSpecimenChoice
+	def_special EvaluateReserveContestCatch
+	def_special FinalizeReserveContestCatch
 gSpecialsEnd::
 

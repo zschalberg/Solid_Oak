@@ -89,9 +89,29 @@ bool8 IsSelectedMonNewFamily(void)
     return gSpecialVar_Result;
 }
 
-void EvaluateSelectedResearchMon(void)
+u16 GetBaseRarityPoints(u8 catchRate)
 {
-    struct Pokemon *mon = &gPlayerParty[gSpecialVar_0x8004];
+    if (catchRate >= 150)
+        return 10;       // Common
+    else if (catchRate >= 75)
+        return 30;       // Uncommon
+    else if (catchRate >= 31)
+        return 100;      // Rare
+    else
+        return 350;      // Legendary/Mythical
+}
+
+u16 ApplyShinyBonus(u16 points, bool8 isShiny)
+{
+    if (isShiny)
+    {
+        return (points * 2) + 500;
+    }
+    return points;
+}
+
+u16 CalculateResearchMonCoins(struct Pokemon *mon)
+{
     enum Species species = GetMonData(mon, MON_DATA_SPECIES);
     u8 catchRate = gSpeciesInfo[species].catchRate;
     u32 personality = GetMonData(mon, MON_DATA_PERSONALITY);
@@ -101,30 +121,19 @@ void EvaluateSelectedResearchMon(void)
     u16 sizeBonus = 0;
     u16 ivBonus = 0;
     u16 familyBonus = 0;
-    u16 totalCoins = 0;
     
     u8 heightCategory = TranslateBigMonSizeTableIndex(personality & 0xFFFF);
     u8 weightCategory = TranslateBigMonSizeTableIndex(personality >> 16);
     bool32 heightOutlier = (heightCategory <= 4 || heightCategory >= 11);
     bool32 weightOutlier = (weightCategory <= 4 || weightCategory >= 11);
     
-    // 1. Base Rarity based on catch rate
-    if (catchRate >= 150)
-        baseCoins = 10;       // Common
-    else if (catchRate >= 75)
-        baseCoins = 30;       // Uncommon
-    else if (catchRate >= 31)
-        baseCoins = 100;      // Rare
-    else
-        baseCoins = 350;      // Legendary/Mythical
+    baseCoins = GetBaseRarityPoints(catchRate);
 
-    // 2. Size Outlier Bonus
     if (heightOutlier && weightOutlier)
-        sizeBonus = 150;      // Record Specimen Bonus
+        sizeBonus = 150;
     else if (heightOutlier || weightOutlier)
-        sizeBonus = 50;       // Size Outlier Bonus
+        sizeBonus = 50;
 
-    // 3. Perfect IVs Bonus
     if (GetMonData(mon, MON_DATA_HP_IV) == 31) ivBonus += 25;
     if (GetMonData(mon, MON_DATA_ATK_IV) == 31) ivBonus += 25;
     if (GetMonData(mon, MON_DATA_DEF_IV) == 31) ivBonus += 25;
@@ -132,19 +141,47 @@ void EvaluateSelectedResearchMon(void)
     if (GetMonData(mon, MON_DATA_SPATK_IV) == 31) ivBonus += 25;
     if (GetMonData(mon, MON_DATA_SPDEF_IV) == 31) ivBonus += 25;
 
-    // 4. New Family Bonus
     if (CheckIsNewFamily(mon))
         familyBonus = 250;
 
-    // 5. Calculate Final Coins with Shiny Multiplier
-    // Formula: Final Coins = (Base + Outlier + IVs + Family) * (isShiny ? 2 : 1) + (isShiny ? 500 : 0)
-    totalCoins = baseCoins + sizeBonus + ivBonus + familyBonus;
-    if (isShiny)
-    {
-        totalCoins = (totalCoins * 2) + 500;
-    }
+    return ApplyShinyBonus(baseCoins + sizeBonus + ivBonus + familyBonus, isShiny);
+}
+
+void EvaluateSelectedResearchMon(void)
+{
+    struct Pokemon *mon = &gPlayerParty[gSpecialVar_0x8004];
+    enum Species species = GetMonData(mon, MON_DATA_SPECIES);
+    u8 catchRate = gSpeciesInfo[species].catchRate;
+    u32 personality = GetMonData(mon, MON_DATA_PERSONALITY);
+    bool8 isShiny = GetMonData(mon, MON_DATA_IS_SHINY);
     
-    // Cache the coins for the TurnIn special
+    u16 baseCoins = GetBaseRarityPoints(catchRate);
+    u16 sizeBonus = 0;
+    u16 ivBonus = 0;
+    u16 familyBonus = 0;
+    u16 totalCoins = 0;
+    
+    u8 heightCategory = TranslateBigMonSizeTableIndex(personality & 0xFFFF);
+    u8 weightCategory = TranslateBigMonSizeTableIndex(personality >> 16);
+    bool32 heightOutlier = (heightCategory <= 4 || heightCategory >= 11);
+    bool32 weightOutlier = (weightCategory <= 4 || weightCategory >= 11);
+
+    if (heightOutlier && weightOutlier)
+        sizeBonus = 150;
+    else if (heightOutlier || weightOutlier)
+        sizeBonus = 50;
+
+    if (GetMonData(mon, MON_DATA_HP_IV) == 31) ivBonus += 25;
+    if (GetMonData(mon, MON_DATA_ATK_IV) == 31) ivBonus += 25;
+    if (GetMonData(mon, MON_DATA_DEF_IV) == 31) ivBonus += 25;
+    if (GetMonData(mon, MON_DATA_SPEED_IV) == 31) ivBonus += 25;
+    if (GetMonData(mon, MON_DATA_SPATK_IV) == 31) ivBonus += 25;
+    if (GetMonData(mon, MON_DATA_SPDEF_IV) == 31) ivBonus += 25;
+
+    if (CheckIsNewFamily(mon))
+        familyBonus = 250;
+
+    totalCoins = ApplyShinyBonus(baseCoins + sizeBonus + ivBonus + familyBonus, isShiny);
     sEvaluatedCoins = totalCoins;
 
     // Set up text buffers for the script dialog

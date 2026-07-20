@@ -7,5 +7,8 @@ bool32 IsSpeciesFamilyReserved(enum Species species);
 void EvaluateSelectedResearchMon(void);
 void TurnInSelectedResearchMon(void);
 void TransferSelectedMonToPokeBall(void);
+u16 GetBaseRarityPoints(u8 catchRate);
+u16 ApplyShinyBonus(u16 points, bool8 isShiny);
+u16 CalculateResearchMonCoins(struct Pokemon *mon);
 
 #endif // GUARD_RESEARCH_TURNIN_H

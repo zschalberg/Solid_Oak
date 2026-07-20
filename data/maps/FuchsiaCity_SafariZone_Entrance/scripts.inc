@@ -8,7 +8,6 @@ FuchsiaCity_SafariZone_Entrance_OnFrame::
 	map_script_2 VAR_MAP_SCENE_FUCHSIA_CITY_SAFARI_ZONE_ENTRANCE, 3, FuchsiaCity_SafariZone_Entrance_EventScript_ExitWalkIn
 	.2byte 0
 
-@ When player runs out of balls mid-battle
 FuchsiaCity_SafariZone_Entrance_EventScript_ExitWalkIn::
 	lockall
 	textcolor NPC_TEXT_COLOR_MALE
@@ -23,7 +22,6 @@ FuchsiaCity_SafariZone_Entrance_EventScript_ExitWalkIn::
 	releaseall
 	end
 
-@ When player runs of out balls after catching a pokemon, or runs out of steps
 FuchsiaCity_SafariZone_Entrance_EventScript_ExitWarpIn::
 	lockall
 	textcolor NPC_TEXT_COLOR_MALE
@@ -36,7 +34,6 @@ FuchsiaCity_SafariZone_Entrance_EventScript_ExitWarpIn::
 	releaseall
 	end
 
-@ When player re-enters the entrance building with balls/steps remaining
 FuchsiaCity_SafariZone_Entrance_EventScript_ExitEarly::
 	lockall
 	textcolor NPC_TEXT_COLOR_MALE
@@ -99,93 +96,40 @@ FuchsiaCity_SafariZone_Entrance_EventScript_EntryTriggerLeft::
 
 FuchsiaCity_SafariZone_Entrance_EventScript_AskEnterSafariZone::
 	textcolor NPC_TEXT_COLOR_MALE
-	msgbox FuchsiaCity_SafariZone_Entrance_Text_WelcomeToSafariZone
-	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterRight
-	waitmovement 0
-	showmoneybox 0, 0
-	msgbox FuchsiaCity_SafariZone_Entrance_Text_PlaySafariGameFor500, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, YES, FuchsiaCity_SafariZone_Entrance_EventScript_TryEnterSafariZone
-	msgbox FuchsiaCity_SafariZone_Entrance_Text_OkayPleaseComeAgain
+	goto_if_set FLAG_RESERVE_CONTEST_ACTIVE, FuchsiaCity_SafariZone_Entrance_EventScript_PassThroughGate
+	msgbox FuchsiaCity_SafariZone_Entrance_Text_MustRegisterFirst, MSGBOX_DEFAULT
 	goto FuchsiaCity_SafariZone_Entrance_EventScript_ForcePlayerBack
 	end
 
-FuchsiaCity_SafariZone_Entrance_EventScript_TryEnterSafariZone::
-	call FuchsiaCity_SafariZone_Entrance_EventScript_CheckSpaceForMons
-	checkmoney 500
-	goto_if_eq VAR_RESULT, FALSE, FuchsiaCity_SafariZone_Entrance_EventScript_NotEnoughMoney
-	removemoney 500
-	updatemoneybox
-	msgbox FuchsiaCity_SafariZone_Entrance_Text_ThatllBe500WeOnlyUseSpecialBalls
-	textcolor NPC_TEXT_COLOR_NEUTRAL
-	playfanfare MUS_LEVEL_UP
-	message FuchsiaCity_SafariZone_Entrance_Text_PlayerReceived30SafariBalls
-	waitfanfare
-	call EventScript_RestorePrevTextColor
-	msgbox FuchsiaCity_SafariZone_Entrance_Text_CallYouOnPAWhenYouRunOut
+FuchsiaCity_SafariZone_Entrance_EventScript_PassThroughGate::
+	msgbox FuchsiaCity_SafariZone_Entrance_Text_GoodLuckInReserve, MSGBOX_DEFAULT
 	closemessage
-	hidemoneybox
 	call_if_eq VAR_TEMP_2, 0, FuchsiaCity_SafariZone_Entrance_EventScript_EnterSafariZoneMid
 	call_if_eq VAR_TEMP_2, 1, FuchsiaCity_SafariZone_Entrance_EventScript_EnterSafariZoneRight
 	call_if_eq VAR_TEMP_2, 2, FuchsiaCity_SafariZone_Entrance_EventScript_EnterSafariZoneLeft
-	special EnterSafariMode
-	setvar VAR_MAP_SCENE_FUCHSIA_CITY_SAFARI_ZONE_ENTRANCE, 2
-	warp MAP_SAFARI_ZONE_CENTER, 255, 26, 30
+	setvar VAR_MAP_SCENE_FUCHSIA_CITY_SAFARI_ZONE_ENTRANCE, 0
+	warp MAP_SAFARI_ZONE_CENTER, 26, 30
 	waitstate
-	end
-
-FuchsiaCity_SafariZone_Entrance_EventScript_EnterSafariZoneRight::
-	applymovement LOCALID_PLAYER, FuchsiaCity_SafariZone_Entrance_Movement_EnterSafariZoneRight
-	waitmovement 0
-	return
-
-FuchsiaCity_SafariZone_Entrance_EventScript_EnterSafariZoneMid::
-	applymovement LOCALID_PLAYER, FuchsiaCity_SafariZone_Entrance_Movement_EnterSafariZoneMid
-	waitmovement 0
-	return
-
-FuchsiaCity_SafariZone_Entrance_EventScript_EnterSafariZoneLeft::
-	applymovement LOCALID_PLAYER, FuchsiaCity_SafariZone_Entrance_Movement_EnterSafariZoneLeft
-	waitmovement 0
-	return
-
-FuchsiaCity_SafariZone_Entrance_EventScript_CheckSpaceForMons::
-	getpartysize
-	goto_if_ne VAR_RESULT, PARTY_SIZE, EventScript_Return
-	specialvar VAR_RESULT, IsThereRoomInAnyBoxForMorePokemon
-	goto_if_eq VAR_RESULT, TRUE, EventScript_Return
-	msgbox SafariZone_Text_ExcuseMeYourPCBoxIsFull
-	goto FuchsiaCity_SafariZone_Entrance_EventScript_ForcePlayerBack
-	end
-
-FuchsiaCity_SafariZone_Entrance_EventScript_NotEnoughMoney::
-	msgbox FuchsiaCity_SafariZone_Entrance_Text_OopsNotEnoughMoney
-	goto FuchsiaCity_SafariZone_Entrance_EventScript_ForcePlayerBack
 	end
 
 FuchsiaCity_SafariZone_Entrance_EventScript_ForcePlayerBack::
 	closemessage
-	hidemoneybox
-	applymovement LOCALID_PLAYER, FuchsiaCity_SafariZone_Entrance_Movement_ForceBack
+	applymovement LOCALID_PLAYER, FuchsiaCity_SafariZone_Entrance_Movement_Exit
 	waitmovement 0
 	releaseall
 	end
 
-FuchsiaCity_SafariZone_Entrance_Movement_ForceBack::
-	walk_down
-	step_end
-
-FuchsiaCity_SafariZone_Entrance_Movement_EnterSafariZoneMid::
-	walk_up
-	walk_up
-	step_end
-
-FuchsiaCity_SafariZone_Entrance_Movement_EnterSafariZoneRight::
+FuchsiaCity_SafariZone_Entrance_EventScript_EnterSafariZoneRight::
 	walk_up
 	walk_left
 	walk_up
 	step_end
 
-FuchsiaCity_SafariZone_Entrance_Movement_EnterSafariZoneLeft::
+FuchsiaCity_SafariZone_Entrance_EventScript_EnterSafariZoneMid::
+	walk_up
+	step_end
+
+FuchsiaCity_SafariZone_Entrance_EventScript_EnterSafariZoneLeft::
 	walk_up
 	walk_right
 	walk_up
@@ -194,13 +138,91 @@ FuchsiaCity_SafariZone_Entrance_Movement_EnterSafariZoneLeft::
 FuchsiaCity_SafariZone_Entrance_EventScript_InfoAttendant::
 	lock
 	faceplayer
+	goto_if_set FLAG_RESERVE_CONTEST_ACTIVE, FuchsiaCity_SafariZone_Entrance_EventScript_AttendantActiveSession
 	msgbox FuchsiaCity_SafariZone_Entrance_Text_FirstTimeAtSafariZone, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, YES, FuchsiaCity_SafariZone_Entrance_EventScript_ExplainSafariZone
-	msgbox FuchsiaCity_SafariZone_Entrance_Text_SorryYoureARegularHere
-	release
+	goto FuchsiaCity_SafariZone_Entrance_EventScript_ReserveContestIntro
 	end
 
 FuchsiaCity_SafariZone_Entrance_EventScript_ExplainSafariZone::
 	msgbox FuchsiaCity_SafariZone_Entrance_Text_ExplainSafariZone
 	release
+	end
+
+FuchsiaCity_SafariZone_Entrance_EventScript_ReserveContestIntro::
+	special GetReserveContestAttemptsRemaining
+	goto_if_eq VAR_RESULT, 0, FuchsiaCity_SafariZone_Entrance_EventScript_NoAttemptsLeft
+	special CheckCanRegisterReserveContest
+	goto_if_eq VAR_RESULT, FALSE, FuchsiaCity_SafariZone_Entrance_EventScript_MustHaveOneMon
+	msgbox FuchsiaCity_SafariZone_Entrance_Text_ReserveContestExplain, MSGBOX_DEFAULT
+	multichoice 0, 0, MULTI_RESERVE_CONTEST_CATEGORY, FALSE
+	goto_if_eq VAR_RESULT, MULTI_B_PRESSED, FuchsiaCity_SafariZone_Entrance_EventScript_AttendantEnd
+	copyvar VAR_0x8004, VAR_RESULT
+	special StartReserveContestSession
+	msgbox FuchsiaCity_SafariZone_Entrance_Text_SessionStarted, MSGBOX_DEFAULT
+	release
+	end
+
+FuchsiaCity_SafariZone_Entrance_EventScript_MustHaveOneMon::
+	msgbox FuchsiaCity_SafariZone_Entrance_Text_MustHaveOneMonInParty, MSGBOX_DEFAULT
+	release
+	end
+
+FuchsiaCity_SafariZone_Entrance_EventScript_AttendantActiveSession::
+	goto_if_unset FLAG_RESERVE_CONTEST_CAUGHT, FuchsiaCity_SafariZone_Entrance_EventScript_NoSpecimenCaughtYet
+	msgbox FuchsiaCity_SafariZone_Entrance_Text_WelcomeBackLetUsEvaluate, MSGBOX_DEFAULT
+	special EvaluateReserveContestCatch
+	msgbox gStringVar4, MSGBOX_DEFAULT
+	msgbox FuchsiaCity_SafariZone_Entrance_Text_WouldYouLikeToKeepMon, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, YES, FuchsiaCity_SafariZone_Entrance_EventScript_KeepMonChoice
+	setvar VAR_0x8004, 1
+	special FinalizeReserveContestCatch
+	msgbox FuchsiaCity_SafariZone_Entrance_Text_TurnInAwardedCoins, MSGBOX_DEFAULT
+	release
+	end
+
+FuchsiaCity_SafariZone_Entrance_EventScript_KeepMonChoice::
+	setvar VAR_0x8004, 0
+	special FinalizeReserveContestCatch
+	msgbox FuchsiaCity_SafariZone_Entrance_Text_KeptMonAddedToParty, MSGBOX_DEFAULT
+	release
+	end
+
+FuchsiaCity_SafariZone_Entrance_EventScript_NoSpecimenCaughtYet::
+	msgbox FuchsiaCity_SafariZone_Entrance_Text_NoSpecimenCaughtYet, MSGBOX_DEFAULT
+	release
+	end
+
+FuchsiaCity_SafariZone_Entrance_EventScript_NoAttemptsLeft::
+	msgbox FuchsiaCity_SafariZone_Entrance_Text_NoAttemptsLeft, MSGBOX_DEFAULT
+	release
+	end
+
+FuchsiaCity_SafariZone_Entrance_EventScript_AttendantEnd::
+	msgbox FuchsiaCity_SafariZone_Entrance_Text_AttendantEnd, MSGBOX_DEFAULT
+	release
+	end
+
+EventScript_ReserveContestFirstCatch::
+	lockall
+	textcolor NPC_TEXT_COLOR_NEUTRAL
+	special GetReserveContestCatchNicknames
+	msgbox Text_ReserveContestFirstCatchRecorded, MSGBOX_DEFAULT
+	releaseall
+	end
+
+EventScript_ReserveContestSecondCatch::
+	lockall
+	textcolor NPC_TEXT_COLOR_NEUTRAL
+	special GetReserveContestCatchNicknames
+	msgbox Text_ReserveContestSecondCatchCaught, MSGBOX_DEFAULT
+	special OpenReserveContestSpecimenSummary
+	waitstate
+	special GetReserveContestCatchNicknames
+	msgbox Text_ReserveContestChooseWhichToKeep, MSGBOX_DEFAULT
+	multichoice 0, 0, MULTI_RESERVE_CONTEST_KEEP_SPECIMEN, FALSE
+	copyvar VAR_0x8004, VAR_RESULT
+	special ProcessReserveContestSpecimenChoice
+	msgbox Text_ReserveContestSpecimenReplaced, MSGBOX_DEFAULT
+	releaseall
 	end
