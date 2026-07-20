@@ -23,6 +23,7 @@
 #include "quest_log.h"
 #include "random.h"
 #include "renewable_hidden_items.h"
+#include "reserve_contest.h"
 #include "roamer.h"
 #include "rtc.h"
 #include "save.h"
@@ -96,7 +97,7 @@ static void ClearFrontierRecord(void)
 
 static void WarpToPlayersRoom(void)
 {
-    SetWarpDestination(MAP_GROUP(MAP_SSANNE_1F_ROOM6), MAP_NUM(MAP_SSANNE_1F_ROOM6), WARP_ID_NONE, 3, 4);
+    SetWarpDestination(MAP_GROUP(MAP_SSANNE_1F_ROOM1), MAP_NUM(MAP_SSANNE_1F_ROOM1), WARP_ID_NONE, 3, 4);
     WarpIntoMap();
 }
 
@@ -147,6 +148,7 @@ void NewGameInitData(void)
     ClearPlayerLinkBattleRecords();
     InitHeracrossSizeRecord();
     InitMagikarpSizeRecord();
+    ResetReserveContestAttempts();
     EnableNationalPokedex_RSE();
     gPlayerPartyCount = 0;
     ZeroPlayerPartyMons();
@@ -157,7 +159,6 @@ void NewGameInitData(void)
     NewGameInitPCItems();
     AddBagItem(ITEM_SS_TICKET, 1);
     AddBagItem(ITEM_COIN_CASE, 1);
-    FlagSet(FLAG_SYS_POKEDEX_GET);
     FlagSet(FLAG_GOT_SS_TICKET);
     FlagSet(FLAG_SYS_PC_STORAGE_DISABLED);
     FlagSet(FLAG_SYS_B_DASH);

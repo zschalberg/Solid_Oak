@@ -4,6 +4,7 @@
 #define MUGSHOT_NONE       0
 #define MUGSHOT_PROF_OAK   1
 #define MUGSHOT_AGATHA     2
+#define MUGSHOT_PROF_ARBOR 3
 
 #define MUGSHOT_LEFT       0
 #define MUGSHOT_RIGHT      1

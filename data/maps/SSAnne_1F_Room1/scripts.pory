@@ -1,0 +1,74 @@
+mapscripts SSAnne_1F_Room1_MapScripts {}
+
+script SSAnne_1F_Room1_EventScript_Gentleman {
+    msgbox(SSAnne_1F_Room1_Text_ImAGlobalPoliceAgent, MSGBOX_NPC)
+    end
+}
+
+script SSAnne_1F_Room1_EventScript_Journal {
+    lock
+    msgbox("Obtained the JOURNAL!")
+    playfanfare(MUS_OBTAIN_KEY_ITEM)
+    waitfanfare
+    setflag(FLAG_SYS_POKEDEX_GET)
+    removeobject(1)
+    release
+    end
+}
+
+script SSAnne_1F_Room1_EventScript_DoorTrigger {
+    lockall
+    if (flag(FLAG_SS_ANNE_ROOM1_AGATHA_SCENE_COMPLETED)) {
+        releaseall
+        end
+    }
+    if (!flag(FLAG_SYS_POKEDEX_GET)) {
+        showmugshot(MUGSHOT_PROF_OAK, MUGSHOT_RIGHT)
+        textcolor(NPC_TEXT_COLOR_MALE)
+        msgbox("I should grab my journal\nbefore I go.")
+        closemessage
+        applymovement(OBJ_EVENT_ID_PLAYER, SSAnne_1F_Room1_Movement_PlayerWalkSouth)
+        waitmovement(0)
+    } else {
+        clearflag(FLAG_HIDE_SS_ANNE_ROOM1_AGATHA)
+        addobject(2)
+        
+        applymovement(OBJ_EVENT_ID_PLAYER, SSAnne_1F_Room1_Movement_PlayerPushedSouth)
+        applymovement(2, SSAnne_1F_Room1_Movement_AgathaEnter)
+        waitmovement(0)
+        
+        showmugshot(MUGSHOT_AGATHA, MUGSHOT_LEFT)
+        textcolor(NPC_TEXT_COLOR_FEMALE)
+        msgbox("There you are Sammy!\nThe Professor is looking for us!")
+        closemessage
+        
+        applymovement(2, SSAnne_1F_Room1_Movement_AgathaExit)
+        waitmovement(0)
+        
+        removeobject(2)
+        setflag(FLAG_HIDE_SS_ANNE_ROOM1_AGATHA)
+        
+        setflag(FLAG_SS_ANNE_ROOM1_AGATHA_SCENE_COMPLETED)
+        setvar(VAR_TEMP_0, 1)
+    }
+    releaseall
+    end
+}
+
+movement SSAnne_1F_Room1_Movement_PlayerWalkSouth {
+    walk_down
+}
+
+movement SSAnne_1F_Room1_Movement_PlayerPushedSouth {
+    lock_facing_direction
+    walk_down
+    unlock_facing_direction
+}
+
+movement SSAnne_1F_Room1_Movement_AgathaEnter {
+    walk_down
+}
+
+movement SSAnne_1F_Room1_Movement_AgathaExit {
+    walk_up
+}

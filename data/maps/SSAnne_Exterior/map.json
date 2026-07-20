@@ -18,8 +18,8 @@
     {
       "local_id": "LOCALID_SS_ANNE",
       "type": "object",
-      "graphics_id": "OBJ_EVENT_GFX_SS_ANNE",
-      "x": 30,
+      "graphics_id": "OBJ_EVENT_GFX_SS_TIDAL",
+      "x": 32,
       "y": 16,
       "elevation": 1,
       "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
@@ -50,8 +50,8 @@
       "x": 32,
       "y": 14,
       "elevation": 3,
-      "dest_map": "MAP_SSANNE_1F_CORRIDOR",
-      "dest_warp_id": "2"
+      "dest_map": "MAP_SSMINNOW_1F",
+      "dest_warp_id": "0"
     },
     {
       "x": 33,

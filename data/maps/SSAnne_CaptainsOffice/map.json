@@ -13,7 +13,7 @@
   "show_map_name": true,
   "floor_number": 0,
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
-  "connections": 0,
+  "connections": null,
   "object_events": [
     {
       "local_id": "LOCALID_SS_ANNE_CAPTAIN",
@@ -36,13 +36,11 @@
       "x": 3,
       "y": 7,
       "elevation": 3,
-      "dest_map": "MAP_SSANNE_2F_CORRIDOR",
-      "dest_warp_id": "2"
+      "dest_map": "MAP_SSMINNOW_1F",
+      "dest_warp_id": "3"
     }
   ],
-  "coord_events": [
-
-  ],
+  "coord_events": [],
   "bg_events": [
     {
       "type": "sign",

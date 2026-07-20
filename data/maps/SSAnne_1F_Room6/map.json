@@ -18,8 +18,8 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_WOMAN_2",
-      "x": 5,
-      "y": 7,
+      "x": 11,
+      "y": 11,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_FACE_UP",
       "movement_range_x": 1,
@@ -74,8 +74,8 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
-      "x": 5,
-      "y": 3,
+      "x": 12,
+      "y": 11,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
       "movement_range_x": 1,
@@ -87,8 +87,8 @@
     },
     {
       "type": "object",
-      "graphics_id": "OBJ_EVENT_GFX_SCIENTIST",
-      "x": 4,
+      "graphics_id": "OBJ_EVENT_GFX_AGATHA",
+      "x": 1,
       "y": 2,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
@@ -96,13 +96,13 @@
       "movement_range_y": 1,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "SSAnne_1F_Room6_EventScript_CraftingNPC",
-      "flag": "0"
+      "script": "SSAnne_1F_Room6_EventScript_Agatha",
+      "flag": "FLAG_SYS_POKEMON_GET"
     },
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_OLD_MAN_2",
-      "x": 3,
+      "x": 4,
       "y": 4,
       "elevation": 0,
       "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
@@ -110,7 +110,7 @@
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "NULL",
+      "script": "SSAnne_1F_Room6_EventScript_Arbor",
       "flag": "0"
     }
   ],
@@ -119,8 +119,8 @@
       "x": 2,
       "y": 1,
       "elevation": 0,
-      "dest_map": "MAP_SSANNE_1F_CORRIDOR",
-      "dest_warp_id": "12"
+      "dest_map": "MAP_SSMINNOW_1F",
+      "dest_warp_id": "4"
     }
   ],
   "coord_events": [],

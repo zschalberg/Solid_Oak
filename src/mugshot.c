@@ -24,11 +24,15 @@ static const u16 sMugshotPal_ProfOak[] = INCBIN_U16("graphics/mugshots/prof_oak.
 static const u32 sMugshotPic_Agatha[] = INCBIN_U32("graphics/mugshots/agatha.4bpp");
 static const u16 sMugshotPal_Agatha[] = INCBIN_U16("graphics/mugshots/agatha.gbapal");
 
+static const u32 sMugshotPic_ProfArbor[] = INCBIN_U32("graphics/mugshots/prof_arbor.4bpp");
+static const u16 sMugshotPal_ProfArbor[] = INCBIN_U16("graphics/mugshots/prof_arbor.gbapal");
+
 // Table mapping MUGSHOT_* constants to file references
 static const struct MugshotData sMugshots[] =
 {
-    [MUGSHOT_PROF_OAK] = { sMugshotPic_ProfOak, sMugshotPal_ProfOak },
-    [MUGSHOT_AGATHA]   = { sMugshotPic_Agatha, sMugshotPal_Agatha },
+    [MUGSHOT_PROF_OAK]   = { sMugshotPic_ProfOak, sMugshotPal_ProfOak },
+    [MUGSHOT_AGATHA]     = { sMugshotPic_Agatha, sMugshotPal_Agatha },
+    [MUGSHOT_PROF_ARBOR] = { sMugshotPic_ProfArbor, sMugshotPal_ProfArbor },
 };
 
 static EWRAM_DATA u8 sMugshotSpriteIds[2] = {0, 0};

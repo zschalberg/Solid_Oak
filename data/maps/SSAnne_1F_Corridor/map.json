@@ -60,7 +60,7 @@
   ],
   "warp_events": [
     {
-      "x": 3,
+      "x": 4,
       "y": 8,
       "elevation": 3,
       "dest_map": "MAP_SSANNE_2F_CORRIDOR",

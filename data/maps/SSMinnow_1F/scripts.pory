@@ -1,0 +1,50 @@
+// 1. Define the local object event ID for Agatha
+// (This is her "id" number in the map.json object_events array)
+const LOCALID_AGATHA = 1
+// 2. Map scripts table
+mapscripts SSMinnow_1F_MapScripts {
+    // Triggers on map frame entry if the story variable is 0
+    MAP_SCRIPT_ON_FRAME_TABLE [
+        VAR_MAP_SCENE_S_S_MINNOW_1F_CORRIDOR, 0: SSMinnow_1F_EventScript_AgathaCutscene
+    ]
+}
+// 3. The Cutscene Script
+script SSMinnow_1F_EventScript_AgathaCutscene {
+    lockall
+    
+
+    // Player enters at (4, 7). Turn player right (East) to face Agatha at (5, 7)
+    turnobject(OBJ_EVENT_ID_PLAYER, DIR_EAST)
+    showmugshot(MUGSHOT_AGATHA, MUGSHOT_RIGHT)
+    
+    textcolor(NPC_TEXT_COLOR_FEMALE)
+    // Dialogue
+    msgbox("Alright Sammy,\nLet's go see what the professor wants.")
+    closemessage
+    // Open the door at (16, 6) where Room 6 is located
+    opendoor(16, 8)
+    waitdooranim
+    // Move Agatha and the Player concurrently
+    applymovement(LOCALID_AGATHA, SSMinnow_1F_Movement_AgathaLead)
+    applymovement(OBJ_EVENT_ID_PLAYER, SSMinnow_1F_Movement_PlayerFollow)
+    waitmovement(0)
+    // Close the door after both enter
+    closedoor(16, 8)
+    waitdooranim
+    // Warp the player to Room 6 (MAP_SSANNE_1F_ROOM6)
+    warp(MAP_SSANNE_1F_ROOM6, 2, 2)
+    setflag(FLAG_AGATHA_AND_JOURNAL)
+    releaseall
+    end
+}
+// 4. Movement Sequences
+movement SSMinnow_1F_Movement_AgathaLead {
+    walk_right * 11   // Walks from 5,7 to 16,7
+    walk_down           // Steps through the door into the room
+    set_invisible     // Simulates walking inside
+}
+movement SSMinnow_1F_Movement_PlayerFollow {
+    delay_16          // Pause for a fraction of a second so Agatha leads
+    walk_right * 12   // Follows from 4,7 to 16,7
+    walk_down           // Steps inside
+}

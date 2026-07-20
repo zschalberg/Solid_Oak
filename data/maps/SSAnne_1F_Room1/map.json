@@ -17,17 +17,31 @@
   "object_events": [
     {
       "type": "object",
-      "graphics_id": "OBJ_EVENT_GFX_GENTLEMAN",
-      "x": 2,
-      "y": 5,
-      "elevation": 3,
-      "movement_type": "MOVEMENT_TYPE_WANDER_LEFT_AND_RIGHT",
-      "movement_range_x": 2,
-      "movement_range_y": 1,
+      "graphics_id": "OBJ_EVENT_GFX_TOWN_MAP",
+      "x": 1,
+      "y": 4,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_NONE",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "SSAnne_1F_Room1_EventScript_Gentleman",
-      "flag": "0"
+      "script": "SSAnne_1F_Room1_EventScript_Journal",
+      "flag": "FLAG_SYS_POKEDEX_GET"
+    },
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_AGATHA",
+      "x": 2,
+      "y": 1,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_NONE",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "NULL",
+      "flag": "FLAG_HIDE_SS_ANNE_ROOM1_AGATHA"
     }
   ],
   "warp_events": [
@@ -35,10 +49,20 @@
       "x": 2,
       "y": 1,
       "elevation": 0,
-      "dest_map": "MAP_SSANNE_1F_CORRIDOR",
-      "dest_warp_id": "6"
+      "dest_map": "MAP_SSMINNOW_1F",
+      "dest_warp_id": "7"
     }
   ],
-  "coord_events": [],
+  "coord_events": [
+    {
+      "type": "trigger",
+      "x": 2,
+      "y": 2,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "SSAnne_1F_Room1_EventScript_DoorTrigger"
+    }
+  ],
   "bg_events": []
 }
