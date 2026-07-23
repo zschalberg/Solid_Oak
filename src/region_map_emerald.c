@@ -167,7 +167,7 @@ extern const struct RegionMapLocation gRegionMapEntries[];
     // {MAPSEC_DESERT_UNDERPASS,           MAPSEC_ROUTE_114},
     // {MAPSEC_ALTERING_CAVE,              MAPSEC_ROUTE_103},
     // {MAPSEC_ARTISAN_CAVE,               MAPSEC_ROUTE_103},
-    // {MAPSEC_ABANDONED_SHIP,             MAPSEC_ROUTE_108},
+    // {MAPSEC_FISHING_VILLAGE,             MAPSEC_ROUTE_108},
 //     {MAPSEC_NONE,                       MAPSEC_NONE}
 // };
 

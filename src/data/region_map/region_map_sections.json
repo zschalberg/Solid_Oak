@@ -189,7 +189,12 @@
       "id": "MAPSEC_RUSTURF_TUNNEL"
     },
     {
-      "id": "MAPSEC_ABANDONED_SHIP"
+      "id": "MAPSEC_FISHING_VILLAGE",
+      "name": "FISHING VILLAGE",
+      "x": 15,
+      "y": 13,
+      "width": 1,
+      "height": 1
     },
     {
       "id": "MAPSEC_NEW_MAUVILLE"

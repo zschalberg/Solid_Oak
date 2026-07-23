@@ -23,11 +23,6 @@
       "map": "MAP_ROUTE13",
       "offset": 0,
       "direction": "right"
-    },
-    {
-      "map": "MAP_FISHING_VILLAGE_NEW",
-      "offset": 34,
-      "direction": "right"
     }
   ],
   "object_events": [
@@ -48,8 +43,8 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ROCKER",
-      "x": 18,
-      "y": 35,
+      "x": 12,
+      "y": 47,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
       "movement_range_x": 2,
@@ -160,8 +155,8 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ROCKER",
-      "x": 18,
-      "y": 47,
+      "x": 4,
+      "y": 51,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
       "movement_range_x": 2,
@@ -243,7 +238,15 @@
       "flag": "0"
     }
   ],
-  "warp_events": [],
+  "warp_events": [
+    {
+      "x": 18,
+      "y": 43,
+      "elevation": 0,
+      "dest_map": "MAP_FISHING_VILLAGE_ENTRANCE",
+      "dest_warp_id": "0"
+    }
+  ],
   "coord_events": [],
   "bg_events": [
     {

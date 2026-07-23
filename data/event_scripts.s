@@ -379,6 +379,7 @@
 	.include "data/maps/VermilionCity_Mart/scripts.inc"
 	.include "data/maps/VermilionCity_Gym/scripts.inc"
 	.include "data/maps/VermilionCity_House3/scripts.inc"
+	.include "data/maps/VermilionCity_Dojo/scripts.inc"
 	.include "data/maps/CeladonCity_DepartmentStore_1F/scripts.inc"
 	.include "data/maps/CeladonCity_DepartmentStore_2F/scripts.inc"
 	.include "data/maps/CeladonCity_DepartmentStore_3F/scripts.inc"
@@ -1171,3 +1172,6 @@ EventScript_NoMoreRoomForPokemon::
 
 	.include "data/maps/SSMinnow_1F/scripts.inc"
 	.include "data/maps/SSMinnow_1F/text.inc"
+
+	.include "data/maps/Fishing_Village_Entrance/scripts.inc"
+	.include "data/maps/Fishing_Village_Entrance/text.inc"

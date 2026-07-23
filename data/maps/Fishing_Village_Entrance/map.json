@@ -1,0 +1,36 @@
+{
+  "id": "MAP_FISHING_VILLAGE_ENTRANCE",
+  "name": "Fishing_Village_Entrance",
+  "layout": "LAYOUT_SAFFRON_CITY_EAST_WEST_ENTRANCE",
+  "music": "MUS_ROUTE11",
+  "region_map_section": "MAPSEC_FISHING_VILLAGE",
+  "requires_flash": false,
+  "weather": "WEATHER_NONE",
+  "map_type": "MAP_TYPE_INDOOR",
+  "allow_cycling": true,
+  "allow_escaping": false,
+  "allow_running": true,
+  "show_map_name": true,
+  "floor_number": 0,
+  "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
+  "connections": null,
+  "object_events": [],
+  "warp_events": [
+    {
+      "x": 1,
+      "y": 5,
+      "elevation": 0,
+      "dest_map": "MAP_ROUTE14",
+      "dest_warp_id": "0"
+    },
+    {
+      "x": 11,
+      "y": 5,
+      "elevation": 0,
+      "dest_map": "MAP_FISHING_VILLAGE_NEW",
+      "dest_warp_id": "0"
+    }
+  ],
+  "coord_events": [],
+  "bg_events": []
+}

@@ -414,7 +414,8 @@
     "VermilionCity_House2",
     "VermilionCity_Mart",
     "VermilionCity_Gym",
-    "VermilionCity_House3"
+    "VermilionCity_House3",
+    "VermilionCity_Dojo"
   ],
   "gMapGroup_IndoorCeladon": [
     "CeladonCity_DepartmentStore_1F",
@@ -514,7 +515,8 @@
   ],
   "gMapGroup_IndoorRoute15": [
     "Route15_WestEntrance_1F",
-    "Route15_WestEntrance_2F"
+    "Route15_WestEntrance_2F",
+    "Fishing_Village_Entrance"
   ],
   "gMapGroup_IndoorRoute16": [
     "Route16_House",
