@@ -14402,6 +14402,78 @@ Raichu
 Level: 10
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
+=== TRAINER_BLACK_BELT_RYU ===
+Name: RYU
+Class: Black Belt
+Pic: Black Belt
+Gender: Male
+Music: Intense
+AI: Check Bad Move
+
+Mankey
+Level: 15
+IVs: 5 HP / 5 Atk / 5 Def / 5 SpA / 5 SpD / 5 Spe
+
+Machop
+Level: 16
+IVs: 5 HP / 5 Atk / 5 Def / 5 SpA / 5 SpD / 5 Spe
+
+=== TRAINER_LASS_YUKI_DOJO ===
+Name: YUKI
+Class: Lass
+Pic: Lass
+Gender: Female
+Music: Female
+AI: Check Bad Move
+
+Vulpix
+Level: 14
+IVs: 5 HP / 5 Atk / 5 Def / 5 SpA / 5 SpD / 5 Spe
+
+Drowzee
+Level: 14
+IVs: 5 HP / 5 Atk / 5 Def / 5 SpA / 5 SpD / 5 Spe
+
+Krabby
+Level: 15
+IVs: 5 HP / 5 Atk / 5 Def / 5 SpA / 5 SpD / 5 Spe
+
+=== TRAINER_BLACK_BELT_JIN ===
+Name: JIN
+Class: Black Belt
+Pic: Black Belt
+Gender: Male
+Music: Intense
+AI: Check Bad Move
+
+Geodude
+Level: 16
+IVs: 5 HP / 5 Atk / 5 Def / 5 SpA / 5 SpD / 5 Spe
+
+Onix
+Level: 17
+IVs: 5 HP / 5 Atk / 5 Def / 5 SpA / 5 SpD / 5 Spe
+
+=== TRAINER_EXPERT_AKIO ===
+Name: AKIO
+Class: Expert
+Pic: Expert M
+Gender: Male
+Music: Intense
+AI: Check Bad Move / Try To Faint / Check Viability
+
+Machoke
+Level: 20
+IVs: 10 HP / 10 Atk / 10 Def / 10 SpA / 10 SpD / 10 Spe
+
+Primeape
+Level: 20
+IVs: 10 HP / 10 Atk / 10 Def / 10 SpA / 10 SpD / 10 Spe
+
+Hitmonchan
+Level: 22
+IVs: 10 HP / 10 Atk / 10 Def / 10 SpA / 10 SpD / 10 Spe
+
 === TRAINER_TESTER_3V3 ===
 Name: TESTER
 Class: Sailor

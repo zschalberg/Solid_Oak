@@ -1,0 +1,161 @@
+mapscripts VermilionCity_Dojo_MapScripts {
+}
+
+raw `
+VermilionCity_Dojo_EventScript_TmBall::
+	finditem ITEM_TM08
+	setflag FLAG_ITEM_VERMILION_DOJO_TM
+	end
+
+@ ============================================================
+@ STUDENT RYU - Standard singles
+@ ============================================================
+VermilionCity_Dojo_EventScript_Ryu::
+	trainerbattle_single TRAINER_BLACK_BELT_RYU, VermilionCity_Dojo_Text_RyuIntro, VermilionCity_Dojo_Text_RyuDefeat
+	msgbox VermilionCity_Dojo_Text_RyuPost, MSGBOX_AUTOCLOSE
+	end
+
+@ ============================================================
+@ STUDENT YUKI - Preview battle, player picks 3 from party
+@ ============================================================
+VermilionCity_Dojo_EventScript_Yuki::
+	setflag FLAG_PREVIEW_BATTLE
+	setvar 0x8008, 3
+	trainerbattle_single TRAINER_LASS_YUKI_DOJO, VermilionCity_Dojo_Text_YukiIntro, VermilionCity_Dojo_Text_YukiDefeat
+	msgbox VermilionCity_Dojo_Text_YukiPost, MSGBOX_AUTOCLOSE
+	end
+
+@ ============================================================
+@ STUDENT JIN - Turn limit battle (15 turns)
+@ ============================================================
+VermilionCity_Dojo_EventScript_Jin::
+	setflag FLAG_TURN_LIMIT_BATTLE
+	setvar VAR_TURN_LIMIT, 15
+	trainerbattle_single TRAINER_BLACK_BELT_JIN, VermilionCity_Dojo_Text_JinIntro, VermilionCity_Dojo_Text_JinDefeat
+	msgbox VermilionCity_Dojo_Text_JinPost, MSGBOX_AUTOCLOSE
+	end
+
+@ ============================================================
+@ SENSEI AKIO - Monotype Normal restriction
+@ ============================================================
+VermilionCity_Dojo_EventScript_Akio::
+	goto_if_set FLAG_DOJO_AKIO_DEFEATED, VermilionCity_Dojo_EventScript_AkioIdle
+	setflag FLAG_MONOTYPE_BATTLE
+	setvar VAR_MONOTYPE_RESTRICTION, TYPE_NORMAL
+	trainerbattle_single TRAINER_EXPERT_AKIO, VermilionCity_Dojo_Text_AkioIntro, VermilionCity_Dojo_Text_AkioDefeat, VermilionCity_Dojo_EventScript_AkioFirstDefeat
+	msgbox VermilionCity_Dojo_Text_AkioPostBattle, MSGBOX_AUTOCLOSE
+	end
+
+VermilionCity_Dojo_EventScript_AkioFirstDefeat::
+	setflag FLAG_DOJO_AKIO_DEFEATED
+	giveitem ITEM_TM34, 1
+	release
+	end
+
+VermilionCity_Dojo_EventScript_AkioIdle::
+	lock
+	faceplayer
+	msgbox VermilionCity_Dojo_Text_AkioIdle, MSGBOX_NPC
+	release
+	end
+
+@ ============================================================
+@ SIGNS
+@ ============================================================
+VermilionCity_Dojo_EventScript_Plaque::
+	msgbox VermilionCity_Dojo_Text_Plaque, MSGBOX_SIGN
+	end
+
+VermilionCity_Dojo_EventScript_ScrollLeft::
+	msgbox VermilionCity_Dojo_Text_ScrollLeft, MSGBOX_SIGN
+	end
+
+VermilionCity_Dojo_EventScript_ScrollRight::
+	msgbox VermilionCity_Dojo_Text_ScrollRight, MSGBOX_SIGN
+	end
+
+@ ============================================================
+@ TEXT
+@ ============================================================
+VermilionCity_Dojo_Text_RyuIntro:
+	.string "Before you reach Sensei,\n"
+	.string "you pass through me.\p"
+	.string "Show me you belong here.$"
+
+VermilionCity_Dojo_Text_RyuDefeat:
+	.string "You've got something in you.$"
+
+VermilionCity_Dojo_Text_RyuPost:
+	.string "The next two fight differently.\n"
+	.string "Pay attention to how they\l"
+	.string "come at you.$"
+
+VermilionCity_Dojo_Text_YukiIntro:
+	.string "I always look before I commit.\p"
+	.string "You'll see my whole team.\n"
+	.string "I'll see yours.\p"
+	.string "Then we decide.$"
+
+VermilionCity_Dojo_Text_YukiDefeat:
+	.string "Good picks. That's half\n"
+	.string "the battle.$"
+
+VermilionCity_Dojo_Text_YukiPost:
+	.string "Every match starts before\n"
+	.string "the first move is made.$"
+
+VermilionCity_Dojo_Text_JinIntro:
+	.string "Fifteen turns.\n"
+	.string "That's all you get.\p"
+	.string "If you can't close it by\n"
+	.string "then, you weren't ready.$"
+
+VermilionCity_Dojo_Text_JinDefeat:
+	.string "Quick and clean.\n"
+	.string "You knew what to do.$"
+
+VermilionCity_Dojo_Text_JinPost:
+	.string "Efficiency isn't speed.\n"
+	.string "It's not wasting what\l"
+	.string "you have.$"
+
+VermilionCity_Dojo_Text_AkioIntro:
+	.string "NORMAL types.\n"
+	.string "Only NORMAL types.\p"
+	.string "The most common things in\n"
+	.string "this region.\p"
+	.string "Show me you understand\n"
+	.string "what you already have.$"
+
+VermilionCity_Dojo_Text_AkioDefeat:
+	.string "Good. You didn't overcomplicate\n"
+	.string "it.$"
+
+VermilionCity_Dojo_Text_AkioPostBattle:
+	.string "A researcher who ignores\n"
+	.string "common POKéMON misses\l"
+	.string "half the picture.\p"
+	.string "They're everywhere for a\n"
+	.string "reason.\p"
+	.string "These are for your fieldwork.$"
+
+VermilionCity_Dojo_Text_AkioIdle:
+	.string "Come back when you've seen\n"
+	.string "more of Kanto.$"
+
+VermilionCity_Dojo_Text_Plaque:
+	.string "AKIO'S DOJO\p"
+	.string "Observation precedes action.\n"
+	.string "Action precedes understanding.$"
+
+VermilionCity_Dojo_Text_ScrollLeft:
+	.string "The untrained eye sees a\n"
+	.string "common bird.\l"
+	.string "The trained eye sees how\n"
+	.string "it holds its wings.$"
+
+VermilionCity_Dojo_Text_ScrollRight:
+	.string "There is no weak POKéMON.\n"
+	.string "There is only the trainer\l"
+	.string "who stopped looking.$"
+`
