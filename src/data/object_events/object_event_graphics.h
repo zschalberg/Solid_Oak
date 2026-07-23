@@ -372,3 +372,8 @@ const u32 gObjectEventPic_Noland[] = INCBIN_U32("graphics/object_events/pics/peo
 const u32 gObjectEventPic_Spenser[] = INCBIN_U32("graphics/object_events/pics/people/frontier_brains/spenser.4bpp");
 const u32 gObjectEventPic_Tucker[] = INCBIN_U32("graphics/object_events/pics/people/frontier_brains/tucker.4bpp");
 
+const u16 gObjectEventPic_TentacoolSwimming[] = INCBIN_U16("graphics/pokemon/tentacool/overworld_swimming.4bpp");
+const u16 gObjectEventPal_TentacoolSwimming[] = INCBIN_U16("graphics/pokemon/tentacool/overworld_normal.gbapal");
+const u16 gObjectEventPic_TentacruelSwimming[] = INCBIN_U16("graphics/pokemon/tentacruel/overworld_swimming.4bpp");
+const u16 gObjectEventPal_TentacruelSwimming[] = INCBIN_U16("graphics/pokemon/tentacruel/overworld_normal.gbapal");
+

@@ -910,7 +910,13 @@ $(POKEMONGFXDIR)/victreebel/overworld.4bpp: %.4bpp: %.png
 $(POKEMONGFXDIR)/tentacool/overworld.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
+$(POKEMONGFXDIR)/tentacool/overworld_swimming.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 4 -mheight 4
+
 $(POKEMONGFXDIR)/tentacruel/overworld.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 4 -mheight 4
+
+$(POKEMONGFXDIR)/tentacruel/overworld_swimming.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
 $(POKEMONGFXDIR)/geodude/overworld.4bpp: %.4bpp: %.png

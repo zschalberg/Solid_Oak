@@ -2093,3 +2093,27 @@ static const struct SpriteFrameImage sPicTable_Spenser[] = {
 static const struct SpriteFrameImage sPicTable_Tucker[] = {
     overworld_ascending_frames(gObjectEventPic_Tucker, 2, 4),
 };
+
+static const struct SpriteFrameImage sPicTable_TentacoolSwimming[] = {
+    overworld_frame(gObjectEventPic_TentacoolSwimming, 4, 4, 0),
+    overworld_frame(gObjectEventPic_TentacoolSwimming, 4, 4, 1),
+    overworld_frame(gObjectEventPic_TentacoolSwimming, 4, 4, 2),
+    overworld_frame(gObjectEventPic_TentacoolSwimming, 4, 4, 0),
+    overworld_frame(gObjectEventPic_TentacoolSwimming, 4, 4, 0),
+    overworld_frame(gObjectEventPic_TentacoolSwimming, 4, 4, 1),
+    overworld_frame(gObjectEventPic_TentacoolSwimming, 4, 4, 1),
+    overworld_frame(gObjectEventPic_TentacoolSwimming, 4, 4, 2),
+    overworld_frame(gObjectEventPic_TentacoolSwimming, 4, 4, 2),
+};
+
+static const struct SpriteFrameImage sPicTable_TentacruelSwimming[] = {
+    overworld_frame(gObjectEventPic_TentacruelSwimming, 4, 4, 0),
+    overworld_frame(gObjectEventPic_TentacruelSwimming, 4, 4, 1),
+    overworld_frame(gObjectEventPic_TentacruelSwimming, 4, 4, 2),
+    overworld_frame(gObjectEventPic_TentacruelSwimming, 4, 4, 0),
+    overworld_frame(gObjectEventPic_TentacruelSwimming, 4, 4, 0),
+    overworld_frame(gObjectEventPic_TentacruelSwimming, 4, 4, 1),
+    overworld_frame(gObjectEventPic_TentacruelSwimming, 4, 4, 1),
+    overworld_frame(gObjectEventPic_TentacruelSwimming, 4, 4, 2),
+    overworld_frame(gObjectEventPic_TentacruelSwimming, 4, 4, 2),
+};
