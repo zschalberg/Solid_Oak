@@ -224,3 +224,70 @@ VermilionCity_Text_TesterSailor_WildScalingNowDisabled::
     .string "default area levels.$"
 
 
+
+VermilionCity_Text_WomanApricorns::
+    .string "Fresh in. Lure Apricorns if you\n"
+    .string "need them.\p"
+    .string "Not many people asking right now,\n"
+    .string "but that's usually when it's worth\l"
+    .string "having some.$"
+
+VermilionCity_Text_OldMan1Saffron::
+    .string "Saffron's been quieter than usual\n"
+    .string "lately.\p"
+    .string "They've got that big Silph building\n"
+    .string "going up. Takes half the workers\l"
+    .string "from the other districts.\p"
+    .string "I'm not complaining.\n"
+    .string "More work means more work.$"
+
+VermilionCity_Text_OldMan2Construction1::
+    .string "Watch where you're walking down\n"
+    .string "there!\p"
+    .string "We're behind schedule and I can't\n"
+    .string "afford another incident.$"
+
+VermilionCity_Text_OldMan2Construction2::
+    .string "Building was half-done when we\n"
+    .string "took it over.\p"
+    .string "Previous crew left everything.\n"
+    .string "Don't ask me why.$"
+
+VermilionCity_Text_DojoTrainer1::
+    .string "You thinking about going inside?\p"
+    .string "Sensei Akio doesn't take just\n"
+    .string "anyone.$"
+
+VermilionCity_Text_DojoTrainer2::
+    .string "Come back once you've seen some of\n"
+    .string "what this region has going on.\p"
+    .string "He says a trainer who hasn't been\n"
+    .string "tested doesn't know what they\l"
+    .string "need yet.$"
+
+VermilionCity_Text_ArborDock1::
+    .string "Vermilion.\l"
+    .string "Hasn't changed much.$"
+
+VermilionCity_Text_ArborDock2::
+    .string "Head north when you're ready.\p"
+    .string "I've arranged a room at the hotel.\n"
+    .string "ask at the desk, they'll have it.\p"
+    .string "I need to check in with the harbor\n"
+    .string "office first.$"
+
+VermilionCity_Text_ArborDock3::
+    .string "Good luck, Oak.$"
+
+VermilionCity_Text_ArborIdle::
+    .string "I'll find you in the city.$"
+
+VermilionCity_Text_PsyduckChild::
+    .string "There's a PSYDUCK in there! See it?\p"
+    .string "It's not supposed to be here.\n"
+    .string "Daddy says PSYDUCK are from up\l"
+    .string "north.\p"
+    .string "I named him Gerald.$"
+
+VermilionCity_Text_PsyduckMisc::
+    .string "PSYDUCK: Psy…$"

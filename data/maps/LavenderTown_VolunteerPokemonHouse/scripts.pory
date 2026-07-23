@@ -1,0 +1,216 @@
+const LOCALID_FUJI = 1
+
+mapscripts LavenderTown_VolunteerPokemonHouse_MapScripts {
+    MAP_SCRIPT_ON_TRANSITION: LavenderTown_VolunteerPokemonHouse_OnTransition
+    MAP_SCRIPT_ON_FRAME_TABLE [
+        VAR_ACT1_LAVENDER, 0: LavenderTown_VolunteerPokemonHouse_EventScript_FujiIntro
+    ]
+}
+
+script LavenderTown_VolunteerPokemonHouse_OnTransition {
+    setmetatile(11, 2, 0x028, FALSE)
+    end
+}
+
+script LavenderTown_VolunteerPokemonHouse_EventScript_FujiIntro {
+    lockall
+    setvar(VAR_ACT1_LAVENDER, 1)
+    faceplayer
+    //showmugshot(MUGSHOT_FUJI, MUGSHOT_LEFT)
+    textcolor(NPC_TEXT_COLOR_MALE)
+    msgbox("Ah. You must be ARBOR's student.\p"
+           "Come in, come in.\p"
+           "I've been hoping you'd arrive\n"
+           "before the week was out.")
+    closemessage
+    applymovement(OBJ_EVENT_ID_PLAYER, LavenderTown_VolunteerPokemonHouse_Movement_Player)
+    waitmovement(0)
+    showmugshot(MUGSHOT_AGATHA, MUGSHOT_LEFT)
+    textcolor(NPC_TEXT_COLOR_FEMALE)
+    msgbox("We've been waiting.\p")
+    closemessage
+    clearmugshot
+    //showmugshot(MUGSHOT_FUJI, MUGSHOT_LEFT)
+    textcolor(NPC_TEXT_COLOR_MALE)
+    msgbox("There is a KRABBY population on\n"
+           "the southern coast.\p"
+           "Normally they cluster in the\n"
+           "shallows near LAVENDER.\p"
+           "This season, they've moved.\n"
+           "All of them. Same direction.\p"
+           "No one can explain it.")
+    closemessage
+    //showmugshot(MUGSHOT_FUJI, MUGSHOT_LEFT)
+    msgbox("These are RESEARCH BALLS.\p"
+           "I developed them for\n"
+           "fieldwork like this.\p"
+           "Catch a few KRABBY. Note the\n"
+           "sizes, the weights.\p"
+           "Bring them to me and I can\n"
+           "tell you something useful.")
+    closemessage
+    giveitem(ITEM_RESEARCH_BALL, 20)
+    //showmugshot(MUGSHOT_FUJI, MUGSHOT_LEFT)
+    textcolor(NPC_TEXT_COLOR_MALE)
+    applymovement(LOCALID_FUJI, LavenderTown_VolunteerPokemonHouse_Movement_FUJI)
+    waitmovement(0)
+    msgbox("I have some for you as well.")
+    closemessage
+    showmugshot(MUGSHOT_AGATHA, MUGSHOT_LEFT)
+    textcolor(NPC_TEXT_COLOR_FEMALE)
+    msgbox("Fine.\p"
+           "But I'm not writing the report.")
+    closemessage
+    clearmugshot
+    applymovement(LOCALID_POKEHOUSE_AGATHA, LavenderTown_VolunteerPokemonHouse_Movement_AgathaExit)
+    waitmovement(0)
+    removeobject(LOCALID_POKEHOUSE_AGATHA)
+    setflag(FLAG_HIDE_POKEHOUSE_AGATHA)
+    showmugshot(MUGSHOT_PROF_OAK, MUGSHOT_LEFT)
+    textcolor(NPC_TEXT_COLOR_MALE)
+    msgbox("She'll find her own way.\p"
+           "She always does.")
+    closemessage
+    applymovement(LOCALID_FUJI, LavenderTown_VolunteerPokemonHouse_Movement_FujiFaceDown)
+    waitmovement(0)
+    //showmugshot(MUGSHOT_FUJI, MUGSHOT_LEFT)
+    textcolor(NPC_TEXT_COLOR_MALE)
+    msgbox("Start with the shallows\n"
+           "south of the RESERVE.\p"
+           "Look for the heaviest ones.\n"
+           "They'll be the oldest.")
+    closemessage
+    setflag(FLAG_KRABBY_QUEST_GIVEN)
+    setflag(FLAG_MET_FUJI)
+    setflag(FLAG_HIDE_LAVENDER_FUJI)
+    // Re-arm Fuchsia's Reserve intro check: if the player already visited
+    // Fuchsia before getting this quest, FuchsiaCity_EventScript_ReserveIntroCheck
+    // bumped VAR_ACT1_FUCHSIA to 2 so its on-frame table stops re-matching.
+    // Reset it to 0 so it fires again (and this time actually plays) on
+    // their next visit to Fuchsia.
+    setvar(VAR_ACT1_FUCHSIA, 0)
+    releaseall
+    end
+}
+
+script LavenderTown_VolunteerPokemonHouse_EventScript_MrFuji {
+    lock
+    faceplayer
+    if (flag(FLAG_KRABBY_QUEST_COMPLETE)) {
+        msgbox("Thank you for the survey data.\p"
+               "This confirms what I suspected.\p"
+               "I'll have an analysis ready\n"
+               "for you soon.")
+        closemessage
+    } else {
+        if (flag(FLAG_KRABBY_QUEST_GIVEN)) {
+            msgbox("Have you found any KRABBY yet?\p"
+                   "The shallows south of the\n"
+                   "RESERVE are your best bet.\p"
+                   "Look for the heaviest ones.\n"
+                   "Those are the ones I want.")
+            closemessage
+        } else {
+            msgbox("Ah. Come in, please.")
+            closemessage
+        }
+    }
+    release
+    end
+}
+
+script LavenderTown_VolunteerPokemonHouse_EventScript_Agatha {
+    lock
+    faceplayer
+    showmugshot(MUGSHOT_AGATHA, MUGSHOT_LEFT)
+    textcolor(NPC_TEXT_COLOR_FEMALE)
+    msgbox("Later.")
+    closemessage
+    clearmugshot
+    release
+    end
+}
+
+script LavenderTown_VolunteerPokemonHouse_EventScript_LittleGirl {
+    lock
+    faceplayer
+    msgbox("Mr. Fuji takes care of all the\n"
+           "POKéMON nobody wants.\p"
+           "Mama says he's been doing it\n"
+           "since before she was born.")
+    closemessage
+    release
+    end
+}
+
+script LavenderTown_VolunteerPokemonHouse_EventScript_LittleBoy {
+    msgbox("They're nicer than my brother.", MSGBOX_NPC)
+    end
+}
+
+script LavenderTown_VolunteerPokemonHouse_EventScript_Youngster {
+    lock
+    faceplayer
+    msgbox("Mr. Fuji says you're a real\n"
+           "researcher.\p"
+           "Do researchers get to name\n"
+           "new POKéMON?")
+    closemessage
+    release
+    end
+}
+
+script LavenderTown_VolunteerPokemonHouse_EventScript_Nidorino {
+    lock
+    faceplayer
+    waitse
+    playmoncry(SPECIES_NIDORINO, CRY_MODE_NORMAL)
+    msgbox("NIDO-RI-NO!")
+    closemessage
+    waitmoncry
+    release
+    end
+}
+
+script LavenderTown_VolunteerPokemonHouse_EventScript_Psyduck {
+    lock
+    faceplayer
+    waitse
+    playmoncry(SPECIES_PSYDUCK, CRY_MODE_NORMAL)
+    msgbox("PSY...")
+    closemessage
+    waitmoncry
+    release
+    end
+}
+
+script LavenderTown_VolunteerPokemonHouse_EventScript_PokemonFanMagazine {
+    msgbox("A POKéMON fan magazine.\n"
+           "The pages are well-worn.", MSGBOX_SIGN)
+    end
+}
+
+script LavenderTown_VolunteerPokemonHouse_EventScript_Bookshelf {
+    msgbox("POKéMON-related books\n"
+           "line the shelf.", MSGBOX_SIGN)
+    end
+}
+
+movement LavenderTown_VolunteerPokemonHouse_Movement_AgathaExit {
+    walk_down * 5
+    set_invisible
+}
+
+movement LavenderTown_VolunteerPokemonHouse_Movement_Player {
+    walk_up * 3
+    walk_left
+    face_up
+}
+
+movement LavenderTown_VolunteerPokemonHouse_Movement_FUJI {
+    face_right
+}
+
+movement LavenderTown_VolunteerPokemonHouse_Movement_FujiFaceDown {
+    face_down
+}

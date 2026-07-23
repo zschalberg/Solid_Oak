@@ -7,6 +7,7 @@ raw`VermilionCity_MapScripts::
 
 VermilionCity_OnFrame::
 	map_script_2 VAR_MAP_SCENE_VERMILION_CITY, 2, VermilionCity_EventScript_ExitSSAnne
+	map_script_2 VAR_ACT1_VERMILLION, 0, VermilionCity_EventScript_ArborDockScene
 	.2byte 0
 
 VermilionCity_EventScript_ExitSSAnne::
@@ -32,20 +33,11 @@ VermilionCity_EventScript_HideOaksAide::
 	return
 
 VermilionCity_EventScript_Woman::
-	msgbox VermilionCity_Text_GrimerMultipliesInSludge, MSGBOX_NPC
+	msgbox VermilionCity_Text_WomanApricorns, MSGBOX_NPC
 	end
 
 VermilionCity_EventScript_OldMan1::
-	lock
-	faceplayer
-	goto_if_eq VAR_MAP_SCENE_VERMILION_CITY, 3, VermilionCity_EventScript_OldMan1SSAnneLeft
-	msgbox VermilionCity_Text_DidYouSeeSSAnneInHarbor
-	release
-	end
-
-VermilionCity_EventScript_OldMan1SSAnneLeft::
-	msgbox VermilionCity_Text_SSAnneHasDepartedForYear
-	release
+	msgbox VermilionCity_Text_OldMan1Saffron, MSGBOX_NPC
 	end
 
 VermilionCity_EventScript_FerrySailor::
@@ -272,7 +264,12 @@ VermilionCity_EventScript_CheckSeagallopPresentTrigger::
 	end
 
 VermilionCity_EventScript_Sailor::
-	msgbox VermilionCity_Text_SSAnneVisitsOnceAYear, MSGBOX_NPC
+	lock
+	faceplayer
+	msgbox VermilionCity_Text_DojoTrainer1
+	closemessage
+	msgbox VermilionCity_Text_DojoTrainer2
+	release
 	end
 
 VermilionCity_EventScript_OaksAide::
@@ -284,7 +281,12 @@ VermilionCity_EventScript_OaksAide::
 	end
 
 VermilionCity_EventScript_OldMan2::
-	msgbox VermilionCity_Text_BuildingOnThisLand, MSGBOX_NPC
+	lock
+	faceplayer
+	msgbox VermilionCity_Text_OldMan2Construction1
+	closemessage
+	msgbox VermilionCity_Text_OldMan2Construction2
+	release
 	end
 
 VermilionCity_EventScript_Machop::
@@ -294,7 +296,6 @@ VermilionCity_EventScript_Machop::
 	playmoncry SPECIES_MACHOP, CRY_MODE_NORMAL
 	msgbox VermilionCity_Text_Machop
 	waitmoncry
-	msgbox VermilionCity_Text_MachopStompingLandFlat
 	release
 	end
 
@@ -418,6 +419,56 @@ VermilionCity_EventScript_TesterSailor_ScaledWildBoss::
 
 VermilionCity_EventScript_TesterSailor_Close::
 	msgbox VermilionCity_Text_TesterSailor_NoBattle, MSGBOX_DEFAULT
+	release
+	end
+
+VermilionCity_EventScript_ArborDockScene::
+	goto_if_unset FLAG_SYS_POKEMON_GET, VermilionCity_EventScript_ArborDockScene_NotReady
+	lockall
+	setvar VAR_ACT1_VERMILLION, 1
+	showmugshot MUGSHOT_PROF_ARBOR, MUGSHOT_RIGHT
+	textcolor NPC_TEXT_COLOR_MALE
+	msgbox VermilionCity_Text_ArborDock1
+	closemessage
+    faceplayer
+	msgbox VermilionCity_Text_ArborDock2
+	closemessage
+	msgbox VermilionCity_Text_ArborDock3
+	closemessage
+	clearmugshot
+	setflag FLAG_HIDE_VERMILION_ARBOR
+	releaseall
+	goto VermilionCity_EventScript_ArborDockScene_End
+VermilionCity_EventScript_ArborDockScene_NotReady::
+	// Bumping the var to 2 stops the on-frame table (VAR_ACT1_VERMILLION, 0)
+	// from re-matching every single frame, which would otherwise starve out
+	// all other field input (see FuchsiaCity's identical fix for why).
+	setvar VAR_ACT1_VERMILLION, 2
+VermilionCity_EventScript_ArborDockScene_End::
+	end
+
+VermilionCity_EventScript_Arbor::
+	lock
+	faceplayer
+	showmugshot MUGSHOT_PROF_ARBOR, MUGSHOT_RIGHT
+	textcolor NPC_TEXT_COLOR_MALE
+	msgbox VermilionCity_Text_ArborIdle
+	closemessage
+	clearmugshot
+	release
+	end
+
+VermilionCity_EventScript_PsyduckChild::
+	msgbox VermilionCity_Text_PsyduckChild, MSGBOX_NPC
+	end
+
+VermilionCity_EventScript_PsyduckNPC::
+	lock
+	faceplayer
+	waitse
+	playmoncry SPECIES_PSYDUCK, CRY_MODE_NORMAL
+	msgbox VermilionCity_Text_PsyduckMisc
+	waitmoncry
 	release
 	end
 `

@@ -106,6 +106,16 @@ static const struct Quest sQuests[] = {
         .mapsec = MAPSEC_PALLET_TOWN
     },
     {
+        .name = COMPOUND_STRING("KRAB FISHING"),
+        .desc = COMPOUND_STRING("Catch 2 KRABBY.\nStatus: {STR_VAR_1}"),
+        .unlockFlag = FLAG_KRABBY_QUEST_GIVEN,
+        .completeFlag = FLAG_KRABBY_QUEST_COMPLETE,
+        .itemId = SPECIES_KRABBY,
+        .isPokemonIcon = TRUE,
+        .group = QUEST_GROUP_RESEARCH,
+        .mapsec = MAPSEC_FUCHSIA_CITY
+    },
+    {
         .name = COMPOUND_STRING("POKéDEX COMPLETION"),
         .desc = COMPOUND_STRING("Help PROF. OAK compile data on all\nPOKéMON in the KANTO region.\nStatus: {STR_VAR_1}"),
         .unlockFlag = FLAG_QUEST_2_ACTIVE,
@@ -165,6 +175,7 @@ static const struct Quest sQuests[] = {
         .group = QUEST_GROUP_RESEARCH,
         .mapsec = MAPSEC_LAVENDER_TOWN
     }
+    
 };
 
 static const struct BgTemplate sBgTemplates[2] = {

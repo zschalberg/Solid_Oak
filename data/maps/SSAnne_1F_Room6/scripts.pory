@@ -18,20 +18,23 @@ script SSMinnow_1F_EventScript_ChoosePokemonCutscene {
 
     showmugshot(MUGSHOT_PROF_ARBOR, MUGSHOT_RIGHT)
     textcolor(NPC_TEXT_COLOR_MALE)
-    // Dialogue
-    msgbox("Ah, you're here. Good.\p"
-           "We'll be arriving in\n"
-           "Vermilion Harbor soon.\p"
-           "As you know, Kanto is experiencing a\n"
-           "strange influx of Pokémon not native\l"
-           "to the region.\p"
-           "It's the job of the two of you to\n"
-           "figure out why that is.\p"
-           "To do so, you'll need a companion\n"
+    msgbox("Ah. There you both are.\p"
+            "We'll be in Vermilion Harbor\n"
+           "inside the hour. I want you ready.\p"
+            "Kanto is seeing POKéMON\n"
+           "in locations\l"
+           "they have no business being in.\p"
+           "Migration patterns that don't match\n"
+           "any model we have.\p"
+           "Something is moving them\p"
+           "Your assignment: find out what.\p"
+           "To do that, you'll need a partner\n"
            "Pokémon.\p"
-           "There are three on the table here.\n"
-           "Oak, go ahead and pick one to take\l"
-           "with you.")
+           "I've given this some thought.\n"
+           "There are three on the table.\p"
+           "I'll let you look them over before\n"
+           "you decide. Oak, the choice is\l"
+           "yours first.")
     closemessage
     releaseall
     end
@@ -40,21 +43,37 @@ script SSMinnow_1F_EventScript_ChoosePokemonCutscene {
 script SSAnne_1F_Room6_EventScript_FinishStarterSelection{
     showmugshot(MUGSHOT_PROF_ARBOR, MUGSHOT_RIGHT)
     textcolor(NPC_TEXT_COLOR_MALE)
-    // Dialogue
-    msgbox("Alright Agatha, go ahead.")
+    msgbox("Good. Take care of it.\p"
+           "Whatever you're planning to do out\n"
+           "there, your partner's condition will\l"
+           "matter more than you think.")
+    closemessage
+    showmugshot(MUGSHOT_PROF_ARBOR, MUGSHOT_RIGHT)
+    msgbox("Alright, Agatha. Go ahead.")
     closemessage
     showmugshot(MUGSHOT_AGATHA, MUGSHOT_LEFT)
     textcolor(NPC_TEXT_COLOR_FEMALE)
-    msgbox("Oh, no thanks, Professor. All of\n"
-           "these ones look a bit too weak for me.\p"
+    msgbox("Oh, no thanks, Professor.\p"
+           "All of these ones look a bit too\n"
+           "weak for me.\p"
            "I'll go out and get one for myself.")
+    closemessage
+    showmugshot(MUGSHOT_PROF_ARBOR, MUGSHOT_RIGHT)
+    textcolor(NPC_TEXT_COLOR_MALE)
+    msgbox("Alright. Don't take too long.")
     closemessage
     applymovement(LOCALID_AGATHA, SSMinnow_1F_Room6_Movement_Agatha_Leaves)
     waitmovement(0)
     removeobject(LOCALID_AGATHA)
+    showmugshot(MUGSHOT_PROF_ARBOR, MUGSHOT_RIGHT)
+    msgbox("She'll be fine. She always is.\p"
+    "Gather your things. I'll find you\n"
+           "in the city once you're off the ship.")
+    closemessage
+    clearmugshot
     setflag(FLAG_SYS_POKEMON_GET)
-	release
-	end
+    release
+    end
 }
 
 script SSAnne_1F_Room6_EventScript_Agatha{
@@ -73,14 +92,11 @@ script SSAnne_1F_Room6_EventScript_Arbor{
     faceplayer
     showmugshot(MUGSHOT_PROF_ARBOR, MUGSHOT_RIGHT)
     textcolor(NPC_TEXT_COLOR_MALE)
-    // Check if the starter flag is set
     if (flag(FLAG_SYS_POKEMON_GET)) {
-        // Dialogue after getting your Pokémon
-        msgbox("Take good care of your new partner!\n"
-               "They will grow strong if you battle.")
+        msgbox("The harbor's close now.\n"
+               "Get your things together.")
     } else {
-        // Dialogue before getting your Pokémon
-        msgbox("Choose your partner Pokémon wisely.")
+        msgbox("Take your time. But not too much.")
     }
     closemessage
     release
@@ -129,6 +145,10 @@ SSAnne_1F_Room6_EventScript_Growlithe::
 	lock
 	faceplayer
 	goto_if_set FLAG_SYS_POKEMON_GET, SSAnne_1F_Room6_EventScript_GrowlitheAlreadyChose
+	showmugshot MUGSHOT_PROF_ARBOR, MUGSHOT_RIGHT
+	textcolor NPC_TEXT_COLOR_MALE
+	msgbox SSAnne_1F_Room6_Text_ArborNoteGrowlithe, MSGBOX_DEFAULT
+	clearmugshot
 	showmonpic SPECIES_GROWLITHE, 10, 3
 	playmoncry SPECIES_GROWLITHE, CRY_MODE_NORMAL
 	msgbox SSAnne_1F_Room6_Text_ChooseGrowlithe, MSGBOX_YESNO
@@ -191,6 +211,10 @@ SSAnne_1F_Room6_EventScript_NidoranM::
 	lock
 	faceplayer
 	goto_if_set FLAG_SYS_POKEMON_GET, SSAnne_1F_Room6_EventScript_NidoranMAlreadyChose
+	showmugshot MUGSHOT_PROF_ARBOR, MUGSHOT_RIGHT
+	textcolor NPC_TEXT_COLOR_MALE
+	msgbox SSAnne_1F_Room6_Text_ArborNoteNidoranM, MSGBOX_DEFAULT
+	clearmugshot
 	showmonpic SPECIES_NIDORAN_M, 10, 3
 	playmoncry SPECIES_NIDORAN_M, CRY_MODE_NORMAL
 	msgbox SSAnne_1F_Room6_Text_ChooseNidoranM, MSGBOX_YESNO
@@ -253,6 +277,10 @@ SSAnne_1F_Room6_EventScript_Exeggcute::
 	lock
 	faceplayer
 	goto_if_set FLAG_SYS_POKEMON_GET, SSAnne_1F_Room6_EventScript_ExeggcuteAlreadyChose
+	showmugshot MUGSHOT_PROF_ARBOR, MUGSHOT_RIGHT
+	textcolor NPC_TEXT_COLOR_MALE
+	msgbox SSAnne_1F_Room6_Text_ArborNoteExeggcute, MSGBOX_DEFAULT
+	clearmugshot
 	showmonpic SPECIES_EXEGGCUTE, 10, 3
 	playmoncry SPECIES_EXEGGCUTE, CRY_MODE_NORMAL
 	msgbox SSAnne_1F_Room6_Text_ChooseExeggcute, MSGBOX_YESNO

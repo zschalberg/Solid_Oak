@@ -532,16 +532,16 @@
 // Unused?
 #define FLAG_ITEM_ARTISAN_CAVE_1F_CARBOS                        0x1FF
 #define FLAG_ITEM_ARTISAN_CAVE_B1F_HP_UP                        0x200
-#define FLAG_0x201               0x201
-#define FLAG_0x202               0x202
-#define FLAG_0x203               0x203
-#define FLAG_0x204               0x204
-#define FLAG_0x205               0x205
-#define FLAG_0x206               0x206
-#define FLAG_0x207               0x207
-#define FLAG_0x208               0x208
-#define FLAG_0x209               0x209
-#define FLAG_0x20A               0x20A
+#define FLAG_HIDE_VERMILION_ARBOR          0x201
+#define FLAG_KRABBY_QUEST_GIVEN            0x202
+#define FLAG_KRABBY_QUEST_COMPLETE         0x203
+#define FLAG_MET_FUJI                      0x204
+#define FLAG_HIDE_POKEHOUSE_AGATHA         0x205
+#define FLAG_HIDE_FUCHSIA_FUJI             0x206
+#define FLAG_HIDE_FUCHSIA_AGATHA           0x207
+#define FLAG_DOJO_AKIO_DEFEATED          0x208
+#define FLAG_ITEM_VERMILION_DOJO_TM      0x209
+#define FLAG_HIDE_LAVENDER_FUJI               0x20A
 #define FLAG_0x20B               0x20B
 #define FLAG_0x20C               0x20C
 #define FLAG_0x20D               0x20D
@@ -1235,8 +1235,8 @@
 #define FLAG_FUJI_LAB_UPGRADE           0x4AB // Mr. Fuji's Lab dynamic expansion upgrade
 #define FLAG_SYS_CONVENTIONAL_PC_UNLOCKED 0x4AC // Conventional PC storage unlocked
 #define FLAG_TURN_LIMIT_BATTLE          0x4AD
-#define FLAG_UNUSED_0x4AE               0x4AE // Unused Flag
-#define FLAG_UNUSED_0x4AF               0x4AF // Unused Flag
+#define FLAG_NO_TRAINER_SEE             0x4AE
+#define FLAG_NO_COLLISION               0x4AF
 
 // Boss clear flags, 1200
 #define FLAG_DEFEATED_BROCK           0x4B0

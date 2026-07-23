@@ -14,6 +14,12 @@ SSAnne_1F_Room6_Text_SorryYouLookLikeMySister::
     .string "Oh, I'm sorry for fussing over you.\n"
     .string "You look like my little sister…$"
 
+SSAnne_1F_Room6_Text_ArborNoteGrowlithe::
+    .string "Loyal, aggressive, and faster than\n"
+    .string "it looks.\p"
+    .string "Good for someone who likes to work\n"
+    .string "up front.$"
+
 SSAnne_1F_Room6_Text_ChooseGrowlithe::
     .string "Do you want to choose the fire\n"
     .string "POKéMON GROWLITHE?$"
@@ -21,12 +27,25 @@ SSAnne_1F_Room6_Text_ChooseGrowlithe::
 SSAnne_1F_Room6_Text_ObtainedGrowlithe::
     .string "{PLAYER} obtained GROWLITHE!$"
 
+SSAnne_1F_Room6_Text_ArborNoteNidoranM::
+    .string "Versatile. Moves it can learn now\n"
+    .string "won't look like much.\p"
+    .string "But watch what it becomes.\n"
+    .string "If you're patient.$"
+
 SSAnne_1F_Room6_Text_ChooseNidoranM::
     .string "Do you want to choose the poison pin\n"
     .string "POKéMON NIDORAN♂?$"
 
 SSAnne_1F_Room6_Text_ObtainedNidoranM::
     .string "{PLAYER} obtained NIDORAN♂!$"
+
+SSAnne_1F_Room6_Text_ArborNoteExeggcute::
+    .string "Unusual choice. Needs more\n"
+    .string "maintenance than the other two.\p"
+    .string "But if you understand how to use it,\n"
+    .string "you'll catch people off guard\l"
+    .string "every time.$"
 
 SSAnne_1F_Room6_Text_ChooseExeggcute::
     .string "Do you want to choose the egg\n"

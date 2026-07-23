@@ -20,11 +20,6 @@
       "direction": "up"
     },
     {
-      "map": "MAP_ROUTE12",
-      "offset": 0,
-      "direction": "down"
-    },
-    {
       "map": "MAP_ROUTE8",
       "offset": 0,
       "direction": "left"
@@ -116,6 +111,13 @@
       "elevation": 0,
       "dest_map": "MAP_LAVENDER_TOWN_MART",
       "dest_warp_id": "1"
+    },
+    {
+      "x": 12,
+      "y": 19,
+      "elevation": 0,
+      "dest_map": "MAP_ROUTE12_NORTH_ENTRANCE_1F",
+      "dest_warp_id": "0"
     }
   ],
   "coord_events": [],

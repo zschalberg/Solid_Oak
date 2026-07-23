@@ -1,0 +1,78 @@
+mapscripts LavenderTown_MapScripts {
+    MAP_SCRIPT_ON_TRANSITION: LavenderTown_OnTransition
+}
+
+script LavenderTown_OnTransition {
+    setworldmapflag(FLAG_WORLD_MAP_LAVENDER_TOWN)
+    end
+}
+
+// NPC 1: Child outside (curiosity about Pokémon Tower — plants Agatha's Gastly)
+script LavenderTown_EventScript_LittleGirl {
+    lock
+    faceplayer
+    msgbox("Papa says there's a GASTLY near\n"
+           "the Tower.\p"
+           "I want to see it but Mama says no.")
+    closemessage
+    msgbox("Are you going to catch it?")
+    closemessage
+    release
+    end
+}
+
+// NPC 2: Man near the Tower — warns about it being unsettled
+script LavenderTown_EventScript_WorkerM {
+    lock
+    faceplayer
+    msgbox("I'd stay away from the Tower for\n"
+           "now if I were you.\p"
+           "The Channelers say it's been\n"
+           "unsettled lately. More than usual.")
+    closemessage
+    msgbox("I used to think that was just\n"
+           "something they said.\p"
+           "Not anymore.")
+    closemessage
+    release
+    end
+}
+
+// NPC 3: Boy directing player to Fuji
+script LavenderTown_EventScript_Boy {
+    lock
+    faceplayer
+    msgbox("Researcher? If you mean Mr. Fuji,\n"
+           "his office is south, near the base\l"
+           "of the hill.\p"
+           "He's been expecting someone\n"
+           "from the mainland.")
+    closemessage
+    release
+    end
+}
+
+// Signs
+script LavenderTown_EventScript_TownSign {
+    msgbox("LAVENDER TOWN", MSGBOX_SIGN)
+    end
+}
+
+script LavenderTown_EventScript_SilphScopeNotice {
+    msgbox("POKéMON TOWER\n"
+           "Respect the spirits within.", MSGBOX_SIGN)
+    end
+}
+
+script LavenderTown_EventScript_VolunteerHouseSign {
+    msgbox("MR. FUJI'S VOLUNTEER\n"
+           "POKéMON HOUSE", MSGBOX_SIGN)
+    end
+}
+
+script LavenderTown_EventScript_PokemonTowerSign {
+    msgbox("POKéMON TOWER\n"
+           "A place of rest for Pokémon\l"
+           "and those who loved them.", MSGBOX_SIGN)
+    end
+}

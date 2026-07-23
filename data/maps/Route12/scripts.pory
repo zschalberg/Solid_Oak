@@ -1,0 +1,97 @@
+mapscripts Route12_MapScripts {
+    MAP_SCRIPT_ON_TRANSITION: Route12_OnTransition
+    MAP_SCRIPT_ON_FRAME_TABLE [
+        VAR_ACT1_FUCHSIA, 1: Route12_EventScript_Zone1Intro
+    ]
+}
+
+script Route12_OnTransition {
+    setflag(FLAG_HIDE_ROUTE_12_SNORLAX)
+    end
+}
+
+script Route12_EventScript_Snorlax {
+    end
+}
+
+script Route12_EventScript_RouteSign {
+    msgbox("ROUTE 12\n"
+           "LAVENDER TOWN is to the north.\l"
+           "ROUTE 13 connects to the south.", MSGBOX_SIGN)
+    end
+}
+
+script Route12_EventScript_FishingSign {
+    msgbox("ROUTE 12 FISHING RESERVE\n"
+           "Sport fishing permitted.", MSGBOX_SIGN)
+    end
+}
+
+// Fishing village NPC scripts — gated by VAR_ACT1_FUCHSIA
+// Wire up by adding NPC object_events to the route map.json
+
+script Route12_EventScript_VillageNPC1 {
+    lock
+    faceplayer
+    if (var(VAR_ACT1_FUCHSIA) == 1) {
+        msgbox("It's getting worse.\n"
+               "Last night we couldn't even\l"
+               "get a boat out.")
+        closemessage
+    } else {
+        msgbox("You here to fish?\n"
+               "Not the best time for it.\p"
+               "The TENTACOOL have been thick\n"
+               "all week.\p"
+               "It's not just the count.\n"
+               "they're moving different.\l"
+               "More... together.")
+        closemessage
+    }
+    release
+    end
+}
+
+script Route12_EventScript_VillageNPC2 {
+    lock
+    faceplayer
+    msgbox("My husband says it'll pass.\p"
+           "He said that last week too.")
+    closemessage
+    release
+    end
+}
+
+script Route12_EventScript_VillageNPC3 {
+    lock
+    faceplayer
+    if (var(VAR_ACT1_FUCHSIA) == 1) {
+        msgbox("I'm starting to think\n"
+               "my husband's wrong.")
+        closemessage
+    } else {
+        msgbox("Seen rough seasons before.\p"
+               "This isn't rough.\n"
+               "This is something else.")
+        closemessage
+    }
+    release
+    end
+}
+
+// Zone 1 intro — fires the first time the player re-enters Route 12
+// after completing the Fuchsia Reserve scene (VAR_ACT1_FUCHSIA = 1).
+// Sets VAR_ACT1_FUCHSIA = 2 to prevent replay.
+// TODO: Replace with coord_event for position-accurate trigger.
+
+script Route12_EventScript_Zone1Intro {
+    lockall
+    setvar(VAR_ACT1_FUCHSIA, 2)
+    msgbox("You're back. Something's in\n"
+           "the water.\p"
+           "A big one. We can't get to\n"
+           "the boats.")
+    closemessage
+    releaseall
+    end
+}

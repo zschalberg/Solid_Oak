@@ -1,0 +1,36 @@
+mapscripts Route11_MapScripts {
+}
+
+script Route11_EventScript_DiglettsCaveSign {
+    msgbox("ROUTE 11\n"
+           "VERMILION CITY is to the west.\p"
+           "LAVENDER TOWN can be reached\n"
+           "via ROUTE 12 to the north.")
+    end
+}
+
+script Route11_EventScript_YoungTrainer {
+    lock
+    faceplayer
+    msgbox("You heading to LAVENDER?\p"
+           "Keep an eye on the coast once\n"
+           "you hit ROUTE 12.\p"
+           "Had a run-in with a TENTACOOL\n"
+           "school yesterday that was way\l"
+           "too big for this time of year.\p"
+           "Probably nothing. Still.")
+    release
+    end
+}
+
+script Route11_EventScript_Picnicker {
+    lock
+    faceplayer
+    msgbox("I used to come here to watch\n"
+           "the LICKITUNG.\p"
+           "Haven't seen one in weeks.\n"
+           "My brother says they moved south.\p"
+           "Maybe the weather. Who knows.")
+    release
+    end
+}
