@@ -165,7 +165,7 @@ static bool32 IsAnySpeciesFormOnAnyMapVariant(u32 headerId, const u16 *forms, en
     for (u32 tableIdx = 0; forms[tableIdx] != FORM_SPECIES_END; tableIdx++)
     {
         enum Species form = forms[tableIdx];
-        for (enum WildPokemonArea area = 0; area <= WILD_AREA_FISHING; area++)
+        for (enum WildPokemonArea area = 0; area <= WILD_AREA_HIDDEN; area++)
         {
             enum Season tempSeason = season;
             enum TimeOfDay tempTimeOfDay = timeOfDay;
@@ -337,6 +337,8 @@ static bool32 IsSpeciesOnMap(const struct WildPokemonHeader *data, enum Species 
 #endif
         return TRUE;
     if (IsSpeciesInEncounterTable(data->encounterTypes[season][timeOfDay].rockSmashMonsInfo, species, ROCK_WILD_COUNT))
+        return TRUE;
+    if (IsSpeciesInEncounterTable(data->encounterTypes[season][timeOfDay].hiddenMonsInfo, species, BONUS_WILD_COUNT))
         return TRUE;
 
     return FALSE;

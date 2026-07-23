@@ -19,6 +19,7 @@ enum WildPokemonArea
 #define ROCK_WILD_COUNT     5
 #define FISH_WILD_COUNT     10
 #define HIDDEN_WILD_COUNT   3
+#define BONUS_WILD_COUNT    12
 
 #define NUM_ALTERING_CAVE_TABLES 9
 #define NUM_SAFARI_ZONE_STAGES 5  // Base (Stage 0) + 4 progressive stages
@@ -85,7 +86,9 @@ u16 GetLocalWildMon(bool8 *isWaterMon);
 u32 ChooseWildMonIndex_Rocks(void);
 u32 ChooseWildMonIndex_Water(void);
 u8 ChooseHiddenMonIndex(void);
+u8 ChooseWildMonIndex_Bonus(void);
 u8 ChooseWildMonIndex_Land(void);
+bool8 TryStandardWildBonusEncounter(u16 headerId, u32 currMetatileAttrs, enum MetatileBehavior previousMetatileBehavior);
 void CreateWildMon(enum Species species, u8 level, u8 unownSlot);
 void DisableWildEncounters(bool8 disabled);
 void DisableWildEncounters(bool8 state);

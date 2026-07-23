@@ -126,6 +126,47 @@ u8 ChooseWildMonIndex_Land(void)
     return wildMonIndex;
 }
 
+// BONUS_WILD_COUNT
+u8 ChooseWildMonIndex_Bonus(void)
+{
+    u8 wildMonIndex = 0;
+    bool8 swap = FALSE;
+    u8 rand = Random() % ENCOUNTER_CHANCE_HIDDEN_MONS_TOTAL;
+
+    if (rand < ENCOUNTER_CHANCE_HIDDEN_MONS_SLOT_0)
+        wildMonIndex = 0;
+    else if (rand >= ENCOUNTER_CHANCE_HIDDEN_MONS_SLOT_0 && rand < ENCOUNTER_CHANCE_HIDDEN_MONS_SLOT_1)
+        wildMonIndex = 1;
+    else if (rand >= ENCOUNTER_CHANCE_HIDDEN_MONS_SLOT_1 && rand < ENCOUNTER_CHANCE_HIDDEN_MONS_SLOT_2)
+        wildMonIndex = 2;
+    else if (rand >= ENCOUNTER_CHANCE_HIDDEN_MONS_SLOT_2 && rand < ENCOUNTER_CHANCE_HIDDEN_MONS_SLOT_3)
+        wildMonIndex = 3;
+    else if (rand >= ENCOUNTER_CHANCE_HIDDEN_MONS_SLOT_3 && rand < ENCOUNTER_CHANCE_HIDDEN_MONS_SLOT_4)
+        wildMonIndex = 4;
+    else if (rand >= ENCOUNTER_CHANCE_HIDDEN_MONS_SLOT_4 && rand < ENCOUNTER_CHANCE_HIDDEN_MONS_SLOT_5)
+        wildMonIndex = 5;
+    else if (rand >= ENCOUNTER_CHANCE_HIDDEN_MONS_SLOT_5 && rand < ENCOUNTER_CHANCE_HIDDEN_MONS_SLOT_6)
+        wildMonIndex = 6;
+    else if (rand >= ENCOUNTER_CHANCE_HIDDEN_MONS_SLOT_6 && rand < ENCOUNTER_CHANCE_HIDDEN_MONS_SLOT_7)
+        wildMonIndex = 7;
+    else if (rand >= ENCOUNTER_CHANCE_HIDDEN_MONS_SLOT_7 && rand < ENCOUNTER_CHANCE_HIDDEN_MONS_SLOT_8)
+        wildMonIndex = 8;
+    else if (rand >= ENCOUNTER_CHANCE_HIDDEN_MONS_SLOT_8 && rand < ENCOUNTER_CHANCE_HIDDEN_MONS_SLOT_9)
+        wildMonIndex = 9;
+    else if (rand >= ENCOUNTER_CHANCE_HIDDEN_MONS_SLOT_9 && rand < ENCOUNTER_CHANCE_HIDDEN_MONS_SLOT_10)
+        wildMonIndex = 10;
+    else
+        wildMonIndex = 11;
+
+    if (LURE_STEP_COUNT != 0 && (Random() % 10 < 2))
+        swap = TRUE;
+
+    if (swap)
+        wildMonIndex = 11 - wildMonIndex;
+
+    return wildMonIndex;
+}
+
 // WATER_WILD_COUNT
 u32 ChooseWildMonIndex_Water(void)
 {
@@ -498,6 +539,22 @@ static bool8 TryGenerateWildMon(const struct WildPokemonInfo *wildMonInfo, u8 ar
     case WILD_AREA_ROCKS:
         wildMonIndex = ChooseWildMonIndex_Rocks();
         break;
+    case WILD_AREA_HIDDEN:
+        if (TRY_GET_ABILITY_INFLUENCED_WILD_MON_INDEX(wildMonInfo->wildPokemon, TYPE_STEEL, ABILITY_MAGNET_PULL, &wildMonIndex, BONUS_WILD_COUNT))
+            break;
+        if (TRY_GET_ABILITY_INFLUENCED_WILD_MON_INDEX(wildMonInfo->wildPokemon, TYPE_ELECTRIC, ABILITY_STATIC, &wildMonIndex, BONUS_WILD_COUNT))
+            break;
+        if (OW_LIGHTNING_ROD == GEN_8 && TRY_GET_ABILITY_INFLUENCED_WILD_MON_INDEX(wildMonInfo->wildPokemon, TYPE_ELECTRIC, ABILITY_LIGHTNING_ROD, &wildMonIndex, BONUS_WILD_COUNT))
+            break;
+        if (OW_FLASH_FIRE == GEN_8 && TRY_GET_ABILITY_INFLUENCED_WILD_MON_INDEX(wildMonInfo->wildPokemon, TYPE_FIRE, ABILITY_FLASH_FIRE, &wildMonIndex, BONUS_WILD_COUNT))
+            break;
+        if (OW_HARVEST == GEN_8 && TRY_GET_ABILITY_INFLUENCED_WILD_MON_INDEX(wildMonInfo->wildPokemon, TYPE_GRASS, ABILITY_HARVEST, &wildMonIndex, BONUS_WILD_COUNT))
+            break;
+        if (OW_STORM_DRAIN == GEN_8 && TRY_GET_ABILITY_INFLUENCED_WILD_MON_INDEX(wildMonInfo->wildPokemon, TYPE_WATER, ABILITY_STORM_DRAIN, &wildMonIndex, BONUS_WILD_COUNT))
+            break;
+
+        wildMonIndex = ChooseWildMonIndex_Bonus();
+        break;
     }
 
     level = ChooseWildMonLevel(wildMonInfo->wildPokemon, wildMonIndex, area);
@@ -732,6 +789,55 @@ bool8 TryStandardWildSurfEncounter(u16 headerId, u32 currMetatileAttrs, enum Met
     return FALSE;
 }
 
+bool8 TryStandardWildBonusEncounter(u16 headerId, u32 currMetatileAttrs, enum MetatileBehavior previousMetatileBehavior)
+{
+    struct Roamer *roamer;
+    enum Season season = gLoadedSeason;
+    enum TimeOfDay timeOfDay = GetTimeOfDay();
+    GetSeasonAndTimeOfDayForEncounters(headerId, WILD_AREA_HIDDEN, &season, &timeOfDay);
+    if (gWildMonHeaders[headerId].encounterTypes[season][timeOfDay].hiddenMonsInfo == NULL)
+        return FALSE;
+
+    if (previousMetatileBehavior != ExtractMetatileAttribute(currMetatileAttrs, METATILE_ATTRIBUTE_BEHAVIOR) && !AllowWildCheckOnNewMetatile())
+        return FALSE;
+    if (WildEncounterCheck(gWildMonHeaders[headerId].encounterTypes[season][timeOfDay].hiddenMonsInfo->encounterRate, FALSE) != TRUE)
+    {
+        AddToWildEncounterRateBuff(gWildMonHeaders[headerId].encounterTypes[season][timeOfDay].hiddenMonsInfo->encounterRate);
+        return FALSE;
+    }
+    if (TryStartRoamerEncounter())
+    {
+        roamer = &gSaveBlock1Ptr->roamer[gEncounteredRoamerIndex];
+        if (!IsWildLevelAllowedByRepel(roamer->level))
+        {
+            return FALSE;
+        }
+
+        BattleSetup_StartRoamerBattle();
+        return TRUE;
+    }
+
+    // try a regular bonus-table encounter
+    if (TryGenerateWildMon(gWildMonHeaders[headerId].encounterTypes[season][timeOfDay].hiddenMonsInfo, WILD_AREA_HIDDEN, WILD_CHECK_REPEL) == TRUE)
+    {
+        if (TryDoDoubleWildBattle())
+        {
+            struct Pokemon mon1 = gEnemyParty[0];
+            TryGenerateWildMon(gWildMonHeaders[headerId].encounterTypes[season][timeOfDay].hiddenMonsInfo, WILD_AREA_HIDDEN, WILD_CHECK_KEEN_EYE);
+            gEnemyParty[1] = mon1;
+            BattleSetup_StartDoubleWildBattle();
+        }
+        else
+        {
+            BattleSetup_StartWildBattle();
+        }
+        return TRUE;
+    }
+
+    AddToWildEncounterRateBuff(gWildMonHeaders[headerId].encounterTypes[season][timeOfDay].hiddenMonsInfo->encounterRate);
+    return FALSE;
+}
+
 bool32 StandardWildEncounter(u32 currMetatileAttrs, enum MetatileBehavior previousMetatileBehavior)
 {
     u16 headerId;
@@ -787,6 +893,8 @@ bool32 StandardWildEncounter(u32 currMetatileAttrs, enum MetatileBehavior previo
     else if (ExtractMetatileAttribute(currMetatileAttrs, METATILE_ATTRIBUTE_ENCOUNTER_TYPE) == TILE_ENCOUNTER_WATER
                 || (TestPlayerAvatarState(PLAYER_AVATAR_STATE_SURFING) && MetatileBehavior_IsBridge(ExtractMetatileAttribute(currMetatileAttrs, METATILE_ATTRIBUTE_BEHAVIOR)) == TRUE))
         return TryStandardWildSurfEncounter(headerId, currMetatileAttrs, previousMetatileBehavior);
+    else if (ExtractMetatileAttribute(currMetatileAttrs, METATILE_ATTRIBUTE_ENCOUNTER_TYPE) == TILE_ENCOUNTER_BONUS)
+        return TryStandardWildBonusEncounter(headerId, currMetatileAttrs, previousMetatileBehavior);
     return FALSE;
 }
 
@@ -881,6 +989,22 @@ bool8 SweetScentWildEncounter(void)
             return FALSE;
 
         TryGenerateWildMon(gWildMonHeaders[headerId].encounterTypes[season][timeOfDay].waterMonsInfo, WILD_AREA_WATER, 0);
+        BattleSetup_StartWildBattle();
+        return TRUE;
+    }
+    else if (MapGridGetMetatileAttributeAt(x, y, METATILE_ATTRIBUTE_ENCOUNTER_TYPE) == TILE_ENCOUNTER_BONUS)
+    {
+        if (TryStartRoamerEncounter())
+        {
+            BattleSetup_StartRoamerBattle();
+            return TRUE;
+        }
+
+        GetSeasonAndTimeOfDayForEncounters(headerId, WILD_AREA_HIDDEN, &season, &timeOfDay);
+        if (gWildMonHeaders[headerId].encounterTypes[season][timeOfDay].hiddenMonsInfo == NULL)
+            return FALSE;
+
+        TryGenerateWildMon(gWildMonHeaders[headerId].encounterTypes[season][timeOfDay].hiddenMonsInfo, WILD_AREA_HIDDEN, 0);
         BattleSetup_StartWildBattle();
         return TRUE;
     }
@@ -1087,6 +1211,9 @@ static u8 GetMaxLevelOfSpeciesInWildTable(const struct WildPokemon *wildMon, enu
     case WILD_AREA_WATER:
         numMon = WATER_WILD_COUNT;
         break;
+    case WILD_AREA_HIDDEN:
+        numMon = BONUS_WILD_COUNT;
+        break;
     case WILD_AREA_ROCKS:
         numMon = ROCK_WILD_COUNT;
         break;
@@ -1191,6 +1318,17 @@ static u8 GetMapBaseEncounterCooldown(u8 encounterType)
         if (gWildMonHeaders[headerId].encounterTypes[season][timeOfDay].waterMonsInfo->encounterRate < 10)
             return 8;
         return 8 - (gWildMonHeaders[headerId].encounterTypes[season][timeOfDay].waterMonsInfo->encounterRate / 10);
+    }
+    if (encounterType == TILE_ENCOUNTER_BONUS)
+    {
+        GetSeasonAndTimeOfDayForEncounters(headerId, WILD_AREA_HIDDEN, &season, &timeOfDay);
+        if (gWildMonHeaders[headerId].encounterTypes[season][timeOfDay].hiddenMonsInfo == NULL)
+            return 0xFF;
+        if (gWildMonHeaders[headerId].encounterTypes[season][timeOfDay].hiddenMonsInfo->encounterRate >= 80)
+            return 0;
+        if (gWildMonHeaders[headerId].encounterTypes[season][timeOfDay].hiddenMonsInfo->encounterRate < 10)
+            return 8;
+        return 8 - (gWildMonHeaders[headerId].encounterTypes[season][timeOfDay].hiddenMonsInfo->encounterRate / 10);
     }
     return 0xFF;
 }
