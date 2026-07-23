@@ -273,7 +273,11 @@ void ApplyAdvancedIVScannerIVs(struct Pokemon *mon)
 // Clear visual effects and set active = FALSE
 void ResolveAdvancedIVScannerHotspot(bool8 success)
 {
-    if (sHotspotFldEffSpriteId != MAX_SPRITES)
+    // sHotspotFldEffSpriteId defaults to 0 (a real sprite slot, the player's)
+    // until a scan actually runs and sets it to the MAX_SPRITES sentinel, so
+    // this must also check sHotspotActive or it can stop an arbitrary sprite
+    // (including the player's) on the first map load/transition of a session.
+    if (sHotspotActive && sHotspotFldEffSpriteId != MAX_SPRITES)
     {
         FieldEffectStop(&gSprites[sHotspotFldEffSpriteId], GetHotspotFieldEffectId(sHotspotX, sHotspotY));
         sHotspotFldEffSpriteId = MAX_SPRITES;

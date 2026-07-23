@@ -2125,6 +2125,13 @@ void CB2_ContinueSavedGame(void)
     }
     else
     {
+        // ReturnToFieldLocal (used below) doesn't reset the camera's
+        // accumulated sub-pixel scroll, unlike the warp-based continue
+        // path above. Any nonzero leftover from before the save (e.g. a
+        // save made without a true reboot) desyncs sprite placement from
+        // the background on the next map connection crossing.
+        gTotalCameraPixelOffsetX = 0;
+        gTotalCameraPixelOffsetY = 0;
         gFieldCallback = FieldCB_ShowMapNameOnContinue;
         SetMainCallback1(CB1_Overworld);
         CB2_ReturnToField();
