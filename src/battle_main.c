@@ -207,6 +207,8 @@ EWRAM_DATA u16 gPauseCounterBattle = 0;
 EWRAM_DATA u16 gPaydayMoney = 0;
 EWRAM_DATA u8 gBattleCommunication[BATTLE_COMMUNICATION_ENTRIES_COUNT] = {0};
 EWRAM_DATA u8 gBattleOutcome = 0;
+EWRAM_DATA u16 gSlowpokePendingEvoTarget = SPECIES_NONE;
+EWRAM_DATA u8 gSlowpokePendingEvoPartyId = 0;
 EWRAM_DATA struct ProtectStruct gProtectStructs[MAX_BATTLERS_COUNT] = {0};
 EWRAM_DATA struct SpecialStatus gSpecialStatuses[MAX_BATTLERS_COUNT] = {0};
 EWRAM_DATA u16 gBattleWeather = 0;
@@ -5803,7 +5805,8 @@ static void FreeResetData_ReturnToOvOrDoEvolutions(void)
                                   | BATTLE_TYPE_POKEDUDE))
             && (B_EVOLUTION_AFTER_WHITEOUT >= GEN_6
                 || gBattleOutcome == B_OUTCOME_WON
-                || gBattleOutcome == B_OUTCOME_CAUGHT))
+                || gBattleOutcome == B_OUTCOME_CAUGHT
+                || gSlowpokePendingEvoTarget != SPECIES_NONE))
         {
             gBattleMainFunc = TryEvolvePokemon;
         }
@@ -5834,6 +5837,22 @@ static void FreeResetData_ReturnToOvOrDoEvolutions(void)
 static void TryEvolvePokemon(void)
 {
     s32 i;
+
+    if (gSlowpokePendingEvoTarget != SPECIES_NONE)
+    {
+        u32 targetSpecies = gSlowpokePendingEvoTarget;
+        u8 partyId = gSlowpokePendingEvoPartyId;
+        gSlowpokePendingEvoTarget = SPECIES_NONE;
+
+        if (partyId < PARTY_SIZE && !(sTriedEvolving & (1u << partyId)))
+        {
+            sTriedEvolving |= 1u << partyId;
+            FreeAllWindowBuffers();
+            gBattleMainFunc = WaitForEvoSceneToFinish;
+            EvolutionScene(&gPlayerParty[partyId], targetSpecies, TRUE, partyId);
+            return;
+        }
+    }
 
     for (i = 0; i < PARTY_SIZE; i++)
     {

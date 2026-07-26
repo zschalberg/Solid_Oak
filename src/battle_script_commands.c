@@ -14484,6 +14484,14 @@ void BS_HandleMidBattleEvolution(void)
     gBattlescriptCurrInstr = cmd->nextInstr;
 }
 
+void BS_FinishSlowpokeEvolution(void)
+{
+    NATIVE_ARGS();
+    gBattleOutcome = B_OUTCOME_MON_TELEPORTED;
+    gCurrentActionFuncId = B_ACTION_TRY_FINISH;
+    gBattlescriptCurrInstr = cmd->nextInstr;
+}
+
 void BS_TryAutotomize(void)
 {
     NATIVE_ARGS(const u8 *failInstr);

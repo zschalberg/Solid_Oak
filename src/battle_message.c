@@ -999,6 +999,7 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_PKMNISEVOLVING]                = COMPOUND_STRING("What?\n{B_BUFF1} is evolving!\pHold the B Button to\nstop the evolution!\p"),
     [STRINGID_PKMNEVOLVEDINTO]               = COMPOUND_STRING("Congratulations! Your {B_BUFF1}\nevolved into {B_BUFF2}!{WAIT_SE}\p"),
     [STRINGID_PKMNSTOPPEDEVOLVING]           = COMPOUND_STRING("Huh?\n{B_BUFF1} stopped evolving!\p"),
+    [STRINGID_HUH]                           = COMPOUND_STRING("Huh?\p"),
 };
 
 const u16 gTrainerUsedItemStringIds[] =

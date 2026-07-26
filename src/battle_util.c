@@ -7628,7 +7628,7 @@ static inline s32 DoMoveDamageCalcVars(struct BattleContext *ctx)
         u32 actualWeight = GetIndividualWeight(gBattleMons[ctx->battlerAtk].species, gBattleMons[ctx->battlerAtk].personality);
         if (baseWeight > 0)
         {
-            dmg = (dmg * (4 * baseWeight + actualWeight)) / (5 * baseWeight);
+            dmg = (s32)(((u64)dmg * (4 * (u64)baseWeight + actualWeight)) / (5 * (u64)baseWeight));
             if (dmg == 0)
                 dmg = 1;
         }

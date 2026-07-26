@@ -477,6 +477,23 @@ void CreateScriptedWildMon(enum Species species, u8 level, enum Item item)
     }
 }
 
+void Script_SetShellderTestWildBattle(void)
+{
+    u16 move1 = MOVE_CLAMP;
+    u16 move2 = MOVE_WATER_GUN;
+    u16 moveNone = MOVE_NONE;
+    u8 pp1 = 15;
+    u8 pp2 = 25;
+
+    CreateScriptedWildMon(SPECIES_SHELLDER, 30, ITEM_NONE);
+    SetMonData(&gEnemyParty[0], MON_DATA_MOVE1, &move1);
+    SetMonData(&gEnemyParty[0], MON_DATA_MOVE2, &move2);
+    SetMonData(&gEnemyParty[0], MON_DATA_MOVE3, &moveNone);
+    SetMonData(&gEnemyParty[0], MON_DATA_MOVE4, &moveNone);
+    SetMonData(&gEnemyParty[0], MON_DATA_PP1, &pp1);
+    SetMonData(&gEnemyParty[0], MON_DATA_PP2, &pp2);
+}
+
 void CreateScriptedDoubleWildMon(enum Species species1, u8 level1, enum Item item1, enum Species species2, u8 level2, enum Item item2)
 {
     u8 heldItem1[2];

@@ -4482,6 +4482,12 @@ BattleScript_MidBattleEvolutionStopped::
 	waitmessage B_WAIT_TIME_LONG
 	return
 
+BattleScript_SlowpokeEvolution::
+	printstring STRINGID_HUH
+	waitmessage B_WAIT_TIME_LONG
+	finishslowpokeevolution
+	end2
+
 BattleScript_WeatherAbilityActivates::
 	pause B_WAIT_TIME_SHORT
 	call BattleScript_AbilityPopUp

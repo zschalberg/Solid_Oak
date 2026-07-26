@@ -11,7 +11,9 @@
 #include "battle_controllers.h"
 #include "move.h"
 #include "constants/battle_move_resolution.h"
+#include "constants/flags.h"
 #include "constants/region_map_sections.h"
+#include "event_data.h"
 
 static void ValidateBattlers(void);
 static enum Move GetOriginallyUsedMove(enum Move chosenMove);
@@ -2731,6 +2733,59 @@ static enum MoveEndResult MoveEndUpdateLastMoves(void)
         {
             gLastHitByType[gBattlerTarget] = TYPE_MYSTERY;
             gLastLandedMoves[gBattlerTarget] = MOVE_UNAVAILABLE;
+        }
+    }
+
+    if (!(gBattleTypeFlags & BATTLE_TYPE_TRAINER) && !gBattleStruct->unableToUseMove)
+    {
+        u32 attackerSpecies = gBattleMons[gBattlerAttacker].species;
+
+        if (attackerSpecies == SPECIES_SLOWPOKE && gBattleMons[gBattlerAttacker].level >= 30)
+        {
+            if (!(gBattleStruct->moveResultFlags[gBattlerTarget] & MOVE_RESULT_NO_EFFECT))
+            {
+                if (gCurrentMove == MOVE_TAIL_WHIP)
+                    gBattleStruct->slowpokeEvoTarget = SPECIES_SLOWBRO;
+                else if (gCurrentMove == MOVE_HEADBUTT)
+                    gBattleStruct->slowpokeEvoTarget = SPECIES_SLOWKING;
+                else
+                    gBattleStruct->slowpokeEvoTarget = SPECIES_NONE;
+            }
+            else
+            {
+                gBattleStruct->slowpokeEvoTarget = SPECIES_NONE;
+            }
+        }
+        else if (attackerSpecies == SPECIES_SHELLDER)
+        {
+            if (gCurrentMove == MOVE_CLAMP)
+            {
+                if (gBattleStruct->slowpokeEvoTarget != SPECIES_NONE
+                 && !(gBattleStruct->moveResultFlags[gBattlerTarget] & MOVE_RESULT_NO_EFFECT)
+                 && gBattleMons[gBattlerTarget].species == SPECIES_SLOWPOKE
+                 && gBattleMons[gBattlerTarget].level >= 30
+                 && IsBattlerAlive(gBattlerTarget)
+                 && FlagGet(FLAG_QUEST_KNOW_SLOWPOKE_EVOS))
+                {
+                    gSlowpokePendingEvoTarget = gBattleStruct->slowpokeEvoTarget;
+                    gSlowpokePendingEvoPartyId = gBattlerPartyIndexes[gBattlerTarget];
+                    gBattleStruct->slowpokeEvoTarget = SPECIES_NONE;
+                    gBattlescriptCurrInstr = BattleScript_SlowpokeEvolution;
+                    return MOVEEND_RESULT_RUN_SCRIPT;
+                }
+                else
+                {
+                    gBattleStruct->slowpokeEvoTarget = SPECIES_NONE;
+                }
+            }
+            else
+            {
+                gBattleStruct->slowpokeEvoTarget = SPECIES_NONE;
+            }
+        }
+        else
+        {
+            gBattleStruct->slowpokeEvoTarget = SPECIES_NONE;
         }
     }
 

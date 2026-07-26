@@ -1997,6 +1997,10 @@
 	.byte \battler
 	.endm
 
+	.macro finishslowpokeevolution
+	callnative BS_FinishSlowpokeEvolution
+	.endm
+
 	.macro tryautotomize failInstr:req
 	callnative BS_TryAutotomize
 	.4byte \failInstr

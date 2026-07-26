@@ -7355,6 +7355,23 @@ const struct ItemInfo gItemsInfo[] =
         .iconPalette = gItemIconPalette_SilphScope,
     },
 
+    [ITEM_SIZE_CHARM] =
+    {
+        .name = ITEM_NAME("Size Charm"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "A charm that raises "
+            "the chance of wild\n"
+            "Pokémon being an\n"
+            "exceptional size."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_GlimmeringCharm,
+        .iconPalette = gItemIconPalette_GlimmeringCharm,
+    },
+
 // Gems
     #if I_PRICE >= GEN_9
         #define GEM_PRICE 15000
