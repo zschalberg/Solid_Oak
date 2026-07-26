@@ -196,6 +196,7 @@ static void CursorCB_CatalogFan(u8);
 static void CursorCB_CatalogMower(u8);
 static void CursorCB_ChangeForm(u8);
 static void CursorCB_ChangeAbility(u8);
+static void CursorCB_ReleaseResearchMon(u8 taskId);
 static void CB2_InitPartyMenu(void);
 static void CB2_ReloadPartyMenu(void);
 static void ResetPartyMenu(void);
@@ -3301,8 +3302,10 @@ static u8 GetPartyMenuActionsType(struct Pokemon *mon)
     switch (gPartyMenu.menuType)
     {
     case PARTY_MENU_TYPE_FIELD:
-        if (GetMonData(mon, MON_DATA_IS_EGG) || GetMonData(mon, MON_DATA_POKEBALL) == BALL_RESEARCH)
+        if (GetMonData(mon, MON_DATA_IS_EGG))
             actionType = ACTIONS_SWITCH;
+        else if (GetMonData(mon, MON_DATA_POKEBALL) == BALL_RESEARCH)
+            actionType = (GetMonData(&gPlayerParty[1], MON_DATA_SPECIES) != SPECIES_NONE) ? ACTIONS_RESEARCH_BALL_SWITCH : ACTIONS_RESEARCH_BALL;
         else
             actionType = ACTIONS_NONE; // actions populated by SetPartyMonFieldSelectionActions
         break;
@@ -8312,6 +8315,97 @@ static void CursorCB_ChangeAbility(u8 taskId)
 {
     gSpecialVar_Result = 1;
     TryMultichoiceFormChange(taskId);
+}
+
+static void Task_ReleaseResearchMonYesNo(u8 taskId);
+static void Task_HandleReleaseResearchMonYesNoInput(u8 taskId);
+static void Task_ReleaseResearchMonStep2(u8 taskId);
+static void Task_ReleaseResearchMonStep3(u8 taskId);
+static void Task_ReleaseResearchMonFinish(u8 taskId);
+
+static void CursorCB_ReleaseResearchMon(u8 taskId)
+{
+    PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[0]);
+    if (CalculatePlayerPartyCount() <= 1)
+    {
+        PlaySE(SE_FAILURE);
+        DisplayPartyMenuMessage(sText_ThatsYourLastPkmn, FALSE);
+        gTasks[taskId].func = Task_ReturnToChooseMonAfterText;
+    }
+    else
+    {
+        GetMonNickname(&gPlayerParty[gPartyMenu.slotId], gStringVar1);
+        StringExpandPlaceholders(gStringVar4, sText_ReleaseResearchMonPrompt);
+        DisplayPartyMenuMessage(gStringVar4, FALSE);
+        gTasks[taskId].func = Task_ReleaseResearchMonYesNo;
+    }
+}
+
+static void Task_ReleaseResearchMonYesNo(u8 taskId)
+{
+    if (IsPartyMenuTextPrinterActive() != TRUE)
+    {
+        PartyMenuDisplayYesNoMenu();
+        gTasks[taskId].func = Task_HandleReleaseResearchMonYesNoInput;
+    }
+}
+
+static void Task_HandleReleaseResearchMonYesNoInput(u8 taskId)
+{
+    switch (Menu_ProcessInputNoWrapClearOnChoose())
+    {
+    case 0:
+        GetMonNickname(&gPlayerParty[gPartyMenu.slotId], gStringVar1);
+        StringExpandPlaceholders(gStringVar4, sText_OpenedResearchBall);
+        DisplayPartyMenuMessage(gStringVar4, FALSE);
+        PlaySE(SE_BALL_OPEN);
+        PlayCry_Normal(GetMonData(&gPlayerParty[gPartyMenu.slotId], MON_DATA_SPECIES), 0);
+        gTasks[taskId].func = Task_ReleaseResearchMonStep2;
+        break;
+    case MENU_B_PRESSED:
+        PlaySE(SE_SELECT);
+        // fallthrough
+    case 1:
+        gTasks[taskId].func = Task_ReturnToChooseMonAfterText;
+        break;
+    }
+}
+
+static void Task_ReleaseResearchMonStep2(u8 taskId)
+{
+    if (IsPartyMenuTextPrinterActive() != TRUE && JOY_NEW(A_BUTTON | B_BUTTON))
+    {
+        GetMonNickname(&gPlayerParty[gPartyMenu.slotId], gStringVar1);
+        StringExpandPlaceholders(gStringVar4, sText_ResearchMonDisobeyedFled);
+        DisplayPartyMenuMessage(gStringVar4, FALSE);
+        gTasks[taskId].func = Task_ReleaseResearchMonStep3;
+    }
+}
+
+static void Task_ReleaseResearchMonStep3(u8 taskId)
+{
+    if (IsPartyMenuTextPrinterActive() != TRUE && JOY_NEW(A_BUTTON | B_BUTTON))
+    {
+        bool8 ballAdded = AddBagItem(ITEM_RESEARCH_BALL, 1);
+        if (ballAdded)
+            DisplayPartyMenuMessage(sText_RecoveredResearchBall, FALSE);
+        else
+            DisplayPartyMenuMessage(sText_ResearchBallLostBagFull, FALSE);
+
+        ZeroMonData(&gPlayerParty[gPartyMenu.slotId]);
+        CompactPartySlots();
+        CalculatePlayerPartyCount();
+        gTasks[taskId].func = Task_ReleaseResearchMonFinish;
+    }
+}
+
+static void Task_ReleaseResearchMonFinish(u8 taskId)
+{
+    if (IsPartyMenuTextPrinterActive() != TRUE && JOY_NEW(A_BUTTON | B_BUTTON))
+    {
+        sPartyMenuInternal->exitCallback = CB2_PartyMenuFromStartMenu;
+        Task_ClosePartyMenu(taskId);
+    }
 }
 
 static void TryItemHoldFormChange(struct Pokemon *mon, s8 slotId)

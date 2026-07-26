@@ -22,6 +22,8 @@
 #include "script.h"
 #include "wild_encounter.h"
 #include "advanced_iv_scanner.h"
+#include "item.h"
+#include "pokemon_size_record.h"
 #include "constants/maps.h"
 #include "constants/abilities.h"
 #include "constants/item.h"
@@ -492,6 +494,26 @@ void CreateWildMon(enum Species species, u8 level, u8 unownSlot)
 
     ZeroEnemyPartyMons();
     u32 personality = GetMonPersonality(species, GetSynchronizedGender(WILDMON_ORIGIN, species), PickWildMonNature(species), unownLetter);
+
+    if (I_SIZE_CHARM_ADDITIONAL_ROLLS != 0 && CheckBagHasItem(ITEM_SIZE_CHARM, 1))
+    {
+        u32 sizeRerolls = I_SIZE_CHARM_ADDITIONAL_ROLLS;
+        u8 bestTier = GetPersonalitySizeTier(personality);
+
+        while (sizeRerolls > 0 && bestTier < 3)
+        {
+            u32 candidatePersonality = GetMonPersonality(species, GetSynchronizedGender(WILDMON_ORIGIN, species), PickWildMonNature(species), unownLetter);
+            u8 candidateTier = GetPersonalitySizeTier(candidatePersonality);
+
+            if (candidateTier > bestTier)
+            {
+                personality = candidatePersonality;
+                bestTier = candidateTier;
+            }
+            sizeRerolls--;
+        }
+    }
+
     CreateMonWithIVs(&gEnemyParty[0], species, level, personality, OTID_STRUCT_PLAYER_ID, USE_RANDOM_IVS);
     GiveMonInitialMoveset(&gEnemyParty[0]);
 }
@@ -797,6 +819,21 @@ bool8 TryStandardWildBonusEncounter(u16 headerId, u32 currMetatileAttrs, enum Me
     GetSeasonAndTimeOfDayForEncounters(headerId, WILD_AREA_HIDDEN, &season, &timeOfDay);
     if (gWildMonHeaders[headerId].encounterTypes[season][timeOfDay].hiddenMonsInfo == NULL)
         return FALSE;
+
+    if (IsPlayerOnActiveHotspot())
+    {
+        gIsAdvIvScannerEncounter = TRUE;
+        if (TryGenerateWildMon(gWildMonHeaders[headerId].encounterTypes[season][timeOfDay].hiddenMonsInfo, WILD_AREA_HIDDEN, 0) == TRUE)
+        {
+            ApplyAdvancedIVScannerIVs(&gEnemyParty[0]);
+            BattleSetup_StartWildBattle();
+            ResolveAdvancedIVScannerHotspot(TRUE);
+            return TRUE;
+        }
+        gIsAdvIvScannerEncounter = FALSE;
+        ResolveAdvancedIVScannerHotspot(FALSE);
+        return FALSE;
+    }
 
     if (previousMetatileBehavior != ExtractMetatileAttribute(currMetatileAttrs, METATILE_ATTRIBUTE_BEHAVIOR) && !AllowWildCheckOnNewMetatile())
         return FALSE;

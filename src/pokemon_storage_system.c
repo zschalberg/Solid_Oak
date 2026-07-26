@@ -103,6 +103,9 @@ enum
     MSG_ITEM_IS_HELD,
     MSG_CHANGED_TO_ITEM,
     MSG_CANT_STORE_MAIL,
+    MSG_RESEARCH_MON_FLED,
+    MSG_RECOVERED_RESEARCH_BALL,
+    MSG_RESEARCH_BALL_LOST_BAG_FULL,
 };
 
 enum
@@ -576,6 +579,8 @@ static EWRAM_DATA u8 sMovingMonOrigBoxId = 0;
 static EWRAM_DATA u8 sMovingMonOrigBoxPos = 0;
 static EWRAM_DATA bool8 sInMultiMoveMode = FALSE;
 static EWRAM_DATA u8 sSavedCursorPosition = 0;
+static EWRAM_DATA bool8 sIsResearchMonRelease = FALSE;
+static EWRAM_DATA bool8 sRecoveredResearchBall = FALSE;
 
 bool8 gCourierStorageChanged = FALSE;
 bool8 gFujiLabAccessPC = FALSE;
@@ -935,6 +940,9 @@ static const u8 sText_WhatDoYouWantToDo[] = _("What do you want to do?");
 static const u8 sText_WhichOneWillYouTake[] = _("Which one will you take?");
 static const u8 sText_YouCantReleaseAnEgg[] = _("You can't release an EGG.");
 static const u8 sText_YoureHoldingAPkmn[] = _("You're holding a POKéMON!");
+static const u8 sText_ResearchMonFled[] = _("{DYNAMIC 0x00} fled into the wild!");
+static const u8 sText_RecoveredResearchBallPC[] = _("{PLAYER} recovered the\nResearch Ball!");
+static const u8 sText_ResearchBallLostBagFullPC[] = _("{PLAYER} couldn't keep the Research\nBall because the Bag was full!");
 
 struct {
     const u8 *text;
@@ -1126,6 +1134,9 @@ static const struct StorageMessage sMessages[] = {
     [MSG_WORRIED]              = {sText_WasItWorriedAboutYou,    MSG_FMT_NONE},
     [MSG_SURPRISE]             = {sText_FourEllipsesExclamation, MSG_FMT_NONE},
     [MSG_PLEASE_REMOVE_MAIL]   = {sText_PleaseRemoveTheMail,     MSG_FMT_NONE},
+    [MSG_RESEARCH_MON_FLED]          = {sText_ResearchMonFled,           MSG_FMT_RELEASE_MON_1},
+    [MSG_RECOVERED_RESEARCH_BALL]     = {sText_RecoveredResearchBallPC,   MSG_FMT_NONE},
+    [MSG_RESEARCH_BALL_LOST_BAG_FULL] = {sText_ResearchBallLostBagFullPC, MSG_FMT_NONE},
     [MSG_IS_SELECTED2]         = {sText_PkmnIsSelected,          MSG_FMT_ITEM_NAME},
     [MSG_GIVE_TO_MON]          = {sText_GiveToAPkmn,             MSG_FMT_NONE},
     [MSG_PLACED_IN_BAG]        = {sText_PlacedItemInBag,         MSG_FMT_ITEM_NAME},
@@ -2851,13 +2862,24 @@ static void Task_ReleaseMon(u8 taskId)
     case 3:
         ReleaseMon();
         RefreshDisplayMonData();
-        PrintStorageMessage(MSG_WAS_RELEASED);
+        if (sIsResearchMonRelease)
+            PrintStorageMessage(MSG_RESEARCH_MON_FLED);
+        else
+            PrintStorageMessage(MSG_WAS_RELEASED);
         gStorage->state++;
         break;
     case 4:
         if (JOY_NEW(A_BUTTON | B_BUTTON | DPAD_ANY))
         {
-            PrintStorageMessage(MSG_BYE_BYE);
+            if (sIsResearchMonRelease)
+            {
+                if (sRecoveredResearchBall)
+                    PrintStorageMessage(MSG_RECOVERED_RESEARCH_BALL);
+                else
+                    PrintStorageMessage(MSG_RESEARCH_BALL_LOST_BAG_FULL);
+            }
+            else
+                PrintStorageMessage(MSG_BYE_BYE);
             gStorage->state++;
         }
         break;
@@ -6344,6 +6366,7 @@ static void ReleaseMon(void)
 {
     u8 boxId;
     enum Item item = ITEM_NONE;
+    u16 ball = 0;
 
     DestroyReleaseMonIcon();
     if (sIsMonBeingMoved)
@@ -6353,14 +6376,27 @@ static void ReleaseMon(void)
         if (sCursorArea == CURSOR_AREA_IN_PARTY)
         {
             boxId = TOTAL_BOXES_COUNT;
+            ball = GetMonData(&gPlayerParty[sCursorPosition], MON_DATA_POKEBALL);
             if (OW_PC_RELEASE_ITEM >= GEN_8)
                 item = GetMonData(&gPlayerParty[sCursorPosition], MON_DATA_HELD_ITEM);
         }
         else
         {
             boxId = StorageGetCurrentBox();
+            ball = GetBoxMonDataAt(boxId, sCursorPosition, MON_DATA_POKEBALL);
             if (OW_PC_RELEASE_ITEM >= GEN_8)
                 item = GetBoxMonDataAt(boxId, sCursorPosition, MON_DATA_HELD_ITEM);
+        }
+
+        if (ball == BALL_RESEARCH)
+        {
+            sIsResearchMonRelease = TRUE;
+            sRecoveredResearchBall = AddBagItem(ITEM_RESEARCH_BALL, 1);
+        }
+        else
+        {
+            sIsResearchMonRelease = FALSE;
+            sRecoveredResearchBall = FALSE;
         }
 
         PurgeMonOrBoxMon(boxId, sCursorPosition);

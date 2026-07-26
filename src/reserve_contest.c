@@ -64,7 +64,9 @@ void GetReserveContestAttemptsRemaining(void)
 
 void CheckCanRegisterReserveContest(void)
 {
-    if (gPlayerPartyCount == 1)
+    u8 partyCount = CalculatePlayerPartyCount();
+
+    if (partyCount == 1)
         gSpecialVar_Result = TRUE;
     else
         gSpecialVar_Result = FALSE;

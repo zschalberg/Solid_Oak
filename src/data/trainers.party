@@ -14474,6 +14474,88 @@ Hitmonchan
 Level: 22
 IVs: 10 HP / 10 Atk / 10 Def / 10 SpA / 10 SpD / 10 Spe
 
+=== TRAINER_VERMILION_DOJO_WHITE ===
+Name: Sensei
+Class: Black Belt
+Pic: Black Belt
+AI: Check Bad Move
+
+Machop
+Level: 16
+IVs: 8 HP / 8 Atk / 8 Def / 8 SpA / 8 SpD / 8 Spe
+- Karate Chop
+- Low Kick
+- Focus Energy
+- Rock Smash
+
+Mankey
+Level: 17
+IVs: 8 HP / 8 Atk / 8 Def / 8 SpA / 8 SpD / 8 Spe
+- Scratch
+- Low Kick
+- Leer
+- Karate Chop
+
+=== TRAINER_VERMILION_DOJO_BLUE ===
+Name: Sensei
+Class: Black Belt
+Pic: Black Belt
+AI: Check Bad Move / Try To Faint
+
+Machoke
+Level: 22
+IVs: 10 HP / 10 Atk / 10 Def / 10 SpA / 10 SpD / 10 Spe
+- Karate Chop
+- Low Kick
+- Brick Break
+- Bulk Up
+
+Primeape
+Level: 22
+IVs: 10 HP / 10 Atk / 10 Def / 10 SpA / 10 SpD / 10 Spe
+- Karate Chop
+- Rock Slide
+- Low Kick
+- Rage
+
+Hitmonlee
+Level: 24
+IVs: 10 HP / 10 Atk / 10 Def / 10 SpA / 10 SpD / 10 Spe
+- Rolling Kick
+- Double Kick
+- Jump Kick
+- Brick Break
+
+=== TRAINER_VERMILION_DOJO_BLACK ===
+Name: Sensei
+Class: Black Belt
+Pic: Black Belt
+AI: Check Bad Move / Try To Faint / Check Viability
+
+Machamp
+Level: 30
+IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
+- Close Combat
+- Earthquake
+- Bulk Up
+- Stone Edge
+
+Primeape
+Level: 30
+IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
+- Close Combat
+- Rock Slide
+- Bulk Up
+- U-turn
+
+Hitmonchan
+Level: 32
+IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
+- Close Combat
+- Ice Punch
+- Thunder Punch
+- Bulk Up
+
 === TRAINER_TESTER_3V3 ===
 Name: TESTER
 Class: Sailor

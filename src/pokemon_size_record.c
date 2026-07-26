@@ -74,6 +74,44 @@ u8 TranslateBigMonSizeTableIndex(u16 a)
     return i;
 }
 
+// Mirrors the height/weight tiering used by Cmd_trysetcaughtmondexflags to
+// decide whether a catch is announced as an exceptional size.
+static u8 GetSizeCategoryExceptionalTier(u8 category)
+{
+    switch (category)
+    {
+    case 0:
+    case 1:
+    case 2:
+    case 13:
+    case 14:
+    case 15:
+        return 3; // Very Rare
+    case 3:
+    case 4:
+    case 11:
+    case 12:
+        return 2; // Rare
+    case 5:
+    case 10:
+        return 1; // Uncommon
+    default:
+        return 0; // Average
+    }
+}
+
+u8 GetPersonalitySizeTier(u32 personality)
+{
+    u16 heightHash = personality & 0xFFFF;
+    u16 weightHash = personality >> 16;
+    u8 heightCategory = TranslateBigMonSizeTableIndex(heightHash);
+    u8 weightCategory = TranslateBigMonSizeTableIndex(weightHash);
+    u8 heightTier = GetSizeCategoryExceptionalTier(heightCategory);
+    u8 weightTier = GetSizeCategoryExceptionalTier(weightCategory);
+
+    return (heightTier > weightTier) ? heightTier : weightTier;
+}
+
 static u32 GetMonSize(enum Species species, u16 b)
 {
     u64 unk2;

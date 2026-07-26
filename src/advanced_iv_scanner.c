@@ -29,7 +29,7 @@ static s16 sHotspotY;
 static u8 sHotspotMapGroup;
 static u8 sHotspotMapNum;
 static bool8 sHotspotActive;
-static u8 sHotspotFldEffSpriteId;
+static EWRAM_DATA u8 sHotspotFldEffSpriteId;
 
 // Task register maps
 #define tDingTimer          data[0]
@@ -73,12 +73,13 @@ void ItemUseOnFieldCB_AdvancedIVScanner(u8 taskId)
             s16 tileY = playerY + dy;
 
             u8 behavior = MapGridGetMetatileBehaviorAt(tileX, tileY);
+            u8 encounterType = MapGridGetMetatileAttributeAt(tileX, tileY, METATILE_ATTRIBUTE_ENCOUNTER_TYPE);
             bool8 isValidTile = FALSE;
 
             if (isSurfing)
                 isValidTile = MetatileBehavior_IsSurfable(behavior);
             else
-                isValidTile = MetatileBehavior_IsTallGrass(behavior) || MetatileBehavior_IsLongGrass(behavior);
+                isValidTile = MetatileBehavior_IsTallGrass(behavior) || MetatileBehavior_IsLongGrass(behavior) || (encounterType == TILE_ENCOUNTER_BONUS);
 
             if (isValidTile)
             {
@@ -180,6 +181,8 @@ static u8 GetHotspotFieldEffectId(s16 x, s16 y)
         return FLDEFF_SHAKING_LONG_GRASS;
     if (MetatileBehavior_IsSurfable(behavior))
         return FLDEFF_UNUSED_WATER_SURFACING;
+    if (MetatileBehavior_IsSand(behavior))
+        return FLDEFF_SAND_HOLE;
     return FLDEFF_SHAKING_GRASS;
 }
 
