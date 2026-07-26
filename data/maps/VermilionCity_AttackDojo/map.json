@@ -1,0 +1,72 @@
+{
+  "id": "MAP_VERMILION_CITY_ATTACK_DOJO",
+  "name": "VermilionCity_AttackDojo",
+  "layout": "LAYOUT_VERMILION_CITY_GYM",
+  "music": "MUS_GYM",
+  "region_map_section": "MAPSEC_VERMILION_CITY",
+  "requires_flash": false,
+  "weather": "WEATHER_NONE",
+  "map_type": "MAP_TYPE_INDOOR",
+  "allow_cycling": false,
+  "allow_escaping": false,
+  "allow_running": false,
+  "show_map_name": false,
+  "floor_number": 0,
+  "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
+  "connections": null,
+  "object_events": [
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_BLACK_BELT",
+      "x": 5,
+      "y": 4,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 1,
+      "movement_range_y": 1,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "VermilionCity_AttackDojo_EventScript_Sensei",
+      "flag": "0"
+    },
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_EXPERT_M",
+      "x": 8,
+      "y": 4,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 1,
+      "movement_range_y": 1,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "VermilionCity_AttackDojo_EventScript_Tutor",
+      "flag": "0"
+    }
+  ],
+  "warp_events": [
+    {
+      "x": 4,
+      "y": 14,
+      "elevation": 3,
+      "dest_map": "MAP_VERMILION_CITY",
+      "dest_warp_id": "9"
+    },
+    {
+      "x": 5,
+      "y": 14,
+      "elevation": 3,
+      "dest_map": "MAP_VERMILION_CITY",
+      "dest_warp_id": "9"
+    },
+    {
+      "x": 6,
+      "y": 14,
+      "elevation": 3,
+      "dest_map": "MAP_VERMILION_CITY",
+      "dest_warp_id": "9"
+    }
+  ],
+  "coord_events": [],
+  "bg_events": []
+}

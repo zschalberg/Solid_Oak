@@ -205,11 +205,11 @@
   ],
   "warp_events": [
     {
-      "x": 24,
+      "x": 27,
       "y": 5,
       "elevation": 0,
       "dest_map": "MAP_FUCHSIA_CITY_SAFARI_ZONE_ENTRANCE",
-      "dest_warp_id": "2"
+      "dest_warp_id": "0"
     },
     {
       "x": 33,
@@ -279,6 +279,13 @@
       "y": 31,
       "elevation": 0,
       "dest_map": "MAP_FUCHSIA_CITY_HOUSE3",
+      "dest_warp_id": "0"
+    },
+    {
+      "x": 24,
+      "y": 5,
+      "elevation": 0,
+      "dest_map": "MAP_FUCHSIA_CITY_RESERVE",
       "dest_warp_id": "0"
     }
   ],

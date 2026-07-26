@@ -1,0 +1,139 @@
+{
+  "id": "MAP_FUCHSIA_CITY_RESERVE",
+  "name": "FuchsiaCity_Reserve",
+  "layout": "LAYOUT_FUCHSIA_CITY_SAFARI_ZONE_OFFICE",
+  "music": "MUS_FUCHSIA",
+  "region_map_section": "MAPSEC_FUCHSIA_CITY",
+  "requires_flash": false,
+  "weather": "WEATHER_NONE",
+  "map_type": "MAP_TYPE_INDOOR",
+  "allow_cycling": false,
+  "allow_escaping": false,
+  "allow_running": false,
+  "show_map_name": false,
+  "floor_number": 0,
+  "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
+  "connections": null,
+  "object_events": [
+    {
+      "local_id": "LOCALID_RESERVE_FUJI",
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_MR_FUJI",
+      "x": 9,
+      "y": 2,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "0x0",
+      "flag": "FLAG_HIDE_RESERVE_FUJI"
+    },
+    {
+      "local_id": "LOCALID_RESERVE_AGATHA",
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_AGATHA",
+      "x": 5,
+      "y": 2,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "0x0",
+      "flag": "FLAG_HIDE_RESERVE_AGATHA"
+    },
+    {
+      "local_id": "LOCALID_RESERVE_WORKER1",
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_COOLTRAINER_F",
+      "x": 6,
+      "y": 4,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_RIGHT",
+      "movement_range_x": 1,
+      "movement_range_y": 1,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "FuchsiaCity_Reserve_EventScript_Worker2",
+      "flag": "0"
+    },
+    {
+      "local_id": "LOCALID_RESERVE_WORKER2",
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_COOLTRAINER_M",
+      "x": 11,
+      "y": 3,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_LEFT",
+      "movement_range_x": 1,
+      "movement_range_y": 1,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "FuchsiaCity_Reserve_EventScript_Worker2",
+      "flag": "0"
+    },
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_RED_NORMAL",
+      "x": 6,
+      "y": -1,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_INVISIBLE",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "FuchsiaCity_Reserve_EventScript_Worker1",
+      "flag": "0"
+    },
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_RED_NORMAL",
+      "x": 7,
+      "y": -1,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_INVISIBLE",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "FuchsiaCity_Reserve_EventScript_Worker2",
+      "flag": "0"
+    }
+  ],
+  "warp_events": [
+    {
+      "x": 5,
+      "y": 9,
+      "elevation": 3,
+      "dest_map": "MAP_FUCHSIA_CITY",
+      "dest_warp_id": "11"
+    },
+    {
+      "x": 6,
+      "y": 9,
+      "elevation": 3,
+      "dest_map": "MAP_FUCHSIA_CITY",
+      "dest_warp_id": "11"
+    },
+    {
+      "x": 7,
+      "y": 9,
+      "elevation": 3,
+      "dest_map": "MAP_FUCHSIA_CITY",
+      "dest_warp_id": "11"
+    },
+    {
+      "x": 11,
+      "y": 1,
+      "elevation": 0,
+      "dest_map": "MAP_SAFARI_ZONE_CENTER",
+      "dest_warp_id": "0"
+    }
+  ],
+  "coord_events": [],
+  "bg_events": []
+}

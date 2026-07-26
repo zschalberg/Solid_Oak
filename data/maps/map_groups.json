@@ -415,7 +415,8 @@
     "VermilionCity_Mart",
     "VermilionCity_Gym",
     "VermilionCity_House3",
-    "VermilionCity_Dojo"
+    "VermilionCity_Dojo",
+    "VermilionCity_AttackDojo"
   ],
   "gMapGroup_IndoorCeladon": [
     "CeladonCity_DepartmentStore_1F",
@@ -449,7 +450,8 @@
     "FuchsiaCity_PokemonCenter_2F",
     "FuchsiaCity_WardensHouse",
     "FuchsiaCity_House2",
-    "FuchsiaCity_House3"
+    "FuchsiaCity_House3",
+    "FuchsiaCity_Reserve"
   ],
   "gMapGroup_IndoorCinnabar": [
     "CinnabarIsland_Gym",

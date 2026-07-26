@@ -1,0 +1,384 @@
+// VermilionCity_AttackDojo/scripts.pory
+//
+// Belt progression:
+//   White Belt  — standard singles
+//   Blue Belt   — 3v3 team preview
+//   Black Belt  — 3v3 preview + Fighting monotype + boss scaling (+5)
+//
+// Move Tutor uses DojoTutor_PushMoveIfFlagSet + _dynmultichoice for a
+// runtime-built menu that grows as the player earns each belt.
+
+mapscripts VermilionCity_AttackDojo_MapScripts {
+    MAP_SCRIPT_ON_TRANSITION: VermilionCity_AttackDojo_OnTransition
+}
+
+// Clear FLAG_SCALE_BOSS_BATTLE on every map entry as a safety net.
+// If the player loses the Black Belt challenge and blacks out, the flag
+// would otherwise persist until cleared here on re-entry.
+script VermilionCity_AttackDojo_OnTransition {
+    clearflag(FLAG_SCALE_BOSS_BATTLE)
+    end
+}
+
+// ============================================================================
+// SENSEI — belt routing
+// ============================================================================
+
+script VermilionCity_AttackDojo_EventScript_Sensei {
+    lock
+    faceplayer
+    if (flag(FLAG_ZONE_1_RESOLVED)) {
+        if (flag(FLAG_DOJO_VERMILION_BLACK_BELT)) {
+            msgbox("You've earned everything I\n"
+                   "have to give.\p"
+                   "Come back any time.\n"
+                   "The door is open.")
+            closemessage
+            release
+            end
+        }
+        if (flag(FLAG_DOJO_VERMILION_BLUE_BELT)) {
+            goto(VermilionCity_AttackDojo_EventScript_OfferBlackBelt)
+            end
+        }
+        if (flag(FLAG_DOJO_VERMILION_WHITE_BELT)) {
+            goto(VermilionCity_AttackDojo_EventScript_OfferBlueBelt)
+            end
+        }
+        goto(VermilionCity_AttackDojo_EventScript_OfferWhiteBelt)
+        end
+    }
+    msgbox("The coast is still unsettled.\p"
+           "Come back when the situation\n"
+           "around Zone 1 has resolved.\p"
+           "The Dojo will still be here.")
+    closemessage
+    release
+    end
+}
+
+// ============================================================================
+// WHITE BELT OFFER
+// ============================================================================
+
+script VermilionCity_AttackDojo_EventScript_OfferWhiteBelt {
+    msgbox("White Belt.\n"
+           "Standard. No conditions.\p"
+           "Show me your basics.\p"
+           "Are you ready?", MSGBOX_YESNO)
+    if (var(VAR_RESULT) == NO) {
+        msgbox("Come back when you're ready.")
+        closemessage
+        release
+        end
+    }
+    goto(VermilionCity_AttackDojo_EventScript_WhiteBeltBattle)
+    end
+}
+
+// ============================================================================
+// BLUE BELT OFFER
+// ============================================================================
+
+script VermilionCity_AttackDojo_EventScript_OfferBlueBelt {
+    msgbox("Blue Belt.\p"
+           "You'll see my team.\n"
+           "I'll see yours.\p"
+           "We each pick three.\n"
+           "No surprises.\p"
+           "Are you ready?", MSGBOX_YESNO)
+    if (var(VAR_RESULT) == NO) {
+        msgbox("Come back when you're ready.")
+        closemessage
+        release
+        end
+    }
+    setflag(FLAG_PREVIEW_BATTLE)
+    setvar(0x8008, 3)
+    setvar(0x800A, 3)
+    goto(VermilionCity_AttackDojo_EventScript_BlueBeltBattle)
+    end
+}
+
+// ============================================================================
+// BLACK BELT OFFER
+// ============================================================================
+
+script VermilionCity_AttackDojo_EventScript_OfferBlackBelt {
+    msgbox("Black Belt.\p"
+           "Fighting types only,\n"
+           "on your side.\p"
+           "Team preview. We each pick\n"
+           "three. And I will be above\l"
+           "your level.\p"
+           "That is deliberate.\p"
+           "Are you ready?", MSGBOX_YESNO)
+    if (var(VAR_RESULT) == NO) {
+        msgbox("Come back when you're ready.")
+        closemessage
+        release
+        end
+    }
+    setflag(FLAG_PREVIEW_BATTLE)
+    setvar(0x8008, 3)
+    setvar(0x800A, 3)
+    setflag(FLAG_MONOTYPE_BATTLE)
+    setvar(VAR_MONOTYPE_RESTRICTION, TYPE_FIGHTING)
+    setflag(FLAG_SCALE_BOSS_BATTLE)
+    setvar(VAR_SCALE_LEVEL_OFFSET, 5)
+    goto(VermilionCity_AttackDojo_EventScript_BlackBeltBattle)
+    end
+}
+
+// ============================================================================
+// MOVE TUTOR — routing
+// The raw TutorMenu script builds the menu dynamically at runtime using
+// DojoTutor_PushMoveIfFlagSet (belt flag gates) + _dynmultichoice.
+// ============================================================================
+
+script VermilionCity_AttackDojo_EventScript_Tutor {
+    lock
+    faceplayer
+    if (flag(FLAG_DOJO_VERMILION_WHITE_BELT)) {
+        msgbox("Which move would you like\n"
+               "to learn?")
+        closemessage
+        goto(VermilionCity_AttackDojo_EventScript_TutorMenu)
+        end
+    }
+    msgbox("Earn a belt first.\n"
+           "The Sensei is over there.")
+    closemessage
+    release
+    end
+}
+
+raw `
+@ ============================================================================
+@ WHITE BELT BATTLE
+@ After winning: gotobeatenscript -> WhiteBeltDefeated (sets flag, shows text).
+@ After losing:  CB2_WhiteOut (player blacks out; script does not continue).
+@ ============================================================================
+
+VermilionCity_AttackDojo_EventScript_WhiteBeltBattle::
+	trainerbattle_single TRAINER_VERMILION_DOJO_WHITE, AttackDojo_Text_WhiteIntro, AttackDojo_Text_WhiteDefeat, VermilionCity_AttackDojo_EventScript_WhiteBeltDefeated
+	end
+
+VermilionCity_AttackDojo_EventScript_WhiteBeltDefeated::
+	setflag FLAG_DOJO_VERMILION_WHITE_BELT
+	msgbox AttackDojo_Text_WhiteWon, MSGBOX_AUTOCLOSE
+	release
+	end
+
+@ ============================================================================
+@ BLUE BELT BATTLE
+@ FLAG_PREVIEW_BATTLE is auto-cleared before the battle begins (in scrcmd.c).
+@ ============================================================================
+
+VermilionCity_AttackDojo_EventScript_BlueBeltBattle::
+	trainerbattle_single TRAINER_VERMILION_DOJO_BLUE, AttackDojo_Text_BlueIntro, AttackDojo_Text_BlueDefeat, VermilionCity_AttackDojo_EventScript_BlueBeltDefeated
+	end
+
+VermilionCity_AttackDojo_EventScript_BlueBeltDefeated::
+	setflag FLAG_DOJO_VERMILION_BLUE_BELT
+	msgbox AttackDojo_Text_BlueWon, MSGBOX_AUTOCLOSE
+	release
+	end
+
+@ ============================================================================
+@ BLACK BELT BATTLE
+@ FLAG_MONOTYPE_BATTLE is auto-cleared by CB2_EndTrainerBattle.
+@ FLAG_SCALE_BOSS_BATTLE is NOT auto-cleared — we clear it here (win case)
+@ and in MAP_SCRIPT_ON_TRANSITION (loss/blackout case).
+@ ============================================================================
+
+VermilionCity_AttackDojo_EventScript_BlackBeltBattle::
+	trainerbattle_single TRAINER_VERMILION_DOJO_BLACK, AttackDojo_Text_BlackIntro, AttackDojo_Text_BlackDefeat, VermilionCity_AttackDojo_EventScript_BlackBeltDefeated
+	end
+
+VermilionCity_AttackDojo_EventScript_BlackBeltDefeated::
+	clearflag FLAG_SCALE_BOSS_BATTLE
+	setflag FLAG_DOJO_VERMILION_BLACK_BELT
+	giveitem ITEM_PROTEIN, 1
+	msgbox AttackDojo_Text_BlackWon, MSGBOX_AUTOCLOSE
+	release
+	end
+
+@ ============================================================================
+@ MOVE TUTOR — dynamic menu
+@
+@ DojoTutor_PushMoveIfFlagSet reads:
+@   VAR_0x8004 = move constant to push into the menu
+@   VAR_0x8005 = belt flag; pushes the move only if this flag is SET
+@
+@ DojoTutor_PrepareMenu appends "Cancel" (id=0xFFFF) and sets VAR_RESULT to
+@   0    — menu is ready to show
+@   0xFE — stack was empty (no belts earned)
+@
+@ _dynmultichoice stores the selected item's id in VAR_RESULT.
+@ Cancel id = 0xFFFF. Move ids = MOVE_* constants.
+@
+@ buffermovename STR_VAR_1, MOVE_X fills {BUFFER_1} with the move name so
+@ the shared wantTeachingMsg can display it without hardcoding.
+@ ============================================================================
+
+VermilionCity_AttackDojo_EventScript_TutorMenu::
+	callnative DojoTutor_ResetStack
+	@ White Belt moves (pushed when FLAG_DOJO_VERMILION_WHITE_BELT is set)
+	setvar VAR_0x8004, MOVE_POWER_UP_PUNCH
+	setvar VAR_0x8005, FLAG_DOJO_VERMILION_WHITE_BELT
+	callnative DojoTutor_PushMoveIfFlagSet
+	setvar VAR_0x8004, MOVE_AERIAL_ACE
+	callnative DojoTutor_PushMoveIfFlagSet
+	@ Blue Belt moves
+	setvar VAR_0x8004, MOVE_BRICK_BREAK
+	setvar VAR_0x8005, FLAG_DOJO_VERMILION_BLUE_BELT
+	callnative DojoTutor_PushMoveIfFlagSet
+	setvar VAR_0x8004, MOVE_ROCK_SLIDE
+	callnative DojoTutor_PushMoveIfFlagSet
+	@ Black Belt moves
+	setvar VAR_0x8004, MOVE_CLOSE_COMBAT
+	setvar VAR_0x8005, FLAG_DOJO_VERMILION_BLACK_BELT
+	callnative DojoTutor_PushMoveIfFlagSet
+	setvar VAR_0x8004, MOVE_EARTHQUAKE
+	callnative DojoTutor_PushMoveIfFlagSet
+	@ Finalize: adds "Cancel" item and checks if stack is non-empty
+	callnative DojoTutor_PrepareMenu
+	goto_if_eq VAR_RESULT, 0xFE, AttackDojo_EventScript_TutorNoBelts
+	@ Show the dynamic menu (ignoreBPress=TRUE: must use "Cancel" option)
+	_dynmultichoice 0, 0, TRUE, 5, FALSE, 0, NULL
+	@ Dispatch on the selected move id
+	goto_if_eq VAR_RESULT, 0xFFFF, AttackDojo_EventScript_TutorDone
+	goto_if_eq VAR_RESULT, MOVE_POWER_UP_PUNCH, AttackDojo_EventScript_TeachPowerUpPunch
+	goto_if_eq VAR_RESULT, MOVE_AERIAL_ACE, AttackDojo_EventScript_TeachAerialAce
+	goto_if_eq VAR_RESULT, MOVE_BRICK_BREAK, AttackDojo_EventScript_TeachBrickBreak
+	goto_if_eq VAR_RESULT, MOVE_ROCK_SLIDE, AttackDojo_EventScript_TeachRockSlide
+	goto_if_eq VAR_RESULT, MOVE_CLOSE_COMBAT, AttackDojo_EventScript_TeachCloseCombat
+	goto_if_eq VAR_RESULT, MOVE_EARTHQUAKE, AttackDojo_EventScript_TeachEarthquake
+	@ Fallthrough: unknown result — close cleanly
+	goto AttackDojo_EventScript_TutorDone
+
+AttackDojo_EventScript_TutorNoBelts::
+	msgbox AttackDojo_Text_TutorNoBelts, MSGBOX_AUTOCLOSE
+	release
+	end
+
+AttackDojo_EventScript_TutorDone::
+	release
+	end
+
+@ ── move_tutor dispatch ──────────────────────────────────────────────────────
+@ buffermovename fills BUFFER_1 with the move name for use in shared texts.
+@ move_tutor checks the flagId; if already set, jumps directly to TutorTaught
+@ (shows "already learned" behavior). On success sets the flag.
+
+AttackDojo_EventScript_TeachPowerUpPunch::
+	buffermovename STR_VAR_1, MOVE_POWER_UP_PUNCH
+	move_tutor MOVE_POWER_UP_PUNCH, AttackDojo_Text_WouldLike, AttackDojo_Text_ForWhich, AttackDojo_EventScript_TutorDeclined, AttackDojo_EventScript_TutorTaught, FLAG_TUTOR_POWER_UP_PUNCH
+	end
+
+AttackDojo_EventScript_TeachAerialAce::
+	buffermovename STR_VAR_1, MOVE_AERIAL_ACE
+	move_tutor MOVE_AERIAL_ACE, AttackDojo_Text_WouldLike, AttackDojo_Text_ForWhich, AttackDojo_EventScript_TutorDeclined, AttackDojo_EventScript_TutorTaught, FLAG_TUTOR_AERIAL_ACE
+	end
+
+AttackDojo_EventScript_TeachBrickBreak::
+	buffermovename STR_VAR_1, MOVE_BRICK_BREAK
+	move_tutor MOVE_BRICK_BREAK, AttackDojo_Text_WouldLike, AttackDojo_Text_ForWhich, AttackDojo_EventScript_TutorDeclined, AttackDojo_EventScript_TutorTaught, FLAG_TUTOR_BRICK_BREAK
+	end
+
+AttackDojo_EventScript_TeachRockSlide::
+	buffermovename STR_VAR_1, MOVE_ROCK_SLIDE
+	move_tutor MOVE_ROCK_SLIDE, AttackDojo_Text_WouldLike, AttackDojo_Text_ForWhich, AttackDojo_EventScript_TutorDeclined, AttackDojo_EventScript_TutorTaught, FLAG_TUTOR_ROCK_SLIDE
+	end
+
+AttackDojo_EventScript_TeachCloseCombat::
+	buffermovename STR_VAR_1, MOVE_CLOSE_COMBAT
+	move_tutor MOVE_CLOSE_COMBAT, AttackDojo_Text_WouldLike, AttackDojo_Text_ForWhich, AttackDojo_EventScript_TutorDeclined, AttackDojo_EventScript_TutorTaught, FLAG_TUTOR_CLOSE_COMBAT
+	end
+
+AttackDojo_EventScript_TeachEarthquake::
+	buffermovename STR_VAR_1, MOVE_EARTHQUAKE
+	move_tutor MOVE_EARTHQUAKE, AttackDojo_Text_WouldLike, AttackDojo_Text_ForWhich, AttackDojo_EventScript_TutorDeclined, AttackDojo_EventScript_TutorTaught, FLAG_TUTOR_EARTHQUAKE
+	end
+
+AttackDojo_EventScript_TutorDeclined::
+	msgbox AttackDojo_Text_TutorDeclined, MSGBOX_AUTOCLOSE
+	release
+	end
+
+AttackDojo_EventScript_TutorTaught::
+	msgbox AttackDojo_Text_TutorTaught, MSGBOX_AUTOCLOSE
+	release
+	end
+
+@ ============================================================================
+@ TEXT
+@ ============================================================================
+
+AttackDojo_Text_WhiteIntro:
+	.string "White Belt.\n"
+	.string "Come at me clean.$"
+
+AttackDojo_Text_WhiteDefeat:
+	.string "Solid.$"
+
+AttackDojo_Text_WhiteWon:
+	.string "Good.\n"
+	.string "That's the foundation.\p"
+	.string "Power-Up Punch and Aerial Ace\n"
+	.string "are now available\l"
+	.string "from my Tutor.\p"
+	.string "Come back when you're ready\n"
+	.string "for Blue.$"
+
+AttackDojo_Text_BlueIntro:
+	.string "You saw my team.\n"
+	.string "I saw yours.\p"
+	.string "No excuses.$"
+
+AttackDojo_Text_BlueDefeat:
+	.string "You read it right.$"
+
+AttackDojo_Text_BlueWon:
+	.string "You planned well.\p"
+	.string "Brick Break and Rock Slide\n"
+	.string "are now unlocked.\p"
+	.string "Come back when you're ready\n"
+	.string "for Black.$"
+
+AttackDojo_Text_BlackIntro:
+	.string "Fighting types only.\p"
+	.string "I know what you can do.\n"
+	.string "Don't hold anything back.$"
+
+AttackDojo_Text_BlackDefeat:
+	.string "That's what I was\n"
+	.string "waiting for.$"
+
+AttackDojo_Text_BlackWon:
+	.string "You used what you had\n"
+	.string "and made it work.\p"
+	.string "Close Combat and Earthquake\n"
+	.string "are now unlocked.\p"
+	.string "The Black Belt is yours.$"
+
+AttackDojo_Text_TutorNoBelts:
+	.string "Earn a belt first.$"
+
+AttackDojo_Text_WouldLike:
+	.string "Shall I teach\n"
+	.string "{STR_VAR_1} to your POKeMON?$"
+
+AttackDojo_Text_ForWhich:
+	.string "Which POKeMON should\n"
+	.string "learn {STR_VAR_1}?$"
+
+AttackDojo_Text_TutorDeclined:
+	.string "Come back when you've\n"
+	.string "made up your mind.$"
+
+AttackDojo_Text_TutorTaught:
+	.string "That's it.\n"
+	.string "Make the most of it.$"
+`

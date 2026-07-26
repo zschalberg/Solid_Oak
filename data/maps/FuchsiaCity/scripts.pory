@@ -28,15 +28,46 @@ script FuchsiaCity_EventScript_FujiTalk {
         end
     }
     if (flag(FLAG_KRABBY_QUEST_GIVEN)) {
-        setvar(VAR_0x8004, SPECIES_KRABBY)
-        special(GetSpeciesCaughtCount)
-        if (var(VAR_RESULT) == 0) {
+        // Count KRABBY anywhere in the party (not just slots 0-1) — empty
+        // slots read back SPECIES_NONE from ScriptGetPartyMonSpecies, so
+        // it's safe to check all 6 regardless of actual party size.
+        setvar(VAR_0x8006, 0)
+        setvar(VAR_0x8004, 0)
+        specialvar(VAR_RESULT, ScriptGetPartyMonSpecies)
+        if (var(VAR_RESULT) == SPECIES_KRABBY) {
+            addvar(VAR_0x8006, 1)
+        }
+        setvar(VAR_0x8004, 1)
+        specialvar(VAR_RESULT, ScriptGetPartyMonSpecies)
+        if (var(VAR_RESULT) == SPECIES_KRABBY) {
+            addvar(VAR_0x8006, 1)
+        }
+        setvar(VAR_0x8004, 2)
+        specialvar(VAR_RESULT, ScriptGetPartyMonSpecies)
+        if (var(VAR_RESULT) == SPECIES_KRABBY) {
+            addvar(VAR_0x8006, 1)
+        }
+        setvar(VAR_0x8004, 3)
+        specialvar(VAR_RESULT, ScriptGetPartyMonSpecies)
+        if (var(VAR_RESULT) == SPECIES_KRABBY) {
+            addvar(VAR_0x8006, 1)
+        }
+        setvar(VAR_0x8004, 4)
+        specialvar(VAR_RESULT, ScriptGetPartyMonSpecies)
+        if (var(VAR_RESULT) == SPECIES_KRABBY) {
+            addvar(VAR_0x8006, 1)
+        }
+        setvar(VAR_0x8004, 5)
+        specialvar(VAR_RESULT, ScriptGetPartyMonSpecies)
+        if (var(VAR_RESULT) == SPECIES_KRABBY) {
+            addvar(VAR_0x8006, 1)
+        }
+        if (var(VAR_0x8006) < 2) {
             lock
             faceplayer
             msgbox("The shallows south of here.\p"
-                   "Catch a few KRABBY with the\n"
-                   "RESEARCH BALLs I gave you.\p"
-                   "Then come find me.")
+                   "Bring two KRABBY in your\n"
+                   "party before you come find me.")
             closemessage
             release
             end
@@ -55,17 +86,18 @@ script FuchsiaCity_EventScript_FujiTurnIn {
     setvar(VAR_ACT1_FUCHSIA, 1)
     showmugshot(MUGSHOT_AGATHA, MUGSHOT_LEFT)
     textcolor(NPC_TEXT_COLOR_FEMALE)
-    msgbox("You're slow, Sammy.")
-    closemessage
-    msgbox("I got mine on the way down.")
+    msgbox("You're slow, Sammy.\n"
+           "I got mine on the way down.")
     closemessage
     clearmugshot
+    //showmugshot(MUGSHOT_FUJI, MUGSHOT_RIGHT)
+    textcolor(NPC_TEXT_COLOR_MALE)
     msgbox("Bring both sets over here.")
     closemessage
     msgbox("See these two? Same species.\n"
            "Same location. One is noticeably\l"
            "larger than the other.\p"
-           "That difference isn't random.\n"
+           "That difference isn't arbitrary.\n"
            "It affects how they move, how\l"
            "hard they hit, how fast they\l"
            "recover.\p"
@@ -82,7 +114,7 @@ script FuchsiaCity_EventScript_FujiTurnIn {
            "for years.\p"
            "The idea is simple: we document\n"
            "the POKéMON being displaced,\l"
-           "and we give them somewhere\n"
+           "and we give them somewhere\l"
            "to go.\p"
            "It's not much yet.\n"
            "But it grows with what we\l"
@@ -95,38 +127,64 @@ script FuchsiaCity_EventScript_FujiTurnIn {
     msgbox("How do you know they'll stay?")
     closemessage
     clearmugshot
+    //showmugshot(MUGSHOT_FUJI, MUGSHOT_RIGHT)
+    textcolor(NPC_TEXT_COLOR_MALE)
     msgbox("They won't all stay.\n"
            "That's not the point.\p"
            "The point is to give them\n"
            "the choice.")
     closemessage
-    msgbox("There's something happening at\n"
-           "the fishing village on your\l"
-           "way back.\p"
-           "I've had reports for three\n"
-           "days.\p"
-           "I didn't want to say anything\n"
-           "before you'd seen this first.\p"
-           "Go back the way you came.\n"
-           "You'll see it.")
+    msgbox("Come inside for a moment.\n"
+           "There's two people you should\l"
+           "meet before you head back out.")
     closemessage
-    showmugshot(MUGSHOT_AGATHA, MUGSHOT_LEFT)
-    textcolor(NPC_TEXT_COLOR_FEMALE)
-    msgbox("Finally.")
-    closemessage
-    clearmugshot
-    applymovement(LOCALID_FUCHSIA_AGATHA, FuchsiaCity_Movement_AgathaExit)
+    applymovement(LOCALID_FUCHSIA_FUJI, FuchsiaCity_Movement_FujiToDoor)
+    applymovement(LOCALID_FUCHSIA_AGATHA, FuchsiaCity_Movement_AgathaToDoor)
+    applymovement(OBJ_EVENT_ID_PLAYER, FuchsiaCity_Movement_PlayerToDoor)
     waitmovement(0)
     setflag(FLAG_HIDE_FUCHSIA_AGATHA)
     setflag(FLAG_HIDE_FUCHSIA_FUJI)
-    setflag(FLAG_KRABBY_QUEST_COMPLETE)
+    warp(MAP_FUCHSIA_CITY_RESERVE, 4, 6)
+    waitstate
     releaseall
     end
 }
 
-movement FuchsiaCity_Movement_AgathaExit {
-    walk_up * 3
+// The rest of the scene (Worker introductions, the Protoball/Silph Co.
+// foreshadowing, the fishing village warning, and Agatha's exit) plays
+// out in FuchsiaCity_Reserve_EventScript_Intro once the warp above lands.
+// That script also sets FLAG_KRABBY_QUEST_COMPLETE once it finishes.
+
+movement FuchsiaCity_Movement_FujiToDoor {
+    walk_up * 2
     set_invisible
+}
+
+movement FuchsiaCity_Movement_AgathaToDoor {
+    walk_up * 2
+    set_invisible
+}
+
+movement FuchsiaCity_Movement_PlayerToDoor {
+    walk_up * 2
+}
+
+script FuchsiaCity_EventScript_Youngster {
+    lock
+    faceplayer
+    msgbox("Hey! Want to test the Slowpoke evolution?\nI found a wild Shellder!", MSGBOX_YESNO)
+    if (var(VAR_RESULT) == YES) {
+        msgbox("Here it comes!", MSGBOX_DEFAULT)
+        closemessage
+        setflag(FLAG_QUEST_KNOW_SLOWPOKE_EVOS)
+        callnative(Script_SetShellderTestWildBattle)
+        dowildbattle
+    } else {
+        msgbox("Let me know if you change your mind!", MSGBOX_DEFAULT)
+        closemessage
+    }
+    release
+    end
 }
 
 raw `
@@ -140,10 +198,6 @@ FuchsiaCity_EventScript_OldMan::
 
 FuchsiaCity_EventScript_Erik::
 	msgbox FuchsiaCity_Text_WheresSara, MSGBOX_NPC
-	end
-
-FuchsiaCity_EventScript_Youngster::
-	msgbox FuchsiaCity_Text_ItemBallInThere, MSGBOX_NPC
 	end
 
 FuchsiaCity_EventScript_Lass::

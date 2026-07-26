@@ -1,0 +1,479 @@
+// FuchsiaCity_Reserve/scripts.pory
+//
+// Interior of the Fuchsia Reserve building. Reached via the exterior
+// hand-off scene in FuchsiaCity_EventScript_FujiTurnIn (data/maps/FuchsiaCity/scripts.pory),
+// which hides the outdoor Fuji/Agatha objects and warps the player here.
+//
+// Fuji and Agatha appear here ONLY as one-time story actors for the
+// introduction scene, then vanish for good (FLAG_HIDE_RESERVE_FUJI /
+// FLAG_HIDE_RESERVE_AGATHA). They are forced hidden on every map load via
+// ON_TRANSITION so a player who wanders in through the door before ever
+// triggering the exterior scene doesn't see them out of sequence — the
+// intro only plays if FLAG_HIDE_FUCHSIA_FUJI is already set, which is only
+// true once the exterior hand-off has actually happened.
+//
+// Worker 1 and Worker 2 are permanent NPCs, gated on FLAG_KRABBY_QUEST_COMPLETE
+// so they're not fully interactive until the intro scene has run.
+
+mapscripts FuchsiaCity_Reserve_MapScripts {
+    //MAP_SCRIPT_ON_TRANSITION: FuchsiaCity_Reserve_OnTransition
+    MAP_SCRIPT_ON_FRAME_TABLE [
+        VAR_SCENE_FUCHSIA_RESERVE, 0: FuchsiaCity_Reserve_EventScript_CheckIntro
+    ]
+}
+
+script FuchsiaCity_Reserve_OnTransition {
+    setflag(FLAG_HIDE_RESERVE_FUJI)
+    setflag(FLAG_HIDE_RESERVE_AGATHA)
+    end
+}
+
+script FuchsiaCity_Reserve_EventScript_CheckIntro {
+    if (flag(FLAG_HIDE_FUCHSIA_FUJI)) {
+        goto(FuchsiaCity_Reserve_EventScript_Intro)
+        end
+    }
+    end
+}
+
+// ============================================================================
+// INTRODUCTION SCENE — Fuji brings Oak & Agatha in to meet the Reserve staff
+// ============================================================================
+
+script FuchsiaCity_Reserve_EventScript_Intro {
+    lockall
+    clearflag(FLAG_HIDE_RESERVE_FUJI)
+    clearflag(FLAG_HIDE_RESERVE_AGATHA)
+    //showmugshot(MUGSHOT_FUJI, MUGSHOT_RIGHT)
+    textcolor(NPC_TEXT_COLOR_MALE)
+    msgbox("This is the rest of it.\p"
+           "Two people, most days. It's not\n"
+           "much, but it's what the funding\l"
+           "allows.")
+    closemessage
+	applymovement(LOCALID_RESERVE_WORKER1, FuchsiaCity_Reserve_JumpInPlace)
+	waitmovement(0)
+    msgbox("This one handles what comes in -\n"
+           "turn-ins, records, the ledger.\p"
+		   "Talk to her to turn in your\n"
+		   "Krabby and other Pokemon.")
+	closemessage
+	applymovement(LOCALID_RESERVE_WORKER1, FuchsiaCity_Reserve_FaceRight)
+	applymovement(LOCALID_RESERVE_WORKER2, FuchsiaCity_Reserve_JumpInPlace)
+	waitmovement(0)
+    msgbox("That one runs the expeditions.\n"
+           "Catch counts, catalogue entries,\l"
+           "that sort of thing.")
+    closemessage
+	applymovement(LOCALID_RESERVE_WORKER2, FuchsiaCity_Reserve_FaceLeft)
+	waitmovement(0)
+    showmugshot(MUGSHOT_AGATHA, MUGSHOT_LEFT)
+    textcolor(NPC_TEXT_COLOR_FEMALE)
+    msgbox("Two people and a building.\n"
+           "That's the operation?")
+    closemessage
+    clearmugshot
+    //showmugshot(MUGSHOT_FUJI, MUGSHOT_RIGHT)
+    textcolor(NPC_TEXT_COLOR_MALE)
+    msgbox("For now.\p"
+           "The biggest issue is the lack\n"
+           "of proper containment equipment.\p"
+		   "I have a few connections at\n"
+		   "Silph Co. that are working on\n"
+		   "containment issues in SAFFRON.\p"
+		   "When you get time, head there\n"
+		   "and introduce yourself.")
+    closemessage
+    msgbox("In the meantime...\p"
+		   "There's something happening at\n"
+           "the fishing village on your way\l"
+           "back.\p"
+           "I've had reports for three days.\n"
+           "I didn't want to say anything\l"
+           "before you'd seen this first.\p"
+           "Go back the way you came.\n"
+           "You'll see it.")
+    closemessage
+    showmugshot(MUGSHOT_AGATHA, MUGSHOT_LEFT)
+    textcolor(NPC_TEXT_COLOR_FEMALE)
+    msgbox("Finally.")
+    closemessage
+    clearmugshot
+    setflag(FLAG_HIDE_RESERVE_FUJI)
+    setflag(FLAG_HIDE_RESERVE_AGATHA)
+    setvar(VAR_SCENE_FUCHSIA_RESERVE, 1)
+    setflag(FLAG_KRABBY_QUEST_COMPLETE)
+    releaseall
+    end
+}
+
+// ============================================================================
+// WORKER 1 — Research turn-ins / Research Coins economy
+// ============================================================================
+
+script FuchsiaCity_Reserve_EventScript_Worker1 {
+    lock
+    faceplayer
+    if (!flag(FLAG_KRABBY_QUEST_COMPLETE)) {
+        msgbox("Still getting the ledgers set up.\n"
+               "Come back once Fuji's shown you\l"
+               "around properly.")
+        closemessage
+        release
+        end
+    }
+    goto(FuchsiaCity_Reserve_EventScript_Worker1Menu)
+    end
+}
+
+raw `
+FuchsiaCity_Reserve_EventScript_Worker1Menu::
+	msgbox FuchsiaCity_Reserve_Text_Worker1Welcome, MSGBOX_DEFAULT
+FuchsiaCity_Reserve_EventScript_Worker1MenuLoop::
+	showcoinsbox 19, 0
+	multichoice 0, 0, MULTI_RESEARCH_MAIN, FALSE
+	switch VAR_RESULT
+	case 0, FuchsiaCity_Reserve_EventScript_TurnInMon
+	case 1, FuchsiaCity_Reserve_EventScript_ExchangeShop
+	case 2, FuchsiaCity_Reserve_EventScript_TransferBall
+	case 3, FuchsiaCity_Reserve_EventScript_Worker1Info
+	case 4, FuchsiaCity_Reserve_EventScript_Worker1End
+	case MULTI_B_PRESSED, FuchsiaCity_Reserve_EventScript_Worker1End
+	end
+
+FuchsiaCity_Reserve_EventScript_TurnInMon::
+	getpartysize
+	compare VAR_RESULT, 1
+	goto_if_le FuchsiaCity_Reserve_EventScript_TurnInLastMonRefused
+	msgbox FuchsiaCity_Reserve_Text_TurnInPrompt, MSGBOX_DEFAULT
+	special ChoosePartyMon
+	waitstate
+	compare VAR_0x8004, 255
+	goto_if_eq FuchsiaCity_Reserve_EventScript_Worker1MenuLoop
+	special IsSelectedMonEgg
+	compare VAR_RESULT, TRUE
+	goto_if_eq FuchsiaCity_Reserve_EventScript_TurnInEggRefused
+	special IsSelectedMonResearchBall
+	compare VAR_RESULT, TRUE
+	goto_if_eq FuchsiaCity_Reserve_EventScript_EvaluateMon
+	msgbox FuchsiaCity_Reserve_Text_WarningNotResearchBall, MSGBOX_YESNO
+	compare VAR_RESULT, NO
+	goto_if_eq FuchsiaCity_Reserve_EventScript_Worker1MenuLoop
+
+FuchsiaCity_Reserve_EventScript_EvaluateMon::
+	special EvaluateSelectedResearchMon
+	msgbox FuchsiaCity_Reserve_Text_EvaluationResult, MSGBOX_YESNO
+	compare VAR_RESULT, NO
+	goto_if_eq FuchsiaCity_Reserve_EventScript_Worker1MenuLoop
+	special IsSelectedMonNewFamily
+	compare VAR_RESULT, TRUE
+	call_if_eq FuchsiaCity_Reserve_EventScript_ShowNewFamilyText
+	special TurnInSelectedResearchMon
+	updatecoinsbox 19, 0
+	playfanfare MUS_LEVEL_UP
+	msgbox FuchsiaCity_Reserve_Text_TurnInSuccess, MSGBOX_DEFAULT
+	waitfanfare
+	goto FuchsiaCity_Reserve_EventScript_Worker1MenuLoop
+
+FuchsiaCity_Reserve_EventScript_ShowNewFamilyText::
+	msgbox FuchsiaCity_Reserve_Text_NewFamilyBonusMsg, MSGBOX_DEFAULT
+	return
+
+FuchsiaCity_Reserve_EventScript_TurnInLastMonRefused::
+	msgbox FuchsiaCity_Reserve_Text_TurnInLastMonRefusedMsg, MSGBOX_DEFAULT
+	goto FuchsiaCity_Reserve_EventScript_Worker1MenuLoop
+
+FuchsiaCity_Reserve_EventScript_TurnInEggRefused::
+	msgbox FuchsiaCity_Reserve_Text_TurnInEggRefusedMsg, MSGBOX_DEFAULT
+	goto FuchsiaCity_Reserve_EventScript_Worker1MenuLoop
+
+@ ── Exchange Shop and Transfer Ball are placeholders: TurnInSelectedResearchMon
+@ already awards Research Coins via AddCoins, but the shop that spends them on
+@ Fuji's box space upgrades / Evolution Stones / research items isn't built
+@ yet. Wire ExchangeShop up to a real shop/buymenu once that item list exists.
+FuchsiaCity_Reserve_EventScript_ExchangeShop::
+	msgbox FuchsiaCity_Reserve_Text_ExchangeShopComingSoon, MSGBOX_DEFAULT
+	goto FuchsiaCity_Reserve_EventScript_Worker1MenuLoop
+
+FuchsiaCity_Reserve_EventScript_TransferBall::
+	checkcoins VAR_TEMP_1
+	compare VAR_TEMP_1, 500
+	goto_if_lt FuchsiaCity_Reserve_EventScript_NotEnoughCoinsTransfer
+	getpartysize
+	compare VAR_RESULT, 0
+	goto_if_eq FuchsiaCity_Reserve_EventScript_Worker1MenuLoop
+	msgbox FuchsiaCity_Reserve_Text_TransferPrompt, MSGBOX_DEFAULT
+	special ChoosePartyMon
+	waitstate
+	compare VAR_0x8004, 255
+	goto_if_eq FuchsiaCity_Reserve_EventScript_Worker1MenuLoop
+	special IsSelectedMonEgg
+	compare VAR_RESULT, TRUE
+	goto_if_eq FuchsiaCity_Reserve_EventScript_TransferEggRefused
+	special IsSelectedMonResearchBall
+	compare VAR_RESULT, FALSE
+	goto_if_eq FuchsiaCity_Reserve_EventScript_TransferNotResearchBall
+	removecoins 500
+	updatecoinsbox 19, 0
+	special TransferSelectedMonToPokeBall
+	playfanfare MUS_LEVEL_UP
+	msgbox FuchsiaCity_Reserve_Text_TransferSuccess, MSGBOX_DEFAULT
+	waitfanfare
+	goto FuchsiaCity_Reserve_EventScript_Worker1MenuLoop
+
+FuchsiaCity_Reserve_EventScript_TransferEggRefused::
+	msgbox FuchsiaCity_Reserve_Text_TransferEggRefusedMsg, MSGBOX_DEFAULT
+	goto FuchsiaCity_Reserve_EventScript_Worker1MenuLoop
+
+FuchsiaCity_Reserve_EventScript_TransferNotResearchBall::
+	msgbox FuchsiaCity_Reserve_Text_TransferNotResearchBallMsg, MSGBOX_DEFAULT
+	goto FuchsiaCity_Reserve_EventScript_Worker1MenuLoop
+
+FuchsiaCity_Reserve_EventScript_NotEnoughCoinsTransfer::
+	msgbox FuchsiaCity_Reserve_Text_NotEnoughCoinsTransferMsg, MSGBOX_DEFAULT
+	goto FuchsiaCity_Reserve_EventScript_Worker1MenuLoop
+
+FuchsiaCity_Reserve_EventScript_Worker1Info::
+	msgbox FuchsiaCity_Reserve_Text_Worker1Info, MSGBOX_DEFAULT
+	goto FuchsiaCity_Reserve_EventScript_Worker1MenuLoop
+
+FuchsiaCity_Reserve_EventScript_Worker1End::
+	hidecoinsbox 19, 0
+	msgbox FuchsiaCity_Reserve_Text_Worker1End, MSGBOX_DEFAULT
+	release
+	end
+`
+
+// ============================================================================
+// WORKER 2 — Reserve Expeditions (daily catch-and-catalogue)
+// ============================================================================
+
+script FuchsiaCity_Reserve_EventScript_Worker2 {
+    lock
+    faceplayer
+    if (!flag(FLAG_KRABBY_QUEST_COMPLETE)) {
+        msgbox("Expeditions aren't running yet.\n"
+               "Talk to Fuji first.")
+        closemessage
+        release
+        end
+    }
+    if (flag(FLAG_RESERVE_CONTEST_ACTIVE)) {
+        goto(FuchsiaCity_Reserve_EventScript_Worker2ActiveSession)
+        end
+    }
+    msgbox("Ever been out on one of our\n"
+           "expeditions?", MSGBOX_YESNO)
+    if (var(VAR_RESULT) == NO) {
+        goto(FuchsiaCity_Reserve_EventScript_Worker2Explain)
+        end
+    }
+    goto(FuchsiaCity_Reserve_EventScript_Worker2Start)
+    end
+}
+
+script FuchsiaCity_Reserve_EventScript_Worker2Explain {
+    msgbox("An expedition is simple: you go\n"
+           "out, you catch what you find, and\l"
+           "you bring it back so we can\n"
+           "catalogue it properly.\p"
+		   "Documentation. Every entry helps\l"
+           "us understand what's moving through\n"
+           "here and why.\p"
+		   "Here are the categories:\p"
+		   "THE HEAVIEST - we weigh and\n"
+           "measure everything you bring\l"
+           "back and judge on the numbers.\p"
+           "THE BEST IVs - we run it through\n"
+           "the scanner and grade its\l"
+           "underlying condition.\p"
+           "THE RAREST - judged on how\n"
+           "seldom the species turns up,\l"
+           "with anything unusual coloring\n"
+           "counting extra.")
+    closemessage
+    goto(FuchsiaCity_Reserve_EventScript_Worker2Start)
+    end
+}
+
+script FuchsiaCity_Reserve_EventScript_Worker2Start {
+    specialvar(VAR_RESULT, GetReserveContestAttemptsRemaining)
+    if (var(VAR_RESULT) == 0) {
+        msgbox("You've used up today's\n"
+               "expedition slots.\p"
+               "Come back tomorrow.")
+        closemessage
+        release
+        end
+    }
+    specialvar(VAR_RESULT, CheckCanRegisterReserveContest)
+    if (var(VAR_RESULT) == FALSE) {
+        msgbox("You'll need exactly one POKéMON\n"
+               "in your party before you head\l"
+               "out. Wouldn't want you catching\n"
+               "over your limit.")
+        closemessage
+        release
+        end
+    }
+    msgbox("Pick what you're cataloguing\n"
+           "this time.\p")
+    closemessage
+    goto(FuchsiaCity_Reserve_EventScript_Worker2Category)
+    end
+}
+
+raw `
+FuchsiaCity_Reserve_EventScript_Worker2Category::
+	multichoice 0, 0, MULTI_RESERVE_CONTEST_CATEGORY, FALSE
+	compare VAR_RESULT, MULTI_B_PRESSED
+	goto_if_eq FuchsiaCity_Reserve_EventScript_Worker2Cancelled
+	copyvar VAR_0x8004, VAR_RESULT
+	special StartReserveContestSession
+	msgbox FuchsiaCity_Reserve_Text_ExpeditionStarted, MSGBOX_DEFAULT
+	release
+	end
+
+FuchsiaCity_Reserve_EventScript_Worker2Cancelled::
+	release
+	end
+
+FuchsiaCity_Reserve_EventScript_Worker2ActiveSession::
+	goto_if_unset FLAG_RESERVE_CONTEST_CAUGHT, FuchsiaCity_Reserve_EventScript_Worker2NoSpecimenYet
+	msgbox FuchsiaCity_Reserve_Text_WelcomeBackLetUsEvaluate, MSGBOX_DEFAULT
+	special EvaluateReserveContestCatch
+	msgbox gStringVar4, MSGBOX_DEFAULT
+	msgbox FuchsiaCity_Reserve_Text_WouldYouLikeToKeepMon, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, YES, FuchsiaCity_Reserve_EventScript_Worker2KeepMon
+	setvar VAR_0x8004, 1
+	special FinalizeReserveContestCatch
+	msgbox FuchsiaCity_Reserve_Text_CataloguedAndTurnedIn, MSGBOX_DEFAULT
+	release
+	end
+
+FuchsiaCity_Reserve_EventScript_Worker2KeepMon::
+	setvar VAR_0x8004, 0
+	special FinalizeReserveContestCatch
+	msgbox FuchsiaCity_Reserve_Text_CataloguedAndKept, MSGBOX_DEFAULT
+	release
+	end
+
+FuchsiaCity_Reserve_EventScript_Worker2NoSpecimenYet::
+	msgbox FuchsiaCity_Reserve_Text_NoSpecimenCaughtYet, MSGBOX_DEFAULT
+	release
+	end
+
+@ ============================================================================
+@ TEXT
+@ ============================================================================
+
+FuchsiaCity_Reserve_Text_Worker1Welcome:
+	.string "Every specimen you bring in gets\n"
+	.string "logged and turned into Research\l"
+	.string "Coins.\p"
+	.string "Spend them on box space for\n"
+	.string "Fuji's Sanctuary, Evolution\l"
+	.string "Stones, or other research gear\n"
+	.string "as we stock it.$"
+
+FuchsiaCity_Reserve_Text_TurnInPrompt:
+	.string "Which POKéMON are you\n"
+	.string "turning in?$"
+
+FuchsiaCity_Reserve_Text_WarningNotResearchBall:
+	.string "That one wasn't caught in a\n"
+	.string "RESEARCH BALL. We can still log\l"
+	.string "it, but the Pokemon will not be\n"
+	.string "returned.\p"
+	.string "Turn it in anyway?$"
+
+FuchsiaCity_Reserve_Text_EvaluationResult:
+	.string "{STR_VAR_3}\p"
+	.string "Turn in {STR_VAR_1}?$"
+
+FuchsiaCity_Reserve_Text_NewFamilyBonusMsg:
+	.string "First entry for this family.\n"
+	.string "That's worth extra.$"
+
+FuchsiaCity_Reserve_Text_TurnInSuccess:
+	.string "Logged. {STR_VAR_3} Research\n"
+	.string "Coins added.$"
+
+FuchsiaCity_Reserve_Text_TurnInLastMonRefusedMsg:
+	.string "Can't take your only POKéMON.\n"
+	.string "You'd have nothing to research\l"
+	.string "with.$"
+
+FuchsiaCity_Reserve_Text_TurnInEggRefusedMsg:
+	.string "That's still an egg. Come back\n"
+	.string "once it's hatched.$"
+
+FuchsiaCity_Reserve_Text_ExchangeShopComingSoon:
+	.string "The exchange shop isn't stocked\n"
+	.string "yet. Check back once we've got\l"
+	.string "inventory worth selling.$"
+
+FuchsiaCity_Reserve_Text_TransferPrompt:
+	.string "Which POKéMON gets a proper\n"
+	.string "POKé BALL?$"
+
+FuchsiaCity_Reserve_Text_TransferEggRefusedMsg:
+	.string "Eggs don't need re-balling.$"
+
+FuchsiaCity_Reserve_Text_TransferNotResearchBallMsg:
+	.string "That one's already in a\n"
+	.string "standard POKé BALL.$"
+
+FuchsiaCity_Reserve_Text_TransferSuccess:
+	.string "Done. Transferred to a\n"
+	.string "POKé BALL.$"
+
+FuchsiaCity_Reserve_Text_NotEnoughCoinsTransferMsg:
+	.string "That's 500 Research Coins.\n"
+	.string "You're short.$"
+
+FuchsiaCity_Reserve_Text_Worker1Info:
+	.string "Research Balls give a research\n"
+	.string "bonus when you turn a catch in -\l"
+	.string "no penalty on the coin count.\p"
+	.string "Standard balls still count, just\n"
+	.string "at a lower rate.$"
+
+FuchsiaCity_Reserve_Text_Worker1End:
+	.string "Come back any time.$"
+
+FuchsiaCity_Reserve_Text_ExpeditionStarted:
+	.string "Good luck out there.\n"
+	.string "Bring back what you catch.$"
+
+FuchsiaCity_Reserve_Text_WelcomeBackLetUsEvaluate:
+	.string "Let's see what you brought.$"
+
+FuchsiaCity_Reserve_Text_WouldYouLikeToKeepMon:
+	.string "Want to keep this one, or should\n"
+	.string "we log it and take it in?$"
+
+FuchsiaCity_Reserve_Text_CataloguedAndTurnedIn:
+	.string "Catalogued and logged.\n"
+	.string "Thank you for this.$"
+
+FuchsiaCity_Reserve_Text_CataloguedAndKept:
+	.string "Catalogued. It's yours to keep.$"
+
+FuchsiaCity_Reserve_Text_NoSpecimenCaughtYet:
+	.string "Nothing caught on this\n"
+	.string "expedition yet.$"
+`
+
+movement FuchsiaCity_Reserve_JumpInPlace {
+    emote_exclamation_mark
+    jump_in_place_down
+}
+
+movement FuchsiaCity_Reserve_FaceRight {
+    face_right
+}
+
+movement FuchsiaCity_Reserve_FaceLeft {
+    face_left
+}
