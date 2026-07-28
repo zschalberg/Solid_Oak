@@ -12,6 +12,7 @@
 #include "constants/vars.h"
 #include "constants/characters.h"
 #include "fuji_lab.h"
+#include "ball_economy.h"
 
 u8 gFujiRoomMonNames[6][20];
 
@@ -127,6 +128,7 @@ void FujiLab_Deposit(void)
                 if (GetBoxMonData(destMon, MON_DATA_SPECIES) == SPECIES_NONE)
                 {
                     struct Pokemon *partyMon = &gPlayerParty[partySlot];
+                    FreeMonBall(partyMon); // Ball economy: sending to storage frees the ball.
                     *destMon = partyMon->box;
                     ZeroMonData(partyMon);
                     CompactPartySlots();
@@ -149,6 +151,7 @@ void FujiLab_Deposit(void)
                 if (GetBoxMonData(destMon, MON_DATA_SPECIES) == SPECIES_NONE)
                 {
                     struct Pokemon *partyMon = &gPlayerParty[partySlot];
+                    FreeMonBall(partyMon); // Ball economy: sending to storage frees the ball.
                     *destMon = partyMon->box;
                     ZeroMonData(partyMon);
                     CompactPartySlots();
@@ -172,6 +175,7 @@ void FujiLab_Swap(void)
     struct Pokemon *partyMon = &gPlayerParty[partySlot];
     struct Pokemon tempPartyMon = *partyMon;
 
+    FreeMonBall(&tempPartyMon); // Ball economy: the swapped-out party mon frees its ball.
     BoxMonToMon(boxMon, partyMon);
     *boxMon = tempPartyMon.box;
     UpdateFollowingPokemon();

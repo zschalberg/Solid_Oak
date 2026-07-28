@@ -7,147 +7,98 @@ EventScript_CraftingLoop::
 	waitmessage
 	multichoice 0, 0, MULTI_WORKBENCH_MENU, FALSE
 	switch VAR_RESULT
-	case 0, EventScript_SelectBallCrafting
+	case 0, EventScript_SelectBallUpgrade
 	case 1, EventScript_SelectMedicineCrafting
 	case 2, EventScript_WorkbenchCancel
 	case MULTI_B_PRESSED, EventScript_WorkbenchCancel
 	end
 
-EventScript_SelectBallCrafting::
-	checkitem ITEM_CONVERSION_KIT, 1
-	goto_if_eq VAR_RESULT, FALSE, EventScript_CraftingNoKits
-	message Text_CraftingSelectBall
+EventScript_SelectBallUpgrade::
+	message Text_UpgradeSelectSource
 	waitmessage
-	multichoice 0, 0, MULTI_WORKBENCH, FALSE
+	multichoice 0, 0, MULTI_WORKBENCH_UPGRADE_SOURCE, FALSE
 	switch VAR_RESULT
-	case 0, EventScript_CraftRedProtoball
-	case 1, EventScript_CraftBluProtoball
-	case 2, EventScript_CraftGrnProtoball
-	case 3, EventScript_CraftBlkProtoball
-	case 4, EventScript_CraftingLoop
+	case 0, EventScript_UpgradeMonBall
+	case 1, EventScript_UpgradeBagBall
+	case 2, EventScript_CraftingLoop
 	case MULTI_B_PRESSED, EventScript_CraftingLoop
 	end
 
-EventScript_CraftRedProtoball::
-	setvar VAR_0x8004, 0
-	goto EventScript_CheckMaxQuantity
+@ Result codes below (0/1/2) mirror UPGRADE_RESULT_SUCCESS/NOT_UPGRADEABLE/NEED_APRICORN in include/ball_economy.h.
+EventScript_UpgradeMonBall::
+	special ChoosePartyMon
+	waitstate
+	compare VAR_0x8004, PARTY_NOTHING_CHOSEN
+	goto_if_eq EventScript_SelectBallUpgrade
+	specialvar VAR_RESULT, GetSelectedMonUpgradeInfo
+	goto_if_eq VAR_RESULT, 1, EventScript_UpgradeNotEligible
+	checkitem VAR_0x8007, 1
+	goto_if_eq VAR_RESULT, FALSE, EventScript_UpgradeMonNeedApricorn
+	bufferitemname STR_VAR_2, VAR_0x8007
+	msgbox Text_ConfirmUpgradeMon, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, EventScript_SelectBallUpgrade
+	specialvar VAR_RESULT, UpgradeSelectedMonBall
+	bufferitemname STR_VAR_2, VAR_0x8007
+	playfanfare MUS_OBTAIN_ITEM
+	msgbox Text_UpgradeSuccessMon
+	waitfanfare
+	goto EventScript_SelectBallUpgrade
 
-EventScript_CraftBluProtoball::
-	setvar VAR_0x8004, 1
-	goto EventScript_CheckMaxQuantity
+EventScript_UpgradeMonNeedApricorn::
+	bufferitemname STR_VAR_2, VAR_0x8007
+	msgbox Text_UpgradeNeedApricorn
+	goto EventScript_SelectBallUpgrade
 
-EventScript_CraftGrnProtoball::
-	setvar VAR_0x8004, 2
-	goto EventScript_CheckMaxQuantity
+EventScript_UpgradeNotEligible::
+	msgbox Text_UpgradeNotEligible
+	goto EventScript_SelectBallUpgrade
 
-EventScript_CraftBlkProtoball::
-	setvar VAR_0x8004, 3
-	goto EventScript_CheckMaxQuantity
-
-EventScript_CheckMaxQuantity::
-	specialvar VAR_0x8005, GetMaxCraftableQuantity
-	goto_if_eq VAR_0x8005, 0, EventScript_NoMaterials
-	buffernumberstring STR_VAR_1, VAR_0x8005
-	message Text_ChooseQuantity
+EventScript_UpgradeBagBall::
+	message Text_UpgradeSelectBagBall
 	waitmessage
-	multichoice 0, 0, MULTI_CRAFT_QUANTITY, FALSE
+	multichoice 0, 0, MULTI_WORKBENCH, FALSE
 	switch VAR_RESULT
-	case 0, EventScript_CraftOne
-	case 1, EventScript_CraftFive
-	case 2, EventScript_CraftTen
-	case 3, EventScript_CraftMax
-	case 4, EventScript_SelectBallCrafting
-	case MULTI_B_PRESSED, EventScript_SelectBallCrafting
+	case 0, EventScript_UpgradeBagBall_Red
+	case 1, EventScript_UpgradeBagBall_Blu
+	case 2, EventScript_UpgradeBagBall_Grn
+	case 3, EventScript_UpgradeBagBall_Blk
+	case 4, EventScript_SelectBallUpgrade
+	case MULTI_B_PRESSED, EventScript_SelectBallUpgrade
 	end
 
-EventScript_CraftOne::
-	setvar VAR_0x8006, 1
-	goto EventScript_DoCraft
+EventScript_UpgradeBagBall_Red::
+	setvar VAR_0x8004, 0
+	goto EventScript_DoBagUpgrade
 
-EventScript_CraftFive::
-	setvar VAR_0x8006, 5
-	goto EventScript_DoCraft
+EventScript_UpgradeBagBall_Blu::
+	setvar VAR_0x8004, 1
+	goto EventScript_DoBagUpgrade
 
-EventScript_CraftTen::
-	setvar VAR_0x8006, 10
-	goto EventScript_DoCraft
+EventScript_UpgradeBagBall_Grn::
+	setvar VAR_0x8004, 2
+	goto EventScript_DoBagUpgrade
 
-EventScript_CraftMax::
-	copyvar VAR_0x8006, VAR_0x8005
-	goto EventScript_DoCraft
+EventScript_UpgradeBagBall_Blk::
+	setvar VAR_0x8004, 3
+	goto EventScript_DoBagUpgrade
 
-EventScript_DoCraft::
-	compare VAR_0x8006, VAR_0x8005
-	goto_if_gt EventScript_NotEnoughMaterials
+EventScript_DoBagUpgrade::
+	specialvar VAR_RESULT, TryUpgradeBagBallTier
+	switch VAR_RESULT
+	case 0, EventScript_UpgradeBagBallSuccess
+	case 2, EventScript_UpgradeMonNeedApricorn
+	case 1, EventScript_UpgradeNotEligible
+	end
 
-	copyvar VAR_0x8005, VAR_0x8006
-	specialvar VAR_RESULT, CraftProtoballs
-	goto_if_eq VAR_RESULT, FALSE, EventScript_NotEnoughMaterials
-
+EventScript_UpgradeBagBallSuccess::
+	bufferitemname STR_VAR_2, VAR_0x8007
 	playfanfare MUS_OBTAIN_ITEM
-	buffernumberstring STR_VAR_2, VAR_0x8006
-	compare VAR_0x8004, 0
-	call_if_eq EventScript_BufferRedBallName
-	compare VAR_0x8004, 1
-	call_if_eq EventScript_BufferBluBallName
-	compare VAR_0x8004, 2
-	call_if_eq EventScript_BufferGrnBallName
-	compare VAR_0x8004, 3
-	call_if_eq EventScript_BufferBlkBallName
-	msgbox Text_CraftSuccess
+	msgbox Text_UpgradeSuccessBag
 	waitfanfare
-	goto EventScript_SelectBallCrafting
-
-EventScript_BufferRedBallName::
-	bufferitemname STR_VAR_3, ITEM_LEVEL_BALL
-	return
-
-EventScript_BufferBluBallName::
-	bufferitemname STR_VAR_3, ITEM_LURE_BALL
-	return
-
-EventScript_BufferGrnBallName::
-	bufferitemname STR_VAR_3, ITEM_FRIEND_BALL
-	return
-
-EventScript_BufferBlkBallName::
-	bufferitemname STR_VAR_3, ITEM_HEAVY_BALL
-	return
-
-EventScript_BufferRedApricornName::
-	bufferitemname STR_VAR_2, ITEM_RED_APRICORN
-	return
-
-EventScript_BufferBluApricornName::
-	bufferitemname STR_VAR_2, ITEM_BLUE_APRICORN
-	return
-
-EventScript_BufferGrnApricornName::
-	bufferitemname STR_VAR_2, ITEM_GREEN_APRICORN
-	return
-
-EventScript_BufferBlkApricornName::
-	bufferitemname STR_VAR_2, ITEM_BLACK_APRICORN
-	return
-
-EventScript_NoMaterials::
-	compare VAR_0x8004, 0
-	call_if_eq EventScript_BufferRedApricornName
-	compare VAR_0x8004, 1
-	call_if_eq EventScript_BufferBluApricornName
-	compare VAR_0x8004, 2
-	call_if_eq EventScript_BufferGrnApricornName
-	compare VAR_0x8004, 3
-	call_if_eq EventScript_BufferBlkApricornName
-	msgbox Text_NoIngredients
-	goto EventScript_SelectBallCrafting
+	goto EventScript_SelectBallUpgrade
 
 EventScript_NotEnoughMaterials::
 	msgbox Text_NotEnoughIngredients
-	goto EventScript_CraftingLoop
-
-EventScript_CraftingNoKits::
-	msgbox Text_NoConversionKits
 	goto EventScript_CraftingLoop
 
 EventScript_SelectMedicineCrafting::
@@ -311,8 +262,32 @@ Text_AccessWorkbench:
 Text_CraftingSelectCategory:
 	.string "Select a crafting category.$"
 
-Text_CraftingSelectBall:
-	.string "Select which Protoball to craft.$"
+Text_UpgradeSelectSource:
+	.string "Would you like to upgrade a Pokémon's\n"
+	.string "ball, or an empty ball from your Bag?$"
+
+Text_UpgradeSelectBagBall:
+	.string "Select which Protoball in your Bag\n"
+	.string "to upgrade.$"
+
+Text_ConfirmUpgradeMon:
+	.string "Upgrade {STR_VAR_1}'s ball using\n"
+	.string "1 {STR_VAR_2}?$"
+
+Text_UpgradeSuccessMon:
+	.string "Upgraded {STR_VAR_1}'s ball into a\n"
+	.string "{STR_VAR_2}!$"
+
+Text_UpgradeSuccessBag:
+	.string "Upgraded the ball into a {STR_VAR_2}!$"
+
+Text_UpgradeNeedApricorn:
+	.string "You need 1 {STR_VAR_2} to upgrade\n"
+	.string "that ball.$"
+
+Text_UpgradeNotEligible:
+	.string "That ball can't be upgraded any\n"
+	.string "further, or isn't a Protoball.$"
 
 Text_CraftingSelectMedicine:
 	.string "Select which medicine to craft.$"
@@ -323,16 +298,8 @@ Text_ChooseQuantity:
 Text_CraftSuccess:
 	.string "Crafted {STR_VAR_2} {STR_VAR_3}!$"
 
-Text_NoConversionKits:
-	.string "You don't have any Conversion Kits.\nThey can be bought at Poke Marts.$"
-
 Text_NoBrewingKits:
 	.string "You don't have any Brewing Kits.\nThey can be bought at Poke Marts.$"
-
-Text_NoIngredients:
-	.string "You don't have the materials!\n"
-	.string "You need 1 {STR_VAR_2} and\n"
-	.string "1 Conversion Kit.$"
 
 Text_NoMedicineIngredients:
 	.string "You don't have the materials!\n"

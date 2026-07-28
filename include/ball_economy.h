@@ -1,0 +1,36 @@
+#ifndef GUARD_BALL_ECONOMY_H
+#define GUARD_BALL_ECONOMY_H
+
+#include "pokemon.h"
+
+// Sentinel returned by GetBallLevelCap for ball types with no level cap
+// (Research Ball, standard Poke Ball, and anything else post-jump).
+#define BALL_CAP_NONE 0xFF
+
+// PLACEHOLDERS pending design/balancing pass - not finalized:
+#define RELEASE_COIN_REWARD 50           // Research Coins awarded for "tag and release".
+#define FRIENDSHIP_OBEDIENCE_THRESHOLD 100 // Out of 255. Below this, an over-cap mon risks disobedience.
+#define BREAKOUT_CHANCE_PERCENT 10        // Chance (per failed-obedience roll at friendship == 0) that the mon breaks out for good.
+
+// Result codes for the Workbench "Upgrade Ball" specials.
+#define UPGRADE_RESULT_SUCCESS 0
+#define UPGRADE_RESULT_NOT_UPGRADEABLE 1 // Not a Protoball, ball not owned, or already max tier (Black).
+#define UPGRADE_RESULT_NEED_APRICORN 2
+
+u8 GetBallLevelCap(u16 ballItem);
+u8 GetOriginalBallLevelCap(struct Pokemon *mon);
+bool8 IsReusableBallItem(u16 ballItem);
+bool8 FreeMonBall(struct Pokemon *mon);
+bool8 FreeBoxMonBall(struct BoxPokemon *boxMon);
+void MarkMonBallOccupied(struct Pokemon *mon);
+void GrantBallsOfType(u16 ballItem, u8 quantity);
+void GrantQuestBalls(void);
+u16 GetNextProtoBallTier(u16 ballItem);
+u16 GetApricornForBallTier(u16 ballItem);
+
+// Workbench "Upgrade Ball" script specials.
+u8 GetSelectedMonUpgradeInfo(void);
+u8 UpgradeSelectedMonBall(void);
+u8 TryUpgradeBagBallTier(void);
+
+#endif // GUARD_BALL_ECONOMY_H

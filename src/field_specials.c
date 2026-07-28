@@ -3954,66 +3954,6 @@ static void Task_ReturnToFieldWhileLearningMove(u8 taskId)
 #undef tPartyIndex
 #undef tMove
 
-u16 GetMaxCraftableQuantity(void)
-{
-    u16 ballType = gSpecialVar_0x8004;
-    u16 apricornId;
-    u16 apricornCount, kitCount;
-
-    switch (ballType)
-    {
-    case 0: apricornId = ITEM_RED_APRICORN; break;
-    case 1: apricornId = ITEM_BLUE_APRICORN; break;
-    case 2: apricornId = ITEM_GREEN_APRICORN; break;
-    case 3: apricornId = ITEM_BLACK_APRICORN; break;
-    default: return 0;
-    }
-
-    apricornCount = CountTotalItemQuantityInBag(apricornId);
-    kitCount = CountTotalItemQuantityInBag(ITEM_CONVERSION_KIT);
-
-    return (apricornCount < kitCount) ? apricornCount : kitCount;
-}
-
-u16 CraftProtoballs(void)
-{
-    u16 ballType = gSpecialVar_0x8004;
-    u16 quantity = gSpecialVar_0x8005;
-    u16 apricornId, ballId;
-
-    switch (ballType)
-    {
-    case 0:
-        apricornId = ITEM_RED_APRICORN;
-        ballId = ITEM_LEVEL_BALL;
-        break;
-    case 1:
-        apricornId = ITEM_BLUE_APRICORN;
-        ballId = ITEM_LURE_BALL;
-        break;
-    case 2:
-        apricornId = ITEM_GREEN_APRICORN;
-        ballId = ITEM_FRIEND_BALL;
-        break;
-    case 3:
-        apricornId = ITEM_BLACK_APRICORN;
-        ballId = ITEM_HEAVY_BALL;
-        break;
-    default:
-        return FALSE;
-    }
-
-    if (CountTotalItemQuantityInBag(apricornId) >= quantity &&
-        CountTotalItemQuantityInBag(ITEM_CONVERSION_KIT) >= quantity)
-    {
-        RemoveBagItem(apricornId, quantity);
-        RemoveBagItem(ITEM_CONVERSION_KIT, quantity);
-        AddBagItem(ballId, quantity);
-        return TRUE;
-    }
-    return FALSE;
-}
-
 u16 GetMaxMedicineCraftableQuantity(void)
 {
     u16 medicineType = gSpecialVar_0x8004;
