@@ -376,4 +376,5 @@ const u16 gObjectEventPic_TentacoolSwimming[] = INCBIN_U16("graphics/pokemon/ten
 const u16 gObjectEventPal_TentacoolSwimming[] = INCBIN_U16("graphics/pokemon/tentacool/overworld_normal.gbapal");
 const u16 gObjectEventPic_TentacruelSwimming[] = INCBIN_U16("graphics/pokemon/tentacruel/overworld_swimming.4bpp");
 const u16 gObjectEventPal_TentacruelSwimming[] = INCBIN_U16("graphics/pokemon/tentacruel/overworld_normal.gbapal");
+const u16 gObjectEventPic_TentacruelSwimmingXL[] = INCBIN_U16("graphics/pokemon/tentacruel/overworld_swimming_XL.4bpp");
 

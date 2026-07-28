@@ -919,6 +919,9 @@ $(POKEMONGFXDIR)/tentacruel/overworld.4bpp: %.4bpp: %.png
 $(POKEMONGFXDIR)/tentacruel/overworld_swimming.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
+$(POKEMONGFXDIR)/tentacruel/overworld_swimming_XL.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 8 -mheight 8
+
 $(POKEMONGFXDIR)/geodude/overworld.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 

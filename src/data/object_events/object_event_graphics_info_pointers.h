@@ -194,6 +194,7 @@ extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Spenser;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Tucker;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_TentacoolSwimming;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_TentacruelSwimming;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_TentacruelSwimmingXL;
 // Begin pokemon event objects
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_PokeBall;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Follower;
@@ -398,4 +399,5 @@ const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM
     [OBJ_EVENT_GFX_GREEN_WATERING]           = &gObjectEventGraphicsInfo_GreenWatering,
     [OBJ_EVENT_GFX_TENTACOOL_SWIMMING]       = &gObjectEventGraphicsInfo_TentacoolSwimming,
     [OBJ_EVENT_GFX_TENTACRUEL_SWIMMING]      = &gObjectEventGraphicsInfo_TentacruelSwimming,
+    [OBJ_EVENT_GFX_TENTACRUEL_SWIMMING_XL]   = &gObjectEventGraphicsInfo_TentacruelSwimmingXL,
 };

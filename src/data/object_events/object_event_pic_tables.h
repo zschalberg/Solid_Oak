@@ -2117,3 +2117,15 @@ static const struct SpriteFrameImage sPicTable_TentacruelSwimming[] = {
     overworld_frame(gObjectEventPic_TentacruelSwimming, 4, 4, 2),
     overworld_frame(gObjectEventPic_TentacruelSwimming, 4, 4, 2),
 };
+
+static const struct SpriteFrameImage sPicTable_TentacruelSwimmingXL[] = {
+    overworld_frame(gObjectEventPic_TentacruelSwimmingXL, 8, 8, 0),
+    overworld_frame(gObjectEventPic_TentacruelSwimmingXL, 8, 8, 1),
+    overworld_frame(gObjectEventPic_TentacruelSwimmingXL, 8, 8, 2),
+    overworld_frame(gObjectEventPic_TentacruelSwimmingXL, 8, 8, 0),
+    overworld_frame(gObjectEventPic_TentacruelSwimmingXL, 8, 8, 0),
+    overworld_frame(gObjectEventPic_TentacruelSwimmingXL, 8, 8, 1),
+    overworld_frame(gObjectEventPic_TentacruelSwimmingXL, 8, 8, 1),
+    overworld_frame(gObjectEventPic_TentacruelSwimmingXL, 8, 8, 2),
+    overworld_frame(gObjectEventPic_TentacruelSwimmingXL, 8, 8, 2),
+};
