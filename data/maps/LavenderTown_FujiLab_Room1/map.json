@@ -1,7 +1,7 @@
 {
   "id": "MAP_LAVENDER_TOWN_FUJI_LAB_ROOM1",
   "name": "LavenderTown_FujiLab_Room1",
-  "layout": "LAYOUT_CINNABAR_ISLAND_POKEMON_LAB_RESEARCH_ROOM",
+  "layout": "LAYOUT_CINNABAR_ISLAND_POKEMON_LAB_LOUNGE",
   "music": "MUS_CINNABAR",
   "region_map_section": "MAPSEC_LAVENDER_TOWN",
   "requires_flash": false,

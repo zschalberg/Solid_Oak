@@ -11,6 +11,7 @@
 #include "constants/pokeball.h"
 #include "constants/flags.h"
 #include "research_turnin.h"
+#include "ball_economy.h"
 
 // Variables to cache evaluation details between specials
 static u16 sEvaluatedCoins;
@@ -297,6 +298,9 @@ void TurnInSelectedResearchMon(void)
 
         // Award the coins using native AddCoins (handles limit and overflow protection)
         AddCoins(sEvaluatedCoins);
+
+        // Ball economy: the mon is gone for good, so its ball frees back to the bag.
+        FreeMonBall(mon);
 
         // Remove the selected mon from the party
         ZeroMonData(mon);

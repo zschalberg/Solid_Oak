@@ -964,7 +964,11 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_SUPEREFFECTIVETWOFOES]                = COMPOUND_STRING("It's super effective on {B_DEF_NAME_WITH_PREFIX2} and {B_DEF_PARTNER_NAME}!"),
     [STRINGID_NOTVERYEFFECTIVETWOFOES]              = COMPOUND_STRING("It's not very effective on {B_DEF_NAME_WITH_PREFIX2} and {B_DEF_PARTNER_NAME}!"),
     [STRINGID_ITDOESNTAFFECTTWOFOES]                = COMPOUND_STRING("It doesn't affect {B_DEF_NAME_WITH_PREFIX2} and {B_DEF_PARTNER_NAME}…"),
-    [STRINGID_SENDCAUGHTMONPARTYORBOX]              = COMPOUND_STRING("Add {B_DEF_NAME} to your party?"),
+    [STRINGID_HANDLENEWORPARTYMON]                  = COMPOUND_STRING("Free a slot with {B_DEF_NAME}?\n(No: choose a party Pokémon instead)"),
+    [STRINGID_RELEASETOMAKEROOM]                    = COMPOUND_STRING("Release a Pokémon to keep {B_DEF_NAME}?\n(No: release {B_DEF_NAME} instead)"),
+    [STRINGID_TRANSFERORRELEASE]                    = COMPOUND_STRING("Transfer it to the Lab for ¥500,\nor Tag and Release it instead?"),
+    [STRINGID_PKMNRELEASEDFORCOINS]                 = COMPOUND_STRING("{STR_VAR_1} was released for Research Coins!"),
+    [STRINGID_PKMNBROKEFREEFORGOOD]                 = COMPOUND_STRING("{STR_VAR_1} broke free and ran off for good!"),
     [STRINGID_PKMNSENTTOPCAFTERCATCH]               = gText_PkmnSentToPCAfterCatch,
     [STRINGID_PKMNDYNAMAXED]                        = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} grew huge into its Dynamax form!"),
     [STRINGID_PKMNGIGANTAMAXED]                     = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} grew huge into its Gigantamax form!"),
@@ -1474,6 +1478,7 @@ const u16 gCaughtMonStringIds[] =
     [B_MSG_SOMEONES_BOX_FULL]  = STRINGID_PKMNBOXSOMEONESPCFULL,
     [B_MSG_BILLS_BOX_FULL]     = STRINGID_PKMNBOXBILLSPCFULL,
     [B_MSG_SWAPPED_INTO_PARTY] = STRINGID_PKMNSENTTOPCAFTERCATCH,
+    [B_MSG_RELEASED_FOR_COINS] = STRINGID_PKMNRELEASEDFORCOINS,
 };
 
 const u16 gRoomsStringIds[] =

@@ -2197,6 +2197,9 @@ u32 GetBoxMonData3(struct BoxPokemon *boxMon, s32 field, u8 *data)
         case MON_DATA_POKEBALL:
             retVal = GetSubstruct0(boxMon)->pokeball;
             break;
+        case MON_DATA_BALL_FREED:
+            retVal = GetSubstruct0(boxMon)->ballFreed;
+            break;
         case MON_DATA_OT_GENDER:
             retVal = GetSubstruct3(boxMon)->otGender;
             break;
@@ -2711,6 +2714,9 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
             break;
         case MON_DATA_POKEBALL:
             SET8(GetSubstruct0(boxMon)->pokeball);
+            break;
+        case MON_DATA_BALL_FREED:
+            SET8(GetSubstruct0(boxMon)->ballFreed);
             break;
         case MON_DATA_OT_GENDER:
             SET8(GetSubstruct3(boxMon)->otGender);

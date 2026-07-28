@@ -3219,13 +3219,30 @@ void LoadPartyMenuAilmentGfx(void)
     LoadSpritePalette(&sSpritePalette_StatusIcons);
 }
 
+static void SetPartyMonResearchBallSelectionActions(struct Pokemon *mons, u8 slotId)
+{
+    sPartyMenuInternal->numActions = 0;
+    AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, CURSOR_OPTION_SUMMARY);
+    if (ItemIsMail(GetMonData(&mons[slotId], MON_DATA_HELD_ITEM)))
+        AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, CURSOR_OPTION_MAIL);
+    else
+        AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, CURSOR_OPTION_ITEM);
+    AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, CURSOR_OPTION_RELEASE);
+    if (GetMonData(&mons[1], MON_DATA_SPECIES) != SPECIES_NONE)
+        AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, CURSOR_OPTION_SWITCH);
+    AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, CURSOR_OPTION_CANCEL1);
+}
+
 static void SetPartyMonSelectionActions(struct Pokemon *mons, u8 slotId, u8 action)
 {
     u8 i;
 
     if (action == ACTIONS_NONE)
     {
-        SetPartyMonFieldSelectionActions(mons, slotId);
+        if (GetMonData(&mons[slotId], MON_DATA_POKEBALL) == BALL_RESEARCH && !GetMonData(&mons[slotId], MON_DATA_IS_EGG))
+            SetPartyMonResearchBallSelectionActions(mons, slotId);
+        else
+            SetPartyMonFieldSelectionActions(mons, slotId);
     }
     else if (action == ACTIONS_MOVES_SUB && P_PARTY_MOVE_RELEARNER)
     {

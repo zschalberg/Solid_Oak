@@ -28,6 +28,7 @@
 #include "main.h"
 #include "palette.h"
 #include "money.h"
+#include "coins.h"
 #include "malloc.h"
 #include "bg.h"
 #include "string_util.h"
@@ -38,6 +39,7 @@
 #include "event_data.h"
 #include "pokemon_special_anim.h"
 #include "pokemon_storage_system.h"
+#include "ball_economy.h"
 #include "task.h"
 #include "naming_screen.h"
 #include "battle_setup.h"
@@ -322,12 +324,25 @@ static const u16 sWhiteOutBadgeMoney[9] = { 8, 16, 24, 36, 48, 64, 80, 100, 120 
 enum GiveCaughtMonStates
 {
     GIVECAUGHTMON_CHECK_PARTY_SIZE,
-    GIVECAUGHTMON_ASK_ADD_TO_PARTY,
-    GIVECAUGHTMON_HANDLE_INPUT,
+    GIVECAUGHTMON_ASK_TARGET,
+    GIVECAUGHTMON_HANDLE_TARGET_INPUT,
     GIVECAUGHTMON_DO_CHOOSE_MON,
     GIVECAUGHTMON_HANDLE_CHOSEN_MON,
+    GIVECAUGHTMON_ASK_ACTION,
+    GIVECAUGHTMON_HANDLE_ACTION_INPUT,
+    GIVECAUGHTMON_APPLY_RESOLUTION,
     GIVECAUGHTMON_GIVE_AND_SHOW_MSG,
 };
+
+// Ball economy: scratch gBattleCommunication slots used only within
+// Cmd_givecaughtmon's own state machine (slots 2/3/4/6 aren't otherwise in
+// use by any command running concurrently with this one).
+#define GIVECAUGHTMON_WHISTLE_OWNED      2
+#define GIVECAUGHTMON_TARGET_IS_NEW      3
+#define GIVECAUGHTMON_ACTION_IS_TRANSFER 4
+#define GIVECAUGHTMON_SKIP_GIVE          6
+
+#define COURIER_TRANSFER_FEE 500 // Matches the existing Courier NPC/Whistle fee (data/scripts/courier.inc).
 
 #define STAT_CHANGE_WORKED      0
 #define STAT_CHANGE_DIDNT_WORK  1
@@ -10668,6 +10683,7 @@ static void FinalizeCapture(void)
     gBattlescriptCurrInstr = BattleScript_SuccessBallThrow;
     struct Pokemon *caughtMon = GetBattlerMon(gBattlerTarget);
     SetMonData(caughtMon, MON_DATA_POKEBALL, &ballId);
+    MarkMonBallOccupied(caughtMon);
 
     if (CalculatePlayerPartyCount() == PARTY_SIZE)
         gBattleCommunication[MULTISTRING_CHOOSER] = 0;
@@ -11014,6 +11030,10 @@ static void Cmd_handleballthrow(void)
             || (gLastUsedItem == ITEM_FRIEND_BALL && gBattleMons[gBattlerTarget].level > 30)
             || (gLastUsedItem == ITEM_HEAVY_BALL && gBattleMons[gBattlerTarget].level > 40))
         {
+            // Ball economy: the throw failed outright (over the level cap), so
+            // give the reusable ball back to the bag instead of losing it.
+            if (IsReusableBallItem(gLastUsedItem))
+                AddBagItem(gLastUsedItem, 1);
             BtlController_EmitBallThrowAnim(gBattlerAttacker, B_COMM_TO_CONTROLLER, BALL_NO_SHAKES);
             MarkBattlerForControllerExec(gBattlerAttacker);
             gBattlescriptCurrInstr = BattleScript_ProtoBallFailed;
@@ -11071,6 +11091,11 @@ static void Cmd_handleballthrow(void)
         if (!gHasFetchedBall)
             gLastUsedBall = gLastUsedItem;
 
+        // Ball economy: the mon broke free, so give the reusable ball back
+        // to the bag instead of losing it.
+        if (IsReusableBallItem(gLastUsedItem))
+            AddBagItem(gLastUsedItem, 1);
+
         if (IsCriticalCapture())
             gBattleCommunication[MULTISTRING_CHOOSER] = BALL_3_SHAKES_FAIL;
         else
@@ -11093,11 +11118,20 @@ static void Cmd_givecaughtmon(void)
     switch (state)
     {
     case GIVECAUGHTMON_CHECK_PARTY_SIZE:
+        gBattleCommunication[GIVECAUGHTMON_SKIP_GIVE] = FALSE;
         if (CalculatePlayerPartyCount() == PARTY_SIZE && B_CATCH_SWAP_INTO_PARTY >= GEN_7)
         {
-            PrepareStringBattle(STRINGID_SENDCAUGHTMONPARTYORBOX, gBattlerAttacker);
+            // Ball economy: without the Courier Whistle there's no way to
+            // reach Fuji's Lab from the field, so only the release option is
+            // offered; with the whistle, a second prompt lets the player pay
+            // its usual transfer fee instead of releasing outright.
+            gBattleCommunication[GIVECAUGHTMON_WHISTLE_OWNED] = CheckBagHasItem(ITEM_COURIER_WHISTLE, 1);
+            if (gBattleCommunication[GIVECAUGHTMON_WHISTLE_OWNED])
+                PrepareStringBattle(STRINGID_HANDLENEWORPARTYMON, gBattlerAttacker);
+            else
+                PrepareStringBattle(STRINGID_RELEASETOMAKEROOM, gBattlerAttacker);
             gBattleCommunication[MSG_DISPLAY] = 1;
-            gBattleCommunication[MULTIUSE_STATE] = GIVECAUGHTMON_ASK_ADD_TO_PARTY;
+            gBattleCommunication[MULTIUSE_STATE] = GIVECAUGHTMON_ASK_TARGET;
         }
         else
         {
@@ -11105,14 +11139,14 @@ static void Cmd_givecaughtmon(void)
             gBattleCommunication[MULTIUSE_STATE] = GIVECAUGHTMON_GIVE_AND_SHOW_MSG;
         }
         break;
-    case GIVECAUGHTMON_ASK_ADD_TO_PARTY:
+    case GIVECAUGHTMON_ASK_TARGET:
         HandleBattleWindow(YESNOBOX_X_Y, 0);
         BattlePutTextOnWindow(gText_BattleYesNoChoice, B_WIN_YESNO);
-        gBattleCommunication[MULTIUSE_STATE] = GIVECAUGHTMON_HANDLE_INPUT;
+        gBattleCommunication[MULTIUSE_STATE] = GIVECAUGHTMON_HANDLE_TARGET_INPUT;
         gBattleCommunication[CURSOR_POSITION] = 0;
         BattleCreateYesNoCursorAt(0);
         break;
-    case GIVECAUGHTMON_HANDLE_INPUT:
+    case GIVECAUGHTMON_HANDLE_TARGET_INPUT:
         if (JOY_NEW(DPAD_UP) && gBattleCommunication[CURSOR_POSITION] != 0)
         {
             PlaySE(SE_SELECT);
@@ -11127,22 +11161,35 @@ static void Cmd_givecaughtmon(void)
             gBattleCommunication[CURSOR_POSITION] = 1;
             BattleCreateYesNoCursorAt(1);
         }
-        if (JOY_NEW(A_BUTTON))
+        if (JOY_NEW(A_BUTTON) || JOY_NEW(B_BUTTON))
         {
+            u8 cursorPos;
             PlaySE(SE_SELECT);
-            if (gBattleCommunication[CURSOR_POSITION] == 0)
+            cursorPos = JOY_NEW(B_BUTTON) ? 0 : gBattleCommunication[CURSOR_POSITION];
+            if (gBattleCommunication[GIVECAUGHTMON_WHISTLE_OWNED])
+                gBattleCommunication[GIVECAUGHTMON_TARGET_IS_NEW] = (cursorPos == 0); // "Free a slot with {new catch}?" - Yes = new catch
+            else
+                gBattleCommunication[GIVECAUGHTMON_TARGET_IS_NEW] = (cursorPos == 1); // "Release a Pokemon to keep {new catch}?" - No = the new catch instead
+
+            if (gBattleCommunication[GIVECAUGHTMON_TARGET_IS_NEW])
             {
-                gBattleCommunication[MULTIUSE_STATE] = GIVECAUGHTMON_DO_CHOOSE_MON;
+                gSelectedMonPartyId = PARTY_SIZE; // Sentinel: act on the new catch, not an existing party mon.
+                if (gBattleCommunication[GIVECAUGHTMON_WHISTLE_OWNED])
+                {
+                    PrepareStringBattle(STRINGID_TRANSFERORRELEASE, gBattlerAttacker);
+                    gBattleCommunication[MSG_DISPLAY] = 1;
+                    gBattleCommunication[MULTIUSE_STATE] = GIVECAUGHTMON_ASK_ACTION;
+                }
+                else
+                {
+                    gBattleCommunication[GIVECAUGHTMON_ACTION_IS_TRANSFER] = FALSE;
+                    gBattleCommunication[MULTIUSE_STATE] = GIVECAUGHTMON_APPLY_RESOLUTION;
+                }
             }
             else
             {
-                gBattleCommunication[MULTIUSE_STATE] = GIVECAUGHTMON_GIVE_AND_SHOW_MSG;
+                gBattleCommunication[MULTIUSE_STATE] = GIVECAUGHTMON_DO_CHOOSE_MON;
             }
-        }
-        else if (JOY_NEW(B_BUTTON))
-        {
-            PlaySE(SE_SELECT);
-            gBattleCommunication[MULTIUSE_STATE] = GIVECAUGHTMON_GIVE_AND_SHOW_MSG;
         }
         break;
     case GIVECAUGHTMON_DO_CHOOSE_MON:
@@ -11158,15 +11205,96 @@ static void Cmd_givecaughtmon(void)
         {
             if (gSelectedMonPartyId > PARTY_SIZE)
             {
-                // Choosing Pokemon was cancelled
+                // Choosing Pokemon was cancelled - fall back to the new catch instead.
                 gSelectedMonPartyId = PARTY_SIZE;
-                gBattleCommunication[MULTIUSE_STATE] = GIVECAUGHTMON_GIVE_AND_SHOW_MSG;
+                gBattleCommunication[GIVECAUGHTMON_TARGET_IS_NEW] = TRUE;
+            }
+            if (gBattleCommunication[GIVECAUGHTMON_WHISTLE_OWNED])
+            {
+                PrepareStringBattle(STRINGID_TRANSFERORRELEASE, gBattlerAttacker);
+                gBattleCommunication[MSG_DISPLAY] = 1;
+                gBattleCommunication[MULTIUSE_STATE] = GIVECAUGHTMON_ASK_ACTION;
             }
             else
             {
-                //Before sending to PC, we revert battle form
-                TryRevertPartyMonFormChange(gSelectedMonPartyId);
-                // Mon chosen, try to put it in the PC
+                gBattleCommunication[GIVECAUGHTMON_ACTION_IS_TRANSFER] = FALSE;
+                gBattleCommunication[MULTIUSE_STATE] = GIVECAUGHTMON_APPLY_RESOLUTION;
+            }
+        }
+        break;
+    case GIVECAUGHTMON_ASK_ACTION:
+        HandleBattleWindow(YESNOBOX_X_Y, 0);
+        BattlePutTextOnWindow(gText_BattleYesNoChoice, B_WIN_YESNO);
+        gBattleCommunication[MULTIUSE_STATE] = GIVECAUGHTMON_HANDLE_ACTION_INPUT;
+        gBattleCommunication[CURSOR_POSITION] = 0;
+        BattleCreateYesNoCursorAt(0);
+        break;
+    case GIVECAUGHTMON_HANDLE_ACTION_INPUT:
+        if (JOY_NEW(DPAD_UP) && gBattleCommunication[CURSOR_POSITION] != 0)
+        {
+            PlaySE(SE_SELECT);
+            BattleDestroyYesNoCursorAt(gBattleCommunication[CURSOR_POSITION]);
+            gBattleCommunication[CURSOR_POSITION] = 0;
+            BattleCreateYesNoCursorAt(0);
+        }
+        if (JOY_NEW(DPAD_DOWN) && gBattleCommunication[CURSOR_POSITION] == 0)
+        {
+            PlaySE(SE_SELECT);
+            BattleDestroyYesNoCursorAt(gBattleCommunication[CURSOR_POSITION]);
+            gBattleCommunication[CURSOR_POSITION] = 1;
+            BattleCreateYesNoCursorAt(1);
+        }
+        if (JOY_NEW(A_BUTTON) || JOY_NEW(B_BUTTON))
+        {
+            u8 cursorPos;
+            PlaySE(SE_SELECT);
+            cursorPos = JOY_NEW(B_BUTTON) ? 0 : gBattleCommunication[CURSOR_POSITION];
+            gBattleCommunication[GIVECAUGHTMON_ACTION_IS_TRANSFER] = (cursorPos == 0); // "Transfer... or Tag and Release...?" - Yes = transfer
+            gBattleCommunication[MULTIUSE_STATE] = GIVECAUGHTMON_APPLY_RESOLUTION;
+        }
+        break;
+    case GIVECAUGHTMON_APPLY_RESOLUTION:
+    {
+        bool8 targetIsNew = gBattleCommunication[GIVECAUGHTMON_TARGET_IS_NEW];
+        bool8 actionIsTransfer = gBattleCommunication[GIVECAUGHTMON_ACTION_IS_TRANSFER];
+
+        // Ball economy: silently fall back to a free release if the player
+        // can't afford the Courier Whistle's transfer fee. PLACEHOLDER
+        // behavior pending a proper "not enough money" message/retry.
+        if (actionIsTransfer && !IsEnoughMoney(&gSaveBlock1Ptr->money, COURIER_TRANSFER_FEE))
+            actionIsTransfer = FALSE;
+
+        if (targetIsNew)
+        {
+            struct Pokemon *caughtMon = GetBattlerMon(gBattlerTarget);
+            gBattleCommunication[GIVECAUGHTMON_SKIP_GIVE] = TRUE; // Handled entirely here - never goes through GiveCapturedMonToPlayer.
+            if (actionIsTransfer)
+            {
+                RemoveMoney(&gSaveBlock1Ptr->money, COURIER_TRANSFER_FEE);
+                FreeMonBall(caughtMon);
+                if (CopyMonToPC(caughtMon) == MON_GIVEN_TO_PC)
+                {
+                    GetMonNickname(caughtMon, gStringVar2);
+                    StringCopy(gStringVar1, GetBoxNamePtr(GetPCBoxToSendMon()));
+                    gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SWAPPED_INTO_PARTY;
+                }
+            }
+            else
+            {
+                GetMonNickname(caughtMon, gStringVar1);
+                FreeMonBall(caughtMon);
+                AddCoins(RELEASE_COIN_REWARD); // PLACEHOLDER reward amount, see ball_economy.h
+                gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_RELEASED_FOR_COINS;
+            }
+        }
+        else
+        {
+            //Before sending to PC/releasing, we revert battle form
+            TryRevertPartyMonFormChange(gSelectedMonPartyId);
+            if (actionIsTransfer)
+            {
+                RemoveMoney(&gSaveBlock1Ptr->money, COURIER_TRANSFER_FEE);
+                FreeMonBall(&gPlayerParty[gSelectedMonPartyId]);
                 if (CopyMonToPC(&gPlayerParty[gSelectedMonPartyId]) == MON_GIVEN_TO_PC)
                 {
                     GetMonNickname(&gPlayerParty[gSelectedMonPartyId], gStringVar2);
@@ -11174,59 +11302,74 @@ static void Cmd_givecaughtmon(void)
                     ZeroMonData(&gPlayerParty[gSelectedMonPartyId]);
                     gBattleStruct->itemLost[B_SIDE_PLAYER][gSelectedMonPartyId].originalItem = ITEM_NONE;
                     gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SWAPPED_INTO_PARTY;
-                    gSelectedMonPartyId = PARTY_SIZE;
-                    gBattleCommunication[MULTIUSE_STATE] = GIVECAUGHTMON_GIVE_AND_SHOW_MSG;
                 }
-                else
-                {
-                    gSelectedMonPartyId = PARTY_SIZE;
-                    gBattleCommunication[MULTIUSE_STATE] = GIVECAUGHTMON_GIVE_AND_SHOW_MSG;
-                }
-            }
-        }
-        break;
-    case GIVECAUGHTMON_GIVE_AND_SHOW_MSG:
-    {
-        struct Pokemon *caughtMon = GetBattlerMon(gBattlerTarget);
-        if (B_RESTORE_HELD_BATTLE_ITEMS >= GEN_9)
-        {
-            u16 lostItem = gBattleStruct->itemLost[B_SIDE_OPPONENT][gBattlerPartyIndexes[gBattlerTarget]].originalItem;
-            if (lostItem != ITEM_NONE && GetItemPocket(lostItem) != POCKET_BERRIES)
-                SetMonData(caughtMon, MON_DATA_HELD_ITEM, &lostItem);  // Restore non-berry items
-        }
-
-        u32 emptySlot;
-        for (emptySlot = 0; emptySlot < PARTY_SIZE; emptySlot++)
-        {
-            if (GetMonData(&gPlayerParty[emptySlot], MON_DATA_SPECIES) == SPECIES_NONE)
-                break;
-        }
-
-        if (GiveCapturedMonToPlayer(caughtMon) != MON_GIVEN_TO_PARTY
-         && gBattleCommunication[MULTISTRING_CHOOSER] != B_MSG_SWAPPED_INTO_PARTY)
-        {
-            if (!ShouldShowBoxWasFullMessage())
-            {
-                gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SENT_SOMEONES_PC;
-                StringCopy(gStringVar1, GetBoxNamePtr(VarGet(VAR_PC_BOX_TO_SEND_MON)));
-                GetMonData(caughtMon, MON_DATA_NICKNAME, gStringVar2);
             }
             else
             {
-                StringCopy(gStringVar1, GetBoxNamePtr(VarGet(VAR_PC_BOX_TO_SEND_MON))); // box the mon was sent to
-                GetMonData(caughtMon, MON_DATA_NICKNAME, gStringVar2);
-                StringCopy(gStringVar3, GetBoxNamePtr(GetPCBoxToSendMon())); //box the mon was going to be sent to
-                gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SOMEONES_BOX_FULL;
+                // Leaves the vacated slot for GiveCapturedMonToPlayer to
+                // fill (no CompactPartySlots needed here).
+                GetMonNickname(&gPlayerParty[gSelectedMonPartyId], gStringVar1);
+                FreeMonBall(&gPlayerParty[gSelectedMonPartyId]);
+                AddCoins(RELEASE_COIN_REWARD); // PLACEHOLDER reward amount, see ball_economy.h
+                ZeroMonData(&gPlayerParty[gSelectedMonPartyId]);
+                gBattleStruct->itemLost[B_SIDE_PLAYER][gSelectedMonPartyId].originalItem = ITEM_NONE;
+                gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_RELEASED_FOR_COINS;
+            }
+            gSelectedMonPartyId = PARTY_SIZE;
+        }
+        gBattleCommunication[MULTIUSE_STATE] = GIVECAUGHTMON_GIVE_AND_SHOW_MSG;
+        break;
+    }
+    case GIVECAUGHTMON_GIVE_AND_SHOW_MSG:
+    {
+        struct Pokemon *caughtMon = GetBattlerMon(gBattlerTarget);
+
+        if (!gBattleCommunication[GIVECAUGHTMON_SKIP_GIVE])
+        {
+            if (B_RESTORE_HELD_BATTLE_ITEMS >= GEN_9)
+            {
+                u16 lostItem = gBattleStruct->itemLost[B_SIDE_OPPONENT][gBattlerPartyIndexes[gBattlerTarget]].originalItem;
+                if (lostItem != ITEM_NONE && GetItemPocket(lostItem) != POCKET_BERRIES)
+                    SetMonData(caughtMon, MON_DATA_HELD_ITEM, &lostItem);  // Restore non-berry items
             }
 
-            // Change to B_MSG_SENT_LANETTES_PC or B_MSG_LANETTES_BOX_FULL
-            if (FlagGet(FLAG_SYS_NOT_SOMEONES_PC))
-                gBattleCommunication[MULTISTRING_CHOOSER]++;
-        }
+            u32 emptySlot;
+            for (emptySlot = 0; emptySlot < PARTY_SIZE; emptySlot++)
+            {
+                if (GetMonData(&gPlayerParty[emptySlot], MON_DATA_SPECIES) == SPECIES_NONE)
+                    break;
+            }
 
-        // Copy changedSpecies to allow caught mon to revert to its original species.
-        if (emptySlot != PARTY_SIZE)
-            gBattleStruct->partyState[B_SIDE_PLAYER][emptySlot].changedSpecies = GetBattlerPartyState(gBattlerTarget)->changedSpecies;
+            if (GiveCapturedMonToPlayer(caughtMon) != MON_GIVEN_TO_PARTY
+             && gBattleCommunication[MULTISTRING_CHOOSER] != B_MSG_SWAPPED_INTO_PARTY)
+            {
+                if (!ShouldShowBoxWasFullMessage())
+                {
+                    gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SENT_SOMEONES_PC;
+                    StringCopy(gStringVar1, GetBoxNamePtr(VarGet(VAR_PC_BOX_TO_SEND_MON)));
+                    GetMonData(caughtMon, MON_DATA_NICKNAME, gStringVar2);
+                }
+                else
+                {
+                    StringCopy(gStringVar1, GetBoxNamePtr(VarGet(VAR_PC_BOX_TO_SEND_MON))); // box the mon was sent to
+                    GetMonData(caughtMon, MON_DATA_NICKNAME, gStringVar2);
+                    StringCopy(gStringVar3, GetBoxNamePtr(GetPCBoxToSendMon())); //box the mon was going to be sent to
+                    gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SOMEONES_BOX_FULL;
+                }
+
+                // Change to B_MSG_SENT_LANETTES_PC or B_MSG_LANETTES_BOX_FULL
+                if (FlagGet(FLAG_SYS_NOT_SOMEONES_PC))
+                    gBattleCommunication[MULTISTRING_CHOOSER]++;
+            }
+
+            // Copy changedSpecies to allow caught mon to revert to its original species.
+            if (emptySlot != PARTY_SIZE)
+                gBattleStruct->partyState[B_SIDE_PLAYER][emptySlot].changedSpecies = GetBattlerPartyState(gBattlerTarget)->changedSpecies;
+        }
+        // else: the new catch was already fully handled (transferred or
+        // released) in APPLY_RESOLUTION and deliberately never goes through
+        // GiveCapturedMonToPlayer - still record catch results below from
+        // the battle-side mon before it's discarded.
 
         gBattleResults.caughtMonSpecies = GetMonData(caughtMon, MON_DATA_SPECIES);
         GetMonData(caughtMon, MON_DATA_NICKNAME, gBattleResults.caughtMonNick);

@@ -14,6 +14,11 @@
 #include "constants/flags.h"
 #include "constants/region_map_sections.h"
 #include "event_data.h"
+#include "pokemon.h"
+#include "party_menu.h"
+#include "pokemon_storage_system.h"
+#include "ball_economy.h"
+#include "string_util.h"
 
 static void ValidateBattlers(void);
 static enum Move GetOriginallyUsedMove(enum Move chosenMove);
@@ -230,6 +235,22 @@ static enum CancelerResult CancelerObedience(struct BattleContext *ctx)
             BattleScriptCall(BattleScript_IgnoresAndUsesRandomMove);
             gBattlerTarget = GetBattleMoveTarget(gCalledMove, TARGET_NONE);
             return CANCELER_RESULT_BREAK;
+        case DISOBEYS_BREAKS_FREE:
+        {
+            // Ball economy: the mon leaves the party for good. Buffer its
+            // nickname into gStringVar1 (resolved now, not deferred) since
+            // the party slot is wiped below before the message prints.
+            struct Pokemon *mon = GetBattlerMon(ctx->battlerAtk);
+            GetMonNickname(mon, gStringVar1);
+            FreeMonBall(mon);
+            ZeroMonData(mon);
+            CompactPartySlots();
+            CalculatePlayerPartyCount();
+            gBattleMons[ctx->battlerAtk].hp = 0;
+            gBattlescriptCurrInstr = BattleScript_MonBreaksFree;
+            gBattleStruct->moveResultFlags[ctx->battlerDef] |= MOVE_RESULT_MISSED;
+            return CANCELER_RESULT_FAILURE;
+        }
         }
     }
     return CANCELER_RESULT_SUCCESS;

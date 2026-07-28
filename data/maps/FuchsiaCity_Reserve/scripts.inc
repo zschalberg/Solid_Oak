@@ -93,657 +93,659 @@ FuchsiaCity_Reserve_EventScript_Intro::
 	closemessage
 # 101 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	clearmugshot
-# 102 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	setflag FLAG_HIDE_RESERVE_FUJI
-# 103 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	setflag FLAG_HIDE_RESERVE_AGATHA
 # 104 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	setvar VAR_SCENE_FUCHSIA_RESERVE, 1
+	giveitem ITEM_LEVEL_BALL, 2
 # 105 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	setflag FLAG_KRABBY_QUEST_COMPLETE
+	setflag FLAG_HIDE_RESERVE_FUJI
 # 106 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	setflag FLAG_HIDE_RESERVE_AGATHA
+# 107 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	setvar VAR_SCENE_FUCHSIA_RESERVE, 1
+# 108 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	setflag FLAG_KRABBY_QUEST_COMPLETE
+# 109 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	releaseall
 	end
 
 
 FuchsiaCity_Reserve_EventScript_Worker1::
-# 115 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 118 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	lock
-# 116 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 119 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	faceplayer
-# 117 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 120 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	goto_if_unset FLAG_KRABBY_QUEST_COMPLETE, FuchsiaCity_Reserve_EventScript_Worker1_2
-# 125 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 128 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	goto FuchsiaCity_Reserve_EventScript_Worker1Menu
 	end
 
 FuchsiaCity_Reserve_EventScript_Worker1_2:
-# 118 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	msgbox FuchsiaCity_Reserve_EventScript_Worker1_Text_0
 # 121 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	msgbox FuchsiaCity_Reserve_EventScript_Worker1_Text_0
+# 124 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	closemessage
-# 122 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 125 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	release
 	end
 
 
-# 129 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
-# 130 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_EventScript_Worker1Menu::
-# 131 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	msgbox FuchsiaCity_Reserve_Text_Worker1Welcome, MSGBOX_DEFAULT
 # 132 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_EventScript_Worker1MenuLoop::
-# 133 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	showcoinsbox 19, 0
-# 134 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	multichoice 0, 0, MULTI_RESEARCH_MAIN, FALSE
-# 135 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	switch VAR_RESULT
-# 136 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	case 0, FuchsiaCity_Reserve_EventScript_TurnInMon
-# 137 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	case 1, FuchsiaCity_Reserve_EventScript_ExchangeShop
-# 138 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	case 2, FuchsiaCity_Reserve_EventScript_TransferBall
-# 139 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	case 3, FuchsiaCity_Reserve_EventScript_Worker1Info
-# 140 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	case 4, FuchsiaCity_Reserve_EventScript_Worker1End
-# 141 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	case MULTI_B_PRESSED, FuchsiaCity_Reserve_EventScript_Worker1End
-# 142 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	end
-# 143 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 
+# 133 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+FuchsiaCity_Reserve_EventScript_Worker1Menu::
+# 134 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	msgbox FuchsiaCity_Reserve_Text_Worker1Welcome, MSGBOX_DEFAULT
+# 135 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+FuchsiaCity_Reserve_EventScript_Worker1MenuLoop::
+# 136 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	showcoinsbox 19, 0
+# 137 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	multichoice 0, 0, MULTI_RESEARCH_MAIN, FALSE
+# 138 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	switch VAR_RESULT
+# 139 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	case 0, FuchsiaCity_Reserve_EventScript_TurnInMon
+# 140 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	case 1, FuchsiaCity_Reserve_EventScript_ExchangeShop
+# 141 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	case 2, FuchsiaCity_Reserve_EventScript_TransferBall
+# 142 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	case 3, FuchsiaCity_Reserve_EventScript_Worker1Info
+# 143 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	case 4, FuchsiaCity_Reserve_EventScript_Worker1End
 # 144 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_EventScript_TurnInMon::
+	case MULTI_B_PRESSED, FuchsiaCity_Reserve_EventScript_Worker1End
 # 145 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	getpartysize
+	end
 # 146 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	compare VAR_RESULT, 1
+
 # 147 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	goto_if_le FuchsiaCity_Reserve_EventScript_TurnInLastMonRefused
+FuchsiaCity_Reserve_EventScript_TurnInMon::
 # 148 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	msgbox FuchsiaCity_Reserve_Text_TurnInPrompt, MSGBOX_DEFAULT
+	getpartysize
 # 149 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	special ChoosePartyMon
+	compare VAR_RESULT, 1
 # 150 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	waitstate
+	goto_if_le FuchsiaCity_Reserve_EventScript_TurnInLastMonRefused
 # 151 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	compare VAR_0x8004, 255
+	msgbox FuchsiaCity_Reserve_Text_TurnInPrompt, MSGBOX_DEFAULT
 # 152 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	goto_if_eq FuchsiaCity_Reserve_EventScript_Worker1MenuLoop
+	special ChoosePartyMon
 # 153 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	special IsSelectedMonEgg
+	waitstate
 # 154 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	compare VAR_RESULT, TRUE
+	compare VAR_0x8004, 255
 # 155 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	goto_if_eq FuchsiaCity_Reserve_EventScript_TurnInEggRefused
+	goto_if_eq FuchsiaCity_Reserve_EventScript_Worker1MenuLoop
 # 156 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	special IsSelectedMonResearchBall
+	special IsSelectedMonEgg
 # 157 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	compare VAR_RESULT, TRUE
 # 158 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	goto_if_eq FuchsiaCity_Reserve_EventScript_EvaluateMon
+	goto_if_eq FuchsiaCity_Reserve_EventScript_TurnInEggRefused
 # 159 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	msgbox FuchsiaCity_Reserve_Text_WarningNotResearchBall, MSGBOX_YESNO
-# 160 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	compare VAR_RESULT, NO
-# 161 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	goto_if_eq FuchsiaCity_Reserve_EventScript_Worker1MenuLoop
-# 162 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
-# 163 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_EventScript_EvaluateMon::
-# 164 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	special EvaluateSelectedResearchMon
-# 165 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	msgbox FuchsiaCity_Reserve_Text_EvaluationResult, MSGBOX_YESNO
-# 166 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	compare VAR_RESULT, NO
-# 167 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	goto_if_eq FuchsiaCity_Reserve_EventScript_Worker1MenuLoop
-# 168 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	special IsSelectedMonNewFamily
-# 169 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	compare VAR_RESULT, TRUE
-# 170 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	call_if_eq FuchsiaCity_Reserve_EventScript_ShowNewFamilyText
-# 171 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	special TurnInSelectedResearchMon
-# 172 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	updatecoinsbox 19, 0
-# 173 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	playfanfare MUS_LEVEL_UP
-# 174 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	msgbox FuchsiaCity_Reserve_Text_TurnInSuccess, MSGBOX_DEFAULT
-# 175 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	waitfanfare
-# 176 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	goto FuchsiaCity_Reserve_EventScript_Worker1MenuLoop
-# 177 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
-# 178 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_EventScript_ShowNewFamilyText::
-# 179 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	msgbox FuchsiaCity_Reserve_Text_NewFamilyBonusMsg, MSGBOX_DEFAULT
-# 180 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	return
-# 181 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
-# 182 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_EventScript_TurnInLastMonRefused::
-# 183 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	msgbox FuchsiaCity_Reserve_Text_TurnInLastMonRefusedMsg, MSGBOX_DEFAULT
-# 184 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	goto FuchsiaCity_Reserve_EventScript_Worker1MenuLoop
-# 185 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
-# 186 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_EventScript_TurnInEggRefused::
-# 187 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	msgbox FuchsiaCity_Reserve_Text_TurnInEggRefusedMsg, MSGBOX_DEFAULT
-# 188 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	goto FuchsiaCity_Reserve_EventScript_Worker1MenuLoop
-# 189 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
-# 190 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-@ ── Exchange Shop and Transfer Ball are placeholders: TurnInSelectedResearchMon
-# 191 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-@ already awards Research Coins via AddCoins, but the shop that spends them on
-# 192 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-@ Fuji's box space upgrades / Evolution Stones / research items isn't built
-# 193 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-@ yet. Wire ExchangeShop up to a real shop/buymenu once that item list exists.
-# 194 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_EventScript_ExchangeShop::
-# 195 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	msgbox FuchsiaCity_Reserve_Text_ExchangeShopComingSoon, MSGBOX_DEFAULT
-# 196 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	goto FuchsiaCity_Reserve_EventScript_Worker1MenuLoop
-# 197 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
-# 198 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_EventScript_TransferBall::
-# 199 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	checkcoins VAR_TEMP_1
-# 200 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	compare VAR_TEMP_1, 500
-# 201 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	goto_if_lt FuchsiaCity_Reserve_EventScript_NotEnoughCoinsTransfer
-# 202 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	getpartysize
-# 203 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	compare VAR_RESULT, 0
-# 204 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	goto_if_eq FuchsiaCity_Reserve_EventScript_Worker1MenuLoop
-# 205 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	msgbox FuchsiaCity_Reserve_Text_TransferPrompt, MSGBOX_DEFAULT
-# 206 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	special ChoosePartyMon
-# 207 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	waitstate
-# 208 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	compare VAR_0x8004, 255
-# 209 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	goto_if_eq FuchsiaCity_Reserve_EventScript_Worker1MenuLoop
-# 210 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	special IsSelectedMonEgg
-# 211 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	compare VAR_RESULT, TRUE
-# 212 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	goto_if_eq FuchsiaCity_Reserve_EventScript_TransferEggRefused
-# 213 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	special IsSelectedMonResearchBall
-# 214 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	compare VAR_RESULT, FALSE
-# 215 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	goto_if_eq FuchsiaCity_Reserve_EventScript_TransferNotResearchBall
-# 216 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	removecoins 500
-# 217 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 160 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	compare VAR_RESULT, TRUE
+# 161 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	goto_if_eq FuchsiaCity_Reserve_EventScript_EvaluateMon
+# 162 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	msgbox FuchsiaCity_Reserve_Text_WarningNotResearchBall, MSGBOX_YESNO
+# 163 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	compare VAR_RESULT, NO
+# 164 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	goto_if_eq FuchsiaCity_Reserve_EventScript_Worker1MenuLoop
+# 165 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+
+# 166 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+FuchsiaCity_Reserve_EventScript_EvaluateMon::
+# 167 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	special EvaluateSelectedResearchMon
+# 168 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	msgbox FuchsiaCity_Reserve_Text_EvaluationResult, MSGBOX_YESNO
+# 169 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	compare VAR_RESULT, NO
+# 170 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	goto_if_eq FuchsiaCity_Reserve_EventScript_Worker1MenuLoop
+# 171 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	special IsSelectedMonNewFamily
+# 172 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	compare VAR_RESULT, TRUE
+# 173 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	call_if_eq FuchsiaCity_Reserve_EventScript_ShowNewFamilyText
+# 174 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	special TurnInSelectedResearchMon
+# 175 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	updatecoinsbox 19, 0
-# 218 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	special TransferSelectedMonToPokeBall
-# 219 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 176 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	playfanfare MUS_LEVEL_UP
-# 220 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	msgbox FuchsiaCity_Reserve_Text_TransferSuccess, MSGBOX_DEFAULT
-# 221 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 177 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	msgbox FuchsiaCity_Reserve_Text_TurnInSuccess, MSGBOX_DEFAULT
+# 178 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	waitfanfare
+# 179 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	goto FuchsiaCity_Reserve_EventScript_Worker1MenuLoop
+# 180 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+
+# 181 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+FuchsiaCity_Reserve_EventScript_ShowNewFamilyText::
+# 182 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	msgbox FuchsiaCity_Reserve_Text_NewFamilyBonusMsg, MSGBOX_DEFAULT
+# 183 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	return
+# 184 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+
+# 185 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+FuchsiaCity_Reserve_EventScript_TurnInLastMonRefused::
+# 186 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	msgbox FuchsiaCity_Reserve_Text_TurnInLastMonRefusedMsg, MSGBOX_DEFAULT
+# 187 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	goto FuchsiaCity_Reserve_EventScript_Worker1MenuLoop
+# 188 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+
+# 189 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+FuchsiaCity_Reserve_EventScript_TurnInEggRefused::
+# 190 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	msgbox FuchsiaCity_Reserve_Text_TurnInEggRefusedMsg, MSGBOX_DEFAULT
+# 191 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	goto FuchsiaCity_Reserve_EventScript_Worker1MenuLoop
+# 192 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+
+# 193 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+@ ── Exchange Shop and Transfer Ball are placeholders: TurnInSelectedResearchMon
+# 194 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+@ already awards Research Coins via AddCoins, but the shop that spends them on
+# 195 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+@ Fuji's box space upgrades / Evolution Stones / research items isn't built
+# 196 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+@ yet. Wire ExchangeShop up to a real shop/buymenu once that item list exists.
+# 197 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+FuchsiaCity_Reserve_EventScript_ExchangeShop::
+# 198 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	msgbox FuchsiaCity_Reserve_Text_ExchangeShopComingSoon, MSGBOX_DEFAULT
+# 199 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	goto FuchsiaCity_Reserve_EventScript_Worker1MenuLoop
+# 200 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+
+# 201 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+FuchsiaCity_Reserve_EventScript_TransferBall::
+# 202 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	checkcoins VAR_TEMP_1
+# 203 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	compare VAR_TEMP_1, 500
+# 204 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	goto_if_lt FuchsiaCity_Reserve_EventScript_NotEnoughCoinsTransfer
+# 205 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	getpartysize
+# 206 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	compare VAR_RESULT, 0
+# 207 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	goto_if_eq FuchsiaCity_Reserve_EventScript_Worker1MenuLoop
+# 208 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	msgbox FuchsiaCity_Reserve_Text_TransferPrompt, MSGBOX_DEFAULT
+# 209 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	special ChoosePartyMon
+# 210 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	waitstate
+# 211 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	compare VAR_0x8004, 255
+# 212 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	goto_if_eq FuchsiaCity_Reserve_EventScript_Worker1MenuLoop
+# 213 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	special IsSelectedMonEgg
+# 214 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	compare VAR_RESULT, TRUE
+# 215 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	goto_if_eq FuchsiaCity_Reserve_EventScript_TransferEggRefused
+# 216 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	special IsSelectedMonResearchBall
+# 217 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	compare VAR_RESULT, FALSE
+# 218 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	goto_if_eq FuchsiaCity_Reserve_EventScript_TransferNotResearchBall
+# 219 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	removecoins 500
+# 220 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	updatecoinsbox 19, 0
+# 221 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	special TransferSelectedMonToPokeBall
 # 222 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	goto FuchsiaCity_Reserve_EventScript_Worker1MenuLoop
+	playfanfare MUS_LEVEL_UP
 # 223 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
+	msgbox FuchsiaCity_Reserve_Text_TransferSuccess, MSGBOX_DEFAULT
 # 224 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_EventScript_TransferEggRefused::
+	waitfanfare
 # 225 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	msgbox FuchsiaCity_Reserve_Text_TransferEggRefusedMsg, MSGBOX_DEFAULT
+	goto FuchsiaCity_Reserve_EventScript_Worker1MenuLoop
 # 226 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	goto FuchsiaCity_Reserve_EventScript_Worker1MenuLoop
+
 # 227 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
+FuchsiaCity_Reserve_EventScript_TransferEggRefused::
 # 228 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_EventScript_TransferNotResearchBall::
+	msgbox FuchsiaCity_Reserve_Text_TransferEggRefusedMsg, MSGBOX_DEFAULT
 # 229 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	msgbox FuchsiaCity_Reserve_Text_TransferNotResearchBallMsg, MSGBOX_DEFAULT
+	goto FuchsiaCity_Reserve_EventScript_Worker1MenuLoop
 # 230 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	goto FuchsiaCity_Reserve_EventScript_Worker1MenuLoop
+
 # 231 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
+FuchsiaCity_Reserve_EventScript_TransferNotResearchBall::
 # 232 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_EventScript_NotEnoughCoinsTransfer::
+	msgbox FuchsiaCity_Reserve_Text_TransferNotResearchBallMsg, MSGBOX_DEFAULT
 # 233 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	msgbox FuchsiaCity_Reserve_Text_NotEnoughCoinsTransferMsg, MSGBOX_DEFAULT
+	goto FuchsiaCity_Reserve_EventScript_Worker1MenuLoop
 # 234 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	goto FuchsiaCity_Reserve_EventScript_Worker1MenuLoop
+
 # 235 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
+FuchsiaCity_Reserve_EventScript_NotEnoughCoinsTransfer::
 # 236 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_EventScript_Worker1Info::
+	msgbox FuchsiaCity_Reserve_Text_NotEnoughCoinsTransferMsg, MSGBOX_DEFAULT
 # 237 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	msgbox FuchsiaCity_Reserve_Text_Worker1Info, MSGBOX_DEFAULT
-# 238 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	goto FuchsiaCity_Reserve_EventScript_Worker1MenuLoop
-# 239 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 238 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 
+# 239 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+FuchsiaCity_Reserve_EventScript_Worker1Info::
 # 240 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_EventScript_Worker1End::
+	msgbox FuchsiaCity_Reserve_Text_Worker1Info, MSGBOX_DEFAULT
 # 241 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	hidecoinsbox 19, 0
+	goto FuchsiaCity_Reserve_EventScript_Worker1MenuLoop
 # 242 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	msgbox FuchsiaCity_Reserve_Text_Worker1End, MSGBOX_DEFAULT
+
 # 243 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	release
+FuchsiaCity_Reserve_EventScript_Worker1End::
 # 244 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	hidecoinsbox 19, 0
+# 245 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	msgbox FuchsiaCity_Reserve_Text_Worker1End, MSGBOX_DEFAULT
+# 246 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	release
+# 247 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	end
 
 FuchsiaCity_Reserve_EventScript_Worker2::
-# 252 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 255 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	lock
-# 253 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 256 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	faceplayer
-# 254 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 257 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	goto_if_unset FLAG_KRABBY_QUEST_COMPLETE, FuchsiaCity_Reserve_EventScript_Worker2_2
-# 261 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 264 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	goto_if_set FLAG_RESERVE_CONTEST_ACTIVE, FuchsiaCity_Reserve_EventScript_Worker2_5
-# 265 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 268 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	msgbox FuchsiaCity_Reserve_EventScript_Worker2_Text_1, MSGBOX_YESNO
-# 267 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 270 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	compare VAR_RESULT, NO
 	goto_if_eq FuchsiaCity_Reserve_EventScript_Worker2_8
-# 271 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 274 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	goto FuchsiaCity_Reserve_EventScript_Worker2Start
 	end
 
 FuchsiaCity_Reserve_EventScript_Worker2_2:
-# 255 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	msgbox FuchsiaCity_Reserve_EventScript_Worker2_Text_0
-# 257 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	closemessage
 # 258 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	msgbox FuchsiaCity_Reserve_EventScript_Worker2_Text_0
+# 260 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	closemessage
+# 261 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	release
 	end
 
 FuchsiaCity_Reserve_EventScript_Worker2_5:
-# 262 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 265 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	goto FuchsiaCity_Reserve_EventScript_Worker2ActiveSession
 	end
 
 FuchsiaCity_Reserve_EventScript_Worker2_8:
-# 268 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 271 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	goto FuchsiaCity_Reserve_EventScript_Worker2Explain
 	end
 
 
 FuchsiaCity_Reserve_EventScript_Worker2Explain::
-# 276 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 279 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	msgbox FuchsiaCity_Reserve_EventScript_Worker2Explain_Text_0
-# 294 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 297 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	closemessage
-# 295 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 298 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	goto FuchsiaCity_Reserve_EventScript_Worker2Start
 	end
 
 
 FuchsiaCity_Reserve_EventScript_Worker2Start::
-# 300 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 303 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	specialvar VAR_RESULT, GetReserveContestAttemptsRemaining
-# 301 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 304 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	compare VAR_RESULT, 0
 	goto_if_eq FuchsiaCity_Reserve_EventScript_Worker2Start_2
-# 309 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 312 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	specialvar VAR_RESULT, CheckCanRegisterReserveContest
-# 310 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 313 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	compare VAR_RESULT, FALSE
 	goto_if_eq FuchsiaCity_Reserve_EventScript_Worker2Start_5
-# 319 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	msgbox FuchsiaCity_Reserve_EventScript_Worker2Start_Text_2
-# 321 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	closemessage
 # 322 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	msgbox FuchsiaCity_Reserve_EventScript_Worker2Start_Text_2
+# 324 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	closemessage
+# 325 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	goto FuchsiaCity_Reserve_EventScript_Worker2Category
 	end
 
 FuchsiaCity_Reserve_EventScript_Worker2Start_2:
-# 302 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	msgbox FuchsiaCity_Reserve_EventScript_Worker2Start_Text_0
 # 305 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	msgbox FuchsiaCity_Reserve_EventScript_Worker2Start_Text_0
+# 308 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	closemessage
-# 306 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 309 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	release
 	end
 
 FuchsiaCity_Reserve_EventScript_Worker2Start_5:
-# 311 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 314 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	msgbox FuchsiaCity_Reserve_EventScript_Worker2Start_Text_1
-# 315 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 318 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	closemessage
-# 316 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 319 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	release
 	end
 
 
-# 326 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
-# 327 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_EventScript_Worker2Category::
-# 328 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	multichoice 0, 0, MULTI_RESERVE_CONTEST_CATEGORY, FALSE
 # 329 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	compare VAR_RESULT, MULTI_B_PRESSED
+
 # 330 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	goto_if_eq FuchsiaCity_Reserve_EventScript_Worker2Cancelled
+FuchsiaCity_Reserve_EventScript_Worker2Category::
 # 331 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	copyvar VAR_0x8004, VAR_RESULT
+	multichoice 0, 0, MULTI_RESERVE_CONTEST_CATEGORY, FALSE
 # 332 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	special StartReserveContestSession
+	compare VAR_RESULT, MULTI_B_PRESSED
 # 333 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	msgbox FuchsiaCity_Reserve_Text_ExpeditionStarted, MSGBOX_DEFAULT
+	goto_if_eq FuchsiaCity_Reserve_EventScript_Worker2Cancelled
 # 334 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	release
+	copyvar VAR_0x8004, VAR_RESULT
 # 335 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	end
+	special StartReserveContestSession
 # 336 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
+	msgbox FuchsiaCity_Reserve_Text_ExpeditionStarted, MSGBOX_DEFAULT
 # 337 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_EventScript_Worker2Cancelled::
+	release
 # 338 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	release
+	end
 # 339 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	end
+
 # 340 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
+FuchsiaCity_Reserve_EventScript_Worker2Cancelled::
 # 341 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_EventScript_Worker2ActiveSession::
+	release
 # 342 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	goto_if_unset FLAG_RESERVE_CONTEST_CAUGHT, FuchsiaCity_Reserve_EventScript_Worker2NoSpecimenYet
+	end
 # 343 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	msgbox FuchsiaCity_Reserve_Text_WelcomeBackLetUsEvaluate, MSGBOX_DEFAULT
+
 # 344 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	special EvaluateReserveContestCatch
+FuchsiaCity_Reserve_EventScript_Worker2ActiveSession::
 # 345 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	msgbox gStringVar4, MSGBOX_DEFAULT
+	goto_if_unset FLAG_RESERVE_CONTEST_CAUGHT, FuchsiaCity_Reserve_EventScript_Worker2NoSpecimenYet
 # 346 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	msgbox FuchsiaCity_Reserve_Text_WouldYouLikeToKeepMon, MSGBOX_YESNO
+	msgbox FuchsiaCity_Reserve_Text_WelcomeBackLetUsEvaluate, MSGBOX_DEFAULT
 # 347 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	goto_if_eq VAR_RESULT, YES, FuchsiaCity_Reserve_EventScript_Worker2KeepMon
+	special EvaluateReserveContestCatch
 # 348 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	setvar VAR_0x8004, 1
+	msgbox gStringVar4, MSGBOX_DEFAULT
 # 349 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	special FinalizeReserveContestCatch
+	msgbox FuchsiaCity_Reserve_Text_WouldYouLikeToKeepMon, MSGBOX_YESNO
 # 350 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	msgbox FuchsiaCity_Reserve_Text_CataloguedAndTurnedIn, MSGBOX_DEFAULT
+	goto_if_eq VAR_RESULT, YES, FuchsiaCity_Reserve_EventScript_Worker2KeepMon
 # 351 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	release
+	setvar VAR_0x8004, 1
 # 352 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	end
-# 353 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
-# 354 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_EventScript_Worker2KeepMon::
-# 355 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	setvar VAR_0x8004, 0
-# 356 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	special FinalizeReserveContestCatch
+# 353 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	msgbox FuchsiaCity_Reserve_Text_CataloguedAndTurnedIn, MSGBOX_DEFAULT
+# 354 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	release
+# 355 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	end
+# 356 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+
 # 357 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	msgbox FuchsiaCity_Reserve_Text_CataloguedAndKept, MSGBOX_DEFAULT
+FuchsiaCity_Reserve_EventScript_Worker2KeepMon::
 # 358 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	release
+	setvar VAR_0x8004, 0
 # 359 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	end
+	special FinalizeReserveContestCatch
 # 360 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
+	msgbox FuchsiaCity_Reserve_Text_CataloguedAndKept, MSGBOX_DEFAULT
 # 361 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_EventScript_Worker2NoSpecimenYet::
-# 362 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	msgbox FuchsiaCity_Reserve_Text_NoSpecimenCaughtYet, MSGBOX_DEFAULT
-# 363 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	release
-# 364 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 362 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	end
+# 363 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+
+# 364 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+FuchsiaCity_Reserve_EventScript_Worker2NoSpecimenYet::
 # 365 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
+	msgbox FuchsiaCity_Reserve_Text_NoSpecimenCaughtYet, MSGBOX_DEFAULT
 # 366 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-@ ============================================================================
+	release
 # 367 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-@ TEXT
+	end
 # 368 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-@ ============================================================================
+
 # 369 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
+@ ============================================================================
 # 370 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_Text_Worker1Welcome:
+@ TEXT
 # 371 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Every specimen you bring in gets\n"
+@ ============================================================================
 # 372 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "logged and turned into Research\l"
+
 # 373 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Coins.\p"
+FuchsiaCity_Reserve_Text_Worker1Welcome:
 # 374 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Spend them on box space for\n"
+	.string "Every specimen you bring in gets\n"
 # 375 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Fuji's Sanctuary, Evolution\l"
+	.string "logged and turned into Research\l"
 # 376 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Stones, or other research gear\n"
+	.string "Coins.\p"
 # 377 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "as we stock it.$"
+	.string "Spend them on box space for\n"
 # 378 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
+	.string "Fuji's Sanctuary, Evolution\l"
 # 379 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_Text_TurnInPrompt:
+	.string "Stones, or other research gear\n"
 # 380 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Which POKéMON are you\n"
+	.string "as we stock it.$"
 # 381 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "turning in?$"
+
 # 382 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
+FuchsiaCity_Reserve_Text_TurnInPrompt:
 # 383 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_Text_WarningNotResearchBall:
+	.string "Which POKéMON are you\n"
 # 384 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "That one wasn't caught in a\n"
+	.string "turning in?$"
 # 385 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "RESEARCH BALL. We can still log\l"
+
 # 386 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "it, but the Pokemon will not be\n"
+FuchsiaCity_Reserve_Text_WarningNotResearchBall:
 # 387 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "returned.\p"
+	.string "That one wasn't caught in a\n"
 # 388 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Turn it in anyway?$"
+	.string "RESEARCH BALL. We can still log\l"
 # 389 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
+	.string "it, but the Pokemon will not be\n"
 # 390 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_Text_EvaluationResult:
+	.string "returned.\p"
 # 391 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "{STR_VAR_3}\p"
+	.string "Turn it in anyway?$"
 # 392 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Turn in {STR_VAR_1}?$"
+
 # 393 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
+FuchsiaCity_Reserve_Text_EvaluationResult:
 # 394 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_Text_NewFamilyBonusMsg:
+	.string "{STR_VAR_3}\p"
 # 395 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "First entry for this family.\n"
+	.string "Turn in {STR_VAR_1}?$"
 # 396 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "That's worth extra.$"
+
 # 397 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
+FuchsiaCity_Reserve_Text_NewFamilyBonusMsg:
 # 398 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_Text_TurnInSuccess:
+	.string "First entry for this family.\n"
 # 399 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Logged. {STR_VAR_3} Research\n"
+	.string "That's worth extra.$"
 # 400 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Coins added.$"
+
 # 401 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
+FuchsiaCity_Reserve_Text_TurnInSuccess:
 # 402 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_Text_TurnInLastMonRefusedMsg:
+	.string "Logged. {STR_VAR_3} Research\n"
 # 403 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Can't take your only POKéMON.\n"
+	.string "Coins added.$"
 # 404 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "You'd have nothing to research\l"
+
 # 405 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "with.$"
+FuchsiaCity_Reserve_Text_TurnInLastMonRefusedMsg:
 # 406 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
+	.string "Can't take your only POKéMON.\n"
 # 407 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_Text_TurnInEggRefusedMsg:
+	.string "You'd have nothing to research\l"
 # 408 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "That's still an egg. Come back\n"
+	.string "with.$"
 # 409 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "once it's hatched.$"
+
 # 410 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
+FuchsiaCity_Reserve_Text_TurnInEggRefusedMsg:
 # 411 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_Text_ExchangeShopComingSoon:
+	.string "That's still an egg. Come back\n"
 # 412 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "The exchange shop isn't stocked\n"
+	.string "once it's hatched.$"
 # 413 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "yet. Check back once we've got\l"
+
 # 414 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "inventory worth selling.$"
+FuchsiaCity_Reserve_Text_ExchangeShopComingSoon:
 # 415 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
+	.string "The exchange shop isn't stocked\n"
 # 416 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_Text_TransferPrompt:
+	.string "yet. Check back once we've got\l"
 # 417 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Which POKéMON gets a proper\n"
+	.string "inventory worth selling.$"
 # 418 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "POKé BALL?$"
-# 419 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 
+# 419 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+FuchsiaCity_Reserve_Text_TransferPrompt:
 # 420 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_Text_TransferEggRefusedMsg:
+	.string "Which POKéMON gets a proper\n"
 # 421 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Eggs don't need re-balling.$"
+	.string "POKé BALL?$"
 # 422 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 
 # 423 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_Text_TransferNotResearchBallMsg:
+FuchsiaCity_Reserve_Text_TransferEggRefusedMsg:
 # 424 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "That one's already in a\n"
+	.string "Eggs don't need re-balling.$"
 # 425 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "standard POKé BALL.$"
+
 # 426 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
+FuchsiaCity_Reserve_Text_TransferNotResearchBallMsg:
 # 427 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_Text_TransferSuccess:
+	.string "That one's already in a\n"
 # 428 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Done. Transferred to a\n"
+	.string "standard POKé BALL.$"
 # 429 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "POKé BALL.$"
+
 # 430 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
+FuchsiaCity_Reserve_Text_TransferSuccess:
 # 431 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_Text_NotEnoughCoinsTransferMsg:
+	.string "Done. Transferred to a\n"
 # 432 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "That's 500 Research Coins.\n"
+	.string "POKé BALL.$"
 # 433 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "You're short.$"
+
 # 434 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
+FuchsiaCity_Reserve_Text_NotEnoughCoinsTransferMsg:
 # 435 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_Text_Worker1Info:
+	.string "That's 500 Research Coins.\n"
 # 436 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Research Balls give a research\n"
+	.string "You're short.$"
 # 437 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "bonus when you turn a catch in -\l"
-# 438 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "no penalty on the coin count.\p"
-# 439 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Standard balls still count, just\n"
-# 440 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "at a lower rate.$"
-# 441 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 
+# 438 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+FuchsiaCity_Reserve_Text_Worker1Info:
+# 439 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	.string "Research Balls give a research\n"
+# 440 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	.string "bonus when you turn a catch in -\l"
+# 441 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	.string "no penalty on the coin count.\p"
 # 442 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_Text_Worker1End:
+	.string "Standard balls still count, just\n"
 # 443 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Come back any time.$"
+	.string "at a lower rate.$"
 # 444 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 
 # 445 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_Text_ExpeditionStarted:
+FuchsiaCity_Reserve_Text_Worker1End:
 # 446 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Good luck out there.\n"
+	.string "Come back any time.$"
 # 447 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Bring back what you catch.$"
-# 448 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 
+# 448 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+FuchsiaCity_Reserve_Text_ExpeditionStarted:
 # 449 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_Text_WelcomeBackLetUsEvaluate:
+	.string "Good luck out there.\n"
 # 450 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Let's see what you brought.$"
+	.string "Bring back what you catch.$"
 # 451 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 
 # 452 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_Text_WouldYouLikeToKeepMon:
+FuchsiaCity_Reserve_Text_WelcomeBackLetUsEvaluate:
 # 453 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Want to keep this one, or should\n"
+	.string "Let's see what you brought.$"
 # 454 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "we log it and take it in?$"
+
 # 455 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
+FuchsiaCity_Reserve_Text_WouldYouLikeToKeepMon:
 # 456 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_Text_CataloguedAndTurnedIn:
+	.string "Want to keep this one, or should\n"
 # 457 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Catalogued and logged.\n"
+	.string "we log it and take it in?$"
 # 458 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Thank you for this.$"
-# 459 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 
+# 459 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+FuchsiaCity_Reserve_Text_CataloguedAndTurnedIn:
 # 460 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_Text_CataloguedAndKept:
+	.string "Catalogued and logged.\n"
 # 461 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Catalogued. It's yours to keep.$"
+	.string "Thank you for this.$"
 # 462 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 
 # 463 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_Text_NoSpecimenCaughtYet:
+FuchsiaCity_Reserve_Text_CataloguedAndKept:
 # 464 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Nothing caught on this\n"
+	.string "Catalogued. It's yours to keep.$"
 # 465 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+
+# 466 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+FuchsiaCity_Reserve_Text_NoSpecimenCaughtYet:
+# 467 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	.string "Nothing caught on this\n"
+# 468 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	.string "expedition yet.$"
 
-# 468 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 471 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 FuchsiaCity_Reserve_JumpInPlace:
-# 469 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 472 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	emote_exclamation_mark
-# 470 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 473 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	jump_in_place_down
 	step_end
 
-# 473 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 476 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 FuchsiaCity_Reserve_FaceRight:
-# 474 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 477 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	face_right
 	step_end
 
-# 477 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 480 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 FuchsiaCity_Reserve_FaceLeft:
-# 478 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 481 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	face_left
 	step_end
 
@@ -800,23 +802,23 @@ FuchsiaCity_Reserve_EventScript_Intro_Text_6:
 	.string "Finally.$"
 
 FuchsiaCity_Reserve_EventScript_Worker1_Text_0:
-# 118 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 121 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	.string "Still getting the ledgers set up.\n"
 	.string "Come back once Fuji's shown you\l"
 	.string "around properly.$"
 
 FuchsiaCity_Reserve_EventScript_Worker2_Text_0:
-# 255 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 258 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	.string "Expeditions aren't running yet.\n"
 	.string "Talk to Fuji first.$"
 
 FuchsiaCity_Reserve_EventScript_Worker2_Text_1:
-# 265 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 268 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	.string "Ever been out on one of our\n"
 	.string "expeditions?$"
 
 FuchsiaCity_Reserve_EventScript_Worker2Explain_Text_0:
-# 276 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 279 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	.string "An expedition is simple: you go\n"
 	.string "out, you catch what you find, and\l"
 	.string "you bring it back so we can\n"
@@ -837,19 +839,19 @@ FuchsiaCity_Reserve_EventScript_Worker2Explain_Text_0:
 	.string "counting extra.$"
 
 FuchsiaCity_Reserve_EventScript_Worker2Start_Text_0:
-# 302 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 305 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	.string "You've used up today's\n"
 	.string "expedition slots.\p"
 	.string "Come back tomorrow.$"
 
 FuchsiaCity_Reserve_EventScript_Worker2Start_Text_1:
-# 311 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 314 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	.string "You'll need exactly one POKéMON\n"
 	.string "in your party before you head\l"
 	.string "out. Wouldn't want you catching\n"
 	.string "over your limit.$"
 
 FuchsiaCity_Reserve_EventScript_Worker2Start_Text_2:
-# 319 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 322 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	.string "Pick what you're cataloguing\n"
 	.string "this time.\p$"

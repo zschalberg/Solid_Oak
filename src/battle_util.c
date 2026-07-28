@@ -38,6 +38,8 @@
 #include "malloc.h"
 #include "berry.h"
 #include "pokedex.h"
+#include "ball_economy.h"
+#include "pokemon_storage_system.h"
 #include "mail.h"
 #include "field_weather.h"
 #include "constants/abilities.h"
@@ -5722,9 +5724,105 @@ u32 GetBattleMoveTarget(enum Move move, enum MoveTarget moveTarget)
     return targetBattler;
 }
 
+// Friendship/obedience system: a Pokemon caught in a Protoball/Research Ball
+// and later leveled above that ball's level cap risks disobedience (and, at
+// rock-bottom friendship, breaking out of the party for good) unless its
+// friendship is kept high. Solid-Oak has no badge gate (see commit
+// 20c3bf95f), so unlike vanilla this trigger is friendship-based rather than
+// badge-based - the disobedience/breakout formula below is therefore new,
+// but every outcome branch downstream (loafing/random move/hits itself/falls
+// asleep, and the CancelerObedience dispatch in battle_move_resolution.c)
+// reuses the same vanilla-derived mechanics unchanged.
 enum Obedience GetAttackerObedienceForAction(void)
 {
-    return OBEYS;
+    s32 rnd;
+    s32 calc;
+
+    if (gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK))
+        return OBEYS;
+    if (BattlerHasAi(gBattlerAttacker))
+        return OBEYS;
+    if (gBattleTypeFlags & BATTLE_TYPE_POKEDUDE)
+        return OBEYS;
+    if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER && GetBattlerPosition(gBattlerAttacker) == B_POSITION_PLAYER_RIGHT)
+        return OBEYS;
+    if (gBattleTypeFlags & BATTLE_TYPE_FRONTIER)
+        return OBEYS;
+    if (gBattleTypeFlags & BATTLE_TYPE_RECORDED)
+        return OBEYS;
+    if (IsOtherTrainer(gBattleMons[gBattlerAttacker].otId, gBattleMons[gBattlerAttacker].otName))
+        return OBEYS;
+
+    struct Pokemon *mon = GetBattlerMon(gBattlerAttacker);
+    if (mon == NULL)
+        return OBEYS;
+
+    u8 cap = GetOriginalBallLevelCap(mon);
+    if (cap == BALL_CAP_NONE || gBattleMons[gBattlerAttacker].level <= cap)
+        return OBEYS; // Not caught in a capped Protoball, or still within its cap.
+
+    u8 friendship = GetMonData(mon, MON_DATA_FRIENDSHIP);
+    if (friendship >= FRIENDSHIP_OBEDIENCE_THRESHOLD)
+        return OBEYS;
+
+    // PLACEHOLDER formula pending balancing: disobedience chance scales with
+    // how far below the friendship threshold the mon has fallen.
+    rnd = Random();
+    calc = (FRIENDSHIP_OBEDIENCE_THRESHOLD - friendship) * (rnd & 255) >> 8;
+    if (calc < FRIENDSHIP_OBEDIENCE_THRESHOLD / 4)
+        return OBEYS;
+
+    // Only at rock-bottom friendship is there any risk of a permanent
+    // breakout, and only on top of a failed-obedience roll - this is meant
+    // to stay a rare consequence of driving friendship into the ground
+    // (e.g. overusing the friendship-lowering berry medicines), not
+    // something a normally-played game will ever trigger.
+    // Never let a breakout strand the player with zero usable Pokemon - a
+    // permanent mid-battle game-over from bad luck would be excessively
+    // punishing, so this case just falls through to normal disobedience.
+    if (friendship == 0
+     && CountPartyAliveNonEggMonsExcept(gBattlerPartyIndexes[gBattlerAttacker]) > 0
+     && RandomPercentage(RNG_NONE, BREAKOUT_CHANCE_PERCENT))
+        return DISOBEYS_BREAKS_FREE;
+
+    //  Clear the Z-Move flags if the battler is disobedient as to not waste the Z-Move
+    if (GetActiveGimmick(gBattlerAttacker) == GIMMICK_Z_MOVE)
+    {
+        gBattleStruct->gimmick.activated[gBattlerAttacker][GIMMICK_Z_MOVE] = FALSE;
+        gBattleStruct->gimmick.activeGimmick[GetBattlerSide(gBattlerAttacker)][gBattlerPartyIndexes[gBattlerAttacker]] = GIMMICK_NONE;
+    }
+
+    enum BattleMoveEffects moveEffect = GetMoveEffect(gCurrentMove);
+    if (MoveHasAdditionalEffect(gCurrentMove, MOVE_EFFECT_RAGE))
+        gBattleMons[gBattlerAttacker].volatiles.rage = FALSE;
+    if (gBattleMons[gBattlerAttacker].status1 & STATUS1_SLEEP && IsUsableWhileAsleepEffect(moveEffect))
+        return DISOBEYS_WHILE_ASLEEP;
+
+    switch (MOD(rnd >> 8, 3))
+    {
+    case 0:
+        calc = CheckMoveLimitations(gBattlerAttacker, 1u << gCurrMovePos, MOVE_LIMITATIONS_ALL);
+        if (calc == ALL_MOVES_MASK) // all moves cannot be used
+            return DISOBEYS_LOAFS;
+        else // use a random move
+            do
+                gCurrMovePos = gChosenMovePos = MOD(Random(), MAX_MON_MOVES);
+            while ((1u << gCurrMovePos) & calc);
+        return DISOBEYS_RANDOM_MOVE;
+    case 1:
+        if (CanBeSlept(gBattlerAttacker, gBattlerAttacker, GetBattlerAbility(gBattlerAttacker), NOT_BLOCKED_BY_SLEEP_CLAUSE))
+        {
+            enum BattlerId i;
+            for (i = 0; i < gBattlersCount; i++)
+                if (gBattleMons[i].volatiles.uproarTurns)
+                    break;
+            if (i == gBattlersCount)
+                return DISOBEYS_FALL_ASLEEP;
+        }
+        return DISOBEYS_LOAFS;
+    default:
+        return DISOBEYS_HITS_SELF;
+    }
 }
 
 enum HoldEffect GetBattlerHoldEffect(enum BattlerId battler)

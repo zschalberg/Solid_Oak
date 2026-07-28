@@ -699,8 +699,14 @@ static const struct MenuAction sMultichoiceList_CraftQuantity[] = {
 };
 
 static const struct MenuAction sMultichoiceList_WorkbenchMain[] = {
-    { COMPOUND_STRING("Poke Balls") },
+    { COMPOUND_STRING("Upgrade Ball") },
     { COMPOUND_STRING("Medicine") },
+    { gText_Exit }
+};
+
+static const struct MenuAction sMultichoiceList_WorkbenchUpgradeSource[] = {
+    { COMPOUND_STRING("Pokémon's Ball") },
+    { COMPOUND_STRING("Bag Ball") },
     { gText_Exit }
 };
 
@@ -902,6 +908,7 @@ static const struct MultichoiceListStruct sMultichoiceLists[] =
     [MULTI_WORKBENCH]                                  = MULTICHOICE(sMultichoiceList_Workbench),
     [MULTI_CRAFT_QUANTITY]                             = MULTICHOICE(sMultichoiceList_CraftQuantity),
     [MULTI_WORKBENCH_MENU]                             = MULTICHOICE(sMultichoiceList_WorkbenchMain),
+    [MULTI_WORKBENCH_UPGRADE_SOURCE]                   = MULTICHOICE(sMultichoiceList_WorkbenchUpgradeSource),
     [MULTI_MEDICINE_CRAFTING]                          = MULTICHOICE(sMultichoiceList_MedicineCrafting),
     [MULTI_FUJI_ROOM_MONS]                             = MULTICHOICE(sMultichoiceList_FujiRoomMons),
     [MULTI_COURIER_MENU]                               = MULTICHOICE(sMultichoiceList_CourierMenu),

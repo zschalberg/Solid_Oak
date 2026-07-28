@@ -49,7 +49,8 @@ script LavenderTown_VolunteerPokemonHouse_EventScript_FujiIntro {
            "Bring them to me and I can\n"
            "tell you something useful.")
     closemessage
-    giveitem(ITEM_RESEARCH_BALL, 20)
+    // Ball economy: Research Balls are now a finite, reusable resource - see include/ball_economy.h.
+    giveitem(ITEM_RESEARCH_BALL, 2)
     //showmugshot(MUGSHOT_FUJI, MUGSHOT_LEFT)
     textcolor(NPC_TEXT_COLOR_MALE)
     applymovement(LOCALID_FUJI, LavenderTown_VolunteerPokemonHouse_Movement_FUJI)

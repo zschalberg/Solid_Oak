@@ -3,6 +3,7 @@
 #include "event_data.h"
 #include "wild_encounter.h"
 #include "research_turnin.h"
+#include "ball_economy.h"
 #include "script_pokemon_util.h"
 #include "string_util.h"
 #include "text.h"
@@ -244,6 +245,7 @@ void FinalizeReserveContestCatch(void)
             u16 coins = CalculateResearchMonCoins(&gPlayerParty[1]);
             AddCoins(coins);
             ConvertIntToDecimalStringN(gStringVar3, coins, STR_CONV_MODE_LEFT_ALIGN, 5);
+            FreeMonBall(&gPlayerParty[1]); // Ball economy: turned in for good, ball frees back to the bag.
             ZeroMonData(&gPlayerParty[1]);
             CompactPartySlots();
             CalculatePlayerPartyCount();

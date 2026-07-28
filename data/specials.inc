@@ -354,8 +354,10 @@ gSpecials::
 	def_special SetBattleRuleBanMoveCategoryFromVar
 	def_special SetBattleRuleAffectsOpponentFromVar
 	def_special ClearPendingBattleRules
-	def_special GetMaxCraftableQuantity
-	def_special CraftProtoballs
+	def_special GrantQuestBalls
+	def_special GetSelectedMonUpgradeInfo
+	def_special UpgradeSelectedMonBall
+	def_special TryUpgradeBagBallTier
 	def_special GetSpeciesSeenCount
 	def_special GetSpeciesCaughtCount
 	def_special GetMonHeight

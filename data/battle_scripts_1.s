@@ -7130,6 +7130,16 @@ BattleScript_IgnoresAndHitsItself::
 	waitmessage B_WAIT_TIME_LONG
 	goto BattleScript_DoSelfConfusionDmg
 
+@ Ball economy: friendship/obedience breakout. The mon has already been
+@ removed from the party in C (CancelerObedience); tryfaintmon here just
+@ drives the standard switch-in prompt/UI using the same faint pipeline.
+BattleScript_MonBreaksFree::
+	printstring STRINGID_PKMNBROKEFREEFORGOOD
+	waitmessage B_WAIT_TIME_LONG
+	tryfaintmon BS_ATTACKER
+	moveendto MOVEEND_NEXT_TARGET
+	end
+
 BattleScript_SubstituteFade::
 	playanimation BS_TARGET, B_ANIM_SUBSTITUTE_FADE
 	printstring STRINGID_PKMNSUBSTITUTEFADED

@@ -9,6 +9,7 @@ enum Obedience
     DISOBEYS_FALL_ASLEEP,
     DISOBEYS_WHILE_ASLEEP,
     DISOBEYS_RANDOM_MOVE,
+    DISOBEYS_BREAKS_FREE, // Ball economy: permanently flees the party (see CancelerObedience).
 };
 
 enum CancelerResult

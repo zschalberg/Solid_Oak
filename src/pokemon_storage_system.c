@@ -28,6 +28,8 @@
 #include "pokemon_summary_screen.h"
 #include "quest_log.h"
 #include "fuji_lab.h"
+#include "ball_economy.h"
+#include "coins.h"
 #include "constants/flags.h"
 #include "sound.h"
 #include "string_util.h"
@@ -6277,6 +6279,13 @@ static void SetPlacedMonData(u8 boxId, u8 position)
     }
     else
     {
+        // Ball economy: this covers every "Move Pokemon" storage path (the
+        // in-person conventional PC, the city Courier NPC, and the Courier
+        // Whistle all funnel through this same move-mode placement code) -
+        // a mon placed into a box that was picked up from the party frees
+        // its ball back to the bag.
+        if (sMovingMonOrigBoxId == TOTAL_BOXES_COUNT)
+            FreeMonBall(&gStorage->movingMon);
         BoxMonRestorePP(&gStorage->movingMon.box);
         SetBoxMonAt(boxId, position, &gStorage->movingMon.box);
     }
@@ -6373,31 +6382,43 @@ static void ReleaseMon(void)
         sIsMonBeingMoved = FALSE;
     else
     {
+        bool8 ballAlreadyFreed;
+        bool8 ballRecovered = FALSE;
         if (sCursorArea == CURSOR_AREA_IN_PARTY)
         {
             boxId = TOTAL_BOXES_COUNT;
             ball = GetMonData(&gPlayerParty[sCursorPosition], MON_DATA_POKEBALL);
+            ballAlreadyFreed = GetMonData(&gPlayerParty[sCursorPosition], MON_DATA_BALL_FREED);
             if (OW_PC_RELEASE_ITEM >= GEN_8)
                 item = GetMonData(&gPlayerParty[sCursorPosition], MON_DATA_HELD_ITEM);
+            if (!ballAlreadyFreed)
+                ballRecovered = FreeMonBall(&gPlayerParty[sCursorPosition]);
         }
         else
         {
             boxId = StorageGetCurrentBox();
             ball = GetBoxMonDataAt(boxId, sCursorPosition, MON_DATA_POKEBALL);
+            ballAlreadyFreed = GetBoxMonDataAt(boxId, sCursorPosition, MON_DATA_BALL_FREED);
             if (OW_PC_RELEASE_ITEM >= GEN_8)
                 item = GetBoxMonDataAt(boxId, sCursorPosition, MON_DATA_HELD_ITEM);
+            if (!ballAlreadyFreed)
+                ballRecovered = FreeBoxMonBall(GetBoxedMonPtr(boxId, sCursorPosition));
         }
 
-        if (ball == BALL_RESEARCH)
+        // Ball economy: tag-and-release recovers any not-yet-freed reusable
+        // ball (Research Ball or Protoball) and always awards a Research
+        // Coin reward for the release itself.
+        if (!ballAlreadyFreed && IsReusableBallItem(ball))
         {
             sIsResearchMonRelease = TRUE;
-            sRecoveredResearchBall = AddBagItem(ITEM_RESEARCH_BALL, 1);
+            sRecoveredResearchBall = ballRecovered;
         }
         else
         {
             sIsResearchMonRelease = FALSE;
             sRecoveredResearchBall = FALSE;
         }
+        AddCoins(RELEASE_COIN_REWARD); // PLACEHOLDER reward amount, see ball_economy.h
 
         PurgeMonOrBoxMon(boxId, sCursorPosition);
         if (item != ITEM_NONE)

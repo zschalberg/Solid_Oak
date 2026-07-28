@@ -202,6 +202,7 @@ extern const u8 BattleScript_MoveUsedLoafingAround[];
 extern const u8 BattleScript_TruantLoafingAround[];
 extern const u8 BattleScript_IgnoresAndFallsAsleep[];
 extern const u8 BattleScript_IgnoresAndHitsItself[];
+extern const u8 BattleScript_MonBreaksFree[];
 extern const u8 BattleScript_SubstituteFade[];
 extern const u8 BattleScript_BerryCureStatusRet[];
 extern const u8 BattleScript_BerryCureConfusionRet[];
