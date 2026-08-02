@@ -248,6 +248,11 @@ static u32 ScriptGiveMonParameterized(u8 side, u8 slot, enum Species species, u8
     if (ball > POKEBALL_COUNT)
         ball = BALL_POKE;
     SetMonData(&mon, MON_DATA_POKEBALL, &ball);
+    if (ball == (enum PokeBall)ITEM_NONE || ball == 0)
+    {
+        u32 freed = TRUE;
+        SetMonData(&mon, MON_DATA_BALL_FREED, &freed);
+    }
 
     // held item
     SetMonData(&mon, MON_DATA_HELD_ITEM, &item);

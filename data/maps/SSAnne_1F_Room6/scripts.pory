@@ -21,13 +21,11 @@ script SSMinnow_1F_EventScript_ChoosePokemonCutscene {
     msgbox("Ah. There you both are.\p"
             "We'll be in Vermilion Harbor\n"
            "inside the hour. I want you ready.\p"
-            "Kanto is seeing POKéMON\n"
-           "in locations\l"
-           "they have no business being in.\p"
-           "Migration patterns that don't match\n"
-           "any model we have.\p"
-           "Something is moving them\p"
-           "Your assignment: find out what.\p"
+
+			"Silph brought us here to help\n"
+			"in their research of Pokémon\l"
+			"containment devices. \p"
+
            "To do that, you'll need a partner\n"
            "Pokémon.\p"
            "I've given this some thought.\n"
@@ -60,7 +58,7 @@ script SSAnne_1F_Room6_EventScript_FinishStarterSelection{
     closemessage
     showmugshot(MUGSHOT_PROF_ARBOR, MUGSHOT_RIGHT)
     textcolor(NPC_TEXT_COLOR_MALE)
-    msgbox("Alright. Don't take too long.")
+    msgbox("Alright, don't take too long.")
     closemessage
     applymovement(LOCALID_AGATHA, SSMinnow_1F_Room6_Movement_Agatha_Leaves)
     waitmovement(0)
@@ -167,7 +165,7 @@ SSAnne_1F_Room6_EventScript_GrowlitheAlreadyChose::
 
 SSAnne_1F_Room6_EventScript_ChooseGrowlithe::
 	hidemonpic
-	givemon SPECIES_GROWLITHE, 5
+	givemon SPECIES_GROWLITHE, 5, ball=ITEM_RED_PROTOBALL
 	goto_if_eq VAR_RESULT, 0, SSAnne_1F_Room6_EventScript_GiveGrowlitheParty
 	goto_if_eq VAR_RESULT, 1, SSAnne_1F_Room6_EventScript_GiveGrowlithePC
 	goto_if_eq VAR_RESULT, 2, EventScript_NoMoreRoomForPokemon
@@ -233,7 +231,7 @@ SSAnne_1F_Room6_EventScript_NidoranMAlreadyChose::
 
 SSAnne_1F_Room6_EventScript_ChooseNidoranM::
 	hidemonpic
-	givemon SPECIES_NIDORAN_M, 5
+	givemon SPECIES_NIDORAN_M, 5, ball=ITEM_RED_PROTOBALL
 	goto_if_eq VAR_RESULT, 0, SSAnne_1F_Room6_EventScript_GiveNidoranMParty
 	goto_if_eq VAR_RESULT, 1, SSAnne_1F_Room6_EventScript_GiveNidoranMPC
 	goto_if_eq VAR_RESULT, 2, EventScript_NoMoreRoomForPokemon
@@ -299,7 +297,7 @@ SSAnne_1F_Room6_EventScript_ExeggcuteAlreadyChose::
 
 SSAnne_1F_Room6_EventScript_ChooseExeggcute::
 	hidemonpic
-	givemon SPECIES_EXEGGCUTE, 5
+	givemon SPECIES_EXEGGCUTE, 5, ball=ITEM_RED_PROTOBALL
 	goto_if_eq VAR_RESULT, 0, SSAnne_1F_Room6_EventScript_GiveExeggcuteParty
 	goto_if_eq VAR_RESULT, 1, SSAnne_1F_Room6_EventScript_GiveExeggcutePC
 	goto_if_eq VAR_RESULT, 2, EventScript_NoMoreRoomForPokemon
@@ -344,10 +342,10 @@ SSAnne_1F_Room6_EventScript_TestBalls::
 	lock
 	faceplayer
 	giveitem ITEM_POKE_BALL, 5
-	giveitem ITEM_LEVEL_BALL, 5
-	giveitem ITEM_LURE_BALL, 5
-	giveitem ITEM_FRIEND_BALL, 5
-	giveitem ITEM_HEAVY_BALL, 5
+	giveitem ITEM_RED_PROTOBALL, 5
+	giveitem ITEM_BLU_PROTOBALL, 5
+	giveitem ITEM_GRN_PROTOBALL, 5
+	giveitem ITEM_BLK_PROTOBALL, 5
 	giveitem ITEM_CHERISH_BALL, 5
 	giveitem ITEM_WORKBENCH, 1
 	giveitem ITEM_CONVERSION_KIT, 20

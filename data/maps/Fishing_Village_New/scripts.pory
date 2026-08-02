@@ -1,4 +1,30 @@
+script Fishing_Village_New_Boss_Battle {
+    // Option B: Scaled level wild battle with custom size
+    setvar(VAR_0x8004, SPECIES_TENTACRUEL)
+    setvar(VAR_0x8005, 30) // Min level
+    setvar(VAR_0x8006, 5)  // Level offset (+5)
+    setvar(VAR_0x8007, ITEM_NONE)
+    callnative(Script_SetScaledWildBattle)
+    setwildsize(100, 100) // Set exact 100th percentile (Maximum Height & Weight)
+    dowildbattle
+    specialvar(VAR_RESULT, GetBattleOutcome)
+    if (var(VAR_RESULT) == B_OUTCOME_WON || var(VAR_RESULT) == B_OUTCOME_CAUGHT) {
+        setflag(FLAG_ZONE_1_RESOLVED)
+    }
+    end
+}
 
 
-raw`Fishing_Village_New_MapScripts::
-	.byte 0
+
+// Swaps the "before"/"after" village tiles on load, driven by
+// FLAG_ZONE_1_RESOLVED (placeholder — same flag that currently hides the
+// Tentacruel/Tentacool objects post-battle; see UpdateFishingVillageTiles
+// in src/field_specials.c for the actual tile list).
+mapscripts Fishing_Village_New_MapScripts {
+    MAP_SCRIPT_ON_LOAD: Fishing_Village_New_OnLoad
+}
+
+script Fishing_Village_New_OnLoad {
+    special(UpdateFishingVillageTiles)
+    end
+}

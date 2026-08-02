@@ -11,7 +11,7 @@
 // Central home for the pre-jump Protoball/Research Ball economy: finite,
 // reusable ball "slots" instead of craftable/purchasable consumables.
 //
-// A ball item (e.g. ITEM_LEVEL_BALL) sitting in the bag is an "available"
+// A ball item (e.g. ITEM_RED_PROTOBALL) sitting in the bag is an "available"
 // ball. Once used to catch a mon, that same item id is recorded forever on
 // the mon via MON_DATA_POKEBALL (used for its level cap and, later, its
 // friendship/obedience risk) - it is never reset by freeing. Freeing a ball
@@ -22,10 +22,10 @@ u8 GetBallLevelCap(u16 ballItem)
 {
     switch (ballItem)
     {
-    case ITEM_LEVEL_BALL:  return 10;
-    case ITEM_LURE_BALL:   return 20;
-    case ITEM_FRIEND_BALL: return 30;
-    case ITEM_HEAVY_BALL:  return 40;
+    case ITEM_RED_PROTOBALL: return 10;
+    case ITEM_BLU_PROTOBALL: return 20;
+    case ITEM_GRN_PROTOBALL: return 30;
+    case ITEM_BLK_PROTOBALL: return 40;
     default:               return BALL_CAP_NONE;
     }
 }
@@ -42,10 +42,10 @@ bool8 IsReusableBallItem(u16 ballItem)
 {
     switch (ballItem)
     {
-    case ITEM_LEVEL_BALL:
-    case ITEM_LURE_BALL:
-    case ITEM_FRIEND_BALL:
-    case ITEM_HEAVY_BALL:
+    case ITEM_RED_PROTOBALL:
+    case ITEM_BLU_PROTOBALL:
+    case ITEM_GRN_PROTOBALL:
+    case ITEM_BLK_PROTOBALL:
     case ITEM_RESEARCH_BALL:
         return TRUE;
     default:
@@ -87,6 +87,114 @@ bool8 FreeBoxMonBall(struct BoxPokemon *boxMon)
     return recovered;
 }
 
+u16 GetMonBallItem(struct Pokemon *mon)
+{
+    return GetMonData(mon, MON_DATA_POKEBALL);
+}
+
+u16 GetBoxMonBallItem(struct BoxPokemon *boxMon)
+{
+    return GetBoxMonData(boxMon, MON_DATA_POKEBALL, NULL);
+}
+
+bool8 CanFreeMonBall(struct Pokemon *mon)
+{
+    if (GetMonData(mon, MON_DATA_BALL_FREED))
+        return TRUE;
+
+    u16 ballItem = GetMonData(mon, MON_DATA_POKEBALL);
+    if (!IsReusableBallItem(ballItem))
+        return TRUE;
+
+    return CheckBagHasItem(ballItem, 1) || (CountTotalItemQuantityInBag(ballItem) > 0);
+}
+
+bool8 CanFreeBoxMonBall(struct BoxPokemon *boxMon)
+{
+    if (GetBoxMonData(boxMon, MON_DATA_BALL_FREED, NULL))
+        return TRUE;
+
+    u16 ballItem = GetBoxMonData(boxMon, MON_DATA_POKEBALL, NULL);
+    if (!IsReusableBallItem(ballItem))
+        return TRUE;
+
+    return CheckBagHasItem(ballItem, 1) || (CountTotalItemQuantityInBag(ballItem) > 0);
+}
+
+u16 GetClaimableBallItem(u16 requiredBall)
+{
+    if (requiredBall == ITEM_NONE || requiredBall == 0)
+        requiredBall = ITEM_RED_PROTOBALL;
+
+    if (!IsReusableBallItem(requiredBall))
+        return requiredBall;
+
+    if (CheckBagHasItem(requiredBall, 1))
+        return requiredBall;
+
+    u16 nextTier = GetNextProtoBallTier(requiredBall);
+    while (nextTier != ITEM_NONE)
+    {
+        if (CheckBagHasItem(nextTier, 1))
+            return nextTier;
+        nextTier = GetNextProtoBallTier(nextTier);
+    }
+
+    return ITEM_NONE;
+}
+
+bool8 TryClaimMonBall(struct Pokemon *mon)
+{
+    if (!GetMonData(mon, MON_DATA_BALL_FREED))
+        return TRUE;
+
+    u16 requiredBall = GetMonData(mon, MON_DATA_POKEBALL);
+    if (!IsReusableBallItem(requiredBall))
+    {
+        u32 freed = FALSE;
+        SetMonData(mon, MON_DATA_BALL_FREED, &freed);
+        return TRUE;
+    }
+
+    u16 claimableBall = GetClaimableBallItem(requiredBall);
+    if (claimableBall == ITEM_NONE)
+        return FALSE;
+
+    RemoveBagItem(claimableBall, 1);
+    if (claimableBall != requiredBall)
+        SetMonData(mon, MON_DATA_POKEBALL, &claimableBall);
+
+    u32 freed = FALSE;
+    SetMonData(mon, MON_DATA_BALL_FREED, &freed);
+    return TRUE;
+}
+
+bool8 TryClaimBoxMonBall(struct BoxPokemon *boxMon)
+{
+    if (!GetBoxMonData(boxMon, MON_DATA_BALL_FREED, NULL))
+        return TRUE;
+
+    u16 requiredBall = GetBoxMonData(boxMon, MON_DATA_POKEBALL, NULL);
+    if (!IsReusableBallItem(requiredBall))
+    {
+        u32 freed = FALSE;
+        SetBoxMonData(boxMon, MON_DATA_BALL_FREED, &freed);
+        return TRUE;
+    }
+
+    u16 claimableBall = GetClaimableBallItem(requiredBall);
+    if (claimableBall == ITEM_NONE)
+        return FALSE;
+
+    RemoveBagItem(claimableBall, 1);
+    if (claimableBall != requiredBall)
+        SetBoxMonData(boxMon, MON_DATA_POKEBALL, &claimableBall);
+
+    u32 freed = FALSE;
+    SetBoxMonData(boxMon, MON_DATA_BALL_FREED, &freed);
+    return TRUE;
+}
+
 void MarkMonBallOccupied(struct Pokemon *mon)
 {
     u32 freed = FALSE;
@@ -109,10 +217,10 @@ u16 GetNextProtoBallTier(u16 ballItem)
 {
     switch (ballItem)
     {
-    case ITEM_LEVEL_BALL: return ITEM_LURE_BALL;
-    case ITEM_LURE_BALL:  return ITEM_FRIEND_BALL;
-    case ITEM_FRIEND_BALL: return ITEM_HEAVY_BALL;
-    case ITEM_HEAVY_BALL: // Already the top tier.
+    case ITEM_RED_PROTOBALL: return ITEM_BLU_PROTOBALL;
+    case ITEM_BLU_PROTOBALL: return ITEM_GRN_PROTOBALL;
+    case ITEM_GRN_PROTOBALL: return ITEM_BLK_PROTOBALL;
+    case ITEM_BLK_PROTOBALL: // Already the top tier.
     default:
         return ITEM_NONE;
     }
@@ -125,9 +233,9 @@ u16 GetApricornForBallTier(u16 ballItem)
     // original crafting system (see the old CraftProtoballs in field_specials.c).
     switch (ballItem)
     {
-    case ITEM_LEVEL_BALL: return ITEM_BLUE_APRICORN;  // Red -> Blu
-    case ITEM_LURE_BALL:  return ITEM_GREEN_APRICORN; // Blu -> Grn
-    case ITEM_FRIEND_BALL: return ITEM_BLACK_APRICORN; // Grn -> Blk
+    case ITEM_RED_PROTOBALL: return ITEM_BLUE_APRICORN;  // Red -> Blu
+    case ITEM_BLU_PROTOBALL: return ITEM_GREEN_APRICORN; // Blu -> Grn
+    case ITEM_GRN_PROTOBALL: return ITEM_BLACK_APRICORN; // Grn -> Blk
     default:
         return ITEM_NONE;
     }
@@ -141,7 +249,7 @@ u16 GetApricornForBallTier(u16 ballItem)
 // separate mapping.
 
 static const u16 sProtoBallTierItems[] = {
-    ITEM_LEVEL_BALL, ITEM_LURE_BALL, ITEM_FRIEND_BALL, ITEM_HEAVY_BALL,
+    ITEM_RED_PROTOBALL, ITEM_BLU_PROTOBALL, ITEM_GRN_PROTOBALL, ITEM_BLK_PROTOBALL,
 };
 
 // Checks whether the selected party mon's ball can be upgraded and, if so,

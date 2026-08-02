@@ -270,11 +270,18 @@ VermilionCity_Text_ArborDock1::
     .string "Hasn't changed much.$"
 
 VermilionCity_Text_ArborDock2::
-    .string "Head north when you're ready.\p"
     .string "I've arranged a room at the hotel.\n"
     .string "ask at the desk, they'll have it.\p"
+    .string "To the North is Saffron, and Silph\n"
+    .string "HQ. Head there to see what help they\l"
+    .string "need with testing.\p"
+    .string "To the North East is Lavender Town.\p"
+    .string "Mr. Fuji is this region's resident\n"
+    .string "expert on the local Pokémon and an\l"
+    .string "old colleague of mine. Pay him a\l"
+    .string "visit when you get the chance.\p"
     .string "I need to check in with the harbor\n"
-    .string "office first.$"
+    .string "office before I go.$"
 
 VermilionCity_Text_ArborDock3::
     .string "Good luck, Oak.$"

@@ -94,7 +94,7 @@ FuchsiaCity_Reserve_EventScript_Intro::
 # 101 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	clearmugshot
 # 104 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	giveitem ITEM_LEVEL_BALL, 2
+	giveitem ITEM_RED_PROTOBALL, 2
 # 105 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	setflag FLAG_HIDE_RESERVE_FUJI
 # 106 "data/maps/FuchsiaCity_Reserve/scripts.pory"

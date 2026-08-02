@@ -63,7 +63,7 @@
   "coord_events": [
     {
       "type": "trigger",
-      "x": 3,
+      "x": 2,
       "y": 5,
       "elevation": 3,
       "var": "VAR_MAP_SCENE_ROUTE5_ROUTE6_ROUTE7_ROUTE8_GATES",
@@ -72,8 +72,8 @@
     },
     {
       "type": "trigger",
-      "x": 4,
-      "y": 5,
+      "x": 2,
+      "y": 6,
       "elevation": 3,
       "var": "VAR_MAP_SCENE_ROUTE5_ROUTE6_ROUTE7_ROUTE8_GATES",
       "var_value": "0",
@@ -81,8 +81,8 @@
     },
     {
       "type": "trigger",
-      "x": 5,
-      "y": 5,
+      "x": 2,
+      "y": 4,
       "elevation": 3,
       "var": "VAR_MAP_SCENE_ROUTE5_ROUTE6_ROUTE7_ROUTE8_GATES",
       "var_value": "0",

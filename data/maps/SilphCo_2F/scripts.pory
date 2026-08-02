@@ -1,0 +1,42 @@
+mapscripts SilphCo_2F_MapScripts {
+    MAP_SCRIPT_ON_LOAD: SilphCo_2F_OnLoad
+}
+
+script SilphCo_2F_OnLoad {
+    call_if_unset(FLAG_SILPH_2F_DOOR_1, EventScript_Close2FDoor1)
+    call_if_unset(FLAG_SILPH_2F_DOOR_2, EventScript_Close2FDoor2)
+    end
+}
+
+script SilphCoScientist_Give_Protoball {
+    showmugshot(MUGSHOT_PROF_ARBOR, MUGSHOT_RIGHT)
+    textcolor(NPC_TEXT_COLOR_MALE)
+    msgbox("Ah you must be Oak! \n"
+    "Great, I could use some help.\p"
+            "We're working on making containment \n"
+            "devices for Pokemon. So far the \l"
+            "science is theoretically sound,\l"
+            "but we need someone to test it\l"
+            "in the field.")
+    closemessage
+    clearmugshot
+    giveitem(ITEM_RED_PROTOBALL, 2)
+    showmugshot(MUGSHOT_PROF_ARBOR, MUGSHOT_RIGHT)
+    textcolor(NPC_TEXT_COLOR_MALE)
+    msgbox("These are PROTOBALLS. Using the design\n"
+            "of Mr. Fuji's RESEARCH BALLS as a \l"
+            "base we were able to create a \l"
+            "version that allows for Pokemon\l"
+            "to be released into the field \l"
+            "without them running away immediately.\p"
+            "The downside is they only work on \n"
+            "weaker Pokemon for now, but we're\l"
+            "working on improving that.\p"
+            "Go out and catch some Pokemon and \n"
+            "bring them back here for testing.\p"
+            "Any 2 Pokemon will do!")
+    setflag(FLAG_QUEST_REDPROTOBALL_ACTIVE)
+    releaseall
+    end
+    
+}

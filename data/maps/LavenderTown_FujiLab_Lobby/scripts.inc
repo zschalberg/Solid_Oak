@@ -118,9 +118,11 @@ FujiLab_EventScript_InteractRoomMon::
 	fadescreenswapbuffers FADE_TO_BLACK
 	special FujiLab_Swap
 	special FujiLab_InitRoomObjects
+	fadescreenswapbuffers FADE_FROM_BLACK
+	compare VAR_RESULT, 2
+	goto_if_eq FujiLab_EventScript_MissingBall
 	removeobject VAR_LAST_TALKED
 	addobject VAR_LAST_TALKED
-	fadescreenswapbuffers FADE_FROM_BLACK
 	playse SE_PC_LOGIN
 	msgbox FujiLab_Text_SwapSuccess, MSGBOX_DEFAULT
 	release
@@ -130,13 +132,20 @@ FujiLab_EventScript_DoWithdraw::
 	fadescreenswapbuffers FADE_TO_BLACK
 	special FujiLab_Withdraw
 	special FujiLab_InitRoomObjects
-	removeobject VAR_LAST_TALKED
 	fadescreenswapbuffers FADE_FROM_BLACK
+	compare VAR_RESULT, 2
+	goto_if_eq FujiLab_EventScript_MissingBall
+	removeobject VAR_LAST_TALKED
 	playse SE_PC_LOGIN
 	msgbox FujiLab_Text_WithdrawSuccess, MSGBOX_DEFAULT
 	release
 	end
 
+FujiLab_EventScript_MissingBall::
+	playse SE_FAILURE
+	msgbox FujiLab_Text_MissingBall, MSGBOX_DEFAULT
+	release
+	end
 
 FujiLab_EventScript_EndInteract::
 	release
@@ -156,3 +165,7 @@ FujiLab_Text_SwapSuccess:
 
 FujiLab_Text_WithdrawSuccess:
 	.string "{STR_VAR_1} was added to your party!$"
+
+FujiLab_Text_MissingBall:
+	.string "You need a {STR_VAR_2} in your Bag\n"
+	.string "to withdraw {STR_VAR_1}!$"

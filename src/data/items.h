@@ -416,10 +416,10 @@ const struct ItemInfo gItemsInfo[] =
         .iconPalette = gItemIconPalette_LuxuryBall,
     },
 
-    [ITEM_LEVEL_BALL] =
+    [ITEM_RED_PROTOBALL] =
     {
         .name = ITEM_NAME("Red Protoball"),
-        .price = (I_PRICE >= GEN_7) ? 0 : 300,
+        .price = 0,
         .description = COMPOUND_STRING(
             "A past ball. Works\n"
             "only on Pokémon\n"
@@ -432,10 +432,10 @@ const struct ItemInfo gItemsInfo[] =
         .iconPalette = gItemIconPalette_LevelBall,
     },
 
-    [ITEM_LURE_BALL] =
+    [ITEM_BLU_PROTOBALL] =
     {
         .name = ITEM_NAME("Blu Protoball"),
-        .price = (I_PRICE >= GEN_7) ? 0 : 300,
+        .price = 0,
         .description = COMPOUND_STRING(
             "A past ball. Works\n"
             "only on Pokémon\n"
@@ -464,10 +464,10 @@ const struct ItemInfo gItemsInfo[] =
         .iconPalette = gItemIconPalette_MoonBall,
     },
 
-    [ITEM_FRIEND_BALL] =
+    [ITEM_GRN_PROTOBALL] =
     {
         .name = ITEM_NAME("Grn Protoball"),
-        .price = (I_PRICE >= GEN_7) ? 0 : 300,
+        .price = 0,
         .description = COMPOUND_STRING(
             "A past ball. Works\n"
             "only on Pokémon\n"
@@ -512,10 +512,10 @@ const struct ItemInfo gItemsInfo[] =
         .iconPalette = gItemIconPalette_FastBall,
     },
 
-    [ITEM_HEAVY_BALL] =
+    [ITEM_BLK_PROTOBALL] =
     {
         .name = ITEM_NAME("Blk Protoball"),
-        .price = (I_PRICE >= GEN_7) ? 0 : 300,
+        .price = 0,
         .description = COMPOUND_STRING(
             "A past ball. Works\n"
             "only on Pokémon\n"

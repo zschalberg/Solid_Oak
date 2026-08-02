@@ -20,8 +20,15 @@
 u8 GetBallLevelCap(u16 ballItem);
 u8 GetOriginalBallLevelCap(struct Pokemon *mon);
 bool8 IsReusableBallItem(u16 ballItem);
+u16 GetMonBallItem(struct Pokemon *mon);
+u16 GetBoxMonBallItem(struct BoxPokemon *boxMon);
+bool8 CanFreeMonBall(struct Pokemon *mon);
+bool8 CanFreeBoxMonBall(struct BoxPokemon *boxMon);
 bool8 FreeMonBall(struct Pokemon *mon);
 bool8 FreeBoxMonBall(struct BoxPokemon *boxMon);
+u16 GetClaimableBallItem(u16 requiredBall);
+bool8 TryClaimMonBall(struct Pokemon *mon);
+bool8 TryClaimBoxMonBall(struct BoxPokemon *boxMon);
 void MarkMonBallOccupied(struct Pokemon *mon);
 void GrantBallsOfType(u16 ballItem, u8 quantity);
 void GrantQuestBalls(void);

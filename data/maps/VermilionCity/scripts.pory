@@ -437,6 +437,8 @@ VermilionCity_EventScript_ArborDockScene::
 	closemessage
 	clearmugshot
 	setflag FLAG_HIDE_VERMILION_ARBOR
+	setflag FLAG_QUEST_MRFUJI_RESEARCH_ACTIVE
+	setflag FLAG_QUEST_SILPH_TESTING_ACTIVE
 	releaseall
 	goto VermilionCity_EventScript_ArborDockScene_End
 VermilionCity_EventScript_ArborDockScene_NotReady::

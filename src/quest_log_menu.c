@@ -96,14 +96,34 @@ static void CB2_ReturnToQuestLogFromMap(void);
 
 static const struct Quest sQuests[] = {
     {
-        .name = COMPOUND_STRING("OAK'S PARCEL"),
-        .desc = COMPOUND_STRING("Deliver the parcel from the VIRIDIAN\nCITY POKéMON MART to PROF. OAK in\nPALLET TOWN.\nStatus: {STR_VAR_1}"),
-        .unlockFlag = FLAG_QUEST_1_ACTIVE,
-        .completeFlag = FLAG_QUEST_1_COMPLETED,
-        .itemId = ITEM_OAKS_PARCEL,
+        .name = COMPOUND_STRING("FUJI'S RESEARCH"),
+        .desc = COMPOUND_STRING("Meet Mr. Fuji at his lab in LAVENDER\nTOWN.\nStatus: {STR_VAR_1}"),
+        .unlockFlag = FLAG_QUEST_MRFUJI_RESEARCH_ACTIVE,
+        .completeFlag = FLAG_QUEST_MRFUJI_RESEARCH_COMPLETED,
+        .itemId = ITEM_RESEARCH_BALL,
         .isPokemonIcon = FALSE,
         .group = QUEST_GROUP_MAIN,
-        .mapsec = MAPSEC_PALLET_TOWN
+        .mapsec = MAPSEC_LAVENDER_TOWN
+    },
+    {
+        .name = COMPOUND_STRING("SILPH TESTING"),
+        .desc = COMPOUND_STRING("Meet PROF. ARBOR's contact at Silph Co.\nin SAFFRON CITY.\nStatus: {STR_VAR_1}"),
+        .unlockFlag = FLAG_QUEST_SILPH_TESTING_ACTIVE,
+        .completeFlag = FLAG_QUEST_SILPH_TESTING_COMPLETED,
+        .itemId = ITEM_RESEARCH_BALL,
+        .isPokemonIcon = FALSE,
+        .group = QUEST_GROUP_MAIN,
+        .mapsec = MAPSEC_SAFFRON_CITY
+    },
+    {
+        .name = COMPOUND_STRING("PROTOBALL TEST"),
+        .desc = COMPOUND_STRING("Catch any 2 Pokemon and bring them\nback to Silph for testing.\nStatus: {STR_VAR_1}"),
+        .unlockFlag = FLAG_QUEST_REDPROTOBALL_ACTIVE,
+        .completeFlag = FLAG_QUEST_REDPROTOBALL_COMPLETED,
+        .itemId = ITEM_RED_PROTOBALL,
+        .isPokemonIcon = FALSE,
+        .group = QUEST_GROUP_MAIN,
+        .mapsec = MAPSEC_SAFFRON_CITY
     },
     {
         .name = COMPOUND_STRING("KRAB FISHING"),
@@ -114,16 +134,6 @@ static const struct Quest sQuests[] = {
         .isPokemonIcon = TRUE,
         .group = QUEST_GROUP_RESEARCH,
         .mapsec = MAPSEC_FUCHSIA_CITY
-    },
-    {
-        .name = COMPOUND_STRING("POKéDEX COMPLETION"),
-        .desc = COMPOUND_STRING("Help PROF. OAK compile data on all\nPOKéMON in the KANTO region.\nStatus: {STR_VAR_1}"),
-        .unlockFlag = FLAG_QUEST_2_ACTIVE,
-        .completeFlag = FLAG_QUEST_2_COMPLETED,
-        .itemId = ITEM_TOWN_MAP,
-        .isPokemonIcon = FALSE,
-        .group = QUEST_GROUP_RESEARCH,
-        .mapsec = MAPSEC_PALLET_TOWN
     },
     {
         .name = COMPOUND_STRING("PEWTER GYM CHALLENGE"),
@@ -155,16 +165,7 @@ static const struct Quest sQuests[] = {
         .group = QUEST_GROUP_MAIN,
         .mapsec = MAPSEC_INDIGO_PLATEAU
     },
-    {
-        .name = COMPOUND_STRING("DUMMY SIDE QUEST"),
-        .desc = COMPOUND_STRING("This is a test side quest. Talk to the\nNES console in your bedroom to toggle\nits status!\nStatus: {STR_VAR_1}"),
-        .unlockFlag = FLAG_QUEST_6_ACTIVE,
-        .completeFlag = FLAG_QUEST_6_COMPLETED,
-        .itemId = ITEM_POKE_BALL,
-        .isPokemonIcon = FALSE,
-        .group = QUEST_GROUP_SIDE,
-        .mapsec = MAPSEC_PALLET_TOWN
-    },
+    
     {
         .name = COMPOUND_STRING("GENGAR EVOLUTION"),
         .desc = COMPOUND_STRING("Study the evolution of GENGAR and\ndocument its ghostly capabilities.\nStatus: {STR_VAR_1}"),

@@ -1012,19 +1012,19 @@
     {
       "id": "LAYOUT_SILPH_CO_1F",
       "name": "SilphCo_1F_Layout",
-      "width": 36,
+      "width": 22,
       "height": 22,
       "border_width": 2,
       "border_height": 2,
       "primary_tileset": "gTileset_Building",
-      "secondary_tileset": "gTileset_SilphCo",
+      "secondary_tileset": "gTileset_GenericBuilding2",
       "border_filepath": "data/layouts/SilphCo_1F/border.bin",
       "blockdata_filepath": "data/layouts/SilphCo_1F/map.bin"
     },
     {
       "id": "LAYOUT_SILPH_CO_2F",
       "name": "SilphCo_2F_Layout",
-      "width": 36,
+      "width": 22,
       "height": 22,
       "border_width": 2,
       "border_height": 2,
@@ -1036,7 +1036,7 @@
     {
       "id": "LAYOUT_SILPH_CO_3F",
       "name": "SilphCo_3F_Layout",
-      "width": 36,
+      "width": 22,
       "height": 22,
       "border_width": 2,
       "border_height": 2,

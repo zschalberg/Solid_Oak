@@ -53,15 +53,15 @@
       "dest_warp_id": "0"
     },
     {
-      "x": 31,
+      "x": 18,
       "y": 2,
       "elevation": 3,
       "dest_map": "MAP_SILPH_CO_2F",
-      "dest_warp_id": "3"
+      "dest_warp_id": "1"
     },
     {
-      "x": 22,
-      "y": 3,
+      "x": 13,
+      "y": 0,
       "elevation": 0,
       "dest_map": "MAP_SILPH_CO_ELEVATOR",
       "dest_warp_id": "0"
@@ -71,7 +71,7 @@
   "bg_events": [
     {
       "type": "sign",
-      "x": 30,
+      "x": 17,
       "y": 1,
       "elevation": 0,
       "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",

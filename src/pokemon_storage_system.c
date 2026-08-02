@@ -108,6 +108,8 @@ enum
     MSG_RESEARCH_MON_FLED,
     MSG_RECOVERED_RESEARCH_BALL,
     MSG_RESEARCH_BALL_LOST_BAG_FULL,
+    MSG_NEED_BALL_TO_WITHDRAW,
+    MSG_BALL_BAG_FULL_DEPOSIT,
 };
 
 enum
@@ -120,6 +122,7 @@ enum
     MSG_FMT_RELEASE_MON_2,
     MSG_FMT_RELEASE_MON_3,
     MSG_FMT_ITEM_NAME,
+    MSG_FMT_MON_AND_BALL_NAME,
 };
 
 enum
@@ -945,6 +948,8 @@ static const u8 sText_YoureHoldingAPkmn[] = _("You're holding a POKéMON!");
 static const u8 sText_ResearchMonFled[] = _("{DYNAMIC 0x00} fled into the wild!");
 static const u8 sText_RecoveredResearchBallPC[] = _("{PLAYER} recovered the\nResearch Ball!");
 static const u8 sText_ResearchBallLostBagFullPC[] = _("{PLAYER} couldn't keep the Research\nBall because the Bag was full!");
+static const u8 sText_NeedBallToWithdraw[] = _("You need a {DYNAMIC 0x01} to withdraw\n{DYNAMIC 0x00}!");
+static const u8 sText_BallBagFullDeposit[] = _("Your Bag's Ball pocket is full!\nClear space before depositing.");
 
 struct {
     const u8 *text;
@@ -1147,6 +1152,8 @@ static const struct StorageMessage sMessages[] = {
     [MSG_ITEM_IS_HELD]         = {sText_ItemIsNowHeld,           MSG_FMT_ITEM_NAME},
     [MSG_CHANGED_TO_ITEM]      = {sText_ChangedToNewItem,        MSG_FMT_ITEM_NAME},
     [MSG_CANT_STORE_MAIL]      = {sText_MailCantBeStored,        MSG_FMT_NONE},
+    [MSG_NEED_BALL_TO_WITHDRAW] = {sText_NeedBallToWithdraw, MSG_FMT_MON_AND_BALL_NAME},
+    [MSG_BALL_BAG_FULL_DEPOSIT] = {sText_BallBagFullDeposit, MSG_FMT_NONE},
 };
 
 static const struct WindowTemplate sYesNoWindowTemplate = {
@@ -2708,6 +2715,17 @@ static void Task_WithdrawMon(u8 taskId)
         }
         else
         {
+            struct BoxPokemon *boxMon = GetCursorBoxMon();
+            if (!TryClaimBoxMonBall(boxMon))
+            {
+                PlaySE(SE_FAILURE);
+                u16 ballItem = GetBoxMonBallItem(boxMon);
+                GetBoxMonData(boxMon, MON_DATA_NICKNAME, gStringVar1);
+                CopyItemName(ballItem, gStringVar2);
+                PrintStorageMessage(MSG_NEED_BALL_TO_WITHDRAW);
+                gStorage->state = 1;
+                return;
+            }
             SaveCursorPos();
             InitMonPlaceChange(CHANGE_GRAB);
             gStorage->state = 2;
@@ -4180,6 +4198,10 @@ static void PrintStorageMessage(u8 id)
 
         *txtPtr = EOS;
         DynamicPlaceholderTextUtil_SetPlaceholderPtr(0, gStorage->itemName);
+        break;
+    case MSG_FMT_MON_AND_BALL_NAME:
+        DynamicPlaceholderTextUtil_SetPlaceholderPtr(0, gStringVar1);
+        DynamicPlaceholderTextUtil_SetPlaceholderPtr(1, gStringVar2);
         break;
     }
 
@@ -6272,6 +6294,8 @@ static void SetPlacedMonData(u8 boxId, u8 position)
 
     if (boxId == TOTAL_BOXES_COUNT)
     {
+        if (sMovingMonOrigBoxId != TOTAL_BOXES_COUNT)
+            TryClaimMonBall(&gStorage->movingMon);
         gPlayerParty[position] = gStorage->movingMon;
         struct Pokemon *mon = &gPlayerParty[position];
         if (mon == GetFirstLiveMon())
@@ -6646,9 +6670,34 @@ static bool8 CanPlaceMon(void)
     if (sIsMonBeingMoved)
     {
         if (sCursorArea == CURSOR_AREA_IN_PARTY && GetMonData(&gPlayerParty[sCursorPosition], MON_DATA_SPECIES) == SPECIES_NONE)
+        {
+            if (sMovingMonOrigBoxId != TOTAL_BOXES_COUNT)
+            {
+                u16 ballItem = GetMonBallItem(&gStorage->movingMon);
+                if (GetMonData(&gStorage->movingMon, MON_DATA_BALL_FREED) && IsReusableBallItem(ballItem) && GetClaimableBallItem(ballItem) == ITEM_NONE)
+                {
+                    PlaySE(SE_FAILURE);
+                    GetMonData(&gStorage->movingMon, MON_DATA_NICKNAME, gStringVar1);
+                    CopyItemName(ballItem, gStringVar2);
+                    PrintStorageMessage(MSG_NEED_BALL_TO_WITHDRAW);
+                    return FALSE;
+                }
+            }
             return TRUE;
+        }
         else if (sCursorArea == CURSOR_AREA_IN_BOX && GetBoxMonDataAt(StorageGetCurrentBox(), sCursorPosition, MON_DATA_SPECIES_OR_EGG) == SPECIES_NONE)
+        {
+            if (sMovingMonOrigBoxId == TOTAL_BOXES_COUNT)
+            {
+                if (!CanFreeMonBall(&gStorage->movingMon))
+                {
+                    PlaySE(SE_FAILURE);
+                    PrintStorageMessage(MSG_BALL_BAG_FULL_DEPOSIT);
+                    return FALSE;
+                }
+            }
             return TRUE;
+        }
         else
             return FALSE;
     }
@@ -6659,10 +6708,25 @@ static bool8 CanShiftMon(void)
 {
     if (sIsMonBeingMoved)
     {
-        if (sCursorArea == CURSOR_AREA_IN_PARTY && CountPartyAliveNonEggMonsExcept(sCursorPosition) == 0)
+        if (sCursorArea == CURSOR_AREA_IN_PARTY)
         {
-            if (gStorage->displayMonIsEgg || GetMonData(&gStorage->movingMon, MON_DATA_HP) == 0)
-                return FALSE;
+            if (CountPartyAliveNonEggMonsExcept(sCursorPosition) == 0)
+            {
+                if (gStorage->displayMonIsEgg || GetMonData(&gStorage->movingMon, MON_DATA_HP) == 0)
+                    return FALSE;
+            }
+            if (sMovingMonOrigBoxId != TOTAL_BOXES_COUNT)
+            {
+                u16 ballItem = GetMonBallItem(&gStorage->movingMon);
+                if (GetMonData(&gStorage->movingMon, MON_DATA_BALL_FREED) && IsReusableBallItem(ballItem) && GetClaimableBallItem(ballItem) == ITEM_NONE)
+                {
+                    PlaySE(SE_FAILURE);
+                    GetMonData(&gStorage->movingMon, MON_DATA_NICKNAME, gStringVar1);
+                    CopyItemName(ballItem, gStringVar2);
+                    PrintStorageMessage(MSG_NEED_BALL_TO_WITHDRAW);
+                    return FALSE;
+                }
+            }
         }
         return TRUE;
     }

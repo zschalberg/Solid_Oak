@@ -8,6 +8,7 @@
 #include "string_util.h"
 #include "strings.h"
 #include "text.h"
+#include "random.h"
 
 #define DEFAULT_MAX_SIZE 0 // was 0x8100 in Ruby/Sapphire, 0x8000 in Emerald
 
@@ -369,5 +370,126 @@ u32 GetPokedexSizeMultiplier(u8 category)
         return 1000;
     return sBigMonSizeTable[category].unk0;
 }
+
+static void GetHashBoundsForSizeVal(u16 val, u16 currentHash, u16 *minHash, u16 *maxHash)
+{
+    if (val <= 15)
+    {
+        *minHash = sBigMonSizeTable[val].unk4;
+        *maxHash = (val < 15) ? (sBigMonSizeTable[val + 1].unk4 - 1) : 65535;
+    }
+    else if (val <= 100)
+    {
+        if (val == 100)
+        {
+            *minHash = 64879; // Top 1% (99.0% - 100.0%)
+            *maxHash = 65535;
+        }
+        else if (val == 0)
+        {
+            *minHash = 0;
+            *maxHash = 655;
+        }
+        else
+        {
+            *minHash = (u32)(val - 1) * 65535 / 100;
+            *maxHash = (u32)val * 65535 / 100;
+        }
+    }
+    else
+    {
+        *minHash = currentHash;
+        *maxHash = currentHash;
+    }
+}
+
+
+void SetMonSizeTierOrPercentile(struct Pokemon *mon, u16 heightVal, u16 weightVal)
+{
+    u16 species = GetMonData(mon, MON_DATA_SPECIES);
+    u32 oldPersonality = GetMonData(mon, MON_DATA_PERSONALITY);
+    u16 oldHeightHash = oldPersonality & 0xFFFF;
+    u16 oldWeightHash = (oldPersonality >> 16) & 0xFFFF;
+    u16 minH, maxH, minW, maxW;
+    u32 bestPID, i;
+    u8 oldNature, oldGender, oldAbility;
+    bool8 oldShiny;
+    u32 oldMod24;
+
+    if (species == SPECIES_NONE)
+        return;
+
+    if (heightVal > 100 && weightVal > 100)
+        return; // nothing to change
+
+    GetHashBoundsForSizeVal(heightVal, oldHeightHash, &minH, &maxH);
+    GetHashBoundsForSizeVal(weightVal, oldWeightHash, &minW, &maxW);
+
+    oldNature = GetNature(mon);
+    oldGender = GetMonGender(mon);
+    oldAbility = GetMonData(mon, MON_DATA_ABILITY_NUM);
+    oldShiny = IsMonShiny(mon);
+    oldMod24 = oldPersonality % 24;
+
+    bestPID = 0;
+
+    // Pass 1: Try to preserve mod24, nature, gender, ability, and shininess
+    for (i = 0; i < 1000; i++)
+    {
+        u16 h = minH + (Random() % (maxH - minH + 1));
+        u16 w = minW + (Random() % (maxW - minW + 1));
+        u32 candidate = ((u32)w << 16) | h;
+
+        if ((candidate % 24) == oldMod24
+         && GetNatureFromPersonality(candidate) == oldNature
+         && GetGenderFromSpeciesAndPersonality(species, candidate) == oldGender
+         && (u8)(candidate & 1) == oldAbility)
+        {
+            u32 otId = GetMonData(mon, MON_DATA_OT_ID);
+            u32 shinyVal = GET_SHINY_VALUE(otId, candidate);
+            bool8 candidateShiny = (shinyVal < SHINY_ODDS);
+
+            if (candidateShiny == oldShiny)
+            {
+                bestPID = candidate;
+                break;
+            }
+        }
+    }
+
+    // Pass 2: Fallback to preserving mod24 and size bounds
+    if (bestPID == 0)
+    {
+        for (i = 0; i < 1000; i++)
+        {
+            u16 h = minH + (Random() % (maxH - minH + 1));
+            u16 w = minW + (Random() % (maxW - minW + 1));
+            u32 candidate = ((u32)w << 16) | h;
+
+            if ((candidate % 24) == oldMod24)
+            {
+                bestPID = candidate;
+                break;
+            }
+        }
+    }
+
+    // Pass 3: Ultimate fallback guaranteeing exact mod24 alignment
+    if (bestPID == 0)
+    {
+        u16 h = maxH;
+        u16 w = maxW;
+        u32 candidate = ((u32)w << 16) | h;
+        u32 rem = candidate % 24;
+        s32 diff = (s32)oldMod24 - (s32)rem;
+        if (diff < 0) diff += 24;
+        candidate += diff;
+        bestPID = candidate;
+    }
+
+    SetMonPersonalitySafe(mon, bestPID);
+}
+
+
 
 

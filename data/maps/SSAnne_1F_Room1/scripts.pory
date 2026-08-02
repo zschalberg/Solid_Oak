@@ -16,6 +16,18 @@ script SSAnne_1F_Room1_EventScript_Journal {
     end
 }
 
+script SSAnne_1F_Room1_EventScript_DebugBall {
+    giveitem(ITEM_POKE_BALL, 5)
+	giveitem(ITEM_RED_PROTOBALL, 5)
+	giveitem(ITEM_BLU_PROTOBALL, 5)
+	giveitem(ITEM_GRN_PROTOBALL, 5)
+	giveitem(ITEM_BLK_PROTOBALL, 5)
+	giveitem(ITEM_CHERISH_BALL, 5)
+    giveitem(ITEM_IV_SCANNER, 1)
+    giveitem(ITEM_SIZE_CHARM, 1)
+    giveitem(ITEM_COURIER_WHISTLE, 1)
+}
+
 script SSAnne_1F_Room1_EventScript_DoorTrigger {
     lockall
     if (flag(FLAG_SS_ANNE_ROOM1_AGATHA_SCENE_COMPLETED)) {

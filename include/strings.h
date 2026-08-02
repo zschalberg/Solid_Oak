@@ -68,6 +68,7 @@ extern const u8 gText_PickOKExit[];
 extern const u8 gText_TossHowManyVar1s[];
 extern const u8 gText_ThrewAwayVar2Var1s[];
 extern const u8 gText_ConfirmTossItems[];
+extern const u8 gText_TooImportantToToss[];
 extern const u8 gText_BerryPouch[];
 extern const u8 gText_Bag[];
 extern const u8 gText_Retire[];

@@ -14,6 +14,8 @@
 #include "fuji_lab.h"
 #include "ball_economy.h"
 
+#include "item.h"
+
 u8 gFujiRoomMonNames[6][20];
 
 u8 GetCurrentFujiRoomBoxId(void)
@@ -88,19 +90,28 @@ void FujiLab_Withdraw(void)
     struct BoxPokemon *boxMon = GetBoxedMonPtr(boxId, slotId);
     u8 partyCount = CalculatePlayerPartyCount();
 
-    if (partyCount < PARTY_SIZE)
+    if (partyCount >= PARTY_SIZE)
     {
-        BoxMonToMon(boxMon, &gPlayerParty[partyCount]);
-        ZeroBoxMonData(boxMon);
-        CompactPartySlots();
-        CalculatePlayerPartyCount();
-        UpdateFollowingPokemon();
-        gSpecialVar_Result = TRUE;
+        gSpecialVar_Result = 1; // Party full
+        return;
     }
-    else
+
+    u16 ballItem = GetBoxMonBallItem(boxMon);
+    GetBoxMonData(boxMon, MON_DATA_NICKNAME, gStringVar1);
+    CopyItemName(ballItem, gStringVar2);
+
+    if (!TryClaimBoxMonBall(boxMon))
     {
-        gSpecialVar_Result = FALSE;
+        gSpecialVar_Result = 2; // Missing ball
+        return;
     }
+
+    BoxMonToMon(boxMon, &gPlayerParty[partyCount]);
+    ZeroBoxMonData(boxMon);
+    CompactPartySlots();
+    CalculatePlayerPartyCount();
+    UpdateFollowingPokemon();
+    gSpecialVar_Result = 0; // Success
 }
 
 
@@ -114,7 +125,14 @@ void FujiLab_Deposit(void)
 
     if (partySlot >= CalculatePlayerPartyCount())
     {
-        gSpecialVar_Result = FALSE;
+        gSpecialVar_Result = 1;
+        return;
+    }
+
+    struct Pokemon *partyMon = &gPlayerParty[partySlot];
+    if (!CanFreeMonBall(partyMon))
+    {
+        gSpecialVar_Result = 3; // Bag full
         return;
     }
 
@@ -127,19 +145,18 @@ void FujiLab_Deposit(void)
                 struct BoxPokemon *destMon = GetBoxedMonPtr(targetBox, boxPos);
                 if (GetBoxMonData(destMon, MON_DATA_SPECIES) == SPECIES_NONE)
                 {
-                    struct Pokemon *partyMon = &gPlayerParty[partySlot];
                     FreeMonBall(partyMon); // Ball economy: sending to storage frees the ball.
                     *destMon = partyMon->box;
                     ZeroMonData(partyMon);
                     CompactPartySlots();
                     CalculatePlayerPartyCount();
                     UpdateFollowingPokemon();
-                    gSpecialVar_Result = TRUE;
+                    gSpecialVar_Result = 0;
                     return;
                 }
             }
         }
-        gSpecialVar_Result = FALSE;
+        gSpecialVar_Result = 1;
     }
     else
     {
@@ -150,19 +167,18 @@ void FujiLab_Deposit(void)
                 struct BoxPokemon *destMon = GetBoxedMonPtr(boxNo, boxPos);
                 if (GetBoxMonData(destMon, MON_DATA_SPECIES) == SPECIES_NONE)
                 {
-                    struct Pokemon *partyMon = &gPlayerParty[partySlot];
                     FreeMonBall(partyMon); // Ball economy: sending to storage frees the ball.
                     *destMon = partyMon->box;
                     ZeroMonData(partyMon);
                     CompactPartySlots();
                     CalculatePlayerPartyCount();
                     UpdateFollowingPokemon();
-                    gSpecialVar_Result = TRUE;
+                    gSpecialVar_Result = 0;
                     return;
                 }
             }
         }
-        gSpecialVar_Result = FALSE;
+        gSpecialVar_Result = 1;
     }
 }
 
@@ -173,13 +189,23 @@ void FujiLab_Swap(void)
     u8 slotId = gSpecialVar_0x8006;
     struct BoxPokemon *boxMon = GetBoxedMonPtr(boxId, slotId);
     struct Pokemon *partyMon = &gPlayerParty[partySlot];
-    struct Pokemon tempPartyMon = *partyMon;
 
+    u16 ballItem = GetBoxMonBallItem(boxMon);
+    GetBoxMonData(boxMon, MON_DATA_NICKNAME, gStringVar1);
+    CopyItemName(ballItem, gStringVar2);
+
+    if (!TryClaimBoxMonBall(boxMon))
+    {
+        gSpecialVar_Result = 2; // Missing ball
+        return;
+    }
+
+    struct Pokemon tempPartyMon = *partyMon;
     FreeMonBall(&tempPartyMon); // Ball economy: the swapped-out party mon frees its ball.
     BoxMonToMon(boxMon, partyMon);
     *boxMon = tempPartyMon.box;
     UpdateFollowingPokemon();
-    gSpecialVar_Result = TRUE;
+    gSpecialVar_Result = 0; // Success
 }
 
 void SpawnCourierBird(void)

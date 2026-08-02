@@ -134,8 +134,8 @@ script FuchsiaCity_EventScript_FujiTurnIn {
            "The point is to give them\n"
            "the choice.")
     closemessage
-    msgbox("Come inside for a moment.\n"
-           "There's two people you should\l"
+    msgbox("Come inside for a moment.\p"
+           "There's two people you should\n"
            "meet before you head back out.")
     closemessage
     applymovement(LOCALID_FUCHSIA_FUJI, FuchsiaCity_Movement_FujiToDoor)

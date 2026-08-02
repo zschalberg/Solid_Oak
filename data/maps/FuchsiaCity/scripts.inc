@@ -614,8 +614,8 @@ FuchsiaCity_EventScript_FujiTurnIn_Text_5:
 
 FuchsiaCity_EventScript_FujiTurnIn_Text_6:
 # 137 "data/maps/FuchsiaCity/scripts.pory"
-	.string "Come inside for a moment.\n"
-	.string "There's two people you should\l"
+	.string "Come inside for a moment.\p"
+	.string "There's two people you should\n"
 	.string "meet before you head back out.$"
 
 FuchsiaCity_EventScript_Youngster_Text_0:

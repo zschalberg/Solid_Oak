@@ -31,6 +31,7 @@
 #include "trade_scene.h"
 #include "trade.h"
 #include "util.h"
+#include "ball_economy.h"
 #include "constants/easy_chat.h"
 #include "constants/items.h"
 #include "constants/moves.h"
@@ -1076,11 +1077,27 @@ static void TradeMons(u8 playerPartyIdx, u8 partnerPartyIdx)
     struct Pokemon *partnerMon = &gEnemyParty[partnerPartyIdx];
     u16 partnerMail = GetMonData(partnerMon, MON_DATA_MAIL);
 
+    u16 sentBall = GetMonData(playerMon, MON_DATA_POKEBALL);
+    if (sentBall == ITEM_NONE || sentBall == 0)
+        sentBall = ITEM_RED_PROTOBALL;
+
     // The mail attached to the sent Pokemon no longer exists in your file.
     if (playerMail != MAIL_NONE)
         ClearMailStruct(&gSaveBlock1Ptr->mail[playerMail]);
 
+    if (sTradeAnim != NULL && sTradeAnim->isLinkTrade)
+    {
+        FreeMonBall(playerMon);
+    }
+
     SWAP(*playerMon, *partnerMon, sTradeAnim->tempMon);
+
+    if (sTradeAnim != NULL && !sTradeAnim->isLinkTrade)
+    {
+        SetMonData(playerMon, MON_DATA_POKEBALL, &sentBall);
+        u32 freed = FALSE;
+        SetMonData(playerMon, MON_DATA_BALL_FREED, &freed);
+    }
 
     // By default, a Pokemon received from a trade will have 70 Friendship.
     // Eggs use Friendship to track egg cycles, so don't set this on Eggs.

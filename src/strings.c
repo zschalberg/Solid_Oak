@@ -49,6 +49,7 @@ const u8 gText_Var1CantBeHeld[] = _("The {STR_VAR_1} can't be held.");
 const u8 gText_TossHowManyVar1s[] = _("Toss out how many\n{STR_VAR_1}(s)?");
 const u8 gText_ThrewAwayVar2Var1s[] = _("Threw away {STR_VAR_2}\n{STR_VAR_1}(s).");
 const u8 gText_ConfirmTossItems[] = _("Throw away {STR_VAR_2} of\nthis item?");
+const u8 gText_TooImportantToToss[] = _("That's much too important\nto toss out!");
 const u8 gText_OakForbidsUseOfItemHere[] = _("OAK: {PLAYER}!\nThis isn't the time to use that!{PAUSE_UNTIL_PRESS}");
 const u8 gText_TMCase[] = _("TM CASE");
 const u8 gText_Close[] = _("CLOSE");

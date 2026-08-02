@@ -101,7 +101,7 @@ script FuchsiaCity_Reserve_EventScript_Intro {
     clearmugshot
     // Ball economy: first Protoball grant, immediately after the Krabby quest.
     // See include/ball_economy.h for the finite/reusable ball design.
-    giveitem(ITEM_LEVEL_BALL, 2)
+    giveitem(ITEM_RED_PROTOBALL, 2)
     setflag(FLAG_HIDE_RESERVE_FUJI)
     setflag(FLAG_HIDE_RESERVE_AGATHA)
     setvar(VAR_SCENE_FUCHSIA_RESERVE, 1)

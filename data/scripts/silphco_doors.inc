@@ -9,19 +9,19 @@ EventScript_DoorUnlocked::
 	end
 
 EventScript_Close2FDoor1::
-	setmetatile 5, 8, METATILE_SilphCo_HorizontalBarrier_TopLeft, 1
-	setmetatile 6, 8, METATILE_SilphCo_HorizontalBarrier_TopRight, 1
-	setmetatile 5, 9, METATILE_SilphCo_HorizontalBarrier_BottomLeft, 1
-	setmetatile 6, 9, METATILE_SilphCo_HorizontalBarrier_BottomRight, 1
-	setmetatile 6, 10, METATILE_SilphCo_Floor_ShadeFull, 0
+	setmetatile 10, 11, METATILE_SilphCo_HideoutBarrier_TopLeft_Floor, 1
+	setmetatile 11, 11, METATILE_SilphCo_HideoutBarrier_TopLeft_Floor, 1
+	setmetatile 12, 11, METATILE_SilphCo_HideoutBarrier_TopRight_Floor, 1
+	setmetatile 10, 12, METATILE_SilphCo_HideoutBarrier_BottomLeft, 1
+	setmetatile 11, 12, METATILE_SilphCo_HideoutBarrier_BottomLeft, 1
+	setmetatile 12, 12, METATILE_SilphCo_HideoutBarrier_BottomRight, 1
+	setmetatile 10, 13, METATILE_SilphCo_HideoutFloor_ShadeFull, 0
+	setmetatile 11, 13, METATILE_SilphCo_HideoutFloor_ShadeFull, 0
+	setmetatile 12, 13, METATILE_SilphCo_HideoutFloor_ShadeFull, 0
 	return
 
 EventScript_Close2FDoor2::
-	setmetatile 5, 15, METATILE_SilphCo_HorizontalBarrier_TopLeft, 1
-	setmetatile 6, 15, METATILE_SilphCo_HorizontalBarrier_TopRight, 1
-	setmetatile 5, 16, METATILE_SilphCo_HorizontalBarrier_BottomLeft, 1
-	setmetatile 6, 16, METATILE_SilphCo_HorizontalBarrier_BottomRight, 1
-	setmetatile 6, 17, METATILE_SilphCo_Floor_ShadeFull, 0
+	
 	return
 
 EventScript_Close3FDoor1::

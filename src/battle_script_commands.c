@@ -11025,10 +11025,10 @@ static void Cmd_handleballthrow(void)
     {
         gBallToDisplay = gLastThrownBall = gLastUsedItem;
         // Check protoball level caps
-        if ((gLastUsedItem == ITEM_LEVEL_BALL && gBattleMons[gBattlerTarget].level > 10)
-            || (gLastUsedItem == ITEM_LURE_BALL && gBattleMons[gBattlerTarget].level > 20)
-            || (gLastUsedItem == ITEM_FRIEND_BALL && gBattleMons[gBattlerTarget].level > 30)
-            || (gLastUsedItem == ITEM_HEAVY_BALL && gBattleMons[gBattlerTarget].level > 40))
+        if ((gLastUsedItem == ITEM_RED_PROTOBALL && gBattleMons[gBattlerTarget].level > 10)
+            || (gLastUsedItem == ITEM_BLU_PROTOBALL && gBattleMons[gBattlerTarget].level > 20)
+            || (gLastUsedItem == ITEM_GRN_PROTOBALL && gBattleMons[gBattlerTarget].level > 30)
+            || (gLastUsedItem == ITEM_BLK_PROTOBALL && gBattleMons[gBattlerTarget].level > 40))
         {
             // Ball economy: the throw failed outright (over the level cap), so
             // give the reusable ball back to the bag instead of losing it.

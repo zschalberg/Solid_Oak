@@ -1314,6 +1314,20 @@ static u16 CalculateBoxMonChecksumReencrypt(struct BoxPokemon *boxMon)
     return checksum;
 }
 
+void SetMonPersonalitySafe(struct Pokemon *mon, u32 newPersonality)
+{
+    struct BoxPokemon *boxMon = &mon->box;
+    u32 oldPersonality = boxMon->personality;
+
+    if (oldPersonality == newPersonality)
+        return;
+
+    CalculateBoxMonChecksumDecrypt(boxMon);
+    boxMon->personality = newPersonality;
+    boxMon->checksum = CalculateBoxMonChecksumReencrypt(boxMon);
+}
+
+
 void CalculateMonStats(struct Pokemon *mon)
 {
     s32 oldMaxHP = GetMonData(mon, MON_DATA_MAX_HP);

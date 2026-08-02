@@ -1761,6 +1761,11 @@ static void ItemMenu_Toss(u8 taskId)
     RemoveContextWindow();
     BagMenu_RemoveWindow(ITEMWIN_SELECTIONTEXT);
     PutWindowTilemap(WIN_ITEM_LIST);
+    if (GetItemImportance(gSpecialVar_ItemId))
+    {
+        DisplayItemMessage(taskId, FONT_NORMAL, gText_TooImportantToToss, HandleErrorMessage);
+        return;
+    }
     tItemCount = 1;
     if (tQuantity == 1)
     {

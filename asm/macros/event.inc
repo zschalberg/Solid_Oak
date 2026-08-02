@@ -2064,6 +2064,51 @@
 	special ClearPendingBattleRules
 	.endm
 
+	@ Sets height and weight size tiers (0-15) or percentiles (0-100) for the wild mon in gEnemyParty[0].
+	@ Pass > 100 (e.g. 255) to leave height or weight unchanged.
+	.macro setwildsize heightVal:req weightVal:req
+	setvar VAR_0x8004, \heightVal
+	setvar VAR_0x8005, \weightVal
+	callnative Script_SetWildMonSizeTier
+	.endm
+
+	@ Gets the number of times a specific species has been seen/observed (0-255). Output stored in VAR_RESULT.
+	.macro getspeciesseencount species:req
+	setvar VAR_0x8004, \species
+	special GetSpeciesSeenCount
+	.endm
+
+	@ Gets the number of times a specific species has been caught (0-255). Output stored in VAR_RESULT.
+	.macro getspeciescaughtcount species:req
+	setvar VAR_0x8004, \species
+	special GetSpeciesCaughtCount
+	.endm
+
+	@ Enables Water Battle mode for the next battle.
+	.macro setwaterbattle
+	setflag B_FLAG_WATER_BATTLE
+	.endm
+
+	@ Enables Underwater Battle mode for the next battle.
+	.macro setunderwaterbattle
+	setflag B_FLAG_UNDERWATER_BATTLE
+	.endm
+
+	@ Enables Sky Battle mode for the next battle.
+	.macro setskybattle
+	setflag B_FLAG_SKY_BATTLE
+	.endm
+
+	@ Sets a pre-battle starting status / terrain / room / hazard for the next battle.
+	.macro setstartingstatus status:req
+	setvar VAR_0x8004, \status
+	special SetStartingStatus
+	.endm
+
+
+
+
+
 	@ Set up a totem boost for the next battle.
 	@ 'battler' is the position of the mon you want to gain a boost. see B_POSITION_xx in include/constants/battle.h.
 	@ The rest of the arguments are the stat change values to each stat.

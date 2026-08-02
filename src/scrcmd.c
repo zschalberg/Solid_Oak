@@ -21,6 +21,7 @@
 #include "field_fadetransition.h"
 #include "field_message_box.h"
 #include "mugshot.h"
+#include "pokemon_size_record.h"
 #include "field_move.h"
 #include "field_player_avatar.h"
 #include "field_screen_effect.h"
@@ -3379,4 +3380,23 @@ bool8 ScrCmd_clearmugshot(struct ScriptContext *ctx)
     ClearMugshot();
     return FALSE;
 }
+
+void Script_SetWildMonSizeTier(struct ScriptContext *ctx)
+{
+    u16 heightVal = gSpecialVar_0x8004;
+    u16 weightVal = gSpecialVar_0x8005;
+
+    if (GetMonData(&gEnemyParty[0], MON_DATA_SPECIES) != SPECIES_NONE)
+    {
+        SetMonSizeTierOrPercentile(&gEnemyParty[0], heightVal, weightVal);
+    }
+}
+
+void Script_SetStartingStatus(struct ScriptContext *ctx)
+{
+    u16 status = gSpecialVar_0x8004;
+    SetStartingStatus((enum StartingStatus)status);
+}
+
+
 

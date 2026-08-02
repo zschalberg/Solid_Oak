@@ -20,6 +20,7 @@
 #include "constants/item.h"
 #include "constants/items.h"
 #include "constants/maps.h"
+#include "ball_economy.h"
 
 #define DUMMY_PC_BAG_POCKET                 \
 {                                           \
@@ -977,6 +978,8 @@ const u8 *GetItemDescription(enum Item itemId)
 
 u8 GetItemImportance(enum Item itemId)
 {
+    if (IsReusableBallItem(itemId))
+        return 1;
     return gItemsInfo[SanitizeItemId(itemId)].importance;
 }
 

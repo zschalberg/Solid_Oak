@@ -30,32 +30,32 @@ PalletTown_PlayersHouse_2F_EventScript_NES::
 	end
 
 PalletTown_PlayersHouse_2F_EventScript_DoToggleTestQuests::
-	goto_if_set FLAG_QUEST_1_ACTIVE, PalletTown_PlayersHouse_2F_EventScript_ClearTestQuests
-	setflag FLAG_QUEST_1_ACTIVE
-	setflag FLAG_QUEST_1_COMPLETED
-	setflag FLAG_QUEST_2_ACTIVE
+	goto_if_set FLAG_QUEST_MRFUJI_RESEARCH_ACTIVE, PalletTown_PlayersHouse_2F_EventScript_ClearTestQuests
+	setflag FLAG_QUEST_MRFUJI_RESEARCH_ACTIVE
+	setflag FLAG_QUEST_MRFUJI_RESEARCH_COMPLETED
+	setflag FLAG_QUEST_SILPH_TESTING_ACTIVE
 	setflag FLAG_QUEST_3_ACTIVE
 	setflag FLAG_QUEST_4_ACTIVE
 	setflag FLAG_QUEST_4_COMPLETED
-	setflag FLAG_QUEST_6_ACTIVE
+	setflag FLAG_QUEST_REDPROTOBALL_ACTIVE
 	setflag FLAG_QUEST_7_ACTIVE
 	msgbox PalletTown_PlayersHouse_2F_Text_TestQuestsActivated, MSGBOX_DEFAULT
 	releaseall
 	end
 
 PalletTown_PlayersHouse_2F_EventScript_ClearTestQuests::
-	clearflag FLAG_QUEST_1_ACTIVE
-	clearflag FLAG_QUEST_1_COMPLETED
-	clearflag FLAG_QUEST_2_ACTIVE
-	clearflag FLAG_QUEST_2_COMPLETED
+	clearflag FLAG_QUEST_MRFUJI_RESEARCH_ACTIVE
+	clearflag FLAG_QUEST_MRFUJI_RESEARCH_COMPLETED
+	clearflag FLAG_QUEST_SILPH_TESTING_ACTIVE
+	clearflag FLAG_QUEST_SILPH_TESTING_COMPLETED
 	clearflag FLAG_QUEST_3_ACTIVE
 	clearflag FLAG_QUEST_3_COMPLETED
 	clearflag FLAG_QUEST_4_ACTIVE
 	clearflag FLAG_QUEST_4_COMPLETED
 	clearflag FLAG_QUEST_5_ACTIVE
 	clearflag FLAG_QUEST_5_COMPLETED
-	clearflag FLAG_QUEST_6_ACTIVE
-	clearflag FLAG_QUEST_6_COMPLETED
+	clearflag FLAG_QUEST_REDPROTOBALL_ACTIVE
+	clearflag FLAG_QUEST_REDPROTOBALL_COMPLETED
 	clearflag FLAG_QUEST_7_ACTIVE
 	clearflag FLAG_QUEST_7_COMPLETED
 	msgbox PalletTown_PlayersHouse_2F_Text_TestQuestsCleared, MSGBOX_DEFAULT

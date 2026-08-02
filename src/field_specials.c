@@ -24,6 +24,7 @@
 #include "link.h"
 #include "list_menu.h"
 #include "load_save.h"
+#include "pokemon_size_record.h"
 #include "mail.h"
 #include "malloc.h"
 #include "menu.h"
@@ -4018,3 +4019,47 @@ u16 CraftMedicine(void)
     }
     return FALSE;
 }
+
+void SetWildMonSizeTier(void)
+{
+    u16 heightVal = gSpecialVar_0x8004;
+    u16 weightVal = gSpecialVar_0x8005;
+
+    if (GetMonData(&gEnemyParty[0], MON_DATA_SPECIES) != SPECIES_NONE)
+    {
+        SetMonSizeTierOrPercentile(&gEnemyParty[0], heightVal, weightVal);
+    }
+}
+
+// "After" tile overrides for the Fishing Village Tentacruel infestation scene.
+// The map's default layout is the "before" (infested) look; once
+// FLAG_ZONE_1_RESOLVED is set, each listed tile gets overwritten with its
+// calmer replacement. Flag is a placeholder for wiring purposes — swap for
+// whatever the real story flag ends up being once the scene is finalized.
+// TODO: replace this single example entry with the real coordinate/metatile
+// list once the "before" and "after" tilesets for the village are drawn.
+static const struct
+{
+    u8 x;
+    u8 y;
+    u16 metatileId;
+} sFishingVillageResolvedTiles[] =
+{
+    { 20, 12, 0x031 },
+};
+
+void UpdateFishingVillageTiles(void)
+{
+    u32 i;
+
+    if (!FlagGet(FLAG_ZONE_1_RESOLVED))
+        return;
+
+    for (i = 0; i < ARRAY_COUNT(sFishingVillageResolvedTiles); i++)
+    {
+        MapGridSetMetatileIdAt(sFishingVillageResolvedTiles[i].x + MAP_OFFSET,
+                                sFishingVillageResolvedTiles[i].y + MAP_OFFSET,
+                                sFishingVillageResolvedTiles[i].metatileId);
+    }
+}
+

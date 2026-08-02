@@ -33,6 +33,7 @@ void RunMassageCooldownStepCounter(void);
 void SetPCBoxToSendMon(u8);
 void StopPokemonLeagueLightingEffectTask(void);
 void TV_PrintIntToStringVar(u8 varidx, s32 number);
+void UpdateFishingVillageTiles(void);
 void UpdateFrontierGambler(u16 daysSince);
 void UpdateFrontierManiac(u16 daysSince);
 

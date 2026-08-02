@@ -284,10 +284,10 @@ WILD_BATTLE_TEST("Capture: proto Poké Balls fail outright above their level cap
     u32 ball = ITEM_NONE;
     u32 level = 0;
 
-    PARAMETRIZE { ball = ITEM_LEVEL_BALL;  level = 11; }
-    PARAMETRIZE { ball = ITEM_LURE_BALL;   level = 21; }
-    PARAMETRIZE { ball = ITEM_FRIEND_BALL; level = 31; }
-    PARAMETRIZE { ball = ITEM_HEAVY_BALL;  level = 41; }
+    PARAMETRIZE { ball = ITEM_RED_PROTOBALL;  level = 11; }
+    PARAMETRIZE { ball = ITEM_BLU_PROTOBALL;   level = 21; }
+    PARAMETRIZE { ball = ITEM_GRN_PROTOBALL; level = 31; }
+    PARAMETRIZE { ball = ITEM_BLK_PROTOBALL;  level = 41; }
 
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
@@ -305,10 +305,10 @@ WILD_BATTLE_TEST("Capture: proto Poké Balls work normally at or below their lev
     u32 level = 0;
     u32 recordedOdds;
 
-    PARAMETRIZE { ball = ITEM_LEVEL_BALL;  level = 10; }
-    PARAMETRIZE { ball = ITEM_LURE_BALL;   level = 20; }
-    PARAMETRIZE { ball = ITEM_FRIEND_BALL; level = 30; }
-    PARAMETRIZE { ball = ITEM_HEAVY_BALL;  level = 40; }
+    PARAMETRIZE { ball = ITEM_RED_PROTOBALL;  level = 10; }
+    PARAMETRIZE { ball = ITEM_BLU_PROTOBALL;   level = 20; }
+    PARAMETRIZE { ball = ITEM_GRN_PROTOBALL; level = 30; }
+    PARAMETRIZE { ball = ITEM_BLK_PROTOBALL;  level = 40; }
 
     GIVEN {
         WITH_CONFIG(B_MISSING_BADGE_CATCH_MALUS, GEN_7);
