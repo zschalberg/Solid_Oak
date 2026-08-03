@@ -30,8 +30,22 @@ $(MAPS_OUTDIR)/%/header.inc $(MAPS_OUTDIR)/%/events.inc $(MAPS_OUTDIR)/%/connect
 $(MAPS_OUTDIR)/connections.inc $(MAPS_OUTDIR)/groups.inc $(MAPS_OUTDIR)/events.inc $(MAPS_OUTDIR)/headers.inc $(INCLUDECONSTS_OUTDIR)/map_groups.h $(DATA_SRC_SUBDIR)/map_group_count.h: $(MAPS_DIR)/map_groups.json
 	$(MAPJSON) groups firered $< $(MAPS_OUTDIR) $(INCLUDECONSTS_OUTDIR)
 
-$(LAYOUTS_OUTDIR)/layouts.inc $(LAYOUTS_OUTDIR)/layouts_table.inc $(INCLUDECONSTS_OUTDIR)/layouts.h: $(LAYOUTS_DIR)/layouts.json
+# Randomize which tall-grass metatile variant (if a tileset has more than
+# one) is placed at each grass tile in a map's layout. Generated copies are
+# keyed off the pristine, source-controlled map.bin, so a map only gets
+# rerolled when its layout is actually edited, not on every build.
+GRASS_RANDOMIZER := $(MISC_TOOL_DIR)/randomize_grass_tiles.py
+GENERATED_LAYOUTS_DIR := $(BUILD_DIR)/generated/layouts
+LAYOUT_NAMES := $(patsubst $(LAYOUTS_DIR)/%/,%,$(dir $(wildcard $(LAYOUTS_DIR)/*/map.bin)))
+RANDOMIZED_MAPBINS := $(foreach name,$(LAYOUT_NAMES),$(GENERATED_LAYOUTS_DIR)/$(name)/map.bin)
+
+$(GENERATED_LAYOUTS_DIR)/%/map.bin: $(LAYOUTS_DIR)/%/map.bin $(GRASS_RANDOMIZER) $(LAYOUTS_DIR)/layouts.json $(DATA_SRC_SUBDIR)/tilesets/metatiles.h
+	@mkdir -p $(@D)
+	python3 $(GRASS_RANDOMIZER) $* $< $@
+
+$(LAYOUTS_OUTDIR)/layouts.inc $(LAYOUTS_OUTDIR)/layouts_table.inc $(INCLUDECONSTS_OUTDIR)/layouts.h: $(LAYOUTS_DIR)/layouts.json $(RANDOMIZED_MAPBINS)
 	$(MAPJSON) layouts firered $< $(LAYOUTS_OUTDIR) $(INCLUDECONSTS_OUTDIR)
+	sed -i 's#data/layouts/\([^"[:space:]]*\)/map\.bin#$(GENERATED_LAYOUTS_DIR)/\1/map.bin#g' $(LAYOUTS_OUTDIR)/layouts.inc
 
 # Generate constants for map events, which depend on data that's distributed across the map.json files.
 # There's a lot of map.json files, so we print an abbreviated output with echo.
