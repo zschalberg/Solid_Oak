@@ -1761,7 +1761,7 @@ static void ItemMenu_Toss(u8 taskId)
     RemoveContextWindow();
     BagMenu_RemoveWindow(ITEMWIN_SELECTIONTEXT);
     PutWindowTilemap(WIN_ITEM_LIST);
-    if (GetItemImportance(gSpecialVar_ItemId))
+    if (IsItemProtectedFromDisposal(gSpecialVar_ItemId))
     {
         DisplayItemMessage(taskId, FONT_NORMAL, gText_TooImportantToToss, HandleErrorMessage);
         return;
@@ -1925,7 +1925,7 @@ static void ItemMenu_Give(u8 taskId)
     {
         DisplayItemMessage(taskId, FONT_NORMAL, gText_CantWriteMail, HandleErrorMessage);
     }
-    else if (!GetItemImportance(gSpecialVar_ItemId))
+    else if (!IsItemProtectedFromDisposal(gSpecialVar_ItemId))
     {
         if (CalculatePlayerPartyCount() == 0)
         {
@@ -2022,7 +2022,7 @@ static void Task_ItemContext_GiveToParty(u8 taskId)
         ItemMenu_SetExitCallback(GoToBerryPouch_Give);
         Task_FadeAndCloseBagMenu(taskId);
     }
-    else if (gBagPosition.pocket != POCKET_KEY_ITEMS && GetItemImportance(gSpecialVar_ItemId) == 0)
+    else if (gBagPosition.pocket != POCKET_KEY_ITEMS && !IsItemProtectedFromDisposal(gSpecialVar_ItemId))
     {
         gTasks[taskId].func = Task_FadeAndCloseBagMenu;
     }
@@ -2048,7 +2048,7 @@ static void Task_ItemContext_GiveToPC(u8 taskId)
         ItemMenu_SetExitCallback(GoToBerryPouch_PCBox);
         Task_FadeAndCloseBagMenu(taskId);
     }
-    else if (gBagPosition.pocket != POCKET_KEY_ITEMS && GetItemImportance(gSpecialVar_ItemId) == 0)
+    else if (gBagPosition.pocket != POCKET_KEY_ITEMS && !IsItemProtectedFromDisposal(gSpecialVar_ItemId))
     {
         gTasks[taskId].func = Task_FadeAndCloseBagMenu;
     }
@@ -2101,7 +2101,7 @@ static void Task_ItemContext_Sell(u8 taskId)
         ItemMenu_SetExitCallback(GoToBerryPouch_Sell);
         Task_FadeAndCloseBagMenu(taskId);
     }
-    else if (GetItemPrice(gSpecialVar_ItemId) == 0 || GetItemImportance(gSpecialVar_ItemId))
+    else if (GetItemPrice(gSpecialVar_ItemId) == 0 || IsItemProtectedFromDisposal(gSpecialVar_ItemId))
     {
         CopyItemName(gSpecialVar_ItemId, gStringVar1);
         StringExpandPlaceholders(gStringVar4, gText_OhNoICantBuyThat);
@@ -2303,7 +2303,7 @@ static void TryDepositItem(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
-    if (GetItemImportance(gSpecialVar_ItemId))
+    if (IsItemProtectedFromDisposal(gSpecialVar_ItemId))
     {
         DisplayItemMessage(taskId, FONT_NORMAL, sText_CantStoreImportantItems, HandleErrorMessage);
     }

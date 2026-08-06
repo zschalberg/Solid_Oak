@@ -142,6 +142,7 @@ u8 GetItemConsumability(enum Item itemId);
 u8 GetItemHoldEffect(enum Item itemId);
 u8 GetItemHoldEffectParam(enum Item itemId);
 u8 GetItemImportance(enum Item itemId);
+bool8 IsItemProtectedFromDisposal(enum Item itemId);
 u8 GetItemType(enum Item itemId);
 u8 GetPocketByItemId(enum Item itemId);
 void ClearBag(void);

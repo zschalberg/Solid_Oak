@@ -978,9 +978,19 @@ const u8 *GetItemDescription(enum Item itemId)
 
 u8 GetItemImportance(enum Item itemId)
 {
-    if (IsReusableBallItem(itemId))
-        return 1;
     return gItemsInfo[SanitizeItemId(itemId)].importance;
+}
+
+// Reusable balls (Protoballs/Research Ball) aren't "important" in the normal
+// sense - they're consumed and refunded like any other ball (see
+// ball_economy.c) - but they still shouldn't be tossed, sold, given away, or
+// stashed in PC item storage outside that tracked economy. Bag-menu disposal
+// checks should use this instead of GetItemImportance() directly; anything
+// that cares about the item's *real* importance (battle consumption, TM
+// fling, quantity display, etc.) should keep using GetItemImportance().
+bool8 IsItemProtectedFromDisposal(enum Item itemId)
+{
+    return GetItemImportance(itemId) || IsReusableBallItem(itemId);
 }
 
 u8 GetItemConsumability(enum Item itemId)
