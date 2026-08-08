@@ -8,4 +8,5 @@
 // Exported ROM declarations
 void HideMapNamePopUpEmeraldWindow(void);
 void ShowMapNamePopupEmerald(void);
+bool8 IsMapNamePopUpActive(void);
 #endif //GUARD_MAP_NAME_POPUP_H

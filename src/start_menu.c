@@ -1503,3 +1503,23 @@ static void Task_HandleJournalChoice(u8 taskId)
         break;
     }
 }
+
+static void Task_OpenQuestLogFromField(u8 taskId)
+{
+    if (!gPaletteFade.active)
+    {
+        CleanupOverworldWindowsAndTilemaps();
+        QuestLogMenu_Init(CB2_ReturnToField);
+        DestroyTask(taskId);
+    }
+}
+
+bool8 TryOpenQuestLogFromField(void)
+{
+    if (FuncIsActiveTask(Task_OpenQuestLogFromField))
+        return FALSE;
+
+    FadeScreen(FADE_TO_BLACK, 0);
+    CreateTask(Task_OpenQuestLogFromField, 8);
+    return TRUE;
+}

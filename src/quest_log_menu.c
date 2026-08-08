@@ -126,6 +126,16 @@ static const struct Quest sQuests[] = {
         .mapsec = MAPSEC_SAFFRON_CITY
     },
     {
+        .name = COMPOUND_STRING("SILPH FOLLOW-UP"),
+        .desc = COMPOUND_STRING("Placeholder - details TBD.\nStatus: {STR_VAR_1}"),
+        .unlockFlag = FLAG_QUEST_SILPH_FOLLOWUP_ACTIVE,
+        .completeFlag = FLAG_QUEST_SILPH_FOLLOWUP_COMPLETED,
+        .itemId = ITEM_RED_PROTOBALL,
+        .isPokemonIcon = FALSE,
+        .group = QUEST_GROUP_MAIN,
+        .mapsec = MAPSEC_SAFFRON_CITY
+    },
+    {
         .name = COMPOUND_STRING("KRAB FISHING"),
         .desc = COMPOUND_STRING("Catch 2 KRABBY.\nStatus: {STR_VAR_1}"),
         .unlockFlag = FLAG_KRABBY_QUEST_GIVEN,

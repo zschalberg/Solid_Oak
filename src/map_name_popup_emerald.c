@@ -400,6 +400,11 @@ void HideMapNamePopUpEmeraldWindow(void)
     }
 }
 
+bool8 IsMapNamePopUpActive(void)
+{
+    return FuncIsActiveTask(Task_MapNamePopUpWindow);
+}
+
 static void ShowMapNamePopUpWindow(void)
 {
     u8 mapDisplayHeader[24];

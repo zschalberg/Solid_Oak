@@ -325,8 +325,11 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
         return TRUE;
     }
 
-    if (input->pressedRButton && TryStartDexNavSearch())
+    if (input->pressedRButton && TryOpenQuestLogFromField())
+    {
+        gFieldInputRecord.pressedRButton = TRUE;
         return TRUE;
+    }
 
     if (input->pressedLButton && CheckBagHasItem(ITEM_ADVANCED_IV_SCANNER, 1))
     {

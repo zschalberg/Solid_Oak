@@ -11,5 +11,6 @@ void SaveGame(void);
 void CB2_SetUpSaveAfterLinkBattle(void);
 void HideStartMenu(void);
 void ShowBattlePyramidStartMenu(void);
+bool8 TryOpenQuestLogFromField(void);
 
 #endif // GUARD_START_MENU_H
