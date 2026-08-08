@@ -29,8 +29,8 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_PICNICKER",
-      "x": 22,
-      "y": 13,
+      "x": 20,
+      "y": 11,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
       "movement_range_x": 1,
@@ -72,7 +72,7 @@
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_PICNICKER",
       "x": 44,
-      "y": 13,
+      "y": 11,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
       "movement_range_x": 1,
@@ -113,8 +113,8 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_BIKER",
-      "x": 63,
-      "y": 13,
+      "x": 65,
+      "y": 10,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_FACE_DOWN_AND_UP",
       "movement_range_x": 1,
@@ -128,7 +128,7 @@
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_PICNICKER",
       "x": 52,
-      "y": 8,
+      "y": 5,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
       "movement_range_x": 2,
@@ -155,8 +155,8 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_PICNICKER",
-      "x": 28,
-      "y": 6,
+      "x": 32,
+      "y": 5,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
       "movement_range_x": 2,
@@ -183,8 +183,8 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_BLACK_BELT",
-      "x": 39,
-      "y": 7,
+      "x": 41,
+      "y": 5,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
       "movement_range_x": 1,
@@ -197,8 +197,8 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_CRUSH_GIRL",
-      "x": 40,
-      "y": 7,
+      "x": 42,
+      "y": 5,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
       "movement_range_x": 1,
@@ -207,14 +207,6 @@
       "trainer_sight_or_berry_tree_id": "1",
       "script": "Route15_EventScript_Mya",
       "flag": "0"
-    },
-    {
-      "type": "clone",
-      "graphics_id": "OBJ_EVENT_GFX_CUT_TREE",
-      "x": 73,
-      "y": 7,
-      "target_local_id": "LOCALID_ROUTE14_BORDER_TREE",
-      "target_map": "MAP_ROUTE14"
     }
   ],
   "warp_events": [

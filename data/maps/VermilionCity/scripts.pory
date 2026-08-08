@@ -439,6 +439,9 @@ VermilionCity_EventScript_ArborDockScene::
 	setflag FLAG_HIDE_VERMILION_ARBOR
 	setflag FLAG_QUEST_MRFUJI_RESEARCH_ACTIVE
 	setflag FLAG_QUEST_SILPH_TESTING_ACTIVE
+	setvar VAR_SCENE_SILPH, 1
+	quest_start_toast
+	quest_start_toast
 	releaseall
 	goto VermilionCity_EventScript_ArborDockScene_End
 VermilionCity_EventScript_ArborDockScene_NotReady::

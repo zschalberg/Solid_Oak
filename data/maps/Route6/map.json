@@ -21,7 +21,7 @@
     },
     {
       "map": "MAP_VERMILION_CITY",
-      "offset": -12,
+      "offset": -18,
       "direction": "down"
     }
   ],
@@ -114,7 +114,7 @@
   "warp_events": [
     {
       "x": 19,
-      "y": 13,
+      "y": 18,
       "elevation": 0,
       "dest_map": "MAP_UNDERGROUND_PATH_SOUTH_ENTRANCE",
       "dest_warp_id": "1"

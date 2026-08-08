@@ -873,70 +873,80 @@ VermilionCity_EventScript_ArborDockScene::
 # 439 "data/maps/VermilionCity/scripts.pory"
 	setflag FLAG_HIDE_VERMILION_ARBOR
 # 440 "data/maps/VermilionCity/scripts.pory"
-	releaseall
+	setflag FLAG_QUEST_MRFUJI_RESEARCH_ACTIVE
 # 441 "data/maps/VermilionCity/scripts.pory"
-	goto VermilionCity_EventScript_ArborDockScene_End
+	setflag FLAG_QUEST_SILPH_TESTING_ACTIVE
 # 442 "data/maps/VermilionCity/scripts.pory"
-VermilionCity_EventScript_ArborDockScene_NotReady::
+	setvar VAR_SCENE_SILPH, 1
 # 443 "data/maps/VermilionCity/scripts.pory"
-	// Bumping the var to 2 stops the on-frame table (VAR_ACT1_VERMILLION, 0)
+	quest_start_toast
 # 444 "data/maps/VermilionCity/scripts.pory"
-	// from re-matching every single frame, which would otherwise starve out
+	quest_start_toast
 # 445 "data/maps/VermilionCity/scripts.pory"
-	// all other field input (see FuchsiaCity's identical fix for why).
+	releaseall
 # 446 "data/maps/VermilionCity/scripts.pory"
-	setvar VAR_ACT1_VERMILLION, 2
+	goto VermilionCity_EventScript_ArborDockScene_End
 # 447 "data/maps/VermilionCity/scripts.pory"
-VermilionCity_EventScript_ArborDockScene_End::
+VermilionCity_EventScript_ArborDockScene_NotReady::
 # 448 "data/maps/VermilionCity/scripts.pory"
-	end
+	// Bumping the var to 2 stops the on-frame table (VAR_ACT1_VERMILLION, 0)
 # 449 "data/maps/VermilionCity/scripts.pory"
-
+	// from re-matching every single frame, which would otherwise starve out
 # 450 "data/maps/VermilionCity/scripts.pory"
-VermilionCity_EventScript_Arbor::
+	// all other field input (see FuchsiaCity's identical fix for why).
 # 451 "data/maps/VermilionCity/scripts.pory"
-	lock
+	setvar VAR_ACT1_VERMILLION, 2
 # 452 "data/maps/VermilionCity/scripts.pory"
-	faceplayer
+VermilionCity_EventScript_ArborDockScene_End::
 # 453 "data/maps/VermilionCity/scripts.pory"
-	showmugshot MUGSHOT_PROF_ARBOR, MUGSHOT_RIGHT
+	end
 # 454 "data/maps/VermilionCity/scripts.pory"
-	textcolor NPC_TEXT_COLOR_MALE
+
 # 455 "data/maps/VermilionCity/scripts.pory"
-	msgbox VermilionCity_Text_ArborIdle
+VermilionCity_EventScript_Arbor::
 # 456 "data/maps/VermilionCity/scripts.pory"
-	closemessage
-# 457 "data/maps/VermilionCity/scripts.pory"
-	clearmugshot
-# 458 "data/maps/VermilionCity/scripts.pory"
-	release
-# 459 "data/maps/VermilionCity/scripts.pory"
-	end
-# 460 "data/maps/VermilionCity/scripts.pory"
-
-# 461 "data/maps/VermilionCity/scripts.pory"
-VermilionCity_EventScript_PsyduckChild::
-# 462 "data/maps/VermilionCity/scripts.pory"
-	msgbox VermilionCity_Text_PsyduckChild, MSGBOX_NPC
-# 463 "data/maps/VermilionCity/scripts.pory"
-	end
-# 464 "data/maps/VermilionCity/scripts.pory"
-
-# 465 "data/maps/VermilionCity/scripts.pory"
-VermilionCity_EventScript_PsyduckNPC::
-# 466 "data/maps/VermilionCity/scripts.pory"
 	lock
-# 467 "data/maps/VermilionCity/scripts.pory"
+# 457 "data/maps/VermilionCity/scripts.pory"
 	faceplayer
-# 468 "data/maps/VermilionCity/scripts.pory"
-	waitse
-# 469 "data/maps/VermilionCity/scripts.pory"
-	playmoncry SPECIES_PSYDUCK, CRY_MODE_NORMAL
-# 470 "data/maps/VermilionCity/scripts.pory"
-	msgbox VermilionCity_Text_PsyduckMisc
-# 471 "data/maps/VermilionCity/scripts.pory"
-	waitmoncry
-# 472 "data/maps/VermilionCity/scripts.pory"
+# 458 "data/maps/VermilionCity/scripts.pory"
+	showmugshot MUGSHOT_PROF_ARBOR, MUGSHOT_RIGHT
+# 459 "data/maps/VermilionCity/scripts.pory"
+	textcolor NPC_TEXT_COLOR_MALE
+# 460 "data/maps/VermilionCity/scripts.pory"
+	msgbox VermilionCity_Text_ArborIdle
+# 461 "data/maps/VermilionCity/scripts.pory"
+	closemessage
+# 462 "data/maps/VermilionCity/scripts.pory"
+	clearmugshot
+# 463 "data/maps/VermilionCity/scripts.pory"
 	release
+# 464 "data/maps/VermilionCity/scripts.pory"
+	end
+# 465 "data/maps/VermilionCity/scripts.pory"
+
+# 466 "data/maps/VermilionCity/scripts.pory"
+VermilionCity_EventScript_PsyduckChild::
+# 467 "data/maps/VermilionCity/scripts.pory"
+	msgbox VermilionCity_Text_PsyduckChild, MSGBOX_NPC
+# 468 "data/maps/VermilionCity/scripts.pory"
+	end
+# 469 "data/maps/VermilionCity/scripts.pory"
+
+# 470 "data/maps/VermilionCity/scripts.pory"
+VermilionCity_EventScript_PsyduckNPC::
+# 471 "data/maps/VermilionCity/scripts.pory"
+	lock
+# 472 "data/maps/VermilionCity/scripts.pory"
+	faceplayer
 # 473 "data/maps/VermilionCity/scripts.pory"
+	waitse
+# 474 "data/maps/VermilionCity/scripts.pory"
+	playmoncry SPECIES_PSYDUCK, CRY_MODE_NORMAL
+# 475 "data/maps/VermilionCity/scripts.pory"
+	msgbox VermilionCity_Text_PsyduckMisc
+# 476 "data/maps/VermilionCity/scripts.pory"
+	waitmoncry
+# 477 "data/maps/VermilionCity/scripts.pory"
+	release
+# 478 "data/maps/VermilionCity/scripts.pory"
 	end

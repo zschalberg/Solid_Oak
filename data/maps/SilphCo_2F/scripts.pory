@@ -8,11 +8,32 @@ script SilphCo_2F_OnLoad {
     end
 }
 
+// Single event object (see map.json) - always routes through here.
+// First meeting hands out the PROTOBALLS. Once that quest is active,
+// repeat visits check the party for a turn-in. Once resolved, idle chat.
 script SilphCoScientist_Give_Protoball {
+    if ((var(VAR_SCENE_SILPH) == 2)) {
+        lock
+        faceplayer
+        showmugshot(MUGSHOT_PROF_ARBOR, MUGSHOT_RIGHT)
+        textcolor(NPC_TEXT_COLOR_MALE)
+        msgbox("The data from your PROTOBALLS\n"
+               "is already proving useful.\p"
+               "We'll let you know when we need\n"
+               "more field testing.")
+        closemessage
+        clearmugshot
+        release
+        end
+    }
+    if (var(VAR_SCENE_SILPH) == 1) {
+        goto(SilphCoScientist_EventScript_CheckProtoballTurnIn)
+        end
+    }
     showmugshot(MUGSHOT_PROF_ARBOR, MUGSHOT_RIGHT)
     textcolor(NPC_TEXT_COLOR_MALE)
     msgbox("Ah you must be Oak! \n"
-    "Great, I could use some help.\p"
+            "Great, I could use some help.\p"
             "We're working on making containment \n"
             "devices for Pokemon. So far the \l"
             "science is theoretically sound,\l"
@@ -23,20 +44,71 @@ script SilphCoScientist_Give_Protoball {
     giveitem(ITEM_RED_PROTOBALL, 2)
     showmugshot(MUGSHOT_PROF_ARBOR, MUGSHOT_RIGHT)
     textcolor(NPC_TEXT_COLOR_MALE)
-    msgbox("These are PROTOBALLS. Using the design\n"
-            "of Mr. Fuji's RESEARCH BALLS as a \l"
-            "base we were able to create a \l"
-            "version that allows for Pokemon\l"
-            "to be released into the field \l"
-            "without them running away immediately.\p"
+    msgbox("These are PROTOBALLS. \p"
+            "Using the design of Mr. Fuji's\n"
+            "RESEARCH BALLS as a base we\l"
+            "were able to create a version\l"
+            "that allows for Pokemon to be\l"
+            "released into the field without\l"
+            "them immediately running away.\p"
             "The downside is they only work on \n"
             "weaker Pokemon for now, but we're\l"
             "working on improving that.\p"
             "Go out and catch some Pokemon and \n"
             "bring them back here for testing.\p"
             "Any 2 Pokemon will do!")
+    setflag(FLAG_QUEST_SILPH_TESTING_COMPLETED)
     setflag(FLAG_QUEST_REDPROTOBALL_ACTIVE)
+    quest_complete_toast("SILPH TESTING")
+    quest_start_toast(COMPOUND_STRING("PROTOBALL TESTING"))
     releaseall
     end
-    
+}
+
+// Counts party members specifically caught with a Red Protoball - not
+// just any 2 non-starter mons, and not Research Balls either, since the
+// player can have both ball types active at this point in the story.
+script SilphCoScientist_EventScript_CheckProtoballTurnIn {
+    specialvar(VAR_0x8006, CountRedProtoballCaughtMons)
+
+    if (var(VAR_0x8006) < 2) {
+        lock
+        faceplayer
+        showmugshot(MUGSHOT_PROF_ARBOR, MUGSHOT_RIGHT)
+        textcolor(NPC_TEXT_COLOR_MALE)
+        msgbox("Still need two POKéMON caught\n"
+               "with the PROTOBALLS I gave you.\l"
+               "Research Balls won't work for\l"
+               "this test.")
+        closemessage
+        clearmugshot
+        release
+        end
+    }
+    goto(SilphCoScientist_EventScript_ProtoballTurnIn)
+    end
+}
+
+// Fires only from the dispatcher above, after the party check passes.
+script SilphCoScientist_EventScript_ProtoballTurnIn {
+    lockall
+    showmugshot(MUGSHOT_PROF_ARBOR, MUGSHOT_RIGHT)
+    textcolor(NPC_TEXT_COLOR_MALE)
+    msgbox("These the two you caught? \n"
+           "Perfect, that's all we need.\p"
+           "The PROTOBALL held up fine out\n"
+           "there. That's good news for the\l"
+           "containment side of things.\p"
+           "There's something else, though.\n"
+           "Come find me again once you've\l"
+           "had a chance to settle in.")
+    closemessage
+    clearmugshot
+    setvar(VAR_SCENE_SILPH, 2)
+    setflag(FLAG_QUEST_REDPROTOBALL_COMPLETED)
+    quest_complete_toast
+    setflag(FLAG_QUEST_SILPH_FOLLOWUP_ACTIVE)
+    quest_start_toast
+    releaseall
+    end
 }
