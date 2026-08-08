@@ -2573,3 +2573,44 @@
 	.byte SCR_OP_CLEARMUGSHOT
 	.endm
 
+	.macro quest_start_toast questName
+	.ifb \questName
+	setvar VAR_RESULT, 0
+	.else
+	bufferstring STR_VAR_1, \questName
+	setvar VAR_RESULT, 1
+	.endif
+	special Special_ShowQuestStartToast
+	.endm
+
+	.macro quest_update_toast questName
+	.ifb \questName
+	setvar VAR_RESULT, 0
+	.else
+	bufferstring STR_VAR_1, \questName
+	setvar VAR_RESULT, 1
+	.endif
+	special Special_ShowQuestUpdateToast
+	.endm
+
+	.macro quest_complete_toast questName
+	.ifb \questName
+	setvar VAR_RESULT, 0
+	.else
+	bufferstring STR_VAR_1, \questName
+	setvar VAR_RESULT, 1
+	.endif
+	special Special_ShowQuestCompleteToast
+	.endm
+
+	.macro custom_toast header:req, message, color=0, sfx=21
+	bufferstring STR_VAR_1, \header
+	.ifnblank \message
+	bufferstring STR_VAR_2, \message
+	.endif
+	setvar VAR_0x8004, \color
+	setvar VAR_0x8005, \sfx
+	special Special_ShowCustomToast
+	.endm
+
+

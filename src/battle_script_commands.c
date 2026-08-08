@@ -38,6 +38,7 @@
 #include "mail.h"
 #include "event_data.h"
 #include "pokemon_special_anim.h"
+#include "toast_notification.h"
 #include "pokemon_storage_system.h"
 #include "ball_economy.h"
 #include "task.h"
@@ -11165,11 +11166,10 @@ static void Cmd_givecaughtmon(void)
         {
             u8 cursorPos;
             PlaySE(SE_SELECT);
-            cursorPos = JOY_NEW(B_BUTTON) ? 0 : gBattleCommunication[CURSOR_POSITION];
-            if (gBattleCommunication[GIVECAUGHTMON_WHISTLE_OWNED])
-                gBattleCommunication[GIVECAUGHTMON_TARGET_IS_NEW] = (cursorPos == 0); // "Free a slot with {new catch}?" - Yes = new catch
-            else
-                gBattleCommunication[GIVECAUGHTMON_TARGET_IS_NEW] = (cursorPos == 1); // "Release a Pokemon to keep {new catch}?" - No = the new catch instead
+            cursorPos = JOY_NEW(B_BUTTON) ? 1 : gBattleCommunication[CURSOR_POSITION];
+            // cursorPos 0 = Yes ("Make room in party to keep new mon" -> choose party mon)
+            // cursorPos 1 = No / B-button ("Act on new catch instead")
+            gBattleCommunication[GIVECAUGHTMON_TARGET_IS_NEW] = (cursorPos == 1);
 
             if (gBattleCommunication[GIVECAUGHTMON_TARGET_IS_NEW])
             {
@@ -11248,8 +11248,8 @@ static void Cmd_givecaughtmon(void)
         {
             u8 cursorPos;
             PlaySE(SE_SELECT);
-            cursorPos = JOY_NEW(B_BUTTON) ? 0 : gBattleCommunication[CURSOR_POSITION];
-            gBattleCommunication[GIVECAUGHTMON_ACTION_IS_TRANSFER] = (cursorPos == 0); // "Transfer... or Tag and Release...?" - Yes = transfer
+            cursorPos = JOY_NEW(B_BUTTON) ? 1 : gBattleCommunication[CURSOR_POSITION];
+            gBattleCommunication[GIVECAUGHTMON_ACTION_IS_TRANSFER] = (cursorPos == 0); // "Transfer... or Tag and Release...?" - Yes = transfer, No/B = tag and release
             gBattleCommunication[MULTIUSE_STATE] = GIVECAUGHTMON_APPLY_RESOLUTION;
         }
         break;
@@ -11489,7 +11489,44 @@ static void Cmd_trysetcaughtmondexflags(void)
     }
 
     // Update size records for every captured Pokémon
-    UpdatePokedexSizeRecordBySpeciesPersonality(species, personality);
+    u8 recordMask = UpdatePokedexSizeRecordBySpeciesPersonality(species, personality);
+
+    if (recordMask != SIZE_RECORD_NONE)
+    {
+        static const u8 sText_RecordSize[]  = _("RECORD SIZE!");
+        static const u8 sText_NewTallest[]  = _("New Tallest ");
+        static const u8 sText_NewShortest[] = _("New Shortest ");
+        static const u8 sText_NewHeaviest[] = _("New Heaviest ");
+        static const u8 sText_NewLightest[] = _("New Lightest ");
+
+        u8 msgBuf[48];
+        const u8 *speciesName = gSpeciesInfo[species].speciesName;
+
+        if (recordMask & SIZE_RECORD_TALLEST)
+        {
+            StringCopy(msgBuf, sText_NewTallest);
+            StringAppend(msgBuf, speciesName);
+            ShowCustomToast(sText_RecordSize, msgBuf, SE_SUCCESS, 0);
+        }
+        if (recordMask & SIZE_RECORD_SHORTEST)
+        {
+            StringCopy(msgBuf, sText_NewShortest);
+            StringAppend(msgBuf, speciesName);
+            ShowCustomToast(sText_RecordSize, msgBuf, SE_SUCCESS, 0);
+        }
+        if (recordMask & SIZE_RECORD_HEAVIEST)
+        {
+            StringCopy(msgBuf, sText_NewHeaviest);
+            StringAppend(msgBuf, speciesName);
+            ShowCustomToast(sText_RecordSize, msgBuf, SE_SUCCESS, 0);
+        }
+        if (recordMask & SIZE_RECORD_LIGHTEST)
+        {
+            StringCopy(msgBuf, sText_NewLightest);
+            StringAppend(msgBuf, speciesName);
+            ShowCustomToast(sText_RecordSize, msgBuf, SE_SUCCESS, 0);
+        }
+    }
 
     bool32 isCaught = GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_GET_CAUGHT);
     const u8 *nextInstr = isCaught ? cmd->failInstr : cmd->nextInstr;

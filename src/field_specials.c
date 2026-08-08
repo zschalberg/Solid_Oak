@@ -43,6 +43,7 @@
 #include "rtc.h"
 #include "script_menu.h"
 #include "script.h"
+#include "toast_notification.h"
 #include "sound.h"
 #include "string_util.h"
 #include "strings.h"
@@ -4062,4 +4063,40 @@ void UpdateFishingVillageTiles(void)
                                 sFishingVillageResolvedTiles[i].metatileId);
     }
 }
+
+void Special_ShowQuestStartToast(void)
+{
+    const u8 *name = (gSpecialVar_Result == 1 && gStringVar1[0] != EOS) ? gStringVar1 : NULL;
+    ShowQuestToast(TOAST_QUEST_START, name);
+    gStringVar1[0] = EOS;
+}
+
+void Special_ShowQuestUpdateToast(void)
+{
+    const u8 *name = (gSpecialVar_Result == 1 && gStringVar1[0] != EOS) ? gStringVar1 : NULL;
+    ShowQuestToast(TOAST_QUEST_UPDATE, name);
+    gStringVar1[0] = EOS;
+}
+
+void Special_ShowQuestCompleteToast(void)
+{
+    const u8 *name = (gSpecialVar_Result == 1 && gStringVar1[0] != EOS) ? gStringVar1 : NULL;
+    ShowQuestToast(TOAST_QUEST_COMPLETE, name);
+    gStringVar1[0] = EOS;
+}
+
+void Special_ShowCustomToast(void)
+{
+    static const u8 sDefaultHeader[] = _("NOTIFICATION");
+    u8 colorIdx = gSpecialVar_0x8004;
+    u16 sfx = (gSpecialVar_0x8005 != 0) ? gSpecialVar_0x8005 : SE_PIN;
+    const u8 *header = (gStringVar1[0] != EOS) ? gStringVar1 : sDefaultHeader;
+    const u8 *message = (gStringVar2[0] != EOS) ? gStringVar2 : NULL;
+
+    ShowCustomToast(header, message, sfx, colorIdx);
+
+    gStringVar1[0] = EOS;
+    gStringVar2[0] = EOS;
+}
+
 

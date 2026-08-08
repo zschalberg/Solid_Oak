@@ -275,16 +275,17 @@ u32 GetIndividualWeight(enum Species species, u32 personality)
     return weight > 0 ? weight : 1;
 }
 
-void UpdatePokedexSizeRecordBySpeciesPersonality(u16 species, u32 personality)
+u8 UpdatePokedexSizeRecordBySpeciesPersonality(u16 species, u32 personality)
 {
     u16 heightHash, weightHash;
     u8 heightCategory, weightCategory;
     u8 currentTallest, currentShortest;
     u8 currentHeaviest, currentLightest;
     bool32 hasRecord;
+    u8 result = SIZE_RECORD_NONE;
 
     if (species == SPECIES_NONE || species >= POKEDEX_SIZE_RECORDS_COUNT)
-        return;
+        return SIZE_RECORD_NONE;
 
     // A stored 0/0 record is ambiguous between "never recorded" and a genuine
     // category-0 specimen, so the caught flag disambiguates: once the species
@@ -302,7 +303,7 @@ void UpdatePokedexSizeRecordBySpeciesPersonality(u16 species, u32 personality)
     currentShortest = gSaveBlock1Ptr->pokedexSizes[species][0] & 0xF;
     currentTallest = (gSaveBlock1Ptr->pokedexSizes[species][0] >> 4) & 0xF;
 
-    if (!hasRecord && currentShortest == 0 && currentTallest == 0)
+    if (!hasRecord || (currentShortest == 0 && currentTallest == 0))
     {
         currentShortest = heightCategory;
         currentTallest = heightCategory;
@@ -310,9 +311,17 @@ void UpdatePokedexSizeRecordBySpeciesPersonality(u16 species, u32 personality)
     else
     {
         if (heightCategory > currentTallest)
+        {
+            if (GetSizeCategoryExceptionalTier(heightCategory) >= 1)
+                result |= SIZE_RECORD_TALLEST;
             currentTallest = heightCategory;
+        }
         if (heightCategory < currentShortest)
+        {
+            if (GetSizeCategoryExceptionalTier(heightCategory) >= 1)
+                result |= SIZE_RECORD_SHORTEST;
             currentShortest = heightCategory;
+        }
     }
     gSaveBlock1Ptr->pokedexSizes[species][0] = currentShortest | (currentTallest << 4);
 
@@ -320,7 +329,7 @@ void UpdatePokedexSizeRecordBySpeciesPersonality(u16 species, u32 personality)
     currentLightest = gSaveBlock1Ptr->pokedexSizes[species][1] & 0xF;
     currentHeaviest = (gSaveBlock1Ptr->pokedexSizes[species][1] >> 4) & 0xF;
 
-    if (!hasRecord && currentLightest == 0 && currentHeaviest == 0)
+    if (!hasRecord || (currentLightest == 0 && currentHeaviest == 0))
     {
         currentLightest = weightCategory;
         currentHeaviest = weightCategory;
@@ -328,18 +337,28 @@ void UpdatePokedexSizeRecordBySpeciesPersonality(u16 species, u32 personality)
     else
     {
         if (weightCategory > currentHeaviest)
+        {
+            if (GetSizeCategoryExceptionalTier(weightCategory) >= 1)
+                result |= SIZE_RECORD_HEAVIEST;
             currentHeaviest = weightCategory;
+        }
         if (weightCategory < currentLightest)
+        {
+            if (GetSizeCategoryExceptionalTier(weightCategory) >= 1)
+                result |= SIZE_RECORD_LIGHTEST;
             currentLightest = weightCategory;
+        }
     }
     gSaveBlock1Ptr->pokedexSizes[species][1] = currentLightest | (currentHeaviest << 4);
+
+    return result;
 }
 
-void UpdatePokedexSizeRecord(struct Pokemon *mon)
+u8 UpdatePokedexSizeRecord(struct Pokemon *mon)
 {
     if (GetMonData(mon, MON_DATA_IS_EGG))
-        return;
-    UpdatePokedexSizeRecordBySpeciesPersonality(GetMonData(mon, MON_DATA_SPECIES), GetMonData(mon, MON_DATA_PERSONALITY));
+        return SIZE_RECORD_NONE;
+    return UpdatePokedexSizeRecordBySpeciesPersonality(GetMonData(mon, MON_DATA_SPECIES), GetMonData(mon, MON_DATA_PERSONALITY));
 }
 
 u8 GetPokedexHeightRecord(u16 species, bool8 isTallest)

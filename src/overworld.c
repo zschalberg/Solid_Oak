@@ -63,6 +63,7 @@
 #include "start_menu.h"
 #include "string_util.h"
 #include "tileset_anims.h"
+#include "toast_notification.h"
 #include "trainer_pokemon_sprites.h"
 #include "vs_seeker.h"
 #include "wild_encounter.h"
@@ -2545,6 +2546,7 @@ static void ResumeMap(bool32 inLink)
     if (!inLink)
         SetUpFieldTasks();
     RunOnResumeMapScript();
+    FlushToastQueue();
 }
 
 static void InitObjectEventsLink(void)
