@@ -62,6 +62,7 @@
 #include "constants/metatile_labels.h"
 #include "constants/metatile_labels.h"
 #include "constants/moves.h"
+#include "constants/pokeball.h"
 #include "constants/region_map_sections.h"
 #include "constants/flags.h"
 #include "constants/songs.h"
@@ -670,6 +671,23 @@ bool8 IsStarterFirstStageInParty(void)
             return TRUE;
     }
     return FALSE;
+}
+
+// Red Protoballs share the BALL_LEVEL slot as their caught-ball identity
+// (see ITEM_RED_PROTOBALL's secondaryId in data/items.h) - checking for
+// that is how we tell "caught with a Red Protoball" from any other ball,
+// including Research Balls (BALL_RESEARCH) caught around the same time.
+u8 CountRedProtoballCaughtMons(void)
+{
+    u8 partyCount = CalculatePlayerPartyCount();
+    u8 count = 0;
+    u8 i;
+    for (i = 0; i < partyCount; i++)
+    {
+        if (GetMonData(&gPlayerParty[i], MON_DATA_POKEBALL, NULL) == BALL_LEVEL)
+            count++;
+    }
+    return count;
 }
 
 bool8 IsThereRoomInAnyBoxForMorePokemon(void)

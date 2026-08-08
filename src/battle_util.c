@@ -759,7 +759,12 @@ void HandleAction_ThrowBall(void)
     gBattle_BG0_X = 0;
     gBattle_BG0_Y = 0;
     gLastUsedItem = gBallToDisplay;
-    if (!GetItemImportance(gLastUsedItem))
+    // GetItemImportance() reports reusable balls (Protoballs/Research Ball) as
+    // important so the bag menu won't let them be tossed/given away, but the
+    // ball economy (see ball_economy.c) still expects them to be removed from
+    // the bag on every throw and only refunded via AddBagItem on a failed/
+    // escaped catch - so that hijack must not block the throw-time removal.
+    if (!GetItemImportance(gLastUsedItem) || IsReusableBallItem(gLastUsedItem))
         RemoveBagItem(gLastUsedItem, 1);
     if (GetItemBattleUsage(gLastUsedItem) == EFFECT_ITEM_BERRY_CATCH_BOOST)
     {

@@ -397,6 +397,10 @@ gSpecials::
 	def_special SetWildMonSizeTier
 	def_special UpdateFishingVillageTiles
 	def_special SetStartingStatus
+	def_special Special_ShowQuestStartToast
+	def_special Special_ShowQuestUpdateToast
+	def_special Special_ShowQuestCompleteToast
+	def_special CountRedProtoballCaughtMons
 gSpecialsEnd::
 
 

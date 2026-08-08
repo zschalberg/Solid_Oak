@@ -38,14 +38,14 @@
       "id": "HEAL_LOCATION_LAVENDER_TOWN",
       "map": "MAP_LAVENDER_TOWN",
       "x": 6,
-      "y": 6,
+      "y": 7,
       "respawn_map": "MAP_LAVENDER_TOWN_POKEMON_CENTER_1F",
       "respawn_npc": "LOCALID_LAVENDER_NURSE"
     },
     {
       "id": "HEAL_LOCATION_VERMILION_CITY",
       "map": "MAP_VERMILION_CITY",
-      "x": 36,
+      "x": 42,
       "y": 8,
       "respawn_map": "MAP_VERMILION_CITY_POKEMON_CENTER_1F",
       "respawn_npc": "LOCALID_VERMILION_NURSE"
@@ -61,8 +61,8 @@
     {
       "id": "HEAL_LOCATION_FUCHSIA_CITY",
       "map": "MAP_FUCHSIA_CITY",
-      "x": 25,
-      "y": 32,
+      "x": 37,
+      "y": 35,
       "respawn_map": "MAP_FUCHSIA_CITY_POKEMON_CENTER_1F",
       "respawn_npc": "LOCALID_FUCHSIA_NURSE"
     },

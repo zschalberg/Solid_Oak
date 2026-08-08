@@ -553,7 +553,7 @@
 #define FLAG_TUTOR_EARTHQUAKE            0x213
 #define FLAG_HIDE_RESERVE_FUJI           0x214
 #define FLAG_HIDE_RESERVE_AGATHA         0x215
-#define FLAG_0x216               0x216
+#define FLAG_ACHIEVEMENT_CAUGHT_10_SPECIES 0x216
 #define FLAG_0x217               0x217
 #define FLAG_0x218               0x218
 #define FLAG_0x219               0x219
@@ -1273,8 +1273,8 @@
 #define FLAG_QUEST_7_COMPLETED   0x4CD
 #define FLAG_QUEST_KNOW_GENGAR_EVO     0x4CE
 #define FLAG_QUEST_KNOW_SLOWPOKE_EVOS  0x4CF
-#define FLAG_0x4D0               0x4D0
-#define FLAG_0x4D1               0x4D1
+#define FLAG_QUEST_SILPH_FOLLOWUP_ACTIVE     0x4D0
+#define FLAG_QUEST_SILPH_FOLLOWUP_COMPLETED  0x4D1
 #define FLAG_0x4D2               0x4D2
 #define FLAG_0x4D3               0x4D3
 #define FLAG_0x4D4               0x4D4

@@ -39,6 +39,7 @@
 #include "event_data.h"
 #include "pokemon_special_anim.h"
 #include "toast_notification.h"
+#include "achievement_notifications.h"
 #include "pokemon_storage_system.h"
 #include "ball_economy.h"
 #include "task.h"
@@ -11533,6 +11534,8 @@ static void Cmd_trysetcaughtmondexflags(void)
 
     HandleSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_SET_SEEN, personality);
     HandleSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_SET_CAUGHT, personality);
+
+    CheckAndUnlockCatchAchievements();
 
     if (exceptional)
     {
