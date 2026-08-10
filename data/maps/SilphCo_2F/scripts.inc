@@ -14,39 +14,48 @@ SilphCo_2F_OnLoad::
 
 SilphCoScientist_Give_Protoball::
 # 15 "data/maps/SilphCo_2F/scripts.pory"
-	compare VAR_SCENE_SILPH, 2
-	goto_if_eq SilphCoScientist_Give_Protoball_2
+	compare VAR_SCENE_SILPH, 3
+	goto_if_ge SilphCoScientist_Give_Protoball_2
 # 29 "data/maps/SilphCo_2F/scripts.pory"
-	compare VAR_SCENE_SILPH, 1
+	compare VAR_SCENE_SILPH, 2
 	goto_if_eq SilphCoScientist_Give_Protoball_5
 # 33 "data/maps/SilphCo_2F/scripts.pory"
-	showmugshot MUGSHOT_PROF_ARBOR, MUGSHOT_RIGHT
-# 34 "data/maps/SilphCo_2F/scripts.pory"
-	textcolor NPC_TEXT_COLOR_MALE
-# 35 "data/maps/SilphCo_2F/scripts.pory"
-	msgbox SilphCoScientist_Give_Protoball_Text_1
-# 42 "data/maps/SilphCo_2F/scripts.pory"
-	closemessage
-# 43 "data/maps/SilphCo_2F/scripts.pory"
-	clearmugshot
-# 44 "data/maps/SilphCo_2F/scripts.pory"
-	giveitem ITEM_RED_PROTOBALL, 2
-# 45 "data/maps/SilphCo_2F/scripts.pory"
-	showmugshot MUGSHOT_PROF_ARBOR, MUGSHOT_RIGHT
+	compare VAR_SCENE_SILPH, 0
+	goto_if_eq SilphCoScientist_Give_Protoball_8
 # 46 "data/maps/SilphCo_2F/scripts.pory"
-	textcolor NPC_TEXT_COLOR_MALE
+	lock
 # 47 "data/maps/SilphCo_2F/scripts.pory"
+	faceplayer
+# 48 "data/maps/SilphCo_2F/scripts.pory"
+	showmugshot MUGSHOT_PROF_ARBOR, MUGSHOT_RIGHT
+# 49 "data/maps/SilphCo_2F/scripts.pory"
+	textcolor NPC_TEXT_COLOR_MALE
+# 50 "data/maps/SilphCo_2F/scripts.pory"
 	msgbox SilphCoScientist_Give_Protoball_Text_2
+# 57 "data/maps/SilphCo_2F/scripts.pory"
+	closemessage
+# 58 "data/maps/SilphCo_2F/scripts.pory"
+	clearmugshot
+# 59 "data/maps/SilphCo_2F/scripts.pory"
+	giveitem ITEM_RED_PROTOBALL, 2
 # 60 "data/maps/SilphCo_2F/scripts.pory"
-	setflag FLAG_QUEST_SILPH_TESTING_COMPLETED
+	showmugshot MUGSHOT_PROF_ARBOR, MUGSHOT_RIGHT
 # 61 "data/maps/SilphCo_2F/scripts.pory"
-	setflag FLAG_QUEST_REDPROTOBALL_ACTIVE
+	textcolor NPC_TEXT_COLOR_MALE
 # 62 "data/maps/SilphCo_2F/scripts.pory"
-	quest_complete_toast SilphCoScientist_Give_Protoball_Text_3
-# 63 "data/maps/SilphCo_2F/scripts.pory"
-	quest_start_toast SilphCoScientist_Give_Protoball_Text_4
-# 64 "data/maps/SilphCo_2F/scripts.pory"
-	releaseall
+	msgbox SilphCoScientist_Give_Protoball_Text_3
+# 75 "data/maps/SilphCo_2F/scripts.pory"
+	setflag FLAG_QUEST_SILPH_TESTING_COMPLETED
+# 76 "data/maps/SilphCo_2F/scripts.pory"
+	setflag FLAG_QUEST_REDPROTOBALL_ACTIVE
+# 77 "data/maps/SilphCo_2F/scripts.pory"
+	quest_complete_toast SilphCoScientist_Give_Protoball_Text_4
+# 78 "data/maps/SilphCo_2F/scripts.pory"
+	quest_start_toast SilphCoScientist_Give_Protoball_Text_5
+# 79 "data/maps/SilphCo_2F/scripts.pory"
+	setvar VAR_SCENE_SILPH, 2
+# 80 "data/maps/SilphCo_2F/scripts.pory"
+	release
 	end
 
 SilphCoScientist_Give_Protoball_2:
@@ -73,61 +82,80 @@ SilphCoScientist_Give_Protoball_5:
 	goto SilphCoScientist_EventScript_CheckProtoballTurnIn
 	end
 
+SilphCoScientist_Give_Protoball_8:
+# 34 "data/maps/SilphCo_2F/scripts.pory"
+	lock
+# 35 "data/maps/SilphCo_2F/scripts.pory"
+	faceplayer
+# 36 "data/maps/SilphCo_2F/scripts.pory"
+	showmugshot MUGSHOT_PROF_ARBOR, MUGSHOT_RIGHT
+# 37 "data/maps/SilphCo_2F/scripts.pory"
+	textcolor NPC_TEXT_COLOR_MALE
+# 38 "data/maps/SilphCo_2F/scripts.pory"
+	msgbox SilphCoScientist_Give_Protoball_Text_1
+# 41 "data/maps/SilphCo_2F/scripts.pory"
+	closemessage
+# 42 "data/maps/SilphCo_2F/scripts.pory"
+	clearmugshot
+# 43 "data/maps/SilphCo_2F/scripts.pory"
+	release
+	end
+
 
 SilphCoScientist_EventScript_CheckProtoballTurnIn::
-# 72 "data/maps/SilphCo_2F/scripts.pory"
+# 88 "data/maps/SilphCo_2F/scripts.pory"
 	specialvar VAR_0x8006, CountRedProtoballCaughtMons
-# 74 "data/maps/SilphCo_2F/scripts.pory"
+# 90 "data/maps/SilphCo_2F/scripts.pory"
 	compare VAR_0x8006, 2
 	goto_if_lt SilphCoScientist_EventScript_CheckProtoballTurnIn_2
-# 88 "data/maps/SilphCo_2F/scripts.pory"
+# 104 "data/maps/SilphCo_2F/scripts.pory"
 	goto SilphCoScientist_EventScript_ProtoballTurnIn
 	end
 
 SilphCoScientist_EventScript_CheckProtoballTurnIn_2:
-# 75 "data/maps/SilphCo_2F/scripts.pory"
+# 91 "data/maps/SilphCo_2F/scripts.pory"
 	lock
-# 76 "data/maps/SilphCo_2F/scripts.pory"
+# 92 "data/maps/SilphCo_2F/scripts.pory"
 	faceplayer
-# 77 "data/maps/SilphCo_2F/scripts.pory"
+# 93 "data/maps/SilphCo_2F/scripts.pory"
 	showmugshot MUGSHOT_PROF_ARBOR, MUGSHOT_RIGHT
-# 78 "data/maps/SilphCo_2F/scripts.pory"
+# 94 "data/maps/SilphCo_2F/scripts.pory"
 	textcolor NPC_TEXT_COLOR_MALE
-# 79 "data/maps/SilphCo_2F/scripts.pory"
+# 95 "data/maps/SilphCo_2F/scripts.pory"
 	msgbox SilphCoScientist_EventScript_CheckProtoballTurnIn_Text_0
-# 83 "data/maps/SilphCo_2F/scripts.pory"
+# 99 "data/maps/SilphCo_2F/scripts.pory"
 	closemessage
-# 84 "data/maps/SilphCo_2F/scripts.pory"
+# 100 "data/maps/SilphCo_2F/scripts.pory"
 	clearmugshot
-# 85 "data/maps/SilphCo_2F/scripts.pory"
+# 101 "data/maps/SilphCo_2F/scripts.pory"
 	release
 	end
 
 
 SilphCoScientist_EventScript_ProtoballTurnIn::
-# 94 "data/maps/SilphCo_2F/scripts.pory"
-	lockall
-# 95 "data/maps/SilphCo_2F/scripts.pory"
-	showmugshot MUGSHOT_PROF_ARBOR, MUGSHOT_RIGHT
-# 96 "data/maps/SilphCo_2F/scripts.pory"
-	textcolor NPC_TEXT_COLOR_MALE
-# 97 "data/maps/SilphCo_2F/scripts.pory"
-	msgbox SilphCoScientist_EventScript_ProtoballTurnIn_Text_0
-# 105 "data/maps/SilphCo_2F/scripts.pory"
-	closemessage
-# 106 "data/maps/SilphCo_2F/scripts.pory"
-	clearmugshot
-# 107 "data/maps/SilphCo_2F/scripts.pory"
-	setvar VAR_SCENE_SILPH, 2
-# 108 "data/maps/SilphCo_2F/scripts.pory"
-	setflag FLAG_QUEST_REDPROTOBALL_COMPLETED
-# 109 "data/maps/SilphCo_2F/scripts.pory"
-	quest_complete_toast
 # 110 "data/maps/SilphCo_2F/scripts.pory"
-	setflag FLAG_QUEST_SILPH_FOLLOWUP_ACTIVE
+	lockall
 # 111 "data/maps/SilphCo_2F/scripts.pory"
-	quest_start_toast
+	showmugshot MUGSHOT_PROF_ARBOR, MUGSHOT_RIGHT
 # 112 "data/maps/SilphCo_2F/scripts.pory"
+	textcolor NPC_TEXT_COLOR_MALE
+# 113 "data/maps/SilphCo_2F/scripts.pory"
+	msgbox SilphCoScientist_EventScript_ProtoballTurnIn_Text_0
+# 121 "data/maps/SilphCo_2F/scripts.pory"
+	closemessage
+# 122 "data/maps/SilphCo_2F/scripts.pory"
+	clearmugshot
+# 123 "data/maps/SilphCo_2F/scripts.pory"
+	setvar VAR_SCENE_SILPH, 3
+# 124 "data/maps/SilphCo_2F/scripts.pory"
+	setflag FLAG_QUEST_REDPROTOBALL_COMPLETED
+# 125 "data/maps/SilphCo_2F/scripts.pory"
+	quest_complete_toast
+# 126 "data/maps/SilphCo_2F/scripts.pory"
+	setflag FLAG_QUEST_SILPH_FOLLOWUP_ACTIVE
+# 127 "data/maps/SilphCo_2F/scripts.pory"
+	quest_start_toast
+# 128 "data/maps/SilphCo_2F/scripts.pory"
 	releaseall
 	end
 
@@ -140,7 +168,13 @@ SilphCoScientist_Give_Protoball_Text_0:
 	.string "more field testing.$"
 
 SilphCoScientist_Give_Protoball_Text_1:
-# 35 "data/maps/SilphCo_2F/scripts.pory"
+# 38 "data/maps/SilphCo_2F/scripts.pory"
+	.string "We're currently conducting research\n"
+	.string "on Pokémon containment devices.\l"
+	.string "Check back later!$"
+
+SilphCoScientist_Give_Protoball_Text_2:
+# 50 "data/maps/SilphCo_2F/scripts.pory"
 	.string "Ah you must be Oak! \n"
 	.string "Great, I could use some help.\p"
 	.string "We're working on making containment \n"
@@ -149,8 +183,8 @@ SilphCoScientist_Give_Protoball_Text_1:
 	.string "but we need someone to test it\l"
 	.string "in the field.$"
 
-SilphCoScientist_Give_Protoball_Text_2:
-# 47 "data/maps/SilphCo_2F/scripts.pory"
+SilphCoScientist_Give_Protoball_Text_3:
+# 62 "data/maps/SilphCo_2F/scripts.pory"
 	.string "These are PROTOBALLS. \p"
 	.string "Using the design of Mr. Fuji's\n"
 	.string "RESEARCH BALLS as a base we\l"
@@ -165,23 +199,23 @@ SilphCoScientist_Give_Protoball_Text_2:
 	.string "bring them back here for testing.\p"
 	.string "Any 2 Pokemon will do!$"
 
-SilphCoScientist_Give_Protoball_Text_3:
-# 62 "data/maps/SilphCo_2F/scripts.pory"
+SilphCoScientist_Give_Protoball_Text_4:
+# 77 "data/maps/SilphCo_2F/scripts.pory"
 	.string "SILPH TESTING$"
 
-SilphCoScientist_Give_Protoball_Text_4:
-# 63 "data/maps/SilphCo_2F/scripts.pory"
+SilphCoScientist_Give_Protoball_Text_5:
+# 78 "data/maps/SilphCo_2F/scripts.pory"
 	.string "PROTOBALL TESTING$"
 
 SilphCoScientist_EventScript_CheckProtoballTurnIn_Text_0:
-# 79 "data/maps/SilphCo_2F/scripts.pory"
+# 95 "data/maps/SilphCo_2F/scripts.pory"
 	.string "Still need two POKéMON caught\n"
 	.string "with the PROTOBALLS I gave you.\l"
 	.string "Research Balls won't work for\l"
 	.string "this test.$"
 
 SilphCoScientist_EventScript_ProtoballTurnIn_Text_0:
-# 97 "data/maps/SilphCo_2F/scripts.pory"
+# 113 "data/maps/SilphCo_2F/scripts.pory"
 	.string "These the two you caught? \n"
 	.string "Perfect, that's all we need.\p"
 	.string "The PROTOBALL held up fine out\n"

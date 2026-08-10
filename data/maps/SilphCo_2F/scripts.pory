@@ -12,7 +12,7 @@ script SilphCo_2F_OnLoad {
 // First meeting hands out the PROTOBALLS. Once that quest is active,
 // repeat visits check the party for a turn-in. Once resolved, idle chat.
 script SilphCoScientist_Give_Protoball {
-    if ((var(VAR_SCENE_SILPH) == 2)) {
+    if (var(VAR_SCENE_SILPH) >= 3) {
         lock
         faceplayer
         showmugshot(MUGSHOT_PROF_ARBOR, MUGSHOT_RIGHT)
@@ -26,10 +26,25 @@ script SilphCoScientist_Give_Protoball {
         release
         end
     }
-    if (var(VAR_SCENE_SILPH) == 1) {
+    if (var(VAR_SCENE_SILPH) == 2) {
         goto(SilphCoScientist_EventScript_CheckProtoballTurnIn)
         end
     }
+    if (var(VAR_SCENE_SILPH) == 0) {
+        lock
+        faceplayer
+        showmugshot(MUGSHOT_PROF_ARBOR, MUGSHOT_RIGHT)
+        textcolor(NPC_TEXT_COLOR_MALE)
+        msgbox("We're currently conducting research\n"
+               "on Pokémon containment devices.\l"
+               "Check back later!")
+        closemessage
+        clearmugshot
+        release
+        end
+    }
+    lock
+    faceplayer
     showmugshot(MUGSHOT_PROF_ARBOR, MUGSHOT_RIGHT)
     textcolor(NPC_TEXT_COLOR_MALE)
     msgbox("Ah you must be Oak! \n"
@@ -61,7 +76,8 @@ script SilphCoScientist_Give_Protoball {
     setflag(FLAG_QUEST_REDPROTOBALL_ACTIVE)
     quest_complete_toast("SILPH TESTING")
     quest_start_toast(COMPOUND_STRING("PROTOBALL TESTING"))
-    releaseall
+    setvar(VAR_SCENE_SILPH, 2)
+    release
     end
 }
 
@@ -104,7 +120,7 @@ script SilphCoScientist_EventScript_ProtoballTurnIn {
            "had a chance to settle in.")
     closemessage
     clearmugshot
-    setvar(VAR_SCENE_SILPH, 2)
+    setvar(VAR_SCENE_SILPH, 3)
     setflag(FLAG_QUEST_REDPROTOBALL_COMPLETED)
     quest_complete_toast
     setflag(FLAG_QUEST_SILPH_FOLLOWUP_ACTIVE)

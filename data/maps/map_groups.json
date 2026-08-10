@@ -415,8 +415,7 @@
     "VermilionCity_Mart",
     "VermilionCity_Gym",
     "VermilionCity_House3",
-    "VermilionCity_Dojo",
-    "VermilionCity_AttackDojo"
+    "VermilionCity_Dojo"
   ],
   "gMapGroup_IndoorCeladon": [
     "CeladonCity_DepartmentStore_1F",
