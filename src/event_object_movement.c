@@ -8612,7 +8612,10 @@ static bool8 MovementAction_RunUpSlow_Step1(struct ObjectEvent *objectEvent, str
 
 static bool8 MovementAction_RunLeftSlow_Step0(struct ObjectEvent *objectEvent, struct Sprite *sprite)
 {
-    InitRunSlow(objectEvent, sprite, DIR_WEST);
+    if (objectEvent->directionOverwrite)
+        InitRunSlow(objectEvent, sprite, objectEvent->directionOverwrite);
+    else
+        InitRunSlow(objectEvent, sprite, DIR_WEST);
     return MovementAction_RunLeftSlow_Step1(objectEvent, sprite);
 }
 
@@ -8628,7 +8631,10 @@ static bool8 MovementAction_RunLeftSlow_Step1(struct ObjectEvent *objectEvent, s
 
 static bool8 MovementAction_RunRightSlow_Step0(struct ObjectEvent *objectEvent, struct Sprite *sprite)
 {
-    InitRunSlow(objectEvent, sprite, DIR_SOUTH);
+    if (objectEvent->directionOverwrite)
+        InitRunSlow(objectEvent, sprite, objectEvent->directionOverwrite);
+    else
+        InitRunSlow(objectEvent, sprite, DIR_EAST);
     return MovementAction_RunRightSlow_Step1(objectEvent, sprite);
 }
 
