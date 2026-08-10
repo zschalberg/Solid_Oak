@@ -4,16 +4,41 @@
 // Yuki's team-preview rematch, Jin's turn limit, and Akio's monotype
 // restriction are intentionally left out until those mechanics are
 // layered back in.
+//
+// CHALLENGE GUY picks a belt tier (White/Blue/Black) or Training mode via
+// VAR_DOJO_CHALLENGE_TIER (1=White, 2=Blue, 3=Black). Each student reads
+// that var to decide which of their _WHITE/_BLUE/_BLACK trainer IDs to use.
+// Blue requires all four *_WHITE_DEFEATED flags; Black requires all four
+// *_BLUE_DEFEATED flags. Training always fights the player's highest
+// currently-unlocked tier with FLAG_SCALE_BOSS_BATTLE applied (offset 0)
+// so it stays an even match at any level, and does NOT set the
+// *_DEFEATED progression flags — only a real White/Blue/Black clear counts.
 
 mapscripts VermilionCity_Dojo_MapScripts {
     MAP_SCRIPT_ON_TRANSITION: VermilionCity_Dojo_OnTransition
+    MAP_SCRIPT_ON_FRAME_TABLE [
+        VAR_TEMP_0, 0: VermilionCity_Dojo_OnFrame
+    ]
 }
 
-// Safety net: clears FLAG_SCALE_BOSS_BATTLE on every map entry so a stray
-// scaled battle flag can never leak in from elsewhere and affect a Dojo
-// trainer.
+// Safety net: clears FLAG_SCALE_BOSS_BATTLE and FLAG_DOJO_TRAINING_MODE on
+// every map entry so a stray scaled/training battle flag can never leak in
+// from elsewhere and affect a Dojo trainer.
 script VermilionCity_Dojo_OnTransition {
     clearflag(FLAG_SCALE_BOSS_BATTLE)
+    clearflag(FLAG_DOJO_TRAINING_MODE)
+    end
+}
+
+// First-ever dojo visit (any dojo, tracked by one shared flag) gets the
+// Challenge Guy intro explaining belts and Training mode. Must be run on the
+// frame table (not ON_RESUME or ON_LOAD) because dialogue/blocking scripts
+// cannot be run synchronously during map loading.
+script VermilionCity_Dojo_OnFrame {
+    setvar(VAR_TEMP_0, 1)
+    if (!flag(FLAG_SEEN_DOJO_INTRO)) {
+        call(Common_EventScript_DojoIntro)
+    }
     end
 }
 
@@ -25,22 +50,150 @@ script VermilionCity_Dojo_EventScript_TmBall {
 }
 
 // ============================================================================
+// CHALLENGE GUY — picks the belt tier used by Ryu/Yuki/Jin/Akio
+// ============================================================================
+
+script VermilionCity_Dojo_EventScript_ChallengeGuy {
+    lock
+    faceplayer
+    msgbox(VermilionCity_Dojo_Text_ChallengeGuyIntro, MSGBOX_DEFAULT)
+    closemessage
+    multichoice(0, 0, MULTI_DOJO_CHALLENGE, FALSE)
+    if (var(VAR_RESULT) == 0) {
+        goto(VermilionCity_Dojo_EventScript_ChallengeTraining)
+        end
+    }
+    if (var(VAR_RESULT) == 1) {
+        goto(VermilionCity_Dojo_EventScript_ChallengeWhite)
+        end
+    }
+    if (var(VAR_RESULT) == 2) {
+        goto(VermilionCity_Dojo_EventScript_ChallengeBlue)
+        end
+    }
+    if (var(VAR_RESULT) == 3) {
+        goto(VermilionCity_Dojo_EventScript_ChallengeBlack)
+        end
+    }
+    release
+    end
+}
+
+script VermilionCity_Dojo_EventScript_ChallengeTraining {
+    setflag(FLAG_DOJO_TRAINING_MODE)
+    setvar(VAR_DOJO_CHALLENGE_TIER, 1)
+    if (flag(FLAG_DOJO_RYU_WHITE_DEFEATED) && flag(FLAG_DOJO_YUKI_WHITE_DEFEATED) && flag(FLAG_DOJO_JIN_WHITE_DEFEATED) && flag(FLAG_DOJO_AKIO_WHITE_DEFEATED)) {
+        setvar(VAR_DOJO_CHALLENGE_TIER, 2)
+    }
+    if (flag(FLAG_DOJO_RYU_BLUE_DEFEATED) && flag(FLAG_DOJO_YUKI_BLUE_DEFEATED) && flag(FLAG_DOJO_JIN_BLUE_DEFEATED) && flag(FLAG_DOJO_AKIO_BLUE_DEFEATED)) {
+        setvar(VAR_DOJO_CHALLENGE_TIER, 3)
+    }
+    msgbox(VermilionCity_Dojo_Text_ChallengeTrainingSet, MSGBOX_AUTOCLOSE)
+    release
+    end
+}
+
+script VermilionCity_Dojo_EventScript_ChallengeWhite {
+    clearflag(FLAG_DOJO_TRAINING_MODE)
+    setvar(VAR_DOJO_CHALLENGE_TIER, 1)
+    msgbox(VermilionCity_Dojo_Text_ChallengeWhiteSet, MSGBOX_AUTOCLOSE)
+    release
+    end
+}
+
+script VermilionCity_Dojo_EventScript_ChallengeBlue {
+    if (!flag(FLAG_DOJO_RYU_WHITE_DEFEATED) || !flag(FLAG_DOJO_YUKI_WHITE_DEFEATED) || !flag(FLAG_DOJO_JIN_WHITE_DEFEATED) || !flag(FLAG_DOJO_AKIO_WHITE_DEFEATED)) {
+        msgbox(VermilionCity_Dojo_Text_ChallengeBlueLocked, MSGBOX_AUTOCLOSE)
+        release
+        end
+    }
+    clearflag(FLAG_DOJO_TRAINING_MODE)
+    setvar(VAR_DOJO_CHALLENGE_TIER, 2)
+    msgbox(VermilionCity_Dojo_Text_ChallengeBlueSet, MSGBOX_AUTOCLOSE)
+    release
+    end
+}
+
+script VermilionCity_Dojo_EventScript_ChallengeBlack {
+    if (!flag(FLAG_DOJO_RYU_BLUE_DEFEATED) || !flag(FLAG_DOJO_YUKI_BLUE_DEFEATED) || !flag(FLAG_DOJO_JIN_BLUE_DEFEATED) || !flag(FLAG_DOJO_AKIO_BLUE_DEFEATED)) {
+        msgbox(VermilionCity_Dojo_Text_ChallengeBlackLocked, MSGBOX_AUTOCLOSE)
+        release
+        end
+    }
+    clearflag(FLAG_DOJO_TRAINING_MODE)
+    setvar(VAR_DOJO_CHALLENGE_TIER, 3)
+    msgbox(VermilionCity_Dojo_Text_ChallengeBlackSet, MSGBOX_AUTOCLOSE)
+    release
+    end
+}
+
+// ============================================================================
 // STUDENT RYU — basic trainer
 // ============================================================================
 
 script VermilionCity_Dojo_EventScript_Ryu {
+    lock
+    faceplayer
     msgbox("Are you ready?", MSGBOX_YESNO)
     if (var(VAR_RESULT) == NO) {
-    msgbox("Come back when you're ready.")
-    closemessage
-    release
-    end
-}
-// falls through to the YES case
+        msgbox("Come back when you're ready.")
+        closemessage
+        release
+        end
+    }
     setflag(FLAG_PREVIEW_BATTLE)
     setvar(0x8008, 2)
-    trainerbattle_single(TRAINER_BLACK_BELT_RYU, VermilionCity_Dojo_Text_RyuIntro, VermilionCity_Dojo_Text_RyuDefeat)
+    if (flag(FLAG_DOJO_TRAINING_MODE)) {
+        setflag(FLAG_SCALE_BOSS_BATTLE)
+        setvar(VAR_SCALE_LEVEL_OFFSET, -1)
+    }
+    if (var(VAR_DOJO_CHALLENGE_TIER) == 3) {
+        setflag(FLAG_SCALE_BOSS_BATTLE)
+        setvar(VAR_SCALE_LEVEL_OFFSET, 5)
+        trainerbattle_single(TRAINER_BLACK_BELT_RYU_BLACK, VermilionCity_Dojo_Text_RyuIntro, VermilionCity_Dojo_Text_RyuDefeat, VermilionCity_Dojo_EventScript_RyuWon)
+    } else {
+        if (var(VAR_DOJO_CHALLENGE_TIER) == 2) {
+            setflag(FLAG_SCALE_BOSS_BATTLE)
+            setvar(VAR_SCALE_LEVEL_OFFSET, 2)
+            trainerbattle_single(TRAINER_BLACK_BELT_RYU_BLUE, VermilionCity_Dojo_Text_RyuIntro, VermilionCity_Dojo_Text_RyuDefeat, VermilionCity_Dojo_EventScript_RyuWon)
+        } else {
+            setflag(FLAG_SCALE_BOSS_BATTLE)
+        setvar(VAR_SCALE_LEVEL_OFFSET, 0)
+            trainerbattle_single(TRAINER_BLACK_BELT_RYU_WHITE, VermilionCity_Dojo_Text_RyuIntro, VermilionCity_Dojo_Text_RyuDefeat, VermilionCity_Dojo_EventScript_RyuWon)
+        }
+    }
+    // Only reached if the trainer was already beaten and the battle was
+    // skipped -- a genuine win jumps straight to RyuWon below instead.
     msgbox(VermilionCity_Dojo_Text_RyuPost, MSGBOX_AUTOCLOSE)
+    end
+}
+
+// trainerbattle_single's 4th-arg win handler REPLACES the rest of
+// EventScript_Ryu on an actual win (mode TRAINER_BATTLE_CONTINUE_SCRIPT
+// jumps here directly via gotobeatenscript) -- it does not resume after
+// the trainerbattle_single call, so all post-battle logic must live here.
+script VermilionCity_Dojo_EventScript_RyuWon {
+    if (var(VAR_DOJO_CHALLENGE_TIER) == 3) {
+        if (flag(FLAG_DOJO_TRAINING_MODE)) {
+            clearflag(TRAINER_FLAGS_START + TRAINER_BLACK_BELT_RYU_BLACK)
+        }
+    } else {
+        if (var(VAR_DOJO_CHALLENGE_TIER) == 2) {
+            if (!flag(FLAG_DOJO_TRAINING_MODE)) {
+                setflag(FLAG_DOJO_RYU_BLUE_DEFEATED)
+            } else {
+                clearflag(TRAINER_FLAGS_START + TRAINER_BLACK_BELT_RYU_BLUE)
+            }
+        } else {
+            if (!flag(FLAG_DOJO_TRAINING_MODE)) {
+                setflag(FLAG_DOJO_RYU_WHITE_DEFEATED)
+            } else {
+                clearflag(TRAINER_FLAGS_START + TRAINER_BLACK_BELT_RYU_WHITE)
+            }
+        }
+    }
+    msgbox(VermilionCity_Dojo_Text_RyuPost, MSGBOX_AUTOCLOSE)
+    release
     end
 }
 
@@ -49,17 +202,61 @@ script VermilionCity_Dojo_EventScript_Ryu {
 // ============================================================================
 
 script VermilionCity_Dojo_EventScript_Yuki {
+    lock
+    faceplayer
     msgbox("Are you ready?", MSGBOX_YESNO)
     if (var(VAR_RESULT) == NO) {
-    msgbox("Come back when you're ready.")
-    closemessage
-    release
-    end
-}
+        msgbox("Come back when you're ready.")
+        closemessage
+        release
+        end
+    }
     setflag(FLAG_PREVIEW_BATTLE)
     setvar(0x8008, 2)
-    trainerbattle_single(TRAINER_LASS_YUKI_DOJO, VermilionCity_Dojo_Text_YukiIntro, VermilionCity_Dojo_Text_YukiDefeat)
+    if (flag(FLAG_DOJO_TRAINING_MODE)) {
+        setflag(FLAG_SCALE_BOSS_BATTLE)
+        setvar(VAR_SCALE_LEVEL_OFFSET, -1)
+    }
+    if (var(VAR_DOJO_CHALLENGE_TIER) == 3) {
+        setvar(VAR_SCALE_LEVEL_OFFSET, 5)
+        trainerbattle_single(TRAINER_LASS_YUKI_DOJO_BLACK, VermilionCity_Dojo_Text_YukiIntro, VermilionCity_Dojo_Text_YukiDefeat, VermilionCity_Dojo_EventScript_YukiWon)
+    } else {
+        if (var(VAR_DOJO_CHALLENGE_TIER) == 2) {
+            setvar(VAR_SCALE_LEVEL_OFFSET, 2)
+            trainerbattle_single(TRAINER_LASS_YUKI_DOJO_BLUE, VermilionCity_Dojo_Text_YukiIntro, VermilionCity_Dojo_Text_YukiDefeat, VermilionCity_Dojo_EventScript_YukiWon)
+        } else {
+            setvar(VAR_SCALE_LEVEL_OFFSET, 0)
+            trainerbattle_single(TRAINER_LASS_YUKI_DOJO_WHITE, VermilionCity_Dojo_Text_YukiIntro, VermilionCity_Dojo_Text_YukiDefeat, VermilionCity_Dojo_EventScript_YukiWon)
+        }
+    }
+    // Only reached if the trainer was already beaten and the battle was
+    // skipped -- a genuine win jumps straight to YukiWon below instead.
     msgbox(VermilionCity_Dojo_Text_YukiPost, MSGBOX_AUTOCLOSE)
+    end
+}
+
+script VermilionCity_Dojo_EventScript_YukiWon {
+    if (var(VAR_DOJO_CHALLENGE_TIER) == 3) {
+        if (flag(FLAG_DOJO_TRAINING_MODE)) {
+            clearflag(TRAINER_FLAGS_START + TRAINER_LASS_YUKI_DOJO_BLACK)
+        }
+    } else {
+        if (var(VAR_DOJO_CHALLENGE_TIER) == 2) {
+            if (!flag(FLAG_DOJO_TRAINING_MODE)) {
+                setflag(FLAG_DOJO_YUKI_BLUE_DEFEATED)
+            } else {
+                clearflag(TRAINER_FLAGS_START + TRAINER_LASS_YUKI_DOJO_BLUE)
+            }
+        } else {
+            if (!flag(FLAG_DOJO_TRAINING_MODE)) {
+                setflag(FLAG_DOJO_YUKI_WHITE_DEFEATED)
+            } else {
+                clearflag(TRAINER_FLAGS_START + TRAINER_LASS_YUKI_DOJO_WHITE)
+            }
+        }
+    }
+    msgbox(VermilionCity_Dojo_Text_YukiPost, MSGBOX_AUTOCLOSE)
+    release
     end
 }
 
@@ -68,23 +265,60 @@ script VermilionCity_Dojo_EventScript_Yuki {
 // ============================================================================
 
 script VermilionCity_Dojo_EventScript_Jin {
+    lock
+    faceplayer
     msgbox("Are you ready?", MSGBOX_YESNO)
     if (var(VAR_RESULT) == NO) {
-    msgbox("Come back when you're ready.")
-    closemessage
-    release
-    end
-}
+        msgbox("Come back when you're ready.")
+        closemessage
+        release
+        end
+    }
     setflag(FLAG_PREVIEW_BATTLE)
     setvar(0x8008, 2)
-    trainerbattle_single(TRAINER_BLACK_BELT_JIN, VermilionCity_Dojo_Text_JinIntro, VermilionCity_Dojo_Text_JinDefeat)
+    if (flag(FLAG_DOJO_TRAINING_MODE)) {
+        setflag(FLAG_SCALE_BOSS_BATTLE)
+        setvar(VAR_SCALE_LEVEL_OFFSET, -1)
+    }
+    if (var(VAR_DOJO_CHALLENGE_TIER) == 3) {
+        setvar(VAR_SCALE_LEVEL_OFFSET, 5)
+        trainerbattle_single(TRAINER_BLACK_BELT_JIN_BLACK, VermilionCity_Dojo_Text_JinIntro, VermilionCity_Dojo_Text_JinDefeat, VermilionCity_Dojo_EventScript_JinWon)
+    } else {
+        if (var(VAR_DOJO_CHALLENGE_TIER) == 2) {
+            setvar(VAR_SCALE_LEVEL_OFFSET, 2)
+            trainerbattle_single(TRAINER_BLACK_BELT_JIN_BLUE, VermilionCity_Dojo_Text_JinIntro, VermilionCity_Dojo_Text_JinDefeat, VermilionCity_Dojo_EventScript_JinWon)
+        } else {
+            setvar(VAR_SCALE_LEVEL_OFFSET, 0)
+            trainerbattle_single(TRAINER_BLACK_BELT_JIN_WHITE, VermilionCity_Dojo_Text_JinIntro, VermilionCity_Dojo_Text_JinDefeat, VermilionCity_Dojo_EventScript_JinWon)
+        }
+    }
+    // Only reached if the trainer was already beaten and the battle was
+    // skipped -- a genuine win jumps straight to JinWon below instead.
     msgbox(VermilionCity_Dojo_Text_JinPost, MSGBOX_AUTOCLOSE)
     end
 }
 
-script VermilionCity_Dojo_EventScript_AkioFirstDefeat {
-    // setflag(FLAG_DOJO_AKIO_DEFEATED)
-    giveitem(ITEM_TM34, 1)
+script VermilionCity_Dojo_EventScript_JinWon {
+    if (var(VAR_DOJO_CHALLENGE_TIER) == 3) {
+        if (flag(FLAG_DOJO_TRAINING_MODE)) {
+            clearflag(TRAINER_FLAGS_START + TRAINER_BLACK_BELT_JIN_BLACK)
+        }
+    } else {
+        if (var(VAR_DOJO_CHALLENGE_TIER) == 2) {
+            if (!flag(FLAG_DOJO_TRAINING_MODE)) {
+                setflag(FLAG_DOJO_JIN_BLUE_DEFEATED)
+            } else {
+                clearflag(TRAINER_FLAGS_START + TRAINER_BLACK_BELT_JIN_BLUE)
+            }
+        } else {
+            if (!flag(FLAG_DOJO_TRAINING_MODE)) {
+                setflag(FLAG_DOJO_JIN_WHITE_DEFEATED)
+            } else {
+                clearflag(TRAINER_FLAGS_START + TRAINER_BLACK_BELT_JIN_WHITE)
+            }
+        }
+    }
+    msgbox(VermilionCity_Dojo_Text_JinPost, MSGBOX_AUTOCLOSE)
     release
     end
 }
@@ -96,32 +330,66 @@ script VermilionCity_Dojo_EventScript_AkioFirstDefeat {
 script VermilionCity_Dojo_EventScript_Akio {
     lock
     faceplayer
-    if (flag(FLAG_DOJO_AKIO_DEFEATED)) {
-        goto(VermilionCity_Dojo_EventScript_AkioIdle)
-    }
     msgbox("Are you ready?", MSGBOX_YESNO)
     if (var(VAR_RESULT) == NO) {
-    msgbox("Come back when you're ready.")
-    closemessage
-    release
-    end
-}
+        msgbox("Come back when you're ready.")
+        closemessage
+        release
+        end
+    }
     setflag(FLAG_PREVIEW_BATTLE)
     setvar(0x8008, 2)
-    trainerbattle_single(TRAINER_EXPERT_AKIO, VermilionCity_Dojo_Text_AkioIntro, VermilionCity_Dojo_Text_AkioDefeat, VermilionCity_Dojo_EventScript_AkioFirstDefeat)
+    if (flag(FLAG_DOJO_TRAINING_MODE)) {
+        setflag(FLAG_SCALE_BOSS_BATTLE)
+        setvar(VAR_SCALE_LEVEL_OFFSET, -1)
+    }
+    if (var(VAR_DOJO_CHALLENGE_TIER) == 3) {
+        setvar(VAR_SCALE_LEVEL_OFFSET, 5)
+        trainerbattle_single(TRAINER_EXPERT_AKIO_BLACK, VermilionCity_Dojo_Text_AkioIntro, VermilionCity_Dojo_Text_AkioDefeat, VermilionCity_Dojo_EventScript_AkioWon)
+    } else {
+        if (var(VAR_DOJO_CHALLENGE_TIER) == 2) {
+            setvar(VAR_SCALE_LEVEL_OFFSET, 2)
+            trainerbattle_single(TRAINER_EXPERT_AKIO_BLUE, VermilionCity_Dojo_Text_AkioIntro, VermilionCity_Dojo_Text_AkioDefeat, VermilionCity_Dojo_EventScript_AkioWon)
+        } else {
+            setvar(VAR_SCALE_LEVEL_OFFSET, 0)
+            trainerbattle_single(TRAINER_EXPERT_AKIO_WHITE, VermilionCity_Dojo_Text_AkioIntro, VermilionCity_Dojo_Text_AkioDefeat, VermilionCity_Dojo_EventScript_AkioWon)
+        }
+    }
+    // Only reached if the trainer was already beaten and the battle was
+    // skipped -- a genuine win jumps straight to AkioWon below instead.
     msgbox(VermilionCity_Dojo_Text_AkioPostBattle, MSGBOX_AUTOCLOSE)
     end
 }
 
-script VermilionCity_Dojo_EventScript_AkioFirstDefeat {
-    setflag(FLAG_DOJO_AKIO_DEFEATED)
-    giveitem(ITEM_TM34, 1)
-    release
-    end
-}
-
-script VermilionCity_Dojo_EventScript_AkioIdle {
-    msgbox(VermilionCity_Dojo_Text_AkioIdle, MSGBOX_NPC)
+// Training mode repeatedly clears the current tier's beaten flag so it
+// stays grindable, which means White-tier wins can fire repeatedly. Guard
+// the TM giveaway on FLAG_DOJO_AKIO_DEFEATED (never cleared by grinding)
+// so it's only ever handed out once.
+script VermilionCity_Dojo_EventScript_AkioWon {
+    if (var(VAR_DOJO_CHALLENGE_TIER) == 3) {
+        if (flag(FLAG_DOJO_TRAINING_MODE)) {
+            clearflag(TRAINER_FLAGS_START + TRAINER_EXPERT_AKIO_BLACK)
+        }
+    } else {
+        if (var(VAR_DOJO_CHALLENGE_TIER) == 2) {
+            if (!flag(FLAG_DOJO_TRAINING_MODE)) {
+                setflag(FLAG_DOJO_AKIO_BLUE_DEFEATED)
+            } else {
+                clearflag(TRAINER_FLAGS_START + TRAINER_EXPERT_AKIO_BLUE)
+            }
+        } else {
+            if (!flag(FLAG_DOJO_TRAINING_MODE)) {
+                setflag(FLAG_DOJO_AKIO_WHITE_DEFEATED)
+                if (!flag(FLAG_DOJO_AKIO_DEFEATED)) {
+                    setflag(FLAG_DOJO_AKIO_DEFEATED)
+                    giveitem(ITEM_TM34, 1)
+                }
+            } else {
+                clearflag(TRAINER_FLAGS_START + TRAINER_EXPERT_AKIO_WHITE)
+            }
+        }
+    }
+    msgbox(VermilionCity_Dojo_Text_AkioPostBattle, MSGBOX_AUTOCLOSE)
     release
     end
 }
@@ -158,6 +426,10 @@ script VermilionCity_Dojo_EventScript_Hitmonchan {
     waitmoncry
     release
     end
+}
+
+script VermilionCity_Dojo_EventScript_TMTutor {
+    goto(Common_EventScript_TMTutor)
 }
 
 // ============================================================================
@@ -257,9 +529,43 @@ text VermilionCity_Dojo_Text_AkioPostBattle {
     "These are for your fieldwork."
 }
 
-text VermilionCity_Dojo_Text_AkioIdle {
-    "Come back when you've seen\n"
-    "more of Kanto."
+text VermilionCity_Dojo_Text_ChallengeGuyIntro {
+    "Welcome to the Attack Dojo!\p"
+    "Pick your challenge.\p"
+    "TRAINING matches whatever belt\n"
+    "you've earned, scaled to your\l"
+    "level. It won't count toward\n"
+    "unlocking the next belt."
+}
+
+text VermilionCity_Dojo_Text_ChallengeTrainingSet {
+    "Training mode selected.\n"
+    "Opponents will match your level."
+}
+
+text VermilionCity_Dojo_Text_ChallengeWhiteSet {
+    "White Belt challenge selected.\n"
+    "Go find your opponents."
+}
+
+text VermilionCity_Dojo_Text_ChallengeBlueSet {
+    "Blue Belt challenge selected.\n"
+    "Go find your opponents."
+}
+
+text VermilionCity_Dojo_Text_ChallengeBlueLocked {
+    "Clear White Belt against all\n"
+    "four of us before you try Blue."
+}
+
+text VermilionCity_Dojo_Text_ChallengeBlackSet {
+    "Black Belt challenge selected.\n"
+    "Go find your opponents."
+}
+
+text VermilionCity_Dojo_Text_ChallengeBlackLocked {
+    "Clear Blue Belt against all\n"
+    "four of us before you try Black."
 }
 
 text VermilionCity_Dojo_Text_Plaque {

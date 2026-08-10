@@ -1,0 +1,39 @@
+// Fires once, the very first time the player enters ANY dojo (shared across
+// all of them via FLAG_SEEN_DOJO_INTRO). Wired into each dojo's
+// MAP_SCRIPT_ON_LOAD with call_if_unset(FLAG_SEEN_DOJO_INTRO, ...).
+// Written as the Challenge Guy speaking directly to the player.
+script Common_EventScript_DojoIntro {
+    lockall
+    msgbox(Common_Text_DojoIntro1, MSGBOX_DEFAULT)
+    msgbox(Common_Text_DojoIntro2, MSGBOX_DEFAULT)
+    msgbox(Common_Text_DojoIntro3, MSGBOX_DEFAULT)
+    setflag(FLAG_SEEN_DOJO_INTRO)
+    releaseall
+    end
+}
+
+text Common_Text_DojoIntro1 {
+    "Oh, a new face! Welcome to\n"
+    "the DOJO.\p"
+    "I'm the CHALLENGE GUY. Every\n"
+    "DOJO like this one has someone\l"
+    "like me posted near the door."
+}
+
+text Common_Text_DojoIntro2 {
+    "Talk to me and I'll let you\n"
+    "pick your challenge: WHITE,\l"
+    "BLUE, or BLACK BELT.\p"
+    "Clear every fighter at one\n"
+    "belt before the next opens up."
+}
+
+text Common_Text_DojoIntro3 {
+    "If you'd rather just spar,\n"
+    "pick TRAINING instead. It'll\l"
+    "match whatever belt you've\n"
+    "already earned to your own\l"
+    "level. Good practice, but it\n"
+    "won't count toward anything.\p"
+    "Go on, give it a shot!"
+}

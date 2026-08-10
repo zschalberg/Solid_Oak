@@ -1,6 +1,22 @@
 const LOCALID_KARATE_MASTER = 5
 
-mapscripts SaffronCity_Dojo_MapScripts {}
+mapscripts SaffronCity_Dojo_MapScripts {
+    MAP_SCRIPT_ON_FRAME_TABLE [
+        VAR_TEMP_0, 0: SaffronCity_Dojo_OnFrame
+    ]
+}
+
+// First-ever dojo visit (any dojo, tracked by one shared flag) gets the
+// Challenge Guy intro explaining belts and Training mode. Must be run on the
+// frame table (not ON_RESUME or ON_LOAD) because dialogue/blocking scripts
+// cannot be run synchronously during map loading.
+script SaffronCity_Dojo_OnFrame {
+    setvar(VAR_TEMP_0, 1)
+    if (!flag(FLAG_SEEN_DOJO_INTRO)) {
+        call(Common_EventScript_DojoIntro)
+    }
+    end
+}
 
 script SaffronCity_Dojo_EventScript_TriggerMasterBattleLeft {
     lockall
