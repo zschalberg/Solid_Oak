@@ -34,6 +34,7 @@
 #include "constants/items.h"
 #include "constants/quest_log.h"
 #include "constants/songs.h"
+#include "event_data.h"
 
 #define TAG_SCROLL_ARROW 110
 
@@ -161,6 +162,7 @@ static void Action_Exit(u8 taskId);
 static void Task_SelectedTMHM_GiveParty(u8 taskId);
 static void Task_SelectedTMHM_GivePC(u8 taskId);
 static void Task_SelectedTMHM_Sell(u8 taskId);
+static void Task_SelectedTMHM_MoveTutor(u8 taskId);
 static void Task_AskConfirmSaleWithAmount(u8 taskId);
 static void Task_PlaceYesNoBox(u8 taskId);
 static void Task_SaleOfTMsCanceled(u8 taskId);
@@ -229,7 +231,8 @@ static void (*const sSelectTMActionTasks[])(u8 taskId) = {
     [TMCASE_FIELD]      = Task_SelectedTMHM_Field,
     [TMCASE_GIVE_PARTY] = Task_SelectedTMHM_GiveParty,
     [TMCASE_SELL]       = Task_SelectedTMHM_Sell,
-    [TMCASE_GIVE_PC]    = Task_SelectedTMHM_GivePC
+    [TMCASE_GIVE_PC]    = Task_SelectedTMHM_GivePC,
+    [TMCASE_MOVE_TUTOR] = Task_SelectedTMHM_MoveTutor,
 };
 
 static const struct MenuAction sMenuActions[] = {
@@ -927,6 +930,7 @@ static void Task_HandleListInput(u8 taskId)
             {
                 PlaySE(SE_SELECT);
                 gSpecialVar_ItemId = ITEM_NONE;
+                gSpecialVar_Result = FALSE;
                 Task_BeginFadeOutFromTMCase(taskId);
             }
             else
@@ -938,6 +942,7 @@ static void Task_HandleListInput(u8 taskId)
                 case LIST_CANCEL:
                     PlaySE(SE_SELECT);
                     gSpecialVar_ItemId = ITEM_NONE;
+                    gSpecialVar_Result = FALSE;
                     Task_BeginFadeOutFromTMCase(taskId);
                     break;
                 default:
@@ -1364,6 +1369,29 @@ static void Task_AfterSale_ReturnToList(u8 taskId)
         PutWindowTilemap(WIN_MOVE_INFO);
         CloseMessageAndReturnToList(taskId);
     }
+}
+
+static void Task_SelectedTMHM_MoveTutor(u8 taskId)
+{
+    s16 *data = gTasks[taskId].data;
+    enum Item itemId = GetBagItemId(POCKET_TM_HM, tListPos);
+
+    if (itemId == ITEM_NONE)
+    {
+        gSpecialVar_Result = FALSE;
+        Task_BeginFadeOutFromTMCase(taskId);
+        return;
+    }
+
+    gSpecialVar_ItemId = itemId;
+    gSpecialVar_0x8005 = ItemIdToBattleMoveId(itemId);
+    sTMCaseDynamicResources->nextScreenCallback = ChooseMonForMoveTutor;
+    Task_BeginFadeOutFromTMCase(taskId);
+}
+
+void ChooseTMFromCase(void)
+{
+    InitTMCase(TMCASE_MOVE_TUTOR, CB2_ReturnToFieldContinueScriptPlayMapMusic, FALSE);
 }
 
 void Pokedude_InitTMCase(void)

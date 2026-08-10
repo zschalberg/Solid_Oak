@@ -1,0 +1,35 @@
+script Common_EventScript_TMTutor {
+    lock
+    faceplayer
+    msgbox(Common_Text_TMTutorWelcome, MSGBOX_YESNO)
+    if (var(VAR_RESULT) == NO) {
+        msgbox(Common_Text_TMTutorDeclined)
+        release
+        end
+    }
+    special(ChooseTMFromCase)
+    waitstate
+    if (var(VAR_RESULT) == FALSE) {
+        msgbox(Common_Text_TMTutorDeclined)
+        release
+        end
+    }
+    msgbox(Common_Text_TMTutorTaught)
+    release
+    end
+}
+
+text Common_Text_TMTutorWelcome {
+    "Welcome to the Dojo!\p"
+    "I can teach your POKéMON any TM move\n"
+    "that you carry in your TM CASE.\p"
+    "Would you like me to teach a move?"
+}
+
+text Common_Text_TMTutorDeclined {
+    "Come back whenever you wish to train!"
+}
+
+text Common_Text_TMTutorTaught {
+    "Your POKéMON has mastered the move!"
+}

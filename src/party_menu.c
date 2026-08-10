@@ -1534,6 +1534,8 @@ static void HandleChooseMonCancel(u8 taskId, s8 *slotPtr)
         break;
     default:
         PlaySE(SE_SELECT);
+        if (gPartyMenu.action == PARTY_ACTION_MOVE_TUTOR)
+            gSpecialVar_Result = FALSE;
         if (gPartyMenu.menuType == PARTY_MENU_TYPE_CHOOSE_MULTIPLE_MONS)
             DisplayCancelChooseMonYesNo(taskId);
         else
@@ -5754,14 +5756,17 @@ static void DisplayLearnMoveMessage(const u8 *str)
     ScheduleBgCopyTilemapToVram(2);
 }
 
+#define learnMoveId     data[0]
+#define learnMoveMethod data[1]
+
 static void DisplayLearnMoveMessageAndClose(u8 taskId, const u8 *str)
 {
+    s16 *data = gTasks[taskId].data;
+    if (learnMoveMethod == LEARN_VIA_TUTOR)
+        gSpecialVar_Result = FALSE;
     DisplayLearnMoveMessage(str);
     gTasks[taskId].func = Task_ClosePartyMenuAfterText;
 }
-
-#define learnMoveId     data[0]
-#define learnMoveMethod data[1]
 
 void ItemUseCB_TMHM(u8 taskId, TaskFunc func)
 {

@@ -9,6 +9,7 @@ enum {
     TMCASE_GIVE_PC,
     TMCASE_POKEDUDE,
     TMCASE_REOPENING,
+    TMCASE_MOVE_TUTOR,
 };
 
 // Alternative value for 'allowSelectClose' argument to InitTMCase.
@@ -18,5 +19,6 @@ enum {
 void InitTMCase(u8 type, void (* exitCallback)(void), bool8 allowSelectClose);
 void ResetTMCaseCursorPos(void);
 void Pokedude_InitTMCase(void);
+void ChooseTMFromCase(void);
 
 #endif //GUARD_TM_CASE_H
