@@ -14402,7 +14402,7 @@ Raichu
 Level: 10
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
-=== TRAINER_BLACK_BELT_RYU ===
+=== TRAINER_BLACK_BELT_RYU_WHITE ===
 Name: RYU
 Class: Black Belt
 Pic: Black Belt
@@ -14418,7 +14418,55 @@ Machop
 Level: 16
 IVs: 5 HP / 5 Atk / 5 Def / 5 SpA / 5 SpD / 5 Spe
 
-=== TRAINER_LASS_YUKI_DOJO ===
+Krabby
+Level: 14
+IVs: 5 HP / 5 Atk / 5 Def / 5 SpA / 5 SpD / 5 Spe
+
+=== TRAINER_BLACK_BELT_RYU_BLUE ===
+Name: RYU
+Class: Black Belt
+Pic: Black Belt
+Gender: Male
+Music: Intense
+AI: Check Bad Move
+
+Mankey
+Level: 25
+IVs: 10 HP / 10 Atk / 10 Def / 10 SpA / 10 SpD / 10 Spe
+
+Machoke
+Level: 28
+IVs: 10 HP / 10 Atk / 10 Def / 10 SpA / 10 SpD / 10 Spe
+
+Krabby
+Level: 27
+IVs: 10 HP / 10 Atk / 10 Def / 10 SpA / 10 SpD / 10 Spe
+
+=== TRAINER_BLACK_BELT_RYU_BLACK ===
+Name: RYU
+Class: Black Belt
+Pic: Black Belt
+Gender: Male
+Music: Intense
+AI: Check Bad Move / Try To Faint / Check Viability
+
+Primeape
+Level: 32
+IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
+
+Machoke
+Level: 36
+IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
+
+Kingler
+Level: 35
+IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
+
+Ariados
+Level: 32
+IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
+
+=== TRAINER_LASS_YUKI_DOJO_WHITE ===
 Name: YUKI
 Class: Lass
 Pic: Lass
@@ -14426,19 +14474,63 @@ Gender: Female
 Music: Female
 AI: Check Bad Move
 
-Vulpix
+Poochyena
 Level: 14
 IVs: 5 HP / 5 Atk / 5 Def / 5 SpA / 5 SpD / 5 Spe
 
-Drowzee
+Paras
 Level: 14
 IVs: 5 HP / 5 Atk / 5 Def / 5 SpA / 5 SpD / 5 Spe
 
-Krabby
+Ekans
 Level: 15
 IVs: 5 HP / 5 Atk / 5 Def / 5 SpA / 5 SpD / 5 Spe
 
-=== TRAINER_BLACK_BELT_JIN ===
+=== TRAINER_LASS_YUKI_DOJO_BLUE ===
+Name: YUKI
+Class: Lass
+Pic: Lass
+Gender: Female
+Music: Female
+AI: Check Bad Move
+
+Mightyena
+Level: 25
+IVs: 10 HP / 10 Atk / 10 Def / 10 SpA / 10 SpD / 10 Spe
+
+Parasect
+Level: 26
+IVs: 10 HP / 10 Atk / 10 Def / 10 SpA / 10 SpD / 10 Spe
+
+Arbok
+Level: 28
+IVs: 10 HP / 10 Atk / 10 Def / 10 SpA / 10 SpD / 10 Spe
+
+=== TRAINER_LASS_YUKI_DOJO_BLACK ===
+Name: YUKI
+Class: Lass
+Pic: Lass
+Gender: Female
+Music: Female
+AI: Check Bad Move / Try To Faint / Check Viability
+
+Mightyena
+Level: 35
+IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
+
+Parasect
+Level: 38
+IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
+
+Arbok
+Level: 36
+IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
+
+Shiftry
+Level: 39
+IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
+
+=== TRAINER_BLACK_BELT_JIN_WHITE ===
 Name: JIN
 Class: Black Belt
 Pic: Black Belt
@@ -14446,15 +14538,60 @@ Gender: Male
 Music: Intense
 AI: Check Bad Move
 
-Geodude
+Nidoran M
 Level: 16
 IVs: 5 HP / 5 Atk / 5 Def / 5 SpA / 5 SpD / 5 Spe
 
-Onix
+Snubbull
 Level: 17
 IVs: 5 HP / 5 Atk / 5 Def / 5 SpA / 5 SpD / 5 Spe
 
-=== TRAINER_EXPERT_AKIO ===
+=== TRAINER_BLACK_BELT_JIN_BLUE ===
+Name: JIN
+Class: Black Belt
+Pic: Black Belt
+Gender: Male
+Music: Intense
+AI: Check Bad Move
+
+Nidorino
+Level: 28
+IVs: 10 HP / 10 Atk / 10 Def / 10 SpA / 10 SpD / 10 Spe
+
+Granbull
+Level: 25
+IVs: 10 HP / 10 Atk / 10 Def / 10 SpA / 10 SpD / 10 Spe
+
+Dodrio
+Level: 26
+IVs: 10 HP / 10 Atk / 10 Def / 10 SpA / 10 SpD / 10 Spe
+
+=== TRAINER_BLACK_BELT_JIN_BLACK ===
+Name: JIN
+Class: Black Belt
+Pic: Black Belt
+Gender: Male
+Music: Intense
+AI: Check Bad Move / Try To Faint / Check Viability
+
+Nidoking
+Level: 36
+Tags: Ace
+IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
+
+Granbull
+Level: 34
+IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
+
+Dodrio
+Level: 35
+IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
+
+Solrock
+Level: 34
+IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
+
+=== TRAINER_EXPERT_AKIO_WHITE ===
 Name: AKIO
 Class: Expert
 Pic: Expert M
@@ -14470,91 +14607,57 @@ Primeape
 Level: 20
 IVs: 10 HP / 10 Atk / 10 Def / 10 SpA / 10 SpD / 10 Spe
 
-Hitmonchan
+Hitmonlee
 Level: 22
 IVs: 10 HP / 10 Atk / 10 Def / 10 SpA / 10 SpD / 10 Spe
 
-=== TRAINER_VERMILION_DOJO_WHITE ===
-Name: Sensei
-Class: Black Belt
-Pic: Black Belt
-AI: Check Bad Move
-
-Machop
-Level: 16
-IVs: 8 HP / 8 Atk / 8 Def / 8 SpA / 8 SpD / 8 Spe
-- Karate Chop
-- Low Kick
-- Focus Energy
-- Rock Smash
-
-Mankey
-Level: 17
-IVs: 8 HP / 8 Atk / 8 Def / 8 SpA / 8 SpD / 8 Spe
-- Scratch
-- Low Kick
-- Leer
-- Karate Chop
-
-=== TRAINER_VERMILION_DOJO_BLUE ===
-Name: Sensei
-Class: Black Belt
-Pic: Black Belt
-AI: Check Bad Move / Try To Faint
+=== TRAINER_EXPERT_AKIO_BLUE ===
+Name: AKIO
+Class: Expert
+Pic: Expert M
+Gender: Male
+Music: Intense
+AI: Check Bad Move / Try To Faint / Check Viability
 
 Machoke
-Level: 22
-IVs: 10 HP / 10 Atk / 10 Def / 10 SpA / 10 SpD / 10 Spe
-- Karate Chop
-- Low Kick
-- Brick Break
-- Bulk Up
+Level: 30
+IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
 
 Primeape
-Level: 22
-IVs: 10 HP / 10 Atk / 10 Def / 10 SpA / 10 SpD / 10 Spe
-- Karate Chop
-- Rock Slide
-- Low Kick
-- Rage
+Level: 33
+IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
 
 Hitmonlee
-Level: 24
-IVs: 10 HP / 10 Atk / 10 Def / 10 SpA / 10 SpD / 10 Spe
-- Rolling Kick
-- Double Kick
-- Jump Kick
-- Brick Break
+Level: 34
+IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
 
-=== TRAINER_VERMILION_DOJO_BLACK ===
-Name: Sensei
-Class: Black Belt
-Pic: Black Belt
+Gyarados
+Level: 35
+IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
+
+=== TRAINER_EXPERT_AKIO_BLACK ===
+Name: AKIO
+Class: Expert
+Pic: Expert M
+Gender: Male
+Music: Intense
 AI: Check Bad Move / Try To Faint / Check Viability
 
 Machamp
-Level: 30
-IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
-- Close Combat
-- Earthquake
-- Bulk Up
-- Stone Edge
+Level: 40
+IVs: 10 HP / 10 Atk / 10 Def / 10 SpA / 10 SpD / 10 Spe
 
 Primeape
-Level: 30
-IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
-- Close Combat
-- Rock Slide
-- Bulk Up
-- U-turn
+Level: 42
+IVs: 10 HP / 10 Atk / 10 Def / 10 SpA / 10 SpD / 10 Spe
 
-Hitmonchan
-Level: 32
+Hitmonlee
+Level: 45
+IVs: 10 HP / 10 Atk / 10 Def / 10 SpA / 10 SpD / 10 Spe
+
+Salamence
+Level: 45
 IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
-- Close Combat
-- Ice Punch
-- Thunder Punch
-- Bulk Up
 
 === TRAINER_TESTER_3V3 ===
 Name: TESTER

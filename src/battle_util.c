@@ -5767,25 +5767,24 @@ enum Obedience GetAttackerObedienceForAction(void)
         return OBEYS; // Not caught in a capped Protoball, or still within its cap.
 
     u8 friendship = GetMonData(mon, MON_DATA_FRIENDSHIP);
-    if (friendship >= FRIENDSHIP_OBEDIENCE_THRESHOLD)
+    if (friendship >= FRIENDSHIP_DANGER_THRESHOLD)
+        return OBEYS; // Not "hates you" yet - no risk at all, no roll.
+
+    // PLACEHOLDER formula pending balancing: chance ramps linearly from 0%
+    // right at the danger threshold up to MAX_DISOBEDIENCE_CHANCE_PERCENT at
+    // friendship 0, so disobedience only becomes a real risk once a mon is
+    // genuinely in "hates you" territory.
+    u32 chance = (FRIENDSHIP_DANGER_THRESHOLD - friendship) * MAX_DISOBEDIENCE_CHANCE_PERCENT / FRIENDSHIP_DANGER_THRESHOLD;
+    if (!RandomPercentage(RNG_NONE, chance))
         return OBEYS;
 
-    // PLACEHOLDER formula pending balancing: disobedience chance scales with
-    // how far below the friendship threshold the mon has fallen.
     rnd = Random();
-    calc = (FRIENDSHIP_OBEDIENCE_THRESHOLD - friendship) * (rnd & 255) >> 8;
-    if (calc < FRIENDSHIP_OBEDIENCE_THRESHOLD / 4)
-        return OBEYS;
 
-    // Only at rock-bottom friendship is there any risk of a permanent
-    // breakout, and only on top of a failed-obedience roll - this is meant
-    // to stay a rare consequence of driving friendship into the ground
-    // (e.g. overusing the friendship-lowering berry medicines), not
-    // something a normally-played game will ever trigger.
-    // Never let a breakout strand the player with zero usable Pokemon - a
-    // permanent mid-battle game-over from bad luck would be excessively
-    // punishing, so this case just falls through to normal disobedience.
-    if (friendship == 0
+    // Breakout is currently disabled pending a redesign - see
+    // BREAKOUT_ENABLED in ball_economy.h. Never let it strand the player
+    // with zero usable Pokemon either way.
+    if (BREAKOUT_ENABLED
+     && friendship == 0
      && CountPartyAliveNonEggMonsExcept(gBattlerPartyIndexes[gBattlerAttacker]) > 0
      && RandomPercentage(RNG_NONE, BREAKOUT_CHANCE_PERCENT))
         return DISOBEYS_BREAKS_FREE;
