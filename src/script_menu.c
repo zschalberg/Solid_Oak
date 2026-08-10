@@ -819,6 +819,14 @@ static const struct MenuAction sMultichoiceList_ReserveContestKeepSpecimen[] = {
     { gStringVar2 }
 };
 
+static const struct MenuAction sMultichoiceList_DojoChallenge[] = {
+    { COMPOUND_STRING("Training") },
+    { COMPOUND_STRING("White Belt") },
+    { COMPOUND_STRING("Blue Belt") },
+    { COMPOUND_STRING("Black Belt") },
+    { gText_Cancel }
+};
+
 struct MultichoiceListStruct
 {
     const struct MenuAction *list;
@@ -924,6 +932,7 @@ static const struct MultichoiceListStruct sMultichoiceLists[] =
     [MULTI_RESERVE_CONTEST_CATEGORY]                   = MULTICHOICE(sMultichoiceList_ReserveContestCategory),
     [MULTI_RESERVE_CONTEST_LOG_DECISION]               = MULTICHOICE(sMultichoiceList_ReserveContestLogDecision),
     [MULTI_RESERVE_CONTEST_KEEP_SPECIMEN]               = MULTICHOICE(sMultichoiceList_ReserveContestKeepSpecimen),
+    [MULTI_DOJO_CHALLENGE]                              = MULTICHOICE(sMultichoiceList_DojoChallenge),
 };
 
 const u8 *const gStdStrings[] = {

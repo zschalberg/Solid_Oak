@@ -9,8 +9,17 @@
 
 // PLACEHOLDERS pending design/balancing pass - not finalized:
 #define RELEASE_COIN_REWARD 50           // Research Coins awarded for "tag and release".
-#define FRIENDSHIP_OBEDIENCE_THRESHOLD 100 // Out of 255. Below this, an over-cap mon risks disobedience.
+#define FRIENDSHIP_DANGER_THRESHOLD 30    // Out of 255. An over-cap mon only risks disobedience below this ("hates you") - no risk at all above it.
+#define MAX_DISOBEDIENCE_CHANCE_PERCENT 25 // Disobedience chance at friendship 0; ramps linearly to 0% at FRIENDSHIP_DANGER_THRESHOLD.
 #define BREAKOUT_CHANCE_PERCENT 10        // Chance (per failed-obedience roll at friendship == 0) that the mon breaks out for good.
+
+// Breakout (permanent flee) is disabled for now: reviving/interacting with a
+// "pending departure" mon mid-battle raised design questions that haven't
+// been resolved yet (see conversation), and the friendship system is meant
+// to matter, not be bypassable. Flip this back on once that's designed -
+// everything downstream (CancelerObedience, BattleScript_MonBreaksFree,
+// FreeMonBall on breakout) is still intact and ready to go.
+#define BREAKOUT_ENABLED FALSE
 
 // Result codes for the Workbench "Upgrade Ball" specials.
 #define UPGRADE_RESULT_SUCCESS 0

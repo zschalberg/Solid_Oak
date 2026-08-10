@@ -475,17 +475,15 @@ static void QuestLogMenu_BuildListMenuTemplate(void)
 {
     u16 i, k = 0;
 
+    // First pass: Active and Locked quests
     for (i = 0; i < sQuestLogMenuState->nQuests; i++)
     {
         if (sQuests[i].group != sActiveQuestGroup)
             continue;
-
         if (FlagGet(sQuests[i].completeFlag))
-        {
-            StringCopy(sFormattedQuestNames[k], COMPOUND_STRING("{COLOR GREEN}{SHADOW LIGHT_GREEN}"));
-            StringAppend(sFormattedQuestNames[k], sQuests[i].name);
-        }
-        else if (FlagGet(sQuests[i].unlockFlag))
+            continue;
+
+        if (FlagGet(sQuests[i].unlockFlag))
         {
             StringCopy(sFormattedQuestNames[k], COMPOUND_STRING("{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}"));
             StringAppend(sFormattedQuestNames[k], sQuests[i].name);
@@ -498,6 +496,22 @@ static void QuestLogMenu_BuildListMenuTemplate(void)
         sListMenuItems[k].id = i;
         k++;
     }
+
+    // Second pass: Completed quests (sorted to the bottom)
+    for (i = 0; i < sQuestLogMenuState->nQuests; i++)
+    {
+        if (sQuests[i].group != sActiveQuestGroup)
+            continue;
+        if (!FlagGet(sQuests[i].completeFlag))
+            continue;
+
+        StringCopy(sFormattedQuestNames[k], COMPOUND_STRING("{COLOR GREEN}{SHADOW LIGHT_GREEN}"));
+        StringAppend(sFormattedQuestNames[k], sQuests[i].name);
+        sListMenuItems[k].name = sFormattedQuestNames[k];
+        sListMenuItems[k].id = i;
+        k++;
+    }
+
     StringCopy(sFormattedQuestNames[k], COMPOUND_STRING("{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}"));
     StringAppend(sFormattedQuestNames[k], gText_Cancel);
     sListMenuItems[k].name = sFormattedQuestNames[k];
