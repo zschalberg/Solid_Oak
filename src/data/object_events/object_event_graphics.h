@@ -378,3 +378,9 @@ const u16 gObjectEventPic_TentacruelSwimming[] = INCBIN_U16("graphics/pokemon/te
 const u16 gObjectEventPal_TentacruelSwimming[] = INCBIN_U16("graphics/pokemon/tentacruel/overworld_normal.gbapal");
 const u16 gObjectEventPic_TentacruelSwimmingXL[] = INCBIN_U16("graphics/pokemon/tentacruel/overworld_swimming_XL.4bpp");
 
+const u16 gObjectEventPal_AgathaOW[] = INCBIN_U16("graphics/object_events/palettes/agatha.gbapal");
+
+const u16 gObjectEventPic_ConstructionWorker[] = INCBIN_U16("graphics/object_events/pics/people/construction_worker.4bpp");
+const u16 gObjectEventPal_ConstructionWorker[] = INCBIN_U16("graphics/object_events/palettes/construction_worker.gbapal");
+
+const u16 gObjectEventPic_ProfOakSurf[] = INCBIN_U16("graphics/object_events/pics/people/pc_prof_oak_surf.4bpp");

@@ -93,4 +93,8 @@ tools/compresSmol/compresSmolTilemap
 *.smolTM
 __pycache__
 Backup_Files/
+IgnoreFiles/
+.ignore/
+scratch/
+*_old.png
 

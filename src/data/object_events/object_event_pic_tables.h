@@ -996,12 +996,12 @@ static const struct SpriteFrameImage sPicTable_Agatha[] = {
     overworld_frame(gObjectEventPic_Agatha, 2, 4, 0),
     overworld_frame(gObjectEventPic_Agatha, 2, 4, 1),
     overworld_frame(gObjectEventPic_Agatha, 2, 4, 2),
-    overworld_frame(gObjectEventPic_Agatha, 2, 4, 0),
-    overworld_frame(gObjectEventPic_Agatha, 2, 4, 0),
-    overworld_frame(gObjectEventPic_Agatha, 2, 4, 1),
-    overworld_frame(gObjectEventPic_Agatha, 2, 4, 1),
-    overworld_frame(gObjectEventPic_Agatha, 2, 4, 2),
-    overworld_frame(gObjectEventPic_Agatha, 2, 4, 2),
+    overworld_frame(gObjectEventPic_Agatha, 2, 4, 3),
+    overworld_frame(gObjectEventPic_Agatha, 2, 4, 4),
+    overworld_frame(gObjectEventPic_Agatha, 2, 4, 5),
+    overworld_frame(gObjectEventPic_Agatha, 2, 4, 6),
+    overworld_frame(gObjectEventPic_Agatha, 2, 4, 7),
+    overworld_frame(gObjectEventPic_Agatha, 2, 4, 8),
 };
 
 static const struct SpriteFrameImage sPicTable_Brock[] = {
@@ -2128,4 +2128,37 @@ static const struct SpriteFrameImage sPicTable_TentacruelSwimmingXL[] = {
     overworld_frame(gObjectEventPic_TentacruelSwimmingXL, 8, 8, 1),
     overworld_frame(gObjectEventPic_TentacruelSwimmingXL, 8, 8, 2),
     overworld_frame(gObjectEventPic_TentacruelSwimmingXL, 8, 8, 2),
+};
+
+static const struct SpriteFrameImage sPicTable_ConstructionWorker[] = {
+    overworld_frame(gObjectEventPic_ConstructionWorker, 2, 4, 0),
+    overworld_frame(gObjectEventPic_ConstructionWorker, 2, 4, 1),
+    overworld_frame(gObjectEventPic_ConstructionWorker, 2, 4, 2),
+    overworld_frame(gObjectEventPic_ConstructionWorker, 2, 4, 3),
+    overworld_frame(gObjectEventPic_ConstructionWorker, 2, 4, 4),
+    overworld_frame(gObjectEventPic_ConstructionWorker, 2, 4, 5),
+    overworld_frame(gObjectEventPic_ConstructionWorker, 2, 4, 6),
+    overworld_frame(gObjectEventPic_ConstructionWorker, 2, 4, 7),
+    overworld_frame(gObjectEventPic_ConstructionWorker, 2, 4, 8),
+};
+
+static const struct SpriteFrameImage sPicTable_ProfOakSurf[] = {
+    overworld_frame(gObjectEventPic_ProfOakSurf, 2, 4, 0),
+    overworld_frame(gObjectEventPic_ProfOakSurf, 2, 4, 1),
+    overworld_frame(gObjectEventPic_ProfOakSurf, 2, 4, 2),
+    overworld_frame(gObjectEventPic_ProfOakSurf, 2, 4, 3),
+    overworld_frame(gObjectEventPic_ProfOakSurf, 2, 4, 4),
+    overworld_frame(gObjectEventPic_ProfOakSurf, 2, 4, 5),
+    overworld_frame(gObjectEventPic_ProfOakSurf, 2, 4, 6),
+    overworld_frame(gObjectEventPic_ProfOakSurf, 2, 4, 7),
+    overworld_frame(gObjectEventPic_ProfOakSurf, 2, 4, 8),
+    overworld_frame(gObjectEventPic_ProfOakSurf, 2, 4, 9),
+    overworld_frame(gObjectEventPic_ProfOakSurf, 2, 4, 10),
+    overworld_frame(gObjectEventPic_ProfOakSurf, 2, 4, 11),
+    overworld_frame(gObjectEventPic_ProfOakSurf, 2, 4, 12),
+    overworld_frame(gObjectEventPic_ProfOakSurf, 2, 4, 13),
+    overworld_frame(gObjectEventPic_ProfOakSurf, 2, 4, 14),
+    overworld_frame(gObjectEventPic_ProfOakSurf, 2, 4, 15),
+    overworld_frame(gObjectEventPic_ProfOakSurf, 2, 4, 16),
+    overworld_frame(gObjectEventPic_ProfOakSurf, 2, 4, 17),
 };

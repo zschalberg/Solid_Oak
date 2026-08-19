@@ -27,12 +27,24 @@ static const u16 sMugshotPal_Agatha[] = INCBIN_U16("graphics/mugshots/agatha.gba
 static const u32 sMugshotPic_ProfArbor[] = INCBIN_U32("graphics/mugshots/prof_arbor.4bpp");
 static const u16 sMugshotPal_ProfArbor[] = INCBIN_U16("graphics/mugshots/prof_arbor.gbapal");
 
+static const u32 sMugshotPic_AgathaUpdated[] = INCBIN_U32("graphics/mugshots/agatha_updated.4bpp");
+static const u16 sMugshotPal_AgathaUpdated[] = INCBIN_U16("graphics/mugshots/agatha_updated.gbapal");
+
+static const u32 sMugshotPic_MrFuji[] = INCBIN_U32("graphics/mugshots/mr_fuji.4bpp");
+static const u16 sMugshotPal_MrFuji[] = INCBIN_U16("graphics/mugshots/mr_fuji.gbapal");
+
+static const u32 sMugshotPic_MrFujiSad[] = INCBIN_U32("graphics/mugshots/mr_fuji_sad.4bpp");
+static const u16 sMugshotPal_MrFujiSad[] = INCBIN_U16("graphics/mugshots/mr_fuji_sad.gbapal");
+
 // Table mapping MUGSHOT_* constants to file references
 static const struct MugshotData sMugshots[] =
 {
-    [MUGSHOT_PROF_OAK]   = { sMugshotPic_ProfOak, sMugshotPal_ProfOak },
-    [MUGSHOT_AGATHA]     = { sMugshotPic_Agatha, sMugshotPal_Agatha },
-    [MUGSHOT_PROF_ARBOR] = { sMugshotPic_ProfArbor, sMugshotPal_ProfArbor },
+    [MUGSHOT_PROF_OAK]        = { sMugshotPic_ProfOak, sMugshotPal_ProfOak },
+    [MUGSHOT_AGATHA]          = { sMugshotPic_Agatha, sMugshotPal_Agatha },
+    [MUGSHOT_PROF_ARBOR]      = { sMugshotPic_ProfArbor, sMugshotPal_ProfArbor },
+    [MUGSHOT_AGATHA_UPDATED]  = { sMugshotPic_AgathaUpdated, sMugshotPal_AgathaUpdated },
+    [MUGSHOT_MR_FUJI]         = { sMugshotPic_MrFuji, sMugshotPal_MrFuji },
+    [MUGSHOT_MR_FUJI_SAD]     = { sMugshotPic_MrFujiSad, sMugshotPal_MrFujiSad },
 };
 
 static EWRAM_DATA u8 sMugshotSpriteIds[2] = {0, 0};
