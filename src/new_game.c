@@ -163,6 +163,7 @@ void NewGameInitData(void)
     FlagSet(FLAG_SYS_PC_STORAGE_DISABLED);
     FlagSet(FLAG_SYS_B_DASH);
     FlagSet(FLAG_SYS_NATIONAL_DEX);
+    FlagSet(FLAG_NO_TRAINER_SEE);
     //FlagClear(FLAG_HIDE_POKEHOUSE_FUJI);
     SetUnlockedPokedexFlags();
     SetLastHealLocationWarp(HEAL_LOCATION_VERMILION_CITY);

@@ -13,6 +13,7 @@
 #include "party_menu.h"
 #include "pokemon_storage_system.h"
 #include "pokemon_summary_screen.h"
+#include "pokemon_size_record.h"
 #include "overworld.h"
 #include "constants/vars.h"
 #include "constants/flags.h"
@@ -21,7 +22,6 @@
 #include "constants/maps.h"
 #include "reserve_contest.h"
 
-static EWRAM_DATA u8 sReserveContestCategory = 0;
 
 // Text constants for evaluation formatting
 static const u8 sText_EvaluationHeader[] = _("Specimen Evaluation:\n");
@@ -75,7 +75,10 @@ void CheckCanRegisterReserveContest(void)
 
 void StartReserveContestSession(void)
 {
-    sReserveContestCategory = gSpecialVar_0x8004;
+    // Save-backed var, not an EWRAM static - a save/reload mid-session must
+    // not lose the chosen category while FLAG_RESERVE_CONTEST_ACTIVE (which
+    // is itself save-backed) survives the reload.
+    VarSet(VAR_RESERVE_CONTEST_CATEGORY, gSpecialVar_0x8004);
 
     FlagSet(FLAG_RESERVE_CONTEST_ACTIVE);
     FlagClear(FLAG_RESERVE_CONTEST_CAUGHT);
@@ -117,7 +120,8 @@ void ProcessReserveContestSpecimenChoice(void)
             GetMonNickname(&gPlayerParty[1], gStringVar1);
             GetMonNickname(&gPlayerParty[2], gStringVar2);
 
-            // Discard Mon 2
+            // Discard Mon 2 - ball economy: released for good, ball frees back to the bag.
+            FreeMonBall(&gPlayerParty[2]);
             ZeroMonData(&gPlayerParty[2]);
             CompactPartySlots();
             CalculatePlayerPartyCount();
@@ -126,6 +130,9 @@ void ProcessReserveContestSpecimenChoice(void)
         {
             GetMonNickname(&gPlayerParty[2], gStringVar1);
             GetMonNickname(&gPlayerParty[1], gStringVar2);
+
+            // Discard Mon 1 - ball economy: released for good, ball frees back to the bag.
+            FreeMonBall(&gPlayerParty[1]);
 
             // Move Mon 2 to Mon 1 slot and discard slot 2
             gPlayerParty[1] = gPlayerParty[2];
@@ -142,16 +149,24 @@ void EvaluateReserveContestCatch(void)
     enum Species species = GetMonData(mon, MON_DATA_SPECIES);
     u32 personality = GetMonData(mon, MON_DATA_PERSONALITY);
     u8 *ptr = gStringVar4;
+    u16 reserveContestCategory = VarGet(VAR_RESERVE_CONTEST_CATEGORY);
 
     GetMonNickname(mon, gStringVar1);
 
-    if (sReserveContestCategory == 0) // Size
+    if (reserveContestCategory == 0) // Size
     {
         u16 heightPercentile = ((personality & 0xFFFF) * 1000) / 65535;
         u16 weightPercentile = (((personality >> 16) & 0xFFFF) * 1000) / 65535;
-        u16 heightDist = (heightPercentile >= 500) ? (heightPercentile - 500) : (500 - heightPercentile);
-        u16 weightDist = (weightPercentile >= 500) ? (weightPercentile - 500) : (500 - weightPercentile);
-        u16 maxDist = (heightDist >= weightDist) ? heightDist : weightDist;
+        // Same categorical tiering used everywhere else size rarity is
+        // judged (exceptional-catch messages, the Pokedex Size Records
+        // page, wild spawn biasing in wild_encounter.c) - see
+        // pokemon_size_record.c. The percentiles above are still a literal
+        // percentile of the raw personality hash and are shown as-is for
+        // context, but the Record/Notable/Unremarkable rating below used to
+        // come from an unrelated linear distance-from-median threshold that
+        // didn't match this tiering, so the same catch could be called a
+        // "Record Specimen" here while being unremarkable everywhere else.
+        u8 sizeTier = GetPersonalitySizeTier(personality);
 
         ptr = StringCopy(ptr, sText_EvaluationHeight);
         ptr = ConvertIntToDecimalStringN(ptr, heightPercentile / 10, STR_CONV_MODE_LEFT_ALIGN, 3);
@@ -166,14 +181,14 @@ void EvaluateReserveContestCatch(void)
         ptr = StringCopy(ptr, sText_PercentPageChar);
 
         ptr = StringCopy(ptr, sText_EvaluationRating);
-        if (maxDist >= 450 || (heightDist >= 350 && weightDist >= 350))
+        if (sizeTier >= 3) // Very Rare
             ptr = StringCopy(ptr, sText_SizeRecord);
-        else if (maxDist >= 300)
+        else if (sizeTier == 2) // Rare
             ptr = StringCopy(ptr, sText_SizeNotable);
         else
             ptr = StringCopy(ptr, sText_SizeUnremarkable);
     }
-    else if (sReserveContestCategory == 1) // Vitality (IVs)
+    else if (reserveContestCategory == 1) // Vitality (IVs)
     {
         u32 hpIV = GetMonData(mon, MON_DATA_HP_IV);
         u32 atkIV = GetMonData(mon, MON_DATA_ATK_IV);

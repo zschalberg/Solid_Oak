@@ -72,7 +72,12 @@ static EWRAM_DATA struct QuestLogMenuResources *sQuestLogMenuState = NULL;
 static EWRAM_DATA u8 *sBg1TilemapBuffer = NULL;
 static EWRAM_DATA struct ListMenuItem *sListMenuItems = NULL;
 static EWRAM_DATA struct QuestLogMenuStaticResources sQuestLogListMenuState = {};
-static EWRAM_DATA u8 sFormattedQuestNames[8][32];
+// Sized per-menu-open (see QuestLogMenu_AllocateResourcesForListMenu) to
+// sQuestLogMenuState->nQuests + 1, the same conservative bound sListMenuItems
+// uses -- large enough for any single group's quests + Cancel, no matter how
+// that total is split across groups. A fixed [8][32] here used to silently
+// overflow into adjacent EWRAM the moment one group's quest count exceeded 7.
+static EWRAM_DATA u8 (*sFormattedQuestNames)[32] = NULL;
 
 static void QuestLogMenu_RunSetup(void);
 static bool8 QuestLogMenu_DoGfxSetup(void);
@@ -138,7 +143,7 @@ static const struct Quest sQuests[] = {
     {
         .name = COMPOUND_STRING("KRAB FISHING"),
         .desc = COMPOUND_STRING("Catch 2 KRABBY.\nStatus: {STR_VAR_1}"),
-        .unlockFlag = FLAG_KRABBY_QUEST_GIVEN,
+        .unlockFlag = FLAG_KRABBY_QUEST_ACTIVE,
         .completeFlag = FLAG_KRABBY_QUEST_COMPLETE,
         .itemId = SPECIES_KRABBY,
         .isPokemonIcon = TRUE,
@@ -146,24 +151,34 @@ static const struct Quest sQuests[] = {
         .mapsec = MAPSEC_FUCHSIA_CITY
     },
     {
-        .name = COMPOUND_STRING("PEWTER GYM CHALLENGE"),
-        .desc = COMPOUND_STRING("Defeat LEADER BROCK at the PEWTER GYM\nto earn the BOULDER BADGE.\nStatus: {STR_VAR_1}"),
-        .unlockFlag = FLAG_QUEST_3_ACTIVE,
-        .completeFlag = FLAG_QUEST_3_COMPLETED,
-        .itemId = ITEM_DOME_FOSSIL,
+        .name = COMPOUND_STRING("ATTACK DOJO CHALLENGE"),
+        .desc = COMPOUND_STRING("Complete the Attack Dojo challenges.\nStatus: {STR_VAR_1}"),
+        .unlockFlag = FLAG_QUEST_ATTACK_DOJO_ACTIVE,
+        .completeFlag = FLAG_QUEST_ATTACK_DOJO_COMPLETED,
+        .itemId = ITEM_POWER_BRACER,
         .isPokemonIcon = FALSE,
-        .group = QUEST_GROUP_MAIN,
-        .mapsec = MAPSEC_PEWTER_CITY
+        .group = QUEST_GROUP_SIDE,
+        .mapsec = MAPSEC_VERMILION_CITY
     },
     {
-        .name = COMPOUND_STRING("CERULEAN GYM CHALLENGE"),
-        .desc = COMPOUND_STRING("Defeat LEADER MISTY at the CERULEAN GYM\nto earn the CASCADE BADGE.\nStatus: {STR_VAR_1}"),
-        .unlockFlag = FLAG_QUEST_4_ACTIVE,
-        .completeFlag = FLAG_QUEST_4_COMPLETED,
-        .itemId = ITEM_BICYCLE,
+        .name = COMPOUND_STRING("DANGEROUS WATERS"),
+        .desc = COMPOUND_STRING("Investigate the reports at the \nFISHING VILLAGE.\nStatus: {STR_VAR_1}"),
+        .unlockFlag = FLAG_QUEST_FISHING_VILLAGE_ACTIVE,
+        .completeFlag = FLAG_QUEST_FISHING_VILLAGE_COMPLETED,
+        .itemId = SPECIES_TENTACRUEL,
+        .isPokemonIcon = TRUE,
+        .group = QUEST_GROUP_MAIN,
+        .mapsec = MAPSEC_FISHING_VILLAGE
+    },
+    {
+        .name = COMPOUND_STRING("THE LOST WORLD"),
+        .desc = COMPOUND_STRING("Investigate the reports at MT. MOON.\nStatus: {STR_VAR_1}"),
+        .unlockFlag = FLAG_QUEST_ZONE2_ACTIVE,
+        .completeFlag = FLAG_QUEST_ZONE2_COMPLETED,
+        .itemId = ITEM_OLD_AMBER,
         .isPokemonIcon = FALSE,
         .group = QUEST_GROUP_MAIN,
-        .mapsec = MAPSEC_CERULEAN_CITY
+        .mapsec = MAPSEC_MT_MOON
     },
     {
         .name = COMPOUND_STRING("POKéMON CHAMPIONSHIP"),
@@ -468,6 +483,13 @@ static bool8 QuestLogMenu_AllocateResourcesForListMenu(void)
         QuestLogMenu_FadeAndBail();
         return FALSE;
     }
+    sFormattedQuestNames = Alloc(sizeof(u8[32]) * (sQuestLogMenuState->nQuests + 1));
+    if (sFormattedQuestNames == NULL)
+    {
+        QuestLogMenu_FreeResources();
+        QuestLogMenu_FadeAndBail();
+        return FALSE;
+    }
     return TRUE;
 }
 
@@ -694,6 +716,11 @@ static void QuestLogMenu_FreeResources(void)
     {
         Free(sListMenuItems);
         sListMenuItems = NULL;
+    }
+    if (sFormattedQuestNames != NULL)
+    {
+        Free(sFormattedQuestNames);
+        sFormattedQuestNames = NULL;
     }
     FreeAllWindowBuffers();
 }

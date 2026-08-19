@@ -2039,13 +2039,20 @@ u8 CreateNPCTrainerPartyFromTrainer(struct Pokemon *party, const struct Trainer 
                 s32 scaledLevel = (s32)maxPlayerLvl + offset;
                 if (offset >= 0)
                 {
+                    // Anti-trivialization floor: a positive/zero offset
+                    // (normal boss scaling) must never scale below the
+                    // trainer's baseline level, so an underleveled player
+                    // can't trivialize an intended-tough fight.
                     if (scaledLevel < level)
                         scaledLevel = level;
                 }
                 else
                 {
-                    if (scaledLevel > level)
-                        scaledLevel = level;
+                    // Negative offset (Easy Mode / Training's handicap) is
+                    // meant to go below baseline for an underleveled player
+                    // - that's the whole point - while still scaling UP
+                    // past baseline for an overleveled one. No baseline
+                    // clamp in either direction here, only the 1-100 range.
                     if (scaledLevel < 1)
                         scaledLevel = 1;
                 }

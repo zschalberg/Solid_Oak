@@ -1050,6 +1050,8 @@ enum __attribute__((packed)) Item
     ITEM_BAXCALIBRITE = 871,
     ITEM_TATSUGIRINITE = 872,
     ITEM_GLIMMORANITE = 873,
+
+//Solid Oak Items
     ITEM_CONVERSION_KIT = 874,
     ITEM_WORKBENCH = 875,
     ITEM_BREWING_KIT = 876,

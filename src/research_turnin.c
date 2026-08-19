@@ -282,34 +282,43 @@ void EvaluateSelectedResearchMon(void)
 
 void TurnInSelectedResearchMon(void)
 {
-    // Double-check party count safety to prevent empty party crashes
-    if (gPlayerPartyCount > 1)
+    // Double-check party count safety to prevent empty party crashes. Every
+    // current caller already gates on getpartysize before letting the
+    // player pick a mon, so this shouldn't trip in practice - but if it
+    // ever does (a future caller skips that gate), fail loudly via
+    // gSpecialVar_Result instead of silently doing nothing while still
+    // reporting the coin total as if the turn-in succeeded.
+    if (gPlayerPartyCount <= 1)
     {
-        struct Pokemon *mon = &gPlayerParty[gSpecialVar_0x8004];
-        enum Species species = GetMonData(mon, MON_DATA_SPECIES);
-        enum Species baseSpecies = GetFamilyBaseSpecies(species);
-        u16 nationalNum = SpeciesToNationalPokedexNum(baseSpecies);
-        
-        // Mark the family as turned in
-        if (nationalNum != NATIONAL_DEX_NONE)
-        {
-            gSaveBlock1Ptr->reserveSpeciesTurnedIn[nationalNum / 8] |= (1 << (nationalNum % 8));
-        }
-
-        // Award the coins using native AddCoins (handles limit and overflow protection)
-        AddCoins(sEvaluatedCoins);
-
-        // Ball economy: the mon is gone for good, so its ball frees back to the bag.
-        FreeMonBall(mon);
-
-        // Remove the selected mon from the party
-        ZeroMonData(mon);
-        CompactPartySlots();
-        CalculatePlayerPartyCount();
+        gSpecialVar_Result = FALSE;
+        return;
     }
+
+    struct Pokemon *mon = &gPlayerParty[gSpecialVar_0x8004];
+    enum Species species = GetMonData(mon, MON_DATA_SPECIES);
+    enum Species baseSpecies = GetFamilyBaseSpecies(species);
+    u16 nationalNum = SpeciesToNationalPokedexNum(baseSpecies);
+
+    // Mark the family as turned in
+    if (nationalNum != NATIONAL_DEX_NONE)
+    {
+        gSaveBlock1Ptr->reserveSpeciesTurnedIn[nationalNum / 8] |= (1 << (nationalNum % 8));
+    }
+
+    // Award the coins using native AddCoins (handles limit and overflow protection)
+    AddCoins(sEvaluatedCoins);
+
+    // Ball economy: the mon is gone for good, so its ball frees back to the bag.
+    FreeMonBall(mon);
+
+    // Remove the selected mon from the party
+    ZeroMonData(mon);
+    CompactPartySlots();
+    CalculatePlayerPartyCount();
 
     // Overwrite gStringVar3 with just the final total coins for use in the success msgbox
     ConvertIntToDecimalStringN(gStringVar3, sEvaluatedCoins, STR_CONV_MODE_LEFT_ALIGN, 5);
+    gSpecialVar_Result = TRUE;
 }
 
 void TransferSelectedMonToPokeBall(void)

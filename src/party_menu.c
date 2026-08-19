@@ -8411,9 +8411,10 @@ static void Task_ReleaseResearchMonStep3(u8 taskId)
     {
         bool8 ballAdded = AddBagItem(ITEM_RESEARCH_BALL, 1);
         if (ballAdded)
-            DisplayPartyMenuMessage(sText_RecoveredResearchBall, FALSE);
+            StringExpandPlaceholders(gStringVar4, sText_RecoveredResearchBall);
         else
-            DisplayPartyMenuMessage(sText_ResearchBallLostBagFull, FALSE);
+            StringExpandPlaceholders(gStringVar4, sText_ResearchBallLostBagFull);
+        DisplayPartyMenuMessage(gStringVar4, FALSE);
 
         ZeroMonData(&gPlayerParty[gPartyMenu.slotId]);
         CompactPartySlots();

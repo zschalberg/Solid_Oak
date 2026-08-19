@@ -63,8 +63,8 @@
       "map": "MAP_FUCHSIA_CITY",
       "x": 37,
       "y": 35,
-      "respawn_map": "MAP_FUCHSIA_CITY_POKEMON_CENTER_1F",
-      "respawn_npc": "LOCALID_FUCHSIA_NURSE"
+      "respawn_map": "MAP_FUCHSIA_CITY_HOUSE2",
+      "respawn_npc": "1"
     },
     {
       "id": "HEAL_LOCATION_CINNABAR_ISLAND",
@@ -181,6 +181,14 @@
       "y": 11,
       "respawn_map": "MAP_BATTLE_FRONTIER_POKEMON_CENTER_1F",
       "respawn_npc": "LOCALID_TOWER_NURSE"
+    },
+    {
+      "id": "HEAL_LOCATION_LAVENDER_VOLUNTEER_HOUSE",
+      "map": "MAP_LAVENDER_TOWN",
+      "x": 6,
+      "y": 6,
+      "respawn_map": "MAP_LAVENDER_TOWN_VOLUNTEER_POKEMON_HOUSE",
+      "respawn_npc": "6"
     }
   ]
 }

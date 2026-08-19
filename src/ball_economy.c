@@ -70,8 +70,15 @@ bool8 FreeMonBall(struct Pokemon *mon)
 
     bool8 recovered = FreeBallItem(GetMonData(mon, MON_DATA_POKEBALL));
 
-    u32 freed = TRUE;
-    SetMonData(mon, MON_DATA_BALL_FREED, &freed);
+    // Only mark the ball freed if it was actually returned to the bag (or
+    // wasn't reusable to begin with, per FreeBallItem) - otherwise a full
+    // bag would silently delete a reusable ball from the finite economy
+    // instead of just failing the free.
+    if (recovered)
+    {
+        u32 freed = TRUE;
+        SetMonData(mon, MON_DATA_BALL_FREED, &freed);
+    }
     return recovered;
 }
 
@@ -82,8 +89,11 @@ bool8 FreeBoxMonBall(struct BoxPokemon *boxMon)
 
     bool8 recovered = FreeBallItem(GetBoxMonData(boxMon, MON_DATA_POKEBALL, NULL));
 
-    u32 freed = TRUE;
-    SetBoxMonData(boxMon, MON_DATA_BALL_FREED, &freed);
+    if (recovered)
+    {
+        u32 freed = TRUE;
+        SetBoxMonData(boxMon, MON_DATA_BALL_FREED, &freed);
+    }
     return recovered;
 }
 
@@ -106,7 +116,11 @@ bool8 CanFreeMonBall(struct Pokemon *mon)
     if (!IsReusableBallItem(ballItem))
         return TRUE;
 
-    return CheckBagHasItem(ballItem, 1) || (CountTotalItemQuantityInBag(ballItem) > 0);
+    // FreeMonBall calls AddBagItem, so what actually matters is whether the
+    // bag has room to receive one more - not whether the player happens to
+    // already own one (that check passed even at zero copies, since it's
+    // effectively "0 > 0" once the last copy of that ball has been used).
+    return CheckBagHasSpace(ballItem, 1);
 }
 
 bool8 CanFreeBoxMonBall(struct BoxPokemon *boxMon)
@@ -118,7 +132,7 @@ bool8 CanFreeBoxMonBall(struct BoxPokemon *boxMon)
     if (!IsReusableBallItem(ballItem))
         return TRUE;
 
-    return CheckBagHasItem(ballItem, 1) || (CountTotalItemQuantityInBag(ballItem) > 0);
+    return CheckBagHasSpace(ballItem, 1);
 }
 
 u16 GetClaimableBallItem(u16 requiredBall)

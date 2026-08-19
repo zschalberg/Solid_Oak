@@ -70,15 +70,8 @@
             "stages": [
                 {
                     "items": [
-                        "ITEM_POKE_BALL",
-                        "ITEM_SUPER_POTION",
-                        "ITEM_ANTIDOTE",
-                        "ITEM_PARALYZE_HEAL",
-                        "ITEM_AWAKENING",
-                        "ITEM_ICE_HEAL",
-                        "ITEM_REPEL",
-                        "ITEM_CONVERSION_KIT",
-                        "ITEM_BREWING_KIT"
+                        "ITEM_ENERGY_POWDER",
+                        "ITEM_HEAL_POWDER"
                     ]
                 }
             ]

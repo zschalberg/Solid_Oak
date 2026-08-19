@@ -11,6 +11,7 @@
 #include "constants/flags.h"
 #include "constants/vars.h"
 #include "constants/characters.h"
+#include "constants/maps.h"
 #include "fuji_lab.h"
 #include "ball_economy.h"
 
@@ -20,12 +21,16 @@ u8 gFujiRoomMonNames[6][20];
 
 u8 GetCurrentFujiRoomBoxId(void)
 {
-    if (gSaveBlock1Ptr->location.mapGroup == 8)
+    // Tied to the Room1/Room10 map constants (generated from
+    // map_groups.json) instead of hardcoded group/number literals, so
+    // adding or removing an unrelated map from this group can't silently
+    // shift every Fuji room to the wrong storage box.
+    if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAP_LAVENDER_TOWN_FUJI_LAB_ROOM1))
     {
         u8 mapNum = gSaveBlock1Ptr->location.mapNum;
-        if (mapNum >= 7 && mapNum <= 16)
+        if (mapNum >= MAP_NUM(MAP_LAVENDER_TOWN_FUJI_LAB_ROOM1) && mapNum <= MAP_NUM(MAP_LAVENDER_TOWN_FUJI_LAB_ROOM10))
         {
-            return mapNum - 7;
+            return mapNum - MAP_NUM(MAP_LAVENDER_TOWN_FUJI_LAB_ROOM1);
         }
     }
     return gSpecialVar_0x8004;
@@ -192,8 +197,19 @@ void FujiLab_Swap(void)
 
     u16 ballItem = GetBoxMonBallItem(boxMon);
     GetBoxMonData(boxMon, MON_DATA_NICKNAME, gStringVar1);
-    CopyItemName(ballItem, gStringVar2);
 
+    // Checked before TryClaimBoxMonBall (which can consume a ball from the
+    // bag) so a bag-full failure here can't strand the player having paid
+    // for the claim with nothing to show for it. gStringVar2 names the
+    // *party* mon's ball here, since that's the one that needs room.
+    if (!CanFreeMonBall(partyMon))
+    {
+        CopyItemName(GetMonBallItem(partyMon), gStringVar2);
+        gSpecialVar_Result = 3; // Bag full
+        return;
+    }
+
+    CopyItemName(ballItem, gStringVar2);
     if (!TryClaimBoxMonBall(boxMon))
     {
         gSpecialVar_Result = 2; // Missing ball

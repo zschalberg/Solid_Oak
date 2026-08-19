@@ -7233,6 +7233,43 @@ IVs: 30 HP / 30 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 - Hypnosis
 - Nightmare
 
+/* Early-game Agatha - the Silph Co protoball turn-in ambush. Ghost/Poison,
+   foreshadowing her Elite Four roster above. Always fought with
+   FLAG_SCALE_BOSS_BATTLE + VAR_SCALE_LEVEL_OFFSET -1 (player's max level - 1),
+   so the baseline Level below is a placeholder only. */
+=== TRAINER_AGATHA_SILPH ===
+Name: AGATHA
+Class: Rival
+Pic: Elite Four Agatha
+Gender: Female
+Music: Female
+Double Battle: No
+AI: Check Bad Move / Try To Faint / Check Viability
+
+Gastly
+Level: 20
+IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+- Lick
+- Hypnosis
+- Night Shade
+- Curse
+
+Nincada 
+Level: 20
+IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+- Protect
+- Leech Life
+- Sand Attack
+- Shadow Ball
+
+Cyndaquil
+Level: 20
+IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+- Flame Wheel
+- Toxic
+- Quick Attack
+- Dig
+
 === TRAINER_ELITE_FOUR_LANCE ===
 Name: LANCE
 Class: Elite Four
