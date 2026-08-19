@@ -97,4 +97,5 @@ IgnoreFiles/
 .ignore/
 scratch/
 *_old.png
+*.latfont
 
