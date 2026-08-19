@@ -104,6 +104,33 @@ SaffronCity_Text_TrainerFanClubSign::
     .string "Many TRAINERS have scribbled their\n"
     .string "names on this sign.$"
 
+SaffronCity_Text_AgathaAmbushIntro::
+    .string "Hey Sammy!\p"
+    .string "What do they have you working on\n"
+    .string "in there? Containment? I guess\l"
+    .string "that makes sense for people who\l"
+    .string "can't earn their POKéMON's respect.\p"
+    .string "Anyways, I got my POKéMON, let's see\n"
+    .string "how Arbor's gift holds up!$"
+
+SaffronCity_Text_AgathaAmbushDefeat::
+    .string "Hmph.$"
+
+SaffronCity_Text_AgathaAmbushVictory::
+    .string "Ha!\p"
+    .string "You've still got a lot to learn\n"
+    .string "Sammy!$"
+
+SaffronCity_Text_AgathaAmbushPostBattle::
+    .string "Did you hear about the tournament\n"
+    .string "they're hosting in Viridian?\p"
+    .string "Anyone can sign up but you have\n"
+    .string "to do a qualifier tournament first.\p"
+    .string "You should sign up, we could crush\n"
+    .string "all of these weak Kanto trainers.\p"
+    .string "Alright, gotta go Sammy, I'll see\n"
+    .string "you later!"
+
 SaffronCity_Text_HowCanClubNotRecognizeLance::
     .string "This FAN CLUB…\n"
     .string "No one here has a clue!\p"

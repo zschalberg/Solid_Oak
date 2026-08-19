@@ -33,7 +33,7 @@
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_CHANNELER",
       "x": 18,
-      "y": 7,
+      "y": 9,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_FACE_LEFT",
       "movement_range_x": 1,

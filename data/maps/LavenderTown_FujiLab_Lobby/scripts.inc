@@ -121,6 +121,8 @@ FujiLab_EventScript_InteractRoomMon::
 	fadescreenswapbuffers FADE_FROM_BLACK
 	compare VAR_RESULT, 2
 	goto_if_eq FujiLab_EventScript_MissingBall
+	compare VAR_RESULT, 3
+	goto_if_eq FujiLab_EventScript_BagFull
 	removeobject VAR_LAST_TALKED
 	addobject VAR_LAST_TALKED
 	playse SE_PC_LOGIN
@@ -147,6 +149,12 @@ FujiLab_EventScript_MissingBall::
 	release
 	end
 
+FujiLab_EventScript_BagFull::
+	playse SE_FAILURE
+	msgbox FujiLab_Text_BagFull, MSGBOX_DEFAULT
+	release
+	end
+
 FujiLab_EventScript_EndInteract::
 	release
 	end
@@ -169,3 +177,8 @@ FujiLab_Text_WithdrawSuccess:
 FujiLab_Text_MissingBall:
 	.string "You need a {STR_VAR_2} in your Bag\n"
 	.string "to withdraw {STR_VAR_1}!$"
+
+FujiLab_Text_BagFull:
+	.string "Your Bag has no room for the\n"
+	.string "{STR_VAR_2} that would come back\l"
+	.string "from swapping out your POKéMON.$"

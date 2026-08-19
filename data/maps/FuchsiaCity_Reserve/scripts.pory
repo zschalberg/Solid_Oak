@@ -19,6 +19,7 @@ mapscripts FuchsiaCity_Reserve_MapScripts {
     //MAP_SCRIPT_ON_TRANSITION: FuchsiaCity_Reserve_OnTransition
     MAP_SCRIPT_ON_FRAME_TABLE [
         VAR_SCENE_FUCHSIA_RESERVE, 0: FuchsiaCity_Reserve_EventScript_CheckIntro
+        VAR_TEMP_0, 0: FuchsiaCity_Reserve_EventScript_ReturnFromExpedition
     ]
 }
 
@@ -53,7 +54,7 @@ script FuchsiaCity_Reserve_EventScript_Intro {
     closemessage
 	applymovement(LOCALID_RESERVE_WORKER1, FuchsiaCity_Reserve_JumpInPlace)
 	waitmovement(0)
-    msgbox("This one handles what comes in -\n"
+    msgbox("This one handles what comes in;\n"
            "turn-ins, records, the ledger.\p"
 		   "Talk to her to turn in your\n"
 		   "Krabby and other Pokemon.")
@@ -99,15 +100,37 @@ script FuchsiaCity_Reserve_EventScript_Intro {
     msgbox("Finally.")
     closemessage
     clearmugshot
-    // Ball economy: first Protoball grant, immediately after the Krabby quest.
-    // See include/ball_economy.h for the finite/reusable ball design.
-    giveitem(ITEM_RED_PROTOBALL, 2)
     setflag(FLAG_HIDE_RESERVE_FUJI)
     setflag(FLAG_HIDE_RESERVE_AGATHA)
     setvar(VAR_SCENE_FUCHSIA_RESERVE, 1)
     setflag(FLAG_KRABBY_QUEST_COMPLETE)
+	setflag(FLAG_QUEST_FISHING_VILLAGE_ACTIVE)
+	quest_complete_toast("KRAB FISHING")
+	quest_start_toast("DANGEROUS WATERS")
     releaseall
     end
+}
+
+// ============================================================================
+// FUJI
+// ============================================================================
+
+script FuschiaCity_Reserve_Fuji {
+	lockall
+	faceplayer
+	msgbox("The FISHING VILLAGE is your next \nstop.\p")
+}
+
+// ============================================================================
+// AGATHA
+// ============================================================================
+
+script FuschiaCity_Reserve_Agatha {
+	lockall
+	faceplayer
+	msgbox("Seems like a waste of time to\n"
+			"turn these POKéMON in. Why not keep\n"
+			"them for your own collection?")
 }
 
 // ============================================================================
@@ -172,6 +195,8 @@ FuchsiaCity_Reserve_EventScript_EvaluateMon::
 	compare VAR_RESULT, TRUE
 	call_if_eq FuchsiaCity_Reserve_EventScript_ShowNewFamilyText
 	special TurnInSelectedResearchMon
+	compare VAR_RESULT, FALSE
+	goto_if_eq FuchsiaCity_Reserve_EventScript_TurnInLastMonRefused
 	updatecoinsbox 19, 0
 	playfanfare MUS_LEVEL_UP
 	msgbox FuchsiaCity_Reserve_Text_TurnInSuccess, MSGBOX_DEFAULT
@@ -331,39 +356,80 @@ FuchsiaCity_Reserve_EventScript_Worker2Category::
 	multichoice 0, 0, MULTI_RESERVE_CONTEST_CATEGORY, FALSE
 	compare VAR_RESULT, MULTI_B_PRESSED
 	goto_if_eq FuchsiaCity_Reserve_EventScript_Worker2Cancelled
+	@ MULTI_RESERVE_CONTEST_CATEGORY's list is Size(0)/Vitality(1)/Rarity(2)/Cancel(3) -
+	@ explicitly picking "Cancel" returns index 3, not MULTI_B_PRESSED, so it must be
+	@ checked separately or the session starts anyway with an invalid category.
+	compare VAR_RESULT, 3
+	goto_if_eq FuchsiaCity_Reserve_EventScript_Worker2Cancelled
 	copyvar VAR_0x8004, VAR_RESULT
 	special StartReserveContestSession
 	msgbox FuchsiaCity_Reserve_Text_ExpeditionStarted, MSGBOX_DEFAULT
-	release
+	closemessage
+	warp MAP_SAFARI_ZONE_CENTER, 26, 30
+	waitstate
 	end
 
 FuchsiaCity_Reserve_EventScript_Worker2Cancelled::
 	release
 	end
 
-FuchsiaCity_Reserve_EventScript_Worker2ActiveSession::
-	goto_if_unset FLAG_RESERVE_CONTEST_CAUGHT, FuchsiaCity_Reserve_EventScript_Worker2NoSpecimenYet
+@ Shared by the manual "check on my expedition" path (Worker2ActiveSession,
+@ talking to Worker 2 directly) and the automatic one (ReturnFromExpedition,
+@ triggered by walking back out of the Safari Zone). Only valid to call once
+@ FLAG_RESERVE_CONTEST_CAUGHT is already known set. Always ends the session -
+@ FinalizeReserveContestCatch clears FLAG_RESERVE_CONTEST_ACTIVE either way.
+FuchsiaCity_Reserve_EventScript_EvaluateAndFinalize::
 	msgbox FuchsiaCity_Reserve_Text_WelcomeBackLetUsEvaluate, MSGBOX_DEFAULT
 	special EvaluateReserveContestCatch
 	msgbox gStringVar4, MSGBOX_DEFAULT
 	msgbox FuchsiaCity_Reserve_Text_WouldYouLikeToKeepMon, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, YES, FuchsiaCity_Reserve_EventScript_Worker2KeepMon
+	goto_if_eq VAR_RESULT, YES, FuchsiaCity_Reserve_EventScript_EvaluateAndFinalize_Keep
 	setvar VAR_0x8004, 1
 	special FinalizeReserveContestCatch
 	msgbox FuchsiaCity_Reserve_Text_CataloguedAndTurnedIn, MSGBOX_DEFAULT
-	release
-	end
+	return
 
-FuchsiaCity_Reserve_EventScript_Worker2KeepMon::
+FuchsiaCity_Reserve_EventScript_EvaluateAndFinalize_Keep::
 	setvar VAR_0x8004, 0
 	special FinalizeReserveContestCatch
 	msgbox FuchsiaCity_Reserve_Text_CataloguedAndKept, MSGBOX_DEFAULT
+	return
+
+FuchsiaCity_Reserve_EventScript_Worker2ActiveSession::
+	goto_if_unset FLAG_RESERVE_CONTEST_CAUGHT, FuchsiaCity_Reserve_EventScript_Worker2NoSpecimenYet
+	call FuchsiaCity_Reserve_EventScript_EvaluateAndFinalize
 	release
 	end
 
 FuchsiaCity_Reserve_EventScript_Worker2NoSpecimenYet::
 	msgbox FuchsiaCity_Reserve_Text_NoSpecimenCaughtYet, MSGBOX_DEFAULT
 	release
+	end
+
+@ Fires automatically on every entry into this room (see
+@ MAP_SCRIPT_ON_FRAME_TABLE, VAR_TEMP_0 is the standard "run once per map
+@ visit" scratch var, reset on every fresh map load) - if an expedition is
+@ active, that's treated as "coming back", whether the player is walking in
+@ from the Safari Zone exit or just from the city door. The expedition ends
+@ right here, whether or not anything was caught, instead of requiring a
+@ separate trip to talk to Worker 2 again.
+FuchsiaCity_Reserve_EventScript_ReturnFromExpedition::
+	setvar VAR_TEMP_0, 1
+	goto_if_unset FLAG_RESERVE_CONTEST_ACTIVE, FuchsiaCity_Reserve_EventScript_ReturnFromExpedition_End
+	lockall
+	goto_if_unset FLAG_RESERVE_CONTEST_CAUGHT, FuchsiaCity_Reserve_EventScript_ReturnFromExpedition_NothingCaught
+	call FuchsiaCity_Reserve_EventScript_EvaluateAndFinalize
+	releaseall
+	end
+
+FuchsiaCity_Reserve_EventScript_ReturnFromExpedition_NothingCaught::
+	msgbox FuchsiaCity_Reserve_Text_ExpeditionEndedNothingCaught, MSGBOX_DEFAULT
+	setvar VAR_0x8004, 0
+	special FinalizeReserveContestCatch
+	releaseall
+	end
+
+FuchsiaCity_Reserve_EventScript_ReturnFromExpedition_End::
 	end
 
 @ ============================================================================
@@ -466,6 +532,13 @@ FuchsiaCity_Reserve_Text_CataloguedAndKept:
 FuchsiaCity_Reserve_Text_NoSpecimenCaughtYet:
 	.string "Nothing caught on this\n"
 	.string "expedition yet.$"
+
+FuchsiaCity_Reserve_Text_ExpeditionEndedNothingCaught:
+	.string "Back already, and nothing to\n"
+	.string "show for it.\p"
+	.string "That's fine. Come find us again\n"
+	.string "whenever you're ready for another\l"
+	.string "expedition.$"
 `
 
 movement FuchsiaCity_Reserve_JumpInPlace {

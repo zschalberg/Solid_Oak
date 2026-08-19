@@ -565,388 +565,390 @@ VermilionCity_EventScript_OldMan2::
 # 285 "data/maps/VermilionCity/scripts.pory"
 	faceplayer
 # 286 "data/maps/VermilionCity/scripts.pory"
-	msgbox VermilionCity_Text_OldMan2Construction1
+	message VermilionCity_Text_OldMan2Seller1
 # 287 "data/maps/VermilionCity/scripts.pory"
-	closemessage
+	waitmessage
 # 288 "data/maps/VermilionCity/scripts.pory"
-	msgbox VermilionCity_Text_OldMan2Construction2
+	pokemart SHOP_ID_VERMILION_CITY_MART
 # 289 "data/maps/VermilionCity/scripts.pory"
-	release
+	msgbox VermilionCity_Text_OldMan2Seller2
 # 290 "data/maps/VermilionCity/scripts.pory"
-	end
+	release
 # 291 "data/maps/VermilionCity/scripts.pory"
-
+	end
 # 292 "data/maps/VermilionCity/scripts.pory"
-VermilionCity_EventScript_Machop::
+
 # 293 "data/maps/VermilionCity/scripts.pory"
-	lock
+VermilionCity_EventScript_Machop::
 # 294 "data/maps/VermilionCity/scripts.pory"
-	faceplayer
-# 295 "data/maps/VermilionCity/scripts.pory"
-	waitse
-# 296 "data/maps/VermilionCity/scripts.pory"
-	playmoncry SPECIES_MACHOP, CRY_MODE_NORMAL
-# 297 "data/maps/VermilionCity/scripts.pory"
-	msgbox VermilionCity_Text_Machop
-# 298 "data/maps/VermilionCity/scripts.pory"
-	waitmoncry
-# 299 "data/maps/VermilionCity/scripts.pory"
-	release
-# 300 "data/maps/VermilionCity/scripts.pory"
-	end
-# 301 "data/maps/VermilionCity/scripts.pory"
-
-# 302 "data/maps/VermilionCity/scripts.pory"
-VermilionCity_EventScript_CitySign::
-# 303 "data/maps/VermilionCity/scripts.pory"
-	msgbox VermilionCity_Text_CitySign, MSGBOX_SIGN
-# 304 "data/maps/VermilionCity/scripts.pory"
-	end
-# 305 "data/maps/VermilionCity/scripts.pory"
-
-# 306 "data/maps/VermilionCity/scripts.pory"
-VermilionCity_EventScript_SnorlaxNotice::
-# 307 "data/maps/VermilionCity/scripts.pory"
-	msgbox VermilionCity_Text_SnorlaxBlockingRoute12, MSGBOX_SIGN
-# 308 "data/maps/VermilionCity/scripts.pory"
-	end
-# 309 "data/maps/VermilionCity/scripts.pory"
-
-# 310 "data/maps/VermilionCity/scripts.pory"
-VermilionCity_EventScript_PokemonFanClubSign::
-# 311 "data/maps/VermilionCity/scripts.pory"
-	msgbox VermilionCity_Text_PokemonFanClubSign, MSGBOX_SIGN
-# 312 "data/maps/VermilionCity/scripts.pory"
-	end
-# 313 "data/maps/VermilionCity/scripts.pory"
-
-# 314 "data/maps/VermilionCity/scripts.pory"
-VermilionCity_EventScript_GymSign::
-# 315 "data/maps/VermilionCity/scripts.pory"
-	lockall
-# 316 "data/maps/VermilionCity/scripts.pory"
-	famechecker FAMECHECKER_LTSURGE, 0
-# 317 "data/maps/VermilionCity/scripts.pory"
-	msgbox VermilionCity_Text_GymSign
-# 318 "data/maps/VermilionCity/scripts.pory"
-	releaseall
-# 319 "data/maps/VermilionCity/scripts.pory"
-	end
-# 320 "data/maps/VermilionCity/scripts.pory"
-
-# 321 "data/maps/VermilionCity/scripts.pory"
-VermilionCity_EventScript_HarborSign::
-# 322 "data/maps/VermilionCity/scripts.pory"
-	msgbox VermilionCity_Text_VermilionHarbor, MSGBOX_SIGN
-# 323 "data/maps/VermilionCity/scripts.pory"
-	end
-# 324 "data/maps/VermilionCity/scripts.pory"
-
-# 325 "data/maps/VermilionCity/scripts.pory"
-VermilionCity_EventScript_TesterSailor::
-# 326 "data/maps/VermilionCity/scripts.pory"
 	lock
-# 327 "data/maps/VermilionCity/scripts.pory"
+# 295 "data/maps/VermilionCity/scripts.pory"
 	faceplayer
-# 328 "data/maps/VermilionCity/scripts.pory"
-	message VermilionCity_Text_Tester_ChooseOption
-# 329 "data/maps/VermilionCity/scripts.pory"
-	waitmessage
-# 330 "data/maps/VermilionCity/scripts.pory"
-	goto VermilionCity_EventScript_TesterSailor_Menu
-# 331 "data/maps/VermilionCity/scripts.pory"
-
-# 332 "data/maps/VermilionCity/scripts.pory"
-VermilionCity_EventScript_TesterSailor_Menu::
-# 333 "data/maps/VermilionCity/scripts.pory"
-	dynmultipush VermilionCity_Text_Tester_ToggleDoubleFlag, 0
-# 334 "data/maps/VermilionCity/scripts.pory"
-	dynmultipush VermilionCity_Text_Tester_StandardBattle, 1
-# 335 "data/maps/VermilionCity/scripts.pory"
-	dynmultipush VermilionCity_Text_Tester_ScaledBossBattle, 2
-# 336 "data/maps/VermilionCity/scripts.pory"
-	dynmultipush VermilionCity_Text_Tester_ScaledWildBoss, 3
-# 337 "data/maps/VermilionCity/scripts.pory"
-	dynmultipush VermilionCity_Text_Tester_ToggleWildScaling, 4
-# 338 "data/maps/VermilionCity/scripts.pory"
-	dynmultipush VermilionCity_Text_Tester_Close, 5
-# 339 "data/maps/VermilionCity/scripts.pory"
-	dynmultistack 0, 0, FALSE, 6, 0, 0, DYN_MULTICHOICE_CB_NONE
-# 340 "data/maps/VermilionCity/scripts.pory"
-	switch VAR_RESULT
-# 341 "data/maps/VermilionCity/scripts.pory"
-	case 0, VermilionCity_EventScript_TesterSailor_ToggleDoubleFlag
-# 342 "data/maps/VermilionCity/scripts.pory"
-	case 1, VermilionCity_EventScript_TesterSailor_StandardBattle
-# 343 "data/maps/VermilionCity/scripts.pory"
-	case 2, VermilionCity_EventScript_TesterSailor_ScaledBossBattle
-# 344 "data/maps/VermilionCity/scripts.pory"
-	case 3, VermilionCity_EventScript_TesterSailor_ScaledWildBoss
-# 345 "data/maps/VermilionCity/scripts.pory"
-	case 4, VermilionCity_EventScript_TesterSailor_ToggleWildScaling
-# 346 "data/maps/VermilionCity/scripts.pory"
-	case 5, VermilionCity_EventScript_TesterSailor_Close
-# 347 "data/maps/VermilionCity/scripts.pory"
-	case MULTI_B_PRESSED, VermilionCity_EventScript_TesterSailor_Close
-# 348 "data/maps/VermilionCity/scripts.pory"
-	end
-# 349 "data/maps/VermilionCity/scripts.pory"
-
-# 350 "data/maps/VermilionCity/scripts.pory"
-VermilionCity_EventScript_TesterSailor_ToggleDoubleFlag::
-# 351 "data/maps/VermilionCity/scripts.pory"
-	checkflag FLAG_DOUBLE_BATTLE_WITH_ONE_MON
-# 352 "data/maps/VermilionCity/scripts.pory"
-	goto_if_set FLAG_DOUBLE_BATTLE_WITH_ONE_MON, VermilionCity_EventScript_TesterSailor_DisableDoubleFlag
-# 353 "data/maps/VermilionCity/scripts.pory"
-	setflag FLAG_DOUBLE_BATTLE_WITH_ONE_MON
-# 354 "data/maps/VermilionCity/scripts.pory"
-	msgbox VermilionCity_Text_TesterSailor_FlagNowEnabled, MSGBOX_DEFAULT
-# 355 "data/maps/VermilionCity/scripts.pory"
-	goto VermilionCity_EventScript_TesterSailor_Menu
-# 356 "data/maps/VermilionCity/scripts.pory"
-
-# 357 "data/maps/VermilionCity/scripts.pory"
-VermilionCity_EventScript_TesterSailor_DisableDoubleFlag::
-# 358 "data/maps/VermilionCity/scripts.pory"
-	clearflag FLAG_DOUBLE_BATTLE_WITH_ONE_MON
-# 359 "data/maps/VermilionCity/scripts.pory"
-	msgbox VermilionCity_Text_TesterSailor_FlagNowDisabled, MSGBOX_DEFAULT
-# 360 "data/maps/VermilionCity/scripts.pory"
-	goto VermilionCity_EventScript_TesterSailor_Menu
-# 361 "data/maps/VermilionCity/scripts.pory"
-
-# 362 "data/maps/VermilionCity/scripts.pory"
-VermilionCity_EventScript_TesterSailor_ToggleWildScaling::
-# 363 "data/maps/VermilionCity/scripts.pory"
-	checkflag FLAG_SCALE_WILD_POKEMON
-# 364 "data/maps/VermilionCity/scripts.pory"
-	goto_if_set FLAG_SCALE_WILD_POKEMON, VermilionCity_EventScript_TesterSailor_DisableWildScaling
-# 365 "data/maps/VermilionCity/scripts.pory"
-	setflag FLAG_SCALE_WILD_POKEMON
-# 366 "data/maps/VermilionCity/scripts.pory"
-	msgbox VermilionCity_Text_TesterSailor_WildScalingNowEnabled, MSGBOX_DEFAULT
-# 367 "data/maps/VermilionCity/scripts.pory"
-	goto VermilionCity_EventScript_TesterSailor_Menu
-# 368 "data/maps/VermilionCity/scripts.pory"
-
-# 369 "data/maps/VermilionCity/scripts.pory"
-VermilionCity_EventScript_TesterSailor_DisableWildScaling::
-# 370 "data/maps/VermilionCity/scripts.pory"
-	clearflag FLAG_SCALE_WILD_POKEMON
-# 371 "data/maps/VermilionCity/scripts.pory"
-	msgbox VermilionCity_Text_TesterSailor_WildScalingNowDisabled, MSGBOX_DEFAULT
-# 372 "data/maps/VermilionCity/scripts.pory"
-	goto VermilionCity_EventScript_TesterSailor_Menu
-# 373 "data/maps/VermilionCity/scripts.pory"
-
-# 374 "data/maps/VermilionCity/scripts.pory"
-VermilionCity_EventScript_TesterSailor_StandardBattle::
-# 375 "data/maps/VermilionCity/scripts.pory"
-	cleartrainerflag TRAINER_VERMILION_TESTER
-# 376 "data/maps/VermilionCity/scripts.pory"
-	trainerbattle_double TRAINER_VERMILION_TESTER, VermilionCity_Text_TesterSailorBattleIntro, VermilionCity_Text_TesterSailorBattleDefeat, VermilionCity_Text_TesterSailorNotEnoughMons
-# 377 "data/maps/VermilionCity/scripts.pory"
-	msgbox VermilionCity_Text_TesterSailorPostBattle, MSGBOX_DEFAULT
-# 378 "data/maps/VermilionCity/scripts.pory"
+# 296 "data/maps/VermilionCity/scripts.pory"
+	waitse
+# 297 "data/maps/VermilionCity/scripts.pory"
+	playmoncry SPECIES_MACHOP, CRY_MODE_NORMAL
+# 298 "data/maps/VermilionCity/scripts.pory"
+	msgbox VermilionCity_Text_Machop
+# 299 "data/maps/VermilionCity/scripts.pory"
+	waitmoncry
+# 300 "data/maps/VermilionCity/scripts.pory"
 	release
-# 379 "data/maps/VermilionCity/scripts.pory"
+# 301 "data/maps/VermilionCity/scripts.pory"
 	end
-# 380 "data/maps/VermilionCity/scripts.pory"
+# 302 "data/maps/VermilionCity/scripts.pory"
 
-# 381 "data/maps/VermilionCity/scripts.pory"
-VermilionCity_EventScript_TesterSailor_ScaledBossBattle::
-# 382 "data/maps/VermilionCity/scripts.pory"
-	message VermilionCity_Text_Tester_ChooseOffset
-# 383 "data/maps/VermilionCity/scripts.pory"
-	waitmessage
-# 384 "data/maps/VermilionCity/scripts.pory"
-	dynmultipush VermilionCity_Text_Tester_OffsetPlus2, 2
-# 385 "data/maps/VermilionCity/scripts.pory"
-	dynmultipush VermilionCity_Text_Tester_OffsetPlus5, 5
-# 386 "data/maps/VermilionCity/scripts.pory"
-	dynmultipush VermilionCity_Text_Tester_OffsetPlus10, 10
-# 387 "data/maps/VermilionCity/scripts.pory"
-	dynmultipush VermilionCity_Text_Tester_OffsetPlus20, 20
-# 388 "data/maps/VermilionCity/scripts.pory"
-	dynmultipush VermilionCity_Text_Tester_OffsetMinus5, -5
-# 389 "data/maps/VermilionCity/scripts.pory"
-	dynmultipush VermilionCity_Text_Tester_OffsetMinus10, -10
-# 390 "data/maps/VermilionCity/scripts.pory"
-	dynmultistack 0, 0, FALSE, 6, 1, 0, DYN_MULTICHOICE_CB_NONE
-# 391 "data/maps/VermilionCity/scripts.pory"
-	setvar VAR_SCALE_LEVEL_OFFSET, VAR_RESULT
-# 392 "data/maps/VermilionCity/scripts.pory"
-	cleartrainerflag TRAINER_VERMILION_TESTER
-# 393 "data/maps/VermilionCity/scripts.pory"
-	setflag FLAG_SCALE_BOSS_BATTLE
-# 394 "data/maps/VermilionCity/scripts.pory"
-	trainerbattle_double TRAINER_VERMILION_TESTER, VermilionCity_Text_TesterSailorBattleIntro, VermilionCity_Text_TesterSailorBattleDefeat, VermilionCity_Text_TesterSailorNotEnoughMons
-# 395 "data/maps/VermilionCity/scripts.pory"
-	clearflag FLAG_SCALE_BOSS_BATTLE
-# 396 "data/maps/VermilionCity/scripts.pory"
-	setvar VAR_SCALE_LEVEL_OFFSET, 0
-# 397 "data/maps/VermilionCity/scripts.pory"
-	msgbox VermilionCity_Text_TesterSailorPostBattle, MSGBOX_DEFAULT
-# 398 "data/maps/VermilionCity/scripts.pory"
-	release
-# 399 "data/maps/VermilionCity/scripts.pory"
+# 303 "data/maps/VermilionCity/scripts.pory"
+VermilionCity_EventScript_CitySign::
+# 304 "data/maps/VermilionCity/scripts.pory"
+	msgbox VermilionCity_Text_CitySign, MSGBOX_SIGN
+# 305 "data/maps/VermilionCity/scripts.pory"
 	end
-# 400 "data/maps/VermilionCity/scripts.pory"
+# 306 "data/maps/VermilionCity/scripts.pory"
 
-# 401 "data/maps/VermilionCity/scripts.pory"
-VermilionCity_EventScript_TesterSailor_ScaledWildBoss::
-# 402 "data/maps/VermilionCity/scripts.pory"
-	message VermilionCity_Text_Tester_ChooseOffset
-# 403 "data/maps/VermilionCity/scripts.pory"
-	waitmessage
-# 404 "data/maps/VermilionCity/scripts.pory"
-	dynmultipush VermilionCity_Text_Tester_OffsetPlus2, 2
-# 405 "data/maps/VermilionCity/scripts.pory"
-	dynmultipush VermilionCity_Text_Tester_OffsetPlus5, 5
-# 406 "data/maps/VermilionCity/scripts.pory"
-	dynmultipush VermilionCity_Text_Tester_OffsetPlus10, 10
-# 407 "data/maps/VermilionCity/scripts.pory"
-	dynmultipush VermilionCity_Text_Tester_OffsetPlus20, 20
-# 408 "data/maps/VermilionCity/scripts.pory"
-	dynmultipush VermilionCity_Text_Tester_OffsetMinus5, -5
-# 409 "data/maps/VermilionCity/scripts.pory"
-	dynmultipush VermilionCity_Text_Tester_OffsetMinus10, -10
-# 410 "data/maps/VermilionCity/scripts.pory"
-	dynmultistack 0, 0, FALSE, 6, 1, 0, DYN_MULTICHOICE_CB_NONE
-# 411 "data/maps/VermilionCity/scripts.pory"
-	setvar VAR_0x8004, SPECIES_TENTACRUEL
-# 412 "data/maps/VermilionCity/scripts.pory"
-	setvar VAR_0x8005, 20
-# 413 "data/maps/VermilionCity/scripts.pory"
-	setvar VAR_0x8006, VAR_RESULT
-# 414 "data/maps/VermilionCity/scripts.pory"
-	setvar VAR_0x8007, ITEM_NONE
-# 415 "data/maps/VermilionCity/scripts.pory"
-	callnative Script_SetScaledWildBattle
-# 416 "data/maps/VermilionCity/scripts.pory"
-	dowildbattle
-# 417 "data/maps/VermilionCity/scripts.pory"
-	release
-# 418 "data/maps/VermilionCity/scripts.pory"
+# 307 "data/maps/VermilionCity/scripts.pory"
+VermilionCity_EventScript_SnorlaxNotice::
+# 308 "data/maps/VermilionCity/scripts.pory"
+	msgbox VermilionCity_Text_SnorlaxBlockingRoute12, MSGBOX_SIGN
+# 309 "data/maps/VermilionCity/scripts.pory"
 	end
-# 419 "data/maps/VermilionCity/scripts.pory"
+# 310 "data/maps/VermilionCity/scripts.pory"
 
-# 420 "data/maps/VermilionCity/scripts.pory"
-VermilionCity_EventScript_TesterSailor_Close::
-# 421 "data/maps/VermilionCity/scripts.pory"
-	msgbox VermilionCity_Text_TesterSailor_NoBattle, MSGBOX_DEFAULT
-# 422 "data/maps/VermilionCity/scripts.pory"
-	release
-# 423 "data/maps/VermilionCity/scripts.pory"
+# 311 "data/maps/VermilionCity/scripts.pory"
+VermilionCity_EventScript_PokemonFanClubSign::
+# 312 "data/maps/VermilionCity/scripts.pory"
+	msgbox VermilionCity_Text_PokemonFanClubSign, MSGBOX_SIGN
+# 313 "data/maps/VermilionCity/scripts.pory"
 	end
-# 424 "data/maps/VermilionCity/scripts.pory"
+# 314 "data/maps/VermilionCity/scripts.pory"
 
-# 425 "data/maps/VermilionCity/scripts.pory"
-VermilionCity_EventScript_ArborDockScene::
-# 426 "data/maps/VermilionCity/scripts.pory"
-	goto_if_unset FLAG_SYS_POKEMON_GET, VermilionCity_EventScript_ArborDockScene_NotReady
-# 427 "data/maps/VermilionCity/scripts.pory"
+# 315 "data/maps/VermilionCity/scripts.pory"
+VermilionCity_EventScript_GymSign::
+# 316 "data/maps/VermilionCity/scripts.pory"
 	lockall
+# 317 "data/maps/VermilionCity/scripts.pory"
+	famechecker FAMECHECKER_LTSURGE, 0
+# 318 "data/maps/VermilionCity/scripts.pory"
+	msgbox VermilionCity_Text_GymSign
+# 319 "data/maps/VermilionCity/scripts.pory"
+	releaseall
+# 320 "data/maps/VermilionCity/scripts.pory"
+	end
+# 321 "data/maps/VermilionCity/scripts.pory"
+
+# 322 "data/maps/VermilionCity/scripts.pory"
+VermilionCity_EventScript_HarborSign::
+# 323 "data/maps/VermilionCity/scripts.pory"
+	msgbox VermilionCity_Text_VermilionHarbor, MSGBOX_SIGN
+# 324 "data/maps/VermilionCity/scripts.pory"
+	end
+# 325 "data/maps/VermilionCity/scripts.pory"
+
+# 326 "data/maps/VermilionCity/scripts.pory"
+VermilionCity_EventScript_TesterSailor::
+# 327 "data/maps/VermilionCity/scripts.pory"
+	lock
+# 328 "data/maps/VermilionCity/scripts.pory"
+	faceplayer
+# 329 "data/maps/VermilionCity/scripts.pory"
+	message VermilionCity_Text_Tester_ChooseOption
+# 330 "data/maps/VermilionCity/scripts.pory"
+	waitmessage
+# 331 "data/maps/VermilionCity/scripts.pory"
+	goto VermilionCity_EventScript_TesterSailor_Menu
+# 332 "data/maps/VermilionCity/scripts.pory"
+
+# 333 "data/maps/VermilionCity/scripts.pory"
+VermilionCity_EventScript_TesterSailor_Menu::
+# 334 "data/maps/VermilionCity/scripts.pory"
+	dynmultipush VermilionCity_Text_Tester_ToggleDoubleFlag, 0
+# 335 "data/maps/VermilionCity/scripts.pory"
+	dynmultipush VermilionCity_Text_Tester_StandardBattle, 1
+# 336 "data/maps/VermilionCity/scripts.pory"
+	dynmultipush VermilionCity_Text_Tester_ScaledBossBattle, 2
+# 337 "data/maps/VermilionCity/scripts.pory"
+	dynmultipush VermilionCity_Text_Tester_ScaledWildBoss, 3
+# 338 "data/maps/VermilionCity/scripts.pory"
+	dynmultipush VermilionCity_Text_Tester_ToggleWildScaling, 4
+# 339 "data/maps/VermilionCity/scripts.pory"
+	dynmultipush VermilionCity_Text_Tester_Close, 5
+# 340 "data/maps/VermilionCity/scripts.pory"
+	dynmultistack 0, 0, FALSE, 6, 0, 0, DYN_MULTICHOICE_CB_NONE
+# 341 "data/maps/VermilionCity/scripts.pory"
+	switch VAR_RESULT
+# 342 "data/maps/VermilionCity/scripts.pory"
+	case 0, VermilionCity_EventScript_TesterSailor_ToggleDoubleFlag
+# 343 "data/maps/VermilionCity/scripts.pory"
+	case 1, VermilionCity_EventScript_TesterSailor_StandardBattle
+# 344 "data/maps/VermilionCity/scripts.pory"
+	case 2, VermilionCity_EventScript_TesterSailor_ScaledBossBattle
+# 345 "data/maps/VermilionCity/scripts.pory"
+	case 3, VermilionCity_EventScript_TesterSailor_ScaledWildBoss
+# 346 "data/maps/VermilionCity/scripts.pory"
+	case 4, VermilionCity_EventScript_TesterSailor_ToggleWildScaling
+# 347 "data/maps/VermilionCity/scripts.pory"
+	case 5, VermilionCity_EventScript_TesterSailor_Close
+# 348 "data/maps/VermilionCity/scripts.pory"
+	case MULTI_B_PRESSED, VermilionCity_EventScript_TesterSailor_Close
+# 349 "data/maps/VermilionCity/scripts.pory"
+	end
+# 350 "data/maps/VermilionCity/scripts.pory"
+
+# 351 "data/maps/VermilionCity/scripts.pory"
+VermilionCity_EventScript_TesterSailor_ToggleDoubleFlag::
+# 352 "data/maps/VermilionCity/scripts.pory"
+	checkflag FLAG_DOUBLE_BATTLE_WITH_ONE_MON
+# 353 "data/maps/VermilionCity/scripts.pory"
+	goto_if_set FLAG_DOUBLE_BATTLE_WITH_ONE_MON, VermilionCity_EventScript_TesterSailor_DisableDoubleFlag
+# 354 "data/maps/VermilionCity/scripts.pory"
+	setflag FLAG_DOUBLE_BATTLE_WITH_ONE_MON
+# 355 "data/maps/VermilionCity/scripts.pory"
+	msgbox VermilionCity_Text_TesterSailor_FlagNowEnabled, MSGBOX_DEFAULT
+# 356 "data/maps/VermilionCity/scripts.pory"
+	goto VermilionCity_EventScript_TesterSailor_Menu
+# 357 "data/maps/VermilionCity/scripts.pory"
+
+# 358 "data/maps/VermilionCity/scripts.pory"
+VermilionCity_EventScript_TesterSailor_DisableDoubleFlag::
+# 359 "data/maps/VermilionCity/scripts.pory"
+	clearflag FLAG_DOUBLE_BATTLE_WITH_ONE_MON
+# 360 "data/maps/VermilionCity/scripts.pory"
+	msgbox VermilionCity_Text_TesterSailor_FlagNowDisabled, MSGBOX_DEFAULT
+# 361 "data/maps/VermilionCity/scripts.pory"
+	goto VermilionCity_EventScript_TesterSailor_Menu
+# 362 "data/maps/VermilionCity/scripts.pory"
+
+# 363 "data/maps/VermilionCity/scripts.pory"
+VermilionCity_EventScript_TesterSailor_ToggleWildScaling::
+# 364 "data/maps/VermilionCity/scripts.pory"
+	checkflag FLAG_SCALE_WILD_POKEMON
+# 365 "data/maps/VermilionCity/scripts.pory"
+	goto_if_set FLAG_SCALE_WILD_POKEMON, VermilionCity_EventScript_TesterSailor_DisableWildScaling
+# 366 "data/maps/VermilionCity/scripts.pory"
+	setflag FLAG_SCALE_WILD_POKEMON
+# 367 "data/maps/VermilionCity/scripts.pory"
+	msgbox VermilionCity_Text_TesterSailor_WildScalingNowEnabled, MSGBOX_DEFAULT
+# 368 "data/maps/VermilionCity/scripts.pory"
+	goto VermilionCity_EventScript_TesterSailor_Menu
+# 369 "data/maps/VermilionCity/scripts.pory"
+
+# 370 "data/maps/VermilionCity/scripts.pory"
+VermilionCity_EventScript_TesterSailor_DisableWildScaling::
+# 371 "data/maps/VermilionCity/scripts.pory"
+	clearflag FLAG_SCALE_WILD_POKEMON
+# 372 "data/maps/VermilionCity/scripts.pory"
+	msgbox VermilionCity_Text_TesterSailor_WildScalingNowDisabled, MSGBOX_DEFAULT
+# 373 "data/maps/VermilionCity/scripts.pory"
+	goto VermilionCity_EventScript_TesterSailor_Menu
+# 374 "data/maps/VermilionCity/scripts.pory"
+
+# 375 "data/maps/VermilionCity/scripts.pory"
+VermilionCity_EventScript_TesterSailor_StandardBattle::
+# 376 "data/maps/VermilionCity/scripts.pory"
+	cleartrainerflag TRAINER_VERMILION_TESTER
+# 377 "data/maps/VermilionCity/scripts.pory"
+	trainerbattle_double TRAINER_VERMILION_TESTER, VermilionCity_Text_TesterSailorBattleIntro, VermilionCity_Text_TesterSailorBattleDefeat, VermilionCity_Text_TesterSailorNotEnoughMons
+# 378 "data/maps/VermilionCity/scripts.pory"
+	msgbox VermilionCity_Text_TesterSailorPostBattle, MSGBOX_DEFAULT
+# 379 "data/maps/VermilionCity/scripts.pory"
+	release
+# 380 "data/maps/VermilionCity/scripts.pory"
+	end
+# 381 "data/maps/VermilionCity/scripts.pory"
+
+# 382 "data/maps/VermilionCity/scripts.pory"
+VermilionCity_EventScript_TesterSailor_ScaledBossBattle::
+# 383 "data/maps/VermilionCity/scripts.pory"
+	message VermilionCity_Text_Tester_ChooseOffset
+# 384 "data/maps/VermilionCity/scripts.pory"
+	waitmessage
+# 385 "data/maps/VermilionCity/scripts.pory"
+	dynmultipush VermilionCity_Text_Tester_OffsetPlus2, 2
+# 386 "data/maps/VermilionCity/scripts.pory"
+	dynmultipush VermilionCity_Text_Tester_OffsetPlus5, 5
+# 387 "data/maps/VermilionCity/scripts.pory"
+	dynmultipush VermilionCity_Text_Tester_OffsetPlus10, 10
+# 388 "data/maps/VermilionCity/scripts.pory"
+	dynmultipush VermilionCity_Text_Tester_OffsetPlus20, 20
+# 389 "data/maps/VermilionCity/scripts.pory"
+	dynmultipush VermilionCity_Text_Tester_OffsetMinus5, -5
+# 390 "data/maps/VermilionCity/scripts.pory"
+	dynmultipush VermilionCity_Text_Tester_OffsetMinus10, -10
+# 391 "data/maps/VermilionCity/scripts.pory"
+	dynmultistack 0, 0, FALSE, 6, 1, 0, DYN_MULTICHOICE_CB_NONE
+# 392 "data/maps/VermilionCity/scripts.pory"
+	setvar VAR_SCALE_LEVEL_OFFSET, VAR_RESULT
+# 393 "data/maps/VermilionCity/scripts.pory"
+	cleartrainerflag TRAINER_VERMILION_TESTER
+# 394 "data/maps/VermilionCity/scripts.pory"
+	setflag FLAG_SCALE_BOSS_BATTLE
+# 395 "data/maps/VermilionCity/scripts.pory"
+	trainerbattle_double TRAINER_VERMILION_TESTER, VermilionCity_Text_TesterSailorBattleIntro, VermilionCity_Text_TesterSailorBattleDefeat, VermilionCity_Text_TesterSailorNotEnoughMons
+# 396 "data/maps/VermilionCity/scripts.pory"
+	clearflag FLAG_SCALE_BOSS_BATTLE
+# 397 "data/maps/VermilionCity/scripts.pory"
+	setvar VAR_SCALE_LEVEL_OFFSET, 0
+# 398 "data/maps/VermilionCity/scripts.pory"
+	msgbox VermilionCity_Text_TesterSailorPostBattle, MSGBOX_DEFAULT
+# 399 "data/maps/VermilionCity/scripts.pory"
+	release
+# 400 "data/maps/VermilionCity/scripts.pory"
+	end
+# 401 "data/maps/VermilionCity/scripts.pory"
+
+# 402 "data/maps/VermilionCity/scripts.pory"
+VermilionCity_EventScript_TesterSailor_ScaledWildBoss::
+# 403 "data/maps/VermilionCity/scripts.pory"
+	message VermilionCity_Text_Tester_ChooseOffset
+# 404 "data/maps/VermilionCity/scripts.pory"
+	waitmessage
+# 405 "data/maps/VermilionCity/scripts.pory"
+	dynmultipush VermilionCity_Text_Tester_OffsetPlus2, 2
+# 406 "data/maps/VermilionCity/scripts.pory"
+	dynmultipush VermilionCity_Text_Tester_OffsetPlus5, 5
+# 407 "data/maps/VermilionCity/scripts.pory"
+	dynmultipush VermilionCity_Text_Tester_OffsetPlus10, 10
+# 408 "data/maps/VermilionCity/scripts.pory"
+	dynmultipush VermilionCity_Text_Tester_OffsetPlus20, 20
+# 409 "data/maps/VermilionCity/scripts.pory"
+	dynmultipush VermilionCity_Text_Tester_OffsetMinus5, -5
+# 410 "data/maps/VermilionCity/scripts.pory"
+	dynmultipush VermilionCity_Text_Tester_OffsetMinus10, -10
+# 411 "data/maps/VermilionCity/scripts.pory"
+	dynmultistack 0, 0, FALSE, 6, 1, 0, DYN_MULTICHOICE_CB_NONE
+# 412 "data/maps/VermilionCity/scripts.pory"
+	setvar VAR_0x8004, SPECIES_TENTACRUEL
+# 413 "data/maps/VermilionCity/scripts.pory"
+	setvar VAR_0x8005, 20
+# 414 "data/maps/VermilionCity/scripts.pory"
+	setvar VAR_0x8006, VAR_RESULT
+# 415 "data/maps/VermilionCity/scripts.pory"
+	setvar VAR_0x8007, ITEM_NONE
+# 416 "data/maps/VermilionCity/scripts.pory"
+	callnative Script_SetScaledWildBattle
+# 417 "data/maps/VermilionCity/scripts.pory"
+	dowildbattle
+# 418 "data/maps/VermilionCity/scripts.pory"
+	release
+# 419 "data/maps/VermilionCity/scripts.pory"
+	end
+# 420 "data/maps/VermilionCity/scripts.pory"
+
+# 421 "data/maps/VermilionCity/scripts.pory"
+VermilionCity_EventScript_TesterSailor_Close::
+# 422 "data/maps/VermilionCity/scripts.pory"
+	msgbox VermilionCity_Text_TesterSailor_NoBattle, MSGBOX_DEFAULT
+# 423 "data/maps/VermilionCity/scripts.pory"
+	release
+# 424 "data/maps/VermilionCity/scripts.pory"
+	end
+# 425 "data/maps/VermilionCity/scripts.pory"
+
+# 426 "data/maps/VermilionCity/scripts.pory"
+VermilionCity_EventScript_ArborDockScene::
+# 427 "data/maps/VermilionCity/scripts.pory"
+	goto_if_unset FLAG_SYS_POKEMON_GET, VermilionCity_EventScript_ArborDockScene_NotReady
 # 428 "data/maps/VermilionCity/scripts.pory"
-	setvar VAR_ACT1_VERMILLION, 1
+	lockall
 # 429 "data/maps/VermilionCity/scripts.pory"
-	showmugshot MUGSHOT_PROF_ARBOR, MUGSHOT_RIGHT
+	setvar VAR_ACT1_VERMILLION, 1
 # 430 "data/maps/VermilionCity/scripts.pory"
-	textcolor NPC_TEXT_COLOR_MALE
+	showmugshot MUGSHOT_PROF_ARBOR, MUGSHOT_RIGHT
 # 431 "data/maps/VermilionCity/scripts.pory"
-	msgbox VermilionCity_Text_ArborDock1
+	textcolor NPC_TEXT_COLOR_MALE
 # 432 "data/maps/VermilionCity/scripts.pory"
-	closemessage
+	msgbox VermilionCity_Text_ArborDock1
 # 433 "data/maps/VermilionCity/scripts.pory"
-    faceplayer
+	closemessage
 # 434 "data/maps/VermilionCity/scripts.pory"
-	msgbox VermilionCity_Text_ArborDock2
+    faceplayer
 # 435 "data/maps/VermilionCity/scripts.pory"
-	closemessage
+	msgbox VermilionCity_Text_ArborDock2
 # 436 "data/maps/VermilionCity/scripts.pory"
-	msgbox VermilionCity_Text_ArborDock3
-# 437 "data/maps/VermilionCity/scripts.pory"
 	closemessage
+# 437 "data/maps/VermilionCity/scripts.pory"
+	msgbox VermilionCity_Text_ArborDock3
 # 438 "data/maps/VermilionCity/scripts.pory"
-	clearmugshot
+	closemessage
 # 439 "data/maps/VermilionCity/scripts.pory"
-	setflag FLAG_HIDE_VERMILION_ARBOR
+	clearmugshot
 # 440 "data/maps/VermilionCity/scripts.pory"
-	setflag FLAG_QUEST_MRFUJI_RESEARCH_ACTIVE
+	setflag FLAG_HIDE_VERMILION_ARBOR
 # 441 "data/maps/VermilionCity/scripts.pory"
-	setflag FLAG_QUEST_SILPH_TESTING_ACTIVE
+	setflag FLAG_QUEST_MRFUJI_RESEARCH_ACTIVE
 # 442 "data/maps/VermilionCity/scripts.pory"
-	setvar VAR_SCENE_SILPH, 1
+	setflag FLAG_QUEST_SILPH_TESTING_ACTIVE
 # 443 "data/maps/VermilionCity/scripts.pory"
-	quest_start_toast
+	setvar VAR_SCENE_SILPH, 1
 # 444 "data/maps/VermilionCity/scripts.pory"
 	quest_start_toast
 # 445 "data/maps/VermilionCity/scripts.pory"
-	releaseall
+	quest_start_toast
 # 446 "data/maps/VermilionCity/scripts.pory"
-	goto VermilionCity_EventScript_ArborDockScene_End
+	releaseall
 # 447 "data/maps/VermilionCity/scripts.pory"
-VermilionCity_EventScript_ArborDockScene_NotReady::
+	goto VermilionCity_EventScript_ArborDockScene_End
 # 448 "data/maps/VermilionCity/scripts.pory"
-	// Bumping the var to 2 stops the on-frame table (VAR_ACT1_VERMILLION, 0)
+VermilionCity_EventScript_ArborDockScene_NotReady::
 # 449 "data/maps/VermilionCity/scripts.pory"
-	// from re-matching every single frame, which would otherwise starve out
+	// Bumping the var to 2 stops the on-frame table (VAR_ACT1_VERMILLION, 0)
 # 450 "data/maps/VermilionCity/scripts.pory"
-	// all other field input (see FuchsiaCity's identical fix for why).
+	// from re-matching every single frame, which would otherwise starve out
 # 451 "data/maps/VermilionCity/scripts.pory"
-	setvar VAR_ACT1_VERMILLION, 2
+	// all other field input (see FuchsiaCity's identical fix for why).
 # 452 "data/maps/VermilionCity/scripts.pory"
-VermilionCity_EventScript_ArborDockScene_End::
+	setvar VAR_ACT1_VERMILLION, 2
 # 453 "data/maps/VermilionCity/scripts.pory"
-	end
+VermilionCity_EventScript_ArborDockScene_End::
 # 454 "data/maps/VermilionCity/scripts.pory"
-
+	end
 # 455 "data/maps/VermilionCity/scripts.pory"
-VermilionCity_EventScript_Arbor::
+
 # 456 "data/maps/VermilionCity/scripts.pory"
-	lock
+VermilionCity_EventScript_Arbor::
 # 457 "data/maps/VermilionCity/scripts.pory"
-	faceplayer
-# 458 "data/maps/VermilionCity/scripts.pory"
-	showmugshot MUGSHOT_PROF_ARBOR, MUGSHOT_RIGHT
-# 459 "data/maps/VermilionCity/scripts.pory"
-	textcolor NPC_TEXT_COLOR_MALE
-# 460 "data/maps/VermilionCity/scripts.pory"
-	msgbox VermilionCity_Text_ArborIdle
-# 461 "data/maps/VermilionCity/scripts.pory"
-	closemessage
-# 462 "data/maps/VermilionCity/scripts.pory"
-	clearmugshot
-# 463 "data/maps/VermilionCity/scripts.pory"
-	release
-# 464 "data/maps/VermilionCity/scripts.pory"
-	end
-# 465 "data/maps/VermilionCity/scripts.pory"
-
-# 466 "data/maps/VermilionCity/scripts.pory"
-VermilionCity_EventScript_PsyduckChild::
-# 467 "data/maps/VermilionCity/scripts.pory"
-	msgbox VermilionCity_Text_PsyduckChild, MSGBOX_NPC
-# 468 "data/maps/VermilionCity/scripts.pory"
-	end
-# 469 "data/maps/VermilionCity/scripts.pory"
-
-# 470 "data/maps/VermilionCity/scripts.pory"
-VermilionCity_EventScript_PsyduckNPC::
-# 471 "data/maps/VermilionCity/scripts.pory"
 	lock
-# 472 "data/maps/VermilionCity/scripts.pory"
+# 458 "data/maps/VermilionCity/scripts.pory"
 	faceplayer
-# 473 "data/maps/VermilionCity/scripts.pory"
-	waitse
-# 474 "data/maps/VermilionCity/scripts.pory"
-	playmoncry SPECIES_PSYDUCK, CRY_MODE_NORMAL
-# 475 "data/maps/VermilionCity/scripts.pory"
-	msgbox VermilionCity_Text_PsyduckMisc
-# 476 "data/maps/VermilionCity/scripts.pory"
-	waitmoncry
-# 477 "data/maps/VermilionCity/scripts.pory"
+# 459 "data/maps/VermilionCity/scripts.pory"
+	showmugshot MUGSHOT_PROF_ARBOR, MUGSHOT_RIGHT
+# 460 "data/maps/VermilionCity/scripts.pory"
+	textcolor NPC_TEXT_COLOR_MALE
+# 461 "data/maps/VermilionCity/scripts.pory"
+	msgbox VermilionCity_Text_ArborIdle
+# 462 "data/maps/VermilionCity/scripts.pory"
+	closemessage
+# 463 "data/maps/VermilionCity/scripts.pory"
+	clearmugshot
+# 464 "data/maps/VermilionCity/scripts.pory"
 	release
+# 465 "data/maps/VermilionCity/scripts.pory"
+	end
+# 466 "data/maps/VermilionCity/scripts.pory"
+
+# 467 "data/maps/VermilionCity/scripts.pory"
+VermilionCity_EventScript_PsyduckChild::
+# 468 "data/maps/VermilionCity/scripts.pory"
+	msgbox VermilionCity_Text_PsyduckChild, MSGBOX_NPC
+# 469 "data/maps/VermilionCity/scripts.pory"
+	end
+# 470 "data/maps/VermilionCity/scripts.pory"
+
+# 471 "data/maps/VermilionCity/scripts.pory"
+VermilionCity_EventScript_PsyduckNPC::
+# 472 "data/maps/VermilionCity/scripts.pory"
+	lock
+# 473 "data/maps/VermilionCity/scripts.pory"
+	faceplayer
+# 474 "data/maps/VermilionCity/scripts.pory"
+	waitse
+# 475 "data/maps/VermilionCity/scripts.pory"
+	playmoncry SPECIES_PSYDUCK, CRY_MODE_NORMAL
+# 476 "data/maps/VermilionCity/scripts.pory"
+	msgbox VermilionCity_Text_PsyduckMisc
+# 477 "data/maps/VermilionCity/scripts.pory"
+	waitmoncry
 # 478 "data/maps/VermilionCity/scripts.pory"
+	release
+# 479 "data/maps/VermilionCity/scripts.pory"
 	end

@@ -1,7 +1,13 @@
 // Fires once, the very first time the player enters ANY dojo (shared across
 // all of them via FLAG_SEEN_DOJO_INTRO). Wired into each dojo's
-// MAP_SCRIPT_ON_LOAD with call_if_unset(FLAG_SEEN_DOJO_INTRO, ...).
+// MAP_SCRIPT_ON_FRAME_TABLE OnFrame script via a plain call(), since dialogue
+// cannot run synchronously during map loading (ON_LOAD/ON_RESUME).
 // Written as the Challenge Guy speaking directly to the player.
+//
+// Must `return`, not `end` -- VermilionCity_Dojo's OnFrame has code after
+// this call() (starting the ATTACK DOJO CHALLENGE quest) that needs to run
+// on the same first visit, and `end` would kill the whole script context
+// before that code is ever reached.
 script Common_EventScript_DojoIntro {
     lockall
     msgbox(Common_Text_DojoIntro1, MSGBOX_DEFAULT)
@@ -9,7 +15,7 @@ script Common_EventScript_DojoIntro {
     msgbox(Common_Text_DojoIntro3, MSGBOX_DEFAULT)
     setflag(FLAG_SEEN_DOJO_INTRO)
     releaseall
-    end
+    return
 }
 
 text Common_Text_DojoIntro1 {

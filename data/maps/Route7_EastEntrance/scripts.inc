@@ -80,5 +80,5 @@ Route7_EastEntrance_Movement_WalkToGuardTop::
 	step_end
 
 Route7_EastEntrance_Movement_BlockPlayerEntry::
-	walk_left
+	walk_right
 	step_end

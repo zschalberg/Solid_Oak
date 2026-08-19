@@ -27,7 +27,7 @@ script FuchsiaCity_EventScript_FujiTalk {
         release
         end
     }
-    if (flag(FLAG_KRABBY_QUEST_GIVEN)) {
+    if (flag(FLAG_KRABBY_QUEST_ACTIVE)) {
         // Count KRABBY anywhere in the party (not just slots 0-1) — empty
         // slots read back SPECIES_NONE from ScriptGetPartyMonSpecies, so
         // it's safe to check all 6 regardless of actual party size.
@@ -144,7 +144,7 @@ script FuchsiaCity_EventScript_FujiTurnIn {
     waitmovement(0)
     setflag(FLAG_HIDE_FUCHSIA_AGATHA)
     setflag(FLAG_HIDE_FUCHSIA_FUJI)
-    warp(MAP_FUCHSIA_CITY_RESERVE, 4, 6)
+    warp(MAP_FUCHSIA_CITY_RESERVE, 8, 5)
     waitstate
     releaseall
     end

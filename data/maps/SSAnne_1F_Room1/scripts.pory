@@ -11,6 +11,7 @@ script SSAnne_1F_Room1_EventScript_Journal {
     playfanfare(MUS_OBTAIN_KEY_ITEM)
     waitfanfare
     setflag(FLAG_SYS_POKEDEX_GET)
+    special(EnableNationalPokedex)
     removeobject(1)
     release
     end
@@ -26,6 +27,7 @@ script SSAnne_1F_Room1_EventScript_DebugBall {
     giveitem(ITEM_IV_SCANNER, 1)
     giveitem(ITEM_SIZE_CHARM, 1)
     giveitem(ITEM_COURIER_WHISTLE, 1)
+    end
 }
 
 script SSAnne_1F_Room1_EventScript_DoorTrigger {
@@ -47,6 +49,8 @@ script SSAnne_1F_Room1_EventScript_DoorTrigger {
         
         applymovement(OBJ_EVENT_ID_PLAYER, SSAnne_1F_Room1_Movement_PlayerPushedSouth)
         applymovement(2, SSAnne_1F_Room1_Movement_AgathaEnter)
+        playse(SE_DOOR)
+        waitse
         waitmovement(0)
         
         showmugshot(MUGSHOT_AGATHA, MUGSHOT_LEFT)
@@ -55,6 +59,8 @@ script SSAnne_1F_Room1_EventScript_DoorTrigger {
         closemessage
         
         applymovement(2, SSAnne_1F_Room1_Movement_AgathaExit)
+        playse(SE_DOOR)
+        waitse
         waitmovement(0)
         
         removeobject(2)

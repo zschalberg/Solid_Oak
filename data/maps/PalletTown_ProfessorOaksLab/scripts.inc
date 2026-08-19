@@ -1339,6 +1339,8 @@ PalletTown_ProfessorOaksLab_EventScript_EvaluateMon::
 	compare VAR_RESULT, TRUE
 	call_if_eq PalletTown_ProfessorOaksLab_EventScript_ShowNewFamilyText
 	special TurnInSelectedResearchMon
+	compare VAR_RESULT, FALSE
+	goto_if_eq PalletTown_ProfessorOaksLab_EventScript_TurnInLastMonRefused
 	updatecoinsbox 19, 0
 	playfanfare MUS_LEVEL_UP
 	msgbox PalletTown_ProfessorOaksLab_Text_TurnInSuccess, MSGBOX_DEFAULT

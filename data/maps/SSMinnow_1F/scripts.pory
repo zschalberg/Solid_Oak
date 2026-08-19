@@ -44,7 +44,7 @@ movement SSMinnow_1F_Movement_AgathaLead {
     set_invisible     // Simulates walking inside
 }
 movement SSMinnow_1F_Movement_PlayerFollow {
-    delay_16          // Pause for a fraction of a second so Agatha leads
+    //delay_16          // Pause for a fraction of a second so Agatha leads
     walk_right * 12   // Follows from 4,7 to 16,7
     walk_down           // Steps inside
 }

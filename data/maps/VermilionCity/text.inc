@@ -241,29 +241,20 @@ VermilionCity_Text_OldMan1Saffron::
     .string "I'm not complaining.\n"
     .string "More work means more work.$"
 
-VermilionCity_Text_OldMan2Construction1::
-    .string "Watch where you're walking down\n"
-    .string "there!\p"
-    .string "We're behind schedule and I can't\n"
-    .string "afford another incident.$"
+VermilionCity_Text_OldMan2Seller1::
+    .string "What can I help you with?$"
 
-VermilionCity_Text_OldMan2Construction2::
-    .string "Building was half-done when we\n"
-    .string "took it over.\p"
-    .string "Previous crew left everything.\n"
-    .string "Don't ask me why.$"
+VermilionCity_Text_OldMan2Seller2::
+    .string "Come again soon.$"
 
 VermilionCity_Text_DojoTrainer1::
     .string "You thinking about going inside?\p"
-    .string "Sensei Akio doesn't take just\n"
-    .string "anyone.$"
+    .string "It's a great place to train that\n"
+    .string "Pokémon you've got there.$"
 
 VermilionCity_Text_DojoTrainer2::
-    .string "Come back once you've seen some of\n"
-    .string "what this region has going on.\p"
-    .string "He says a trainer who hasn't been\n"
-    .string "tested doesn't know what they\l"
-    .string "need yet.$"
+    .string "They have training programs as\n"
+    .string "well as challenges for rewards.$"
 
 VermilionCity_Text_ArborDock1::
     .string "Vermilion.\l"

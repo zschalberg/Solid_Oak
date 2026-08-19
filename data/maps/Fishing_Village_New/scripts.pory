@@ -1,20 +1,60 @@
 script Fishing_Village_New_Boss_Battle {
     // Option B: Scaled level wild battle with custom size
+    if(!flag(FLAG_ZONE_1_RESOLVED)) {
     setvar(VAR_0x8004, SPECIES_TENTACRUEL)
     setvar(VAR_0x8005, 30) // Min level
     setvar(VAR_0x8006, 5)  // Level offset (+5)
     setvar(VAR_0x8007, ITEM_NONE)
     callnative(Script_SetScaledWildBattle)
     setwildsize(100, 100) // Set exact 100th percentile (Maximum Height & Weight)
+    playmoncry(SPECIES_TENTACRUEL, CRY_MODE_NORMAL)
     dowildbattle
     specialvar(VAR_RESULT, GetBattleOutcome)
     if (var(VAR_RESULT) == B_OUTCOME_WON || var(VAR_RESULT) == B_OUTCOME_CAUGHT) {
         setflag(FLAG_ZONE_1_RESOLVED)
+        removeobject(4) // Hide the Tentacruel sprite
+        setvar(VAR_ACT1_LAVENDER, 2)
+        showmugshot(MUGSHOT_PROF_OAK, MUGSHOT_LEFT)
+        textcolor(NPC_TEXT_COLOR_MALE)
+        msgbox("I should let Fuji know about this.")
+        closemessage
     }
+}
     end
 }
 
-
+script Fishing_Village_New_Sailor{
+    lockall
+    faceplayer
+    msgbox("The TENTACOOL have been gathering.\p"
+           "They're more of a nuisane than a \n"
+           "threat. It's the TENTACREUL that \l"
+           "you need to watch out for.")
+    releaseall
+    end
+}
+script Fishing_Village_New_Fisherman{
+    lockall
+    faceplayer
+    msgbox("This is the best fishing\n"
+           "spot in all of Kanto.")
+    releaseall
+    end
+}
+script Fishing_Village_New_Old_Man{
+    lockall
+    faceplayer
+    msgbox("It's a beautiful day.\p"
+    "I'm not too worried about the \n"
+    "TENTACOOL. They don't bother me.")
+    releaseall
+    end
+}
+script Fishing_Village_New_Old_Man_Unresponsive{    
+    lockall
+    msgbox("The man is unresponsive.")
+    releaseall
+    end}
 
 // Swaps the "before"/"after" village tiles on load, driven by
 // FLAG_ZONE_1_RESOLVED (placeholder — same flag that currently hides the
@@ -26,5 +66,16 @@ mapscripts Fishing_Village_New_MapScripts {
 
 script Fishing_Village_New_OnLoad {
     special(UpdateFishingVillageTiles)
+    // Objects 4 (boss Tentacruel) and 5 (old man) are invisible until the
+    // Krabby quest is done, then visible, then hidden again once Zone 1 is
+    // resolved -- same window for both, so they share the same trigger
+    // flags but keep separate hide-flags since they're unrelated sprites.
+    if (!flag(FLAG_KRABBY_QUEST_COMPLETE) || flag(FLAG_ZONE_1_RESOLVED)) {
+        setflag(FLAG_HIDE_FISHING_VILLAGE_BOSS)
+        setflag(FLAG_HIDE_FISHING_VILLAGE_OLD_MAN)
+    } else {
+        clearflag(FLAG_HIDE_FISHING_VILLAGE_BOSS)
+        clearflag(FLAG_HIDE_FISHING_VILLAGE_OLD_MAN)
+    }
     end
 }

@@ -24,7 +24,7 @@ FuchsiaCity_EventScript_FujiTalk::
 # 19 "data/maps/FuchsiaCity/scripts.pory"
 	goto_if_set FLAG_KRABBY_QUEST_COMPLETE, FuchsiaCity_EventScript_FujiTalk_2
 # 30 "data/maps/FuchsiaCity/scripts.pory"
-	goto_if_set FLAG_KRABBY_QUEST_GIVEN, FuchsiaCity_EventScript_FujiTalk_5
+	goto_if_set FLAG_KRABBY_QUEST_ACTIVE, FuchsiaCity_EventScript_FujiTalk_5
 # 78 "data/maps/FuchsiaCity/scripts.pory"
 	msgbox FuchsiaCity_EventScript_FujiTalk_Text_2, MSGBOX_NPC
 	end
@@ -206,7 +206,7 @@ FuchsiaCity_EventScript_FujiTurnIn::
 # 146 "data/maps/FuchsiaCity/scripts.pory"
 	setflag FLAG_HIDE_FUCHSIA_FUJI
 # 147 "data/maps/FuchsiaCity/scripts.pory"
-	warp MAP_FUCHSIA_CITY_RESERVE, 4, 6
+	warp MAP_FUCHSIA_CITY_RESERVE, 8, 5
 # 148 "data/maps/FuchsiaCity/scripts.pory"
 	waitstate
 # 149 "data/maps/FuchsiaCity/scripts.pory"

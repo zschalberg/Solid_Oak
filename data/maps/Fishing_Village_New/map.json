@@ -18,21 +18,21 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_FISHER",
-      "x": 20,
-      "y": 11,
+      "x": 24,
+      "y": 12,
       "elevation": 0,
-      "movement_type": "MOVEMENT_TYPE_NONE",
+      "movement_type": "MOVEMENT_TYPE_FACE_RIGHT",
       "movement_range_x": 0,
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "NULL",
-      "flag": "0"
+      "script": "Fishing_Village_New_Fisherman",
+      "flag": "FLAG_KRABBY_QUEST_COMPLETE"
     },
     {
       "type": "object",
-      "graphics_id": "OBJ_EVENT_GFX_TENTACRUEL_SWIMMING",
-      "x": 16,
+      "graphics_id": "OBJ_EVENT_GFX_TENTACOOL_SWIMMING",
+      "x": 17,
       "y": 15,
       "elevation": 0,
       "movement_type": "MOVEMENT_TYPE_LOOK_AROUND",
@@ -47,7 +47,7 @@
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_TENTACOOL_SWIMMING",
       "x": 21,
-      "y": 8,
+      "y": 9,
       "elevation": 0,
       "movement_type": "MOVEMENT_TYPE_LOOK_AROUND",
       "movement_range_x": 0,
@@ -60,8 +60,8 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_TENTACRUEL_SWIMMING_XL",
-      "x": 33,
-      "y": 25,
+      "x": 16,
+      "y": 21,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_NONE",
       "movement_range_x": 0,
@@ -69,7 +69,7 @@
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
       "script": "Fishing_Village_New_Boss_Battle",
-      "flag": "FLAG_ZONE_1_RESOLVED"
+      "flag": "FLAG_HIDE_FISHING_VILLAGE_BOSS"
     },
     {
       "type": "object",
@@ -82,21 +82,49 @@
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "NULL",
-      "flag": "0"
+      "script": "Fishing_Village_New_Old_Man_Unresponsive",
+      "flag": "FLAG_HIDE_FISHING_VILLAGE_OLD_MAN"
     },
     {
       "type": "object",
-      "graphics_id": "OBJ_EVENT_GFX_RED_NORMAL",
-      "x": 32,
-      "y": 24,
-      "elevation": 3,
-      "movement_type": "MOVEMENT_TYPE_INVISIBLE",
+      "graphics_id": "OBJ_EVENT_GFX_OLD_MAN_1",
+      "x": 13,
+      "y": 14,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_FACE_RIGHT",
       "movement_range_x": 0,
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "Fishing_Village_New_Boss_Battle",
+      "script": "Fishing_Village_New_Old_Man",
+      "flag": "FLAG_KRABBY_QUEST_COMPLETE"
+    },
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_CAPTAIN",
+      "x": 22,
+      "y": 23,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_NONE",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "Fishing_Village_New_Sailor",
+      "flag": "FLAG_KRABBY_QUEST_COMPLETE"
+    },
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_TENTACOOL_SWIMMING",
+      "x": 26,
+      "y": 12,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_FACE_LEFT",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "NULL",
       "flag": "FLAG_ZONE_1_RESOLVED"
     }
   ],
@@ -113,8 +141,32 @@
   "bg_events": [
     {
       "type": "sign",
-      "x": 21,
-      "y": 8,
+      "x": 16,
+      "y": 19,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "Fishing_Village_New_Boss_Battle"
+    },
+    {
+      "type": "sign",
+      "x": 16,
+      "y": 19,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "Fishing_Village_New_Boss_Battle"
+    },
+    {
+      "type": "sign",
+      "x": 15,
+      "y": 20,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "Fishing_Village_New_Boss_Battle"
+    },
+    {
+      "type": "sign",
+      "x": 15,
+      "y": 19,
       "elevation": 0,
       "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
       "script": "Fishing_Village_New_Boss_Battle"

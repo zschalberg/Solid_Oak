@@ -106,14 +106,14 @@
   ],
   "warp_events": [
     {
-      "x": 5,
+      "x": 6,
       "y": 9,
       "elevation": 3,
       "dest_map": "MAP_FUCHSIA_CITY",
       "dest_warp_id": "10"
     },
     {
-      "x": 6,
+      "x": 5,
       "y": 9,
       "elevation": 3,
       "dest_map": "MAP_FUCHSIA_CITY",

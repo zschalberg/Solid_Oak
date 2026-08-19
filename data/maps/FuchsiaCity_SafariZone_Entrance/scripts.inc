@@ -157,6 +157,10 @@ FuchsiaCity_SafariZone_Entrance_EventScript_ReserveContestIntro::
 	msgbox FuchsiaCity_SafariZone_Entrance_Text_ReserveContestExplain, MSGBOX_DEFAULT
 	multichoice 0, 0, MULTI_RESERVE_CONTEST_CATEGORY, FALSE
 	goto_if_eq VAR_RESULT, MULTI_B_PRESSED, FuchsiaCity_SafariZone_Entrance_EventScript_AttendantEnd
+	@ MULTI_RESERVE_CONTEST_CATEGORY's list is Size(0)/Vitality(1)/Rarity(2)/Cancel(3) -
+	@ explicitly picking "Cancel" returns index 3, not MULTI_B_PRESSED, so it must be
+	@ checked separately or the session starts anyway with an invalid category.
+	goto_if_eq VAR_RESULT, 3, FuchsiaCity_SafariZone_Entrance_EventScript_AttendantEnd
 	copyvar VAR_0x8004, VAR_RESULT
 	special StartReserveContestSession
 	msgbox FuchsiaCity_SafariZone_Entrance_Text_SessionStarted, MSGBOX_DEFAULT

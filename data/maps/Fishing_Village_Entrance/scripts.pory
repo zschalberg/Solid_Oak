@@ -1,0 +1,32 @@
+mapscripts Fishing_Village_Entrance_MapScripts {
+    MAP_SCRIPT_ON_FRAME_TABLE [
+        VAR_ACT1_FUCHSIA, 1: Fishing_Village_Entrance_EventScript_Zone1Intro
+    ]
+}
+
+// Zone 1 intro — fires the first time the player enters the fishing
+// village gate after completing the Fuchsia Reserve scene
+// (VAR_ACT1_FUCHSIA = 1). Sets VAR_ACT1_FUCHSIA = 2 to prevent replay.
+// TODO: Replace with coord_event for position-accurate trigger.
+script Fishing_Village_Entrance_EventScript_Zone1Intro {
+    lockall
+    setvar(VAR_ACT1_FUCHSIA, 2)
+    msgbox("You're back. Something's in\n"
+           "the water.\p"
+           "A big one. We can't get to\n"
+           "the boats.")
+    closemessage
+    releaseall
+    end
+}
+
+script Fishing_Village_Entrance_Fisherman{
+    lockall
+    faceplayer
+    msgbox("You're back. Something's in\n"
+        "the water.\p"
+        "A big one. We can't get to\n"
+        "the boats.")
+    releaseall
+    end
+}

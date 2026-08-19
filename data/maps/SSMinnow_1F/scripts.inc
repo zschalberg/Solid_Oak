@@ -77,8 +77,6 @@ SSMinnow_1F_Movement_AgathaLead:
 
 # 46 "data/maps/SSMinnow_1F/scripts.pory"
 SSMinnow_1F_Movement_PlayerFollow:
-# 47 "data/maps/SSMinnow_1F/scripts.pory"
-	delay_16
 # 48 "data/maps/SSMinnow_1F/scripts.pory"
 	walk_right
 # 48 "data/maps/SSMinnow_1F/scripts.pory"

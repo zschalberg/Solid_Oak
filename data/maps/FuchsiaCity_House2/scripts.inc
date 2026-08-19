@@ -30,3 +30,17 @@ FuchsiaCity_House2_EventScript_NoRoomForGoodRod::
 	msgbox FuchsiaCity_House2_Text_YouHaveNoRoomForGift
 	release
 	end
+
+FuchsiaCity_House2_EventScript_QuickRest::
+	lock
+	faceplayer
+	msgbox FuchsiaCity_House2_Text_QuickRest, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, YES, FuchsiaCity_House2_EventScript_QuickRest_Heal
+	release
+	end
+
+FuchsiaCity_House2_EventScript_QuickRest_Heal::
+	special HealPlayerParty
+	setrespawn HEAL_LOCATION_FUCHSIA_CITY
+	release
+	end

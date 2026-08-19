@@ -35,3 +35,7 @@ FuchsiaCity_House2_Text_YouHaveNoRoomForGift::
     .string "I had a gift for you, but you have\n"
     .string "no room for it!$"
 
+FuchsiaCity_House2_Text_QuickRest::
+    .string "Would you like to rest here and\n"
+    .string "heal up your POKéMON?$"
+

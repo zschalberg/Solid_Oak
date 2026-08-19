@@ -1,9 +1,16 @@
+//Next steps, FUJI back in the volunteer house after Krabby quest. 
+//Ends zone 1 quest, explains the migration zone theory. 
+//Sets quest to Cerulean and Mt. Moon for zone 2. 
+
+
 const LOCALID_FUJI = 1
+const LOCALID_SCIENTIST = 8
 
 mapscripts LavenderTown_VolunteerPokemonHouse_MapScripts {
     MAP_SCRIPT_ON_TRANSITION: LavenderTown_VolunteerPokemonHouse_OnTransition
     MAP_SCRIPT_ON_FRAME_TABLE [
         VAR_ACT1_LAVENDER, 0: LavenderTown_VolunteerPokemonHouse_EventScript_FujiIntro
+        VAR_TEMP_0, 0: LavenderTown_VolunteerPokemonHouse_OnFrame
     ]
 }
 
@@ -12,27 +19,42 @@ script LavenderTown_VolunteerPokemonHouse_OnTransition {
     end
 }
 
+// ============================================================================
+// INTRODUCTION SCENE — Fuji explains Krabby quest and RESEARCH BALLS.
+// ============================================================================
+
 script LavenderTown_VolunteerPokemonHouse_EventScript_FujiIntro {
     lockall
     setvar(VAR_ACT1_LAVENDER, 1)
     faceplayer
-    //showmugshot(MUGSHOT_FUJI, MUGSHOT_LEFT)
+    showmugshot(MUGSHOT_MR_FUJI, MUGSHOT_LEFT)
     textcolor(NPC_TEXT_COLOR_MALE)
     msgbox("Ah. You must be ARBOR's student.\p"
            "Come in, come in.\p"
            "I've been hoping you'd arrive\n"
            "before the week was out.")
     closemessage
+    clearmugshot
     applymovement(OBJ_EVENT_ID_PLAYER, LavenderTown_VolunteerPokemonHouse_Movement_Player)
     waitmovement(0)
     showmugshot(MUGSHOT_AGATHA, MUGSHOT_LEFT)
     textcolor(NPC_TEXT_COLOR_FEMALE)
-    msgbox("We've been waiting.\p")
+    msgbox("We've been waiting.")
     closemessage
     clearmugshot
-    //showmugshot(MUGSHOT_FUJI, MUGSHOT_LEFT)
+    //showmugshot(MUGSHOT_MR_FUJI, MUGSHOT_LEFT)
     textcolor(NPC_TEXT_COLOR_MALE)
-    msgbox("There is a KRABBY population on\n"
+    msgbox("My research is focused on POKéMON\n"
+            "and their habitiats.\p"
+            "I study the ways in which POKéMON\n"
+            "populations migrate and change.\p"
+            "Recently I've noticed POKéMON acting\n"
+            "in ways I haven't seen before.")
+    closemessage
+    applymovement(LOCALID_FUJI, LavenderTown_VolunteerPokemonHouse_Movement_FaceRight)
+    waitmovement(0)
+    msgbox(
+            "There is a KRABBY population on\n"
            "the southern coast.\p"
            "Normally they cluster in the\n"
            "shallows near LAVENDER.\p"
@@ -40,20 +62,25 @@ script LavenderTown_VolunteerPokemonHouse_EventScript_FujiIntro {
            "All of them. Same direction.\p"
            "No one can explain it.")
     closemessage
-    //showmugshot(MUGSHOT_FUJI, MUGSHOT_LEFT)
+    applymovement(LOCALID_FUJI, LavenderTown_VolunteerPokemonHouse_Movement_FaceDown)
+    waitmovement(0)
+    //showmugshot(MUGSHOT_MR_FUJI, MUGSHOT_LEFT)
     msgbox("These are RESEARCH BALLS.\p"
            "I developed them for\n"
            "fieldwork like this.\p"
+           "They can catch anything but\n"
+           "can only be opened by specialized\l"
+           "lab equipment.\p"
            "Catch a few KRABBY. Note the\n"
            "sizes, the weights.\p"
-           "Bring them to me and I can\n"
-           "tell you something useful.")
+           "Bring them to me in FUCHSIA\n"
+           "and we'll see what we can learn.")
     closemessage
     // Ball economy: Research Balls are now a finite, reusable resource - see include/ball_economy.h.
     giveitem(ITEM_RESEARCH_BALL, 2)
-    //showmugshot(MUGSHOT_FUJI, MUGSHOT_LEFT)
+    //showmugshot(MUGSHOT_MR_FUJI, MUGSHOT_LEFT)
     textcolor(NPC_TEXT_COLOR_MALE)
-    applymovement(LOCALID_FUJI, LavenderTown_VolunteerPokemonHouse_Movement_FUJI)
+    applymovement(LOCALID_FUJI, LavenderTown_VolunteerPokemonHouse_Movement_FaceRight)
     waitmovement(0)
     msgbox("I have some for you as well.")
     closemessage
@@ -72,17 +99,16 @@ script LavenderTown_VolunteerPokemonHouse_EventScript_FujiIntro {
     msgbox("She'll find her own way.\p"
            "She always does.")
     closemessage
-    applymovement(LOCALID_FUJI, LavenderTown_VolunteerPokemonHouse_Movement_FujiFaceDown)
+    applymovement(LOCALID_FUJI, LavenderTown_VolunteerPokemonHouse_Movement_FaceDown)
     waitmovement(0)
-    //showmugshot(MUGSHOT_FUJI, MUGSHOT_LEFT)
+    //showmugshot(MUGSHOT_MR_FUJI, MUGSHOT_LEFT)
     textcolor(NPC_TEXT_COLOR_MALE)
     msgbox("Start with the shallows\n"
-           "south of the RESERVE.\p"
+           "south of FUCHSIA.\p"
            "Look for the heaviest ones.\n"
            "They'll be the oldest.")
     closemessage
-    setflag(FLAG_KRABBY_QUEST_GIVEN)
-    setflag(FLAG_MET_FUJI)
+    setflag(FLAG_KRABBY_QUEST_ACTIVE)
     setflag(FLAG_HIDE_LAVENDER_FUJI)
     // Re-arm Fuchsia's Reserve intro check: if the player already visited
     // Fuchsia before getting this quest, FuchsiaCity_EventScript_ReserveIntroCheck
@@ -90,6 +116,7 @@ script LavenderTown_VolunteerPokemonHouse_EventScript_FujiIntro {
     // Reset it to 0 so it fires again (and this time actually plays) on
     // their next visit to Fuchsia.
     setvar(VAR_ACT1_FUCHSIA, 0)
+    quest_start_toast("KRAB FISHING")
     releaseall
     end
 }
@@ -97,17 +124,21 @@ script LavenderTown_VolunteerPokemonHouse_EventScript_FujiIntro {
 script LavenderTown_VolunteerPokemonHouse_EventScript_MrFuji {
     lock
     faceplayer
-    if (flag(FLAG_KRABBY_QUEST_COMPLETE)) {
-        msgbox("Thank you for the survey data.\p"
-               "This confirms what I suspected.\p"
-               "I'll have an analysis ready\n"
-               "for you soon.")
+    if (var(VAR_ACT1_LAVENDER) == 3) {
+        //showmugshot(MUGSHOT_MR_FUJI, MUGSHOT_LEFT)
+        textcolor(NPC_TEXT_COLOR_MALE)
+        msgbox("I'll meet you in PEWTER CITY.\p"
+               "I have a colleague at the university\n"
+               "who may be able to help us understand\l"
+               "what is happening with these POKéMON.")
         closemessage
     } else {
-        if (flag(FLAG_KRABBY_QUEST_GIVEN)) {
+        if (flag(FLAG_KRABBY_QUEST_ACTIVE)) {
+            //showmugshot(MUGSHOT_MR_FUJI, MUGSHOT_LEFT)
+            textcolor(NPC_TEXT_COLOR_MALE)
             msgbox("Have you found any KRABBY yet?\p"
-                   "The shallows south of the\n"
-                   "RESERVE are your best bet.\p"
+                   "The shallows south of FUCHSIA\n"
+                   "are your best bet.\p"
                    "Look for the heaviest ones.\n"
                    "Those are the ones I want.")
             closemessage
@@ -120,6 +151,129 @@ script LavenderTown_VolunteerPokemonHouse_EventScript_MrFuji {
     end
 }
 
+script LavenderTown_VolunteerPokemonHouse_EventScript_Scientist {
+    if (!flag(FLAG_HEARD_LAVENDER_STORAGE_SPEECH)) {
+        lockall
+        applymovement(LOCALID_SCIENTIST, LavenderTown_VolunteerPokemonHouse_Movement_FaceLeft)
+        msgbox("Before you go, if you need to store\n"
+                "any POKéMON, Mr. Fuji also cares for\l"
+                "them here in the lab.\p"
+                "Bring them to me in the back and\n"
+                "we'll have them ready for you when\l"
+                "you return.\p"
+                "You can also use our couriers to\n"
+                "send POKéMON here and swap them out\n"
+                "in most major cities for a small fee.")
+        closemessage
+        setflag(FLAG_HEARD_LAVENDER_STORAGE_SPEECH)
+        releaseall
+        end
+    }
+    end
+}
+
+// ============================================================================
+// SECOND SCENE — Fuji gives 2nd migration zone quest and some exposition on the migration zone theory.
+// ============================================================================
+
+// Once the Krabby quest wraps up in Fuchsia, Fuji comes back to the
+// volunteer house to close out Zone 1 and point the player at Zone 2
+// (Cerulean/Mt. Moon). FLAG_QUEST_ZONE2_ACTIVE doubles as the "have we
+// already played this scene" gate.
+script LavenderTown_VolunteerPokemonHouse_OnFrame {
+    setvar(VAR_TEMP_0, 1)
+    if (var(VAR_ACT1_LAVENDER) == 2) {
+        call(LavenderTown_VolunteerPokemonHouse_EventScript_FujiReturn)
+    }
+    end
+}
+
+// Placeholder scene -- dialogue TBD.
+script LavenderTown_VolunteerPokemonHouse_EventScript_FujiReturn {
+    lockall
+    clearflag(FLAG_HIDE_LAVENDER_FUJI)
+    addobject(LOCALID_FUJI)
+    applymovement(LOCALID_FUJI, LavenderTown_VolunteerPokemonHouse_Movement_FaceDown)
+    waitmovement(0)
+    //showmugshot(MUGSHOT_MR_FUJI, MUGSHOT_LEFT)
+    textcolor(NPC_TEXT_COLOR_MALE)
+    msgbox("Ah, you're back.")
+    closemessage
+    applymovement(OBJ_EVENT_ID_PLAYER, LavenderTown_VolunteerPokemonHouse_Movement_Player)
+    waitmovement(0)
+    //showmugshot(MUGSHOT_MR_FUJI, MUGSHOT_LEFT)
+    textcolor(NPC_TEXT_COLOR_MALE)
+    msgbox(
+           "I was just going over the data from\n"
+           "the Krabby you collected.")
+    closemessage
+    //clearmugshot
+    showmugshot(MUGSHOT_PROF_OAK, MUGSHOT_RIGHT)
+    textcolor(NPC_TEXT_COLOR_MALE)
+    msgbox("Professor, TENTACRUEL attacked the\n"
+            "FISHING VILLAGE. One of them was \l"
+            "massive, like nothing I've seen."
+           )
+    closemessage
+    clearmugshot
+    //showmugshot(MUGSHOT_MR_FUJI, MUGSHOT_LEFT)
+    textcolor(NPC_TEXT_COLOR_MALE)
+    msgbox("Hmm. That is troubling. I wonder if\n"
+               "the KRABBY were retreating from the\l"
+               "TENTACRUEL. It would explain their\l"
+               "strange migration.\p"
+               "But this breeds a new question:\n"
+               "What is driving the TENTACRUEL to\l"
+               "the FISHING VILLAGE and to attack?\p"
+               "TENTACRUEL are known to be aggressive\n"
+               "but usually only attack humans when\l"
+               "they feel threatened.")
+    closemessage
+    //clearmugshot
+    applymovement(LOCALID_FUJI, LavenderTown_VolunteerPokemonHouse_Movement_WalkUp_WalkDown)
+    waitmovement(0)
+    //showmugshot(MUGSHOT_MR_FUJI, MUGSHOT_LEFT)
+    textcolor(NPC_TEXT_COLOR_MALE)
+    msgbox("I have some notes I need to review.\n"
+    "I have a theory but we will need more\l"
+    "data to confirm it. \p"
+    "I heard similar strange reports from\n"
+    "north of CERULEAN CITY and MT. MOON.\p"
+    "Investigate those areas and see if\n"
+    "you can find any clues. If you see\l"
+    "any POKéMON that stand out like the\l"
+    "giant TENTACRUEL, catch them and \l"
+    "meet me in PEWTER CITY. I will be\l"
+    "there consulting with a colleague.")
+    closemessage
+    //clearmugshot
+    applymovement(OBJ_EVENT_ID_PLAYER, LavenderTown_VolunteerPokemonHouse_Movement_FaceDown)
+    waitmovement(0)
+    //showmugshot(MUGSHOT_MR_FUJI, MUGSHOT_LEFT)
+    textcolor(NPC_TEXT_COLOR_MALE)
+    msgbox("And Oak...")
+    closemessage
+    //clearmugshot
+    applymovement(OBJ_EVENT_ID_PLAYER, LavenderTown_VolunteerPokemonHouse_Movement_FaceUp)
+    waitmovement(0)
+    //showmugshot(MUGSHOT_MR_FUJI, MUGSHOT_LEFT)
+    textcolor(NPC_TEXT_COLOR_MALE)
+    msgbox("Do be careful out there.\p"
+           "If my theory is correct these POKéMON\n"
+           "may be more dangerous than we realize.")
+    closemessage
+    //clearmugshot
+    setflag(FLAG_QUEST_FISHING_VILLAGE_COMPLETED)
+    setflag(FLAG_QUEST_ZONE2_ACTIVE)
+    quest_complete_toast("DANGEROUS WATERS")
+    quest_start_toast("MIGRATION ZONE 2")
+    setvar(VAR_ACT1_LAVENDER, 3)
+    releaseall
+    return
+}
+
+
+// Not needed?
 script LavenderTown_VolunteerPokemonHouse_EventScript_Agatha {
     lock
     faceplayer
@@ -132,13 +286,19 @@ script LavenderTown_VolunteerPokemonHouse_EventScript_Agatha {
     end
 }
 
+// ============================================================================
+// STANDARD INTERACTIONS
+// ============================================================================
+
 script LavenderTown_VolunteerPokemonHouse_EventScript_LittleGirl {
     lock
     faceplayer
-    msgbox("Mr. Fuji takes care of all the\n"
-           "POKéMON nobody wants.\p"
-           "Mama says he's been doing it\n"
-           "since before she was born.")
+    msgbox("Here, let's rest your POKéMON.")
+    closemessage
+    call(EventScript_OutOfCenterPartyHeal)
+    setrespawn(HEAL_LOCATION_LAVENDER_VOLUNTEER_HOUSE)
+    msgbox("All done!\p"
+           "Your POKéMON are ready to go.")
     closemessage
     release
     end
@@ -197,6 +357,10 @@ script LavenderTown_VolunteerPokemonHouse_EventScript_Bookshelf {
     end
 }
 
+// ============================================================================
+// MOVEMENT
+// ============================================================================
+
 movement LavenderTown_VolunteerPokemonHouse_Movement_AgathaExit {
     walk_down * 5
     set_invisible
@@ -208,10 +372,24 @@ movement LavenderTown_VolunteerPokemonHouse_Movement_Player {
     face_up
 }
 
-movement LavenderTown_VolunteerPokemonHouse_Movement_FUJI {
+movement LavenderTown_VolunteerPokemonHouse_Movement_FaceRight {
     face_right
 }
 
-movement LavenderTown_VolunteerPokemonHouse_Movement_FujiFaceDown {
+movement LavenderTown_VolunteerPokemonHouse_Movement_FaceDown {
     face_down
+}
+
+movement LavenderTown_VolunteerPokemonHouse_Movement_FaceLeft {
+    face_left
+}
+movement LavenderTown_VolunteerPokemonHouse_Movement_FaceUp {
+    face_up
+}
+
+movement LavenderTown_VolunteerPokemonHouse_Movement_WalkUp_WalkDown {
+    walk_up
+    delay_8
+    delay_2
+    walk_down
 }

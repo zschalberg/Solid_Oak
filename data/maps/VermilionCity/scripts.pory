@@ -283,9 +283,10 @@ VermilionCity_EventScript_OaksAide::
 VermilionCity_EventScript_OldMan2::
 	lock
 	faceplayer
-	msgbox VermilionCity_Text_OldMan2Construction1
-	closemessage
-	msgbox VermilionCity_Text_OldMan2Construction2
+	message VermilionCity_Text_OldMan2Seller1
+	waitmessage
+	pokemart SHOP_ID_VERMILION_CITY_MART
+	msgbox VermilionCity_Text_OldMan2Seller2
 	release
 	end
 
