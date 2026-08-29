@@ -126,6 +126,18 @@ static const u16 *const sTilesetAnims_MtEmber_Steam[] = {
     sTilesetAnims_MtEmber_Steam_Frame3
 };
 
+static const u16 sTilesetAnims_VermilionCity_Steam_Frame0[] = INCBIN_U16("data/tilesets/secondary/vermilion_city/anim/steam/0.4bpp");
+static const u16 sTilesetAnims_VermilionCity_Steam_Frame1[] = INCBIN_U16("data/tilesets/secondary/vermilion_city/anim/steam/1.4bpp");
+static const u16 sTilesetAnims_VermilionCity_Steam_Frame2[] = INCBIN_U16("data/tilesets/secondary/vermilion_city/anim/steam/2.4bpp");
+static const u16 sTilesetAnims_VermilionCity_Steam_Frame3[] = INCBIN_U16("data/tilesets/secondary/vermilion_city/anim/steam/3.4bpp");
+
+static const u16 *const sTilesetAnims_VermilionCity_Steam[] = {
+    sTilesetAnims_VermilionCity_Steam_Frame0,
+    sTilesetAnims_VermilionCity_Steam_Frame1,
+    sTilesetAnims_VermilionCity_Steam_Frame2,
+    sTilesetAnims_VermilionCity_Steam_Frame3
+};
+
 static const u16 sTilesetAnims_VermilionGym_MotorizedDoor_Frame0[] = INCBIN_U16("data/tilesets/secondary/vermilion_gym/anim/motorizeddoor/0.4bpp");
 static const u16 sTilesetAnims_VermilionGym_MotorizedDoor_Frame1[] = INCBIN_U16("data/tilesets/secondary/vermilion_gym/anim/motorizeddoor/1.4bpp");
 
@@ -300,6 +312,24 @@ void InitTilesetAnim_MtEmber(void)
     sSecondaryTilesetAnimCounter = 0;
     sSecondaryTilesetAnimCounterMax = 256;
     sSecondaryTilesetAnimCallback = TilesetAnim_MtEmber;
+}
+
+static void QueueAnimTiles_VermilionCity_Steam(u16 timer)
+{
+    AppendTilesetAnimToBuffer(sTilesetAnims_VermilionCity_Steam[timer % ARRAY_COUNT(sTilesetAnims_VermilionCity_Steam)], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(0x3F0)), 8 * TILE_SIZE_4BPP);
+}
+
+static void TilesetAnim_VermilionCity(u16 timer)
+{
+    if (timer % 32 == 0)
+        QueueAnimTiles_VermilionCity_Steam(timer / 32);
+}
+
+void InitTilesetAnim_VermilionCity(void)
+{
+    sSecondaryTilesetAnimCounter = 0;
+    sSecondaryTilesetAnimCounterMax = 256;
+    sSecondaryTilesetAnimCallback = TilesetAnim_VermilionCity;
 }
 
 static void QueueAnimTiles_VermilionGym_MotorizedDoor(u16 timer)

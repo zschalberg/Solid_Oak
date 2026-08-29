@@ -83,7 +83,7 @@ const struct Tileset gTileset_VermilionCity =
     .palettes = gTilesetPalettes_VermilionCity,
     .metatiles = gMetatiles_VermilionCity,
     .metatileAttributes = gMetatileAttributes_VermilionCity,
-    .callback = NULL,
+    .callback = InitTilesetAnim_VermilionCity,
 };
 
 const struct Tileset gTileset_CeladonCity =
