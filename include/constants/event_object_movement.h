@@ -270,6 +270,12 @@
 #define MOVEMENT_ACTION_WALK_FAST_DIAGONAL_DOWN_LEFT    0xB2
 #define MOVEMENT_ACTION_WALK_FAST_DIAGONAL_DOWN_RIGHT   0xB3
 
+// Same reveal as MOVEMENT_ACTION_EXIT_POKEBALL (ball-open flash + affine pop,
+// then the object's true species graphics), but without ExitPokeball's
+// hardcoded snap to the player's previous tile - for standalone scene
+// objects (e.g. a prop ball bursting open) rather than a following mon.
+#define MOVEMENT_ACTION_BURST_FROM_POKEBALL             0xB4
+
 #define MOVEMENT_ACTION_STEP_END 0xFE
 #define MOVEMENT_ACTION_NONE     0xFF
 

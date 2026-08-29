@@ -2162,3 +2162,10 @@ static const struct SpriteFrameImage sPicTable_ProfOakSurf[] = {
     overworld_frame(gObjectEventPic_ProfOakSurf, 2, 4, 16),
     overworld_frame(gObjectEventPic_ProfOakSurf, 2, 4, 17),
 };
+
+// Reuses the mature Pamtre Berry tree art as a fixed, non-growing lookalike
+// (Pamtre otherwise only feeds Pokeblocks, which this game doesn't have).
+extern const u32 gObjectEventPic_PamtreBerryTree[];
+static const struct SpriteFrameImage sPicTable_PamtreApricornTree[] = {
+    overworld_frame(gObjectEventPic_PamtreBerryTree, 2, 4, 0),
+};

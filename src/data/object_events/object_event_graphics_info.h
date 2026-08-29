@@ -2981,6 +2981,29 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ProfOakSurf = {
     .affineAnims = gDummySpriteAffineAnimTable,
 };
 
+// Static decorative lookalike for a one-time scripted interaction - not a
+// real berry tree (no growth/save state). paletteTag/paletteSlot match what
+// a real, fully-grown Pamtre Berry tree renders with (see
+// gBerryTreePaletteSlotTable_Pamtre in berry_tree_graphics_tables.h).
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_PamtreApricornTree = {
+    .tileTag = TAG_NONE,
+    .paletteTag = OBJ_EVENT_PAL_TAG_NPC_1,
+    .reflectionPaletteTag = OBJ_EVENT_PAL_TAG_NONE,
+    .size = 256,
+    .width = 16,
+    .height = 32,
+    .paletteSlot = PALSLOT_NPC_1,
+    .shadowSize = SHADOW_SIZE_S,
+    .inanimate = TRUE,
+    .compressed = FALSE,
+    .tracks = TRACKS_NONE,
+    .oam = &gObjectEventBaseOam_16x32,
+    .subspriteTables = sOamTables_16x32,
+    .anims = sAnimTable_PamtreApricornTree,
+    .images = sPicTable_PamtreApricornTree,
+    .affineAnims = gDummySpriteAffineAnimTable,
+};
+
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Chansey = {
     .tileTag = TAG_NONE,
     .paletteTag = OBJ_EVENT_PAL_TAG_NPC_PINK,

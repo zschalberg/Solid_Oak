@@ -8107,6 +8107,71 @@ static bool8 MovementAction_ExitPokeball_Step1(struct ObjectEvent *objectEvent, 
     return FALSE;
 }
 
+// Identical to MovementAction_ExitPokeball_Step0/1 except it never calls
+// SetObjectEventCoords to snap the object onto the player's previous tile -
+// that behavior only makes sense for the follower mon popping out behind
+// the player. For a standalone scene object (graphicsId must already be
+// OBJ_EVENT_GFX_SPECIES(...) - see event_objects.h) it just bursts open and
+// reveals its species in place, wherever it was put on the map.
+static bool8 MovementAction_BurstFromPokeball_Step0(struct ObjectEvent *objectEvent, struct Sprite *sprite)
+{
+    enum Direction direction = gObjectEvents[gPlayerAvatar.objectEventId].facingDirection;
+    u16 graphicsId = objectEvent->graphicsId;
+
+    objectEvent->invisible = FALSE;
+    if (gPlayerAvatar.dashing)
+    {
+        StartSpriteAnimInDirection(objectEvent, sprite, direction, GetJumpSpecialDirectionAnimNum(direction));
+        sprite->sDuration = 8;
+        sprite->sSpeedFlip = 0;
+    }
+    else
+    {
+        StartSpriteAnimInDirection(objectEvent, sprite, direction, GetMoveDirectionFastestAnimNum(direction));
+        sprite->sDuration = 16;
+        sprite->sSpeedFlip = 1;
+    }
+    if (direction == DIR_EAST && sprite->anims[ANIM_STD_FACE_EAST]->frame.hFlip)
+        sprite->sSpeedFlip |= 1 << 4;
+    ObjectEventSetPokeballGfx(objectEvent);
+    objectEvent->graphicsId = graphicsId;
+    objectEvent->inanimate = FALSE;
+    ApplyGlobalFieldPaletteTint(sprite->oam.paletteNum);
+    return MovementAction_BurstFromPokeball_Step1(objectEvent, sprite);
+}
+
+static bool8 MovementAction_BurstFromPokeball_Step1(struct ObjectEvent *objectEvent, struct Sprite *sprite)
+{
+    u32 animStepFrame = (sprite->sSpeedFlip & 1) ? 7 : 3;
+    if (--sprite->sDuration == 0)
+    {
+        sprite->sActionFuncId = 2;
+        sprite->animCmdIndex = 0;
+        sprite->animPaused = TRUE;
+        return TRUE;
+    }
+    else if (sprite->sDuration == animStepFrame)
+    {
+        FollowerSetGraphics(objectEvent, OW_SPECIES(objectEvent), OW_SHINY(objectEvent), OW_FEMALE(objectEvent));
+        LoadFillColorPalette(RGB_WHITE, OBJ_EVENT_PAL_TAG_WHITE, sprite);
+        sprite->affineAnims = sAffineAnims_PokeballFollower;
+        if (OW_LARGE_OW_SUPPORT && !IS_POW_OF_TWO(-sprite->centerToCornerVecX))
+            return FALSE;
+        sprite->affineAnims = sAffineAnims_PokeballFollower;
+        sprite->oam.affineMode = ST_OAM_AFFINE_NORMAL;
+        InitSpriteAffineAnim(sprite);
+        StartSpriteAffineAnim(sprite, sprite->sSpeedFlip >> 4);
+    }
+    else if (sprite->sDuration == (animStepFrame >> 1))
+    {
+        sprite->affineAnimEnded = TRUE;
+        FreeSpriteOamMatrix(sprite);
+        sprite->oam.affineMode = ST_OAM_AFFINE_OFF;
+        FollowerSetGraphics(objectEvent, OW_SPECIES(objectEvent), OW_SHINY(objectEvent), OW_FEMALE(objectEvent));
+    }
+    return FALSE;
+}
+
 static bool8 MovementAction_EnterPokeball_Step0(struct ObjectEvent *objectEvent, struct Sprite *sprite)
 {
     enum Direction direction = objectEvent->facingDirection;

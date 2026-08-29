@@ -1607,6 +1607,12 @@ static const union AnimCmd *const sAnimTable_CutTree[] = {
     [ANIM_REMOVE_OBSTACLE] = sAnim_TreeCut,
 };
 
+// Single-frame table for the static Pamtre Apricorn tree lookalike - just
+// holds its one frame forever, no growth/sway animation.
+static const union AnimCmd *const sAnimTable_PamtreApricornTree[] = {
+    sAnim_StayStill,
+};
+
 static const union AnimCmd *const sAnimTable_RedGreenFish[] = {
     [ANIM_TAKE_OUT_ROD_SOUTH] = sAnim_TakeOutRodSouth,
     [ANIM_TAKE_OUT_ROD_NORTH] = sAnim_TakeOutRodNorth,
