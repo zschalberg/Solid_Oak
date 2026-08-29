@@ -178,11 +178,15 @@ EventScript_Close11FDoor::
 	return
 
 EventScript_Open2FDoor1::
-	setmetatile 5, 8, METATILE_SilphCo_Floor_ShadeFull, 0
-	setmetatile 6, 8, METATILE_SilphCo_Floor, 0
-	setmetatile 5, 9, METATILE_SilphCo_Floor_ShadeFull, 0
-	setmetatile 6, 9, METATILE_SilphCo_Floor, 0
-	setmetatile 6, 10, METATILE_SilphCo_Floor, 0
+	setmetatile 10, 11, METATILE_SilphCo_HideoutFloor, 0
+	setmetatile 11, 11, METATILE_SilphCo_HideoutFloor, 0
+	setmetatile 12, 11, METATILE_SilphCo_HideoutFloor, 0
+	setmetatile 10, 12, METATILE_SilphCo_HideoutFloor, 0
+	setmetatile 11, 12, METATILE_SilphCo_HideoutFloor, 0
+	setmetatile 12, 12, METATILE_SilphCo_HideoutFloor, 0
+	setmetatile 10, 13, METATILE_SilphCo_HideoutFloor, 0
+	setmetatile 11, 13, METATILE_SilphCo_HideoutFloor, 0
+	setmetatile 12, 13, METATILE_SilphCo_HideoutFloor, 0
 	return
 
 EventScript_Open2FDoor2::

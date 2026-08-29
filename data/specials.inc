@@ -359,6 +359,7 @@ gSpecials::
 	def_special GetSelectedMonUpgradeInfo
 	def_special UpgradeSelectedMonBall
 	def_special TryUpgradeBagBallTier
+	def_special UpgradeRedProtoballCaughtMons
 	def_special GetSpeciesSeenCount
 	def_special GetSpeciesCaughtCount
 	def_special GetMonHeight
@@ -386,6 +387,7 @@ gSpecials::
 	def_special EvaluateSelectedResearchMon
 	def_special TurnInSelectedResearchMon
 	def_special TransferSelectedMonToPokeBall
+	def_special CheckReserveStageJustAdvanced
 	def_special ResetReserveContestAttempts
 	def_special GetReserveContestAttemptsRemaining
 	def_special CheckCanRegisterReserveContest

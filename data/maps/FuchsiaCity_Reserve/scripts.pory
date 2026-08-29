@@ -201,6 +201,13 @@ FuchsiaCity_Reserve_EventScript_EvaluateMon::
 	playfanfare MUS_LEVEL_UP
 	msgbox FuchsiaCity_Reserve_Text_TurnInSuccess, MSGBOX_DEFAULT
 	waitfanfare
+	special CheckReserveStageJustAdvanced
+	compare VAR_RESULT, TRUE
+	goto_if_eq FuchsiaCity_Reserve_EventScript_NewPokemonAvailable
+	goto FuchsiaCity_Reserve_EventScript_Worker1MenuLoop
+
+FuchsiaCity_Reserve_EventScript_NewPokemonAvailable::
+	msgbox FuchsiaCity_Reserve_Text_NewPokemonAvailable, MSGBOX_DEFAULT
 	goto FuchsiaCity_Reserve_EventScript_Worker1MenuLoop
 
 FuchsiaCity_Reserve_EventScript_ShowNewFamilyText::
@@ -467,6 +474,12 @@ FuchsiaCity_Reserve_Text_NewFamilyBonusMsg:
 FuchsiaCity_Reserve_Text_TurnInSuccess:
 	.string "Logged. {STR_VAR_3} Research\n"
 	.string "Coins added.$"
+
+FuchsiaCity_Reserve_Text_NewPokemonAvailable:
+	.string "That's enough entries to widen\n"
+	.string "the reserve's range.\p"
+	.string "New POKéMON should be showing\n"
+	.string "up out there now.$"
 
 FuchsiaCity_Reserve_Text_TurnInLastMonRefusedMsg:
 	.string "Can't take your only POKéMON.\n"

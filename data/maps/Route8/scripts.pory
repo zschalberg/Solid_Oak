@@ -1,0 +1,38 @@
+mapscripts Route8_MapScripts {
+    MAP_SCRIPT_ON_LOAD: Route8_OnLoad
+}
+
+// The real berry tree at (36, 13) shares its spot with the Apricorn tree -
+// re-derive FLAG_HIDE_ROUTE8_BERRY_PATCH every visit so exactly one of the
+// two is ever active: the Apricorn tree until it's picked, the plantable
+// patch after.
+script Route8_OnLoad {
+    if (flag(FLAG_GOT_BLUE_APRICORN_ROUTE8)) {
+        clearflag(FLAG_HIDE_ROUTE8_BERRY_PATCH)
+    } else {
+        setflag(FLAG_HIDE_ROUTE8_BERRY_PATCH)
+    }
+    end
+}
+
+script Route8_EventScript_UndergroundPathSign {
+    msgbox("UNDERGROUND PATH\n"
+           "CELADON CITY - LAVENDER TOWN", MSGBOX_SIGN)
+    end
+}
+
+// Looks like a berry tree but isn't one - no growth stages, no save state,
+// just a static lookalike (see OBJ_EVENT_GFX_PAMTRE_APRICORN_TREE) that
+// hands over a Blue Apricorn once.
+script Route8_EventScript_ApricornTree {
+    lock
+    faceplayer
+    if (flag(FLAG_GOT_BLUE_APRICORN_ROUTE8)) {
+        msgbox("The tree looks picked clean.")
+    } else {
+        giveitem(ITEM_BLUE_APRICORN, 2)
+        setflag(FLAG_GOT_BLUE_APRICORN_ROUTE8)
+    }
+    release
+    end
+}

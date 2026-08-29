@@ -1,0 +1,94 @@
+const SilphCoReceptionist = 1
+const SilphCoPrototypeBall = 2
+const SilphCoContainmentFailure = 3
+
+mapscripts SilphCo_1F_MapScripts {
+    MAP_SCRIPT_ON_TRANSITION: SilphCo_1F_OnTransition
+    MAP_SCRIPT_ON_LOAD: SilphCo_1F_OnLoad
+    MAP_SCRIPT_ON_FRAME_TABLE [
+        VAR_SCENE_SILPH, 0: SilphCo_1F_EventScript_BallMalfunctionCutscene
+    ]
+}
+
+script SilphCo_1F_OnTransition {
+    setworldmapflag(FLAG_WORLD_MAP_SILPH_CO_1F)
+    end
+}
+
+// The prototype ball prop hides itself for good once the incident's been
+// witnessed (its own flag field in map.json). The revealed Voltorb is the
+// mirror image - kept hidden until then, re-derived here every load so
+// neither object is ever in the wrong state, even for a frame.
+script SilphCo_1F_OnLoad {
+    if (flag(FLAG_SAW_SILPHCO_1F_BALL_MALFUNCTION)) {
+        clearflag(FLAG_HIDE_SILPHCO_1F_CONTAINMENT_REVEAL)
+    } else {
+        setflag(FLAG_HIDE_SILPHCO_1F_CONTAINMENT_REVEAL)
+    }
+    end
+}
+
+script SilphCo_1F_EventScript_Receptionist {
+    msgbox("Welcome.\p"
+           "The PRESIDENT is in the boardroom\n"
+           "on 11F.", MSGBOX_NPC)
+    end
+}
+
+script SilphCo_1F_EventScript_FloorSign {
+    msgbox("SILPH CO. HEAD OFFICE\n"
+           "1F", MSGBOX_SIGN)
+    end
+}
+
+// Only reachable in the sliver of time before the cutscene locks the
+// player, or if VAR_SCENE_SILPH is reset by hand - the ball hides itself
+// permanently right after the incident plays.
+script SilphCo_1F_EventScript_PrototypeBall {
+    msgbox("A prototype containment ball is\nsitting on display here.", MSGBOX_SIGN)
+    end
+}
+
+// The Voltorb left behind after the malfunction. Pure flavor for now - no
+// battle or catch hookup.
+script SilphCo_1F_EventScript_ContainmentFailure {
+    lock
+    faceplayer
+    msgbox("The VOLTORB rolls back and forth,\nsizing you up.")
+    closemessage
+    release
+    end
+}
+
+// Fires once, automatically, the first time the player ever sets foot on
+// this floor (VAR_SCENE_SILPH starts at 0). One of the prototype
+// containment balls on display can't hold what's inside.
+script SilphCo_1F_EventScript_BallMalfunctionCutscene {
+    lockall
+    setvar(VAR_SCENE_SILPH, 1)
+    setflag(FLAG_SAW_SILPHCO_1F_BALL_MALFUNCTION)
+    applymovement(SilphCoReceptionist, SilphCo_1F_Movement_ReceptionistNotices)
+    waitmovement(SilphCoReceptionist)
+    msgbox("Wait, that ball on the display\ncase - it's shaking!")
+    closemessage
+    removeobject(SilphCoPrototypeBall)
+    addobject(SilphCoContainmentFailure)
+    playse(SE_BALL_OPEN)
+    applymovement(SilphCoContainmentFailure, SilphCo_1F_Movement_Burst)
+    waitmovement(SilphCoContainmentFailure)
+    msgbox("The prototype couldn't hold it!\p"
+           "That's... that's a VOLTORB standing\nwhere the ball used to be.\p"
+           "This is exactly the kind of\n"
+           "containment failure the team\lupstairs has been trying to fix.")
+    closemessage
+    releaseall
+    end
+}
+
+movement SilphCo_1F_Movement_ReceptionistNotices {
+    face_right
+}
+
+movement SilphCo_1F_Movement_Burst {
+    burst_from_pokeball
+}

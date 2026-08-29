@@ -1,10 +1,12 @@
+const SilphCoScientist = 1
+
 mapscripts SilphCo_2F_MapScripts {
     MAP_SCRIPT_ON_LOAD: SilphCo_2F_OnLoad
 }
 
 script SilphCo_2F_OnLoad {
     call_if_unset(FLAG_SILPH_2F_DOOR_1, EventScript_Close2FDoor1)
-    call_if_unset(FLAG_SILPH_2F_DOOR_2, EventScript_Close2FDoor2)
+//    call_if_unset(FLAG_SILPH_2F_DOOR_2, EventScript_Close2FDoor2)
     end
 }
 
@@ -108,18 +110,75 @@ script SilphCoScientist_EventScript_CheckProtoballTurnIn {
 // Fires only from the dispatcher above, after the party check passes.
 script SilphCoScientist_EventScript_ProtoballTurnIn {
     lockall
+    faceplayer
     showmugshot(MUGSHOT_PROF_ARBOR, MUGSHOT_RIGHT)
     textcolor(NPC_TEXT_COLOR_MALE)
     msgbox("These the two you caught? \n"
            "Perfect, that's all we need.\p"
            "The PROTOBALL held up fine out\n"
            "there. That's good news for the\l"
-           "containment side of things.\p"
-           "There's something else, though.\n"
-           "Come find me again once you've\l"
-           "had a chance to settle in.")
+           "containment side of things.")
     closemessage
     clearmugshot
+    checkitem(ITEM_BLUE_APRICORN, 2)
+    if (var(VAR_RESULT) == FALSE) {
+        showmugshot(MUGSHOT_PROF_ARBOR, MUGSHOT_RIGHT)
+        textcolor(NPC_TEXT_COLOR_MALE)
+        msgbox("There's something else, though.\p"
+               "To hold anything stronger we'll\n"
+               "need a better containment shell -\l"
+               "two BLUE APRICORNS ought to do it.\p"
+               "I hear they grow out on ROUTE 8,\n"
+               "east of here.")
+        closemessage
+        clearmugshot
+        release
+        end
+    }
+    showmugshot(MUGSHOT_PROF_ARBOR, MUGSHOT_RIGHT)
+    textcolor(NPC_TEXT_COLOR_MALE)
+    msgbox("There's something else, though.\n"
+           "Come with me.")
+    closemessage
+    clearmugshot
+    specialvar(VAR_RESULT, GetPlayerFacingDirection)
+    if (var(VAR_RESULT) == DIR_WEST) {
+        applymovement(OBJ_EVENT_ID_PLAYER, SilphCo_Movement_FromEast)
+        applymovement(SilphCoScientist, SilphCo_Movement_ToDoor)
+    } elif (var(VAR_RESULT) == DIR_SOUTH) {
+        applymovement(OBJ_EVENT_ID_PLAYER, SilphCo_Movement_FromSouth)
+        applymovement(SilphCoScientist, SilphCo_Movement_ToDoor)
+    } elif (var(VAR_RESULT) == DIR_EAST) {
+        applymovement(OBJ_EVENT_ID_PLAYER, SilphCo_Movement_FromWest)
+        applymovement(SilphCoScientist, SilphCo_Movement_ToDoor)
+    } else {
+        applymovement(OBJ_EVENT_ID_PLAYER, SilphCo_Movement_ToDoor)
+        applymovement(SilphCoScientist, SilphCo_Movement_ToDoor)
+    }
+    waitmovement(SilphCoScientist)
+    waitmovement(OBJ_EVENT_ID_PLAYER)
+    setflag(FLAG_SILPH_2F_DOOR_1)
+    call(EventScript_Open2FDoor1)
+    playse(SE_UNLOCK)
+    special(DrawWholeMapView)
+    waitse
+    applymovement(SilphCoScientist, SilphCo_Movement_ToWorkbench)
+    applymovement(OBJ_EVENT_ID_PLAYER, SilphCo_Movement_PlayerToWorkbench)
+    waitmovement(SilphCoScientist)
+    waitmovement(OBJ_EVENT_ID_PLAYER)
+    showmugshot(MUGSHOT_PROF_ARBOR, MUGSHOT_RIGHT)
+    textcolor(NPC_TEXT_COLOR_MALE)
+    msgbox("While we've got you here, let's\n"
+           "upgrade those PROTOBALLS with what\l"
+           "we learned from the field test.")
+    removeitem(ITEM_BLUE_APRICORN, 2)
+    special(UpgradeRedProtoballCaughtMons)
+    msgbox("There - those are BLU PROTOBALLS\n"
+           "now. Should hold up against\l"
+           "tougher Pokemon.")
+    closemessage
+    clearmugshot
+
     setvar(VAR_SCENE_SILPH, 3)
     setflag(FLAG_QUEST_REDPROTOBALL_COMPLETED)
     quest_complete_toast
@@ -127,4 +186,41 @@ script SilphCoScientist_EventScript_ProtoballTurnIn {
     quest_start_toast
     releaseall
     end
+}
+
+movement SilphCo_Movement_ToDoor {
+    walk_down * 3
+    delay_16
+}
+
+movement SilphCo_Movement_ToWorkbench {
+    walk_down * 7
+    walk_right * 6
+    face_down
+    delay_16 * 4
+    face_left
+}
+
+movement SilphCo_Movement_FromEast {
+    walk_left
+    walk_down * 2
+    delay_16
+}
+
+movement SilphCo_Movement_FromWest {
+    walk_right
+    walk_down * 2
+    delay_16
+}
+
+movement SilphCo_Movement_FromSouth {
+    slide_left
+    walk_right
+    walk_down
+    delay_16
+}
+
+movement SilphCo_Movement_PlayerToWorkbench {
+    walk_down * 8
+    walk_right * 5
 }

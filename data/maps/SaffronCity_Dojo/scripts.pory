@@ -1,19 +1,87 @@
 const LOCALID_KARATE_MASTER = 5
 
+// SaffronCity_Dojo/scripts.pory -- the SPEED DOJO
+//
+// Mirrors VermilionCity_Dojo (the ATTACK DOJO) structurally: CHALLENGE GUY
+// picks a belt tier (White/Blue/Black) or Training mode via the shared
+// VAR_DOJO_CHALLENGE_TIER (1=White, 2=Blue, 3=Black). Each student reads
+// that var to decide which of their _WHITE/_BLUE/_BLACK trainer IDs to use.
+// Blue requires all five *_WHITE_DEFEATED flags; Black requires all five
+// *_BLUE_DEFEATED flags. Training always fights the player's highest
+// currently-unlocked tier with FLAG_SCALE_BOSS_BATTLE applied (offset -1)
+// so it scales up alongside the player but stays a slight handicap at any
+// level, and does NOT set the *_DEFEATED progression flags -- only a real
+// White/Blue/Black clear counts. Training also force-clears the relevant
+// trainer's beaten flag before every fight (like Gauntlet does for Black),
+// since otherwise a tier already cleared for real would just skip the
+// battle instead of letting the player grind it.
+//
+// Trainer identities (speed archetypes, no engine-level gimmicks wired up
+// yet -- same as Vermilion's Yuki/Jin/Akio, documented but not layered in):
+//   HITOSHI -- gatekeeper, flying/normal runners, no gimmick
+//   HIDEKI  -- "I hear you're good, show me" reader, poison/psychic strikers
+//   AARON   -- explosive quick finisher, Voltorb/Electrode-line bombers
+//   MIKE    -- Electric-monotype specialist
+//   KOICHI  -- KARATE MASTER/leader, toughest fight per tier. Keeps his
+//              existing Hitmonlee/Hitmonchan giveaway (separate mechanic,
+//              gated on FLAG_GOT_HITMON_FROM_DOJO, untouched by belt tiers)
+//
+// This dojo has five named trainers (one more than Vermilion's four), so
+// the Gauntlet here is all five back to back.
+
 mapscripts SaffronCity_Dojo_MapScripts {
+    MAP_SCRIPT_ON_TRANSITION: SaffronCity_Dojo_OnTransition
     MAP_SCRIPT_ON_FRAME_TABLE [
         VAR_TEMP_0, 0: SaffronCity_Dojo_OnFrame
     ]
+}
+
+// Safety net: clears FLAG_SCALE_BOSS_BATTLE and FLAG_DOJO_TRAINING_MODE on
+// every map entry so a stray scaled/training battle flag can never leak in
+// from elsewhere and affect a Dojo trainer.
+//
+// Also wipes GAUNTLET progress on every entry. The Gauntlet must be cleared
+// in one sitting -- walking out (to heal, to the PC, anywhere) and back in
+// fires this transition, so any partial run is voided and the player has to
+// start over from Hitoshi.
+//
+// Also resets VAR_DOJO_CHALLENGE_TIER to 0 (no tier selected). Without this,
+// leaving mid-Gauntlet left the tier stuck at 4 -- walking straight up to a
+// student without talking to the Challenge Guy again would silently start
+// a Gauntlet-style Black Belt fight (pre-battle flag clear, DONE flag on
+// win) that could never actually complete, since the DONE flags were just
+// wiped above. Resetting to 0 forces a real tier selection every visit;
+// 0 falls through to the White Belt trainer IDs in each student's script,
+// same as any other not-yet-selected value.
+script SaffronCity_Dojo_OnTransition {
+    clearflag(FLAG_SCALE_BOSS_BATTLE)
+    clearflag(FLAG_DOJO_TRAINING_MODE)
+    clearflag(FLAG_DOJO_GAUNTLET_HITOSHI_DONE)
+    clearflag(FLAG_DOJO_GAUNTLET_HIDEKI_DONE)
+    clearflag(FLAG_DOJO_GAUNTLET_AARON_DONE)
+    clearflag(FLAG_DOJO_GAUNTLET_MIKE_DONE)
+    clearflag(FLAG_DOJO_GAUNTLET_KOICHI_DONE)
+    setvar(VAR_DOJO_CHALLENGE_TIER, 0)
+    end
 }
 
 // First-ever dojo visit (any dojo, tracked by one shared flag) gets the
 // Challenge Guy intro explaining belts and Training mode. Must be run on the
 // frame table (not ON_RESUME or ON_LOAD) because dialogue/blocking scripts
 // cannot be run synchronously during map loading.
+//
+// Also starts the SPEED DOJO CHALLENGE quest (FLAG_QUEST_SPEED_DOJO_ACTIVE,
+// see src/quest_log_menu.c) on first entry to THIS specific dojo, with a
+// toast notification -- separate from the shared dojo-intro flag above since
+// this one is Saffron-specific, not shared across every dojo.
 script SaffronCity_Dojo_OnFrame {
     setvar(VAR_TEMP_0, 1)
     if (!flag(FLAG_SEEN_DOJO_INTRO)) {
         call(Common_EventScript_DojoIntro)
+    }
+    if (!flag(FLAG_QUEST_SPEED_DOJO_ACTIVE)) {
+        setflag(FLAG_QUEST_SPEED_DOJO_ACTIVE)
+        quest_start_toast("SPEED DOJO CHALLENGE")
     }
     end
 }
@@ -33,6 +101,681 @@ script SaffronCity_Dojo_EventScript_TriggerMasterBattleRight {
     applymovement(LOCALID_KARATE_MASTER, Common_Movement_WalkInPlaceFasterRight)
     waitmovement(0)
     releaseall
+    end
+}
+
+// ============================================================================
+// CHALLENGE GUY -- picks the belt tier used by Hitoshi/Hideki/Aaron/Mike/Koichi
+// ============================================================================
+
+script SaffronCity_Dojo_EventScript_ChallengeGuy {
+    lock
+    faceplayer
+    // Gauntlet only appears once all five have been beaten for real at Black
+    // Belt -- it's a hidden challenge, not an advertised one.
+    if (flag(FLAG_DOJO_HITOSHI_BLACK_DEFEATED) && flag(FLAG_DOJO_HIDEKI_BLACK_DEFEATED) && flag(FLAG_DOJO_AARON_BLACK_DEFEATED) && flag(FLAG_DOJO_MIKE_BLACK_DEFEATED) && flag(FLAG_DOJO_KOICHI_BLACK_DEFEATED)) {
+        msgbox(SaffronCity_Dojo_Text_ChallengeGuyIntroGauntlet, MSGBOX_DEFAULT)
+        closemessage
+        multichoice(0, 0, MULTI_DOJO_CHALLENGE_GAUNTLET, FALSE)
+        if (var(VAR_RESULT) == 4) {
+            goto(SaffronCity_Dojo_EventScript_ChallengeGauntlet)
+            end
+        }
+        if (var(VAR_RESULT) == 5) {
+            release
+            end
+        }
+    } else {
+        msgbox(SaffronCity_Dojo_Text_ChallengeGuyIntro, MSGBOX_DEFAULT)
+        closemessage
+        multichoice(0, 0, MULTI_DOJO_CHALLENGE, FALSE)
+    }
+    if (var(VAR_RESULT) == 0) {
+        goto(SaffronCity_Dojo_EventScript_ChallengeTraining)
+        end
+    }
+    if (var(VAR_RESULT) == 1) {
+        goto(SaffronCity_Dojo_EventScript_ChallengeWhite)
+        end
+    }
+    if (var(VAR_RESULT) == 2) {
+        goto(SaffronCity_Dojo_EventScript_ChallengeBlue)
+        end
+    }
+    if (var(VAR_RESULT) == 3) {
+        goto(SaffronCity_Dojo_EventScript_ChallengeBlack)
+        end
+    }
+    release
+    end
+}
+
+script SaffronCity_Dojo_EventScript_ChallengeTraining {
+    setflag(FLAG_DOJO_TRAINING_MODE)
+    setvar(VAR_DOJO_CHALLENGE_TIER, 1)
+    if (flag(FLAG_DOJO_HITOSHI_WHITE_DEFEATED) && flag(FLAG_DOJO_HIDEKI_WHITE_DEFEATED) && flag(FLAG_DOJO_AARON_WHITE_DEFEATED) && flag(FLAG_DOJO_MIKE_WHITE_DEFEATED) && flag(FLAG_DOJO_KOICHI_WHITE_DEFEATED)) {
+        setvar(VAR_DOJO_CHALLENGE_TIER, 2)
+    }
+    if (flag(FLAG_DOJO_HITOSHI_BLUE_DEFEATED) && flag(FLAG_DOJO_HIDEKI_BLUE_DEFEATED) && flag(FLAG_DOJO_AARON_BLUE_DEFEATED) && flag(FLAG_DOJO_MIKE_BLUE_DEFEATED) && flag(FLAG_DOJO_KOICHI_BLUE_DEFEATED)) {
+        setvar(VAR_DOJO_CHALLENGE_TIER, 3)
+    }
+    msgbox(SaffronCity_Dojo_Text_ChallengeTrainingSet, MSGBOX_AUTOCLOSE)
+    release
+    end
+}
+
+script SaffronCity_Dojo_EventScript_ChallengeWhite {
+    clearflag(FLAG_DOJO_TRAINING_MODE)
+    setvar(VAR_DOJO_CHALLENGE_TIER, 1)
+    msgbox(SaffronCity_Dojo_Text_ChallengeWhiteSet, MSGBOX_AUTOCLOSE)
+    release
+    end
+}
+
+script SaffronCity_Dojo_EventScript_ChallengeBlue {
+    if (!flag(FLAG_DOJO_HITOSHI_WHITE_DEFEATED) || !flag(FLAG_DOJO_HIDEKI_WHITE_DEFEATED) || !flag(FLAG_DOJO_AARON_WHITE_DEFEATED) || !flag(FLAG_DOJO_MIKE_WHITE_DEFEATED) || !flag(FLAG_DOJO_KOICHI_WHITE_DEFEATED)) {
+        msgbox(SaffronCity_Dojo_Text_ChallengeBlueLocked, MSGBOX_AUTOCLOSE)
+        release
+        end
+    }
+    clearflag(FLAG_DOJO_TRAINING_MODE)
+    setvar(VAR_DOJO_CHALLENGE_TIER, 2)
+    msgbox(SaffronCity_Dojo_Text_ChallengeBlueSet, MSGBOX_AUTOCLOSE)
+    release
+    end
+}
+
+script SaffronCity_Dojo_EventScript_ChallengeBlack {
+    if (!flag(FLAG_DOJO_HITOSHI_BLUE_DEFEATED) || !flag(FLAG_DOJO_HIDEKI_BLUE_DEFEATED) || !flag(FLAG_DOJO_AARON_BLUE_DEFEATED) || !flag(FLAG_DOJO_MIKE_BLUE_DEFEATED) || !flag(FLAG_DOJO_KOICHI_BLUE_DEFEATED)) {
+        msgbox(SaffronCity_Dojo_Text_ChallengeBlackLocked, MSGBOX_AUTOCLOSE)
+        release
+        end
+    }
+    clearflag(FLAG_DOJO_TRAINING_MODE)
+    setvar(VAR_DOJO_CHALLENGE_TIER, 3)
+    msgbox(SaffronCity_Dojo_Text_ChallengeBlackSet, MSGBOX_AUTOCLOSE)
+    release
+    end
+}
+
+// GAUNTLET (var 4): all five Black Belt trainers, back to back, no leaving
+// to heal. Selecting it (re)starts a fresh attempt -- and OnTransition wipes
+// progress the moment the player steps off this map, so the only way to
+// bank a DONE flag is to keep winning without leaving.
+script SaffronCity_Dojo_EventScript_ChallengeGauntlet {
+    clearflag(FLAG_DOJO_TRAINING_MODE)
+    setvar(VAR_DOJO_CHALLENGE_TIER, 4)
+    clearflag(FLAG_DOJO_GAUNTLET_HITOSHI_DONE)
+    clearflag(FLAG_DOJO_GAUNTLET_HIDEKI_DONE)
+    clearflag(FLAG_DOJO_GAUNTLET_AARON_DONE)
+    clearflag(FLAG_DOJO_GAUNTLET_MIKE_DONE)
+    clearflag(FLAG_DOJO_GAUNTLET_KOICHI_DONE)
+    msgbox(SaffronCity_Dojo_Text_ChallengeGauntletSet, MSGBOX_AUTOCLOSE)
+    release
+    end
+}
+
+// Shared by all five students' win handlers in Gauntlet mode. Awards the
+// one-time GAUNTLET_CLEARED flag (and its message) the moment all five DONE
+// flags are set in the same sitting -- guarded so it only ever fires once,
+// no matter which student happens to finish the run.
+script SaffronCity_Dojo_EventScript_CheckGauntletComplete {
+    if (flag(FLAG_DOJO_SPEED_GAUNTLET_CLEARED)) {
+        return
+    }
+    if (flag(FLAG_DOJO_GAUNTLET_HITOSHI_DONE) && flag(FLAG_DOJO_GAUNTLET_HIDEKI_DONE) && flag(FLAG_DOJO_GAUNTLET_AARON_DONE) && flag(FLAG_DOJO_GAUNTLET_MIKE_DONE) && flag(FLAG_DOJO_GAUNTLET_KOICHI_DONE)) {
+        setflag(FLAG_DOJO_SPEED_GAUNTLET_CLEARED)
+        msgbox(SaffronCity_Dojo_Text_GauntletCleared, MSGBOX_DEFAULT)
+        closemessage
+    }
+    return
+}
+
+// Shared by all five students' win handlers. The SPEED DOJO CHALLENGE quest
+// is only actually complete once all five have been beaten for real at
+// Black Belt -- since students can be fought in any order, awarding it off
+// of a single student's Black win would complete the quest with the other
+// four still unbeaten. Guarded on the completeFlag itself so it only ever
+// fires once, no matter which student happens to be the one who finishes it.
+script SaffronCity_Dojo_EventScript_CheckSpeedDojoComplete {
+    if (flag(FLAG_QUEST_SPEED_DOJO_COMPLETED)) {
+        return
+    }
+    if (flag(FLAG_DOJO_HITOSHI_BLACK_DEFEATED) && flag(FLAG_DOJO_HIDEKI_BLACK_DEFEATED) && flag(FLAG_DOJO_AARON_BLACK_DEFEATED) && flag(FLAG_DOJO_MIKE_BLACK_DEFEATED) && flag(FLAG_DOJO_KOICHI_BLACK_DEFEATED)) {
+        setflag(FLAG_QUEST_SPEED_DOJO_COMPLETED)
+        quest_complete_toast("SPEED DOJO CHALLENGE")
+    }
+    return
+}
+
+// Called on every post-battle path (both the "already beaten, battle
+// skipped" fallthrough and the real win handler) for all five students.
+// FLAG_SCALE_BOSS_BATTLE/VAR_SCALE_LEVEL_OFFSET and FLAG_PREVIEW_BATTLE/
+// var 0x8008 are set right before each trainerbattle_single call, but
+// dotrainerbattle only clears FLAG_PREVIEW_BATTLE itself when the battle
+// actually runs -- if the trainer flag is already set, the battle is
+// skipped entirely and both pairs would otherwise leak, scaling and
+// preview-ing every trainer battle for the rest of the game.
+script SaffronCity_Dojo_EventScript_PostBattleCleanup {
+    clearflag(FLAG_SCALE_BOSS_BATTLE)
+    setvar(VAR_SCALE_LEVEL_OFFSET, 0)
+    clearflag(FLAG_PREVIEW_BATTLE)
+    setvar(0x8008, 0)
+    return
+}
+
+// ============================================================================
+// HITOSHI -- gatekeeper, basic trainer
+// ============================================================================
+
+script SaffronCity_Dojo_EventScript_Hitoshi {
+    lock
+    faceplayer
+    msgbox(SaffronCity_Dojo_Text_HitoshiIntro, MSGBOX_YESNO)
+    if (var(VAR_RESULT) == NO) {
+        msgbox(SaffronCity_Dojo_Text_ComeBackWhenReady)
+        closemessage
+        release
+        end
+    }
+    setflag(FLAG_PREVIEW_BATTLE)
+    setvar(0x8008, 2)
+    if (flag(FLAG_DOJO_TRAINING_MODE)) {
+        setflag(FLAG_SCALE_BOSS_BATTLE)
+        setvar(VAR_SCALE_LEVEL_OFFSET, -1)
+    } else {
+        setflag(FLAG_SCALE_BOSS_BATTLE)
+        if (var(VAR_DOJO_CHALLENGE_TIER) == 4 || var(VAR_DOJO_CHALLENGE_TIER) == 3) {
+            setvar(VAR_SCALE_LEVEL_OFFSET, 5)
+        } else {
+            if (var(VAR_DOJO_CHALLENGE_TIER) == 2) {
+                setvar(VAR_SCALE_LEVEL_OFFSET, 2)
+            } else {
+                setvar(VAR_SCALE_LEVEL_OFFSET, 0)
+            }
+        }
+    }
+    if (var(VAR_DOJO_CHALLENGE_TIER) == 4) {
+        clearflag(TRAINER_FLAGS_START + TRAINER_BLACK_BELT_HITOSHI_BLACK)
+        trainerbattle_single(TRAINER_BLACK_BELT_HITOSHI_BLACK, SaffronCity_Dojo_Text_HitoshiIntroBattle, SaffronCity_Dojo_Text_HitoshiDefeat, SaffronCity_Dojo_EventScript_HitoshiWon)
+    } else {
+        if (var(VAR_DOJO_CHALLENGE_TIER) == 3) {
+            if (flag(FLAG_DOJO_TRAINING_MODE)) {
+                clearflag(TRAINER_FLAGS_START + TRAINER_BLACK_BELT_HITOSHI_BLACK)
+            }
+            trainerbattle_single(TRAINER_BLACK_BELT_HITOSHI_BLACK, SaffronCity_Dojo_Text_HitoshiIntroBattle, SaffronCity_Dojo_Text_HitoshiDefeat, SaffronCity_Dojo_EventScript_HitoshiWon)
+        } else {
+            if (var(VAR_DOJO_CHALLENGE_TIER) == 2) {
+                if (flag(FLAG_DOJO_TRAINING_MODE)) {
+                    clearflag(TRAINER_FLAGS_START + TRAINER_BLACK_BELT_HITOSHI_BLUE)
+                }
+                trainerbattle_single(TRAINER_BLACK_BELT_HITOSHI_BLUE, SaffronCity_Dojo_Text_HitoshiIntroBattle, SaffronCity_Dojo_Text_HitoshiDefeat, SaffronCity_Dojo_EventScript_HitoshiWon)
+            } else {
+                if (flag(FLAG_DOJO_TRAINING_MODE)) {
+                    clearflag(TRAINER_FLAGS_START + TRAINER_BLACK_BELT_HITOSHI_WHITE)
+                }
+                trainerbattle_single(TRAINER_BLACK_BELT_HITOSHI_WHITE, SaffronCity_Dojo_Text_HitoshiIntroBattle, SaffronCity_Dojo_Text_HitoshiDefeat, SaffronCity_Dojo_EventScript_HitoshiWon)
+            }
+        }
+    }
+    // Only reached if the trainer was already beaten and the battle was
+    // skipped -- a genuine win jumps straight to HitoshiWon below instead.
+    call(SaffronCity_Dojo_EventScript_PostBattleCleanup)
+    msgbox(SaffronCity_Dojo_Text_HitoshiPostBattle, MSGBOX_AUTOCLOSE)
+    end
+}
+
+// trainerbattle_single's 4th-arg win handler REPLACES the rest of
+// EventScript_Hitoshi on an actual win (mode TRAINER_BATTLE_CONTINUE_SCRIPT
+// jumps here directly via gotobeatenscript) -- it does not resume after
+// the trainerbattle_single call, so all post-battle logic must live here.
+script SaffronCity_Dojo_EventScript_HitoshiWon {
+    if (var(VAR_DOJO_CHALLENGE_TIER) == 4) {
+        setflag(FLAG_DOJO_GAUNTLET_HITOSHI_DONE)
+        call(SaffronCity_Dojo_EventScript_CheckGauntletComplete)
+    } else {
+        if (var(VAR_DOJO_CHALLENGE_TIER) == 3) {
+            if (flag(FLAG_DOJO_TRAINING_MODE)) {
+                clearflag(TRAINER_FLAGS_START + TRAINER_BLACK_BELT_HITOSHI_BLACK)
+            } else {
+                setflag(FLAG_DOJO_HITOSHI_BLACK_DEFEATED)
+                call(SaffronCity_Dojo_EventScript_CheckSpeedDojoComplete)
+            }
+        } else {
+            if (var(VAR_DOJO_CHALLENGE_TIER) == 2) {
+                if (!flag(FLAG_DOJO_TRAINING_MODE)) {
+                    setflag(FLAG_DOJO_HITOSHI_BLUE_DEFEATED)
+                } else {
+                    clearflag(TRAINER_FLAGS_START + TRAINER_BLACK_BELT_HITOSHI_BLUE)
+                }
+            } else {
+                if (!flag(FLAG_DOJO_TRAINING_MODE)) {
+                    setflag(FLAG_DOJO_HITOSHI_WHITE_DEFEATED)
+                } else {
+                    clearflag(TRAINER_FLAGS_START + TRAINER_BLACK_BELT_HITOSHI_WHITE)
+                }
+            }
+        }
+    }
+    // Training mode heals the party on every win so grinding doesn't wear
+    // the player down between fights. Balancing (partial heal, cap on
+    // frequency, etc.) can be revisited later.
+    if (flag(FLAG_DOJO_TRAINING_MODE)) {
+        special(HealPlayerParty)
+    }
+    call(SaffronCity_Dojo_EventScript_PostBattleCleanup)
+    msgbox(SaffronCity_Dojo_Text_HitoshiPostBattle, MSGBOX_AUTOCLOSE)
+    release
+    end
+}
+
+// ============================================================================
+// HIDEKI -- "I hear you're good, show me" reader
+// ============================================================================
+
+script SaffronCity_Dojo_EventScript_Hideki {
+    lock
+    faceplayer
+    msgbox(SaffronCity_Dojo_Text_HidekiIntro, MSGBOX_YESNO)
+    if (var(VAR_RESULT) == NO) {
+        msgbox(SaffronCity_Dojo_Text_ComeBackWhenReady)
+        closemessage
+        release
+        end
+    }
+    setflag(FLAG_PREVIEW_BATTLE)
+    setvar(0x8008, 2)
+    if (flag(FLAG_DOJO_TRAINING_MODE)) {
+        setflag(FLAG_SCALE_BOSS_BATTLE)
+        setvar(VAR_SCALE_LEVEL_OFFSET, -1)
+    } else {
+        setflag(FLAG_SCALE_BOSS_BATTLE)
+        if (var(VAR_DOJO_CHALLENGE_TIER) == 4 || var(VAR_DOJO_CHALLENGE_TIER) == 3) {
+            setvar(VAR_SCALE_LEVEL_OFFSET, 5)
+        } else {
+            if (var(VAR_DOJO_CHALLENGE_TIER) == 2) {
+                setvar(VAR_SCALE_LEVEL_OFFSET, 2)
+            } else {
+                setvar(VAR_SCALE_LEVEL_OFFSET, 0)
+            }
+        }
+    }
+    if (var(VAR_DOJO_CHALLENGE_TIER) == 4) {
+        clearflag(TRAINER_FLAGS_START + TRAINER_BLACK_BELT_HIDEKI_BLACK)
+        trainerbattle_single(TRAINER_BLACK_BELT_HIDEKI_BLACK, SaffronCity_Dojo_Text_HidekiIntroBattle, SaffronCity_Dojo_Text_HidekiDefeat, SaffronCity_Dojo_EventScript_HidekiWon)
+    } else {
+        if (var(VAR_DOJO_CHALLENGE_TIER) == 3) {
+            if (flag(FLAG_DOJO_TRAINING_MODE)) {
+                clearflag(TRAINER_FLAGS_START + TRAINER_BLACK_BELT_HIDEKI_BLACK)
+            }
+            trainerbattle_single(TRAINER_BLACK_BELT_HIDEKI_BLACK, SaffronCity_Dojo_Text_HidekiIntroBattle, SaffronCity_Dojo_Text_HidekiDefeat, SaffronCity_Dojo_EventScript_HidekiWon)
+        } else {
+            if (var(VAR_DOJO_CHALLENGE_TIER) == 2) {
+                if (flag(FLAG_DOJO_TRAINING_MODE)) {
+                    clearflag(TRAINER_FLAGS_START + TRAINER_BLACK_BELT_HIDEKI_BLUE)
+                }
+                trainerbattle_single(TRAINER_BLACK_BELT_HIDEKI_BLUE, SaffronCity_Dojo_Text_HidekiIntroBattle, SaffronCity_Dojo_Text_HidekiDefeat, SaffronCity_Dojo_EventScript_HidekiWon)
+            } else {
+                if (flag(FLAG_DOJO_TRAINING_MODE)) {
+                    clearflag(TRAINER_FLAGS_START + TRAINER_BLACK_BELT_HIDEKI_WHITE)
+                }
+                trainerbattle_single(TRAINER_BLACK_BELT_HIDEKI_WHITE, SaffronCity_Dojo_Text_HidekiIntroBattle, SaffronCity_Dojo_Text_HidekiDefeat, SaffronCity_Dojo_EventScript_HidekiWon)
+            }
+        }
+    }
+    // Only reached if the trainer was already beaten and the battle was
+    // skipped -- a genuine win jumps straight to HidekiWon below instead.
+    call(SaffronCity_Dojo_EventScript_PostBattleCleanup)
+    msgbox(SaffronCity_Dojo_Text_HidekiPostBattle, MSGBOX_AUTOCLOSE)
+    end
+}
+
+script SaffronCity_Dojo_EventScript_HidekiWon {
+    if (var(VAR_DOJO_CHALLENGE_TIER) == 4) {
+        setflag(FLAG_DOJO_GAUNTLET_HIDEKI_DONE)
+        call(SaffronCity_Dojo_EventScript_CheckGauntletComplete)
+    } else {
+        if (var(VAR_DOJO_CHALLENGE_TIER) == 3) {
+            if (flag(FLAG_DOJO_TRAINING_MODE)) {
+                clearflag(TRAINER_FLAGS_START + TRAINER_BLACK_BELT_HIDEKI_BLACK)
+            } else {
+                setflag(FLAG_DOJO_HIDEKI_BLACK_DEFEATED)
+                call(SaffronCity_Dojo_EventScript_CheckSpeedDojoComplete)
+            }
+        } else {
+            if (var(VAR_DOJO_CHALLENGE_TIER) == 2) {
+                if (!flag(FLAG_DOJO_TRAINING_MODE)) {
+                    setflag(FLAG_DOJO_HIDEKI_BLUE_DEFEATED)
+                } else {
+                    clearflag(TRAINER_FLAGS_START + TRAINER_BLACK_BELT_HIDEKI_BLUE)
+                }
+            } else {
+                if (!flag(FLAG_DOJO_TRAINING_MODE)) {
+                    setflag(FLAG_DOJO_HIDEKI_WHITE_DEFEATED)
+                } else {
+                    clearflag(TRAINER_FLAGS_START + TRAINER_BLACK_BELT_HIDEKI_WHITE)
+                }
+            }
+        }
+    }
+    if (flag(FLAG_DOJO_TRAINING_MODE)) {
+        special(HealPlayerParty)
+    }
+    call(SaffronCity_Dojo_EventScript_PostBattleCleanup)
+    msgbox(SaffronCity_Dojo_Text_HidekiPostBattle, MSGBOX_AUTOCLOSE)
+    release
+    end
+}
+
+// ============================================================================
+// AARON -- explosive quick finisher
+// ============================================================================
+
+script SaffronCity_Dojo_EventScript_Aaron {
+    lock
+    faceplayer
+    msgbox(SaffronCity_Dojo_Text_AaronIntro, MSGBOX_YESNO)
+    if (var(VAR_RESULT) == NO) {
+        msgbox(SaffronCity_Dojo_Text_ComeBackWhenReady)
+        closemessage
+        release
+        end
+    }
+    setflag(FLAG_PREVIEW_BATTLE)
+    setvar(0x8008, 2)
+    if (flag(FLAG_DOJO_TRAINING_MODE)) {
+        setflag(FLAG_SCALE_BOSS_BATTLE)
+        setvar(VAR_SCALE_LEVEL_OFFSET, -1)
+    } else {
+        setflag(FLAG_SCALE_BOSS_BATTLE)
+        if (var(VAR_DOJO_CHALLENGE_TIER) == 4 || var(VAR_DOJO_CHALLENGE_TIER) == 3) {
+            setvar(VAR_SCALE_LEVEL_OFFSET, 5)
+        } else {
+            if (var(VAR_DOJO_CHALLENGE_TIER) == 2) {
+                setvar(VAR_SCALE_LEVEL_OFFSET, 2)
+            } else {
+                setvar(VAR_SCALE_LEVEL_OFFSET, 0)
+            }
+        }
+    }
+    if (var(VAR_DOJO_CHALLENGE_TIER) == 4) {
+        clearflag(TRAINER_FLAGS_START + TRAINER_BLACK_BELT_AARON_BLACK)
+        trainerbattle_single(TRAINER_BLACK_BELT_AARON_BLACK, SaffronCity_Dojo_Text_AaronIntroBattle, SaffronCity_Dojo_Text_AaronDefeat, SaffronCity_Dojo_EventScript_AaronWon)
+    } else {
+        if (var(VAR_DOJO_CHALLENGE_TIER) == 3) {
+            if (flag(FLAG_DOJO_TRAINING_MODE)) {
+                clearflag(TRAINER_FLAGS_START + TRAINER_BLACK_BELT_AARON_BLACK)
+            }
+            trainerbattle_single(TRAINER_BLACK_BELT_AARON_BLACK, SaffronCity_Dojo_Text_AaronIntroBattle, SaffronCity_Dojo_Text_AaronDefeat, SaffronCity_Dojo_EventScript_AaronWon)
+        } else {
+            if (var(VAR_DOJO_CHALLENGE_TIER) == 2) {
+                if (flag(FLAG_DOJO_TRAINING_MODE)) {
+                    clearflag(TRAINER_FLAGS_START + TRAINER_BLACK_BELT_AARON_BLUE)
+                }
+                trainerbattle_single(TRAINER_BLACK_BELT_AARON_BLUE, SaffronCity_Dojo_Text_AaronIntroBattle, SaffronCity_Dojo_Text_AaronDefeat, SaffronCity_Dojo_EventScript_AaronWon)
+            } else {
+                if (flag(FLAG_DOJO_TRAINING_MODE)) {
+                    clearflag(TRAINER_FLAGS_START + TRAINER_BLACK_BELT_AARON_WHITE)
+                }
+                trainerbattle_single(TRAINER_BLACK_BELT_AARON_WHITE, SaffronCity_Dojo_Text_AaronIntroBattle, SaffronCity_Dojo_Text_AaronDefeat, SaffronCity_Dojo_EventScript_AaronWon)
+            }
+        }
+    }
+    // Only reached if the trainer was already beaten and the battle was
+    // skipped -- a genuine win jumps straight to AaronWon below instead.
+    call(SaffronCity_Dojo_EventScript_PostBattleCleanup)
+    msgbox(SaffronCity_Dojo_Text_AaronPostBattle, MSGBOX_AUTOCLOSE)
+    end
+}
+
+script SaffronCity_Dojo_EventScript_AaronWon {
+    if (var(VAR_DOJO_CHALLENGE_TIER) == 4) {
+        setflag(FLAG_DOJO_GAUNTLET_AARON_DONE)
+        call(SaffronCity_Dojo_EventScript_CheckGauntletComplete)
+    } else {
+        if (var(VAR_DOJO_CHALLENGE_TIER) == 3) {
+            if (flag(FLAG_DOJO_TRAINING_MODE)) {
+                clearflag(TRAINER_FLAGS_START + TRAINER_BLACK_BELT_AARON_BLACK)
+            } else {
+                setflag(FLAG_DOJO_AARON_BLACK_DEFEATED)
+                call(SaffronCity_Dojo_EventScript_CheckSpeedDojoComplete)
+            }
+        } else {
+            if (var(VAR_DOJO_CHALLENGE_TIER) == 2) {
+                if (!flag(FLAG_DOJO_TRAINING_MODE)) {
+                    setflag(FLAG_DOJO_AARON_BLUE_DEFEATED)
+                } else {
+                    clearflag(TRAINER_FLAGS_START + TRAINER_BLACK_BELT_AARON_BLUE)
+                }
+            } else {
+                if (!flag(FLAG_DOJO_TRAINING_MODE)) {
+                    setflag(FLAG_DOJO_AARON_WHITE_DEFEATED)
+                } else {
+                    clearflag(TRAINER_FLAGS_START + TRAINER_BLACK_BELT_AARON_WHITE)
+                }
+            }
+        }
+    }
+    if (flag(FLAG_DOJO_TRAINING_MODE)) {
+        special(HealPlayerParty)
+    }
+    call(SaffronCity_Dojo_EventScript_PostBattleCleanup)
+    msgbox(SaffronCity_Dojo_Text_AaronPostBattle, MSGBOX_AUTOCLOSE)
+    release
+    end
+}
+
+// ============================================================================
+// MIKE -- Electric-monotype specialist
+// ============================================================================
+
+script SaffronCity_Dojo_EventScript_Mike {
+    lock
+    faceplayer
+    msgbox(SaffronCity_Dojo_Text_MikeIntro, MSGBOX_YESNO)
+    if (var(VAR_RESULT) == NO) {
+        msgbox(SaffronCity_Dojo_Text_ComeBackWhenReady)
+        closemessage
+        release
+        end
+    }
+    setflag(FLAG_PREVIEW_BATTLE)
+    setvar(0x8008, 2)
+    if (flag(FLAG_DOJO_TRAINING_MODE)) {
+        setflag(FLAG_SCALE_BOSS_BATTLE)
+        setvar(VAR_SCALE_LEVEL_OFFSET, -1)
+    } else {
+        setflag(FLAG_SCALE_BOSS_BATTLE)
+        if (var(VAR_DOJO_CHALLENGE_TIER) == 4 || var(VAR_DOJO_CHALLENGE_TIER) == 3) {
+            setvar(VAR_SCALE_LEVEL_OFFSET, 5)
+        } else {
+            if (var(VAR_DOJO_CHALLENGE_TIER) == 2) {
+                setvar(VAR_SCALE_LEVEL_OFFSET, 2)
+            } else {
+                setvar(VAR_SCALE_LEVEL_OFFSET, 0)
+            }
+        }
+    }
+    if (var(VAR_DOJO_CHALLENGE_TIER) == 4) {
+        clearflag(TRAINER_FLAGS_START + TRAINER_BLACK_BELT_MIKE_BLACK)
+        trainerbattle_single(TRAINER_BLACK_BELT_MIKE_BLACK, SaffronCity_Dojo_Text_MikeIntroBattle, SaffronCity_Dojo_Text_MikeDefeat, SaffronCity_Dojo_EventScript_MikeWon)
+    } else {
+        if (var(VAR_DOJO_CHALLENGE_TIER) == 3) {
+            if (flag(FLAG_DOJO_TRAINING_MODE)) {
+                clearflag(TRAINER_FLAGS_START + TRAINER_BLACK_BELT_MIKE_BLACK)
+            }
+            trainerbattle_single(TRAINER_BLACK_BELT_MIKE_BLACK, SaffronCity_Dojo_Text_MikeIntroBattle, SaffronCity_Dojo_Text_MikeDefeat, SaffronCity_Dojo_EventScript_MikeWon)
+        } else {
+            if (var(VAR_DOJO_CHALLENGE_TIER) == 2) {
+                if (flag(FLAG_DOJO_TRAINING_MODE)) {
+                    clearflag(TRAINER_FLAGS_START + TRAINER_BLACK_BELT_MIKE_BLUE)
+                }
+                trainerbattle_single(TRAINER_BLACK_BELT_MIKE_BLUE, SaffronCity_Dojo_Text_MikeIntroBattle, SaffronCity_Dojo_Text_MikeDefeat, SaffronCity_Dojo_EventScript_MikeWon)
+            } else {
+                if (flag(FLAG_DOJO_TRAINING_MODE)) {
+                    clearflag(TRAINER_FLAGS_START + TRAINER_BLACK_BELT_MIKE_WHITE)
+                }
+                trainerbattle_single(TRAINER_BLACK_BELT_MIKE_WHITE, SaffronCity_Dojo_Text_MikeIntroBattle, SaffronCity_Dojo_Text_MikeDefeat, SaffronCity_Dojo_EventScript_MikeWon)
+            }
+        }
+    }
+    // Only reached if the trainer was already beaten and the battle was
+    // skipped -- a genuine win jumps straight to MikeWon below instead.
+    call(SaffronCity_Dojo_EventScript_PostBattleCleanup)
+    msgbox(SaffronCity_Dojo_Text_MikePostBattle, MSGBOX_AUTOCLOSE)
+    end
+}
+
+script SaffronCity_Dojo_EventScript_MikeWon {
+    if (var(VAR_DOJO_CHALLENGE_TIER) == 4) {
+        setflag(FLAG_DOJO_GAUNTLET_MIKE_DONE)
+        call(SaffronCity_Dojo_EventScript_CheckGauntletComplete)
+    } else {
+        if (var(VAR_DOJO_CHALLENGE_TIER) == 3) {
+            if (flag(FLAG_DOJO_TRAINING_MODE)) {
+                clearflag(TRAINER_FLAGS_START + TRAINER_BLACK_BELT_MIKE_BLACK)
+            } else {
+                setflag(FLAG_DOJO_MIKE_BLACK_DEFEATED)
+                call(SaffronCity_Dojo_EventScript_CheckSpeedDojoComplete)
+            }
+        } else {
+            if (var(VAR_DOJO_CHALLENGE_TIER) == 2) {
+                if (!flag(FLAG_DOJO_TRAINING_MODE)) {
+                    setflag(FLAG_DOJO_MIKE_BLUE_DEFEATED)
+                } else {
+                    clearflag(TRAINER_FLAGS_START + TRAINER_BLACK_BELT_MIKE_BLUE)
+                }
+            } else {
+                if (!flag(FLAG_DOJO_TRAINING_MODE)) {
+                    setflag(FLAG_DOJO_MIKE_WHITE_DEFEATED)
+                } else {
+                    clearflag(TRAINER_FLAGS_START + TRAINER_BLACK_BELT_MIKE_WHITE)
+                }
+            }
+        }
+    }
+    if (flag(FLAG_DOJO_TRAINING_MODE)) {
+        special(HealPlayerParty)
+    }
+    call(SaffronCity_Dojo_EventScript_PostBattleCleanup)
+    msgbox(SaffronCity_Dojo_Text_MikePostBattle, MSGBOX_AUTOCLOSE)
+    release
+    end
+}
+
+// ============================================================================
+// KOICHI -- KARATE MASTER, leader, toughest fight per tier. Keeps his
+// existing Hitmonlee/Hitmonchan giveaway (SaffronCity_Dojo_EventScript_Give-
+// Hitmon and friends, below) as a separate one-time mechanic untouched by
+// belt progression -- gated on FLAG_GOT_HITMON_FROM_DOJO like it always was.
+// ============================================================================
+
+script SaffronCity_Dojo_EventScript_MasterKoichi {
+    lock
+    faceplayer
+    msgbox(SaffronCity_Dojo_Text_MasterKoichiIntro, MSGBOX_YESNO)
+    if (var(VAR_RESULT) == NO) {
+        msgbox(SaffronCity_Dojo_Text_ComeBackWhenReady)
+        closemessage
+        release
+        end
+    }
+    setflag(FLAG_PREVIEW_BATTLE)
+    setvar(0x8008, 2)
+    if (flag(FLAG_DOJO_TRAINING_MODE)) {
+        setflag(FLAG_SCALE_BOSS_BATTLE)
+        setvar(VAR_SCALE_LEVEL_OFFSET, -1)
+    } else {
+        setflag(FLAG_SCALE_BOSS_BATTLE)
+        if (var(VAR_DOJO_CHALLENGE_TIER) == 4 || var(VAR_DOJO_CHALLENGE_TIER) == 3) {
+            setvar(VAR_SCALE_LEVEL_OFFSET, 5)
+        } else {
+            if (var(VAR_DOJO_CHALLENGE_TIER) == 2) {
+                setvar(VAR_SCALE_LEVEL_OFFSET, 2)
+            } else {
+                setvar(VAR_SCALE_LEVEL_OFFSET, 0)
+            }
+        }
+    }
+    if (var(VAR_DOJO_CHALLENGE_TIER) == 4) {
+        clearflag(TRAINER_FLAGS_START + TRAINER_BLACK_BELT_KOICHI_BLACK)
+        trainerbattle_single(TRAINER_BLACK_BELT_KOICHI_BLACK, SaffronCity_Dojo_Text_MasterKoichiIntroBattle, SaffronCity_Dojo_Text_MasterKoichiDefeat, SaffronCity_Dojo_EventScript_DefeatedMasterKoichi)
+    } else {
+        if (var(VAR_DOJO_CHALLENGE_TIER) == 3) {
+            if (flag(FLAG_DOJO_TRAINING_MODE)) {
+                clearflag(TRAINER_FLAGS_START + TRAINER_BLACK_BELT_KOICHI_BLACK)
+            }
+            trainerbattle_single(TRAINER_BLACK_BELT_KOICHI_BLACK, SaffronCity_Dojo_Text_MasterKoichiIntroBattle, SaffronCity_Dojo_Text_MasterKoichiDefeat, SaffronCity_Dojo_EventScript_DefeatedMasterKoichi)
+        } else {
+            if (var(VAR_DOJO_CHALLENGE_TIER) == 2) {
+                if (flag(FLAG_DOJO_TRAINING_MODE)) {
+                    clearflag(TRAINER_FLAGS_START + TRAINER_BLACK_BELT_KOICHI_BLUE)
+                }
+                trainerbattle_single(TRAINER_BLACK_BELT_KOICHI_BLUE, SaffronCity_Dojo_Text_MasterKoichiIntroBattle, SaffronCity_Dojo_Text_MasterKoichiDefeat, SaffronCity_Dojo_EventScript_DefeatedMasterKoichi)
+            } else {
+                if (flag(FLAG_DOJO_TRAINING_MODE)) {
+                    clearflag(TRAINER_FLAGS_START + TRAINER_BLACK_BELT_KOICHI_WHITE)
+                }
+                trainerbattle_single(TRAINER_BLACK_BELT_KOICHI_WHITE, SaffronCity_Dojo_Text_MasterKoichiIntroBattle, SaffronCity_Dojo_Text_MasterKoichiDefeat, SaffronCity_Dojo_EventScript_DefeatedMasterKoichi)
+            }
+        }
+    }
+    // Only reached if the trainer was already beaten and the battle was
+    // skipped -- a genuine win jumps straight to DefeatedMasterKoichi below.
+    call(SaffronCity_Dojo_EventScript_PostBattleCleanup)
+    goto(SaffronCity_Dojo_EventScript_MasterKoichiPostBattle)
+    end
+}
+
+script SaffronCity_Dojo_EventScript_DefeatedMasterKoichi {
+    if (var(VAR_DOJO_CHALLENGE_TIER) == 4) {
+        setflag(FLAG_DOJO_GAUNTLET_KOICHI_DONE)
+        call(SaffronCity_Dojo_EventScript_CheckGauntletComplete)
+    } else {
+        if (var(VAR_DOJO_CHALLENGE_TIER) == 3) {
+            if (flag(FLAG_DOJO_TRAINING_MODE)) {
+                clearflag(TRAINER_FLAGS_START + TRAINER_BLACK_BELT_KOICHI_BLACK)
+            } else {
+                setflag(FLAG_DOJO_KOICHI_BLACK_DEFEATED)
+                call(SaffronCity_Dojo_EventScript_CheckSpeedDojoComplete)
+            }
+        } else {
+            if (var(VAR_DOJO_CHALLENGE_TIER) == 2) {
+                if (!flag(FLAG_DOJO_TRAINING_MODE)) {
+                    setflag(FLAG_DOJO_KOICHI_BLUE_DEFEATED)
+                } else {
+                    clearflag(TRAINER_FLAGS_START + TRAINER_BLACK_BELT_KOICHI_BLUE)
+                }
+            } else {
+                if (!flag(FLAG_DOJO_TRAINING_MODE)) {
+                    setflag(FLAG_DOJO_KOICHI_WHITE_DEFEATED)
+                } else {
+                    clearflag(TRAINER_FLAGS_START + TRAINER_BLACK_BELT_KOICHI_WHITE)
+                }
+            }
+        }
+    }
+    if (flag(FLAG_DOJO_TRAINING_MODE)) {
+        special(HealPlayerParty)
+    }
+    setvar(VAR_MAP_SCENE_SAFFRON_CITY_DOJO, 1)
+    call(SaffronCity_Dojo_EventScript_PostBattleCleanup)
+    goto(SaffronCity_Dojo_EventScript_MasterKoichiPostBattle)
+    end
+}
+
+// Training mode reuses trainerbattle_single every time (never permanently
+// beaten), so this always falls through to the Hitmon offer on a Training
+// win too -- same as any real belt win. Only actually picking up a ball sets
+// FLAG_GOT_HITMON_FROM_DOJO and stops the offer for good.
+script SaffronCity_Dojo_EventScript_MasterKoichiPostBattle {
+    if (flag(FLAG_GOT_HITMON_FROM_DOJO)) {
+        msgbox(SaffronCity_Dojo_Text_StayAndTrainWithUs)
+        release
+        end
+    }
+    msgbox(SaffronCity_Dojo_Text_ChoosePrizedFightingMon, MSGBOX_AUTOCLOSE)
+    release
     end
 }
 
@@ -161,49 +904,80 @@ script SaffronCity_Dojo_EventScript_RightScroll {
     end
 }
 
-script SaffronCity_Dojo_EventScript_Hitoshi {
-    trainerbattle_single(TRAINER_BLACK_BELT_HITOSHI, SaffronCity_Dojo_Text_HitoshiIntro, SaffronCity_Dojo_Text_HitoshiDefeat)
-    msgbox(SaffronCity_Dojo_Text_HitoshiPostBattle, MSGBOX_AUTOCLOSE)
-    end
+// ============================================================================
+// TEXT
+// ============================================================================
+
+text SaffronCity_Dojo_Text_ChallengeGuyIntro {
+    "Welcome to the Speed Dojo!\p"
+    "Pick your challenge.\p"
+    "TRAINING matches whatever belt\n"
+    "you've earned, scaled to your\l"
+    "level. It won't count toward\n"
+    "unlocking the next belt."
 }
 
-script SaffronCity_Dojo_EventScript_Hideki {
-    trainerbattle_single(TRAINER_BLACK_BELT_HIDEKI, SaffronCity_Dojo_Text_HidekiIntro, SaffronCity_Dojo_Text_HidekiDefeat)
-    msgbox(SaffronCity_Dojo_Text_HidekiPostBattle, MSGBOX_AUTOCLOSE)
-    end
+text SaffronCity_Dojo_Text_ChallengeTrainingSet {
+    "Training mode selected.\n"
+    "Opponents will match your level."
 }
 
-script SaffronCity_Dojo_EventScript_Aaron {
-    trainerbattle_single(TRAINER_BLACK_BELT_AARON, SaffronCity_Dojo_Text_AaronIntro, SaffronCity_Dojo_Text_AaronDefeat)
-    msgbox(SaffronCity_Dojo_Text_AaronPostBattle, MSGBOX_AUTOCLOSE)
-    end
+text SaffronCity_Dojo_Text_ChallengeWhiteSet {
+    "White Belt challenge selected.\n"
+    "Go find your opponents."
 }
 
-script SaffronCity_Dojo_EventScript_Mike {
-    trainerbattle_single(TRAINER_BLACK_BELT_MIKE, SaffronCity_Dojo_Text_MikeIntro, SaffronCity_Dojo_Text_MikeDefeat)
-    msgbox(SaffronCity_Dojo_Text_MikePostBattle, MSGBOX_AUTOCLOSE)
-    end
+text SaffronCity_Dojo_Text_ChallengeBlueSet {
+    "Blue Belt challenge selected.\n"
+    "Go find your opponents."
 }
 
-script SaffronCity_Dojo_EventScript_MasterKoichi {
-    trainerbattle_single(TRAINER_BLACK_BELT_KOICHI, SaffronCity_Dojo_Text_MasterKoichiIntro, SaffronCity_Dojo_Text_MasterKoichiDefeat, SaffronCity_Dojo_EventScript_DefeatedMasterKoichi)
-    if (flag(FLAG_GOT_HITMON_FROM_DOJO)) {
-        goto(SaffronCity_Dojo_EventScript_MasterKoichiAlreadyGotHitmon)
-    }
-    msgbox(SaffronCity_Dojo_Text_ChoosePrizedFightingMon, MSGBOX_AUTOCLOSE)
-    end
+text SaffronCity_Dojo_Text_ChallengeBlueLocked {
+    "Clear White Belt against all\n"
+    "five of us before you try Blue."
 }
 
-script SaffronCity_Dojo_EventScript_MasterKoichiAlreadyGotHitmon {
-    msgbox(SaffronCity_Dojo_Text_StayAndTrainWithUs)
-    release
-    end
+text SaffronCity_Dojo_Text_ChallengeBlackSet {
+    "Black Belt challenge selected.\n"
+    "Go find your opponents."
 }
 
-script SaffronCity_Dojo_EventScript_DefeatedMasterKoichi {
-    setvar(VAR_MAP_SCENE_SAFFRON_CITY_DOJO, 1)
-    release
-    end
+text SaffronCity_Dojo_Text_ChallengeBlackLocked {
+    "Clear Blue Belt against all\n"
+    "five of us before you try Black."
+}
+
+text SaffronCity_Dojo_Text_ChallengeGuyIntroGauntlet {
+    "Welcome to the Speed Dojo!\p"
+    "Pick your challenge.\p"
+    "TRAINING matches whatever belt\n"
+    "you've earned, scaled to your\l"
+    "level. It won't count toward\n"
+    "unlocking the next belt.\p"
+    "Since you've beaten all of us\n"
+    "at Black Belt... there's one\l"
+    "more thing.\p"
+    "The GAUNTLET. All five of us,\n"
+    "back to back. No leaving to\l"
+    "heal. No second chances."
+}
+
+text SaffronCity_Dojo_Text_ChallengeGauntletSet {
+    "Gauntlet selected.\n"
+    "Don't leave until it's done."
+}
+
+text SaffronCity_Dojo_Text_GauntletCleared {
+    "...\p"
+    "All five of us, back to back,\n"
+    "and you never once walked out\l"
+    "that door.\p"
+    "That's the Gauntlet.\n"
+    "You've earned it."
+}
+
+text SaffronCity_Dojo_Text_ComeBackWhenReady {
+    "Come back when you're ready."
 }
 
 text SaffronCity_Dojo_Text_MasterKoichiIntro {
@@ -212,6 +986,10 @@ text SaffronCity_Dojo_Text_MasterKoichiIntro {
     "I am the LEADER here!\p"
     "You wish to challenge us?\n"
     "Expect no mercy!\p"
+    "Fwaaa! Are you ready?"
+}
+
+text SaffronCity_Dojo_Text_MasterKoichiIntroBattle {
     "Fwaaa!"
 }
 
@@ -236,7 +1014,12 @@ text SaffronCity_Dojo_Text_StayAndTrainWithUs {
 
 text SaffronCity_Dojo_Text_MikeIntro {
     "Hoargh!\n"
-    "Take your shoes off!"
+    "Take your shoes off! Are you\l"
+    "ready?"
+}
+
+text SaffronCity_Dojo_Text_MikeIntroBattle {
+    "Hoargh!"
 }
 
 text SaffronCity_Dojo_Text_MikeDefeat {
@@ -250,6 +1033,10 @@ text SaffronCity_Dojo_Text_MikePostBattle {
 
 text SaffronCity_Dojo_Text_HidekiIntro {
     "I hear you're good!\n"
+    "Show me! Are you ready?"
+}
+
+text SaffronCity_Dojo_Text_HidekiIntroBattle {
     "Show me!"
 }
 
@@ -265,9 +1052,12 @@ text SaffronCity_Dojo_Text_HidekiPostBattle {
 
 text SaffronCity_Dojo_Text_AaronIntro {
     "Hiyah!\n"
-    "I have no fear for anything tough!\p"
-    "I shatter boulders for training\n"
-    "every day!"
+    "Blink and you'll miss it!\p"
+    "Are you ready?"
+}
+
+text SaffronCity_Dojo_Text_AaronIntroBattle {
+    "Hiyah!"
 }
 
 text SaffronCity_Dojo_Text_AaronDefeat {
@@ -283,7 +1073,11 @@ text SaffronCity_Dojo_Text_AaronPostBattle {
 text SaffronCity_Dojo_Text_HitoshiIntro {
     "Hwaah!\p"
     "You're trespassing in our\n"
-    "FIGHTING DOJO!"
+    "FIGHTING DOJO! Are you ready?"
+}
+
+text SaffronCity_Dojo_Text_HitoshiIntroBattle {
+    "Hwaah!"
 }
 
 text SaffronCity_Dojo_Text_HitoshiDefeat {

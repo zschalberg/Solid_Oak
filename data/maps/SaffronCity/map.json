@@ -53,9 +53,9 @@
     },
     {
       "type": "object",
-      "graphics_id": "OBJ_EVENT_GFX_YOUNGSTER",
-      "x": 37,
-      "y": 32,
+      "graphics_id": "OBJ_EVENT_GFX_CONSTRUCTION_WORKER",
+      "x": 33,
+      "y": 31,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_LOOK_AROUND",
       "movement_range_x": 1,
@@ -63,7 +63,7 @@
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
       "script": "SaffronCity_EventScript_Youngster",
-      "flag": "FLAG_HIDE_SAFFRON_CIVILIANS"
+      "flag": "0"
     },
     {
       "type": "object",
@@ -153,7 +153,7 @@
       "local_id": "LOCALID_SAFFRON_CITY_COURIER",
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_CAMPER",
-      "x": 40,
+      "x": 41,
       "y": 40,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_FACE_RIGHT",
@@ -177,6 +177,20 @@
       "trainer_sight_or_berry_tree_id": "0",
       "script": "0x0",
       "flag": "FLAG_HIDE_SAFFRON_AGATHA_AMBUSH"
+    },
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_MACHOKE",
+      "x": 35,
+      "y": 31,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "NULL",
+      "flag": "0"
     }
   ],
   "warp_events": [
@@ -223,8 +237,8 @@
       "dest_warp_id": "1"
     },
     {
-      "x": 42,
-      "y": 39,
+      "x": 43,
+      "y": 38,
       "elevation": 0,
       "dest_map": "MAP_SAFFRON_CITY_POKEMON_CENTER_1F",
       "dest_warp_id": "1"

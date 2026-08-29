@@ -28,6 +28,34 @@
       "trainer_sight_or_berry_tree_id": "0",
       "script": "SilphCo_1F_EventScript_Receptionist",
       "flag": "0"
+    },
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_POKE_BALL",
+      "x": 6,
+      "y": 7,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 1,
+      "movement_range_y": 1,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "SilphCo_1F_EventScript_PrototypeBall",
+      "flag": "FLAG_SAW_SILPHCO_1F_BALL_MALFUNCTION"
+    },
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(VOLTORB)",
+      "x": 6,
+      "y": 7,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 1,
+      "movement_range_y": 1,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "SilphCo_1F_EventScript_ContainmentFailure",
+      "flag": "FLAG_HIDE_SILPHCO_1F_CONTAINMENT_REVEAL"
     }
   ],
   "warp_events": [
