@@ -161,6 +161,16 @@ static const struct Quest sQuests[] = {
         .mapsec = MAPSEC_VERMILION_CITY
     },
     {
+        .name = COMPOUND_STRING("SPEED DOJO CHALLENGE"),
+        .desc = COMPOUND_STRING("Complete the Speed Dojo challenges.\nStatus: {STR_VAR_1}"),
+        .unlockFlag = FLAG_QUEST_SPEED_DOJO_ACTIVE,
+        .completeFlag = FLAG_QUEST_SPEED_DOJO_COMPLETED,
+        .itemId = ITEM_POWER_ANKLET,
+        .isPokemonIcon = FALSE,
+        .group = QUEST_GROUP_SIDE,
+        .mapsec = MAPSEC_SAFFRON_CITY
+    },
+    {
         .name = COMPOUND_STRING("DANGEROUS WATERS"),
         .desc = COMPOUND_STRING("Investigate the reports at the \nFISHING VILLAGE.\nStatus: {STR_VAR_1}"),
         .unlockFlag = FLAG_QUEST_FISHING_VILLAGE_ACTIVE,

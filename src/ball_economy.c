@@ -332,3 +332,23 @@ u8 TryUpgradeBagBallTier(void)
     gSpecialVar_0x8007 = nextTier;
     return UPGRADE_RESULT_SUCCESS;
 }
+
+// Scripted quest reward (see SilphCo_2F's Protoball turn-in): every party
+// mon caught with a Red Protoball is bumped straight to the Blu tier, no
+// apricorn required. Unlike UpgradeSelectedMonBall this isn't player-picked
+// and isn't gated on CheckBagHasItem - it's a story beat, not the
+// interactive Workbench upgrade.
+void UpgradeRedProtoballCaughtMons(void)
+{
+    u8 partyCount = CalculatePlayerPartyCount();
+    u8 i;
+
+    for (i = 0; i < partyCount; i++)
+    {
+        if (GetMonData(&gPlayerParty[i], MON_DATA_POKEBALL, NULL) == ITEM_RED_PROTOBALL)
+        {
+            u16 nextTier = ITEM_BLU_PROTOBALL;
+            SetMonData(&gPlayerParty[i], MON_DATA_POKEBALL, &nextTier);
+        }
+    }
+}

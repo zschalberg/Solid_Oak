@@ -48,5 +48,6 @@ u16 GetApricornForBallTier(u16 ballItem);
 u8 GetSelectedMonUpgradeInfo(void);
 u8 UpgradeSelectedMonBall(void);
 u8 TryUpgradeBagBallTier(void);
+void UpgradeRedProtoballCaughtMons(void);
 
 #endif // GUARD_BALL_ECONOMY_H

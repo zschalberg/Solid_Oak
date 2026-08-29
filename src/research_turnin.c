@@ -12,9 +12,32 @@
 #include "constants/flags.h"
 #include "research_turnin.h"
 #include "ball_economy.h"
+#include "constants/vars.h"
+#include "wild_encounter.h"
 
 // Variables to cache evaluation details between specials
 static u16 sEvaluatedCoins;
+static bool8 sReserveStageJustAdvanced;
+
+#define FAMILY_MEMBERS_MAX 16
+
+// Cumulative species-logged total (see GetFamilyMemberCount) required to reach
+// each Reserve stage past 0, unlocking a new wild encounter pool via
+// VAR_SAFARI_ZONE_STAGE. Thresholds need not be evenly spaced - entry i is the
+// total required to reach stage i + 1. Must have NUM_SAFARI_ZONE_STAGES - 1 entries.
+static const u16 sReserveStageThresholds[NUM_SAFARI_ZONE_STAGES - 1] = {10, 20, 30, 40};
+
+static u16 GetReserveStageForTotal(u16 total)
+{
+    u16 stage;
+
+    for (stage = 0; stage < ARRAY_COUNT(sReserveStageThresholds); stage++)
+    {
+        if (total < sReserveStageThresholds[stage])
+            break;
+    }
+    return stage;
+}
 
 static const u8 sText_RarityCommon[] = _("Common");
 static const u8 sText_RarityUncommon[] = _("Uncommon");
@@ -51,6 +74,46 @@ static enum Species GetFamilyBaseSpecies(enum Species species)
         baseSpecies = preEvo;
     }
     return baseSpecies;
+}
+
+static bool8 SpeciesInList(enum Species species, const enum Species *list, u8 count)
+{
+    u8 i;
+    for (i = 0; i < count; i++)
+    {
+        if (list[i] == species)
+            return TRUE;
+    }
+    return FALSE;
+}
+
+// Walks the full evolution tree from baseSpecies (including branches, e.g.
+// Eevee's eeveelutions) and records every unique species into list.
+static void CollectFamilyMembers(enum Species species, enum Species *list, u8 *count)
+{
+    const struct Evolution *evolutions;
+    s32 i;
+
+    if (*count >= FAMILY_MEMBERS_MAX || SpeciesInList(species, list, *count))
+        return;
+
+    list[(*count)++] = species;
+
+    evolutions = GetSpeciesEvolutions(species);
+    for (i = 0; evolutions[i].method != EVOLUTIONS_END; i++)
+    {
+        if (evolutions[i].targetSpecies != SPECIES_NONE)
+            CollectFamilyMembers(evolutions[i].targetSpecies, list, count);
+    }
+}
+
+static u16 GetFamilyMemberCount(enum Species baseSpecies)
+{
+    enum Species members[FAMILY_MEMBERS_MAX];
+    u8 count = 0;
+
+    CollectFamilyMembers(baseSpecies, members, &count);
+    return count;
 }
 
 bool8 IsSelectedMonResearchBall(void)
@@ -111,29 +174,33 @@ u16 ApplyShinyBonus(u16 points, bool8 isShiny)
     return points;
 }
 
+// Mirrors the "exceptional size caught!" tiering from Cmd_trysetcaughtmondexflags
+// (GetSizeCategoryTier), so a mon that was announced as exceptional at catch time
+// always qualifies for a size bonus at turn-in. Uncommon (tier 1) mons get half
+// the bonus; Rare and Very Rare (tier 2-3) mons get the full bonus.
+u16 GetSizeBonusForTier(u8 tier)
+{
+    if (tier >= 2)
+        return 50;
+    else if (tier == 1)
+        return 25;
+    return 0;
+}
+
 u16 CalculateResearchMonCoins(struct Pokemon *mon)
 {
     enum Species species = GetMonData(mon, MON_DATA_SPECIES);
     u8 catchRate = gSpeciesInfo[species].catchRate;
     u32 personality = GetMonData(mon, MON_DATA_PERSONALITY);
     bool8 isShiny = GetMonData(mon, MON_DATA_IS_SHINY);
-    
+
     u16 baseCoins = 0;
     u16 sizeBonus = 0;
     u16 ivBonus = 0;
     u16 familyBonus = 0;
-    
-    u8 heightCategory = TranslateBigMonSizeTableIndex(personality & 0xFFFF);
-    u8 weightCategory = TranslateBigMonSizeTableIndex(personality >> 16);
-    bool32 heightOutlier = (heightCategory <= 4 || heightCategory >= 11);
-    bool32 weightOutlier = (weightCategory <= 4 || weightCategory >= 11);
-    
-    baseCoins = GetBaseRarityPoints(catchRate);
 
-    if (heightOutlier && weightOutlier)
-        sizeBonus = 150;
-    else if (heightOutlier || weightOutlier)
-        sizeBonus = 50;
+    baseCoins = GetBaseRarityPoints(catchRate);
+    sizeBonus = GetSizeBonusForTier(GetPersonalitySizeTier(personality));
 
     if (GetMonData(mon, MON_DATA_HP_IV) == 31) ivBonus += 25;
     if (GetMonData(mon, MON_DATA_ATK_IV) == 31) ivBonus += 25;
@@ -157,20 +224,10 @@ void EvaluateSelectedResearchMon(void)
     bool8 isShiny = GetMonData(mon, MON_DATA_IS_SHINY);
     
     u16 baseCoins = GetBaseRarityPoints(catchRate);
-    u16 sizeBonus = 0;
+    u16 sizeBonus = GetSizeBonusForTier(GetPersonalitySizeTier(personality));
     u16 ivBonus = 0;
     u16 familyBonus = 0;
     u16 totalCoins = 0;
-    
-    u8 heightCategory = TranslateBigMonSizeTableIndex(personality & 0xFFFF);
-    u8 weightCategory = TranslateBigMonSizeTableIndex(personality >> 16);
-    bool32 heightOutlier = (heightCategory <= 4 || heightCategory >= 11);
-    bool32 weightOutlier = (weightCategory <= 4 || weightCategory >= 11);
-
-    if (heightOutlier && weightOutlier)
-        sizeBonus = 150;
-    else if (heightOutlier || weightOutlier)
-        sizeBonus = 50;
 
     if (GetMonData(mon, MON_DATA_HP_IV) == 31) ivBonus += 25;
     if (GetMonData(mon, MON_DATA_ATK_IV) == 31) ivBonus += 25;
@@ -298,11 +355,29 @@ void TurnInSelectedResearchMon(void)
     enum Species species = GetMonData(mon, MON_DATA_SPECIES);
     enum Species baseSpecies = GetFamilyBaseSpecies(species);
     u16 nationalNum = SpeciesToNationalPokedexNum(baseSpecies);
+    bool32 isNewFamily = CheckIsNewFamily(mon);
 
     // Mark the family as turned in
     if (nationalNum != NATIONAL_DEX_NONE)
     {
         gSaveBlock1Ptr->reserveSpeciesTurnedIn[nationalNum / 8] |= (1 << (nationalNum % 8));
+    }
+
+    // A newly-logged family counts every member toward the Reserve's
+    // wild encounter progression, e.g. a first Cubone turn-in counts for
+    // both Cubone and Marowak.
+    if (isNewFamily)
+    {
+        u16 total = VarGet(VAR_RESERVE_SPECIES_LOGGED_TOTAL) + GetFamilyMemberCount(baseSpecies);
+        u16 newStage = GetReserveStageForTotal(total);
+
+        VarSet(VAR_RESERVE_SPECIES_LOGGED_TOTAL, total);
+
+        if (newStage > VarGet(VAR_SAFARI_ZONE_STAGE))
+        {
+            VarSet(VAR_SAFARI_ZONE_STAGE, newStage);
+            sReserveStageJustAdvanced = TRUE;
+        }
     }
 
     // Award the coins using native AddCoins (handles limit and overflow protection)
@@ -330,5 +405,16 @@ void TransferSelectedMonToPokeBall(void)
     GetMonNickname(mon, gStringVar1);
     
     SetMonData(mon, MON_DATA_POKEBALL, &ball);
+}
+
+// Checked by the turn-in script right after TurnInSelectedResearchMon;
+// TRUE the one time a turn-in pushes VAR_RESERVE_SPECIES_LOGGED_TOTAL past
+// a RESERVE_SPECIES_PER_STAGE threshold, so the worker can mention that new
+// Pokemon are now available at the Reserve. Consumes the flag once read.
+bool8 CheckReserveStageJustAdvanced(void)
+{
+    gSpecialVar_Result = sReserveStageJustAdvanced;
+    sReserveStageJustAdvanced = FALSE;
+    return gSpecialVar_Result;
 }
 

@@ -4517,94 +4517,97 @@ Fearow
 Level: 28
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
-=== TRAINER_BLACK_BELT_KOICHI ===
+=== TRAINER_BLACK_BELT_KOICHI_WHITE ===
 Name: KOICHI
 Class: Black Belt
 Pic: Black Belt
 Gender: Male
 Music: Intense
-Double Battle: No
 AI: Check Bad Move
 
-Hitmonlee @ Black Belt
-Level: 37
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+Machoke
+Level: 20
+IVs: 5 HP / 5 Atk / 5 Def / 5 SpA / 5 SpD / 5 Spe
 
-Hitmonchan @ Black Belt
-Level: 37
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+Scyther
+Level: 22
+IVs: 5 HP / 5 Atk / 5 Def / 5 SpA / 5 SpD / 5 Spe
 
-=== TRAINER_BLACK_BELT_MIKE ===
+=== TRAINER_BLACK_BELT_MIKE_WHITE ===
 Name: MIKE
 Class: Black Belt
 Pic: Black Belt
 Gender: Male
 Music: Intense
-Double Battle: No
 AI: Check Bad Move
 
-Mankey @ Black Belt
-Level: 31
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+Pichu
+Level: 14
+IVs: 5 HP / 5 Atk / 5 Def / 5 SpA / 5 SpD / 5 Spe
 
-Mankey @ Black Belt
-Level: 31
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+Elekid
+Level: 15
+IVs: 5 HP / 5 Atk / 5 Def / 5 SpA / 5 SpD / 5 Spe
 
-Primeape @ Black Belt
-Level: 31
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
-
-=== TRAINER_BLACK_BELT_HIDEKI ===
+=== TRAINER_BLACK_BELT_HIDEKI_WHITE ===
 Name: HIDEKI
 Class: Black Belt
 Pic: Black Belt
 Gender: Male
 Music: Intense
-Double Battle: No
 AI: Check Bad Move
 
-Machop @ Black Belt
-Level: 32
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+Abra
+Level: 14
+IVs: 5 HP / 5 Atk / 5 Def / 5 SpA / 5 SpD / 5 Spe
 
-Machoke @ Black Belt
-Level: 32
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+Ekans
+Level: 15
+IVs: 5 HP / 5 Atk / 5 Def / 5 SpA / 5 SpD / 5 Spe
 
-=== TRAINER_BLACK_BELT_AARON ===
+Venonat
+Level: 14
+IVs: 5 HP / 5 Atk / 5 Def / 5 SpA / 5 SpD / 5 Spe
+
+=== TRAINER_BLACK_BELT_AARON_WHITE ===
 Name: AARON
 Class: Black Belt
 Pic: Black Belt
 Gender: Male
 Music: Intense
-Double Battle: No
 AI: Check Bad Move
 
-Primeape @ Black Belt
-Level: 36
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+Voltorb
+Level: 15
+IVs: 5 HP / 5 Atk / 5 Def / 5 SpA / 5 SpD / 5 Spe
 
-=== TRAINER_BLACK_BELT_HITOSHI ===
+Magnemite
+Level: 14
+IVs: 5 HP / 5 Atk / 5 Def / 5 SpA / 5 SpD / 5 Spe
+
+Ponyta
+Level: 16
+IVs: 5 HP / 5 Atk / 5 Def / 5 SpA / 5 SpD / 5 Spe
+
+=== TRAINER_BLACK_BELT_HITOSHI_WHITE ===
 Name: HITOSHI
 Class: Black Belt
 Pic: Black Belt
 Gender: Male
 Music: Intense
-Double Battle: No
 AI: Check Bad Move
 
-Machop @ Black Belt
-Level: 31
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+Pidgey
+Level: 15
+IVs: 5 HP / 5 Atk / 5 Def / 5 SpA / 5 SpD / 5 Spe
 
-Mankey @ Black Belt
-Level: 31
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+Rattata
+Level: 14
+IVs: 5 HP / 5 Atk / 5 Def / 5 SpA / 5 SpD / 5 Spe
 
-Primeape @ Black Belt
-Level: 31
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+Spearow
+Level: 16
+IVs: 5 HP / 5 Atk / 5 Def / 5 SpA / 5 SpD / 5 Spe
 
 === TRAINER_BLACK_BELT_ATSUSHI ===
 Name: ATSUSHI
@@ -14694,6 +14697,227 @@ IVs: 10 HP / 10 Atk / 10 Def / 10 SpA / 10 SpD / 10 Spe
 
 Salamence
 Level: 45
+IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
+
+=== TRAINER_BLACK_BELT_HITOSHI_BLUE ===
+Name: HITOSHI
+Class: Black Belt
+Pic: Black Belt
+Gender: Male
+Music: Intense
+AI: Check Bad Move
+
+Pidgeotto
+Level: 26
+IVs: 10 HP / 10 Atk / 10 Def / 10 SpA / 10 SpD / 10 Spe
+
+Raticate
+Level: 25
+IVs: 10 HP / 10 Atk / 10 Def / 10 SpA / 10 SpD / 10 Spe
+
+Fearow
+Level: 28
+IVs: 10 HP / 10 Atk / 10 Def / 10 SpA / 10 SpD / 10 Spe
+
+=== TRAINER_BLACK_BELT_HIDEKI_BLUE ===
+Name: HIDEKI
+Class: Black Belt
+Pic: Black Belt
+Gender: Male
+Music: Intense
+AI: Check Bad Move
+
+Kadabra
+Level: 26
+IVs: 10 HP / 10 Atk / 10 Def / 10 SpA / 10 SpD / 10 Spe
+
+Arbok
+Level: 25
+IVs: 10 HP / 10 Atk / 10 Def / 10 SpA / 10 SpD / 10 Spe
+
+Venomoth
+Level: 27
+IVs: 10 HP / 10 Atk / 10 Def / 10 SpA / 10 SpD / 10 Spe
+
+=== TRAINER_BLACK_BELT_AARON_BLUE ===
+Name: AARON
+Class: Black Belt
+Pic: Black Belt
+Gender: Male
+Music: Intense
+AI: Check Bad Move
+
+Electrode
+Level: 26
+IVs: 10 HP / 10 Atk / 10 Def / 10 SpA / 10 SpD / 10 Spe
+
+Magneton
+Level: 25
+IVs: 10 HP / 10 Atk / 10 Def / 10 SpA / 10 SpD / 10 Spe
+
+Rapidash
+Level: 28
+IVs: 10 HP / 10 Atk / 10 Def / 10 SpA / 10 SpD / 10 Spe
+
+=== TRAINER_BLACK_BELT_MIKE_BLUE ===
+Name: MIKE
+Class: Black Belt
+Pic: Black Belt
+Gender: Male
+Music: Intense
+AI: Check Bad Move
+
+Raichu
+Level: 26
+IVs: 10 HP / 10 Atk / 10 Def / 10 SpA / 10 SpD / 10 Spe
+
+Electabuzz
+Level: 27
+IVs: 10 HP / 10 Atk / 10 Def / 10 SpA / 10 SpD / 10 Spe
+
+=== TRAINER_BLACK_BELT_KOICHI_BLUE ===
+Name: KOICHI
+Class: Black Belt
+Pic: Black Belt
+Gender: Male
+Music: Intense
+AI: Check Bad Move
+
+Machamp
+Level: 30
+IVs: 10 HP / 10 Atk / 10 Def / 10 SpA / 10 SpD / 10 Spe
+
+Scyther
+Level: 33
+IVs: 10 HP / 10 Atk / 10 Def / 10 SpA / 10 SpD / 10 Spe
+
+Aerodactyl
+Level: 35
+IVs: 10 HP / 10 Atk / 10 Def / 10 SpA / 10 SpD / 10 Spe
+
+=== TRAINER_BLACK_BELT_HITOSHI_BLACK ===
+Name: HITOSHI
+Class: Black Belt
+Pic: Black Belt
+Gender: Male
+Music: Intense
+AI: Check Bad Move / Try To Faint / Check Viability
+
+Fearow
+Level: 33
+IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
+
+Raticate
+Level: 32
+IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
+
+Noctowl
+Level: 36
+IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
+
+Pidgeot
+Level: 33
+Tags: Ace
+IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
+
+=== TRAINER_BLACK_BELT_HIDEKI_BLACK ===
+Name: HIDEKI
+Class: Black Belt
+Pic: Black Belt
+Gender: Male
+Music: Intense
+AI: Check Bad Move / Try To Faint / Check Viability
+
+Arbok
+Level: 32
+IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
+
+Venomoth
+Level: 33
+IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
+
+Crobat
+Level: 36
+IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
+
+Alakazam
+Level: 34
+Tags: Ace
+IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
+
+=== TRAINER_BLACK_BELT_AARON_BLACK ===
+Name: AARON
+Class: Black Belt
+Pic: Black Belt
+Gender: Male
+Music: Intense
+AI: Check Bad Move / Try To Faint / Check Viability
+
+Magneton
+Level: 32
+IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
+
+Rapidash
+Level: 34
+IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
+
+Jolteon
+Level: 36
+IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
+
+Electrode
+Level: 33
+Tags: Ace
+IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
+
+=== TRAINER_BLACK_BELT_MIKE_BLACK ===
+Name: MIKE
+Class: Black Belt
+Pic: Black Belt
+Gender: Male
+Music: Intense
+AI: Check Bad Move / Try To Faint / Check Viability
+
+Raichu
+Level: 33
+IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
+
+Manectric
+Level: 32
+IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
+
+Ampharos
+Level: 34
+IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
+
+Electabuzz
+Level: 35
+Tags: Ace
+IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
+
+=== TRAINER_BLACK_BELT_KOICHI_BLACK ===
+Name: KOICHI
+Class: Black Belt
+Pic: Black Belt
+Gender: Male
+Music: Intense
+AI: Check Bad Move / Try To Faint / Check Viability
+
+Machamp
+Level: 40
+IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
+
+Scizor
+Level: 42
+IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
+
+Dragonite
+Level: 44
+IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
+
+Aerodactyl
+Level: 45
+Tags: Ace
 IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
 
 === TRAINER_TESTER_3V3 ===

@@ -3054,64 +3054,64 @@
             "encounter_rate": 21,
             "mons": [
               {
-                "min_level": 25,
-                "max_level": 25,
+                "min_level": 8,
+                "max_level": 20,
                 "species": "SPECIES_RHYHORN"
               },
               {
-                "min_level": 22,
+                "min_level": 7,
                 "max_level": 22,
-                "species": "SPECIES_NIDORAN_M"
+                "species": "SPECIES_NINCADA"
               },
               {
-                "min_level": 15,
+                "min_level": 8,
                 "max_level": 20,
                 "species": "SPECIES_PHANPY"
               },
               {
-                "min_level": 20,
-                "max_level": 25,
-                "species": "SPECIES_PHANPY"
+                "min_level": 7,
+                "max_level": 20,
+                "species": "SPECIES_PIKACHU"
               },
               {
-                "min_level": 22,
+                "min_level": 6,
                 "max_level": 22,
                 "species": "SPECIES_VENONAT"
               },
               {
-                "min_level": 31,
-                "max_level": 31,
-                "species": "SPECIES_NIDORINO"
+                "min_level": 8,
+                "max_level": 20,
+                "species": "SPECIES_MANKEY"
               },
               {
-                "min_level": 31,
-                "max_level": 31,
-                "species": "SPECIES_NIDORINA"
+                "min_level": 7,
+                "max_level": 20,
+                "species": "SPECIES_POOCHYENA"
               },
               {
-                "min_level": 30,
-                "max_level": 30,
-                "species": "SPECIES_PARASECT"
+                "min_level": 8,
+                "max_level": 20,
+                "species": "SPECIES_PARAS"
               },
               {
-                "min_level": 22,
+                "min_level": 7,
                 "max_level": 22,
-                "species": "SPECIES_VENONAT"
+                "species": "SPECIES_LOTAD"
               },
               {
-                "min_level": 23,
+                "min_level": 8,
+                "max_level": 20,
+                "species": "SPECIES_ABRA"
+              },
+              {
+                "min_level": 7,
+                "max_level": 22,
+                "species": "SPECIES_SNUBBULL"
+              },
+              {
+                "min_level": 9,
                 "max_level": 23,
-                "species": "SPECIES_SCYTHER"
-              },
-              {
-                "min_level": 22,
-                "max_level": 22,
-                "species": "SPECIES_VENONAT"
-              },
-              {
-                "min_level": 23,
-                "max_level": 23,
-                "species": "SPECIES_CHANSEY"
+                "species": "SPECIES_PONYTA"
               }
             ]
           },

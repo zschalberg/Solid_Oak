@@ -135,6 +135,7 @@ enum __attribute__((__packed__)) Flavor
 // 90 reserved
 enum BerryTreeId
 {
+    BERRY_TREE_ROUTE8 = 0, // (36, 13) - see data/maps/Route8/map.json
     BERRY_TREES_COUNT = 90,
 };
 

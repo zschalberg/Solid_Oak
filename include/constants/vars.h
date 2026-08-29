@@ -204,7 +204,11 @@
 #define VAR_SCENE_SILPH            0x4097
 #define VAR_DOJO_CHALLENGE_TIER    0x4098
 #define VAR_RESERVE_CONTEST_CATEGORY 0x4099
-#define VAR_0x409A                 0x409A
+// Running total of species logged via Reserve research turn-ins (counts every
+// member of a family - e.g. turning in a first Cubone adds 2, for Cubone and
+// Marowak). Every 10 points advances VAR_SAFARI_ZONE_STAGE by one, unlocking
+// a new wild encounter pool. See CheckReserveStageJustAdvanced (research_turnin.c).
+#define VAR_RESERVE_SPECIES_LOGGED_TOTAL 0x409A
 #define VAR_0x409B                 0x409B
 #define VAR_0x409C                 0x409C
 #define VAR_0x409D                 0x409D

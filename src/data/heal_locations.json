@@ -87,8 +87,8 @@
     {
       "id": "HEAL_LOCATION_SAFFRON_CITY",
       "map": "MAP_SAFFRON_CITY",
-      "x": 42,
-      "y": 40,
+      "x": 43,
+      "y": 39,
       "respawn_map": "MAP_SAFFRON_CITY_POKEMON_CENTER_1F",
       "respawn_npc": "LOCALID_SAFFRON_NURSE"
     },
@@ -121,8 +121,8 @@
     {
       "id": "HEAL_LOCATION_TWO_ISLAND",
       "map": "MAP_TWO_ISLAND",
-      "x": 21,
-      "y": 8,
+      "x": 9,
+      "y": 20,
       "respawn_map": "MAP_TWO_ISLAND_POKEMON_CENTER_1F",
       "respawn_npc": "LOCALID_TWO_ISLAND_NURSE"
     },
@@ -186,7 +186,7 @@
       "id": "HEAL_LOCATION_LAVENDER_VOLUNTEER_HOUSE",
       "map": "MAP_LAVENDER_TOWN",
       "x": 6,
-      "y": 6,
+      "y": 7,
       "respawn_map": "MAP_LAVENDER_TOWN_VOLUNTEER_POKEMON_HOUSE",
       "respawn_npc": "6"
     }
