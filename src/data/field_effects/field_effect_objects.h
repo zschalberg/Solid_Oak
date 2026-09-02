@@ -3,6 +3,7 @@ const struct SpritePalette gSpritePalette_GeneralFieldEffect1 = { .data = gField
 const struct SpritePalette gSpritePalette_GeneralFieldEffect1Summer = { .data = gFieldEffectObjectPalette1Summer, .tag = FLDEFF_PAL_TAG_GENERAL_1 };
 const struct SpritePalette gSpritePalette_GeneralFieldEffect1Autumn = { .data = gFieldEffectObjectPalette1Autumn, .tag = FLDEFF_PAL_TAG_GENERAL_1 };
 const struct SpritePalette gSpritePalette_GeneralFieldEffect1Winter = { .data = gFieldEffectObjectPalette1Winter, .tag = FLDEFF_PAL_TAG_GENERAL_1 };
+const struct SpritePalette gSpritePalette_GeneralFieldEffect1Haunted = { .data = gFieldEffectObjectPalette1Haunted, .tag = FLDEFF_PAL_TAG_GENERAL_1 };
 const struct SpritePalette gSpritePalette_GeneralFieldEffect2 = { .data = gFieldEffectObjectPalette2, .tag = FLDEFF_PAL_TAG_GENERAL_2 };
 
 static const union AnimCmd sAnim_Shadow[] =
@@ -152,6 +153,17 @@ const struct SpriteTemplate gFieldEffectObjectTemplate_TallGrassWinter =
     .oam = &gObjectEventBaseOam_16x16,
     .anims = sAnimTable_TallGrass,
     .images = sPicTable_TallGrassWinter,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = UpdateTallGrassFieldEffect,
+};
+
+const struct SpriteTemplate gFieldEffectObjectTemplate_TallGrassHaunted =
+{
+    .tileTag = TAG_NONE,
+    .paletteTag = FLDEFF_PAL_TAG_GENERAL_1,
+    .oam = &gObjectEventBaseOam_16x16,
+    .anims = sAnimTable_TallGrass,
+    .images = sPicTable_TallGrass,
     .affineAnims = gDummySpriteAffineAnimTable,
     .callback = UpdateTallGrassFieldEffect,
 };

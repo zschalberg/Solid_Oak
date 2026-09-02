@@ -238,6 +238,7 @@ const u16 gFieldEffectObjectPalette1[] = INCBIN_U16("graphics/field_effects/pale
 const u16 gFieldEffectObjectPalette1Summer[] = INCBIN_U16("graphics/field_effects/palettes/general_1_summer.gbapal");
 const u16 gFieldEffectObjectPalette1Autumn[] = INCBIN_U16("graphics/field_effects/palettes/general_1_autumn.gbapal");
 const u16 gFieldEffectObjectPalette1Winter[] = INCBIN_U16("graphics/field_effects/palettes/general_1_winter.gbapal");
+const u16 gFieldEffectObjectPalette1Haunted[] = INCBIN_U16("graphics/field_effects/palettes/general_1_haunted.gbapal");
 const u16 gFieldEffectObjectPalette2[] = INCBIN_U16("graphics/field_effects/palettes/general_2.gbapal");
 const u16 sFiller2[0x10] = {};
 const u16 gFieldEffectObjectPic_GroundImpactDust[] = INCBIN_U16("graphics/field_effects/pics/ground_impact_dust.4bpp");

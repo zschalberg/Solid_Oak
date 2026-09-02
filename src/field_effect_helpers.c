@@ -476,6 +476,10 @@ u32 FldEff_TallGrass(void)
     {
         spriteTemplate = &gFieldEffectObjectTemplate_TallGrassWinter;
     }
+    else if (primaryTileset == &gTileset_GeneralHaunted)
+    {
+        spriteTemplate = &gFieldEffectObjectTemplate_TallGrassHaunted;
+    }
     else if (OW_SEASONS)
     {
         switch (gLoadedSeason)
