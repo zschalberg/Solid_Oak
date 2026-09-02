@@ -12,6 +12,7 @@
 #include "constants/field_effects.h"
 #include "constants/event_objects.h"
 #include "constants/songs.h"
+#include "tilesets.h"
 
 #define OBJ_EVENT_PAL_TAG_NONE 0x11FF // duplicate of define in event_object_movement.c
 #define PAL_TAG_REFLECTION_OFFSET 0x2000 // reflection tag value is paletteTag + 0x2000
@@ -409,9 +410,31 @@ void UpdateShadowFieldEffect(struct Sprite *sprite)
 #undef sMapGroup
 #undef sYOffset
 
-static const struct SpritePalette* GetGeneralFieldPalette1()
+static EWRAM_DATA u16 sGeneralFieldEffectPalette1Buffer[16] = {0};
+static const struct SpritePalette sGeneralFieldEffectSpritePalette1 = {
+    .data = sGeneralFieldEffectPalette1Buffer,
+    .tag = FLDEFF_PAL_TAG_GENERAL_1,
+};
+
+static const struct SpritePalette* GetGeneralFieldPalette1(void)
 {
-    if (OW_SEASONS)
+    u32 i;
+    const struct Tileset *primaryTileset = (gMapHeader.mapLayout != NULL) ? GetPrimaryTileset(gMapHeader.mapLayout) : NULL;
+
+    for (i = 0; i < 16; i++)
+        sGeneralFieldEffectPalette1Buffer[i] = gSpritePalette_GeneralFieldEffect1.data[i];
+
+    if (primaryTileset != NULL && primaryTileset->palettes != NULL && !primaryTileset->isSecondary)
+    {
+        // Copy grass blade colors (indices 1..4) from primary tileset palette 0
+        for (i = 1; i <= 4; i++)
+            sGeneralFieldEffectPalette1Buffer[i] = primaryTileset->palettes[0][i];
+
+        // Copy tall grass base patch colors (indices 12..15) from primary tileset palette 0
+        for (i = 12; i <= 15; i++)
+            sGeneralFieldEffectPalette1Buffer[i] = primaryTileset->palettes[0][i];
+    }
+    else if (OW_SEASONS)
     {
         switch (gLoadedSeason)
         {
@@ -424,10 +447,10 @@ static const struct SpritePalette* GetGeneralFieldPalette1()
                 return &gSpritePalette_GeneralFieldEffect1Autumn;
             case SEASON_WINTER:
                 return &gSpritePalette_GeneralFieldEffect1Winter;
-
         }
     }
-    return &gSpritePalette_GeneralFieldEffect1;
+
+    return &sGeneralFieldEffectSpritePalette1;
 }
 
 
@@ -439,8 +462,21 @@ u32 FldEff_TallGrass(void)
     struct Sprite *sprite;
     const struct SpriteTemplate* spriteTemplate;
     const struct SpritePalette* spritePalette;
+    const struct Tileset *primaryTileset = (gMapHeader.mapLayout != NULL) ? GetPrimaryTileset(gMapHeader.mapLayout) : NULL;
 
-    if (OW_SEASONS)
+    if (primaryTileset == &gTileset_GeneralAutumn)
+    {
+        spriteTemplate = &gFieldEffectObjectTemplate_TallGrassAutumn;
+    }
+    else if (primaryTileset == &gTileset_GeneralSummer)
+    {
+        spriteTemplate = &gFieldEffectObjectTemplate_TallGrassSummer;
+    }
+    else if (primaryTileset == &gTileset_GeneralWinter)
+    {
+        spriteTemplate = &gFieldEffectObjectTemplate_TallGrassWinter;
+    }
+    else if (OW_SEASONS)
     {
         switch (gLoadedSeason)
         {
