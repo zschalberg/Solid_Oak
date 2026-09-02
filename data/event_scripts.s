@@ -1178,3 +1178,9 @@ EventScript_NoMoreRoomForPokemon::
 
 	.include "data/maps/Fishing_Village_Entrance/scripts.inc"
 	.include "data/maps/Fishing_Village_Entrance/text.inc"
+
+	.include "data/maps/Lavender_Cemetary_Map/scripts.inc"
+	.include "data/maps/Lavender_Cemetary_Map/text.inc"
+
+	.include "data/maps/HauntedWoods/scripts.inc"
+	.include "data/maps/HauntedWoods/text.inc"

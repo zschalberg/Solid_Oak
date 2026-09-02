@@ -317,3 +317,9 @@ const u32 gMetatileAttributes_BattleDome[] = INCBIN_U32("data/tilesets/secondary
 
 const u16 gMetatiles_BattleFactory[] = INCBIN_U16("data/tilesets/secondary/battle_factory/metatiles.bin");
 const u32 gMetatileAttributes_BattleFactory[] = INCBIN_U32("data/tilesets/secondary/battle_factory/metatile_attributes.bin");
+
+const u16 gMetatiles_GeneralHaunted[] = INCBIN_U16("data/tilesets/primary/general_haunted/metatiles.bin");
+const u32 gMetatileAttributes_GeneralHaunted[] = INCBIN_U32("data/tilesets/primary/general_haunted/metatile_attributes.bin");
+
+const u16 gMetatiles_Haunted2[] = INCBIN_U16("data/tilesets/primary/haunted_2/metatiles.bin");
+const u32 gMetatileAttributes_Haunted2[] = INCBIN_U32("data/tilesets/primary/haunted_2/metatile_attributes.bin");

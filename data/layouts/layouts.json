@@ -412,7 +412,7 @@
     {
       "id": "LAYOUT_LAVENDER_TOWN",
       "name": "LavenderTown_Layout",
-      "width": 24,
+      "width": 22,
       "height": 20,
       "border_width": 2,
       "border_height": 2,
@@ -604,7 +604,7 @@
     {
       "id": "LAYOUT_ROUTE10",
       "name": "Route10_Layout",
-      "width": 24,
+      "width": 30,
       "height": 80,
       "border_width": 2,
       "border_height": 2,
@@ -4608,6 +4608,30 @@
       "secondary_tileset": "gTileset_SSAnne",
       "border_filepath": "data/layouts/SSMinnow_1F/border.bin",
       "blockdata_filepath": "data/layouts/SSMinnow_1F/map.bin"
+    },
+    {
+      "id": "LAVENDER_CEMETARY_LAYOUT",
+      "name": "Lavender_Cemetary",
+      "width": 48,
+      "height": 35,
+      "border_width": 2,
+      "border_height": 2,
+      "primary_tileset": "gTileset_GeneralAutumn",
+      "secondary_tileset": "gTileset_LavenderTown",
+      "border_filepath": "data/layouts/Lavender_Cemetary/border.bin",
+      "blockdata_filepath": "data/layouts/Lavender_Cemetary/map.bin"
+    },
+    {
+      "id": "LAYOUT_HAUNTED_WOODS",
+      "name": "HauntedWoods_Layout",
+      "width": 40,
+      "height": 40,
+      "border_width": 2,
+      "border_height": 2,
+      "primary_tileset": "gTileset_GeneralHaunted",
+      "secondary_tileset": "gTileset_LavenderTownSummer",
+      "border_filepath": "data/layouts/HauntedWoods/border.bin",
+      "blockdata_filepath": "data/layouts/HauntedWoods/map.bin"
     }
   ]
 }

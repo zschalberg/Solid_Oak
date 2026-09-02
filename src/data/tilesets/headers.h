@@ -1175,3 +1175,25 @@ const struct Tileset gTileset_BattleFactory =
     .metatileAttributes = gMetatileAttributes_BattleFactory,
     .callback = NULL,
 };
+
+const struct Tileset gTileset_GeneralHaunted =
+{
+    .isCompressed = TRUE,
+    .isSecondary = FALSE,
+    .tiles = gTilesetTiles_GeneralHaunted,
+    .palettes = gTilesetPalettes_GeneralHaunted,
+    .metatiles = gMetatiles_GeneralHaunted,
+    .metatileAttributes = gMetatileAttributes_GeneralHaunted,
+    .callback = InitTilesetAnim_General,
+};
+
+const struct Tileset gTileset_Haunted2 =
+{
+    .isCompressed = TRUE,
+    .isSecondary = FALSE,
+    .tiles = gTilesetTiles_Haunted2,
+    .palettes = gTilesetPalettes_Haunted2,
+    .metatiles = gMetatiles_Haunted2,
+    .metatileAttributes = gMetatileAttributes_Haunted2,
+    .callback = NULL,
+};

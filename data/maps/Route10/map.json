@@ -23,6 +23,11 @@
       "map": "MAP_ROUTE9",
       "offset": 0,
       "direction": "left"
+    },
+    {
+      "map": "MAP_LAVENDER_CEMETARY_MAP",
+      "offset": 22,
+      "direction": "down"
     }
   ],
   "object_events": [
