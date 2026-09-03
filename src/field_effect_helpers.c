@@ -675,9 +675,20 @@ static const struct SpritePalette* GetLongGrassFieldPalette(void)
             sLongGrassFieldEffectPaletteBuffer[13] = primaryTileset->palettes[0][13];
             sLongGrassFieldEffectPaletteBuffer[15] = primaryTileset->palettes[0][15];
         }
+        else if (primaryTileset == &gTileset_General)
+        {
+            // General long grass: stalks adjusted to match tall grass teal colors (12, 13)
+            // with dark green body (3) and shadow (4)
+            sLongGrassFieldEffectPaletteBuffer[1] = primaryTileset->palettes[0][12]; // teal stalk highlight (164 230 197)
+            sLongGrassFieldEffectPaletteBuffer[2] = primaryTileset->palettes[0][13]; // teal stalk midtone (115 205 164)
+            sLongGrassFieldEffectPaletteBuffer[3] = primaryTileset->palettes[0][3];  // dark green body (57 148 49)
+            sLongGrassFieldEffectPaletteBuffer[4] = primaryTileset->palettes[0][4];  // dark olive shadow (57 90 16)
+            sLongGrassFieldEffectPaletteBuffer[13] = primaryTileset->palettes[0][14]; // dark teal edge (65 180 139)
+            sLongGrassFieldEffectPaletteBuffer[15] = primaryTileset->palettes[0][15]; // shadow teal (24 164 106)
+        }
         else
         {
-            // Vanilla general and other primary tilesets
+            // Fallback for other primary tilesets
             sLongGrassFieldEffectPaletteBuffer[1] = primaryTileset->palettes[0][1];
             sLongGrassFieldEffectPaletteBuffer[2] = primaryTileset->palettes[0][2];
             sLongGrassFieldEffectPaletteBuffer[3] = primaryTileset->palettes[0][3];
