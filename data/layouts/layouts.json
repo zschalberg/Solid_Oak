@@ -4629,7 +4629,7 @@
       "border_width": 2,
       "border_height": 2,
       "primary_tileset": "gTileset_GeneralHaunted",
-      "secondary_tileset": "gTileset_LavenderTownSummer",
+      "secondary_tileset": "gTileset_ViridianForestAutumn",
       "border_filepath": "data/layouts/HauntedWoods/border.bin",
       "blockdata_filepath": "data/layouts/HauntedWoods/map.bin"
     }
