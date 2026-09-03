@@ -842,7 +842,7 @@ static const union AnimCmd *const sAnimTable_LongGrass[] =
 const struct SpriteTemplate gFieldEffectObjectTemplate_LongGrass =
 {
     .tileTag = TAG_NONE,
-    .paletteTag = FLDEFF_PAL_TAG_GENERAL_1,
+    .paletteTag = FLDEFF_PAL_TAG_LONG_GRASS,
     .oam = &gObjectEventBaseOam_16x16,
     .anims = sAnimTable_LongGrass,
     .images = sPicTable_LongGrass,
@@ -879,7 +879,7 @@ static const union AnimCmd *const sAnimTable_JumpLongGrass[] =
 const struct SpriteTemplate gFieldEffectObjectTemplate_JumpLongGrass =
 {
     .tileTag = TAG_NONE,
-    .paletteTag = FLDEFF_PAL_TAG_GENERAL_1,
+    .paletteTag = FLDEFF_PAL_TAG_LONG_GRASS,
     .oam = &gObjectEventBaseOam_16x16,
     .anims = sAnimTable_JumpLongGrass,
     .images = sPicTable_JumpLongGrass,

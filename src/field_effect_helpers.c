@@ -639,13 +639,64 @@ u8 FindTallGrassFieldEffectSpriteId(u8 localId, u8 mapNum, u8 mapGroup, s16 x, s
     return MAX_SPRITES;
 }
 
+static EWRAM_DATA u16 sLongGrassFieldEffectPaletteBuffer[16] = {0};
+static const struct SpritePalette sLongGrassFieldEffectSpritePalette = {
+    .data = sLongGrassFieldEffectPaletteBuffer,
+    .tag = FLDEFF_PAL_TAG_LONG_GRASS,
+};
+
+static const struct SpritePalette* GetLongGrassFieldPalette(void)
+{
+    u32 i;
+    const struct Tileset *primaryTileset = (gMapHeader.mapLayout != NULL) ? GetPrimaryTileset(gMapHeader.mapLayout) : NULL;
+
+    for (i = 0; i < 16; i++)
+        sLongGrassFieldEffectPaletteBuffer[i] = gSpritePalette_GeneralFieldEffect1.data[i];
+
+    if (primaryTileset != NULL && primaryTileset->palettes != NULL && !primaryTileset->isSecondary)
+    {
+        if (primaryTileset == &gTileset_GeneralAutumn)
+        {
+            // Autumn long grass is green, using indices 7, 8, 12, 13, 14, 15 from palette 0
+            sLongGrassFieldEffectPaletteBuffer[1] = primaryTileset->palettes[0][12]; // highlight (185 214 182)
+            sLongGrassFieldEffectPaletteBuffer[2] = primaryTileset->palettes[0][7];  // light green (154 196 149)
+            sLongGrassFieldEffectPaletteBuffer[3] = primaryTileset->palettes[0][8];  // dark green (75 124 68)
+            sLongGrassFieldEffectPaletteBuffer[4] = primaryTileset->palettes[0][15]; // shadow green (35 58 32)
+            sLongGrassFieldEffectPaletteBuffer[13] = primaryTileset->palettes[0][13]; // base/tips (123 178 116)
+            sLongGrassFieldEffectPaletteBuffer[15] = primaryTileset->palettes[0][15]; // base shadow (35 58 32)
+        }
+        else if (primaryTileset == &gTileset_GeneralHaunted)
+        {
+            // Haunted long grass uses spooky teal/slate colors from palette 0
+            sLongGrassFieldEffectPaletteBuffer[1] = primaryTileset->palettes[0][1];
+            sLongGrassFieldEffectPaletteBuffer[2] = primaryTileset->palettes[0][2];
+            sLongGrassFieldEffectPaletteBuffer[3] = primaryTileset->palettes[0][3];
+            sLongGrassFieldEffectPaletteBuffer[4] = primaryTileset->palettes[0][4];
+            sLongGrassFieldEffectPaletteBuffer[13] = primaryTileset->palettes[0][13];
+            sLongGrassFieldEffectPaletteBuffer[15] = primaryTileset->palettes[0][15];
+        }
+        else
+        {
+            // Vanilla general and other primary tilesets
+            sLongGrassFieldEffectPaletteBuffer[1] = primaryTileset->palettes[0][1];
+            sLongGrassFieldEffectPaletteBuffer[2] = primaryTileset->palettes[0][2];
+            sLongGrassFieldEffectPaletteBuffer[3] = primaryTileset->palettes[0][3];
+            sLongGrassFieldEffectPaletteBuffer[4] = primaryTileset->palettes[0][4];
+            sLongGrassFieldEffectPaletteBuffer[13] = primaryTileset->palettes[0][13];
+            sLongGrassFieldEffectPaletteBuffer[15] = primaryTileset->palettes[0][15];
+        }
+    }
+
+    return &sLongGrassFieldEffectSpritePalette;
+}
+
 u32 FldEff_LongGrass(void)
 {
     s16 x;
     s16 y;
     u8 spriteId;
     struct Sprite *sprite;
-    const struct SpritePalette *spritePalette = GetGeneralFieldPalette1();
+    const struct SpritePalette *spritePalette = GetLongGrassFieldPalette();
 
     FieldEffectScript_LoadFadedPal(spritePalette);
     x = gFieldEffectArguments[0];
@@ -712,7 +763,7 @@ u32 FldEff_JumpLongGrass(void)
 {
     u8 spriteId;
     struct Sprite *sprite;
-    const struct SpritePalette *spritePalette = GetGeneralFieldPalette1();
+    const struct SpritePalette *spritePalette = GetLongGrassFieldPalette();
 
     FieldEffectScript_LoadFadedPal(spritePalette);
     SetSpritePosToOffsetMapCoords((s16 *)&gFieldEffectArguments[0], (s16 *)&gFieldEffectArguments[1], 8, 8);

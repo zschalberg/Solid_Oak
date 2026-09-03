@@ -97,6 +97,7 @@ enum FieldEffect
 
 #define FLDEFF_PAL_TAG_GENERAL_0          0x1004
 #define FLDEFF_PAL_TAG_GENERAL_1          0x1005
+#define FLDEFF_PAL_TAG_LONG_GRASS         0x1006
 #define FLDEFF_PAL_TAG_POKEBALL_GLOW      0x1007
 #define FLDEFF_PAL_TAG_GENERAL_2          0x1008
 #define FLDEFF_PAL_TAG_POKEBALL_TRAIL     0x1009
