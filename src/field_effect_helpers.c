@@ -433,6 +433,13 @@ static const struct SpritePalette* GetGeneralFieldPalette1(void)
         // Copy tall grass base patch colors (indices 12..15) from primary tileset palette 0
         for (i = 12; i <= 15; i++)
             sGeneralFieldEffectPalette1Buffer[i] = primaryTileset->palettes[0][i];
+
+        if (primaryTileset == &gTileset_GeneralAutumn)
+        {
+            // Replace reddish-brown base ring (indices 3 and 4) with slate grey from palette 3
+            sGeneralFieldEffectPalette1Buffer[3] = primaryTileset->palettes[3][5]; // slate grey (123 123 131)
+            sGeneralFieldEffectPalette1Buffer[4] = primaryTileset->palettes[3][7]; // dark slate grey (65 74 106)
+        }
     }
     else if (OW_SEASONS)
     {
