@@ -2358,7 +2358,14 @@ bool8 ScrCmd_checkfieldmoveusable(struct ScriptContext* ctx)
     if (!FieldMove_IsUnlocked(fieldMove))
         return FALSE;
 
-    partyIndex = Party_FirstMonWithMove(moveId);
+    // Rock Climb is hard-locked to an owned NIDOKING regardless of whether it
+    // (or any other species) actually knows the move; ownership of the HM
+    // item is checked above via FieldMove_IsUnlockedRockClimb.
+    if (fieldMove == FIELD_MOVE_ROCK_CLIMB)
+        partyIndex = Party_FirstMonOfSpecies(SPECIES_NIDOKING);
+    else
+        partyIndex = Party_FirstMonWithMove(moveId);
+
     if (partyIndex != PARTY_SIZE)
     {
         gFieldEffectArguments[0] = partyIndex;
@@ -2368,7 +2375,7 @@ bool8 ScrCmd_checkfieldmoveusable(struct ScriptContext* ctx)
         StringGet_Nickname(gStringVar1);
         StringCopy(gStringVar2, gMovesInfo[moveId].name);
     }
-    else if (OW_FIELD_MOVES_WITHOUT_HMS)
+    else if (OW_FIELD_MOVES_WITHOUT_HMS && fieldMove != FIELD_MOVE_ROCK_CLIMB)
     {
         enum Species species = FieldMove_GetDefaultSpecies(fieldMove);
 

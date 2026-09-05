@@ -40,6 +40,7 @@ bool8 IsMultiBattle(void);
 bool8 IsPartyMenuTextPrinterActive(void);
 enum Move ItemIdToBattleMoveId(enum Item item);
 u32 Party_FirstMonWithMove(enum Move moveId);
+u32 Party_FirstMonOfSpecies(enum Species species);
 u8 *GetMonNickname(struct Pokemon *mon, u8 *dest);
 u8 DisplayPartyMenuMessage(const u8 *str, bool8 keepOpen);
 u8 GetAilmentFromStatus(u32 status);

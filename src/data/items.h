@@ -15828,6 +15828,21 @@ const struct ItemInfo gItemsInfo[] =
         .iconPic = gItemIcon_PokeshiDoll,
         .iconPalette = gItemIconPalette_PokeshiDoll,
     },
+
+    [ITEM_HM_ROCK_CLIMB] =
+    {
+        .name = ITEM_NAME("HM Rock Climb"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "Permits a NIDOKING "
+            "to climb\nsteep "
+            "cliffs in the "
+            "field."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
 };
 
 #undef ITEM_NAME

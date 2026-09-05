@@ -3238,10 +3238,21 @@ static void SetPartyMonFieldSelectionActions(struct Pokemon *mons, u8 slotId)
         {
             if (moveId == gFieldMovesInfo[j].moveId)
             {
+                // Rock Climb is hard-locked to NIDOKING; ignore it here even
+                // if some other species was taught the move some other way.
+                if (j == FIELD_MOVE_ROCK_CLIMB && GetMonData(&mons[slotId], MON_DATA_SPECIES) != SPECIES_NIDOKING)
+                    break;
                 AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, j + CURSOR_OPTION_FIELD_MOVES);
                 break;
             }
         }
+    }
+    // NIDOKING can use Rock Climb without knowing the move as long as the HM is owned
+    if (GetMonData(&mons[slotId], MON_DATA_SPECIES) == SPECIES_NIDOKING
+     && !MonKnowsMove(&mons[slotId], MOVE_ROCK_CLIMB)
+     && CheckBagHasItem(ITEM_HM_ROCK_CLIMB, 1))
+    {
+        AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, FIELD_MOVE_ROCK_CLIMB + CURSOR_OPTION_FIELD_MOVES);
     }
     if (GetMonData(&mons[1], MON_DATA_SPECIES) != SPECIES_NONE)
         AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, CURSOR_OPTION_SWITCH);
@@ -8172,6 +8183,19 @@ u32 Party_FirstMonWithMove(enum Move moveId)
         if (GetMonData(&gPlayerParty[i], MON_DATA_SPECIES) == SPECIES_NONE)
             break;
         if (MonKnowsMove(&gPlayerParty[i], moveId))
+            return i;
+    }
+    return PARTY_SIZE;
+}
+
+u32 Party_FirstMonOfSpecies(enum Species species)
+{
+    for (u32 i = 0; i < PARTY_SIZE; i++)
+    {
+        enum Species monSpecies = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES);
+        if (monSpecies == SPECIES_NONE)
+            break;
+        if (monSpecies == species && !GetMonData(&gPlayerParty[i], MON_DATA_IS_EGG))
             return i;
     }
     return PARTY_SIZE;

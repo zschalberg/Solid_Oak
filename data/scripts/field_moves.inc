@@ -400,7 +400,7 @@ EventScript_UseRockClimb::
 	goto_if_questlog EventScript_ReleaseEnd
 	lockall
 	checkfieldmoveusable FIELD_MOVE_ROCK_CLIMB
-	goto_if_eq VAR_RESULT, PARTY_SIZE, EventScript_CantRockClimb
+	goto_if_eq VAR_RESULT, FALSE, EventScript_CantRockClimb
 	msgbox Text_WantToRockClimb, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, EventScript_EndRockClimb
 	msgbox Text_MonUsedRockClimb, MSGBOX_DEFAULT
