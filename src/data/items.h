@@ -7372,6 +7372,23 @@ const struct ItemInfo gItemsInfo[] =
         .iconPalette = gItemIconPalette_GlimmeringCharm,
     },
 
+    [ITEM_HM_ROCK_CLIMB] =
+    {
+        .name = ITEM_NAME("HM Rock Climb"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "Permits a NIDOKING "
+            "to climb\nsteep "
+            "cliffs in the "
+            "field."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_ScrollOfWaters,
+        .iconPalette = gItemIconPalette_ScrollOfDarkness,
+    },
+
 // Gems
     #if I_PRICE >= GEN_9
         #define GEM_PRICE 15000

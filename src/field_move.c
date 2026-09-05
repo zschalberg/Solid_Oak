@@ -2,9 +2,11 @@
 #include "event_data.h"
 #include "field_move.h"
 #include "fldeff.h"
+#include "item.h"
 #include "pokemon.h"
 #include "item.h"
 #include "constants/field_move.h"
+#include "constants/items.h"
 #include "constants/moves.h"
 #include "constants/party_menu.h"
 #include "constants/items.h"
@@ -121,7 +123,7 @@ const struct FieldMoveInfo gFieldMovesInfo[FIELD_MOVE_COUNT] =
     [FIELD_MOVE_ROCK_CLIMB] =
     {
 #if OW_ROCK_CLIMB_FIELD_MOVE == TRUE
-        .defaultSpecies = SPECIES_SANDSHREW,
+        .defaultSpecies = SPECIES_NIDOKING,
         .isUnlockedFunc = FieldMove_IsUnlockedRockClimb,
         .moveId = MOVE_ROCK_CLIMB,
         .partyMessageId = PARTY_MSG_CANT_USE_HERE,
@@ -256,7 +258,7 @@ static bool32 FieldMove_IsUnlockedDive(void)
 #if OW_ROCK_CLIMB_FIELD_MOVE == TRUE
 static bool32 FieldMove_IsUnlockedRockClimb(void)
 {
-    return TRUE;
+    return CheckBagHasItem(ITEM_HM_ROCK_CLIMB, 1);
 }
 #endif
 

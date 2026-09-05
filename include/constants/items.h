@@ -1061,6 +1061,9 @@ enum __attribute__((packed)) Item
     ITEM_ADVANCED_IV_SCANNER = 880,
     ITEM_SIZE_CHARM = 881,
 
+    // Field Move Permits
+    ITEM_HM_ROCK_CLIMB = 882,
+
     ITEMS_COUNT,
     ITEM_FIELD_ARROW = ITEMS_COUNT,
 };
