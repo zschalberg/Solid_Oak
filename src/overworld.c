@@ -17,6 +17,7 @@
 #include "field_effect_helpers.h"
 #include "field_effect.h"
 #include "field_fadetransition.h"
+#include "field_light_sources.h"
 #include "field_message_box.h"
 #include "field_player_avatar.h"
 #include "field_screen_effect.h"
@@ -2483,6 +2484,7 @@ static void ResetScreenForMapLoad(void)
 {
     SetGpuReg(REG_OFFSET_DISPCNT, 0);
     ScanlineEffect_Stop();
+    DestroyMapLightSources();
 
     DmaClear16(3, PLTT + 2, PLTT_SIZE - 2);
     DmaFillLarge16(3, 0, (void *)(VRAM + 0x0), 0x18000, 0x1000);
@@ -2527,6 +2529,7 @@ static void InitOverworldGraphicsRegisters(void)
     ChangeBgY(2, 0, 0);
     ChangeBgX(3, 0, 0);
     ChangeBgY(3, 0, 0);
+    InitMapLightSources();
 }
 
 static void ResumeMap(bool32 inLink)

@@ -107,11 +107,19 @@ enum FieldEffect
 #define FLDEFF_PAL_TAG_CAVE_DUST          0x1012
 #define FLDEFF_PAL_TAG_DUST_CLOUD         0x1013
 #define FLDEFF_PAL_TAG_ORAS_DOWSE         0x1014
+#define FLDEFF_PAL_TAG_LIGHT_CIRCLE       0x1015
+#define FLDEFF_PAL_TAG_LIGHT_AMBER        0x1016
+#define FLDEFF_PAL_TAG_LIGHT_BUGS         0x1017
+#define FLDEFF_PAL_TAG_AUTUMN_LEAF        0x1018
 
 // tile tags, for field effects that may have many copies on screen at once
 #define FLDEFF_TILE_TAG_SHADOW_SMALL        0x1400
 #define FLDEFF_TILE_TAG_SHADOW_MEDIUM       0x1401
 #define FLDEFF_TILE_TAG_SHADOW_LARGE        0x1402
 #define FLDEFF_TILE_TAG_SHADOW_EXTRA_LARGE  0x1403
+#define FLDEFF_TILE_TAG_LIGHT_CIRCLE        0x1404
+#define FLDEFF_TILE_TAG_LIGHT_CONE          0x1405
+#define FLDEFF_TILE_TAG_FIREFLIES           0x1406
+#define FLDEFF_TILE_TAG_AUTUMN_LEAF         0x1407
 
 #endif // GUARD_CONSTANTS_FIELD_EFFECTS_H

@@ -5,6 +5,7 @@
 #include "event_object_movement.h"
 #include "event_scripts.h"
 #include "field_effect.h"
+#include "field_light_sources.h"
 #include "field_player_avatar.h"
 #include "follower_npc.h"
 #include "quest_log.h"
@@ -457,6 +458,7 @@ static bool32 TrainerSeeFunc_StartExclMark(u8 taskId, struct Task *task, struct 
     {
         ObjectEventGetLocalIdAndMap(trainerObj, &gFieldEffectArguments[0], &gFieldEffectArguments[1], &gFieldEffectArguments[2]);
         FieldEffectStart(FLDEFF_EXCLAMATION_MARK_ICON);
+        ActivateTrainerLight(trainerObj);
         action = GetFaceDirectionMovementAction(trainerObj->facingDirection);
         ObjectEventSetHeldMovement(trainerObj, action);
         task->tFuncId++;
@@ -632,6 +634,7 @@ static bool32 TrainerSeeFunc_OffscreenAboveTrainerCameraObjMoveUp(u8 taskId, str
     {
         ObjectEventGetLocalIdAndMap(trainerObj, (u8 *)&gFieldEffectArguments[0], (u8 *)&gFieldEffectArguments[1], (u8 *)&gFieldEffectArguments[2]);
         FieldEffectStart(FLDEFF_EXCLAMATION_MARK_ICON);
+        ActivateTrainerLight(trainerObj);
         task->tData5 = 0;
         task->tFuncId++;
     }

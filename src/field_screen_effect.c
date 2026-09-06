@@ -2,6 +2,7 @@
 #include "event_object_movement.h"
 #include "event_scripts.h"
 #include "field_fadetransition.h"
+#include "field_light_sources.h"
 #include "field_screen_effect.h"
 #include "gpu_regs.h"
 #include "heal_location.h"
@@ -149,6 +150,7 @@ static void UpdateFlashLevelEffect(u8 taskId)
         break;
     case 2:
         ScanlineEffect_Clear();
+        DestroyMapLightSources();
         DestroyTask(taskId);
         break;
     }
