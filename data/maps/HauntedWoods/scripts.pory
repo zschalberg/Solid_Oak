@@ -1,1 +1,200 @@
 mapscripts HauntedWoods_MapScripts {}
+
+script HauntedWoods_EventScript_FlameKeeper {
+    lock
+    faceplayer
+    message(HauntedWoods_Text_KeeperIntro)
+    waitmessage
+    goto(HauntedWoods_EventScript_KeeperMenu)
+}
+
+script HauntedWoods_EventScript_KeeperMenu {
+    dynmultipush(HauntedWoods_Text_OptToggleLight, 0)
+    dynmultipush(HauntedWoods_Text_OptFlameSize, 1)
+    dynmultipush(HauntedWoods_Text_OptToggleMove, 2)
+    dynmultipush(HauntedWoods_Text_OptExit, 3)
+    dynmultistack(0, 0, FALSE, 4, FALSE, 0, DYN_MULTICHOICE_CB_NONE)
+    switch (var(VAR_RESULT)) {
+        case 0:
+            goto(HauntedWoods_EventScript_ToggleLight)
+        case 1:
+            goto(HauntedWoods_EventScript_SelectSize)
+        case 2:
+            goto(HauntedWoods_EventScript_ToggleMove)
+        default:
+            goto(HauntedWoods_EventScript_KeeperExit)
+    }
+}
+
+script HauntedWoods_EventScript_ToggleLight {
+    if (flag(FLAG_HAUNTED_WOODS_LIGHT_DISABLED)) {
+        clearflag(FLAG_HAUNTED_WOODS_LIGHT_DISABLED)
+        msgbox(HauntedWoods_Text_LightTurnedOn, MSGBOX_DEFAULT)
+    } else {
+        setflag(FLAG_HAUNTED_WOODS_LIGHT_DISABLED)
+        msgbox(HauntedWoods_Text_LightTurnedOff, MSGBOX_DEFAULT)
+    }
+    closemessage
+    goto(HauntedWoods_EventScript_KeeperMenu)
+}
+
+script HauntedWoods_EventScript_SelectSize {
+    message(HauntedWoods_Text_SelectSizePrompt)
+    waitmessage
+    dynmultipush(HauntedWoods_Text_OptSize50, 0)
+    dynmultipush(HauntedWoods_Text_OptSize100, 1)
+    dynmultipush(HauntedWoods_Text_OptSize150, 2)
+    dynmultipush(HauntedWoods_Text_OptBack, 3)
+    dynmultistack(0, 0, FALSE, 4, FALSE, 0, DYN_MULTICHOICE_CB_NONE)
+    switch (var(VAR_RESULT)) {
+        case 0:
+            setvar(VAR_HAUNTED_WOODS_LIGHT_SIZE, 1)
+            msgbox(HauntedWoods_Text_SizeSet50, MSGBOX_DEFAULT)
+        case 1:
+            setvar(VAR_HAUNTED_WOODS_LIGHT_SIZE, 0)
+            msgbox(HauntedWoods_Text_SizeSet100, MSGBOX_DEFAULT)
+        case 2:
+            setvar(VAR_HAUNTED_WOODS_LIGHT_SIZE, 2)
+            msgbox(HauntedWoods_Text_SizeSet150, MSGBOX_DEFAULT)
+        default:
+            goto(HauntedWoods_EventScript_KeeperMenu)
+    }
+    closemessage
+    goto(HauntedWoods_EventScript_KeeperMenu)
+}
+
+script HauntedWoods_EventScript_ToggleMove {
+    if (flag(FLAG_HAUNTED_WOODS_LIGHT_MOVE)) {
+        clearflag(FLAG_HAUNTED_WOODS_LIGHT_MOVE)
+        msgbox(HauntedWoods_Text_MoveStopped, MSGBOX_DEFAULT)
+    } else {
+        setflag(FLAG_HAUNTED_WOODS_LIGHT_MOVE)
+        msgbox(HauntedWoods_Text_MoveStarted, MSGBOX_DEFAULT)
+    }
+    closemessage
+    goto(HauntedWoods_EventScript_KeeperMenu)
+}
+
+script HauntedWoods_EventScript_KeeperExit {
+    msgbox(HauntedWoods_Text_KeeperFarewell, MSGBOX_DEFAULT)
+    closemessage
+    release
+    end
+}
+
+text HauntedWoods_Text_KeeperIntro {
+    "I keep vigil over this spectral flame.\p"
+    "Would you like to adjust its aura?"
+}
+
+text HauntedWoods_Text_OptToggleLight {
+    "Toggle Light (On/Off)"
+}
+
+text HauntedWoods_Text_OptFlameSize {
+    "Flame Size"
+}
+
+text HauntedWoods_Text_OptToggleMove {
+    "Toggle 2x2 Movement"
+}
+
+text HauntedWoods_Text_OptExit {
+    "Exit"
+}
+
+text HauntedWoods_Text_OptBack {
+    "Back"
+}
+
+text HauntedWoods_Text_LightTurnedOn {
+    "The spectral flame reignites with\n"
+    "an eerie glow."
+}
+
+text HauntedWoods_Text_LightTurnedOff {
+    "The spectral flame has been\n"
+    "extinguished."
+}
+
+text HauntedWoods_Text_SelectSizePrompt {
+    "Select the flame's intensity:"
+}
+
+text HauntedWoods_Text_OptSize50 {
+    "50% Size (Dim)"
+}
+
+text HauntedWoods_Text_OptSize100 {
+    "100% Size (Normal)"
+}
+
+text HauntedWoods_Text_OptSize150 {
+    "150% Size (Blazing)"
+}
+
+text HauntedWoods_Text_SizeSet50 {
+    "The flame shrinks to a faint 50% glow."
+}
+
+text HauntedWoods_Text_SizeSet100 {
+    "The flame burns at its default 100%."
+}
+
+text HauntedWoods_Text_SizeSet150 {
+    "The flame blazes outwards to 150%!"
+}
+
+text HauntedWoods_Text_MoveStarted {
+    "The flame begins its 2x2 patrol."
+}
+
+text HauntedWoods_Text_MoveStopped {
+    "The flame returns to resting in place."
+}
+
+text HauntedWoods_Text_KeeperFarewell {
+    "May the flame light your passage\n"
+    "through the dark."
+}
+
+script HauntedWoods_EventScript_FlashlightScientist {
+    lock
+    faceplayer
+    msgbox(HauntedWoods_Text_ScientistFlashlight, MSGBOX_DEFAULT)
+    closemessage
+    release
+    end
+}
+
+text HauntedWoods_Text_ScientistFlashlight {
+    "Phew! It's pitch-black out here...\p"
+    "Good thing I fitted my torch with an\n"
+    "amber lens filter.\p"
+    "Standard white light scatters too much\n"
+    "in this spectral mist, but this warm\l"
+    "beam cuts right through it!"
+}
+
+script HauntedWoods_EventScript_FlashlightTrainer {
+    trainerbattle_single(TRAINER_CAMPER_2, HauntedWoods_Text_FlashlightTrainerIntro, HauntedWoods_Text_FlashlightTrainerDefeat)
+    msgbox(HauntedWoods_Text_FlashlightTrainerPostBattle, MSGBOX_AUTOCLOSE)
+    end
+}
+
+text HauntedWoods_Text_FlashlightTrainerIntro {
+    "Click!\n"
+    "Caught you in my flashlight beam!"
+}
+
+text HauntedWoods_Text_FlashlightTrainerDefeat {
+    "Aww! You blinded me with your skill!"
+}
+
+text HauntedWoods_Text_FlashlightTrainerPostBattle {
+    "It's dangerous to explore the woods\n"
+    "without a light.\p"
+    "Keep your wits about you!"
+}
+
+

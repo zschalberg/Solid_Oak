@@ -1541,6 +1541,8 @@
 #define FLAG_SPECIAL_FLAG_UNUSED_0x4003         (SPECIAL_FLAGS_START + 0x3) // Unused Flag
 #define FLAG_STORING_ITEMS_IN_PYRAMID_BAG       (SPECIAL_FLAGS_START + 0x4) // Unused Flag
 #define FLAG_SAFE_FOLLOWER_MOVEMENT             (SPECIAL_FLAGS_START + 0x5) // When set, applymovement does not put the follower inside a pokeball
+#define FLAG_HAUNTED_WOODS_LIGHT_DISABLED       (SPECIAL_FLAGS_START + 0x20)
+#define FLAG_HAUNTED_WOODS_LIGHT_MOVE           (SPECIAL_FLAGS_START + 0x21)
 // FLAG_SPECIAL_FLAG_0x4002 - 0x407F also exist and are unused
 #define SPECIAL_FLAGS_END             (SPECIAL_FLAGS_START + 0x7F)
 

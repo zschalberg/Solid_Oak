@@ -4624,12 +4624,12 @@
     {
       "id": "LAYOUT_HAUNTED_WOODS",
       "name": "HauntedWoods_Layout",
-      "width": 40,
-      "height": 40,
+      "width": 50,
+      "height": 44,
       "border_width": 2,
       "border_height": 2,
       "primary_tileset": "gTileset_GeneralHaunted",
-      "secondary_tileset": "gTileset_ViridianForestAutumn",
+      "secondary_tileset": "gTileset_LavenderTown",
       "border_filepath": "data/layouts/HauntedWoods/border.bin",
       "blockdata_filepath": "data/layouts/HauntedWoods/map.bin"
     }

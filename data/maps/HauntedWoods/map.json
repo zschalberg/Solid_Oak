@@ -4,8 +4,8 @@
   "layout": "LAYOUT_HAUNTED_WOODS",
   "music": "MUS_POKE_TOWER",
   "region_map_section": "MAPSEC_HAUNTED_WOODS",
-  "requires_flash": false,
-  "weather": "WEATHER_FOG_HORIZONTAL",
+  "requires_flash": true,
+  "weather": "WEATHER_RAIN",
   "map_type": "MAP_TYPE_ROUTE",
   "allow_cycling": true,
   "allow_escaping": true,
@@ -14,11 +14,61 @@
   "floor_number": 0,
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
   "connections": null,
-  "object_events": [],
+  "object_events": [
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_CHANNELER",
+      "x": 36,
+      "y": 27,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_RIGHT",
+      "movement_range_x": 1,
+      "movement_range_y": 1,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "HauntedWoods_EventScript_FlameKeeper",
+      "flag": "0"
+    },
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_SCIENTIST",
+      "x": 24,
+      "y": 35,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_LOOK_AROUND",
+      "movement_range_x": 1,
+      "movement_range_y": 1,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "HauntedWoods_EventScript_FlashlightScientist",
+      "flag": "0"
+    },
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_CAMPER",
+      "x": 48,
+      "y": 24,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_LEFT",
+      "movement_range_x": 1,
+      "movement_range_y": 1,
+      "trainer_type": "TRAINER_TYPE_NORMAL",
+      "trainer_sight_or_berry_tree_id": "5",
+      "script": "HauntedWoods_EventScript_FlashlightTrainer",
+      "flag": "0"
+    }
+  ],
   "warp_events": [
     {
-      "x": 25,
-      "y": 37,
+      "x": 36,
+      "y": 40,
+      "elevation": 0,
+      "dest_map": "MAP_LAVENDER_CEMETARY_MAP",
+      "dest_warp_id": "0"
+    },
+    {
+      "x": 37,
+      "y": 40,
       "elevation": 0,
       "dest_map": "MAP_LAVENDER_CEMETARY_MAP",
       "dest_warp_id": "0"
