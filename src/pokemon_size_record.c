@@ -303,7 +303,7 @@ u8 UpdatePokedexSizeRecordBySpeciesPersonality(u16 species, u32 personality)
     currentShortest = gSaveBlock1Ptr->pokedexSizes[species][0] & 0xF;
     currentTallest = (gSaveBlock1Ptr->pokedexSizes[species][0] >> 4) & 0xF;
 
-    if (!hasRecord || (currentShortest == 0 && currentTallest == 0))
+    if (!hasRecord)
     {
         currentShortest = heightCategory;
         currentTallest = heightCategory;
@@ -329,7 +329,7 @@ u8 UpdatePokedexSizeRecordBySpeciesPersonality(u16 species, u32 personality)
     currentLightest = gSaveBlock1Ptr->pokedexSizes[species][1] & 0xF;
     currentHeaviest = (gSaveBlock1Ptr->pokedexSizes[species][1] >> 4) & 0xF;
 
-    if (!hasRecord || (currentLightest == 0 && currentHeaviest == 0))
+    if (!hasRecord)
     {
         currentLightest = weightCategory;
         currentHeaviest = weightCategory;

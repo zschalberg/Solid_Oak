@@ -201,6 +201,7 @@ FuchsiaCity_Reserve_EventScript_EvaluateMon::
 	playfanfare MUS_LEVEL_UP
 	msgbox FuchsiaCity_Reserve_Text_TurnInSuccess, MSGBOX_DEFAULT
 	waitfanfare
+	call EventScript_WarnIfResearchBallLost
 	special CheckReserveStageJustAdvanced
 	compare VAR_RESULT, TRUE
 	goto_if_eq FuchsiaCity_Reserve_EventScript_NewPokemonAvailable

@@ -853,6 +853,7 @@
 	.include "data/scripts/battle_pike.inc"
 	.include "data/scripts/apprentice.inc"
 	.include "data/scripts/workbench.inc"
+	.include "data/scripts/research_ball_return.inc"
 
 @ General
 	.include "data/scripts/aide.inc"

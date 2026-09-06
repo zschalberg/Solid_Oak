@@ -97,22 +97,29 @@ TEST("Individual size: dimensions are clamped to a minimum of 1")
 TEST("Size records: first record initializes both min and max, later records extend them")
 {
     u16 species = SPECIES_WOBBUFFET;
+    u16 natDex = SpeciesToNationalPokedexNum(species);
+    // Catches go through HandleSetPokedexFlag, which updates the record and
+    // only then sets the caught flag. That flag is what tells a later catch
+    // the stored record is real and should be extended rather than replaced,
+    // so a test for "later records extend" has to register catches the same
+    // way - see the sibling test below for the raw, never-caught behaviour.
+
     // First record: height category 8, weight category 8.
-    UpdatePokedexSizeRecordBySpeciesPersonality(species, SIZE_PERSONALITY(MEDIAN_HASH, MEDIAN_HASH));
+    HandleSetPokedexFlag(natDex, FLAG_SET_CAUGHT, SIZE_PERSONALITY(MEDIAN_HASH, MEDIAN_HASH));
     EXPECT_EQ(GetPokedexHeightRecord(species, FALSE), 8);
     EXPECT_EQ(GetPokedexHeightRecord(species, TRUE), 8);
     EXPECT_EQ(GetPokedexWeightRecord(species, FALSE), 8);
     EXPECT_EQ(GetPokedexWeightRecord(species, TRUE), 8);
 
     // Taller (category 15) and lighter (category 1) specimen extends the records.
-    UpdatePokedexSizeRecordBySpeciesPersonality(species, SIZE_PERSONALITY(0xFFFF, 10));
+    HandleSetPokedexFlag(natDex, FLAG_SET_CAUGHT, SIZE_PERSONALITY(0xFFFF, 10));
     EXPECT_EQ(GetPokedexHeightRecord(species, FALSE), 8);
     EXPECT_EQ(GetPokedexHeightRecord(species, TRUE), 15);
     EXPECT_EQ(GetPokedexWeightRecord(species, FALSE), 1);
     EXPECT_EQ(GetPokedexWeightRecord(species, TRUE), 8);
 
     // A specimen within the recorded ranges changes nothing.
-    UpdatePokedexSizeRecordBySpeciesPersonality(species, SIZE_PERSONALITY(MEDIAN_HASH, MEDIAN_HASH));
+    HandleSetPokedexFlag(natDex, FLAG_SET_CAUGHT, SIZE_PERSONALITY(MEDIAN_HASH, MEDIAN_HASH));
     EXPECT_EQ(GetPokedexHeightRecord(species, FALSE), 8);
     EXPECT_EQ(GetPokedexHeightRecord(species, TRUE), 15);
     EXPECT_EQ(GetPokedexWeightRecord(species, FALSE), 1);

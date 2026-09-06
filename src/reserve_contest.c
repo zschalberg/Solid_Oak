@@ -83,7 +83,11 @@ void StartReserveContestSession(void)
     FlagSet(FLAG_RESERVE_CONTEST_ACTIVE);
     FlagClear(FLAG_RESERVE_CONTEST_CAUGHT);
 
-    AddBagItem(ITEM_RESEARCH_BALL, 30);
+    // Remember what the player walked in with so EndReserveContestSession can
+    // reclaim only the loaned balls and never the player's own stock.
+    VarSet(VAR_RESERVE_CONTEST_BALLS_HELD, CountTotalItemQuantityInBag(ITEM_RESEARCH_BALL));
+
+    AddBagItem(ITEM_RESEARCH_BALL, RESERVE_CONTEST_BALL_LOAN);
 
     {
         u16 attempts = VarGet(VAR_RESERVE_CONTEST_ATTEMPTS);
@@ -113,6 +117,16 @@ void OpenReserveContestSpecimenSummary(void)
 void ProcessReserveContestSpecimenChoice(void)
 {
     // gSpecialVar_0x8004: 0 = Keep Mon 1 (gPlayerParty[1]), 1 = Keep Mon 2 (gPlayerParty[2])
+    //
+    // Anything else (notably MULTI_B_PRESSED == 127) is not a choice. The
+    // caller's multichoice sets ignoreBPress, but discarding a specimen is
+    // irreversible, so refuse rather than treat an unknown value as "Mon 2".
+    if (gSpecialVar_0x8004 > 1)
+    {
+        gSpecialVar_Result = FALSE;
+        return;
+    }
+
     if (gPlayerPartyCount >= 3)
     {
         if (gSpecialVar_0x8004 == 0) // Keep Mon 1
@@ -121,7 +135,7 @@ void ProcessReserveContestSpecimenChoice(void)
             GetMonNickname(&gPlayerParty[2], gStringVar2);
 
             // Discard Mon 2 - ball economy: released for good, ball frees back to the bag.
-            FreeMonBall(&gPlayerParty[2]);
+            gSpecialVar_0x8009 = FreeMonBall(&gPlayerParty[2]) ? FALSE : TRUE;
             ZeroMonData(&gPlayerParty[2]);
             CompactPartySlots();
             CalculatePlayerPartyCount();
@@ -132,7 +146,7 @@ void ProcessReserveContestSpecimenChoice(void)
             GetMonNickname(&gPlayerParty[1], gStringVar2);
 
             // Discard Mon 1 - ball economy: released for good, ball frees back to the bag.
-            FreeMonBall(&gPlayerParty[1]);
+            gSpecialVar_0x8009 = FreeMonBall(&gPlayerParty[1]) ? FALSE : TRUE;
 
             // Move Mon 2 to Mon 1 slot and discard slot 2
             gPlayerParty[1] = gPlayerParty[2];
@@ -140,6 +154,11 @@ void ProcessReserveContestSpecimenChoice(void)
             CompactPartySlots();
             CalculatePlayerPartyCount();
         }
+        gSpecialVar_Result = TRUE;
+    }
+    else
+    {
+        gSpecialVar_Result = FALSE;
     }
 }
 
@@ -258,9 +277,18 @@ void FinalizeReserveContestCatch(void)
         else // Turn-In
         {
             u16 coins = CalculateResearchMonCoins(&gPlayerParty[1]);
+
+            // Log the family before awarding, exactly as the Oak's Lab /
+            // Reserve worker turn-in does. CalculateResearchMonCoins pays a
+            // "new family" bonus, so skipping this would re-pay that bonus
+            // for the same family on every contest turn-in, and would never
+            // advance the Reserve's encounter stages.
+            RegisterResearchTurnIn(&gPlayerParty[1]);
+
             AddCoins(coins);
             ConvertIntToDecimalStringN(gStringVar3, coins, STR_CONV_MODE_LEFT_ALIGN, 5);
-            FreeMonBall(&gPlayerParty[1]); // Ball economy: turned in for good, ball frees back to the bag.
+            // Ball economy: turned in for good, ball frees back to the bag.
+            gSpecialVar_0x8009 = FreeMonBall(&gPlayerParty[1]) ? FALSE : TRUE;
             ZeroMonData(&gPlayerParty[1]);
             CompactPartySlots();
             CalculatePlayerPartyCount();
@@ -268,6 +296,25 @@ void FinalizeReserveContestCatch(void)
         }
     }
 
+    EndReserveContestSession();
+}
+
+// Ends a contest session: reclaims the balls the Reserve loaned out (never
+// the player's own stock, tracked in VAR_RESERVE_CONTEST_BALLS_HELD) and
+// clears the session flags. Safe to call more than once - once the flag is
+// clear there is nothing left to reclaim.
+void EndReserveContestSession(void)
+{
+    if (FlagGet(FLAG_RESERVE_CONTEST_ACTIVE))
+    {
+        u16 held = CountTotalItemQuantityInBag(ITEM_RESEARCH_BALL);
+        u16 owned = VarGet(VAR_RESERVE_CONTEST_BALLS_HELD);
+
+        if (held > owned)
+            RemoveBagItem(ITEM_RESEARCH_BALL, held - owned);
+    }
+
+    VarSet(VAR_RESERVE_CONTEST_BALLS_HELD, 0);
     FlagClear(FLAG_RESERVE_CONTEST_ACTIVE);
     FlagClear(FLAG_RESERVE_CONTEST_CAUGHT);
 }

@@ -43,4 +43,10 @@ void Special_ShowQuestUpdateToast(void);
 void Special_ShowQuestCompleteToast(void);
 void Special_ShowCustomToast(void);
 
+// Return codes for CraftMedicine, mirroring the UPGRADE_RESULT_* convention
+// in ball_economy.h that the same Workbench script already switches on.
+#define CRAFT_RESULT_SUCCESS 0
+#define CRAFT_RESULT_NOT_ENOUGH 1 // Not enough berries and/or Brewing Kits.
+#define CRAFT_RESULT_BAG_FULL 2   // No room in the bag for the crafted medicine.
+
 #endif // GUARD_FIELD_SPECIALS_H
