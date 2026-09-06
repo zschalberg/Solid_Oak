@@ -248,6 +248,19 @@ BattleScript_TryNicknameCaughtMon::
 	waitmessage B_WAIT_TIME_LONG
 	goto BattleScript_SuccessBallThrowEnd
 BattleScript_GiveCaughtMonEnd::
+	@ Ball economy: givecaughtmon's state machine (Cmd_givecaughtmon) now has
+	@ extra states past the vanilla set (GIVECAUGHTMON_ASK_ACTION and
+	@ GIVECAUGHTMON_HANDLE_ACTION_INPUT, for the Courier Whistle transfer
+	@ prompt). This path skips the trygivecaughtmonnick block above, whose
+	@ own "setbyte gBattleCommunication, 0" is what normally guarantees
+	@ givecaughtmon starts fresh - without it here, gBattleCommunication
+	@ carries over whatever a prior command (e.g. getexp) left in that same
+	@ scratch byte. In vanilla that leftover value could only land on a
+	@ harmless terminal state; with the new states added, it can land on
+	@ GIVECAUGHTMON_HANDLE_ACTION_INPUT, which waits forever for a Yes/No
+	@ button press that never comes on this no-prompt path - hanging every
+	@ recorded/test battle that catches a Pokemon.
+	setbyte gBattleCommunication, 0
 	givecaughtmon BattleScript_SuccessBallThrowEnd
 BattleScript_SuccessBallThrowEnd::
 	setbyte gBattleOutcome, B_OUTCOME_CAUGHT

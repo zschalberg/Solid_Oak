@@ -112,6 +112,16 @@ FuchsiaCity_SafariZone_Entrance_Text_NoSpecimenCaughtYet::
     .string "Catch a POKéMON using your\n"
     .string "RESEARCH BALLS in the Reserve.$"
 
+FuchsiaCity_SafariZone_Entrance_Text_AskGiveUpSession::
+    .string "Would you like to give up on this\n"
+    .string "session instead?$"
+
+FuchsiaCity_SafariZone_Entrance_Text_SessionAbandoned::
+    .string "Understood. We've closed out your\n"
+    .string "session for today.\p"
+    .string "Come back anytime to start a new\n"
+    .string "one!$"
+
 FuchsiaCity_SafariZone_Entrance_Text_NoAttemptsLeft::
     .string "You have finished all 3 of your\n"
     .string "cataloging sessions for today.\p"

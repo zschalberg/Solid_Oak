@@ -397,6 +397,7 @@ gSpecials::
 	def_special ProcessReserveContestSpecimenChoice
 	def_special EvaluateReserveContestCatch
 	def_special FinalizeReserveContestCatch
+	def_special EndReserveContestSession
 	def_special SetWildMonSizeTier
 	def_special UpdateFishingVillageTiles
 	def_special SetStartingStatus

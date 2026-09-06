@@ -195,6 +195,10 @@ FuchsiaCity_SafariZone_Entrance_EventScript_KeepMonChoice::
 
 FuchsiaCity_SafariZone_Entrance_EventScript_NoSpecimenCaughtYet::
 	msgbox FuchsiaCity_SafariZone_Entrance_Text_NoSpecimenCaughtYet, MSGBOX_DEFAULT
+	msgbox FuchsiaCity_SafariZone_Entrance_Text_AskGiveUpSession, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, FuchsiaCity_SafariZone_Entrance_EventScript_AttendantEnd
+	special EndReserveContestSession
+	msgbox FuchsiaCity_SafariZone_Entrance_Text_SessionAbandoned, MSGBOX_DEFAULT
 	release
 	end
 
