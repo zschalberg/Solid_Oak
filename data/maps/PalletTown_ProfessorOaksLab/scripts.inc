@@ -1345,6 +1345,7 @@ PalletTown_ProfessorOaksLab_EventScript_EvaluateMon::
 	playfanfare MUS_LEVEL_UP
 	msgbox PalletTown_ProfessorOaksLab_Text_TurnInSuccess, MSGBOX_DEFAULT
 	waitfanfare
+	call EventScript_WarnIfResearchBallLost
 	goto PalletTown_ProfessorOaksLab_EventScript_ResearchMenu
 
 PalletTown_ProfessorOaksLab_EventScript_ShowNewFamilyText::

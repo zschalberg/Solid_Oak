@@ -101,6 +101,10 @@ EventScript_NotEnoughMaterials::
 	msgbox Text_NotEnoughIngredients
 	goto EventScript_CraftingLoop
 
+EventScript_CraftBagFull::
+	msgbox Text_CraftBagFull
+	goto EventScript_SelectMedicineCrafting
+
 EventScript_SelectMedicineCrafting::
 	checkitem ITEM_BREWING_KIT, 1
 	goto_if_eq VAR_RESULT, FALSE, EventScript_CraftingNoBrewingKits
@@ -178,8 +182,10 @@ EventScript_DoMedicineCraft::
 	goto_if_gt EventScript_NotEnoughMaterials
 
 	copyvar VAR_0x8005, VAR_0x8006
+@ Result codes below (0/1/2) mirror CRAFT_RESULT_SUCCESS/NOT_ENOUGH/BAG_FULL in include/field_specials.h.
 	specialvar VAR_RESULT, CraftMedicine
-	goto_if_eq VAR_RESULT, FALSE, EventScript_NotEnoughMaterials
+	goto_if_eq VAR_RESULT, 1, EventScript_NotEnoughMaterials
+	goto_if_eq VAR_RESULT, 2, EventScript_CraftBagFull
 
 	playfanfare MUS_OBTAIN_ITEM
 	buffernumberstring STR_VAR_2, VAR_0x8006
@@ -309,6 +315,10 @@ Text_NoMedicineIngredients:
 Text_NotEnoughIngredients:
 	.string "You don't have enough materials for\n"
 	.string "that quantity!$"
+
+Text_CraftBagFull:
+	.string "Your Bag is too full to hold that\n"
+	.string "many! Clear some space first.$"
 
 Text_WorkbenchClosed:
 	.string "Closed the Workbench.$"

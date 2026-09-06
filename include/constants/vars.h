@@ -209,8 +209,11 @@
 // Marowak). Every 10 points advances VAR_SAFARI_ZONE_STAGE by one, unlocking
 // a new wild encounter pool. See CheckReserveStageJustAdvanced (research_turnin.c).
 #define VAR_RESERVE_SPECIES_LOGGED_TOTAL 0x409A
-#define VAR_HAUNTED_WOODS_LIGHT_SIZE       0x409B // 0: 100%, 1: 50%, 2: 150%
-#define VAR_0x409C                 0x409C
+// How many Research Balls the player already owned when a Reserve Contest
+// session started. The session's loaned balls are reclaimed on exit down to
+// this figure, so a session never confiscates balls the player brought in.
+#define VAR_RESERVE_CONTEST_BALLS_HELD 0x409B
+#define VAR_HAUNTED_WOODS_LIGHT_SIZE       0x409C // 0: 100%, 1: 50%, 2: 150%
 #define VAR_0x409D                 0x409D
 #define VAR_0x409E                 0x409E
 #define VAR_0x409F                 0x409F

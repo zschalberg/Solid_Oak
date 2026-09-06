@@ -6,6 +6,7 @@ bool8 IsSelectedMonNewFamily(void);
 bool32 IsSpeciesFamilyReserved(enum Species species);
 void EvaluateSelectedResearchMon(void);
 void TurnInSelectedResearchMon(void);
+void RegisterResearchTurnIn(struct Pokemon *mon);
 void TransferSelectedMonToPokeBall(void);
 bool8 CheckReserveStageJustAdvanced(void);
 u16 GetBaseRarityPoints(u8 catchRate);

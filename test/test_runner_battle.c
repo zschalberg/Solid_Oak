@@ -2141,6 +2141,36 @@ void OpenPokemonMulti(u32 sourceLine, enum BattleTrainer trainer, u32 species)
     CalculateMonStats(DATA.currentMon);
 }
 
+// Default size hashes for test mons.
+//
+// The individual size system splits the personality into a height hash (low
+// half) and a weight hash (high half). Weight scales physical damage and Speed
+// by ~+/-14% (see CalculateBaseDamage in battle_util.c and GetBattlerTotalSpeed
+// in battle_main.c); height scales accuracy and evasion by up to 5% (see
+// GetTotalAccuracy in battle_util.c). Size category 8 is exactly 1.00x for all
+// of them.
+//
+// sNaturePersonalities below are all small u16 values, so an unadjusted test
+// personality has weight hash 0 and a tiny height hash - category 0 on both,
+// i.e. every unpinned test mon silently fights as the lightest, shortest
+// possible specimen: ~0.86x physical damage, ~1.14x Speed, and ~0.95x incoming
+// accuracy. Tests asserting exact damage, Speed ties or hit rates measure
+// precisely those numbers, so the default has to be a median-size mon.
+// Tests that care about size override this with Personality().
+//
+// Both adjustments below are chosen to leave nature and gender untouched:
+//   - nature is personality % NUM_NATURES, and 65536 % NUM_NATURES == 11, so
+//     the high half only leaves the nature alone when it is a multiple of
+//     NUM_NATURES. 40000 == 25 * 1600, and sits inside category 8's
+//     32710..47709 band.
+//   - gender is personality & 0xFF, so the low-half shift must be a multiple
+//     of both 256 (gender) and NUM_NATURES (nature): a multiple of 6400.
+//     38400 == 6400 * 6 == 256 * 150 == 25 * 1536, and moves every possible
+//     sNaturePersonalities|gender value (256..6655) to 38656..45055 - inside
+//     the same band, with no carry into the high half.
+#define TEST_MEDIAN_WEIGHT_HASH  40000
+#define TEST_MEDIAN_HEIGHT_SHIFT 38400
+
 // (sNaturePersonalities[i] % NUM_NATURES) == i
 // (sNaturePersonalities[i] & 0xFF) == 0
 // NOTE: Using 25 << 8 rather than 0 << 8 to prevent shiny females.
@@ -2178,7 +2208,11 @@ void ClosePokemon(u32 sourceLine)
     if (DATA.hasExplicitPersonality)
         UpdateMonPersonality(&DATA.currentMon->box, DATA.explicitPersonality);
     else
-        UpdateMonPersonality(&DATA.currentMon->box, GenerateNature(DATA.nature, DATA.gender % NUM_NATURES) | DATA.gender);
+        UpdateMonPersonality(&DATA.currentMon->box,
+                             (((u32)TEST_MEDIAN_WEIGHT_HASH << 16)
+                              | GenerateNature(DATA.nature, DATA.gender % NUM_NATURES)
+                              | DATA.gender)
+                             + TEST_MEDIAN_HEIGHT_SHIFT);
     data = DATA.isShiny;
     SetMonData(DATA.currentMon, MON_DATA_IS_SHINY, &data);
     DATA.currentMon = NULL;

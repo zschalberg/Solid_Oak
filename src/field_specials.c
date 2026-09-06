@@ -4028,15 +4028,19 @@ u16 CraftMedicine(void)
         return FALSE;
     }
 
-    if (CountTotalItemQuantityInBag(berryId) >= quantity &&
-        CountTotalItemQuantityInBag(ITEM_BREWING_KIT) >= quantity)
-    {
-        RemoveBagItem(berryId, quantity);
-        RemoveBagItem(ITEM_BREWING_KIT, quantity);
-        AddBagItem(medicineId, quantity);
-        return TRUE;
-    }
-    return FALSE;
+    if (CountTotalItemQuantityInBag(berryId) < quantity ||
+        CountTotalItemQuantityInBag(ITEM_BREWING_KIT) < quantity)
+        return CRAFT_RESULT_NOT_ENOUGH;
+
+    // Check for room BEFORE consuming: AddBagItem fails on a full pocket, and
+    // the berries and Brewing Kits would already be gone by then.
+    if (!CheckBagHasSpace(medicineId, quantity))
+        return CRAFT_RESULT_BAG_FULL;
+
+    RemoveBagItem(berryId, quantity);
+    RemoveBagItem(ITEM_BREWING_KIT, quantity);
+    AddBagItem(medicineId, quantity);
+    return CRAFT_RESULT_SUCCESS;
 }
 
 void SetWildMonSizeTier(void)

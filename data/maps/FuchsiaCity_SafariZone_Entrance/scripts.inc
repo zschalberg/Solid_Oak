@@ -182,6 +182,7 @@ FuchsiaCity_SafariZone_Entrance_EventScript_AttendantActiveSession::
 	setvar VAR_0x8004, 1
 	special FinalizeReserveContestCatch
 	msgbox FuchsiaCity_SafariZone_Entrance_Text_TurnInAwardedCoins, MSGBOX_DEFAULT
+	call EventScript_WarnIfResearchBallLost
 	release
 	end
 
@@ -194,6 +195,10 @@ FuchsiaCity_SafariZone_Entrance_EventScript_KeepMonChoice::
 
 FuchsiaCity_SafariZone_Entrance_EventScript_NoSpecimenCaughtYet::
 	msgbox FuchsiaCity_SafariZone_Entrance_Text_NoSpecimenCaughtYet, MSGBOX_DEFAULT
+	msgbox FuchsiaCity_SafariZone_Entrance_Text_AskGiveUpSession, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, FuchsiaCity_SafariZone_Entrance_EventScript_AttendantEnd
+	special EndReserveContestSession
+	msgbox FuchsiaCity_SafariZone_Entrance_Text_SessionAbandoned, MSGBOX_DEFAULT
 	release
 	end
 
@@ -224,9 +229,13 @@ EventScript_ReserveContestSecondCatch::
 	waitstate
 	special GetReserveContestCatchNicknames
 	msgbox Text_ReserveContestChooseWhichToKeep, MSGBOX_DEFAULT
-	multichoice 0, 0, MULTI_RESERVE_CONTEST_KEEP_SPECIMEN, FALSE
+@ ignoreBPress must stay TRUE: this choice permanently discards the other
+@ specimen, so B must not fall through to VAR_RESULT = MULTI_B_PRESSED (127),
+@ which ProcessReserveContestSpecimenChoice would read as "keep the second".
+	multichoice 0, 0, MULTI_RESERVE_CONTEST_KEEP_SPECIMEN, TRUE
 	copyvar VAR_0x8004, VAR_RESULT
 	special ProcessReserveContestSpecimenChoice
 	msgbox Text_ReserveContestSpecimenReplaced, MSGBOX_DEFAULT
+	call EventScript_WarnIfResearchBallLost
 	releaseall
 	end

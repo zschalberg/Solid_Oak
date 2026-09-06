@@ -337,21 +337,14 @@ void EvaluateSelectedResearchMon(void)
     }
 }
 
-void TurnInSelectedResearchMon(void)
+// Records a mon as logged with the Reserve: marks its whole family as turned
+// in and, if the family is new, credits every member toward the Reserve's
+// wild encounter progression. Shared by the Oak's Lab / Reserve worker
+// turn-in and the Reserve Contest turn-in so both stay in step - without
+// this, a contest turn-in would never set the family bit and would keep
+// paying the "new family" bonus for the same family forever.
+void RegisterResearchTurnIn(struct Pokemon *mon)
 {
-    // Double-check party count safety to prevent empty party crashes. Every
-    // current caller already gates on getpartysize before letting the
-    // player pick a mon, so this shouldn't trip in practice - but if it
-    // ever does (a future caller skips that gate), fail loudly via
-    // gSpecialVar_Result instead of silently doing nothing while still
-    // reporting the coin total as if the turn-in succeeded.
-    if (gPlayerPartyCount <= 1)
-    {
-        gSpecialVar_Result = FALSE;
-        return;
-    }
-
-    struct Pokemon *mon = &gPlayerParty[gSpecialVar_0x8004];
     enum Species species = GetMonData(mon, MON_DATA_SPECIES);
     enum Species baseSpecies = GetFamilyBaseSpecies(species);
     u16 nationalNum = SpeciesToNationalPokedexNum(baseSpecies);
@@ -379,12 +372,33 @@ void TurnInSelectedResearchMon(void)
             sReserveStageJustAdvanced = TRUE;
         }
     }
+}
+
+void TurnInSelectedResearchMon(void)
+{
+    // Double-check party count safety to prevent empty party crashes. Every
+    // current caller already gates on getpartysize before letting the
+    // player pick a mon, so this shouldn't trip in practice - but if it
+    // ever does (a future caller skips that gate), fail loudly via
+    // gSpecialVar_Result instead of silently doing nothing while still
+    // reporting the coin total as if the turn-in succeeded.
+    if (gPlayerPartyCount <= 1)
+    {
+        gSpecialVar_Result = FALSE;
+        return;
+    }
+
+    struct Pokemon *mon = &gPlayerParty[gSpecialVar_0x8004];
+
+    RegisterResearchTurnIn(mon);
 
     // Award the coins using native AddCoins (handles limit and overflow protection)
     AddCoins(sEvaluatedCoins);
 
     // Ball economy: the mon is gone for good, so its ball frees back to the bag.
-    FreeMonBall(mon);
+    // A full Ball pocket means the ball can't come back; report it so the
+    // script can warn instead of silently destroying a finite ball.
+    gSpecialVar_0x8009 = FreeMonBall(mon) ? FALSE : TRUE;
 
     // Remove the selected mon from the party
     ZeroMonData(mon);
