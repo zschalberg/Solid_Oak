@@ -717,10 +717,14 @@ void FieldEffectScript_LoadFadedPal(const struct SpritePalette *spritePalette)
     bool32 isTagNew = IndexOfSpritePaletteTag(spritePalette->tag) == 0xFF;
     u32 paletteSlot = LoadSpritePalette(spritePalette);
 
-    SetPaletteColorMapType(paletteSlot + 16, COLOR_MAP_DARK_CONTRAST);
-    if (isTagNew)
+    if (paletteSlot != 0xFF)
+    {
+        if (!isTagNew)
+            LoadPaletteFast(spritePalette->data, OBJ_PLTT_ID(paletteSlot), PLTT_SIZE_4BPP);
+        SetPaletteColorMapType(paletteSlot + 16, COLOR_MAP_DARK_CONTRAST);
         ApplyGlobalFieldPaletteTint(paletteSlot);
-    UpdateSpritePaletteWithWeather(paletteSlot, TRUE);
+        UpdateSpritePaletteWithWeather(paletteSlot, TRUE);
+    }
 }
 
 void FieldEffectScript_LoadPal(const struct SpritePalette *spritePalette)

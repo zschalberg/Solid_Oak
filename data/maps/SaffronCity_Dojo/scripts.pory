@@ -738,17 +738,32 @@ script SaffronCity_Dojo_EventScript_DefeatedMasterKoichi {
             } else {
                 setflag(FLAG_DOJO_KOICHI_BLACK_DEFEATED)
                 call(SaffronCity_Dojo_EventScript_CheckSpeedDojoComplete)
+                if (!flag(FLAG_DOJO_SAFFRON_BLACK_REWARD)) {
+                    setflag(FLAG_DOJO_SAFFRON_BLACK_REWARD)
+                    giveitem(ITEM_TM24, 1)
+                    msgbox(SaffronCity_Dojo_Text_KoichiExplainTM24, MSGBOX_DEFAULT)
+                }
             }
         } else {
             if (var(VAR_DOJO_CHALLENGE_TIER) == 2) {
                 if (!flag(FLAG_DOJO_TRAINING_MODE)) {
                     setflag(FLAG_DOJO_KOICHI_BLUE_DEFEATED)
+                    if (!flag(FLAG_DOJO_SAFFRON_BLUE_REWARD)) {
+                        setflag(FLAG_DOJO_SAFFRON_BLUE_REWARD)
+                        giveitem(ITEM_TM32, 1)
+                        msgbox(SaffronCity_Dojo_Text_KoichiExplainTM32, MSGBOX_DEFAULT)
+                    }
                 } else {
                     clearflag(TRAINER_FLAGS_START + TRAINER_BLACK_BELT_KOICHI_BLUE)
                 }
             } else {
                 if (!flag(FLAG_DOJO_TRAINING_MODE)) {
                     setflag(FLAG_DOJO_KOICHI_WHITE_DEFEATED)
+                    if (!flag(FLAG_DOJO_SAFFRON_WHITE_REWARD)) {
+                        setflag(FLAG_DOJO_SAFFRON_WHITE_REWARD)
+                        giveitem(ITEM_TM40, 1)
+                        msgbox(SaffronCity_Dojo_Text_KoichiExplainTM40, MSGBOX_DEFAULT)
+                    }
                 } else {
                     clearflag(TRAINER_FLAGS_START + TRAINER_BLACK_BELT_KOICHI_WHITE)
                 }
@@ -904,6 +919,10 @@ script SaffronCity_Dojo_EventScript_RightScroll {
     end
 }
 
+script SaffronCity_Dojo_EventScript_TMTutor {
+    goto(Common_EventScript_TMTutor)
+}
+
 // ============================================================================
 // TEXT
 // ============================================================================
@@ -996,6 +1015,32 @@ text SaffronCity_Dojo_Text_MasterKoichiIntroBattle {
 text SaffronCity_Dojo_Text_MasterKoichiDefeat {
     "Hwa!\n"
     "Arrgh! Beaten!"
+}
+
+text SaffronCity_Dojo_Text_KoichiExplainTM40 {
+    "That is TM40, AERIAL ACE.\p"
+    "A swift technique that never misses,\n"
+    "no matter how elusive the foe.\p"
+    "Speed means nothing if your strikes\n"
+    "cannot find their mark!"
+}
+
+text SaffronCity_Dojo_Text_KoichiExplainTM32 {
+    "That is TM32, DOUBLE TEAM.\p"
+    "By moving at blinding speeds,\n"
+    "it creates illusory copies to\l"
+    "evade enemy attacks.\p"
+    "Speed is both your greatest offense\n"
+    "and your finest shield!"
+}
+
+text SaffronCity_Dojo_Text_KoichiExplainTM24 {
+    "That is TM24, THUNDERBOLT.\p"
+    "Like lightning striking from the sky,\n"
+    "it crashes down before the enemy\l"
+    "can even blink!\p"
+    "You have achieved true mastery\n"
+    "over velocity and tempo!"
 }
 
 text SaffronCity_Dojo_Text_ChoosePrizedFightingMon {

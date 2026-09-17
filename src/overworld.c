@@ -841,6 +841,7 @@ void LoadMapFromCameraTransition(u8 mapGroup, u8 mapNum)
     MoveAllRoamers();
     QL_ResetDefeatedWildMonRecord();
     DoCurrentWeather();
+    OnMapConnectionTransition(mapGroup, mapNum);
     ResetFieldTasksArgs();
     RunOnResumeMapScript();
 
@@ -2185,8 +2186,8 @@ static void InitCurrentFlashLevelScanlineEffect(void)
     }
     else if (flashLevel != 0)
     {
-        WriteFlashScanlineEffectBuffer(flashLevel);
-        ScanlineEffect_SetParams(sFlashEffectParams);
+        // Dark maps now use the directional flashlight beam and OBJ window.
+        // Omit circular scanline DMA so the flashlight beam shapes the illumination.
     }
 }
 

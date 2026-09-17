@@ -44,6 +44,7 @@
 #include "pokemon_summary_screen.h"
 #include "pokemon_storage_system.h"
 #include "pokerus.h"
+#include "constants/maps.h"
 #include "random.h"
 #include "recorded_battle.h"
 #include "regions.h"
@@ -5215,6 +5216,22 @@ void MonGainEVs(struct Pokemon *mon, u16 defeatedSpecies)
 
         if (holdEffect == HOLD_EFFECT_MACHO_BRACE)
             evIncrease *= 2;
+
+        if (evIncrease != 0
+         && ((gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAP_VERMILION_CITY_DOJO) && gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_VERMILION_CITY_DOJO))
+          || (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAP_SAFFRON_CITY_DOJO) && gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_SAFFRON_CITY_DOJO))))
+        {
+            if (!FlagGet(FLAG_DOJO_TRAINING_MODE))
+            {
+                u16 tier = VarGet(VAR_DOJO_CHALLENGE_TIER);
+                if (tier == 1) // White Belt: 1.5x (rounded up so 1 EV becomes 2)
+                    evIncrease = (evIncrease * 3 + 1) / 2;
+                else if (tier == 2) // Blue Belt: 2x
+                    evIncrease *= 2;
+                else if (tier >= 3) // Black Belt & Gauntlet: 3x
+                    evIncrease *= 3;
+            }
+        }
 
         if (totalEVs + (s16)evIncrease > currentEVCap)
             evIncrease = ((s16)evIncrease + currentEVCap) - (totalEVs + evIncrease);

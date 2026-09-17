@@ -30581,6 +30581,18 @@
         {
           "map": "MAP_FISHING_VILLAGE_NEW",
           "base_label": "gFishing_Village_New"
+        },
+        {
+          "map": "MAP_LAVENDER_CEMETARY_MAP",
+          "base_label": "gLavender_Cemetary_Map"
+        },
+        {
+          "map": "MAP_HAUNTED_WOODS",
+          "base_label": "gHauntedWoods"
+        },
+        {
+          "map": "MAP_TWO_ISLAND",
+          "base_label": "gTwoIsland"
         }
       ]
     },

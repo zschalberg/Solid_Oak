@@ -840,7 +840,8 @@ bool8 IsWeatherNotFadingIn(void)
 
 void UpdateSpritePaletteWithWeather(u8 spritePaletteIndex, bool32 allowFog)
 {
-    u16 paletteIndex = 16 + spritePaletteIndex;
+    u16 palNum = 16 + spritePaletteIndex;
+    u16 palOffset = PLTT_ID(palNum);
     u16 i;
 
     switch (gWeatherPtr->palProcessingState)
@@ -849,16 +850,42 @@ void UpdateSpritePaletteWithWeather(u8 spritePaletteIndex, bool32 allowFog)
         if (gWeatherPtr->fadeInFirstFrame)
         {
             if (gWeatherPtr->currWeather == WEATHER_FOG_HORIZONTAL)
-                MarkFogSpritePalToLighten(paletteIndex);
-            paletteIndex = PLTT_ID(paletteIndex);
+                MarkFogSpritePalToLighten(palNum);
             for (i = 0; i < 16; i++)
-                gPlttBufferFaded[paletteIndex + i] = gWeatherPtr->fadeDestColor;
+                gPlttBufferFaded[palOffset + i] = gWeatherPtr->fadeDestColor;
+        }
+        else
+        {
+            if (gWeatherPtr->currWeather != WEATHER_FOG_HORIZONTAL)
+            {
+                if (gWeatherPtr->colorMapIndex)
+                    ApplyColorMap(palNum, 1, gWeatherPtr->colorMapIndex);
+                else
+                    UpdateSpritePaletteWithTime(spritePaletteIndex);
+            }
+            else
+            {
+                if (allowFog)
+                {
+                    i = min((gTimeOfDay + 1) * 4, 12);
+                    CpuFastCopy(gPlttBufferUnfaded + palOffset, gPlttBufferFaded + palOffset, PLTT_SIZE_4BPP);
+                    UpdateSpritePaletteWithTime(spritePaletteIndex);
+                    BlendPalettesFine(1, gPlttBufferFaded + palOffset, gPlttBufferFaded + palOffset, i, RGB(28, 31, 28));
+                }
+                else
+                {
+                    UpdateSpritePaletteWithTime(spritePaletteIndex);
+                }
+            }
+            if (gPaletteFade.active)
+            {
+                BlendPalette(palOffset, 16, gPaletteFade.y, gPaletteFade.blendColor);
+            }
         }
         break;
     case WEATHER_PAL_STATE_SCREEN_FADING_OUT:
-        paletteIndex = PLTT_ID(paletteIndex);
-        CpuFastCopy(&gPlttBufferFaded[paletteIndex], &gPlttBufferUnfaded[paletteIndex], PLTT_SIZE_4BPP);
-        BlendPalette(paletteIndex, 16, gPaletteFade.y, gPaletteFade.blendColor);
+        CpuFastCopy(&gPlttBufferFaded[palOffset], &gPlttBufferUnfaded[palOffset], PLTT_SIZE_4BPP);
+        BlendPalette(palOffset, 16, gPaletteFade.y, gPaletteFade.blendColor);
         break;
         // WEATHER_PAL_STATE_CHANGING_WEATHER
         // WEATHER_PAL_STATE_CHANGING_IDLE
@@ -866,7 +893,7 @@ void UpdateSpritePaletteWithWeather(u8 spritePaletteIndex, bool32 allowFog)
         if (gWeatherPtr->currWeather != WEATHER_FOG_HORIZONTAL)
         {
             if (gWeatherPtr->colorMapIndex)
-                ApplyColorMap(paletteIndex, 1, gWeatherPtr->colorMapIndex);
+                ApplyColorMap(palNum, 1, gWeatherPtr->colorMapIndex);
             else
                 UpdateSpritePaletteWithTime(spritePaletteIndex);
         }
@@ -876,12 +903,11 @@ void UpdateSpritePaletteWithWeather(u8 spritePaletteIndex, bool32 allowFog)
             if (allowFog)
             {
                 i = min((gTimeOfDay + 1) * 4, 12); // fog coeff, highest in day and lowest at night
-                paletteIndex = PLTT_ID(paletteIndex);
                 // First blend with time
-                CpuFastCopy(gPlttBufferUnfaded + paletteIndex, gPlttBufferFaded + paletteIndex, PLTT_SIZE_4BPP);
+                CpuFastCopy(gPlttBufferUnfaded + palOffset, gPlttBufferFaded + palOffset, PLTT_SIZE_4BPP);
                 UpdateSpritePaletteWithTime(spritePaletteIndex);
                 // Then blend faded->faded with fog coeff
-                BlendPalettesFine(1, gPlttBufferFaded + paletteIndex, gPlttBufferFaded + paletteIndex, i, RGB(28, 31, 28));
+                BlendPalettesFine(1, gPlttBufferFaded + palOffset, gPlttBufferFaded + palOffset, i, RGB(28, 31, 28));
             }
             else
             {

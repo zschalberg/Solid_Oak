@@ -16,7 +16,7 @@
   "connections": [
     {
       "map": "MAP_TWO_ISLAND_CAPE_BRINK",
-      "offset": 0,
+      "offset": -20,
       "direction": "up"
     }
   ],
@@ -26,15 +26,15 @@
       "x": 44,
       "y": 40,
       "elevation": 0,
-      "dest_map": "MAP_ROUTE10",
-      "dest_warp_id": "5"
+      "dest_map": "MAP_HAUNTED_WOODS",
+      "dest_warp_id": "0"
     },
     {
       "x": 45,
       "y": 40,
       "elevation": 0,
-      "dest_map": "MAP_ROUTE10",
-      "dest_warp_id": "5"
+      "dest_map": "MAP_HAUNTED_WOODS",
+      "dest_warp_id": "1"
     }
   ],
   "coord_events": [],

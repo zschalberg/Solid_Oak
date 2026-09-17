@@ -18,6 +18,11 @@
       "map": "MAP_ROUTE24",
       "offset": 0,
       "direction": "left"
+    },
+    {
+      "map": "MAP_TWO_ISLAND_JOYFUL_GAME_CORNER",
+      "offset": 47,
+      "direction": "up"
     }
   ],
   "object_events": [

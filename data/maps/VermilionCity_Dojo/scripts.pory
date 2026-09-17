@@ -622,20 +622,31 @@ script VermilionCity_Dojo_EventScript_AkioWon {
             } else {
                 setflag(FLAG_DOJO_AKIO_BLACK_DEFEATED)
                 call(VermilionCity_Dojo_EventScript_CheckAttackDojoComplete)
+                if (!flag(FLAG_DOJO_VERMILION_BLACK_REWARD)) {
+                    setflag(FLAG_DOJO_VERMILION_BLACK_REWARD)
+                    giveitem(ITEM_TM26, 1)
+                    msgbox(VermilionCity_Dojo_Text_AkioExplainTM26, MSGBOX_DEFAULT)
+                }
             }
         } else {
             if (var(VAR_DOJO_CHALLENGE_TIER) == 2) {
                 if (!flag(FLAG_DOJO_TRAINING_MODE)) {
                     setflag(FLAG_DOJO_AKIO_BLUE_DEFEATED)
+                    if (!flag(FLAG_DOJO_VERMILION_BLUE_REWARD)) {
+                        setflag(FLAG_DOJO_VERMILION_BLUE_REWARD)
+                        giveitem(ITEM_TM08, 1)
+                        msgbox(VermilionCity_Dojo_Text_AkioExplainTM08, MSGBOX_DEFAULT)
+                    }
                 } else {
                     clearflag(TRAINER_FLAGS_START + TRAINER_EXPERT_AKIO_BLUE)
                 }
             } else {
                 if (!flag(FLAG_DOJO_TRAINING_MODE)) {
                     setflag(FLAG_DOJO_AKIO_WHITE_DEFEATED)
-                    if (!flag(FLAG_DOJO_AKIO_DEFEATED)) {
-                        setflag(FLAG_DOJO_AKIO_DEFEATED)
-                        giveitem(ITEM_TM34, 1)
+                    if (!flag(FLAG_DOJO_VERMILION_WHITE_REWARD)) {
+                        setflag(FLAG_DOJO_VERMILION_WHITE_REWARD)
+                        giveitem(ITEM_TM31, 1)
+                        msgbox(VermilionCity_Dojo_Text_AkioExplainTM31, MSGBOX_DEFAULT)
                     }
                 } else {
                     clearflag(TRAINER_FLAGS_START + TRAINER_EXPERT_AKIO_WHITE)
@@ -788,6 +799,30 @@ text VermilionCity_Dojo_Text_AkioPostBattle {
     "They're everywhere for a\n"
     "reason.\p"
     "These are for your fieldwork."
+}
+
+text VermilionCity_Dojo_Text_AkioExplainTM31 {
+    "That is TM31, BRICK BREAK.\p"
+    "It shatters barriers like REFLECT\n"
+    "and delivers a decisive blow.\p"
+    "A solid foundation for any\n"
+    "disciplined fighter."
+}
+
+text VermilionCity_Dojo_Text_AkioExplainTM08 {
+    "That is TM08, BULK UP.\p"
+    "It steels the muscles, raising\n"
+    "both ATTACK and DEFENSE.\p"
+    "True martial arts builds balance\n"
+    "between striking and endurance."
+}
+
+text VermilionCity_Dojo_Text_AkioExplainTM26 {
+    "That is TM26, EARTHQUAKE.\p"
+    "The sheer, unbridled power of\n"
+    "the earth itself.\p"
+    "You have demonstrated the pinnacle\n"
+    "of physical offense."
 }
 
 text VermilionCity_Dojo_Text_ChallengeGuyIntro {

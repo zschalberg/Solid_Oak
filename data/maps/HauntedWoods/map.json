@@ -33,7 +33,7 @@
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_SCIENTIST",
       "x": 24,
-      "y": 35,
+      "y": 36,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_LOOK_AROUND",
       "movement_range_x": 1,
@@ -47,7 +47,7 @@
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_CAMPER",
       "x": 48,
-      "y": 24,
+      "y": 25,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_FACE_LEFT",
       "movement_range_x": 1,
@@ -61,16 +61,30 @@
   "warp_events": [
     {
       "x": 36,
-      "y": 40,
+      "y": 41,
       "elevation": 0,
       "dest_map": "MAP_LAVENDER_CEMETARY_MAP",
       "dest_warp_id": "0"
     },
     {
       "x": 37,
-      "y": 40,
+      "y": 41,
       "elevation": 0,
       "dest_map": "MAP_LAVENDER_CEMETARY_MAP",
+      "dest_warp_id": "0"
+    },
+    {
+      "x": 16,
+      "y": 2,
+      "elevation": 0,
+      "dest_map": "MAP_TWO_ISLAND",
+      "dest_warp_id": "1"
+    },
+    {
+      "x": 15,
+      "y": 2,
+      "elevation": 0,
+      "dest_map": "MAP_TWO_ISLAND",
       "dest_warp_id": "0"
     }
   ],

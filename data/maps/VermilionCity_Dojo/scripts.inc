@@ -1052,22 +1052,22 @@ VermilionCity_Dojo_EventScript_AkioWon::
 # 619 "data/maps/VermilionCity_Dojo/scripts.pory"
 	compare VAR_DOJO_CHALLENGE_TIER, 3
 	goto_if_eq VermilionCity_Dojo_EventScript_AkioWon_8
-# 627 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 632 "data/maps/VermilionCity_Dojo/scripts.pory"
 	compare VAR_DOJO_CHALLENGE_TIER, 2
 	goto_if_eq VermilionCity_Dojo_EventScript_AkioWon_14
-# 634 "data/maps/VermilionCity_Dojo/scripts.pory"
-	goto_if_unset FLAG_DOJO_TRAINING_MODE, VermilionCity_Dojo_EventScript_AkioWon_20
-# 641 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 644 "data/maps/VermilionCity_Dojo/scripts.pory"
+	goto_if_unset FLAG_DOJO_TRAINING_MODE, VermilionCity_Dojo_EventScript_AkioWon_22
+# 652 "data/maps/VermilionCity_Dojo/scripts.pory"
 	clearflag TRAINER_FLAGS_START + TRAINER_EXPERT_AKIO_WHITE
 VermilionCity_Dojo_EventScript_AkioWon_1:
-# 649 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 660 "data/maps/VermilionCity_Dojo/scripts.pory"
 	goto_if_set FLAG_DOJO_TRAINING_MODE, VermilionCity_Dojo_EventScript_AkioWon_6
 VermilionCity_Dojo_EventScript_AkioWon_5:
-# 652 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 663 "data/maps/VermilionCity_Dojo/scripts.pory"
 	call VermilionCity_Dojo_EventScript_PostBattleCleanup
-# 653 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 664 "data/maps/VermilionCity_Dojo/scripts.pory"
 	msgbox VermilionCity_Dojo_Text_AkioPostBattle, MSGBOX_AUTOCLOSE
-# 654 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 665 "data/maps/VermilionCity_Dojo/scripts.pory"
 	release
 	end
 
@@ -1079,7 +1079,7 @@ VermilionCity_Dojo_EventScript_AkioWon_2:
 	goto VermilionCity_Dojo_EventScript_AkioWon_1
 
 VermilionCity_Dojo_EventScript_AkioWon_6:
-# 650 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 661 "data/maps/VermilionCity_Dojo/scripts.pory"
 	special HealPlayerParty
 	goto VermilionCity_Dojo_EventScript_AkioWon_5
 
@@ -1090,6 +1090,8 @@ VermilionCity_Dojo_EventScript_AkioWon_8:
 	setflag FLAG_DOJO_AKIO_BLACK_DEFEATED
 # 624 "data/maps/VermilionCity_Dojo/scripts.pory"
 	call VermilionCity_Dojo_EventScript_CheckAttackDojoComplete
+# 625 "data/maps/VermilionCity_Dojo/scripts.pory"
+	goto_if_unset FLAG_DOJO_VERMILION_BLACK_REWARD, VermilionCity_Dojo_EventScript_AkioWon_17
 	goto VermilionCity_Dojo_EventScript_AkioWon_1
 
 VermilionCity_Dojo_EventScript_AkioWon_11:
@@ -1098,100 +1100,122 @@ VermilionCity_Dojo_EventScript_AkioWon_11:
 	goto VermilionCity_Dojo_EventScript_AkioWon_1
 
 VermilionCity_Dojo_EventScript_AkioWon_14:
-# 628 "data/maps/VermilionCity_Dojo/scripts.pory"
-	goto_if_unset FLAG_DOJO_TRAINING_MODE, VermilionCity_Dojo_EventScript_AkioWon_17
-# 631 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 633 "data/maps/VermilionCity_Dojo/scripts.pory"
+	goto_if_unset FLAG_DOJO_TRAINING_MODE, VermilionCity_Dojo_EventScript_AkioWon_19
+# 641 "data/maps/VermilionCity_Dojo/scripts.pory"
 	clearflag TRAINER_FLAGS_START + TRAINER_EXPERT_AKIO_BLUE
 	goto VermilionCity_Dojo_EventScript_AkioWon_1
 
 VermilionCity_Dojo_EventScript_AkioWon_17:
-# 629 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 626 "data/maps/VermilionCity_Dojo/scripts.pory"
+	setflag FLAG_DOJO_VERMILION_BLACK_REWARD
+# 627 "data/maps/VermilionCity_Dojo/scripts.pory"
+	giveitem ITEM_TM26, 1
+# 628 "data/maps/VermilionCity_Dojo/scripts.pory"
+	msgbox VermilionCity_Dojo_Text_AkioExplainTM26, MSGBOX_DEFAULT
+	goto VermilionCity_Dojo_EventScript_AkioWon_1
+
+VermilionCity_Dojo_EventScript_AkioWon_19:
+# 634 "data/maps/VermilionCity_Dojo/scripts.pory"
 	setflag FLAG_DOJO_AKIO_BLUE_DEFEATED
-	goto VermilionCity_Dojo_EventScript_AkioWon_1
-
-VermilionCity_Dojo_EventScript_AkioWon_20:
 # 635 "data/maps/VermilionCity_Dojo/scripts.pory"
-	setflag FLAG_DOJO_AKIO_WHITE_DEFEATED
-# 636 "data/maps/VermilionCity_Dojo/scripts.pory"
-	goto_if_unset FLAG_DOJO_AKIO_DEFEATED, VermilionCity_Dojo_EventScript_AkioWon_23
+	goto_if_unset FLAG_DOJO_VERMILION_BLUE_REWARD, VermilionCity_Dojo_EventScript_AkioWon_25
 	goto VermilionCity_Dojo_EventScript_AkioWon_1
 
-VermilionCity_Dojo_EventScript_AkioWon_23:
+VermilionCity_Dojo_EventScript_AkioWon_22:
+# 645 "data/maps/VermilionCity_Dojo/scripts.pory"
+	setflag FLAG_DOJO_AKIO_WHITE_DEFEATED
+# 646 "data/maps/VermilionCity_Dojo/scripts.pory"
+	goto_if_unset FLAG_DOJO_VERMILION_WHITE_REWARD, VermilionCity_Dojo_EventScript_AkioWon_27
+	goto VermilionCity_Dojo_EventScript_AkioWon_1
+
+VermilionCity_Dojo_EventScript_AkioWon_25:
+# 636 "data/maps/VermilionCity_Dojo/scripts.pory"
+	setflag FLAG_DOJO_VERMILION_BLUE_REWARD
 # 637 "data/maps/VermilionCity_Dojo/scripts.pory"
-	setflag FLAG_DOJO_AKIO_DEFEATED
+	giveitem ITEM_TM08, 1
 # 638 "data/maps/VermilionCity_Dojo/scripts.pory"
-	giveitem ITEM_TM34, 1
+	msgbox VermilionCity_Dojo_Text_AkioExplainTM08, MSGBOX_DEFAULT
+	goto VermilionCity_Dojo_EventScript_AkioWon_1
+
+VermilionCity_Dojo_EventScript_AkioWon_27:
+# 647 "data/maps/VermilionCity_Dojo/scripts.pory"
+	setflag FLAG_DOJO_VERMILION_WHITE_REWARD
+# 648 "data/maps/VermilionCity_Dojo/scripts.pory"
+	giveitem ITEM_TM31, 1
+# 649 "data/maps/VermilionCity_Dojo/scripts.pory"
+	msgbox VermilionCity_Dojo_Text_AkioExplainTM31, MSGBOX_DEFAULT
 	goto VermilionCity_Dojo_EventScript_AkioWon_1
 
 
 VermilionCity_Dojo_EventScript_Machop::
-# 663 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 674 "data/maps/VermilionCity_Dojo/scripts.pory"
 	lock
-# 664 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 675 "data/maps/VermilionCity_Dojo/scripts.pory"
 	faceplayer
-# 665 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 676 "data/maps/VermilionCity_Dojo/scripts.pory"
 	playmoncry SPECIES_MACHOP, CRY_MODE_NORMAL
-# 666 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 677 "data/maps/VermilionCity_Dojo/scripts.pory"
 	msgbox VermilionCity_Dojo_Text_Machop, MSGBOX_DEFAULT
-# 667 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 678 "data/maps/VermilionCity_Dojo/scripts.pory"
 	waitmoncry
-# 668 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 679 "data/maps/VermilionCity_Dojo/scripts.pory"
 	release
 	end
 
 
 VermilionCity_Dojo_EventScript_Mankey::
-# 673 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 684 "data/maps/VermilionCity_Dojo/scripts.pory"
 	lock
-# 674 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 685 "data/maps/VermilionCity_Dojo/scripts.pory"
 	faceplayer
-# 675 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 686 "data/maps/VermilionCity_Dojo/scripts.pory"
 	playmoncry SPECIES_MANKEY, CRY_MODE_NORMAL
-# 676 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 687 "data/maps/VermilionCity_Dojo/scripts.pory"
 	msgbox VermilionCity_Dojo_Text_Mankey, MSGBOX_DEFAULT
-# 677 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 688 "data/maps/VermilionCity_Dojo/scripts.pory"
 	waitmoncry
-# 678 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 689 "data/maps/VermilionCity_Dojo/scripts.pory"
 	release
 	end
 
 
 VermilionCity_Dojo_EventScript_Hitmonchan::
-# 683 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 694 "data/maps/VermilionCity_Dojo/scripts.pory"
 	lock
-# 684 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 695 "data/maps/VermilionCity_Dojo/scripts.pory"
 	faceplayer
-# 685 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 696 "data/maps/VermilionCity_Dojo/scripts.pory"
 	playmoncry SPECIES_HITMONCHAN, CRY_MODE_NORMAL
-# 686 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 697 "data/maps/VermilionCity_Dojo/scripts.pory"
 	msgbox VermilionCity_Dojo_Text_Hitmonchan, MSGBOX_DEFAULT
-# 687 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 698 "data/maps/VermilionCity_Dojo/scripts.pory"
 	waitmoncry
-# 688 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 699 "data/maps/VermilionCity_Dojo/scripts.pory"
 	release
 	end
 
 
 VermilionCity_Dojo_EventScript_TMTutor::
-# 693 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 704 "data/maps/VermilionCity_Dojo/scripts.pory"
 	goto Common_EventScript_TMTutor
 	return
 
 
 VermilionCity_Dojo_EventScript_Plaque::
-# 701 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 712 "data/maps/VermilionCity_Dojo/scripts.pory"
 	msgbox VermilionCity_Dojo_Text_Plaque, MSGBOX_SIGN
 	end
 
 
 VermilionCity_Dojo_EventScript_ScrollLeft::
-# 706 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 717 "data/maps/VermilionCity_Dojo/scripts.pory"
 	msgbox VermilionCity_Dojo_Text_ScrollLeft, MSGBOX_SIGN
 	end
 
 
 VermilionCity_Dojo_EventScript_ScrollRight::
-# 711 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 722 "data/maps/VermilionCity_Dojo/scripts.pory"
 	msgbox VermilionCity_Dojo_Text_ScrollRight, MSGBOX_SIGN
 	end
 
@@ -1209,58 +1233,58 @@ VermilionCity_Dojo_EventScript_Ryu_Text_1:
 	.string "Come back when you're ready.$"
 
 VermilionCity_Dojo_Text_RyuIntro::
-# 719 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 730 "data/maps/VermilionCity_Dojo/scripts.pory"
 	.string "Before you reach Sensei,\n"
 	.string "you pass through me.\p"
 	.string "Show me you belong here.$"
 
 VermilionCity_Dojo_Text_RyuDefeat::
-# 725 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 736 "data/maps/VermilionCity_Dojo/scripts.pory"
 	.string "You've got something in you.$"
 
 VermilionCity_Dojo_Text_RyuPost::
-# 729 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 740 "data/maps/VermilionCity_Dojo/scripts.pory"
 	.string "The next two fight differently.\n"
 	.string "Pay attention to how they\l"
 	.string "come at you.$"
 
 VermilionCity_Dojo_Text_YukiIntro::
-# 735 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 746 "data/maps/VermilionCity_Dojo/scripts.pory"
 	.string "I always look before I commit.\p"
 	.string "You'll see my whole team.\n"
 	.string "I'll see yours.\p"
 	.string "Then we decide.$"
 
 VermilionCity_Dojo_Text_YukiDefeat::
-# 742 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 753 "data/maps/VermilionCity_Dojo/scripts.pory"
 	.string "Good picks. That's half\n"
 	.string "the battle.$"
 
 VermilionCity_Dojo_Text_YukiPost::
-# 747 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 758 "data/maps/VermilionCity_Dojo/scripts.pory"
 	.string "Every match starts before\n"
 	.string "the first move is made.$"
 
 VermilionCity_Dojo_Text_JinIntro::
-# 752 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 763 "data/maps/VermilionCity_Dojo/scripts.pory"
 	.string "Fifteen turns.\n"
 	.string "That's all you get.\p"
 	.string "If you can't close it by\n"
 	.string "then, you weren't ready.$"
 
 VermilionCity_Dojo_Text_JinDefeat::
-# 759 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 770 "data/maps/VermilionCity_Dojo/scripts.pory"
 	.string "Quick and clean.\n"
 	.string "You knew what to do.$"
 
 VermilionCity_Dojo_Text_JinPost::
-# 764 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 775 "data/maps/VermilionCity_Dojo/scripts.pory"
 	.string "Efficiency isn't speed.\n"
 	.string "It's not wasting what\l"
 	.string "you have.$"
 
 VermilionCity_Dojo_Text_AkioIntro::
-# 770 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 781 "data/maps/VermilionCity_Dojo/scripts.pory"
 	.string "NORMAL types.\n"
 	.string "Only NORMAL types.\p"
 	.string "The most common things in\n"
@@ -1269,12 +1293,12 @@ VermilionCity_Dojo_Text_AkioIntro::
 	.string "what you already have.$"
 
 VermilionCity_Dojo_Text_AkioDefeat::
-# 779 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 790 "data/maps/VermilionCity_Dojo/scripts.pory"
 	.string "Good. You didn't overcomplicate\n"
 	.string "it.$"
 
 VermilionCity_Dojo_Text_AkioPostBattle::
-# 784 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 795 "data/maps/VermilionCity_Dojo/scripts.pory"
 	.string "A researcher who ignores\n"
 	.string "common POKéMON misses\l"
 	.string "half the picture.\p"
@@ -1282,8 +1306,32 @@ VermilionCity_Dojo_Text_AkioPostBattle::
 	.string "reason.\p"
 	.string "These are for your fieldwork.$"
 
+VermilionCity_Dojo_Text_AkioExplainTM31::
+# 804 "data/maps/VermilionCity_Dojo/scripts.pory"
+	.string "That is TM31, BRICK BREAK.\p"
+	.string "It shatters barriers like REFLECT\n"
+	.string "and delivers a decisive blow.\p"
+	.string "A solid foundation for any\n"
+	.string "disciplined fighter.$"
+
+VermilionCity_Dojo_Text_AkioExplainTM08::
+# 812 "data/maps/VermilionCity_Dojo/scripts.pory"
+	.string "That is TM08, BULK UP.\p"
+	.string "It steels the muscles, raising\n"
+	.string "both ATTACK and DEFENSE.\p"
+	.string "True martial arts builds balance\n"
+	.string "between striking and endurance.$"
+
+VermilionCity_Dojo_Text_AkioExplainTM26::
+# 820 "data/maps/VermilionCity_Dojo/scripts.pory"
+	.string "That is TM26, EARTHQUAKE.\p"
+	.string "The sheer, unbridled power of\n"
+	.string "the earth itself.\p"
+	.string "You have demonstrated the pinnacle\n"
+	.string "of physical offense.$"
+
 VermilionCity_Dojo_Text_ChallengeGuyIntro::
-# 793 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 828 "data/maps/VermilionCity_Dojo/scripts.pory"
 	.string "Welcome to the Attack Dojo!\p"
 	.string "Pick your challenge.\p"
 	.string "TRAINING matches whatever belt\n"
@@ -1292,37 +1340,37 @@ VermilionCity_Dojo_Text_ChallengeGuyIntro::
 	.string "unlocking the next belt.$"
 
 VermilionCity_Dojo_Text_ChallengeTrainingSet::
-# 802 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 837 "data/maps/VermilionCity_Dojo/scripts.pory"
 	.string "Training mode selected.\n"
 	.string "Opponents will match your level.$"
 
 VermilionCity_Dojo_Text_ChallengeWhiteSet::
-# 807 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 842 "data/maps/VermilionCity_Dojo/scripts.pory"
 	.string "White Belt challenge selected.\n"
 	.string "Go find your opponents.$"
 
 VermilionCity_Dojo_Text_ChallengeBlueSet::
-# 812 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 847 "data/maps/VermilionCity_Dojo/scripts.pory"
 	.string "Blue Belt challenge selected.\n"
 	.string "Go find your opponents.$"
 
 VermilionCity_Dojo_Text_ChallengeBlueLocked::
-# 817 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 852 "data/maps/VermilionCity_Dojo/scripts.pory"
 	.string "Clear White Belt against all\n"
 	.string "four of us before you try Blue.$"
 
 VermilionCity_Dojo_Text_ChallengeBlackSet::
-# 822 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 857 "data/maps/VermilionCity_Dojo/scripts.pory"
 	.string "Black Belt challenge selected.\n"
 	.string "Go find your opponents.$"
 
 VermilionCity_Dojo_Text_ChallengeBlackLocked::
-# 827 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 862 "data/maps/VermilionCity_Dojo/scripts.pory"
 	.string "Clear Blue Belt against all\n"
 	.string "four of us before you try Black.$"
 
 VermilionCity_Dojo_Text_ChallengeGuyIntroGauntlet::
-# 832 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 867 "data/maps/VermilionCity_Dojo/scripts.pory"
 	.string "Welcome to the Attack Dojo!\p"
 	.string "Pick your challenge.\p"
 	.string "TRAINING matches whatever belt\n"
@@ -1337,12 +1385,12 @@ VermilionCity_Dojo_Text_ChallengeGuyIntroGauntlet::
 	.string "heal. No second chances.$"
 
 VermilionCity_Dojo_Text_ChallengeGauntletSet::
-# 847 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 882 "data/maps/VermilionCity_Dojo/scripts.pory"
 	.string "Gauntlet selected.\n"
 	.string "Don't leave until it's done.$"
 
 VermilionCity_Dojo_Text_GauntletCleared::
-# 852 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 887 "data/maps/VermilionCity_Dojo/scripts.pory"
 	.string "...\p"
 	.string "All four of us, back to back,\n"
 	.string "and you never once walked out\l"
@@ -1351,36 +1399,36 @@ VermilionCity_Dojo_Text_GauntletCleared::
 	.string "You've earned it.$"
 
 VermilionCity_Dojo_Text_Plaque::
-# 861 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 896 "data/maps/VermilionCity_Dojo/scripts.pory"
 	.string "AKIO'S DOJO\p"
 	.string "Observation precedes action.\n"
 	.string "Action precedes understanding.$"
 
 VermilionCity_Dojo_Text_ScrollLeft::
-# 867 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 902 "data/maps/VermilionCity_Dojo/scripts.pory"
 	.string "The untrained eye sees a\n"
 	.string "common bird.\l"
 	.string "The trained eye sees how\n"
 	.string "it holds its wings.$"
 
 VermilionCity_Dojo_Text_ScrollRight::
-# 874 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 909 "data/maps/VermilionCity_Dojo/scripts.pory"
 	.string "There is no weak POKéMON.\n"
 	.string "There is only the trainer\l"
 	.string "who stopped looking.$"
 
 VermilionCity_Dojo_Text_Machop::
-# 880 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 915 "data/maps/VermilionCity_Dojo/scripts.pory"
 	.string "The MACHOP trains here every day.\n"
 	.string "It hasn't missed one.$"
 
 VermilionCity_Dojo_Text_Mankey::
-# 885 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 920 "data/maps/VermilionCity_Dojo/scripts.pory"
 	.string "The MANKEY gets worked up\n"
 	.string "watching the sparring matches.$"
 
 VermilionCity_Dojo_Text_Hitmonchan::
-# 890 "data/maps/VermilionCity_Dojo/scripts.pory"
+# 925 "data/maps/VermilionCity_Dojo/scripts.pory"
 	.string "The HITMONCHAN watches every\n"
 	.string "match without blinking.\p"
 	.string "It's seen every mistake you're\n"

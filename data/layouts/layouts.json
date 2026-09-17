@@ -788,7 +788,7 @@
       "height": 20,
       "border_width": 2,
       "border_height": 2,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_GeneralSummer",
       "secondary_tileset": "gTileset_CeruleanCity",
       "border_filepath": "data/layouts/Route25/border.bin",
       "blockdata_filepath": "data/layouts/Route25/map.bin"
@@ -2284,8 +2284,8 @@
     {
       "id": "LAYOUT_TWO_ISLAND_CAPE_BRINK",
       "name": "TwoIsland_CapeBrink_Layout",
-      "width": 24,
-      "height": 40,
+      "width": 44,
+      "height": 32,
       "border_width": 2,
       "border_height": 2,
       "primary_tileset": "gTileset_GeneralAutumn",
@@ -2584,12 +2584,12 @@
     {
       "id": "LAYOUT_TWO_ISLAND_JOYFUL_GAME_CORNER",
       "name": "TwoIsland_JoyfulGameCorner_Layout",
-      "width": 12,
-      "height": 10,
+      "width": 34,
+      "height": 31,
       "border_width": 2,
       "border_height": 2,
-      "primary_tileset": "gTileset_Building",
-      "secondary_tileset": "gTileset_GameCorner",
+      "primary_tileset": "gTileset_GeneralSummer",
+      "secondary_tileset": "gTileset_CeruleanCity",
       "border_filepath": "data/layouts/TwoIsland_JoyfulGameCorner/border.bin",
       "blockdata_filepath": "data/layouts/TwoIsland_JoyfulGameCorner/map.bin"
     },
@@ -4612,8 +4612,8 @@
     {
       "id": "LAVENDER_CEMETARY_LAYOUT",
       "name": "Lavender_Cemetary",
-      "width": 48,
-      "height": 35,
+      "width": 53,
+      "height": 40,
       "border_width": 2,
       "border_height": 2,
       "primary_tileset": "gTileset_GeneralAutumn",
