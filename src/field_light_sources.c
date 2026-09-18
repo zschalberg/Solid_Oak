@@ -760,6 +760,167 @@ static const struct SpriteTemplate sSpriteTemplate_GastlySpook = {
     .callback = SpriteCallback_GastlySpook,
 };
 
+static const struct OamData sOamData_KrabbyBurrow = {
+    .y = 0,
+    .affineMode = ST_OAM_AFFINE_OFF,
+    .objMode = ST_OAM_OBJ_NORMAL,
+    .mosaic = FALSE,
+    .bpp = ST_OAM_4BPP,
+    .shape = SPRITE_SHAPE(32x32),
+    .x = 0,
+    .matrixNum = 0,
+    .size = SPRITE_SIZE(32x32),
+    .tileNum = 0,
+    .priority = 2,
+    .paletteNum = 0,
+};
+
+enum {
+    KRABBY_ANIM_SCUTTLE_FRONT,
+    KRABBY_ANIM_STAND_FRONT,
+    KRABBY_ANIM_DIG_VIBRATE,
+};
+
+static const union AnimCmd sAnim_KrabbyScuttleFront[] = {
+    ANIMCMD_FRAME(0, 8),
+    ANIMCMD_FRAME(16, 8),
+    ANIMCMD_JUMP(0),
+};
+
+static const union AnimCmd sAnim_KrabbyStandFront[] = {
+    ANIMCMD_FRAME(0, 16),
+    ANIMCMD_JUMP(0),
+};
+
+static const union AnimCmd sAnim_KrabbyDigVibrate[] = {
+    ANIMCMD_FRAME(0, 3),
+    ANIMCMD_FRAME(16, 3),
+    ANIMCMD_JUMP(0),
+};
+
+static const union AnimCmd *const sAnims_KrabbyBurrow[] = {
+    [KRABBY_ANIM_SCUTTLE_FRONT] = sAnim_KrabbyScuttleFront,
+    [KRABBY_ANIM_STAND_FRONT]   = sAnim_KrabbyStandFront,
+    [KRABBY_ANIM_DIG_VIBRATE]   = sAnim_KrabbyDigVibrate,
+};
+
+static const u32 sKrabbyBurrow_Gfx[] = INCBIN_U32("graphics/pokemon/krabby/overworld.4bpp");
+
+static const struct SpriteSheet sSpriteSheet_KrabbyBurrow = {
+    .data = sKrabbyBurrow_Gfx,
+    .size = 4096,
+    .tag = FLDEFF_TILE_TAG_KRABBY_BURROW,
+};
+
+static const u16 sKrabbyBurrow_Pal[] = INCBIN_U16("graphics/pokemon/krabby/overworld_normal.gbapal");
+
+static const struct SpritePalette sSpritePalette_KrabbyBurrow = {
+    .data = sKrabbyBurrow_Pal,
+    .tag = FLDEFF_PAL_TAG_KRABBY_BURROW,
+};
+
+static void SpriteCallback_KrabbyBurrow(struct Sprite *sprite);
+
+static const struct SpriteTemplate sSpriteTemplate_KrabbyBurrow = {
+    .tileTag = FLDEFF_TILE_TAG_KRABBY_BURROW,
+    .paletteTag = FLDEFF_PAL_TAG_KRABBY_BURROW,
+    .oam = &sOamData_KrabbyBurrow,
+    .anims = sAnims_KrabbyBurrow,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = SpriteCallback_KrabbyBurrow,
+};
+
+static const struct OamData sOamData_RattataScurry = {
+    .y = 0,
+    .affineMode = ST_OAM_AFFINE_OFF,
+    .objMode = ST_OAM_OBJ_NORMAL,
+    .mosaic = FALSE,
+    .bpp = ST_OAM_4BPP,
+    .shape = SPRITE_SHAPE(32x32),
+    .x = 0,
+    .matrixNum = 0,
+    .size = SPRITE_SIZE(32x32),
+    .tileNum = 0,
+    .priority = 2,
+    .paletteNum = 0,
+};
+
+enum {
+    RATTATA_ANIM_PEEK,
+    RATTATA_ANIM_RUN_WEST,
+    RATTATA_ANIM_RUN_EAST,
+    RATTATA_ANIM_RUN_NORTH,
+    RATTATA_ANIM_RUN_SOUTH,
+};
+
+static const union AnimCmd sAnim_RattataPeek[] = {
+    ANIMCMD_FRAME(0, 40),
+    ANIMCMD_FRAME(16, 8),
+    ANIMCMD_FRAME(0, 20),
+    ANIMCMD_FRAME(16, 8),
+    ANIMCMD_JUMP(0),
+};
+
+static const union AnimCmd sAnim_RattataRunWest[] = {
+    ANIMCMD_FRAME(64, 4),
+    ANIMCMD_FRAME(80, 4),
+    ANIMCMD_JUMP(0),
+};
+
+static const union AnimCmd sAnim_RattataRunEast[] = {
+    ANIMCMD_FRAME(64, 4, .hFlip = TRUE),
+    ANIMCMD_FRAME(80, 4, .hFlip = TRUE),
+    ANIMCMD_JUMP(0),
+};
+
+static const union AnimCmd sAnim_RattataRunNorth[] = {
+    ANIMCMD_FRAME(32, 4),
+    ANIMCMD_FRAME(48, 4),
+    ANIMCMD_JUMP(0),
+};
+
+static const union AnimCmd sAnim_RattataRunSouth[] = {
+    ANIMCMD_FRAME(0, 4),
+    ANIMCMD_FRAME(16, 4),
+    ANIMCMD_JUMP(0),
+};
+
+static const union AnimCmd *const sAnims_RattataScurry[] = {
+    [RATTATA_ANIM_PEEK]      = sAnim_RattataPeek,
+    [RATTATA_ANIM_RUN_WEST]  = sAnim_RattataRunWest,
+    [RATTATA_ANIM_RUN_EAST]  = sAnim_RattataRunEast,
+    [RATTATA_ANIM_RUN_NORTH] = sAnim_RattataRunNorth,
+    [RATTATA_ANIM_RUN_SOUTH] = sAnim_RattataRunSouth,
+};
+
+static const u32 sRattataScurry_Gfx[] = INCBIN_U32("graphics/pokemon/rattata/overworld.4bpp");
+
+static const struct SpriteSheet sSpriteSheet_RattataScurry = {
+    .data = sRattataScurry_Gfx,
+    .size = 3072,
+    .tag = FLDEFF_TILE_TAG_RATTATA_SCURRY,
+};
+
+static const u16 sRattataScurry_Pal[] = INCBIN_U16("graphics/pokemon/rattata/overworld_normal.gbapal");
+
+static const struct SpritePalette sSpritePalette_RattataScurry = {
+    .data = sRattataScurry_Pal,
+    .tag = FLDEFF_PAL_TAG_RATTATA_SCURRY,
+};
+
+static void SpriteCallback_RattataScurry(struct Sprite *sprite);
+
+static const struct SpriteTemplate sSpriteTemplate_RattataScurry = {
+    .tileTag = FLDEFF_TILE_TAG_RATTATA_SCURRY,
+    .paletteTag = FLDEFF_PAL_TAG_RATTATA_SCURRY,
+    .oam = &sOamData_RattataScurry,
+    .anims = sAnims_RattataScurry,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = SpriteCallback_RattataScurry,
+};
+
 static const struct MapLightSource sMapLightSources[] = {
     // Ambient Gastly in Haunted Woods at (47, 33)
     {
@@ -893,10 +1054,10 @@ static const struct MapLightSource sMapLightSources[] = {
         .trackingLocalId = 0,
         .flagId          = 0,
     },
-    // Flying Pidgey flock across Route 1
+    // Flying Pidgey flock across Route 6 (north of Vermilion)
     {
-        .mapGroup        = MAP_GROUP(MAP_ROUTE1),
-        .mapNum          = MAP_NUM(MAP_ROUTE1),
+        .mapGroup        = MAP_GROUP(MAP_ROUTE6),
+        .mapNum          = MAP_NUM(MAP_ROUTE6),
         .x               = 0,
         .y               = 0,
         .type            = LIGHT_TYPE_FLYING_PIDGEY,
@@ -938,6 +1099,30 @@ static const struct MapLightSource sMapLightSources[] = {
         .type            = LIGHT_TYPE_WINGULL_SKIM,
         .shape           = 0,
         .colorTint       = 0,
+        .trackingLocalId = 0,
+        .flagId          = 0,
+    },
+    // Ambient Krabby Burrow on Route 19 at (12, 16)
+    {
+        .mapGroup        = MAP_GROUP(MAP_ROUTE19),
+        .mapNum          = MAP_NUM(MAP_ROUTE19),
+        .x               = 12,
+        .y               = 16,
+        .type            = LIGHT_TYPE_KRABBY_BURROW,
+        .shape           = LIGHT_SHAPE_CIRCLE,
+        .colorTint       = LIGHT_COLOR_NONE,
+        .trackingLocalId = 0,
+        .flagId          = 0,
+    },
+    // Ambient Rattata Scurry on Route 11 at (14, 8)
+    {
+        .mapGroup        = MAP_GROUP(MAP_ROUTE11),
+        .mapNum          = MAP_NUM(MAP_ROUTE11),
+        .x               = 14,
+        .y               = 8,
+        .type            = LIGHT_TYPE_RATTATA_SCURRY,
+        .shape           = LIGHT_SHAPE_CIRCLE,
+        .colorTint       = LIGHT_COLOR_NONE,
         .trackingLocalId = 0,
         .flagId          = 0,
     },
@@ -2540,6 +2725,599 @@ static void DestroyGastlySpook(void)
     sGastlySpookActive = FALSE;
 }
 
+// ============================================================================
+// Ambient Krabby Burrow on Route 19
+// ============================================================================
+
+enum {
+    KRABBY_STATE_WALK_LEFT,
+    KRABBY_STATE_PAUSE,
+    KRABBY_STATE_WALK_RIGHT,
+    KRABBY_STATE_BURROWING,
+    KRABBY_STATE_BURROWED,
+    KRABBY_STATE_EMERGING,
+};
+
+#define MAX_KRABBY_BURROW 4
+static EWRAM_DATA u8 sKrabbyBurrowSpriteIds[MAX_KRABBY_BURROW] = {0};
+static EWRAM_DATA bool8 sKrabbyBurrowActive = FALSE;
+
+static void SpawnSandDustAtKrabby(struct Sprite *sprite)
+{
+    s16 mapTileX = sprite->data[2] + (sprite->x2 / 16);
+    s16 mapTileY = sprite->data[3];
+    gFieldEffectArguments[0] = mapTileX + MAP_OFFSET;
+    gFieldEffectArguments[1] = mapTileY + MAP_OFFSET;
+    gFieldEffectArguments[2] = 0;
+    gFieldEffectArguments[3] = sprite->oam.priority;
+    FieldEffectStart(FLDEFF_DUST);
+}
+
+static bool8 IsPlayerNearKrabby(struct Sprite *sprite, u8 tileDist)
+{
+    s16 playerTileX = gSaveBlock1Ptr->pos.x;
+    s16 playerTileY = gSaveBlock1Ptr->pos.y;
+    s16 krabbyTileX = sprite->data[2] + (sprite->x2 / 16);
+    s16 krabbyTileY = sprite->data[3];
+    s16 dx = abs(playerTileX - krabbyTileX);
+    s16 dy = abs(playerTileY - krabbyTileY);
+
+    if (dx <= tileDist && dy <= tileDist)
+        return TRUE;
+
+    if (gPlayerAvatar.objectEventId < OBJECT_EVENTS_COUNT && gObjectEvents[gPlayerAvatar.objectEventId].active)
+    {
+        struct Sprite *playerSprite = &gSprites[gPlayerAvatar.spriteId];
+        s16 playerScreenX = playerSprite->x + playerSprite->x2;
+        s16 playerScreenY = playerSprite->y + playerSprite->y2;
+        s16 krabbyScreenX = sprite->x + sprite->x2 + gSpriteCoordOffsetX;
+        s16 krabbyScreenY = sprite->y + sprite->y2 + gSpriteCoordOffsetY;
+        s16 pixelDx = abs(krabbyScreenX - playerScreenX);
+        s16 pixelDy = abs(krabbyScreenY - playerScreenY);
+
+        if (pixelDx <= (tileDist * 16 + 8) && pixelDy <= (tileDist * 16 + 8))
+            return TRUE;
+    }
+
+    return FALSE;
+}
+
+static void SpriteCallback_KrabbyBurrow(struct Sprite *sprite)
+{
+    s16 screenX = sprite->x + sprite->centerToCornerVecX + gSpriteCoordOffsetX;
+    s16 screenY = sprite->y + sprite->centerToCornerVecY + gSpriteCoordOffsetY;
+    bool8 onScreen = (screenX > -32 && screenX < DISPLAY_WIDTH && screenY > -32 && screenY < DISPLAY_HEIGHT);
+
+    if (!onScreen || sprite->data[0] == KRABBY_STATE_BURROWED)
+    {
+        sprite->invisible = TRUE;
+        if (sprite->data[0] == KRABBY_STATE_BURROWED)
+        {
+            if (sprite->data[1] > 0)
+            {
+                sprite->data[1]--;
+            }
+            else
+            {
+                // Cooldown ended. Ready to emerge once player is not standing right on top
+                if (!IsPlayerNearKrabby(sprite, 1))
+                {
+                    sprite->invisible = FALSE;
+                    sprite->y2 = 14;
+                    sprite->data[0] = KRABBY_STATE_EMERGING;
+                    sprite->data[1] = 0;
+                    StartSpriteAnim(sprite, KRABBY_ANIM_DIG_VIBRATE);
+                    PlaySE(SE_M_DIG);
+                    SpawnSandDustAtKrabby(sprite);
+                }
+            }
+        }
+        return;
+    }
+
+    switch (sprite->data[0])
+    {
+    case KRABBY_STATE_WALK_LEFT:
+        sprite->invisible = FALSE;
+        sprite->data[5]++;
+        if (sprite->data[5] & 1)
+        {
+            sprite->data[4]--;
+            sprite->x2 = sprite->data[4];
+        }
+
+        // Proximity panic burrow: if player is within 2 tiles
+        if (IsPlayerNearKrabby(sprite, 2))
+        {
+            PlayCry_Normal(SPECIES_KRABBY, 0);
+            PlaySE(SE_M_SAND_ATTACK);
+            sprite->data[0] = KRABBY_STATE_BURROWING;
+            sprite->data[1] = 0;
+            sprite->data[6] = 0;
+            sprite->data[7] = 1; // panic!
+            StartSpriteAnim(sprite, KRABBY_ANIM_DIG_VIBRATE);
+            break;
+        }
+
+        if (sprite->data[4] <= -28)
+        {
+            sprite->data[0] = KRABBY_STATE_PAUSE;
+            sprite->data[1] = 40 + (Random() % 40);
+            sprite->data[5] = 1; // next walk direction: right
+            StartSpriteAnim(sprite, KRABBY_ANIM_STAND_FRONT);
+        }
+        break;
+
+    case KRABBY_STATE_WALK_RIGHT:
+        sprite->invisible = FALSE;
+        sprite->data[5]++;
+        if (sprite->data[5] & 1)
+        {
+            sprite->data[4]++;
+            sprite->x2 = sprite->data[4];
+        }
+
+        if (IsPlayerNearKrabby(sprite, 2))
+        {
+            PlayCry_Normal(SPECIES_KRABBY, 0);
+            PlaySE(SE_M_SAND_ATTACK);
+            sprite->data[0] = KRABBY_STATE_BURROWING;
+            sprite->data[1] = 0;
+            sprite->data[6] = 0;
+            sprite->data[7] = 1; // panic!
+            StartSpriteAnim(sprite, KRABBY_ANIM_DIG_VIBRATE);
+            break;
+        }
+
+        if (sprite->data[4] >= 28)
+        {
+            sprite->data[0] = KRABBY_STATE_PAUSE;
+            sprite->data[1] = 40 + (Random() % 40);
+            sprite->data[5] = -1; // next walk direction: left
+            StartSpriteAnim(sprite, KRABBY_ANIM_STAND_FRONT);
+        }
+        break;
+
+    case KRABBY_STATE_PAUSE:
+        sprite->invisible = FALSE;
+        if (IsPlayerNearKrabby(sprite, 2))
+        {
+            PlayCry_Normal(SPECIES_KRABBY, 0);
+            PlaySE(SE_M_SAND_ATTACK);
+            sprite->data[0] = KRABBY_STATE_BURROWING;
+            sprite->data[1] = 0;
+            sprite->data[6] = 0;
+            sprite->data[7] = 1; // panic!
+            StartSpriteAnim(sprite, KRABBY_ANIM_DIG_VIBRATE);
+            break;
+        }
+
+        if (sprite->data[1] > 0)
+        {
+            sprite->data[1]--;
+        }
+        else
+        {
+            sprite->data[6]++;
+            if (sprite->data[6] >= 2 && (Random() % 2 == 0))
+            {
+                // Natural burrow
+                PlayCry_Normal(SPECIES_KRABBY, 0);
+                PlaySE(SE_M_DIG);
+                sprite->data[0] = KRABBY_STATE_BURROWING;
+                sprite->data[1] = 0;
+                sprite->data[6] = 0;
+                sprite->data[7] = 0; // normal
+                StartSpriteAnim(sprite, KRABBY_ANIM_DIG_VIBRATE);
+            }
+            else
+            {
+                if (sprite->data[5] == 1)
+                    sprite->data[0] = KRABBY_STATE_WALK_RIGHT;
+                else
+                    sprite->data[0] = KRABBY_STATE_WALK_LEFT;
+                StartSpriteAnim(sprite, KRABBY_ANIM_SCUTTLE_FRONT);
+            }
+        }
+        break;
+
+    case KRABBY_STATE_BURROWING:
+        sprite->invisible = FALSE;
+        sprite->data[1]++;
+        {
+            s8 shake = ((sprite->data[1] >> 1) & 1) ? 1 : -1;
+            sprite->x2 = sprite->data[4] + shake;
+            u8 sinkRate = sprite->data[7] ? 2 : 4;
+            if (sprite->data[1] % sinkRate == 0)
+                sprite->y2++;
+
+            if (sprite->data[1] == 1 || sprite->data[1] == 20)
+            {
+                PlaySE(SE_M_DIG);
+                SpawnSandDustAtKrabby(sprite);
+            }
+
+            if (sprite->y2 >= 14)
+            {
+                sprite->invisible = TRUE;
+                sprite->y2 = 0;
+                sprite->x2 = sprite->data[4];
+                sprite->data[0] = KRABBY_STATE_BURROWED;
+                sprite->data[1] = 480 + (Random() % 360); // 8 - 14 seconds
+            }
+        }
+        break;
+
+    case KRABBY_STATE_EMERGING:
+        sprite->invisible = FALSE;
+        sprite->data[1]++;
+        {
+            s8 shake = ((sprite->data[1] >> 1) & 1) ? 1 : -1;
+            sprite->x2 = sprite->data[4] + shake;
+            if (sprite->data[1] % 2 == 0)
+            {
+                if (sprite->y2 > 0)
+                    sprite->y2--;
+            }
+            if (sprite->y2 == 0)
+            {
+                sprite->x2 = sprite->data[4];
+                sprite->data[0] = KRABBY_STATE_PAUSE;
+                sprite->data[1] = 30;
+                StartSpriteAnim(sprite, KRABBY_ANIM_STAND_FRONT);
+            }
+        }
+        break;
+    }
+}
+
+static bool8 MapHasKrabbyBurrow(u8 mapGroup, u8 mapNum)
+{
+    u32 i;
+
+    for (i = 0; i < ARRAY_COUNT(sMapLightSources); i++)
+    {
+        if (sMapLightSources[i].mapGroup == mapGroup && sMapLightSources[i].mapNum == mapNum)
+        {
+            if (sMapLightSources[i].type == LIGHT_TYPE_KRABBY_BURROW)
+                return TRUE;
+        }
+    }
+
+    return FALSE;
+}
+
+static void SpawnKrabbyBurrow(void)
+{
+    u32 i;
+    u8 count = 0;
+
+    if (sKrabbyBurrowActive)
+        return;
+
+    if (GetSpriteTileStartByTag(FLDEFF_TILE_TAG_KRABBY_BURROW) == 0xFFFF)
+        LoadSpriteSheet(&sSpriteSheet_KrabbyBurrow);
+
+    if (IndexOfSpritePaletteTag(FLDEFF_PAL_TAG_KRABBY_BURROW) == 0xFF)
+        FieldEffectScript_LoadFadedPal(&sSpritePalette_KrabbyBurrow);
+
+    for (i = 0; i < MAX_KRABBY_BURROW; i++)
+        sKrabbyBurrowSpriteIds[i] = MAX_SPRITES;
+
+    for (i = 0; i < ARRAY_COUNT(sMapLightSources) && count < MAX_KRABBY_BURROW; i++)
+    {
+        if (sMapLightSources[i].mapGroup == gSaveBlock1Ptr->location.mapGroup
+            && sMapLightSources[i].mapNum == gSaveBlock1Ptr->location.mapNum)
+        {
+            if (sMapLightSources[i].type == LIGHT_TYPE_KRABBY_BURROW)
+            {
+                s16 baseX = sMapLightSources[i].x + MAP_OFFSET;
+                s16 baseY = sMapLightSources[i].y + MAP_OFFSET;
+                SetSpritePosToOffsetMapCoords(&baseX, &baseY, 8, 8);
+
+                u8 spriteId = CreateSprite(&sSpriteTemplate_KrabbyBurrow, baseX, baseY, 2);
+                if (spriteId != MAX_SPRITES)
+                {
+                    struct Sprite *sprite = &gSprites[spriteId];
+                    sprite->coordOffsetEnabled = TRUE;
+                    sprite->invisible = FALSE;
+                    sprite->data[0] = KRABBY_STATE_WALK_LEFT;
+                    sprite->data[1] = 0;
+                    sprite->data[2] = sMapLightSources[i].x;
+                    sprite->data[3] = sMapLightSources[i].y;
+                    sprite->data[4] = 0;  // initial horizontal offset
+                    sprite->data[5] = -1; // walk direction
+                    sprite->data[6] = 0;  // walk count
+                    sprite->data[7] = 0;  // panic flag
+                    StartSpriteAnim(sprite, KRABBY_ANIM_SCUTTLE_FRONT);
+                    sKrabbyBurrowSpriteIds[count++] = spriteId;
+                }
+            }
+        }
+    }
+
+    if (count > 0)
+        sKrabbyBurrowActive = TRUE;
+}
+
+static void DestroyKrabbyBurrow(void)
+{
+    u32 i;
+
+    if (!sKrabbyBurrowActive)
+        return;
+
+    for (i = 0; i < MAX_KRABBY_BURROW; i++)
+    {
+        if (sKrabbyBurrowSpriteIds[i] != MAX_SPRITES)
+        {
+            DestroySprite(&gSprites[sKrabbyBurrowSpriteIds[i]]);
+            sKrabbyBurrowSpriteIds[i] = MAX_SPRITES;
+        }
+    }
+
+    FreeSpriteTilesByTag(FLDEFF_TILE_TAG_KRABBY_BURROW);
+    FreeSpritePaletteByTag(FLDEFF_PAL_TAG_KRABBY_BURROW);
+    sKrabbyBurrowActive = FALSE;
+}
+
+// ============================================================================
+// Ambient Rattata Scurry on Route 11
+// ============================================================================
+
+enum {
+    RATTATA_STATE_HIDING,
+    RATTATA_STATE_ALERT,
+    RATTATA_STATE_SCURRY,
+    RATTATA_STATE_COOLDOWN,
+};
+
+#define MAX_RATTATA_SCURRY 4
+static EWRAM_DATA u8 sRattataScurrySpriteIds[MAX_RATTATA_SCURRY] = {0};
+static EWRAM_DATA bool8 sRattataScurryActive = FALSE;
+
+static void SpawnGrassRustleAtRattata(struct Sprite *sprite)
+{
+    s16 mapTileX = sprite->data[2] + (sprite->x2 / 16);
+    s16 mapTileY = sprite->data[3];
+    gFieldEffectArguments[0] = mapTileX + MAP_OFFSET;
+    gFieldEffectArguments[1] = mapTileY + MAP_OFFSET;
+    gFieldEffectArguments[2] = 0;
+    gFieldEffectArguments[3] = sprite->oam.priority;
+    FieldEffectStart(FLDEFF_JUMP_TALL_GRASS);
+}
+
+static bool8 IsPlayerNearRattata(struct Sprite *sprite, u8 tileDist)
+{
+    s16 playerTileX = gSaveBlock1Ptr->pos.x;
+    s16 playerTileY = gSaveBlock1Ptr->pos.y;
+    s16 rattataTileX = sprite->data[2] + (sprite->x2 / 16);
+    s16 rattataTileY = sprite->data[3];
+    s16 dx = abs(playerTileX - rattataTileX);
+    s16 dy = abs(playerTileY - rattataTileY);
+
+    if (dx <= tileDist && dy <= tileDist)
+        return TRUE;
+
+    if (gPlayerAvatar.objectEventId < OBJECT_EVENTS_COUNT && gObjectEvents[gPlayerAvatar.objectEventId].active)
+    {
+        struct Sprite *playerSprite = &gSprites[gPlayerAvatar.spriteId];
+        s16 playerScreenX = playerSprite->x + playerSprite->x2;
+        s16 playerScreenY = playerSprite->y + playerSprite->y2;
+        s16 rattataScreenX = sprite->x + sprite->x2 + gSpriteCoordOffsetX;
+        s16 rattataScreenY = sprite->y + sprite->y2 + gSpriteCoordOffsetY;
+        s16 pixelDx = abs(rattataScreenX - playerScreenX);
+        s16 pixelDy = abs(rattataScreenY - playerScreenY);
+
+        if (pixelDx <= (tileDist * 16 + 8) && pixelDy <= (tileDist * 16 + 8))
+            return TRUE;
+    }
+
+    return FALSE;
+}
+
+static void SpriteCallback_RattataScurry(struct Sprite *sprite)
+{
+    s16 screenX = sprite->x + sprite->centerToCornerVecX + gSpriteCoordOffsetX;
+    s16 screenY = sprite->y + sprite->centerToCornerVecY + gSpriteCoordOffsetY;
+    bool8 onScreen = (screenX > -32 && screenX < DISPLAY_WIDTH && screenY > -32 && screenY < DISPLAY_HEIGHT);
+
+    if (!onScreen || sprite->data[0] == RATTATA_STATE_COOLDOWN)
+    {
+        sprite->invisible = TRUE;
+        if (sprite->data[0] == RATTATA_STATE_COOLDOWN)
+        {
+            if (sprite->data[1] > 0)
+            {
+                sprite->data[1]--;
+            }
+            else
+            {
+                // Respawn once player moves away (> 2 tiles)
+                if (!IsPlayerNearRattata(sprite, 2))
+                {
+                    sprite->invisible = FALSE;
+                    sprite->x2 = 0;
+                    sprite->y2 = 4;
+                    sprite->data[0] = RATTATA_STATE_HIDING;
+                    sprite->data[1] = 0;
+                    sprite->data[6] = 0;
+                    StartSpriteAnim(sprite, RATTATA_ANIM_PEEK);
+                }
+            }
+        }
+        return;
+    }
+
+    switch (sprite->data[0])
+    {
+    case RATTATA_STATE_HIDING:
+        sprite->invisible = FALSE;
+        sprite->y2 = 4; // tucked into tall grass
+
+        // Periodic grass rustle while lurking in tall grass
+        sprite->data[6]++;
+        if (sprite->data[6] >= 180 + (Random() % 120))
+        {
+            sprite->data[6] = 0;
+            SpawnGrassRustleAtRattata(sprite);
+        }
+
+        // Startled alert when player approaches within 2 tiles
+        if (IsPlayerNearRattata(sprite, 2))
+        {
+            PlayCry_Normal(SPECIES_RATTATA, 0);
+            sprite->data[0] = RATTATA_STATE_ALERT;
+            sprite->data[1] = 12; // brief freeze before darting
+
+            // Flee direction: run away from the player
+            if (gSaveBlock1Ptr->pos.x <= sprite->data[2])
+            {
+                sprite->data[4] = 1; // flee East
+                StartSpriteAnim(sprite, RATTATA_ANIM_RUN_EAST);
+            }
+            else
+            {
+                sprite->data[4] = -1; // flee West
+                StartSpriteAnim(sprite, RATTATA_ANIM_RUN_WEST);
+            }
+        }
+        break;
+
+    case RATTATA_STATE_ALERT:
+        sprite->invisible = FALSE;
+        if (sprite->data[1] > 0)
+        {
+            sprite->data[1]--;
+        }
+        else
+        {
+            sprite->data[0] = RATTATA_STATE_SCURRY;
+            sprite->data[1] = 0; // distance scurried
+            sprite->data[7] = 0;
+            sprite->y2 = 0;     // rise to run
+            SpawnGrassRustleAtRattata(sprite);
+        }
+        break;
+
+    case RATTATA_STATE_SCURRY:
+        sprite->invisible = FALSE;
+        sprite->y2 = 0;
+
+        // High-speed scurry: 3 px/frame
+        sprite->x2 += (sprite->data[4] * 3);
+        sprite->data[1] += 3;
+
+        // Rustle grass as it runs through
+        sprite->data[7] += 3;
+        if (sprite->data[7] >= 16)
+        {
+            sprite->data[7] = 0;
+            SpawnGrassRustleAtRattata(sprite);
+        }
+
+        // After running 48 px (3 tiles) into deep grass, dive and vanish
+        if (sprite->data[1] >= 48)
+        {
+            SpawnGrassRustleAtRattata(sprite);
+            sprite->invisible = TRUE;
+            sprite->data[0] = RATTATA_STATE_COOLDOWN;
+            sprite->data[1] = 600 + (Random() % 300); // 10 - 15 seconds cooldown
+        }
+        break;
+    }
+}
+
+static bool8 MapHasRattataScurry(u8 mapGroup, u8 mapNum)
+{
+    u32 i;
+
+    for (i = 0; i < ARRAY_COUNT(sMapLightSources); i++)
+    {
+        if (sMapLightSources[i].mapGroup == mapGroup && sMapLightSources[i].mapNum == mapNum)
+        {
+            if (sMapLightSources[i].type == LIGHT_TYPE_RATTATA_SCURRY)
+                return TRUE;
+        }
+    }
+
+    return FALSE;
+}
+
+static void SpawnRattataScurry(void)
+{
+    u32 i;
+    u8 count = 0;
+
+    if (sRattataScurryActive)
+        return;
+
+    if (GetSpriteTileStartByTag(FLDEFF_TILE_TAG_RATTATA_SCURRY) == 0xFFFF)
+        LoadSpriteSheet(&sSpriteSheet_RattataScurry);
+
+    if (IndexOfSpritePaletteTag(FLDEFF_PAL_TAG_RATTATA_SCURRY) == 0xFF)
+        FieldEffectScript_LoadFadedPal(&sSpritePalette_RattataScurry);
+
+    for (i = 0; i < MAX_RATTATA_SCURRY; i++)
+        sRattataScurrySpriteIds[i] = MAX_SPRITES;
+
+    for (i = 0; i < ARRAY_COUNT(sMapLightSources) && count < MAX_RATTATA_SCURRY; i++)
+    {
+        if (sMapLightSources[i].mapGroup == gSaveBlock1Ptr->location.mapGroup
+            && sMapLightSources[i].mapNum == gSaveBlock1Ptr->location.mapNum)
+        {
+            if (sMapLightSources[i].type == LIGHT_TYPE_RATTATA_SCURRY)
+            {
+                s16 baseX = sMapLightSources[i].x + MAP_OFFSET;
+                s16 baseY = sMapLightSources[i].y + MAP_OFFSET;
+                SetSpritePosToOffsetMapCoords(&baseX, &baseY, 8, 8);
+
+                u8 spriteId = CreateSprite(&sSpriteTemplate_RattataScurry, baseX, baseY, 2);
+                if (spriteId != MAX_SPRITES)
+                {
+                    struct Sprite *sprite = &gSprites[spriteId];
+                    sprite->coordOffsetEnabled = TRUE;
+                    sprite->invisible = FALSE;
+                    sprite->data[0] = RATTATA_STATE_HIDING;
+                    sprite->data[1] = 0;
+                    sprite->data[2] = sMapLightSources[i].x;
+                    sprite->data[3] = sMapLightSources[i].y;
+                    sprite->data[4] = 1; // default East
+                    sprite->data[6] = 0;
+                    sprite->data[7] = 0;
+                    sprite->y2 = 4;
+                    StartSpriteAnim(sprite, RATTATA_ANIM_PEEK);
+                    sRattataScurrySpriteIds[count++] = spriteId;
+                }
+            }
+        }
+    }
+
+    if (count > 0)
+        sRattataScurryActive = TRUE;
+}
+
+static void DestroyRattataScurry(void)
+{
+    u32 i;
+
+    if (!sRattataScurryActive)
+        return;
+
+    for (i = 0; i < MAX_RATTATA_SCURRY; i++)
+    {
+        if (sRattataScurrySpriteIds[i] != MAX_SPRITES)
+        {
+            DestroySprite(&gSprites[sRattataScurrySpriteIds[i]]);
+            sRattataScurrySpriteIds[i] = MAX_SPRITES;
+        }
+    }
+
+    FreeSpriteTilesByTag(FLDEFF_TILE_TAG_RATTATA_SCURRY);
+    FreeSpritePaletteByTag(FLDEFF_PAL_TAG_RATTATA_SCURRY);
+    sRattataScurryActive = FALSE;
+}
+
 static void DestroyMapBoundLightSources(void)
 {
     u32 i;
@@ -2599,7 +3377,7 @@ static void SpawnMapBoundLightSources(u8 mapGroup, u8 mapNum)
     {
         if (sMapLightSources[i].mapGroup == mapGroup && sMapLightSources[i].mapNum == mapNum)
         {
-            if (sMapLightSources[i].type != LIGHT_TYPE_AUTUMN_LEAVES && sMapLightSources[i].type != LIGHT_TYPE_FLYING_PIDGEY && sMapLightSources[i].type != LIGHT_TYPE_TREE_PIDGEY && sMapLightSources[i].type != LIGHT_TYPE_MAGIKARP_SPLASH && sMapLightSources[i].type != LIGHT_TYPE_WINGULL_SKIM && sMapLightSources[i].type != LIGHT_TYPE_GASTLY_SPOOK)
+            if (sMapLightSources[i].type != LIGHT_TYPE_AUTUMN_LEAVES && sMapLightSources[i].type != LIGHT_TYPE_FLYING_PIDGEY && sMapLightSources[i].type != LIGHT_TYPE_TREE_PIDGEY && sMapLightSources[i].type != LIGHT_TYPE_MAGIKARP_SPLASH && sMapLightSources[i].type != LIGHT_TYPE_WINGULL_SKIM && sMapLightSources[i].type != LIGHT_TYPE_GASTLY_SPOOK && sMapLightSources[i].type != LIGHT_TYPE_KRABBY_BURROW && sMapLightSources[i].type != LIGHT_TYPE_RATTATA_SCURRY)
             {
                 if (sMapLightSources[i].flagId == 0 || FlagGet(sMapLightSources[i].flagId))
                 {
@@ -2674,7 +3452,7 @@ static void SpawnMapBoundLightSources(u8 mapGroup, u8 mapNum)
     {
         if (sMapLightSources[i].mapGroup == mapGroup && sMapLightSources[i].mapNum == mapNum)
         {
-            if (sMapLightSources[i].type == LIGHT_TYPE_AUTUMN_LEAVES || sMapLightSources[i].type == LIGHT_TYPE_FLYING_PIDGEY || sMapLightSources[i].type == LIGHT_TYPE_TREE_PIDGEY || sMapLightSources[i].type == LIGHT_TYPE_MAGIKARP_SPLASH || sMapLightSources[i].type == LIGHT_TYPE_WINGULL_SKIM || sMapLightSources[i].type == LIGHT_TYPE_GASTLY_SPOOK)
+            if (sMapLightSources[i].type == LIGHT_TYPE_AUTUMN_LEAVES || sMapLightSources[i].type == LIGHT_TYPE_FLYING_PIDGEY || sMapLightSources[i].type == LIGHT_TYPE_TREE_PIDGEY || sMapLightSources[i].type == LIGHT_TYPE_MAGIKARP_SPLASH || sMapLightSources[i].type == LIGHT_TYPE_WINGULL_SKIM || sMapLightSources[i].type == LIGHT_TYPE_GASTLY_SPOOK || sMapLightSources[i].type == LIGHT_TYPE_KRABBY_BURROW || sMapLightSources[i].type == LIGHT_TYPE_RATTATA_SCURRY)
                 continue;
 
             if (sMapLightSources[i].flagId == 0 || FlagGet(sMapLightSources[i].flagId))
@@ -2850,6 +3628,12 @@ void InitMapLightSources(void)
 
     if (MapHasGastlySpook(mapGroup, mapNum))
         SpawnGastlySpook();
+
+    if (MapHasKrabbyBurrow(mapGroup, mapNum))
+        SpawnKrabbyBurrow();
+
+    if (MapHasRattataScurry(mapGroup, mapNum))
+        SpawnRattataScurry();
 }
 
 void OnMapConnectionTransition(u8 mapGroup, u8 mapNum)
@@ -2919,6 +3703,28 @@ void OnMapConnectionTransition(u8 mapGroup, u8 mapNum)
         DestroyGastlySpook();
     }
 
+    // Handle Krabby Burrow transition
+    if (MapHasKrabbyBurrow(mapGroup, mapNum))
+    {
+        if (!sKrabbyBurrowActive)
+            SpawnKrabbyBurrow();
+    }
+    else if (sKrabbyBurrowActive)
+    {
+        DestroyKrabbyBurrow();
+    }
+
+    // Handle Rattata Scurry transition
+    if (MapHasRattataScurry(mapGroup, mapNum))
+    {
+        if (!sRattataScurryActive)
+            SpawnRattataScurry();
+    }
+    else if (sRattataScurryActive)
+    {
+        DestroyRattataScurry();
+    }
+
     // Refresh map-bound lights for new map
     DestroyMapBoundLightSources();
     SpawnMapBoundLightSources(mapGroup, mapNum);
@@ -2960,6 +3766,12 @@ void DestroyMapLightSources(void)
 
     if (sGastlySpookActive)
         DestroyGastlySpook();
+
+    if (sKrabbyBurrowActive)
+        DestroyKrabbyBurrow();
+
+    if (sRattataScurryActive)
+        DestroyRattataScurry();
 }
 
 // ============================================================================

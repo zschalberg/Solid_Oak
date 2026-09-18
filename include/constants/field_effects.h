@@ -115,6 +115,8 @@ enum FieldEffect
 #define FLDEFF_PAL_TAG_MAGIKARP_SPLASH    0x101A
 #define FLDEFF_PAL_TAG_WINGULL_SKIM       0x101B
 #define FLDEFF_PAL_TAG_GASTLY_SPOOK       0x101C
+#define FLDEFF_PAL_TAG_KRABBY_BURROW      0x101D
+#define FLDEFF_PAL_TAG_RATTATA_SCURRY     0x101E
 
 // tile tags, for field effects that may have many copies on screen at once
 #define FLDEFF_TILE_TAG_SHADOW_SMALL        0x1400
@@ -129,5 +131,7 @@ enum FieldEffect
 #define FLDEFF_TILE_TAG_MAGIKARP_SPLASH     0x1409
 #define FLDEFF_TILE_TAG_WINGULL_SKIM        0x140A
 #define FLDEFF_TILE_TAG_GASTLY_SPOOK        0x140B
+#define FLDEFF_TILE_TAG_KRABBY_BURROW       0x140C
+#define FLDEFF_TILE_TAG_RATTATA_SCURRY      0x140D
 
 #endif // GUARD_CONSTANTS_FIELD_EFFECTS_H
