@@ -1443,6 +1443,7 @@ static EWRAM_DATA bool8 sTreePidgeyActive = FALSE;
 static EWRAM_DATA u16 sFlyingPidgeyFlockCooldown = 0;
 static EWRAM_DATA s16 sFlyingPidgeyBaseX = 0;
 static EWRAM_DATA s16 sFlyingPidgeyBaseY = 0;
+static EWRAM_DATA s16 sFlyingPidgeyStartX = 0;
 static EWRAM_DATA u16 sFlyingPidgeySubX = 0;
 
 static void SpriteCallback_FlyingPidgey(struct Sprite *sprite)
@@ -1457,9 +1458,11 @@ static void SpriteCallback_FlyingPidgey(struct Sprite *sprite)
             if (sFlyingPidgeyFlockCooldown == 0)
             {
                 u8 i;
-                sFlyingPidgeyBaseX = -80;
+                // Launch flock across current sky anchored to world map coordinates
+                sFlyingPidgeyBaseX = -80 - gSpriteCoordOffsetX - sprite->centerToCornerVecX;
+                sFlyingPidgeyStartX = sFlyingPidgeyBaseX;
                 sFlyingPidgeySubX = 0;
-                sFlyingPidgeyBaseY = 25 + (Random() % 50);
+                sFlyingPidgeyBaseY = (25 + (Random() % 50)) - gSpriteCoordOffsetY - sprite->centerToCornerVecY;
 
                 for (i = 0; i < NUM_FLYING_PIDGEY; i++)
                 {
@@ -1470,13 +1473,14 @@ static void SpriteCallback_FlyingPidgey(struct Sprite *sprite)
         }
         else
         {
-            // Move forward (24/16 = 1.5 pixels per frame)
+            // Move forward (24/16 = 1.5 pixels per frame in world space)
             sFlyingPidgeySubX += 24;
             sFlyingPidgeyBaseX += sFlyingPidgeySubX >> 4;
             sFlyingPidgeySubX &= 0x0F;
 
-            // When trailing bird passes offscreen right, start cooldown
-            if (sFlyingPidgeyBaseX - 48 >= DISPLAY_WIDTH + 32)
+            // When trailing bird passes offscreen right, or flock traverses full width, start cooldown
+            s16 trailingScreenX = (sFlyingPidgeyBaseX - 48) + sprite->centerToCornerVecX + gSpriteCoordOffsetX;
+            if (trailingScreenX >= DISPLAY_WIDTH + 32 || (sFlyingPidgeyBaseX - sFlyingPidgeyStartX) >= 450)
             {
                 sFlyingPidgeyFlockCooldown = 240 + (Random() % 180);
             }
@@ -1495,7 +1499,10 @@ static void SpriteCallback_FlyingPidgey(struct Sprite *sprite)
         sprite->x = targetX;
         sprite->y = targetY;
         sprite->y2 = gSineTable[(gMain.vblankCounter1 * 2 + sPidgeyFlockOffsets[birdIdx].phaseOffset) & 0xFF] >> 6;
-        sprite->invisible = (targetX < -32 || targetX > DISPLAY_WIDTH + 32);
+
+        s16 screenX = targetX + sprite->centerToCornerVecX + gSpriteCoordOffsetX;
+        s16 screenY = targetY + sprite->y2 + sprite->centerToCornerVecY + gSpriteCoordOffsetY;
+        sprite->invisible = (screenX < -32 || screenX > DISPLAY_WIDTH + 32 || screenY < -32 || screenY > DISPLAY_HEIGHT + 32);
     }
 }
 
@@ -1532,20 +1539,21 @@ static void SpawnFlyingPidgey(void)
 
     sFlyingPidgeyActive = TRUE;
     sFlyingPidgeyFlockCooldown = 60; // 1 second after entering map
-    sFlyingPidgeyBaseX = -80;
+    sFlyingPidgeyBaseX = 0;
+    sFlyingPidgeyStartX = 0;
     sFlyingPidgeySubX = 0;
-    sFlyingPidgeyBaseY = 25 + (Random() % 50);
+    sFlyingPidgeyBaseY = 0;
 
     for (i = 0; i < NUM_FLYING_PIDGEY; i++)
         sFlyingPidgeySpriteIds[i] = MAX_SPRITES;
 
     for (i = 0; i < NUM_FLYING_PIDGEY; i++)
     {
-        u8 spriteId = CreateSprite(&sSpriteTemplate_FlyingPidgey, -32, sFlyingPidgeyBaseY, 1);
+        u8 spriteId = CreateSprite(&sSpriteTemplate_FlyingPidgey, 0, 0, 1);
         if (spriteId != MAX_SPRITES)
         {
             struct Sprite *sprite = &gSprites[spriteId];
-            sprite->coordOffsetEnabled = FALSE;
+            sprite->coordOffsetEnabled = TRUE;
             sprite->data[0] = i;
             sprite->invisible = TRUE;
             SeekSpriteAnim(sprite, sPidgeyFlockOffsets[i].animOffset);
