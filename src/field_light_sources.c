@@ -3426,7 +3426,7 @@ static void SpawnMapBoundLightSources(u8 mapGroup, u8 mapNum)
         SetGpuRegBits(REG_OFFSET_DISPCNT, DISPCNT_OBJWIN_ON);
         SetGpuRegBits(REG_OFFSET_WINOUT, WINOUT_WINOBJ_BG_ALL | WINOUT_WINOBJ_OBJ);
 
-        if (CheckBagHasItem(ITEM_FLASHLIGHT, 1) || FlagGet(FLAG_RECEIVED_FLASHLIGHT))
+        if ((CheckBagHasItem(ITEM_FLASHLIGHT, 1) || FlagGet(FLAG_RECEIVED_FLASHLIGHT)) && !FlagGet(FLAG_FLASHLIGHT_DISABLED))
         {
             // Player Flashlight Beam (data[3] = 0)
             if (count < MAX_MAP_LIGHTS)

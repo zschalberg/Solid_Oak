@@ -7400,7 +7400,7 @@ const struct ItemInfo gItemsInfo[] =
         .importance = 1,
         .pocket = POCKET_KEY_ITEMS,
         .type = ITEM_USE_BAG_MENU,
-        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .fieldUseFunc = ItemUseOutOfBattle_Flashlight,
         .iconPic = gItemIcon_DowsingMachine,
         .iconPalette = gItemIconPalette_DowsingMachine,
     },

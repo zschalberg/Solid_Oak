@@ -167,6 +167,7 @@ script HauntedWoods_EventScript_FlashlightScientist {
         giveitem(ITEM_FLASHLIGHT, 1)
         giveitem(ITEM_ESCAPE_ROPE, 1)
         setflag(FLAG_RECEIVED_FLASHLIGHT)
+        clearflag(FLAG_FLASHLIGHT_DISABLED)
         special(Special_UpdateMapLightSources)
         msgbox(HauntedWoods_Text_ScientistGaveFlashlight, MSGBOX_DEFAULT)
         closemessage
@@ -195,17 +196,14 @@ script HauntedWoods_EventScript_FlashlightScientist {
 }
 
 script HauntedWoods_EventScript_ToggleFlashlightTesting {
-    checkitem(ITEM_FLASHLIGHT, 1)
-    if (var(VAR_RESULT) == TRUE || flag(FLAG_RECEIVED_FLASHLIGHT)) {
-        removeitem(ITEM_FLASHLIGHT, 1)
-        clearflag(FLAG_RECEIVED_FLASHLIGHT)
-        special(Special_UpdateMapLightSources)
-        msgbox(HauntedWoods_Text_ScientistRemovedFlashlight, MSGBOX_DEFAULT)
-    } else {
-        giveitem(ITEM_FLASHLIGHT, 1)
-        setflag(FLAG_RECEIVED_FLASHLIGHT)
+    if (flag(FLAG_FLASHLIGHT_DISABLED)) {
+        clearflag(FLAG_FLASHLIGHT_DISABLED)
         special(Special_UpdateMapLightSources)
         msgbox(HauntedWoods_Text_ScientistReturnedFlashlight, MSGBOX_DEFAULT)
+    } else {
+        setflag(FLAG_FLASHLIGHT_DISABLED)
+        special(Special_UpdateMapLightSources)
+        msgbox(HauntedWoods_Text_ScientistRemovedFlashlight, MSGBOX_DEFAULT)
     }
     closemessage
     release

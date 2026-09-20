@@ -174,30 +174,30 @@ HauntedWoods_EventScript_FlashlightScientist::
 	compare VAR_RESULT, FALSE
 	goto_if_eq HauntedWoods_EventScript_FlashlightScientist_3
 HauntedWoods_EventScript_FlashlightScientist_1:
-# 177 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
-	message HauntedWoods_Text_ScientistTestPrompt
 # 178 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
-	waitmessage
+	message HauntedWoods_Text_ScientistTestPrompt
 # 179 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
-	dynmultipush HauntedWoods_Text_OptKeepFlashlight, 0
+	waitmessage
 # 180 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
-	dynmultipush HauntedWoods_Text_OptToggleFlashlight, 1
+	dynmultipush HauntedWoods_Text_OptKeepFlashlight, 0
 # 181 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
-	dynmultipush HauntedWoods_Text_OptGetEscapeRope, 2
+	dynmultipush HauntedWoods_Text_OptToggleFlashlight, 1
 # 182 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
-	dynmultistack 0, 0, FALSE, 3, FALSE, 0, DYN_MULTICHOICE_CB_NONE
+	dynmultipush HauntedWoods_Text_OptGetEscapeRope, 2
 # 183 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
-	switch VAR_RESULT
+	dynmultistack 0, 0, FALSE, 3, FALSE, 0, DYN_MULTICHOICE_CB_NONE
 # 184 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
+	switch VAR_RESULT
+# 185 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
 	case 1, HauntedWoods_EventScript_FlashlightScientist_8
-# 186 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
+# 187 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
 	case 2, HauntedWoods_EventScript_FlashlightScientist_9
-# 190 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
+# 191 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
 	msgbox HauntedWoods_Text_ScientistKeepFlashlight, MSGBOX_DEFAULT
 HauntedWoods_EventScript_FlashlightScientist_6:
-# 192 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
-	closemessage
 # 193 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
+	closemessage
+# 194 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
 	release
 	end
 
@@ -211,12 +211,14 @@ HauntedWoods_EventScript_FlashlightScientist_2:
 # 169 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
 	setflag FLAG_RECEIVED_FLASHLIGHT
 # 170 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
-	special Special_UpdateMapLightSources
+	clearflag FLAG_FLASHLIGHT_DISABLED
 # 171 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
-	msgbox HauntedWoods_Text_ScientistGaveFlashlight, MSGBOX_DEFAULT
+	special Special_UpdateMapLightSources
 # 172 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
-	closemessage
+	msgbox HauntedWoods_Text_ScientistGaveFlashlight, MSGBOX_DEFAULT
 # 173 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
+	closemessage
+# 174 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
 	release
 	end
 
@@ -226,57 +228,48 @@ HauntedWoods_EventScript_FlashlightScientist_3:
 	goto HauntedWoods_EventScript_FlashlightScientist_1
 
 HauntedWoods_EventScript_FlashlightScientist_8:
-# 185 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
+# 186 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
 	goto HauntedWoods_EventScript_ToggleFlashlightTesting
 	goto HauntedWoods_EventScript_FlashlightScientist_6
 
 HauntedWoods_EventScript_FlashlightScientist_9:
-# 187 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
-	giveitem ITEM_ESCAPE_ROPE, 1
 # 188 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
+	giveitem ITEM_ESCAPE_ROPE, 1
+# 189 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
 	msgbox HauntedWoods_Text_ScientistGaveEscapeRope, MSGBOX_DEFAULT
 	goto HauntedWoods_EventScript_FlashlightScientist_6
 
 
 HauntedWoods_EventScript_ToggleFlashlightTesting::
-# 198 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
-	checkitem ITEM_FLASHLIGHT, 1
 # 199 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
-	compare VAR_RESULT, TRUE
-	goto_if_eq HauntedWoods_EventScript_ToggleFlashlightTesting_2
-# 199 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
-	goto_if_set FLAG_RECEIVED_FLASHLIGHT, HauntedWoods_EventScript_ToggleFlashlightTesting_2
+	goto_if_set FLAG_FLASHLIGHT_DISABLED, HauntedWoods_EventScript_ToggleFlashlightTesting_2
+# 204 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
+	setflag FLAG_FLASHLIGHT_DISABLED
 # 205 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
-	giveitem ITEM_FLASHLIGHT, 1
-# 206 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
-	setflag FLAG_RECEIVED_FLASHLIGHT
-# 207 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
 	special Special_UpdateMapLightSources
-# 208 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
-	msgbox HauntedWoods_Text_ScientistReturnedFlashlight, MSGBOX_DEFAULT
+# 206 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
+	msgbox HauntedWoods_Text_ScientistRemovedFlashlight, MSGBOX_DEFAULT
 HauntedWoods_EventScript_ToggleFlashlightTesting_1:
-# 210 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
+# 208 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
 	closemessage
-# 211 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
+# 209 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
 	release
 	end
 
 HauntedWoods_EventScript_ToggleFlashlightTesting_2:
 # 200 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
-	removeitem ITEM_FLASHLIGHT, 1
+	clearflag FLAG_FLASHLIGHT_DISABLED
 # 201 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
-	clearflag FLAG_RECEIVED_FLASHLIGHT
-# 202 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
 	special Special_UpdateMapLightSources
-# 203 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
-	msgbox HauntedWoods_Text_ScientistRemovedFlashlight, MSGBOX_DEFAULT
+# 202 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
+	msgbox HauntedWoods_Text_ScientistReturnedFlashlight, MSGBOX_DEFAULT
 	goto HauntedWoods_EventScript_ToggleFlashlightTesting_1
 
 
 HauntedWoods_EventScript_FlashlightTrainer::
-# 282 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
+# 280 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
 	trainerbattle_single TRAINER_CAMPER_2, HauntedWoods_Text_FlashlightTrainerIntro, HauntedWoods_Text_FlashlightTrainerDefeat
-# 283 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
+# 281 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
 	msgbox HauntedWoods_Text_FlashlightTrainerPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -358,7 +351,7 @@ HauntedWoods_Text_KeeperFarewell::
 	.string "through the dark.$"
 
 HauntedWoods_Text_ScientistIntroNoFlashlight::
-# 215 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
+# 213 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
 	.string "Phew! It's pitch-black out here...\p"
 	.string "Good thing I fitted my torch with an\n"
 	.string "amber lens filter.\p"
@@ -373,7 +366,7 @@ HauntedWoods_Text_ScientistIntroNoFlashlight::
 	.string "you ever lose your bearings.$"
 
 HauntedWoods_Text_ScientistGaveFlashlight::
-# 230 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
+# 228 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
 	.string "Click! There you go!\n"
 	.string "Your Flashlight is now shining bright.\p"
 	.string "If the darkness ever overwhelms you,\n"
@@ -381,7 +374,7 @@ HauntedWoods_Text_ScientistGaveFlashlight::
 	.string "to warp safely back out!$"
 
 HauntedWoods_Text_ScientistTestPrompt::
-# 238 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
+# 236 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
 	.string "How is that Flashlight treating you?\p"
 	.string "I'm running tests on visibility and light\n"
 	.string "dispersion in this fog.\p"
@@ -389,51 +382,51 @@ HauntedWoods_Text_ScientistTestPrompt::
 	.string "for feature testing?$"
 
 HauntedWoods_Text_OptKeepFlashlight::
-# 246 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
+# 244 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
 	.string "Keep Flashlight$"
 
 HauntedWoods_Text_OptToggleFlashlight::
-# 250 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
+# 248 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
 	.string "Toggle Flashlight (On/Off)$"
 
 HauntedWoods_Text_OptGetEscapeRope::
-# 254 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
+# 252 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
 	.string "Extra Escape Rope$"
 
 HauntedWoods_Text_ScientistKeepFlashlight::
-# 258 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
+# 256 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
 	.string "Safe travels through the haunted mist!$"
 
 HauntedWoods_Text_ScientistGaveEscapeRope::
-# 262 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
+# 260 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
 	.string "Here's another Escape Rope!\n"
 	.string "Always keep one handy in the dark.$"
 
 HauntedWoods_Text_ScientistRemovedFlashlight::
-# 267 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
+# 265 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
 	.string "Click!\n"
 	.string "Flashlight returned and packed away.\p"
 	.string "Notice how the woods return to complete\n"
 	.string "pitch-black darkness?$"
 
 HauntedWoods_Text_ScientistReturnedFlashlight::
-# 274 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
+# 272 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
 	.string "Click!\n"
 	.string "Flashlight switched back on!\p"
 	.string "Your amber beam cuts right through\n"
 	.string "the gloomy mist.$"
 
 HauntedWoods_Text_FlashlightTrainerIntro::
-# 287 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
+# 285 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
 	.string "Click!\n"
 	.string "Caught you in my flashlight beam!$"
 
 HauntedWoods_Text_FlashlightTrainerDefeat::
-# 292 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
+# 290 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
 	.string "Aww! You blinded me with your skill!$"
 
 HauntedWoods_Text_FlashlightTrainerPostBattle::
-# 296 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
+# 294 "/mnt/c/Users/zscha/OneDrive/Documents/Decomps/Solid-Oak/Solid-Oak/data/maps/HauntedWoods/scripts.pory"
 	.string "It's dangerous to explore the woods\n"
 	.string "without a light.\p"
 	.string "Keep your wits about you!$"

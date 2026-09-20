@@ -20,6 +20,7 @@
 #include "fieldmap.h"
 #include "fldeff.h"
 #include "follower_npc.h"
+#include "field_light_sources.h"
 #include "item_menu.h"
 #include "item_use.h"
 #include "advanced_iv_scanner.h"
@@ -89,6 +90,8 @@ static bool8 TryToWaterSudowoodo(void);
 
 static const u8 sText_ExpShareOn[] = _("The Exp. Share has been turned on.{PAUSE_UNTIL_PRESS}");
 static const u8 sText_ExpShareOff[] = _("The Exp. Share has been turned off.{PAUSE_UNTIL_PRESS}");
+static const u8 sText_FlashlightOn[] = _("The Flashlight was turned on.{PAUSE_UNTIL_PRESS}");
+static const u8 sText_FlashlightOff[] = _("The Flashlight was turned off.{PAUSE_UNTIL_PRESS}");
 static const u8 sText_CantDismountBike[] = _("You can't dismount your BIKE here.{PAUSE_UNTIL_PRESS}");
 static const u8 sText_CoinCase[] = _("Your COINS:\n{STR_VAR_1}{PAUSE_UNTIL_PRESS}");
 static const u8 gText_PlayerUsedVar2[] = _("{PLAYER} used the\n{STR_VAR_2}.{PAUSE_UNTIL_PRESS}");
@@ -477,6 +480,29 @@ void ItemUseOutOfBattle_CourierWhistle(u8 taskId)
         sItemUseOnFieldCB = Task_UseCourierWhistle;
         SetUpItemUseOnFieldCallback(taskId);
     }
+}
+
+void ItemUseOutOfBattle_Flashlight(u8 taskId)
+{
+    const u8 *msg;
+
+    if (FlagGet(FLAG_FLASHLIGHT_DISABLED))
+    {
+        FlagClear(FLAG_FLASHLIGHT_DISABLED);
+        msg = sText_FlashlightOn;
+    }
+    else
+    {
+        FlagSet(FLAG_FLASHLIGHT_DISABLED);
+        msg = sText_FlashlightOff;
+    }
+
+    PlaySE(SE_CLICK);
+
+    if (gTasks[taskId].tUsingRegisteredKeyItem)
+        InitMapLightSources();
+
+    DisplayItemMessageInCurrentContext(taskId, gTasks[taskId].tUsingRegisteredKeyItem, FONT_NORMAL, msg);
 }
 
 void ItemUseOutOfBattle_CoinCase(u8 taskId)
