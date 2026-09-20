@@ -161,19 +161,121 @@ text HauntedWoods_Text_KeeperFarewell {
 script HauntedWoods_EventScript_FlashlightScientist {
     lock
     faceplayer
-    msgbox(HauntedWoods_Text_ScientistFlashlight, MSGBOX_DEFAULT)
+    checkitem(ITEM_FLASHLIGHT, 1)
+    if (var(VAR_RESULT) == FALSE && !flag(FLAG_RECEIVED_FLASHLIGHT)) {
+        msgbox(HauntedWoods_Text_ScientistIntroNoFlashlight, MSGBOX_DEFAULT)
+        giveitem(ITEM_FLASHLIGHT, 1)
+        giveitem(ITEM_ESCAPE_ROPE, 1)
+        setflag(FLAG_RECEIVED_FLASHLIGHT)
+        special(Special_UpdateMapLightSources)
+        msgbox(HauntedWoods_Text_ScientistGaveFlashlight, MSGBOX_DEFAULT)
+        closemessage
+        release
+        end
+    }
+
+    message(HauntedWoods_Text_ScientistTestPrompt)
+    waitmessage
+    dynmultipush(HauntedWoods_Text_OptKeepFlashlight, 0)
+    dynmultipush(HauntedWoods_Text_OptToggleFlashlight, 1)
+    dynmultipush(HauntedWoods_Text_OptGetEscapeRope, 2)
+    dynmultistack(0, 0, FALSE, 3, FALSE, 0, DYN_MULTICHOICE_CB_NONE)
+    switch (var(VAR_RESULT)) {
+        case 1:
+            goto(HauntedWoods_EventScript_ToggleFlashlightTesting)
+        case 2:
+            giveitem(ITEM_ESCAPE_ROPE, 1)
+            msgbox(HauntedWoods_Text_ScientistGaveEscapeRope, MSGBOX_DEFAULT)
+        default:
+            msgbox(HauntedWoods_Text_ScientistKeepFlashlight, MSGBOX_DEFAULT)
+    }
     closemessage
     release
     end
 }
 
-text HauntedWoods_Text_ScientistFlashlight {
+script HauntedWoods_EventScript_ToggleFlashlightTesting {
+    checkitem(ITEM_FLASHLIGHT, 1)
+    if (var(VAR_RESULT) == TRUE || flag(FLAG_RECEIVED_FLASHLIGHT)) {
+        removeitem(ITEM_FLASHLIGHT, 1)
+        clearflag(FLAG_RECEIVED_FLASHLIGHT)
+        special(Special_UpdateMapLightSources)
+        msgbox(HauntedWoods_Text_ScientistRemovedFlashlight, MSGBOX_DEFAULT)
+    } else {
+        giveitem(ITEM_FLASHLIGHT, 1)
+        setflag(FLAG_RECEIVED_FLASHLIGHT)
+        special(Special_UpdateMapLightSources)
+        msgbox(HauntedWoods_Text_ScientistReturnedFlashlight, MSGBOX_DEFAULT)
+    }
+    closemessage
+    release
+    end
+}
+
+text HauntedWoods_Text_ScientistIntroNoFlashlight {
     "Phew! It's pitch-black out here...\p"
     "Good thing I fitted my torch with an\n"
     "amber lens filter.\p"
     "Standard white light scatters too much\n"
     "in this spectral mist, but this warm\l"
-    "beam cuts right through it!"
+    "beam cuts right through it!\p"
+    "Wait, you don't even have a flashlight?\n"
+    "You won't be able to see a single step\l"
+    "in these haunted woods!\p"
+    "Here, take this spare Flashlight! And\n"
+    "take an Escape Rope too, just in case\l"
+    "you ever lose your bearings."
+}
+
+text HauntedWoods_Text_ScientistGaveFlashlight {
+    "Click! There you go!\n"
+    "Your Flashlight is now shining bright.\p"
+    "If the darkness ever overwhelms you,\n"
+    "remember you can use your Escape Rope\l"
+    "to warp safely back out!"
+}
+
+text HauntedWoods_Text_ScientistTestPrompt {
+    "How is that Flashlight treating you?\p"
+    "I'm running tests on visibility and light\n"
+    "dispersion in this fog.\p"
+    "Would you like to adjust your lighting\n"
+    "for feature testing?"
+}
+
+text HauntedWoods_Text_OptKeepFlashlight {
+    "Keep Flashlight"
+}
+
+text HauntedWoods_Text_OptToggleFlashlight {
+    "Toggle Flashlight (On/Off)"
+}
+
+text HauntedWoods_Text_OptGetEscapeRope {
+    "Extra Escape Rope"
+}
+
+text HauntedWoods_Text_ScientistKeepFlashlight {
+    "Safe travels through the haunted mist!"
+}
+
+text HauntedWoods_Text_ScientistGaveEscapeRope {
+    "Here's another Escape Rope!\n"
+    "Always keep one handy in the dark."
+}
+
+text HauntedWoods_Text_ScientistRemovedFlashlight {
+    "Click!\n"
+    "Flashlight returned and packed away.\p"
+    "Notice how the woods return to complete\n"
+    "pitch-black darkness?"
+}
+
+text HauntedWoods_Text_ScientistReturnedFlashlight {
+    "Click!\n"
+    "Flashlight switched back on!\p"
+    "Your amber beam cuts right through\n"
+    "the gloomy mist."
 }
 
 script HauntedWoods_EventScript_FlashlightTrainer {

@@ -15,8 +15,10 @@
 #include "task.h"
 #include "trig.h"
 #include "sound.h"
+#include "item.h"
 #include "constants/field_effects.h"
 #include "constants/flags.h"
+#include "constants/items.h"
 #include "constants/maps.h"
 #include "constants/global.h"
 #include "constants/opponents.h"
@@ -3424,34 +3426,37 @@ static void SpawnMapBoundLightSources(u8 mapGroup, u8 mapNum)
         SetGpuRegBits(REG_OFFSET_DISPCNT, DISPCNT_OBJWIN_ON);
         SetGpuRegBits(REG_OFFSET_WINOUT, WINOUT_WINOBJ_BG_ALL | WINOUT_WINOBJ_OBJ);
 
-        // Player Flashlight Beam (data[3] = 0)
-        if (count < MAX_MAP_LIGHTS)
+        if (CheckBagHasItem(ITEM_FLASHLIGHT, 1) || FlagGet(FLAG_RECEIVED_FLASHLIGHT))
         {
-            u8 beamSpriteId = CreateSprite(&sSpriteTemplate_LightCone, 120, 80, 0);
-            if (beamSpriteId != MAX_SPRITES)
+            // Player Flashlight Beam (data[3] = 0)
+            if (count < MAX_MAP_LIGHTS)
             {
-                gSprites[beamSpriteId].coordOffsetEnabled = TRUE;
-                gSprites[beamSpriteId].data[1] = TRACKING_PLAYER;
-                gSprites[beamSpriteId].data[2] = LIGHT_TYPE_FLASHLIGHT;
-                gSprites[beamSpriteId].data[3] = 0; // Beam
-                gSprites[beamSpriteId].invisible = TRUE;
-                sLightSpriteIds[count++] = beamSpriteId;
+                u8 beamSpriteId = CreateSprite(&sSpriteTemplate_LightCone, 120, 80, 0);
+                if (beamSpriteId != MAX_SPRITES)
+                {
+                    gSprites[beamSpriteId].coordOffsetEnabled = TRUE;
+                    gSprites[beamSpriteId].data[1] = TRACKING_PLAYER;
+                    gSprites[beamSpriteId].data[2] = LIGHT_TYPE_FLASHLIGHT;
+                    gSprites[beamSpriteId].data[3] = 0; // Beam
+                    gSprites[beamSpriteId].invisible = TRUE;
+                    sLightSpriteIds[count++] = beamSpriteId;
+                }
             }
-        }
 
-        // Player Flashlight Ambient Glow (data[3] = 1)
-        if (count < MAX_MAP_LIGHTS)
-        {
-            u8 glowSpriteId = CreateSprite(&sSpriteTemplate_LightCone, 120, 80, 0);
-            if (glowSpriteId != MAX_SPRITES)
+            // Player Flashlight Ambient Glow (data[3] = 1)
+            if (count < MAX_MAP_LIGHTS)
             {
-                gSprites[glowSpriteId].coordOffsetEnabled = TRUE;
-                gSprites[glowSpriteId].data[1] = TRACKING_PLAYER;
-                gSprites[glowSpriteId].data[2] = LIGHT_TYPE_FLASHLIGHT;
-                gSprites[glowSpriteId].data[3] = 1; // Glow
-                gSprites[glowSpriteId].invisible = TRUE;
-                StartSpriteAnim(&gSprites[glowSpriteId], LIGHT_CONE_ANIM_GLOW);
-                sLightSpriteIds[count++] = glowSpriteId;
+                u8 glowSpriteId = CreateSprite(&sSpriteTemplate_LightCone, 120, 80, 0);
+                if (glowSpriteId != MAX_SPRITES)
+                {
+                    gSprites[glowSpriteId].coordOffsetEnabled = TRUE;
+                    gSprites[glowSpriteId].data[1] = TRACKING_PLAYER;
+                    gSprites[glowSpriteId].data[2] = LIGHT_TYPE_FLASHLIGHT;
+                    gSprites[glowSpriteId].data[3] = 1; // Glow
+                    gSprites[glowSpriteId].invisible = TRUE;
+                    StartSpriteAnim(&gSprites[glowSpriteId], LIGHT_CONE_ANIM_GLOW);
+                    sLightSpriteIds[count++] = glowSpriteId;
+                }
             }
         }
     }
@@ -3606,7 +3611,7 @@ static void SpawnMapBoundLightSources(u8 mapGroup, u8 mapNum)
         }
     }
 
-    if (count > 0)
+    if (count > 0 || isDarkMap)
         sMapLightsActive = TRUE;
 }
 
@@ -3917,12 +3922,10 @@ void UpdateMapLightSourcesVisibility(bool8 visible)
 // then add it to the specials table in data/specials.inc, e.g.
 //     def_special Special_UpdateMapLightSources
 // and call it from Poryscript as `special(Special_UpdateMapLightSources)`.
-/*
 void Special_UpdateMapLightSources(void)
 {
     InitMapLightSources();
 }
-*/
 
 void ActivateTrainerLight(struct ObjectEvent *trainerObj)
 {

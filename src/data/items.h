@@ -7389,6 +7389,22 @@ const struct ItemInfo gItemsInfo[] =
         .iconPalette = gItemIconPalette_ScrollOfDarkness,
     },
 
+    [ITEM_FLASHLIGHT] =
+    {
+        .name = ITEM_NAME("Flashlight"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "Illuminates dark and\n"
+            "shadowy areas with\n"
+            "a focused beam."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_DowsingMachine,
+        .iconPalette = gItemIconPalette_DowsingMachine,
+    },
+
 // Gems
     #if I_PRICE >= GEN_9
         #define GEM_PRICE 15000

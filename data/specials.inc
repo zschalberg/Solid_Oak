@@ -405,6 +405,7 @@ gSpecials::
 	def_special Special_ShowQuestUpdateToast
 	def_special Special_ShowQuestCompleteToast
 	def_special CountRedProtoballCaughtMons
+	def_special Special_UpdateMapLightSources
 gSpecialsEnd::
 
 

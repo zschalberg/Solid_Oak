@@ -66,10 +66,10 @@ void InitMapLightSources(void);
 void DestroyMapLightSources(void);
 void ActivateTrainerLight(struct ObjectEvent *trainerObj);
 void OnMapConnectionTransition(u8 mapGroup, u8 mapNum);
+void Special_UpdateMapLightSources(void);
 
 // Currently unused -- definitions are commented out in src/field_light_sources.c
 // with notes on what they do and what still needs wiring before re-enabling.
 // void UpdateMapLightSourcesVisibility(bool8 visible);
-// void Special_UpdateMapLightSources(void);
 
 #endif // GUARD_FIELD_LIGHT_SOURCES_H

@@ -1064,6 +1064,8 @@ enum __attribute__((packed)) Item
     // Field Move Permits
     ITEM_HM_ROCK_CLIMB = 882,
 
+    ITEM_FLASHLIGHT = 883,
+
     ITEMS_COUNT,
     ITEM_FIELD_ARROW = ITEMS_COUNT,
 };
