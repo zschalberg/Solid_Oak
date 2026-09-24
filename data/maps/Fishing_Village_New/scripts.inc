@@ -130,8 +130,8 @@ Fishing_Village_New_Boss_Battle_Text_0:
 Fishing_Village_New_Sailor_Text_0:
 # 29 "data/maps/Fishing_Village_New/scripts.pory"
 	.string "The TENTACOOL have been gathering.\p"
-	.string "They're more of a nuisane than a \n"
-	.string "threat. It's the TENTACREUL that \l"
+	.string "They're more of a nuisance than a\n"
+	.string "threat. It's the TENTACRUEL that\l"
 	.string "you need to watch out for.$"
 
 Fishing_Village_New_Fisherman_Text_0:
