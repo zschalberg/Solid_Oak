@@ -83,7 +83,8 @@ script HauntedWoods_EventScript_KeeperExit {
 }
 
 text HauntedWoods_Text_KeeperIntro {
-    "I keep vigil over this spectral flame.\p"
+    "I keep vigil over this spectral\n"
+    "flame.\p"
     "Would you like to adjust its aura?"
 }
 
@@ -134,7 +135,8 @@ text HauntedWoods_Text_OptSize150 {
 }
 
 text HauntedWoods_Text_SizeSet50 {
-    "The flame shrinks to a faint 50% glow."
+    "The flame shrinks to a faint\n"
+    "50% glow."
 }
 
 text HauntedWoods_Text_SizeSet100 {
@@ -150,7 +152,8 @@ text HauntedWoods_Text_MoveStarted {
 }
 
 text HauntedWoods_Text_MoveStopped {
-    "The flame returns to resting in place."
+    "The flame returns to resting\n"
+    "in place."
 }
 
 text HauntedWoods_Text_KeeperFarewell {
@@ -214,31 +217,32 @@ text HauntedWoods_Text_ScientistIntroNoFlashlight {
     "Phew! It's pitch-black out here...\p"
     "Good thing I fitted my torch with an\n"
     "amber lens filter.\p"
-    "Standard white light scatters too much\n"
-    "in this spectral mist, but this warm\l"
-    "beam cuts right through it!\p"
-    "Wait, you don't even have a flashlight?\n"
-    "You won't be able to see a single step\l"
-    "in these haunted woods!\p"
-    "Here, take this spare Flashlight! And\n"
-    "take an Escape Rope too, just in case\l"
-    "you ever lose your bearings."
+    "Standard white light scatters too\n"
+    "much in this spectral mist, but this\l"
+    "warm beam cuts right through it!\p"
+    "Wait, you don't even have a\n"
+    "flashlight?\p"
+    "You won't be able to see a single\n"
+    "step in these haunted woods!\p"
+    "Here, take this spare Flashlight!\n"
+    "And take an Escape Rope too, just\l"
+    "in case you ever lose your bearings."
 }
 
 text HauntedWoods_Text_ScientistGaveFlashlight {
-    "Click! There you go!\n"
-    "Your Flashlight is now shining bright.\p"
+    "Click! There you go! Your\n"
+    "Flashlight is now shining bright.\p"
     "If the darkness ever overwhelms you,\n"
-    "remember you can use your Escape Rope\l"
-    "to warp safely back out!"
+    "remember you can use your Escape\l"
+    "Rope to warp safely back out!"
 }
 
 text HauntedWoods_Text_ScientistTestPrompt {
     "How is that Flashlight treating you?\p"
-    "I'm running tests on visibility and light\n"
-    "dispersion in this fog.\p"
-    "Would you like to adjust your lighting\n"
-    "for feature testing?"
+    "I'm running tests on visibility and\n"
+    "light dispersion in this fog.\p"
+    "Would you like to adjust your\n"
+    "lighting for feature testing?"
 }
 
 text HauntedWoods_Text_OptKeepFlashlight {
@@ -254,7 +258,8 @@ text HauntedWoods_Text_OptGetEscapeRope {
 }
 
 text HauntedWoods_Text_ScientistKeepFlashlight {
-    "Safe travels through the haunted mist!"
+    "Safe travels through the\n"
+    "haunted mist!"
 }
 
 text HauntedWoods_Text_ScientistGaveEscapeRope {
@@ -263,10 +268,10 @@ text HauntedWoods_Text_ScientistGaveEscapeRope {
 }
 
 text HauntedWoods_Text_ScientistRemovedFlashlight {
-    "Click!\n"
-    "Flashlight returned and packed away.\p"
-    "Notice how the woods return to complete\n"
-    "pitch-black darkness?"
+    "Click! Flashlight returned\n"
+    "and packed away.\p"
+    "Notice how the woods return to\n"
+    "complete pitch-black darkness?"
 }
 
 text HauntedWoods_Text_ScientistReturnedFlashlight {

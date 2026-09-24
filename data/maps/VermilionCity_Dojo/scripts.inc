@@ -1336,7 +1336,7 @@ VermilionCity_Dojo_Text_ChallengeGuyIntro::
 	.string "Pick your challenge.\p"
 	.string "TRAINING matches whatever belt\n"
 	.string "you've earned, scaled to your\l"
-	.string "level. It won't count toward\n"
+	.string "level. It won't count toward\l"
 	.string "unlocking the next belt.$"
 
 VermilionCity_Dojo_Text_ChallengeTrainingSet::
@@ -1375,7 +1375,7 @@ VermilionCity_Dojo_Text_ChallengeGuyIntroGauntlet::
 	.string "Pick your challenge.\p"
 	.string "TRAINING matches whatever belt\n"
 	.string "you've earned, scaled to your\l"
-	.string "level. It won't count toward\n"
+	.string "level. It won't count toward\l"
 	.string "unlocking the next belt.\p"
 	.string "Since you've beaten all of us\n"
 	.string "at Black Belt... there's one\l"
@@ -1407,7 +1407,7 @@ VermilionCity_Dojo_Text_Plaque::
 VermilionCity_Dojo_Text_ScrollLeft::
 # 902 "data/maps/VermilionCity_Dojo/scripts.pory"
 	.string "The untrained eye sees a\n"
-	.string "common bird.\l"
+	.string "common bird.\p"
 	.string "The trained eye sees how\n"
 	.string "it holds its wings.$"
 

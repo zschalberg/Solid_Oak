@@ -105,12 +105,12 @@ script FuchsiaCity_EventScript_FujiTurnIn {
            "you to understand about what\l"
            "we're doing here.\p"
            "Individual differences in\n"
-           "POKéMON are real.\n"
+           "POKéMON are real.\l"
            "They matter.")
     closemessage
     msgbox("This land behind us has been\n"
            "set aside - a conservation\l"
-           "agreement I've been working on\n"
+           "agreement I've been working on\l"
            "for years.\p"
            "The idea is simple: we document\n"
            "the POKéMON being displaced,\l"
@@ -172,7 +172,8 @@ movement FuchsiaCity_Movement_PlayerToDoor {
 script FuchsiaCity_EventScript_Youngster {
     lock
     faceplayer
-    msgbox("Hey! Want to test the Slowpoke evolution?\nI found a wild Shellder!", MSGBOX_YESNO)
+    msgbox("Hey! Want to test the Slowpoke\n"
+           "evolution? I found a wild Shellder!", MSGBOX_YESNO)
     if (var(VAR_RESULT) == YES) {
         msgbox("Here it comes!", MSGBOX_DEFAULT)
         closemessage

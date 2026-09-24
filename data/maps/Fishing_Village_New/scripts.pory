@@ -27,8 +27,8 @@ script Fishing_Village_New_Sailor{
     lockall
     faceplayer
     msgbox("The TENTACOOL have been gathering.\p"
-           "They're more of a nuisane than a \n"
-           "threat. It's the TENTACREUL that \l"
+           "They're more of a nuisance than a\n"
+           "threat. It's the TENTACRUEL that\l"
            "you need to watch out for.")
     releaseall
     end

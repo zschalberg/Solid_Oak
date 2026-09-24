@@ -65,10 +65,12 @@ SSAnne_1F_Room6_Text_ExeggcuteFriendly::
 
 SSAnne_1F_Room6_Text_ScientistIntro::
     .string "I'm a researcher from Silph Co.\p"
-    .string "We're prototyping new Poké Ball tech.\p"
+    .string "We're prototyping new Poké Ball\n"
+    .string "tech.\p"
     .string "If you bring me Apricorns and a\n"
     .string "Conversion Kit, I can craft them.\p"
-    .string "Would you like me to craft a Protoball?$"
+    .string "Would you like me to craft a\n"
+    .string "Protoball?$"
 
 SSAnne_1F_Room6_Text_ScientistDecline::
     .string "Come back if you need me to craft\n"

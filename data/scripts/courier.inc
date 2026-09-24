@@ -119,8 +119,8 @@ Movement_CourierBirdFlyOut::
 @ Texts
 Text_CourierGreeting:
 	.string "Hello! I am a SANCTUARY COURIER.\p"
-	.string "For a single fee of ¥500, my PIDGEOT\n"
-	.string "can exchange POKéMON with\l"
+	.string "For a single fee of ¥500, my\n"
+	.string "PIDGEOT can exchange POKéMON with\l"
 	.string "MR. FUJI'S SANCTUARY LAB.\p"
 	.string "Would you like to hire my PIDGEOT?$"
 

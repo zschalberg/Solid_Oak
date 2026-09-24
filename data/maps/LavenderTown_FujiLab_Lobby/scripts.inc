@@ -65,13 +65,16 @@ LavenderTown_FujiLab_Lobby_Text_AskDeposit:
 	.string "Sanctuary POKéMON?$"
 
 LavenderTown_FujiLab_Lobby_Text_AskUpgrade:
-	.string "We are currently looking for a donation\n"
-	.string "of ¥50,000 to renovate Rooms 9 and 10.\p"
+	.string "We are currently looking for a\n"
+	.string "donation of ¥50,000 to renovate\l"
+	.string "Rooms 9 and 10.\p"
 	.string "Would you like to donate ¥50,000?$"
 
 LavenderTown_FujiLab_Lobby_Text_UpgradeSuccess:
-	.string "Thank you so much for your donation!\n"
-	.string "We will open Rooms 9 and 10 immediately!$"
+	.string "Thank you so much for your\n"
+	.string "donation!\p"
+	.string "We will open Rooms 9 and 10\n"
+	.string "immediately!$"
 
 LavenderTown_FujiLab_Lobby_Text_NotEnoughMoney:
 	.string "Oh… It seems you don't have enough\n"

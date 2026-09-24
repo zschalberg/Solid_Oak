@@ -88,5 +88,5 @@ SSAnne_1F_Corridor_Text_Cancelled:
 	.string "You didn't select a Pokémon.$"
 
 SSAnne_1F_Corridor_Text_LastPokemonError:
-	.string "Wait! That's your last usable Pokémon!\n"
-	.string "I cannot take it from you.$"
+	.string "Wait! That's your last usable\n"
+	.string "Pokémon! I cannot take it from you.$"

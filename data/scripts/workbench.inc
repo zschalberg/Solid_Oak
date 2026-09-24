@@ -269,8 +269,8 @@ Text_CraftingSelectCategory:
 	.string "Select a crafting category.$"
 
 Text_UpgradeSelectSource:
-	.string "Would you like to upgrade a Pokémon's\n"
-	.string "ball, or an empty ball from your Bag?$"
+	.string "Upgrade a Pokémon's ball, or an\n"
+	.string "empty ball from your Bag?$"
 
 Text_UpgradeSelectBagBall:
 	.string "Select which Protoball in your Bag\n"
@@ -285,7 +285,8 @@ Text_UpgradeSuccessMon:
 	.string "{STR_VAR_2}!$"
 
 Text_UpgradeSuccessBag:
-	.string "Upgraded the ball into a {STR_VAR_2}!$"
+	.string "Upgraded the ball into a\n"
+	.string "{STR_VAR_2}!$"
 
 Text_UpgradeNeedApricorn:
 	.string "You need 1 {STR_VAR_2} to upgrade\n"
@@ -309,7 +310,7 @@ Text_NoBrewingKits:
 
 Text_NoMedicineIngredients:
 	.string "You don't have the materials!\n"
-	.string "You need 1 {STR_VAR_2} and\n"
+	.string "You need 1 {STR_VAR_2} and\l"
 	.string "1 Brewing Kit.$"
 
 Text_NotEnoughIngredients:

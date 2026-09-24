@@ -19,7 +19,8 @@ script SSMinnow_1F_EventScript_AgathaCutscene {
     
     textcolor(NPC_TEXT_COLOR_FEMALE)
     // Dialogue
-    msgbox("Alright Sammy,\nLet's go see what the professor wants.")
+    msgbox("Alright Sammy, let's go see\n"
+           "what the professor wants.")
     closemessage
     // Open the door at (16, 6) where Room 6 is located
     opendoor(16, 8)

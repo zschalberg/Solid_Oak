@@ -21,13 +21,14 @@ script Common_EventScript_TMTutor {
 
 text Common_Text_TMTutorWelcome {
     "Welcome to the Dojo!\p"
-    "I can teach your POKéMON any TM move\n"
-    "that you carry in your TM CASE.\p"
+    "I can teach your POKéMON any TM\n"
+    "move that's in your TM CASE.\p"
     "Would you like me to teach a move?"
 }
 
 text Common_Text_TMTutorDeclined {
-    "Come back whenever you wish to train!"
+    "Come back whenever you wish\n"
+    "to train!"
 }
 
 text Common_Text_TMTutorTaught {
