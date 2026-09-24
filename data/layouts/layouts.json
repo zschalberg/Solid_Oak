@@ -604,7 +604,7 @@
     {
       "id": "LAYOUT_ROUTE10",
       "name": "Route10_Layout",
-      "width": 30,
+      "width": 74,
       "height": 80,
       "border_width": 2,
       "border_height": 2,
@@ -788,7 +788,7 @@
       "height": 20,
       "border_width": 2,
       "border_height": 2,
-      "primary_tileset": "gTileset_GeneralSummer",
+      "primary_tileset": "gTileset_General",
       "secondary_tileset": "gTileset_CeruleanCity",
       "border_filepath": "data/layouts/Route25/border.bin",
       "blockdata_filepath": "data/layouts/Route25/map.bin"
@@ -2588,7 +2588,7 @@
       "height": 31,
       "border_width": 2,
       "border_height": 2,
-      "primary_tileset": "gTileset_GeneralSummer",
+      "primary_tileset": "gTileset_General",
       "secondary_tileset": "gTileset_CeruleanCity",
       "border_filepath": "data/layouts/TwoIsland_JoyfulGameCorner/border.bin",
       "blockdata_filepath": "data/layouts/TwoIsland_JoyfulGameCorner/map.bin"
