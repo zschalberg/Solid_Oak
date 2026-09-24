@@ -100,6 +100,9 @@ static void CollectFamilyMembers(enum Species species, enum Species *list, u8 *c
     list[(*count)++] = species;
 
     evolutions = GetSpeciesEvolutions(species);
+    if (evolutions == NULL)
+        return;
+
     for (i = 0; evolutions[i].method != EVOLUTIONS_END; i++)
     {
         if (evolutions[i].targetSpecies != SPECIES_NONE)

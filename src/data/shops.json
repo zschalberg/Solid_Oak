@@ -71,7 +71,9 @@
                 {
                     "items": [
                         "ITEM_ENERGY_POWDER",
-                        "ITEM_HEAL_POWDER"
+                        "ITEM_HEAL_POWDER",
+                        "ITEM_POKE_DOLL",
+                        "ITEM_REPEL"
                     ]
                 }
             ]

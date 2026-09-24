@@ -3127,6 +3127,9 @@ const struct ObjectEventGraphicsInfo *GetObjectEventGraphicsInfo(u16 graphicsId)
     if (graphicsId >= NUM_OBJ_EVENT_GFX)
         graphicsId = OBJ_EVENT_GFX_LITTLE_BOY;
 
+    if (graphicsId == OBJ_EVENT_GFX_OW_MON)
+        return &gSpeciesInfo[SPECIES_NONE].overworldData;
+
     return gObjectEventGraphicsInfoPointers[graphicsId];
 }
 
