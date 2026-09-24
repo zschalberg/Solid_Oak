@@ -300,6 +300,8 @@ A team preview mechanism has been built to support competitive-style battle form
 
 ## 13. S.S. Anne Spawning Room & Game Intro
 
+**New Game Intro (Professor Arbor):** Selecting NEW GAME plays a reworked version of the FireRed Oak speech (`src/oak_speech.c`, text in `data/text/new_game_intro.inc`). Professor Arbor briefs young Oak on the setting (post-war Kanto), releases a Wingull to show off the out-of-place migrations, and explains the assignment. Young Oak's portrait then appears for the send-off before the usual shrink-away transition. The vanilla controls guide, Pikachu intro, gender select and naming screens have been removed. The player is always "Samuel" (male), set in `src/main_menu.c`. The intro Pokémon is set by `INTRO_SPECIES`. Arbor's and young Oak's speech pics (`graphics/oak_speech/arbor/`, `graphics/oak_speech/young_oak/`) are currently the 64×64 mugshots padded to the 64×96 trainer-pic slot.
+
 New games no longer start in the player's bedroom in Pallet Town. Instead:
 * The player spawns in **S.S. Anne 1F Room 6** (a custom cabin room).
 * The player starts with the **S.S. Ticket** in their bag, the Pokédex activated, and standard starter flags already set.
