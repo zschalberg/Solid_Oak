@@ -27,8 +27,8 @@
 // The standard textbox window created by InitStandardTextBoxWindows
 #define WIN_INTRO_TEXTBOX 0
 
-// Where the intro Pokémon appears. Arbor's pic is a bust, so the Pokémon sits
-// to his left rather than in front of him like vanilla Nidoran♀.
+// Where the intro Pokémon appears. Wingull is wide, so it sits to Arbor's left
+// rather than in front of him like vanilla Nidoran♀.
 #define INTRO_MON_X 60
 #define INTRO_MON_Y 96
 #define INTRO_BALL_X (INTRO_MON_X + 4)
@@ -84,10 +84,11 @@ extern const struct OamData gOamData_AffineOff_ObjBlend_32x32;
 static const u16 sOakSpeech_Background_Pals[] = INCBIN_U16("graphics/oak_speech/bg_tiles.gbapal");
 static const u32 sOakSpeech_Background_Tiles[] = INCBIN_U32("graphics/oak_speech/oak_speech_bg.4bpp.smol");
 static const u32 sOakSpeech_Background_Tilemap[] = INCBIN_U32("graphics/oak_speech/oak_speech_bg.bin.smolTM");
-static const u16 sOakSpeech_YoungOak_Pal[] = INCBIN_U16("graphics/oak_speech/young_oak/pal.gbapal");
-static const u32 sOakSpeech_YoungOak_Tiles[] = INCBIN_U32("graphics/oak_speech/young_oak/pic.8bpp.smol");
-static const u16 sOakSpeech_Arbor_Pal[] = INCBIN_U16("graphics/oak_speech/arbor/pal.gbapal");
-static const u32 sOakSpeech_Arbor_Tiles[] = INCBIN_U32("graphics/oak_speech/arbor/pic.8bpp.smol");
+// Young Oak currently uses vanilla Red's pic, and Arbor uses vanilla Oak's
+static const u16 sOakSpeech_YoungOak_Pal[] = INCBIN_U16("graphics/oak_speech/red/pal.gbapal");
+static const u32 sOakSpeech_YoungOak_Tiles[] = INCBIN_U32("graphics/oak_speech/red/pic.8bpp.smol");
+static const u16 sOakSpeech_Arbor_Pal[] = INCBIN_U16("graphics/oak_speech/oak/pal.gbapal");
+static const u32 sOakSpeech_Arbor_Tiles[] = INCBIN_U32("graphics/oak_speech/oak/pic.8bpp.smol");
 static const u16 sOakSpeech_Platform_Pal[] = INCBIN_U16("graphics/oak_speech/platform.gbapal");
 static const u32 sOakSpeech_Platform_Gfx[] = INCBIN_U32("graphics/oak_speech/platform.4bpp.smol");
 
