@@ -553,7 +553,7 @@ static void Task_ExecuteMainMenuSelection(u8 taskId)
             StringCopy(gSaveBlock2Ptr->playerName, sDefaultPlayerName);
             StringCopy(gSaveBlock1Ptr->rivalName, sDefaultRivalName);
             gMain.state = 0;
-            SetMainCallback2(CB2_NewGame);
+            StartNewGameScene();
             break;
         case MAIN_MENU_CONTINUE:
             gPlttBufferUnfaded[0] = RGB_BLACK;
