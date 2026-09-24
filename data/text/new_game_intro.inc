@@ -6,8 +6,8 @@ gOakSpeech_Text_Introduction::
     .string "Oak. Good, you're here.\p"
     .string "Before we sail, I want you to hear\n"
     .string "the whole of it. Once.\p"
-    .string "The war is over. Kanto is\n"
-    .string "rebuilding, one town at a time.\p"
+    .string "Kanto is rebuilding,\n"
+    .string "one town at a time.\p"
     .string "But the towns aren't the only\n"
     .string "thing that changed.\p$"
 
