@@ -13,8 +13,10 @@ the following are reported:
   SCROLL_LINE1 \\l used on line 1, so the first line scrolls away
   TRAILING     text ends in \\p, \\l or \\n (shows an empty box / stray break)
 
-Lines containing {PLAYER}/{STR_VAR_x} use an estimated width and are reported
-as warnings (prefixed with "?") since the real width depends on the value.
+{PLAYER} is measured as the fixed player name read from src/main_menu.c
+(the player can't rename). Lines containing {STR_VAR_x}/{RIVAL} use an estimated width and are
+reported as warnings (prefixed with "?") since the real width depends on the
+value.
 
 .pory files are checked through their generated .inc, so run `make` (or
 poryscript) first; a warning is printed when a .pory is newer than its .inc.
@@ -35,10 +37,13 @@ BOX_WIDTH = 208
 ARROW_ROOM = 200
 BOX_LINES = 2
 
+# The player can't rename, so {PLAYER} is always sDefaultPlayerName from
+# src/main_menu.c and is measured exactly.
+DEFAULT_PLAYER_NAME = 'Samuel'
+
 # Estimated pixel widths for runtime placeholders.
 PLACEHOLDER_WIDTHS = {
-    'PLAYER': 49,   # 7 characters
-    'RIVAL': 49,
+    'RIVAL': 49,    # 7 characters
     'STR_VAR_1': 63,
     'STR_VAR_2': 63,
     'STR_VAR_3': 63,
@@ -83,6 +88,12 @@ def load_glyph_widths(root):
     return [int(x) for x in re.findall(r'\d+', m.group(1))]
 
 
+def load_fixed_placeholders(root):
+    src = open(os.path.join(root, 'src/main_menu.c'), encoding='utf-8').read()
+    m = re.search(r'sDefaultPlayerName\[\]\s*=\s*_\("((?:[^"\\]|\\.)*)"\)', src)
+    return {'PLAYER': m.group(1) if m else DEFAULT_PLAYER_NAME}
+
+
 def load_charmap(root):
     charmap = {}
     for line in open(os.path.join(root, 'charmap.txt'), encoding='utf-8'):
@@ -122,6 +133,7 @@ class Measurer:
     def __init__(self, root):
         self.widths = load_glyph_widths(root)
         self.charmap = load_charmap(root)
+        self.fixed = load_fixed_placeholders(root)
 
     def width(self, kind, value):
         """Returns (pixels, is_estimate)."""
@@ -133,6 +145,8 @@ class Measurer:
         # {BRACE} codes: text colors, pauses, fonts, etc. take no space
         if ' ' in value:
             return 0, False
+        if value in self.fixed:
+            return sum(self.width('ch', c)[0] for c in self.fixed[value]), False
         if value in PLACEHOLDER_WIDTHS:
             return PLACEHOLDER_WIDTHS[value], True
         codes = self.charmap.get('{' + value + '}')
