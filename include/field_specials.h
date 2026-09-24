@@ -42,6 +42,7 @@ void Special_ShowQuestStartToast(void);
 void Special_ShowQuestUpdateToast(void);
 void Special_ShowQuestCompleteToast(void);
 void Special_ShowCustomToast(void);
+void PlayInteractedMonCry(void);
 
 // Return codes for CraftMedicine, mirroring the UPGRADE_RESULT_* convention
 // in ball_economy.h that the same Workbench script already switches on.

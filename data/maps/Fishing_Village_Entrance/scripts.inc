@@ -25,14 +25,27 @@ Fishing_Village_Entrance_EventScript_Zone1Intro::
 
 Fishing_Village_Entrance_Fisherman::
 # 24 "data/maps/Fishing_Village_Entrance/scripts.pory"
-	lockall
+	lock
 # 25 "data/maps/Fishing_Village_Entrance/scripts.pory"
 	faceplayer
 # 26 "data/maps/Fishing_Village_Entrance/scripts.pory"
-	msgbox Fishing_Village_Entrance_EventScript_Zone1Intro_Text_0
-# 30 "data/maps/Fishing_Village_Entrance/scripts.pory"
-	releaseall
+	compare VAR_ACT1_FUCHSIA, 1
+	goto_if_ge Fishing_Village_Entrance_Fisherman_2
+# 32 "data/maps/Fishing_Village_Entrance/scripts.pory"
+	msgbox Fishing_Village_Entrance_Fisherman_Text_1
+# 37 "data/maps/Fishing_Village_Entrance/scripts.pory"
+	closemessage
+Fishing_Village_Entrance_Fisherman_1:
+# 39 "data/maps/Fishing_Village_Entrance/scripts.pory"
+	release
 	end
+
+Fishing_Village_Entrance_Fisherman_2:
+# 27 "data/maps/Fishing_Village_Entrance/scripts.pory"
+	msgbox Fishing_Village_Entrance_Fisherman_Text_0
+# 30 "data/maps/Fishing_Village_Entrance/scripts.pory"
+	closemessage
+	goto Fishing_Village_Entrance_Fisherman_1
 
 
 Fishing_Village_Entrance_EventScript_Zone1Intro_Text_0:
@@ -41,3 +54,17 @@ Fishing_Village_Entrance_EventScript_Zone1Intro_Text_0:
 	.string "the water.\p"
 	.string "A big one. We can't get to\n"
 	.string "the boats.$"
+
+Fishing_Village_Entrance_Fisherman_Text_0:
+# 27 "data/maps/Fishing_Village_Entrance/scripts.pory"
+	.string "Something's in the water.\p"
+	.string "A big one. We can't get to\n"
+	.string "the boats.$"
+
+Fishing_Village_Entrance_Fisherman_Text_1:
+# 32 "data/maps/Fishing_Village_Entrance/scripts.pory"
+	.string "Heading through to the village?\p"
+	.string "Not the best time for fishing.\n"
+	.string "The TENTACOOL have been thick\l"
+	.string "in the shallows all week.\p"
+	.string "Keep your wits about you.$"

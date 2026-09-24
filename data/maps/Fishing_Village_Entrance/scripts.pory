@@ -20,13 +20,22 @@ script Fishing_Village_Entrance_EventScript_Zone1Intro {
     end
 }
 
-script Fishing_Village_Entrance_Fisherman{
-    lockall
+script Fishing_Village_Entrance_Fisherman {
+    lock
     faceplayer
-    msgbox("You're back. Something's in\n"
-        "the water.\p"
-        "A big one. We can't get to\n"
-        "the boats.")
-    releaseall
+    if (var(VAR_ACT1_FUCHSIA) >= 1) {
+        msgbox("Something's in the water.\p"
+               "A big one. We can't get to\n"
+               "the boats.")
+        closemessage
+    } else {
+        msgbox("Heading through to the village?\p"
+               "Not the best time for fishing.\n"
+               "The TENTACOOL have been thick\l"
+               "in the shallows all week.\p"
+               "Keep your wits about you.")
+        closemessage
+    }
+    release
     end
 }

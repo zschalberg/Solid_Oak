@@ -4121,4 +4121,15 @@ void Special_ShowCustomToast(void)
     gStringVar2[0] = EOS;
 }
 
+void PlayInteractedMonCry(void)
+{
+    u8 objEventId = GetObjectEventIdByLocalId(gSpecialVar_LastTalked);
+    if (objEventId < OBJECT_EVENTS_COUNT && IS_OW_MON_OBJ(&gObjectEvents[objEventId]))
+    {
+        u16 species = OW_SPECIES(&gObjectEvents[objEventId]);
+        if (species != SPECIES_NONE && species < NUM_SPECIES)
+            PlayCry_Script(species, CRY_MODE_NORMAL);
+    }
+}
+
 

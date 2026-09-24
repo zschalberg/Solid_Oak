@@ -53,14 +53,6 @@ SaffronCity_Text_SawRocketBossEscaping::
     .string "I saw the ROCKET BOSS escaping\n"
     .string "SILPH's building.$"
 
-SaffronCity_Text_ImASecurityGuard::
-    .string "I'm a security guard.\p"
-    .string "Suspicious kids I don't allow in!$"
-
-SaffronCity_Text_HesTakingASnooze::
-    .string "…\n"
-    .string "Snore…\p"
-    .string "Hah! He's taking a snooze!$"
 
 SaffronCity_Text_CitySign::
     .string "SAFFRON CITY\n"

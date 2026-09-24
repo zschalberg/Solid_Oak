@@ -25,21 +25,9 @@ EventScript_Close2FDoor2::
 	return
 
 EventScript_Close3FDoor1::
-	setmetatile 9, 11, METATILE_SilphCo_VerticalBarrier_TopLeft, 1
-	setmetatile 10, 11, METATILE_SilphCo_VerticalBarrier_TopRight, 1
-	setmetatile 9, 12, METATILE_SilphCo_VerticalBarrier_MidLeft, 1
-	setmetatile 10, 12, METATILE_SilphCo_VerticalBarrier_MidRight, 1
-	setmetatile 9, 13, METATILE_SilphCo_VerticalBarrier_BottomLeft, 1
-	setmetatile 10, 13, METATILE_SilphCo_VerticalBarrier_BottomRight, 1
 	return
 
 EventScript_Close3FDoor2::
-	setmetatile 20, 11, METATILE_SilphCo_VerticalBarrier_TopLeft, 1
-	setmetatile 21, 11, METATILE_SilphCo_VerticalBarrier_TopRight, 1
-	setmetatile 20, 12, METATILE_SilphCo_VerticalBarrier_MidLeft, 1
-	setmetatile 21, 12, METATILE_SilphCo_VerticalBarrier_MidRight, 1
-	setmetatile 20, 13, METATILE_SilphCo_VerticalBarrier_BottomLeft, 1
-	setmetatile 21, 13, METATILE_SilphCo_VerticalBarrier_BottomRight, 1
 	return
 
 EventScript_Close4FDoor1::
@@ -198,21 +186,9 @@ EventScript_Open2FDoor2::
 	return
 
 EventScript_Open3FDoor1::
-	setmetatile 9, 11, METATILE_SilphCo_Wall_LeftEdge, 1
-	setmetatile 10, 11, METATILE_SilphCo_Wall_RightEdge, 1
-	setmetatile 9, 12, METATILE_SilphCo_Floor_ShadeFull, 0
-	setmetatile 10, 12, METATILE_SilphCo_Floor_ShadeFull, 0
-	setmetatile 9, 13, METATILE_SilphCo_Floor_WallLeftCorner, 0
-	setmetatile 10, 13, METATILE_SilphCo_Floor_WallRightCorner, 0
 	return
 
 EventScript_Open3FDoor2::
-	setmetatile 20, 11, METATILE_SilphCo_Wall_LeftEdge, 1
-	setmetatile 21, 11, METATILE_SilphCo_Wall_RightEdge, 1
-	setmetatile 20, 12, METATILE_SilphCo_Floor_ShadeFull, 0
-	setmetatile 21, 12, METATILE_SilphCo_Floor_ShadeFull, 0
-	setmetatile 20, 13, METATILE_SilphCo_Floor_WallLeftCorner, 0
-	setmetatile 21, 13, METATILE_SilphCo_Floor_WallRightCorner, 0
 	return
 
 EventScript_Open4FDoor1::
@@ -367,19 +343,9 @@ SilphCo_2F_EventScript_Door2::
 	end
 
 SilphCo_3F_EventScript_Door1::
-	lockall
-	setvar VAR_TEMP_1, 3
-	setvar VAR_0x8004, FLAG_SILPH_3F_DOOR_1
-	goto_if_set FLAG_SILPH_3F_DOOR_1, EventScript_DoorUnlocked
-	goto EventScript_TryUnlockDoor
 	end
 
 SilphCo_3F_EventScript_Door2::
-	lockall
-	setvar VAR_TEMP_1, 4
-	setvar VAR_0x8004, FLAG_SILPH_3F_DOOR_2
-	goto_if_set FLAG_SILPH_3F_DOOR_2, EventScript_DoorUnlocked
-	goto EventScript_TryUnlockDoor
 	end
 
 SilphCo_4F_EventScript_Door1::

@@ -116,6 +116,8 @@ script LavenderTown_VolunteerPokemonHouse_EventScript_FujiIntro {
     // Reset it to 0 so it fires again (and this time actually plays) on
     // their next visit to Fuchsia.
     setvar(VAR_ACT1_FUCHSIA, 0)
+    setflag(FLAG_QUEST_MRFUJI_RESEARCH_COMPLETED)
+    quest_complete_toast("FUJI'S RESEARCH")
     quest_start_toast("KRAB FISHING")
     releaseall
     end

@@ -2,6 +2,75 @@ SSAnne_B1F_Room2_MapScripts::
 	.byte 0
 
 SSAnne_B1F_Room2_EventScript_Huey::
-	trainerbattle_single TRAINER_SAILOR_HUEY, SSAnne_B1F_Room2_Text_HueyIntro, SSAnne_B1F_Room2_Text_HueyDefeat
-	msgbox SSAnne_B1F_Room2_Text_HueyPostBattle, MSGBOX_AUTOCLOSE
+	lock
+	faceplayer
+	message SSAnne_B1F_Room2_Text_HueyGreeting
+	waitmessage
+	goto SSAnne_B1F_Room2_EventScript_Huey_Menu
+
+SSAnne_B1F_Room2_EventScript_Huey_Menu::
+	dynmultipush SSAnne_B1F_Room2_Text_Huey_ToggleWildScaling, 0
+	dynmultipush SSAnne_B1F_Room2_Text_Huey_ToggleDoubleFlag, 1
+	dynmultipush SSAnne_B1F_Room2_Text_Huey_SetLevelOffset, 2
+	dynmultipush SSAnne_B1F_Room2_Text_Huey_ExplainSettings, 3
+	dynmultipush SSAnne_B1F_Room2_Text_Huey_Close, 4
+	dynmultistack 0, 0, FALSE, 5, 0, 0, DYN_MULTICHOICE_CB_NONE
+	switch VAR_RESULT
+	case 0, SSAnne_B1F_Room2_EventScript_Huey_ToggleWildScaling
+	case 1, SSAnne_B1F_Room2_EventScript_Huey_ToggleDoubleFlag
+	case 2, SSAnne_B1F_Room2_EventScript_Huey_SetLevelOffset
+	case 3, SSAnne_B1F_Room2_EventScript_Huey_ExplainSettings
+	case 4, SSAnne_B1F_Room2_EventScript_Huey_Close
+	case MULTI_B_PRESSED, SSAnne_B1F_Room2_EventScript_Huey_Close
 	end
+
+SSAnne_B1F_Room2_EventScript_Huey_ToggleWildScaling::
+	checkflag FLAG_SCALE_WILD_POKEMON
+	goto_if_set FLAG_SCALE_WILD_POKEMON, SSAnne_B1F_Room2_EventScript_Huey_DisableWildScaling
+	setflag FLAG_SCALE_WILD_POKEMON
+	msgbox SSAnne_B1F_Room2_Text_Huey_WildScalingEnabled, MSGBOX_DEFAULT
+	goto SSAnne_B1F_Room2_EventScript_Huey_Menu
+
+SSAnne_B1F_Room2_EventScript_Huey_DisableWildScaling::
+	clearflag FLAG_SCALE_WILD_POKEMON
+	msgbox SSAnne_B1F_Room2_Text_Huey_WildScalingDisabled, MSGBOX_DEFAULT
+	goto SSAnne_B1F_Room2_EventScript_Huey_Menu
+
+SSAnne_B1F_Room2_EventScript_Huey_ToggleDoubleFlag::
+	checkflag FLAG_DOUBLE_BATTLE_WITH_ONE_MON
+	goto_if_set FLAG_DOUBLE_BATTLE_WITH_ONE_MON, SSAnne_B1F_Room2_EventScript_Huey_DisableDoubleFlag
+	setflag FLAG_DOUBLE_BATTLE_WITH_ONE_MON
+	msgbox SSAnne_B1F_Room2_Text_Huey_DoubleFlagEnabled, MSGBOX_DEFAULT
+	goto SSAnne_B1F_Room2_EventScript_Huey_Menu
+
+SSAnne_B1F_Room2_EventScript_Huey_DisableDoubleFlag::
+	clearflag FLAG_DOUBLE_BATTLE_WITH_ONE_MON
+	msgbox SSAnne_B1F_Room2_Text_Huey_DoubleFlagDisabled, MSGBOX_DEFAULT
+	goto SSAnne_B1F_Room2_EventScript_Huey_Menu
+
+SSAnne_B1F_Room2_EventScript_Huey_SetLevelOffset::
+	message SSAnne_B1F_Room2_Text_Huey_ChooseOffset
+	waitmessage
+	dynmultipush SSAnne_B1F_Room2_Text_Huey_Offset0, 0
+	dynmultipush SSAnne_B1F_Room2_Text_Huey_OffsetPlus5, 5
+	dynmultipush SSAnne_B1F_Room2_Text_Huey_OffsetPlus10, 10
+	dynmultipush SSAnne_B1F_Room2_Text_Huey_OffsetMinus5, -5
+	dynmultipush SSAnne_B1F_Room2_Text_Huey_OffsetMinus10, -10
+	dynmultipush SSAnne_B1F_Room2_Text_Huey_OffsetBack, 99
+	dynmultistack 0, 0, FALSE, 6, 0, 0, DYN_MULTICHOICE_CB_NONE
+	switch VAR_RESULT
+	case 99, SSAnne_B1F_Room2_EventScript_Huey_Menu
+	case MULTI_B_PRESSED, SSAnne_B1F_Room2_EventScript_Huey_Menu
+	setvar VAR_SCALE_LEVEL_OFFSET, VAR_RESULT
+	msgbox SSAnne_B1F_Room2_Text_Huey_OffsetSet, MSGBOX_DEFAULT
+	goto SSAnne_B1F_Room2_EventScript_Huey_Menu
+
+SSAnne_B1F_Room2_EventScript_Huey_ExplainSettings::
+	msgbox SSAnne_B1F_Room2_Text_Huey_ExplainText, MSGBOX_DEFAULT
+	goto SSAnne_B1F_Room2_EventScript_Huey_Menu
+
+SSAnne_B1F_Room2_EventScript_Huey_Close::
+	msgbox SSAnne_B1F_Room2_Text_HueyFarewell, MSGBOX_DEFAULT
+	release
+	end
+

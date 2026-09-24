@@ -1,3 +1,5 @@
+const SaffronCityAgatha = 9
+
 // Legacy content, unconverted. Kept verbatim in a raw block for now so the
 // map keeps building while only new scenes (below) are written as real
 // poryscript.
@@ -7,7 +9,6 @@ raw`SaffronCity_MapScripts::
 
 SaffronCity_OnTransition::
 	setworldmapflag FLAG_WORLD_MAP_SAFFRON_CITY
-	call_if_unset FLAG_RESCUED_MR_FUJI, SaffronCity_EventScript_MoveDoorGuardGrunt
 	@ Safety net: the Agatha ambush battle sets FLAG_SCALE_BOSS_BATTLE/
 	@ VAR_SCALE_LEVEL_OFFSET and B_FLAG_NO_WHITEOUT around its trainerbattle
 	@ call and clears them right after. That clear should always run now
@@ -19,10 +20,6 @@ SaffronCity_OnTransition::
 	setvar VAR_SCALE_LEVEL_OFFSET, 0
 	clearflag B_FLAG_NO_WHITEOUT
 	end
-
-SaffronCity_EventScript_MoveDoorGuardGrunt::
-	setobjectxyperm LOCALID_SAFFRON_DOOR_GUARD_GRUNT, 33, 31
-	return
 
 SaffronCity_EventScript_RocketGrunt1::
 	msgbox SaffronCity_Text_WhatDoYouWantGetLost, MSGBOX_NPC
@@ -50,21 +47,6 @@ SaffronCity_EventScript_RocketGrunt6::
 
 SaffronCity_EventScript_RocketGrunt7::
 	msgbox SaffronCity_Text_WeCanExploitMonsAroundWorld, MSGBOX_NPC
-	end
-
-SaffronCity_EventScript_DoorGuardGrunt::
-	lock
-	goto_if_set FLAG_RESCUED_MR_FUJI, SaffronCity_EventScript_DoorGuardAsleep
-	applymovement LOCALID_SAFFRON_DOOR_GUARD_GRUNT, Common_Movement_FacePlayer
-	waitmovement 0
-	msgbox SaffronCity_Text_ImASecurityGuard
-	release
-	end
-
-SaffronCity_EventScript_DoorGuardAsleep::
-	textcolor NPC_TEXT_COLOR_NEUTRAL
-	msgbox SaffronCity_Text_HesTakingASnooze
-	release
 	end
 
 SaffronCity_EventScript_WorkerM::
@@ -156,8 +138,8 @@ script SaffronCity_EventScript_AgathaAmbushTrigger {
     lockall
     playbgm(MUS_ENCOUNTER_RIVAL, 0)
     clearflag(FLAG_HIDE_SAFFRON_AGATHA_AMBUSH)
-    addobject(10)
-    applymovement(10, SaffronCity_Movement_AgathaAmbushEnter)
+    addobject(SaffronCityAgatha)
+    applymovement(SaffronCityAgatha, SaffronCity_Movement_AgathaAmbushEnter)
     waitmovement(0)
     showmugshot(MUGSHOT_AGATHA, MUGSHOT_LEFT)
     textcolor(NPC_TEXT_COLOR_FEMALE)
@@ -182,9 +164,9 @@ script SaffronCity_EventScript_AgathaAmbushTrigger {
     closemessage
     clearmugshot
     playbgm(MUS_RIVAL_EXIT, 0)
-    applymovement(10, SaffronCity_Movement_AgathaAmbushExit)
+    applymovement(SaffronCityAgatha, SaffronCity_Movement_AgathaAmbushExit)
     waitmovement(0)
-    removeobject(10)
+    removeobject(SaffronCityAgatha)
     setflag(FLAG_HIDE_SAFFRON_AGATHA_AMBUSH)
     fadedefaultbgm
     setvar(VAR_SCENE_SILPH, 4)

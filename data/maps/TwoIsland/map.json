@@ -27,14 +27,14 @@
       "y": 40,
       "elevation": 0,
       "dest_map": "MAP_HAUNTED_WOODS",
-      "dest_warp_id": "0"
+      "dest_warp_id": "3"
     },
     {
       "x": 45,
       "y": 40,
       "elevation": 0,
       "dest_map": "MAP_HAUNTED_WOODS",
-      "dest_warp_id": "1"
+      "dest_warp_id": "2"
     }
   ],
   "coord_events": [],

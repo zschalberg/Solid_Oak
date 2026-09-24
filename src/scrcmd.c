@@ -2609,6 +2609,8 @@ bool8 ScrCmd_dotrainerbattle(struct ScriptContext *ctx)
         selectCount = maxPoolSize;
     }
 
+    u8 usablePartyCount = GetUsable3v3PartyCount();
+
     if (FlagGet(FLAG_MONOTYPE_BATTLE))
     {
         u8 restrictedType = GetMonotypeRestrictionType();
@@ -2616,18 +2618,23 @@ bool8 ScrCmd_dotrainerbattle(struct ScriptContext *ctx)
         {
             if (FlagGet(FLAG_PREVIEW_BATTLE) || variablePreviewMode)
             {
-                if (GetUsable3v3PartyCount() < selectCount)
+                if (usablePartyCount == 0)
                 {
                     FlagClear(FLAG_PREVIEW_BATTLE);
                     FlagClear(FLAG_MONOTYPE_BATTLE);
                     VarSet(VAR_MONOTYPE_RESTRICTION, TYPE_NONE);
                     
                     StringCopy(gStringVar1, gTypesInfo[restrictedType].name);
-                    ConvertIntToDecimalStringN(gStringVar2, selectCount, STR_CONV_MODE_LEFT_ALIGN, 1);
+                    ConvertIntToDecimalStringN(gStringVar2, 1, STR_CONV_MODE_LEFT_ALIGN, 1);
                     ctx->scriptPtr = EventScript_AbortMonotype3v3Battle;
                     gSpecialVar_0x8008 = 0;
                     gSpecialVar_0x800A = 0;
                     return FALSE;
+                }
+                else if (selectCount > usablePartyCount)
+                {
+                    selectCount = usablePartyCount;
+                    gSpecialVar_0x8008 = selectCount;
                 }
             }
             else
@@ -2671,9 +2678,9 @@ bool8 ScrCmd_dotrainerbattle(struct ScriptContext *ctx)
     {
         FlagClear(FLAG_PREVIEW_BATTLE);
 
-        if (GetUsable3v3PartyCount() < selectCount)
+        if (usablePartyCount == 0)
         {
-            ConvertIntToDecimalStringN(gStringVar1, selectCount, STR_CONV_MODE_LEFT_ALIGN, 1);
+            ConvertIntToDecimalStringN(gStringVar1, 1, STR_CONV_MODE_LEFT_ALIGN, 1);
             ctx->scriptPtr = EventScript_Abort3v3Battle;
             gSpecialVar_0x8008 = 0;
             gSpecialVar_0x800A = 0;
@@ -2681,6 +2688,12 @@ bool8 ScrCmd_dotrainerbattle(struct ScriptContext *ctx)
         }
         else
         {
+            if (selectCount > usablePartyCount)
+            {
+                selectCount = usablePartyCount;
+                gSpecialVar_0x8008 = selectCount;
+            }
+
             ShowOpponentTeamPreview(trainerId, NULL);
             gSpecialVar_0x8008 = 0;
             gSpecialVar_0x800A = 0;

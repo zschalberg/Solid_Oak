@@ -2805,3 +2805,12 @@ SevenIsland_TanobyRuins_EventScript_CliffordRematch::
 	trainerbattle_rematch TRAINER_GENTLEMAN_CLIFFORD, SevenIsland_TanobyRuins_Text_CliffordRematchIntro, SevenIsland_TanobyRuins_Text_CliffordDefeat
 	msgbox SevenIsland_TanobyRuins_Text_CliffordPostBattle, MSGBOX_AUTOCLOSE
 	end
+
+EventScript_OverworldTrainerMon::
+	lock
+	faceplayer
+	waitse
+	special PlayInteractedMonCry
+	waitmoncry
+	release
+	end
