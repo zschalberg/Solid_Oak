@@ -830,7 +830,7 @@ text VermilionCity_Dojo_Text_ChallengeGuyIntro {
     "Pick your challenge.\p"
     "TRAINING matches whatever belt\n"
     "you've earned, scaled to your\l"
-    "level. It won't count toward\n"
+    "level. It won't count toward\l"
     "unlocking the next belt."
 }
 
@@ -869,7 +869,7 @@ text VermilionCity_Dojo_Text_ChallengeGuyIntroGauntlet {
     "Pick your challenge.\p"
     "TRAINING matches whatever belt\n"
     "you've earned, scaled to your\l"
-    "level. It won't count toward\n"
+    "level. It won't count toward\l"
     "unlocking the next belt.\p"
     "Since you've beaten all of us\n"
     "at Black Belt... there's one\l"
@@ -901,7 +901,7 @@ text VermilionCity_Dojo_Text_Plaque {
 
 text VermilionCity_Dojo_Text_ScrollLeft {
     "The untrained eye sees a\n"
-    "common bird.\l"
+    "common bird.\p"
     "The trained eye sees how\n"
     "it holds its wings."
 }

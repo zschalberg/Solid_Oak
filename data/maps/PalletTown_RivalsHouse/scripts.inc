@@ -436,7 +436,8 @@ PalletTown_RivalsHouse_Text_MonotypeNPC_ToggledOn::
 	.string "battle restriction to ON.$"
 
 PalletTown_RivalsHouse_Text_MonotypeNPC_ToggledOff::
-	.string "Toggled the monotype restriction to OFF.$"
+	.string "Toggled the monotype restriction\n"
+	.string "to OFF.$"
 
 PalletTown_RivalsHouse_Text_TurnLimitNPC_Greeting_Off::
 	.string "Hi! I can set up a 3-turn battle\n"
@@ -453,7 +454,8 @@ PalletTown_RivalsHouse_Text_TurnLimitNPC_ToggledOn::
 	.string "restriction to ON.$"
 
 PalletTown_RivalsHouse_Text_TurnLimitNPC_ToggledOff::
-	.string "Toggled the turn limit restriction to OFF.$"
+	.string "Toggled the turn limit restriction\n"
+	.string "to OFF.$"
 
 PalletTown_RivalsHouse_Text_NotEnoughMonsFor3v3::
 	.string "You need at least {STR_VAR_1} usable Pokémon\n"

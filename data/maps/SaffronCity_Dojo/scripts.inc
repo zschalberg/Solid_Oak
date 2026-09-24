@@ -1659,7 +1659,7 @@ SaffronCity_Dojo_Text_ChallengeGuyIntro::
 	.string "Pick your challenge.\p"
 	.string "TRAINING matches whatever belt\n"
 	.string "you've earned, scaled to your\l"
-	.string "level. It won't count toward\n"
+	.string "level. It won't count toward\l"
 	.string "unlocking the next belt.$"
 
 SaffronCity_Dojo_Text_ChallengeTrainingSet::
@@ -1698,7 +1698,7 @@ SaffronCity_Dojo_Text_ChallengeGuyIntroGauntlet::
 	.string "Pick your challenge.\p"
 	.string "TRAINING matches whatever belt\n"
 	.string "you've earned, scaled to your\l"
-	.string "level. It won't count toward\n"
+	.string "level. It won't count toward\l"
 	.string "unlocking the next belt.\p"
 	.string "Since you've beaten all of us\n"
 	.string "at Black Belt... there's one\l"

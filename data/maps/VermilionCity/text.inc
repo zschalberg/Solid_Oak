@@ -142,8 +142,9 @@ VermilionCity_Text_TesterSailor_FlagEnabledAskToggle::
     .string "Would you like to disable it?$"
 
 VermilionCity_Text_TesterSailor_FlagNowEnabled::
-    .string "The bypass flag has been enabled.\n"
-    .string "You can now double battle with one Mon!$"
+    .string "The bypass flag has been enabled.\p"
+    .string "You can now double battle with\n"
+    .string "one Mon!$"
 
 VermilionCity_Text_TesterSailor_FlagNowDisabled::
     .string "The bypass flag has been disabled.\n"
@@ -172,7 +173,8 @@ VermilionCity_Text_TesterSailorPostBattle::
     .string "Good luck with your quest!$"
 
 VermilionCity_Text_Tester_ChooseOption::
-    .string "Ahoy! What would you like to test today?$"
+    .string "Ahoy! What would you like to\n"
+    .string "test today?$"
 
 VermilionCity_Text_Tester_ToggleDoubleFlag::
     .string "Toggle Double Battle Flag$"
@@ -214,12 +216,14 @@ VermilionCity_Text_Tester_ToggleWildScaling::
     .string "Toggle Wild Level Scaling$"
 
 VermilionCity_Text_TesterSailor_WildScalingNowEnabled::
-    .string "Wild Pokémon level scaling is now ENABLED.\p"
+    .string "Wild Pokémon level scaling is\n"
+    .string "now ENABLED.\p"
     .string "Encountered wild Pokémon will scale\n"
     .string "closer to your team's highest level.$"
 
 VermilionCity_Text_TesterSailor_WildScalingNowDisabled::
-    .string "Wild Pokémon level scaling is now DISABLED.\p"
+    .string "Wild Pokémon level scaling is\n"
+    .string "now DISABLED.\p"
     .string "Overworld wild Pokémon will use their\n"
     .string "default area levels.$"
 
@@ -257,15 +261,15 @@ VermilionCity_Text_DojoTrainer2::
     .string "well as challenges for rewards.$"
 
 VermilionCity_Text_ArborDock1::
-    .string "Vermilion.\l"
+    .string "Vermilion.\n"
     .string "Hasn't changed much.$"
 
 VermilionCity_Text_ArborDock2::
     .string "I've arranged a room at the hotel.\n"
-    .string "ask at the desk, they'll have it.\p"
+    .string "Ask at the desk, they'll have it.\p"
     .string "To the North is Saffron, and Silph\n"
-    .string "HQ. Head there to see what help they\l"
-    .string "need with testing.\p"
+    .string "HQ. Head there to see what help\l"
+    .string "they need with testing.\p"
     .string "To the North East is Lavender Town.\p"
     .string "Mr. Fuji is this region's resident\n"
     .string "expert on the local Pokémon and an\l"

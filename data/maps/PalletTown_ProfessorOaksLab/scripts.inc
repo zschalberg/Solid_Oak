@@ -1587,8 +1587,8 @@ PalletTown_ProfessorOaksLab_EventScript_ExitShop::
 	goto PalletTown_ProfessorOaksLab_EventScript_ResearchMenu
 
 PalletTown_ProfessorOaksLab_Text_ResearchWelcome:
-	.string "Hello! Welcome to the Pokémon habitat\n"
-	.string "Research Department.\p"
+	.string "Hello! Welcome to the Pokémon\n"
+	.string "habitat Research Department.\p"
 	.string "What can I help you with?$"
 
 PalletTown_ProfessorOaksLab_Text_ResearchIntro:
@@ -1602,19 +1602,22 @@ PalletTown_ProfessorOaksLab_Text_TurnInPrompt:
 PalletTown_ProfessorOaksLab_Text_WarningNotResearchBall:
 	.string "{STR_VAR_1} wasn't caught with a\n"
 	.string "research ball.\p"
-	.string "The Reserve will still accept it, but it\n"
-	.string "won't be returned to you. Are you sure?$"
+	.string "The Reserve will still accept it,\n"
+	.string "but it won't be returned to you.\p"
+	.string "Are you sure?$"
 
 PalletTown_ProfessorOaksLab_Text_EvaluationResult:
-	.string "Let's see…\n"
-	.string "Ah, it's a {STR_VAR_2} specimen of {STR_VAR_1}!\p"
+	.string "Let's see… Ah, it's a {STR_VAR_2}\n"
+	.string "specimen of {STR_VAR_1}!\p"
 	.string "Here is the points breakdown:\n"
 	.string "{STR_VAR_3}\p"
-	.string "Are you ready to turn in {STR_VAR_1}?$"
+	.string "Are you ready to turn in\n"
+	.string "{STR_VAR_1}?$"
 
 PalletTown_ProfessorOaksLab_Text_NewFamilyBonusMsg:
-	.string "A member of the {STR_VAR_1} family hasn't\n"
-	.string "been registered in the Reserve before!\p"
+	.string "A member of the {STR_VAR_1} family\n"
+	.string "hasn't been registered in the\l"
+	.string "Reserve before!\p"
 	.string "You get a first-time bonus of +250\n"
 	.string "Research Coins!$"
 
@@ -1623,7 +1626,8 @@ PalletTown_ProfessorOaksLab_Text_TurnInSuccess:
 	.string "Received {STR_VAR_3} Research Coins!$"
 
 PalletTown_ProfessorOaksLab_Text_TurnInLastMonRefusedMsg:
-	.string "You cannot turn in your last POKéMON!$"
+	.string "You cannot turn in your last\n"
+	.string "POKéMON!$"
 
 PalletTown_ProfessorOaksLab_Text_TurnInEggRefusedMsg:
 	.string "We cannot accept Eggs for research!$"
@@ -1631,14 +1635,16 @@ PalletTown_ProfessorOaksLab_Text_TurnInEggRefusedMsg:
 PalletTown_ProfessorOaksLab_Text_ResearchInfoMsg:
 	.string "We study POKéMON size, shininess,\n"
 	.string "IVs, and evolutionary families.\p"
-	.string "We reward you with Research Coins for\n"
-	.string "sending POKéMON to the Reserve.\p"
+	.string "We reward you with Research Coins\n"
+	.string "for sending POKéMON to the Reserve.\p"
 	.string "POKéMON caught in Research Balls can\n"
-	.string "be turned in without warning.\l"
-	.string "All turned-in POKéMON are gone for good!$"
+	.string "be turned in without warning.\p"
+	.string "All turned-in POKéMON are gone\n"
+	.string "for good!$"
 
 PalletTown_ProfessorOaksLab_Text_ResearchExitMsg:
-	.string "Thank you! Good luck with your research!$"
+	.string "Thank you!\n"
+	.string "Good luck with your research!$"
 
 PalletTown_ProfessorOaksLab_Text_ResearchNoCoinCaseMsg:
 	.string "Oh! You don't have a COIN CASE.\p"
@@ -1650,13 +1656,16 @@ PalletTown_ProfessorOaksLab_Text_ShopWelcome:
 	.string "Research Coins for?$"
 
 PalletTown_ProfessorOaksLab_Text_ConfirmLeafStone:
-	.string "Exchange 100 Coins for a LEAF STONE?$"
+	.string "Exchange 100 Coins for a\n"
+	.string "LEAF STONE?$"
 
 PalletTown_ProfessorOaksLab_Text_ConfirmRareCandy:
-	.string "Exchange 200 Coins for a RARE CANDY?$"
+	.string "Exchange 200 Coins for a\n"
+	.string "RARE CANDY?$"
 
 PalletTown_ProfessorOaksLab_Text_ConfirmExpShare:
-	.string "Exchange 1500 Coins for an EXP. SHARE?$"
+	.string "Exchange 1500 Coins for an\n"
+	.string "EXP. SHARE?$"
 
 PalletTown_ProfessorOaksLab_Text_ConfirmPorygon:
 	.string "Exchange 1500 Coins for PORYGON?$"
@@ -1684,15 +1693,17 @@ PalletTown_ProfessorOaksLab_Text_PokemonSentToPCMsg:
 	.string "{STR_VAR_1} was sent to the PC!$"
 
 PalletTown_ProfessorOaksLab_Text_UpgradeSuccessMsg:
-	.string "Sanctuary Upgrade purchased!\n"
-	.string "Fuji's Sanctuary expanded by 2 rooms!$"
+	.string "Sanctuary Upgrade purchased!\p"
+	.string "Fuji's Sanctuary expanded by\n"
+	.string "2 rooms!$"
 
 PalletTown_ProfessorOaksLab_Text_UpgradeAlreadyBoughtMsg:
 	.string "The Fuji Lab Sanctuary Upgrade has\n"
 	.string "already been installed.$"
 
 PalletTown_ProfessorOaksLab_Text_NotEnoughCoinsMsg:
-	.string "You don't have enough Research Coins.$"
+	.string "You don't have enough\n"
+	.string "Research Coins.$"
 
 PalletTown_ProfessorOaksLab_Text_BagFullMsg:
 	.string "Your BAG is full!$"
@@ -1707,7 +1718,9 @@ PalletTown_ProfessorOaksLab_Text_TransferSuccess:
 	.string "The transfer was successful!\p{STR_VAR_1} was moved into\na standard POKéBALL!$"
 
 PalletTown_ProfessorOaksLab_Text_NotEnoughCoinsTransferMsg:
-	.string "You don't have enough Research Coins.\nIt costs 500 Research Coins.$"
+	.string "You don't have enough\n"
+	.string "Research Coins.\p"
+	.string "It costs 500 Research Coins.$"
 
 PalletTown_ProfessorOaksLab_Text_TransferEggRefusedMsg:
 	.string "An Egg is not sealed in any ball!$"

@@ -141,14 +141,14 @@ LavenderTown_VolunteerPokemonHouse_EventScript_MrFuji::
 # 127 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	compare VAR_ACT1_LAVENDER, 3
 	goto_if_eq LavenderTown_VolunteerPokemonHouse_EventScript_MrFuji_2
-# 136 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 137 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	goto_if_set FLAG_KRABBY_QUEST_ACTIVE, LavenderTown_VolunteerPokemonHouse_EventScript_MrFuji_5
-# 146 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	msgbox LavenderTown_VolunteerPokemonHouse_EventScript_MrFuji_Text_2
 # 147 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+	msgbox LavenderTown_VolunteerPokemonHouse_EventScript_MrFuji_Text_2
+# 148 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	closemessage
 LavenderTown_VolunteerPokemonHouse_EventScript_MrFuji_1:
-# 150 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 151 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	release
 	end
 
@@ -157,321 +157,321 @@ LavenderTown_VolunteerPokemonHouse_EventScript_MrFuji_2:
 	textcolor NPC_TEXT_COLOR_MALE
 # 130 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	msgbox LavenderTown_VolunteerPokemonHouse_EventScript_MrFuji_Text_0
-# 134 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 135 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	closemessage
 	goto LavenderTown_VolunteerPokemonHouse_EventScript_MrFuji_1
 
 LavenderTown_VolunteerPokemonHouse_EventScript_MrFuji_5:
-# 138 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	textcolor NPC_TEXT_COLOR_MALE
 # 139 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+	textcolor NPC_TEXT_COLOR_MALE
+# 140 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	msgbox LavenderTown_VolunteerPokemonHouse_EventScript_MrFuji_Text_1
-# 144 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 145 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	closemessage
 	goto LavenderTown_VolunteerPokemonHouse_EventScript_MrFuji_1
 
 
 LavenderTown_VolunteerPokemonHouse_EventScript_Scientist::
-# 155 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 156 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	goto_if_unset FLAG_HEARD_LAVENDER_STORAGE_SPEECH, LavenderTown_VolunteerPokemonHouse_EventScript_Scientist_2
 	end
 
 LavenderTown_VolunteerPokemonHouse_EventScript_Scientist_2:
-# 156 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	lockall
 # 157 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	applymovement 8, LavenderTown_VolunteerPokemonHouse_Movement_FaceLeft
+	lockall
 # 158 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+	applymovement 8, LavenderTown_VolunteerPokemonHouse_Movement_FaceLeft
+# 159 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	msgbox LavenderTown_VolunteerPokemonHouse_EventScript_Scientist_Text_0
-# 167 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	closemessage
-# 168 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	setflag FLAG_HEARD_LAVENDER_STORAGE_SPEECH
 # 169 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+	closemessage
+# 170 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+	setflag FLAG_HEARD_LAVENDER_STORAGE_SPEECH
+# 171 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	releaseall
 	end
 
 
 LavenderTown_VolunteerPokemonHouse_OnFrame::
-# 184 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 186 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	setvar VAR_TEMP_0, 1
-# 185 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 187 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	compare VAR_ACT1_LAVENDER, 2
 	goto_if_eq LavenderTown_VolunteerPokemonHouse_OnFrame_2
 LavenderTown_VolunteerPokemonHouse_OnFrame_1:
 	end
 
 LavenderTown_VolunteerPokemonHouse_OnFrame_2:
-# 186 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 188 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	call LavenderTown_VolunteerPokemonHouse_EventScript_FujiReturn
 	goto LavenderTown_VolunteerPokemonHouse_OnFrame_1
 
 
 LavenderTown_VolunteerPokemonHouse_EventScript_FujiReturn::
-# 193 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	lockall
-# 194 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	clearflag FLAG_HIDE_LAVENDER_FUJI
 # 195 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	addobject 1
+	lockall
 # 196 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	applymovement 1, LavenderTown_VolunteerPokemonHouse_Movement_FaceDown
+	clearflag FLAG_HIDE_LAVENDER_FUJI
 # 197 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	waitmovement 0
+	addobject 1
+# 198 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+	applymovement 1, LavenderTown_VolunteerPokemonHouse_Movement_FaceDown
 # 199 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	textcolor NPC_TEXT_COLOR_MALE
-# 200 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	msgbox LavenderTown_VolunteerPokemonHouse_EventScript_FujiReturn_Text_0
+	waitmovement 0
 # 201 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	closemessage
+	textcolor NPC_TEXT_COLOR_MALE
 # 202 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	applymovement OBJ_EVENT_ID_PLAYER, LavenderTown_VolunteerPokemonHouse_Movement_Player
+	msgbox LavenderTown_VolunteerPokemonHouse_EventScript_FujiReturn_Text_0
 # 203 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	waitmovement 0
+	closemessage
+# 204 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+	applymovement OBJ_EVENT_ID_PLAYER, LavenderTown_VolunteerPokemonHouse_Movement_Player
 # 205 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+	waitmovement 0
+# 207 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	textcolor NPC_TEXT_COLOR_MALE
-# 206 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 208 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	msgbox LavenderTown_VolunteerPokemonHouse_EventScript_FujiReturn_Text_1
-# 209 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	closemessage
 # 211 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	showmugshot MUGSHOT_PROF_OAK, MUGSHOT_RIGHT
-# 212 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	textcolor NPC_TEXT_COLOR_MALE
+	closemessage
 # 213 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+	showmugshot MUGSHOT_PROF_OAK, MUGSHOT_RIGHT
+# 214 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+	textcolor NPC_TEXT_COLOR_MALE
+# 215 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	msgbox LavenderTown_VolunteerPokemonHouse_EventScript_FujiReturn_Text_2
-# 217 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 219 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	closemessage
-# 218 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	clearmugshot
 # 220 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+	clearmugshot
+# 222 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	textcolor NPC_TEXT_COLOR_MALE
-# 221 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 223 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	msgbox LavenderTown_VolunteerPokemonHouse_EventScript_FujiReturn_Text_3
-# 231 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	closemessage
 # 233 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+	closemessage
+# 235 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	applymovement 1, LavenderTown_VolunteerPokemonHouse_Movement_WalkUp_WalkDown
-# 234 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	waitmovement 0
 # 236 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+	waitmovement 0
+# 238 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	textcolor NPC_TEXT_COLOR_MALE
-# 237 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 239 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	msgbox LavenderTown_VolunteerPokemonHouse_EventScript_FujiReturn_Text_4
-# 248 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	closemessage
-# 250 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	applymovement OBJ_EVENT_ID_PLAYER, LavenderTown_VolunteerPokemonHouse_Movement_FaceDown
 # 251 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	waitmovement 0
+	closemessage
 # 253 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	textcolor NPC_TEXT_COLOR_MALE
+	applymovement OBJ_EVENT_ID_PLAYER, LavenderTown_VolunteerPokemonHouse_Movement_FaceDown
 # 254 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	msgbox LavenderTown_VolunteerPokemonHouse_EventScript_FujiReturn_Text_5
-# 255 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	closemessage
-# 257 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	applymovement OBJ_EVENT_ID_PLAYER, LavenderTown_VolunteerPokemonHouse_Movement_FaceUp
-# 258 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	waitmovement 0
-# 260 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 256 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	textcolor NPC_TEXT_COLOR_MALE
-# 261 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	msgbox LavenderTown_VolunteerPokemonHouse_EventScript_FujiReturn_Text_6
-# 264 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 257 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+	msgbox LavenderTown_VolunteerPokemonHouse_EventScript_FujiReturn_Text_5
+# 258 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	closemessage
-# 266 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	setflag FLAG_QUEST_FISHING_VILLAGE_COMPLETED
-# 267 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	setflag FLAG_QUEST_ZONE2_ACTIVE
+# 260 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+	applymovement OBJ_EVENT_ID_PLAYER, LavenderTown_VolunteerPokemonHouse_Movement_FaceUp
+# 261 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+	waitmovement 0
+# 263 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+	textcolor NPC_TEXT_COLOR_MALE
+# 264 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+	msgbox LavenderTown_VolunteerPokemonHouse_EventScript_FujiReturn_Text_6
 # 268 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	quest_complete_toast LavenderTown_VolunteerPokemonHouse_EventScript_FujiReturn_Text_7
-# 269 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	quest_start_toast LavenderTown_VolunteerPokemonHouse_EventScript_FujiReturn_Text_8
+	closemessage
 # 270 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	setvar VAR_ACT1_LAVENDER, 3
+	setflag FLAG_QUEST_FISHING_VILLAGE_COMPLETED
 # 271 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+	setflag FLAG_QUEST_ZONE2_ACTIVE
+# 272 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+	quest_complete_toast LavenderTown_VolunteerPokemonHouse_EventScript_FujiReturn_Text_7
+# 273 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+	quest_start_toast LavenderTown_VolunteerPokemonHouse_EventScript_FujiReturn_Text_8
+# 274 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+	setvar VAR_ACT1_LAVENDER, 3
+# 275 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	releaseall
 	return
 
 
 LavenderTown_VolunteerPokemonHouse_EventScript_Agatha::
-# 278 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	lock
-# 279 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	faceplayer
-# 280 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	showmugshot MUGSHOT_AGATHA, MUGSHOT_LEFT
-# 281 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	textcolor NPC_TEXT_COLOR_FEMALE
 # 282 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	msgbox LavenderTown_VolunteerPokemonHouse_EventScript_Agatha_Text_0
+	lock
 # 283 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	closemessage
+	faceplayer
 # 284 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	clearmugshot
+	showmugshot MUGSHOT_AGATHA, MUGSHOT_LEFT
 # 285 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+	textcolor NPC_TEXT_COLOR_FEMALE
+# 286 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+	msgbox LavenderTown_VolunteerPokemonHouse_EventScript_Agatha_Text_0
+# 287 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+	closemessage
+# 288 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+	clearmugshot
+# 289 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	release
 	end
 
 
 LavenderTown_VolunteerPokemonHouse_EventScript_LittleGirl::
-# 294 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	lock
-# 295 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	faceplayer
-# 296 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	msgbox LavenderTown_VolunteerPokemonHouse_EventScript_LittleGirl_Text_0
-# 297 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	closemessage
 # 298 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	call EventScript_OutOfCenterPartyHeal
+	lock
 # 299 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	setrespawn HEAL_LOCATION_LAVENDER_VOLUNTEER_HOUSE
+	faceplayer
 # 300 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	msgbox LavenderTown_VolunteerPokemonHouse_EventScript_LittleGirl_Text_1
-# 302 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+	msgbox LavenderTown_VolunteerPokemonHouse_EventScript_LittleGirl_Text_0
+# 301 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	closemessage
+# 302 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+	call EventScript_OutOfCenterPartyHeal
 # 303 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+	setrespawn HEAL_LOCATION_LAVENDER_VOLUNTEER_HOUSE
+# 304 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+	msgbox LavenderTown_VolunteerPokemonHouse_EventScript_LittleGirl_Text_1
+# 306 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+	closemessage
+# 307 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	release
 	end
 
 
 LavenderTown_VolunteerPokemonHouse_EventScript_LittleBoy::
-# 308 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 312 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	msgbox LavenderTown_VolunteerPokemonHouse_EventScript_LittleBoy_Text_0, MSGBOX_NPC
 	end
 
 
 LavenderTown_VolunteerPokemonHouse_EventScript_Youngster::
-# 313 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 317 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	lock
-# 314 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 318 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	faceplayer
-# 315 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	msgbox LavenderTown_VolunteerPokemonHouse_EventScript_Youngster_Text_0
 # 319 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+	msgbox LavenderTown_VolunteerPokemonHouse_EventScript_Youngster_Text_0
+# 323 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	closemessage
-# 320 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 324 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	release
 	end
 
 
 LavenderTown_VolunteerPokemonHouse_EventScript_Nidorino::
-# 325 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	lock
-# 326 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	faceplayer
-# 327 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	waitse
-# 328 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	playmoncry SPECIES_NIDORINO, CRY_MODE_NORMAL
 # 329 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	msgbox LavenderTown_VolunteerPokemonHouse_EventScript_Nidorino_Text_0
+	lock
 # 330 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	closemessage
+	faceplayer
 # 331 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	waitmoncry
+	waitse
 # 332 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+	playmoncry SPECIES_NIDORINO, CRY_MODE_NORMAL
+# 333 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+	msgbox LavenderTown_VolunteerPokemonHouse_EventScript_Nidorino_Text_0
+# 334 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+	closemessage
+# 335 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+	waitmoncry
+# 336 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	release
 	end
 
 
 LavenderTown_VolunteerPokemonHouse_EventScript_Psyduck::
-# 337 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	lock
-# 338 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	faceplayer
-# 339 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	waitse
-# 340 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	playmoncry SPECIES_PSYDUCK, CRY_MODE_NORMAL
 # 341 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	msgbox LavenderTown_VolunteerPokemonHouse_EventScript_Psyduck_Text_0
+	lock
 # 342 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	closemessage
+	faceplayer
 # 343 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	waitmoncry
+	waitse
 # 344 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+	playmoncry SPECIES_PSYDUCK, CRY_MODE_NORMAL
+# 345 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+	msgbox LavenderTown_VolunteerPokemonHouse_EventScript_Psyduck_Text_0
+# 346 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+	closemessage
+# 347 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+	waitmoncry
+# 348 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	release
 	end
 
 
 LavenderTown_VolunteerPokemonHouse_EventScript_PokemonFanMagazine::
-# 349 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 353 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	msgbox LavenderTown_VolunteerPokemonHouse_EventScript_PokemonFanMagazine_Text_0, MSGBOX_SIGN
 	end
 
 
 LavenderTown_VolunteerPokemonHouse_EventScript_Bookshelf::
-# 355 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 359 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	msgbox LavenderTown_VolunteerPokemonHouse_EventScript_Bookshelf_Text_0, MSGBOX_SIGN
 	end
 
 
-# 364 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 368 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 LavenderTown_VolunteerPokemonHouse_Movement_AgathaExit:
-# 365 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 369 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	walk_down
-# 365 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 369 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	walk_down
-# 365 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 369 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	walk_down
-# 365 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 369 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	walk_down
-# 365 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 369 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	walk_down
-# 366 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 370 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	set_invisible
 	step_end
 
-# 369 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 373 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 LavenderTown_VolunteerPokemonHouse_Movement_Player:
-# 370 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 374 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	walk_up
-# 370 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 374 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	walk_up
-# 370 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 374 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	walk_up
-# 371 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	walk_left
-# 372 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	face_up
-	step_end
-
 # 375 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-LavenderTown_VolunteerPokemonHouse_Movement_FaceRight:
+	walk_left
 # 376 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	face_right
+	face_up
 	step_end
 
 # 379 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-LavenderTown_VolunteerPokemonHouse_Movement_FaceDown:
+LavenderTown_VolunteerPokemonHouse_Movement_FaceRight:
 # 380 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	face_down
+	face_right
 	step_end
 
 # 383 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-LavenderTown_VolunteerPokemonHouse_Movement_FaceLeft:
+LavenderTown_VolunteerPokemonHouse_Movement_FaceDown:
 # 384 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+	face_down
+	step_end
+
+# 387 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+LavenderTown_VolunteerPokemonHouse_Movement_FaceLeft:
+# 388 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	face_left
 	step_end
 
-# 386 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 390 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 LavenderTown_VolunteerPokemonHouse_Movement_FaceUp:
-# 387 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 391 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	face_up
 	step_end
 
-# 390 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-LavenderTown_VolunteerPokemonHouse_Movement_WalkUp_WalkDown:
-# 391 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	walk_up
-# 392 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	delay_8
-# 393 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
-	delay_2
 # 394 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+LavenderTown_VolunteerPokemonHouse_Movement_WalkUp_WalkDown:
+# 395 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+	walk_up
+# 396 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+	delay_8
+# 397 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+	delay_2
+# 398 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	walk_down
 	step_end
 
@@ -547,11 +547,12 @@ LavenderTown_VolunteerPokemonHouse_EventScript_MrFuji_Text_0:
 # 130 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	.string "I'll meet you in PEWTER CITY.\p"
 	.string "I have a colleague at the university\n"
-	.string "who may be able to help us understand\l"
-	.string "what is happening with these POKéMON.$"
+	.string "who may be able to help us\l"
+	.string "understand what is happening with\l"
+	.string "these POKéMON.$"
 
 LavenderTown_VolunteerPokemonHouse_EventScript_MrFuji_Text_1:
-# 139 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 140 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	.string "Have you found any KRABBY yet?\p"
 	.string "The shallows south of FUCHSIA\n"
 	.string "are your best bet.\p"
@@ -559,38 +560,39 @@ LavenderTown_VolunteerPokemonHouse_EventScript_MrFuji_Text_1:
 	.string "Those are the ones I want.$"
 
 LavenderTown_VolunteerPokemonHouse_EventScript_MrFuji_Text_2:
-# 146 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 147 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	.string "Ah. Come in, please.$"
 
 LavenderTown_VolunteerPokemonHouse_EventScript_Scientist_Text_0:
-# 158 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 159 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	.string "Before you go, if you need to store\n"
-	.string "any POKéMON, Mr. Fuji also cares for\l"
-	.string "them here in the lab.\p"
+	.string "any POKéMON, Mr. Fuji also cares\l"
+	.string "for them here in the lab.\p"
 	.string "Bring them to me in the back and\n"
 	.string "we'll have them ready for you when\l"
 	.string "you return.\p"
 	.string "You can also use our couriers to\n"
-	.string "send POKéMON here and swap them out\n"
-	.string "in most major cities for a small fee.$"
+	.string "send POKéMON here and swap them\l"
+	.string "out in most major cities for a\l"
+	.string "small fee.$"
 
 LavenderTown_VolunteerPokemonHouse_EventScript_FujiReturn_Text_0:
-# 200 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 202 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	.string "Ah, you're back.$"
 
 LavenderTown_VolunteerPokemonHouse_EventScript_FujiReturn_Text_1:
-# 207 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 209 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	.string "I was just going over the data from\n"
 	.string "the Krabby you collected.$"
 
 LavenderTown_VolunteerPokemonHouse_EventScript_FujiReturn_Text_2:
-# 213 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 215 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	.string "Professor, TENTACRUEL attacked the\n"
 	.string "FISHING VILLAGE. One of them was \l"
 	.string "massive, like nothing I've seen.$"
 
 LavenderTown_VolunteerPokemonHouse_EventScript_FujiReturn_Text_3:
-# 221 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 223 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	.string "Hmm. That is troubling. I wonder if\n"
 	.string "the KRABBY were retreating from the\l"
 	.string "TENTACRUEL. It would explain their\l"
@@ -598,17 +600,18 @@ LavenderTown_VolunteerPokemonHouse_EventScript_FujiReturn_Text_3:
 	.string "But this breeds a new question:\n"
 	.string "What is driving the TENTACRUEL to\l"
 	.string "the FISHING VILLAGE and to attack?\p"
-	.string "TENTACRUEL are known to be aggressive\n"
-	.string "but usually only attack humans when\l"
-	.string "they feel threatened.$"
+	.string "TENTACRUEL are known to be\n"
+	.string "aggressive but usually only attack\l"
+	.string "humans when they feel threatened.$"
 
 LavenderTown_VolunteerPokemonHouse_EventScript_FujiReturn_Text_4:
-# 237 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 239 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	.string "I have some notes I need to review.\n"
-	.string "I have a theory but we will need more\l"
-	.string "data to confirm it. \p"
+	.string "I have a theory but we will need\l"
+	.string "more data to confirm it.\p"
 	.string "I heard similar strange reports from\n"
-	.string "north of CERULEAN CITY and MT. MOON.\p"
+	.string "north of CERULEAN CITY and\l"
+	.string "MT. MOON.\p"
 	.string "Investigate those areas and see if\n"
 	.string "you can find any clues. If you see\l"
 	.string "any POKéMON that stand out like the\l"
@@ -617,61 +620,62 @@ LavenderTown_VolunteerPokemonHouse_EventScript_FujiReturn_Text_4:
 	.string "there consulting with a colleague.$"
 
 LavenderTown_VolunteerPokemonHouse_EventScript_FujiReturn_Text_5:
-# 254 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 257 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	.string "And Oak...$"
 
 LavenderTown_VolunteerPokemonHouse_EventScript_FujiReturn_Text_6:
-# 261 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 264 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	.string "Do be careful out there.\p"
-	.string "If my theory is correct these POKéMON\n"
-	.string "may be more dangerous than we realize.$"
+	.string "If my theory is correct, these\n"
+	.string "POKéMON may be more dangerous than\l"
+	.string "we realize.$"
 
 LavenderTown_VolunteerPokemonHouse_EventScript_FujiReturn_Text_7:
-# 268 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 272 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	.string "DANGEROUS WATERS$"
 
 LavenderTown_VolunteerPokemonHouse_EventScript_FujiReturn_Text_8:
-# 269 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 273 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	.string "MIGRATION ZONE 2$"
 
 LavenderTown_VolunteerPokemonHouse_EventScript_Agatha_Text_0:
-# 282 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 286 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	.string "Later.$"
 
 LavenderTown_VolunteerPokemonHouse_EventScript_LittleGirl_Text_0:
-# 296 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 300 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	.string "Here, let's rest your POKéMON.$"
 
 LavenderTown_VolunteerPokemonHouse_EventScript_LittleGirl_Text_1:
-# 300 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 304 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	.string "All done!\p"
 	.string "Your POKéMON are ready to go.$"
 
 LavenderTown_VolunteerPokemonHouse_EventScript_LittleBoy_Text_0:
-# 308 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 312 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	.string "They're nicer than my brother.$"
 
 LavenderTown_VolunteerPokemonHouse_EventScript_Youngster_Text_0:
-# 315 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 319 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	.string "Mr. Fuji says you're a real\n"
 	.string "researcher.\p"
 	.string "Do researchers get to name\n"
 	.string "new POKéMON?$"
 
 LavenderTown_VolunteerPokemonHouse_EventScript_Nidorino_Text_0:
-# 329 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 333 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	.string "NIDO-RI-NO!$"
 
 LavenderTown_VolunteerPokemonHouse_EventScript_Psyduck_Text_0:
-# 341 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 345 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	.string "PSY...$"
 
 LavenderTown_VolunteerPokemonHouse_EventScript_PokemonFanMagazine_Text_0:
-# 349 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 353 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	.string "A POKéMON fan magazine.\n"
 	.string "The pages are well-worn.$"
 
 LavenderTown_VolunteerPokemonHouse_EventScript_Bookshelf_Text_0:
-# 355 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
+# 359 "data/maps/LavenderTown_VolunteerPokemonHouse/scripts.pory"
 	.string "POKéMON-related books\n"
 	.string "line the shelf.$"

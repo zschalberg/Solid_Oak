@@ -129,8 +129,9 @@ script LavenderTown_VolunteerPokemonHouse_EventScript_MrFuji {
         textcolor(NPC_TEXT_COLOR_MALE)
         msgbox("I'll meet you in PEWTER CITY.\p"
                "I have a colleague at the university\n"
-               "who may be able to help us understand\l"
-               "what is happening with these POKéMON.")
+               "who may be able to help us\l"
+               "understand what is happening with\l"
+               "these POKéMON.")
         closemessage
     } else {
         if (flag(FLAG_KRABBY_QUEST_ACTIVE)) {
@@ -156,14 +157,15 @@ script LavenderTown_VolunteerPokemonHouse_EventScript_Scientist {
         lockall
         applymovement(LOCALID_SCIENTIST, LavenderTown_VolunteerPokemonHouse_Movement_FaceLeft)
         msgbox("Before you go, if you need to store\n"
-                "any POKéMON, Mr. Fuji also cares for\l"
-                "them here in the lab.\p"
+                "any POKéMON, Mr. Fuji also cares\l"
+                "for them here in the lab.\p"
                 "Bring them to me in the back and\n"
                 "we'll have them ready for you when\l"
                 "you return.\p"
                 "You can also use our couriers to\n"
-                "send POKéMON here and swap them out\n"
-                "in most major cities for a small fee.")
+                "send POKéMON here and swap them\l"
+                "out in most major cities for a\l"
+                "small fee.")
         closemessage
         setflag(FLAG_HEARD_LAVENDER_STORAGE_SPEECH)
         releaseall
@@ -225,9 +227,9 @@ script LavenderTown_VolunteerPokemonHouse_EventScript_FujiReturn {
                "But this breeds a new question:\n"
                "What is driving the TENTACRUEL to\l"
                "the FISHING VILLAGE and to attack?\p"
-               "TENTACRUEL are known to be aggressive\n"
-               "but usually only attack humans when\l"
-               "they feel threatened.")
+               "TENTACRUEL are known to be\n"
+               "aggressive but usually only attack\l"
+               "humans when they feel threatened.")
     closemessage
     //clearmugshot
     applymovement(LOCALID_FUJI, LavenderTown_VolunteerPokemonHouse_Movement_WalkUp_WalkDown)
@@ -235,10 +237,11 @@ script LavenderTown_VolunteerPokemonHouse_EventScript_FujiReturn {
     //showmugshot(MUGSHOT_MR_FUJI, MUGSHOT_LEFT)
     textcolor(NPC_TEXT_COLOR_MALE)
     msgbox("I have some notes I need to review.\n"
-    "I have a theory but we will need more\l"
-    "data to confirm it. \p"
+    "I have a theory but we will need\l"
+    "more data to confirm it.\p"
     "I heard similar strange reports from\n"
-    "north of CERULEAN CITY and MT. MOON.\p"
+    "north of CERULEAN CITY and\l"
+    "MT. MOON.\p"
     "Investigate those areas and see if\n"
     "you can find any clues. If you see\l"
     "any POKéMON that stand out like the\l"
@@ -259,8 +262,9 @@ script LavenderTown_VolunteerPokemonHouse_EventScript_FujiReturn {
     //showmugshot(MUGSHOT_MR_FUJI, MUGSHOT_LEFT)
     textcolor(NPC_TEXT_COLOR_MALE)
     msgbox("Do be careful out there.\p"
-           "If my theory is correct these POKéMON\n"
-           "may be more dangerous than we realize.")
+           "If my theory is correct, these\n"
+           "POKéMON may be more dangerous than\l"
+           "we realize.")
     closemessage
     //clearmugshot
     setflag(FLAG_QUEST_FISHING_VILLAGE_COMPLETED)

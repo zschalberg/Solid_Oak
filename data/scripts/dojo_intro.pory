@@ -37,9 +37,9 @@ text Common_Text_DojoIntro2 {
 text Common_Text_DojoIntro3 {
     "If you'd rather just spar,\n"
     "pick TRAINING instead. It'll\l"
-    "match whatever belt you've\n"
+    "match whatever belt you've\l"
     "already earned to your own\l"
-    "level. Good practice, but it\n"
+    "level. Good practice, but it\l"
     "won't count toward anything.\p"
     "Go on, give it a shot!"
 }

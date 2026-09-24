@@ -80,7 +80,7 @@ script FuchsiaCity_Reserve_EventScript_Intro {
            "The biggest issue is the lack\n"
            "of proper containment equipment.\p"
 		   "I have a few connections at\n"
-		   "Silph Co. that are working on\n"
+		   "Silph Co. that are working on\l"
 		   "containment issues in SAFFRON.\p"
 		   "When you get time, head there\n"
 		   "and introduce yourself.")
@@ -118,7 +118,10 @@ script FuchsiaCity_Reserve_EventScript_Intro {
 script FuschiaCity_Reserve_Fuji {
 	lockall
 	faceplayer
-	msgbox("The FISHING VILLAGE is your next \nstop.\p")
+	msgbox("The FISHING VILLAGE is your next\n"
+		   "stop.")
+	releaseall
+	end
 }
 
 // ============================================================================
@@ -129,8 +132,10 @@ script FuschiaCity_Reserve_Agatha {
 	lockall
 	faceplayer
 	msgbox("Seems like a waste of time to\n"
-			"turn these POKéMON in. Why not keep\n"
+			"turn these POKéMON in. Why not keep\l"
 			"them for your own collection?")
+	releaseall
+	end
 }
 
 // ============================================================================
@@ -311,10 +316,10 @@ script FuchsiaCity_Reserve_EventScript_Worker2 {
 script FuchsiaCity_Reserve_EventScript_Worker2Explain {
     msgbox("An expedition is simple: you go\n"
            "out, you catch what you find, and\l"
-           "you bring it back so we can\n"
+           "you bring it back so we can\l"
            "catalogue it properly.\p"
-		   "Documentation. Every entry helps\l"
-           "us understand what's moving through\n"
+		   "Documentation. Every entry helps\n"
+           "us understand what's moving through\l"
            "here and why.\p"
 		   "Here are the categories:\p"
 		   "THE HEAVIEST - we weigh and\n"
@@ -325,7 +330,7 @@ script FuchsiaCity_Reserve_EventScript_Worker2Explain {
            "underlying condition.\p"
            "THE RAREST - judged on how\n"
            "seldom the species turns up,\l"
-           "with anything unusual coloring\n"
+           "with anything unusual coloring\l"
            "counting extra.")
     closemessage
     goto(FuchsiaCity_Reserve_EventScript_Worker2Start)
@@ -346,14 +351,14 @@ script FuchsiaCity_Reserve_EventScript_Worker2Start {
     if (var(VAR_RESULT) == FALSE) {
         msgbox("You'll need exactly one POKéMON\n"
                "in your party before you head\l"
-               "out. Wouldn't want you catching\n"
+               "out. Wouldn't want you catching\l"
                "over your limit.")
         closemessage
         release
         end
     }
     msgbox("Pick what you're cataloguing\n"
-           "this time.\p")
+           "this time.")
     closemessage
     goto(FuchsiaCity_Reserve_EventScript_Worker2Category)
     end
@@ -450,7 +455,7 @@ FuchsiaCity_Reserve_Text_Worker1Welcome:
 	.string "Coins.\p"
 	.string "Spend them on box space for\n"
 	.string "Fuji's Sanctuary, Evolution\l"
-	.string "Stones, or other research gear\n"
+	.string "Stones, or other research gear\l"
 	.string "as we stock it.$"
 
 FuchsiaCity_Reserve_Text_TurnInPrompt:
@@ -460,7 +465,7 @@ FuchsiaCity_Reserve_Text_TurnInPrompt:
 FuchsiaCity_Reserve_Text_WarningNotResearchBall:
 	.string "That one wasn't caught in a\n"
 	.string "RESEARCH BALL. We can still log\l"
-	.string "it, but the Pokemon will not be\n"
+	.string "it, but the Pokemon will not be\l"
 	.string "returned.\p"
 	.string "Turn it in anyway?$"
 

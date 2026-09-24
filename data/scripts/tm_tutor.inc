@@ -39,14 +39,15 @@ Common_EventScript_TMTutor_5:
 Common_Text_TMTutorWelcome::
 # 22 "data/scripts/tm_tutor.pory"
 	.string "Welcome to the Dojo!\p"
-	.string "I can teach your POKéMON any TM move\n"
-	.string "that you carry in your TM CASE.\p"
+	.string "I can teach your POKéMON any TM\n"
+	.string "move that's in your TM CASE.\p"
 	.string "Would you like me to teach a move?$"
 
 Common_Text_TMTutorDeclined::
 # 29 "data/scripts/tm_tutor.pory"
-	.string "Come back whenever you wish to train!$"
+	.string "Come back whenever you wish\n"
+	.string "to train!$"
 
 Common_Text_TMTutorTaught::
-# 33 "data/scripts/tm_tutor.pory"
+# 34 "data/scripts/tm_tutor.pory"
 	.string "Your POKéMON has mastered the move!$"

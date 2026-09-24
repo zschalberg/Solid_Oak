@@ -101,7 +101,7 @@ PalletTown_PlayersHouse_2F_Text_ToggleTestQuests::
 	.string "Would you like to toggle the Quest\nLog test states?$"
 
 PalletTown_PlayersHouse_2F_Text_TestQuestsActivated::
-	.string "Quest Log test states activated!\n"
+	.string "Quest Log test states activated!\p"
 	.string "Main tab populated. Side tab active.\n"
 	.string "Research tab populated with Gengar.$"
 
