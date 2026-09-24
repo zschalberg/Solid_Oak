@@ -13,8 +13,9 @@ the following are reported:
   SCROLL_LINE1 \\l used on line 1, so the first line scrolls away
   TRAILING     text ends in \\p, \\l or \\n (shows an empty box / stray break)
 
-{PLAYER} is measured as the fixed player name read from src/main_menu.c
-(the player can't rename). Lines containing {STR_VAR_x}/{RIVAL} use an estimated width and are
+{PLAYER} and {RIVAL} can't be renamed, so they are measured exactly: as the
+widest of the names they can hold, written as-is, in UPPERCASE and in
+lowercase. Lines containing {STR_VAR_x} use an estimated width and are
 reported as warnings (prefixed with "?") since the real width depends on the
 value.
 
@@ -37,13 +38,16 @@ BOX_WIDTH = 208
 ARROW_ROOM = 200
 BOX_LINES = 2
 
-# The player can't rename, so {PLAYER} is always sDefaultPlayerName from
-# src/main_menu.c and is measured exactly.
-DEFAULT_PLAYER_NAME = 'Samuel'
+# Names the player and rival can have. Neither can be renamed; the defaults
+# in src/main_menu.c (sDefaultPlayerName / sDefaultRivalName) are added to
+# these, and the widest name in any case is used.
+FIXED_NAMES = {
+    'PLAYER': ['Samuel'],
+    'RIVAL': ['Agatha'],
+}
 
 # Estimated pixel widths for runtime placeholders.
 PLACEHOLDER_WIDTHS = {
-    'RIVAL': 49,    # 7 characters
     'STR_VAR_1': 63,
     'STR_VAR_2': 63,
     'STR_VAR_3': 63,
@@ -88,10 +92,12 @@ def load_glyph_widths(root):
     return [int(x) for x in re.findall(r'\d+', m.group(1))]
 
 
-def load_fixed_placeholders(root):
+def load_fixed_names(root):
     src = open(os.path.join(root, 'src/main_menu.c'), encoding='utf-8').read()
-    m = re.search(r'sDefaultPlayerName\[\]\s*=\s*_\("((?:[^"\\]|\\.)*)"\)', src)
-    return {'PLAYER': m.group(1) if m else DEFAULT_PLAYER_NAME}
+    names = {key: list(values) for key, values in FIXED_NAMES.items()}
+    for key, symbol in (('PLAYER', 'sDefaultPlayerName'), ('RIVAL', 'sDefaultRivalName')):
+        names[key] += re.findall(symbol + r'\[\]\s*=\s*_\("((?:[^"\\]|\\.)*)"\)', src)
+    return names
 
 
 def load_charmap(root):
@@ -133,7 +139,12 @@ class Measurer:
     def __init__(self, root):
         self.widths = load_glyph_widths(root)
         self.charmap = load_charmap(root)
-        self.fixed = load_fixed_placeholders(root)
+        self.fixed = {key: max(self.text_width(v) for name in names
+                               for v in (name, name.upper(), name.lower()))
+                      for key, names in load_fixed_names(root).items()}
+
+    def text_width(self, text):
+        return sum(self.width('ch', c)[0] for c in text)
 
     def width(self, kind, value):
         """Returns (pixels, is_estimate)."""
@@ -146,7 +157,7 @@ class Measurer:
         if ' ' in value:
             return 0, False
         if value in self.fixed:
-            return sum(self.width('ch', c)[0] for c in self.fixed[value]), False
+            return self.fixed[value], False
         if value in PLACEHOLDER_WIDTHS:
             return PLACEHOLDER_WIDTHS[value], True
         codes = self.charmap.get('{' + value + '}')
