@@ -7,7 +7,9 @@
 #include "field_effect.h"
 #include "field_light_sources.h"
 #include "field_player_avatar.h"
+#include "fieldmap.h"
 #include "follower_npc.h"
+#include "metatile_behavior.h"
 #include "quest_log.h"
 #include "script.h"
 #include "script_movement.h"
@@ -393,15 +395,95 @@ static u8 CheckPathBetweenTrainerAndPlayer(struct ObjectEvent *trainerObj, u8 ap
 #define tOutOfAshSpriteId   data[4]
 #define tData5              data[5]
 #define tTrainerObjectEventId data[7]
+#define tCompanionObjectEventId data[8]
+#define tCompanionInWater   data[9]
+
+static u8 GetTrainerCompanionObjectEventId(const struct ObjectEvent *trainerObj)
+{
+    u8 bestId = OBJECT_EVENTS_COUNT;
+    s16 bestDist = 999;
+    u8 i;
+
+    for (i = 0; i < OBJECT_EVENTS_COUNT; i++)
+    {
+        s16 dist;
+
+        if (!gObjectEvents[i].active || !IS_OW_MON_OBJ(&gObjectEvents[i]))
+            continue;
+        // Only map-placed mons can be companions; skip the player's follower and other dynamic objects.
+        if (gObjectEvents[i].localId >= OBJ_EVENT_ID_DYNAMIC_BASE)
+            continue;
+        if (gObjectEvents[i].currentElevation != trainerObj->currentElevation)
+            continue;
+
+        dist = abs(gObjectEvents[i].currentCoords.x - trainerObj->currentCoords.x)
+             + abs(gObjectEvents[i].currentCoords.y - trainerObj->currentCoords.y);
+        if (dist <= 1 && dist < bestDist)
+        {
+            bestDist = dist;
+            bestId = i;
+        }
+    }
+    return bestId;
+}
+
+static bool32 IsObjectEventInWater(const struct ObjectEvent *obj)
+{
+    enum MetatileBehavior behavior = MapGridGetMetatileBehaviorAt(obj->currentCoords.x, obj->currentCoords.y);
+    return MetatileBehavior_IsWater(behavior);
+}
+
+static enum Direction GetCompanionStepDirection(const struct ObjectEvent *companionObj, const struct ObjectEvent *trainerObj, enum Direction trainerDir)
+{
+    s16 dx = trainerObj->currentCoords.x - companionObj->currentCoords.x;
+    s16 dy = trainerObj->currentCoords.y - companionObj->currentCoords.y;
+
+    if (trainerDir == DIR_SOUTH || trainerDir == DIR_NORTH)
+    {
+        if (dx > 0)
+            return DIR_EAST;
+        else if (dx < 0)
+            return DIR_WEST;
+        else
+            return trainerDir;
+    }
+    else // DIR_EAST or DIR_WEST
+    {
+        if (dy > 0)
+            return DIR_SOUTH;
+        else if (dy < 0)
+            return DIR_NORTH;
+        else
+            return trainerDir;
+    }
+}
+
+static bool32 CanCompanionStepInDirection(const struct ObjectEvent *companionObj, enum Direction stepDir)
+{
+    s16 nextX = companionObj->currentCoords.x;
+    s16 nextY = companionObj->currentCoords.y;
+    MoveCoords(stepDir, &nextX, &nextY);
+    if (MetatileBehavior_IsWater(MapGridGetMetatileBehaviorAt(nextX, nextY)))
+        return FALSE;
+    return TRUE;
+}
 
 static void InitTrainerApproachTask(struct ObjectEvent *trainerObj, u8 range)
 {
     struct Task *task;
+    u8 companionId;
 
     gApproachingTrainers[gNoOfApproachingTrainers].taskId = CreateTask(Task_RunTrainerSeeFuncList, 80);
     task = &gTasks[gApproachingTrainers[gNoOfApproachingTrainers].taskId];
     task->tTrainerRange = range;
     task->tTrainerObjectEventId = gApproachingTrainers[gNoOfApproachingTrainers].objectEventId;
+
+    companionId = GetTrainerCompanionObjectEventId(trainerObj);
+    task->tCompanionObjectEventId = companionId;
+    if (companionId < OBJECT_EVENTS_COUNT)
+        task->tCompanionInWater = IsObjectEventInWater(&gObjectEvents[companionId]);
+    else
+        task->tCompanionInWater = FALSE;
 }
 
 static void StartTrainerApproach(TaskFunc followupFunc)
@@ -416,6 +498,9 @@ static void StartTrainerApproach(TaskFunc followupFunc)
 
     if (PlayerHasFollowerNPC() && (gPlayerAvatar.playerState == PLAYER_AVATAR_STATE_NORMAL))
         ObjectEventForceSetHeldMovement(&gObjectEvents[GetFollowerNPCObjectId()], GetFaceDirectionAnimNum(gObjectEvents[GetFollowerNPCObjectId()].facingDirection));
+
+    if (gTasks[taskId].tCompanionObjectEventId < OBJECT_EVENTS_COUNT)
+        UnfreezeObjectEvent(&gObjectEvents[gTasks[taskId].tCompanionObjectEventId]);
 
     taskFunc = Task_RunTrainerSeeFuncList;
     SetTaskFuncWithFollowupFunc(taskId, taskFunc, followupFunc);
@@ -461,6 +546,15 @@ static bool32 TrainerSeeFunc_StartExclMark(u8 taskId, struct Task *task, struct 
         ActivateTrainerLight(trainerObj);
         action = GetFaceDirectionMovementAction(trainerObj->facingDirection);
         ObjectEventSetHeldMovement(trainerObj, action);
+
+        if (task->tCompanionObjectEventId < OBJECT_EVENTS_COUNT)
+        {
+            struct ObjectEvent *companionObj = &gObjectEvents[task->tCompanionObjectEventId];
+            ObjectEventGetLocalIdAndMap(companionObj, &gFieldEffectArguments[0], &gFieldEffectArguments[1], &gFieldEffectArguments[2]);
+            FieldEffectStart(FLDEFF_EXCLAMATION_MARK_ICON);
+            ObjectEventSetHeldMovement(companionObj, GetFaceDirectionMovementAction(trainerObj->facingDirection));
+        }
+
         task->tFuncId++;
     }
     return TRUE;
@@ -485,18 +579,34 @@ static bool32 TrainerSeeFunc_WaitExclMark(u8 taskId, struct Task *task, struct O
 
 static bool32 TrainerSeeFunc_TrainerApproach(u8 taskId, struct Task *task, struct ObjectEvent *trainerObj)
 {
-    if (!ObjectEventIsMovementOverridden(trainerObj) || ObjectEventClearHeldMovementIfFinished(trainerObj))
+    struct ObjectEvent *companionObj = NULL;
+    if (task->tCompanionObjectEventId < OBJECT_EVENTS_COUNT)
+        companionObj = &gObjectEvents[task->tCompanionObjectEventId];
+
+    if (ObjectEventIsMovementOverridden(trainerObj) && !ObjectEventClearHeldMovementIfFinished(trainerObj))
+        return FALSE;
+
+    if (companionObj != NULL && ObjectEventIsMovementOverridden(companionObj) && !ObjectEventClearHeldMovementIfFinished(companionObj))
+        return FALSE;
+
+    if (task->tTrainerRange)
     {
-        if (task->tTrainerRange)
+        ObjectEventSetHeldMovement(trainerObj, GetWalkNormalMovementAction(trainerObj->facingDirection));
+        task->tTrainerRange--;
+
+        if (companionObj != NULL && !task->tCompanionInWater)
         {
-            ObjectEventSetHeldMovement(trainerObj, GetWalkNormalMovementAction(trainerObj->facingDirection));
-            task->tTrainerRange--;
+            enum Direction stepDir = GetCompanionStepDirection(companionObj, trainerObj, trainerObj->facingDirection);
+            if (CanCompanionStepInDirection(companionObj, stepDir))
+                ObjectEventSetHeldMovement(companionObj, GetWalkNormalMovementAction(stepDir));
         }
-        else
-        {
-            ObjectEventSetHeldMovement(trainerObj, MOVEMENT_ACTION_FACE_PLAYER);
-            task->tFuncId++;
-        }
+    }
+    else
+    {
+        ObjectEventSetHeldMovement(trainerObj, MOVEMENT_ACTION_FACE_PLAYER);
+        if (companionObj != NULL)
+            ObjectEventSetHeldMovement(companionObj, MOVEMENT_ACTION_FACE_PLAYER);
+        task->tFuncId++;
     }
     return FALSE;
 }
@@ -504,13 +614,41 @@ static bool32 TrainerSeeFunc_TrainerApproach(u8 taskId, struct Task *task, struc
 static bool32 TrainerSeeFunc_PrepareToEngage(u8 taskId, struct Task *task, struct ObjectEvent *trainerObj)
 {
     struct ObjectEvent *playerObj;
+    struct ObjectEvent *companionObj = NULL;
+
+    if (task->tCompanionObjectEventId < OBJECT_EVENTS_COUNT)
+        companionObj = &gObjectEvents[task->tCompanionObjectEventId];
 
     if (ObjectEventIsMovementOverridden(trainerObj) && !ObjectEventClearHeldMovementIfFinished(trainerObj))
+        return FALSE;
+
+    if (companionObj != NULL && ObjectEventIsMovementOverridden(companionObj) && !ObjectEventClearHeldMovementIfFinished(companionObj))
         return FALSE;
 
     SetTrainerMovementType(trainerObj, GetTrainerFacingDirectionMovementType(trainerObj->facingDirection));
     OverrideMovementTypeForObjectEvent(trainerObj, GetTrainerFacingDirectionMovementType(trainerObj->facingDirection));
     OverrideTemplateCoordsForObjectEvent(trainerObj);
+
+    if (companionObj != NULL)
+    {
+        if (!task->tCompanionInWater)
+        {
+            u8 movementType = companionObj->movementType;
+            if (movementType >= MOVEMENT_TYPE_WALK_IN_PLACE_DOWN && movementType <= MOVEMENT_TYPE_WALK_IN_PLACE_RIGHT)
+            {
+                movementType = MOVEMENT_TYPE_WALK_IN_PLACE_DOWN + companionObj->facingDirection - 1;
+                SetTrainerMovementType(companionObj, movementType);
+                OverrideMovementTypeForObjectEvent(companionObj, movementType);
+            }
+            else if (movementType >= MOVEMENT_TYPE_JOG_IN_PLACE_DOWN && movementType <= MOVEMENT_TYPE_JOG_IN_PLACE_RIGHT)
+            {
+                movementType = MOVEMENT_TYPE_JOG_IN_PLACE_DOWN + companionObj->facingDirection - 1;
+                SetTrainerMovementType(companionObj, movementType);
+                OverrideMovementTypeForObjectEvent(companionObj, movementType);
+            }
+            OverrideTemplateCoordsForObjectEvent(companionObj);
+        }
+    }
 
     playerObj = &gObjectEvents[gPlayerAvatar.objectEventId];
     if (ObjectEventIsMovementOverridden(playerObj) && !ObjectEventClearHeldMovementIfFinished(playerObj))
@@ -635,6 +773,15 @@ static bool32 TrainerSeeFunc_OffscreenAboveTrainerCameraObjMoveUp(u8 taskId, str
         ObjectEventGetLocalIdAndMap(trainerObj, (u8 *)&gFieldEffectArguments[0], (u8 *)&gFieldEffectArguments[1], (u8 *)&gFieldEffectArguments[2]);
         FieldEffectStart(FLDEFF_EXCLAMATION_MARK_ICON);
         ActivateTrainerLight(trainerObj);
+
+        if (task->tCompanionObjectEventId < OBJECT_EVENTS_COUNT)
+        {
+            struct ObjectEvent *companionObj = &gObjectEvents[task->tCompanionObjectEventId];
+            ObjectEventGetLocalIdAndMap(companionObj, (u8 *)&gFieldEffectArguments[0], (u8 *)&gFieldEffectArguments[1], (u8 *)&gFieldEffectArguments[2]);
+            FieldEffectStart(FLDEFF_EXCLAMATION_MARK_ICON);
+            ObjectEventSetHeldMovement(companionObj, GetFaceDirectionMovementAction(trainerObj->facingDirection));
+        }
+
         task->tData5 = 0;
         task->tFuncId++;
     }
@@ -673,6 +820,9 @@ static bool32 TrainerSeeFunc_OffscreenAboveTrainerCameraObjMoveDown(u8 taskId, s
 #undef tTrainerObjLo
 #undef tTrainerObjHi
 #undef tFuncId
+#undef tTrainerObjectEventId
+#undef tCompanionObjectEventId
+#undef tCompanionInWater
 
 static void Task_RevealTrainer_RunTrainerSeeFuncList(u8 taskId)
 {

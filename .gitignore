@@ -98,4 +98,6 @@ IgnoreFiles/
 scratch/
 *_old.png
 *.latfont
+*.backup
+scratch_*
 

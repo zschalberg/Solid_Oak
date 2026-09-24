@@ -27,7 +27,6 @@
 #include "constants/vars.h"
 
 #define MAX_MAP_LIGHTS 32
-#define LIGHT_CONE_ANIM_GLOW 5
 
 static const u16 sLightCircle_Pal[] = {
     RGB_BLACK, RGB_WHITE, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
@@ -51,8 +50,13 @@ static const u16 sBugs_Pal[] = {
 
 static const u32 sLightCircle_Gfx[] = INCBIN_U32("graphics/field_effects/pics/light_circle.4bpp");
 static const u32 sLightCone_Gfx[]   = INCBIN_U32("graphics/field_effects/pics/light_cone.4bpp");
+static const u32 sLightGlow_Gfx[]   = INCBIN_U32("graphics/field_effects/pics/light_glow.4bpp");
 static const u32 sFireflies_Gfx[]   = INCBIN_U32("graphics/field_effects/pics/fireflies.4bpp");
 
+// Sprite tile VRAM is 1024 tiles shared by everything on screen, so light
+// graphics are kept small: the cone stores only Down and Left (Up and Right are
+// hardware flips of them), the glow is its own 32x32 sheet, and fireflies
+// stream one frame per sprite instead of keeping all 16 frames resident.
 static const struct SpriteSheet sSpriteSheet_LightCircle = {
     .data = sLightCircle_Gfx,
     .size = 2048, // 64x64 4bpp
@@ -61,14 +65,19 @@ static const struct SpriteSheet sSpriteSheet_LightCircle = {
 
 static const struct SpriteSheet sSpriteSheet_LightCone = {
     .data = sLightCone_Gfx,
-    .size = 10240, // 64x320 4bpp (5 frames: Down, Up, Left, Right, Ambient Glow)
+    .size = 4096, // 64x128 4bpp (2 frames: Down, Left)
     .tag = FLDEFF_TILE_TAG_LIGHT_CONE,
 };
 
-static const struct SpriteSheet sSpriteSheet_Fireflies = {
-    .data = sFireflies_Gfx,
-    .size = 8192, // 16 frames of 32x32 4bpp (16 * 16 tiles * 32 bytes)
-    .tag = FLDEFF_TILE_TAG_FIREFLIES,
+static const struct SpriteSheet sSpriteSheet_LightGlow = {
+    .data = sLightGlow_Gfx,
+    .size = 512, // 32x32 4bpp
+    .tag = FLDEFF_TILE_TAG_LIGHT_GLOW,
+};
+
+// 16 frames of 32x32 (16 tiles each); each sprite only holds its current frame
+static const struct SpriteFrameImage sPicTable_Fireflies[] = {
+    overworld_ascending_frames(sFireflies_Gfx, 4, 4),
 };
 
 static const struct SpritePalette sSpritePalette_LightCircle = {
@@ -109,10 +118,13 @@ static const struct SpritePalette sSpritePalette_AutumnLeaf = {
     .tag = FLDEFF_PAL_TAG_AUTUMN_LEAF,
 };
 
-// OAM Data for Monument Flame (uses double affine for 150% scaling)
+// OAM Data for Monument Flame. Plain affine by default: the circle art is 56px
+// in its 64px frame and the 50%/100% pulses peak at ~1.08x (~60px), so it never
+// clips. Double-size doubles the per-scanline OBJ render cost (a 128px-wide
+// bounding box), so SetLightCircleSize only switches to it for 150%.
 static const struct OamData sOamData_LightCircle = {
     .y = 0,
-    .affineMode = ST_OAM_AFFINE_DOUBLE,
+    .affineMode = ST_OAM_AFFINE_NORMAL,
     .objMode = ST_OAM_OBJ_WINDOW,
     .mosaic = FALSE,
     .bpp = ST_OAM_4BPP,
@@ -180,40 +192,51 @@ static const union AffineAnimCmd *const sAffineAnims_LightCircle[] = {
     [LIGHT_ANIM_FLAME_150] = sAffineAnim_LightPulse_150,
 };
 
+// OAM Data for Flashlight Ambient Glow (32x32 window mask)
+static const struct OamData sOamData_LightGlow = {
+    .y = 0,
+    .affineMode = ST_OAM_AFFINE_OFF,
+    .objMode = ST_OAM_OBJ_WINDOW,
+    .mosaic = FALSE,
+    .bpp = ST_OAM_4BPP,
+    .shape = ST_OAM_SQUARE,
+    .x = 0,
+    .matrixNum = 0,
+    .size = ST_OAM_SIZE_2, // 32x32
+    .tileNum = 0,
+    .priority = 0,
+    .paletteNum = 0,
+};
+
 // Directional sprite animation commands for the flashlight cone
-// Each 64x64 frame is 64 tiles in 4bpp
+// Each 64x64 frame is 64 tiles in 4bpp. The cone art is symmetric, so Up is
+// Down flipped vertically and Right is Left flipped horizontally.
 static const union AnimCmd sAnim_LightConeDown[] = {
     ANIMCMD_FRAME(0, 0),
     ANIMCMD_END,
 };
 
 static const union AnimCmd sAnim_LightConeUp[] = {
-    ANIMCMD_FRAME(64, 0),
+    ANIMCMD_FRAME(0, 0, .vFlip = TRUE),
     ANIMCMD_END,
 };
 
 static const union AnimCmd sAnim_LightConeLeft[] = {
-    ANIMCMD_FRAME(128, 0),
+    ANIMCMD_FRAME(64, 0),
     ANIMCMD_END,
 };
 
 static const union AnimCmd sAnim_LightConeRight[] = {
-    ANIMCMD_FRAME(192, 0),
-    ANIMCMD_END,
-};
-
-static const union AnimCmd sAnim_LightConeGlow[] = {
-    ANIMCMD_FRAME(256, 0),
+    ANIMCMD_FRAME(64, 0, .hFlip = TRUE),
     ANIMCMD_END,
 };
 
 static const union AnimCmd *const sAnims_LightCone[] = {
-    [DIR_NONE]             = sAnim_LightConeDown,
-    [DIR_SOUTH]            = sAnim_LightConeDown,
-    [DIR_NORTH]            = sAnim_LightConeUp,
-    [DIR_WEST]             = sAnim_LightConeLeft,
-    [DIR_EAST]             = sAnim_LightConeRight,
-    [LIGHT_CONE_ANIM_GLOW] = sAnim_LightConeGlow,
+    [DIR_NONE]  = sAnim_LightConeDown,
+    [DIR_SOUTH] = sAnim_LightConeDown,
+    [DIR_NORTH] = sAnim_LightConeUp,
+    [DIR_WEST]  = sAnim_LightConeLeft,
+    [DIR_EAST]  = sAnim_LightConeRight,
 };
 
 // OAM Data for Fireflies Window Mask (32x32)
@@ -248,24 +271,25 @@ static const struct OamData sOamData_Fireflies_Color = {
     .paletteNum = 0,
 };
 
-// 16-frame looping animation for the 32x32 firefly swarm (16 tiles per frame)
+// 16-frame looping animation for the 32x32 firefly swarm. Values are frame
+// indices into sPicTable_Fireflies (streamed), not tile offsets.
 static const union AnimCmd sAnim_Fireflies[] = {
-    ANIMCMD_FRAME(0,   8),
-    ANIMCMD_FRAME(16,  8),
-    ANIMCMD_FRAME(32,  8),
-    ANIMCMD_FRAME(48,  8),
-    ANIMCMD_FRAME(64,  8),
-    ANIMCMD_FRAME(80,  8),
-    ANIMCMD_FRAME(96,  8),
-    ANIMCMD_FRAME(112, 8),
-    ANIMCMD_FRAME(128, 8),
-    ANIMCMD_FRAME(144, 8),
-    ANIMCMD_FRAME(160, 8),
-    ANIMCMD_FRAME(176, 8),
-    ANIMCMD_FRAME(192, 8),
-    ANIMCMD_FRAME(208, 8),
-    ANIMCMD_FRAME(224, 8),
-    ANIMCMD_FRAME(240, 8),
+    ANIMCMD_FRAME(0,  8),
+    ANIMCMD_FRAME(1,  8),
+    ANIMCMD_FRAME(2,  8),
+    ANIMCMD_FRAME(3,  8),
+    ANIMCMD_FRAME(4,  8),
+    ANIMCMD_FRAME(5,  8),
+    ANIMCMD_FRAME(6,  8),
+    ANIMCMD_FRAME(7,  8),
+    ANIMCMD_FRAME(8,  8),
+    ANIMCMD_FRAME(9,  8),
+    ANIMCMD_FRAME(10, 8),
+    ANIMCMD_FRAME(11, 8),
+    ANIMCMD_FRAME(12, 8),
+    ANIMCMD_FRAME(13, 8),
+    ANIMCMD_FRAME(14, 8),
+    ANIMCMD_FRAME(15, 8),
     ANIMCMD_JUMP(0),
 };
 
@@ -295,32 +319,42 @@ static const struct SpriteTemplate sSpriteTemplate_LightCone = {
     .callback = SpriteCallback_MapLightSource,
 };
 
+static const struct SpriteTemplate sSpriteTemplate_LightGlow = {
+    .tileTag = FLDEFF_TILE_TAG_LIGHT_GLOW,
+    .paletteTag = FLDEFF_PAL_TAG_LIGHT_CIRCLE,
+    .oam = &sOamData_LightGlow,
+    .anims = gDummySpriteAnimTable,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = SpriteCallback_MapLightSource,
+};
+
 static const struct SpriteTemplate sSpriteTemplate_Fireflies_Window = {
-    .tileTag = FLDEFF_TILE_TAG_FIREFLIES,
+    .tileTag = TAG_NONE,
     .paletteTag = FLDEFF_PAL_TAG_LIGHT_CIRCLE,
     .oam = &sOamData_Fireflies_Window,
     .anims = sAnims_Fireflies,
-    .images = NULL,
+    .images = sPicTable_Fireflies,
     .affineAnims = gDummySpriteAffineAnimTable,
     .callback = SpriteCallback_MapLightSource,
 };
 
 static const struct SpriteTemplate sSpriteTemplate_Fireflies_Color = {
-    .tileTag = FLDEFF_TILE_TAG_FIREFLIES,
+    .tileTag = TAG_NONE,
     .paletteTag = FLDEFF_PAL_TAG_LIGHT_AMBER,
     .oam = &sOamData_Fireflies_Color,
     .anims = sAnims_Fireflies,
-    .images = NULL,
+    .images = sPicTable_Fireflies,
     .affineAnims = gDummySpriteAffineAnimTable,
     .callback = SpriteCallback_MapLightSource,
 };
 
 static const struct SpriteTemplate sSpriteTemplate_Bugs_Color = {
-    .tileTag = FLDEFF_TILE_TAG_FIREFLIES,
+    .tileTag = TAG_NONE,
     .paletteTag = FLDEFF_PAL_TAG_LIGHT_BUGS,
     .oam = &sOamData_Fireflies_Color,
     .anims = sAnims_Fireflies,
-    .images = NULL,
+    .images = sPicTable_Fireflies,
     .affineAnims = gDummySpriteAffineAnimTable,
     .callback = SpriteCallback_MapLightSource,
 };
@@ -715,18 +749,19 @@ enum {
     GASTLY_ANIM_SMOKE_PUFF,
 };
 
+// Values are frame indices into sPicTable_GastlySpook (streamed), not tile offsets
 static const union AnimCmd sAnim_GastlyFloat[] = {
     ANIMCMD_FRAME(0, 16),
-    ANIMCMD_FRAME(16, 16),
+    ANIMCMD_FRAME(1, 16),
     ANIMCMD_JUMP(0),
 };
 
 static const union AnimCmd sAnim_GastlySmokePuff[] = {
-    ANIMCMD_FRAME(32, 4),
-    ANIMCMD_FRAME(48, 4),
-    ANIMCMD_FRAME(64, 4),
-    ANIMCMD_FRAME(80, 4),
-    ANIMCMD_FRAME(96, 6),
+    ANIMCMD_FRAME(2, 4),
+    ANIMCMD_FRAME(3, 4),
+    ANIMCMD_FRAME(4, 4),
+    ANIMCMD_FRAME(5, 4),
+    ANIMCMD_FRAME(6, 6),
     ANIMCMD_END,
 };
 
@@ -737,10 +772,9 @@ static const union AnimCmd *const sAnims_GastlySpook[] = {
 
 static const u32 sGastlySpook_Gfx[] = INCBIN_U32("graphics/field_effects/pics/gastly_spook.4bpp");
 
-static const struct SpriteSheet sSpriteSheet_GastlySpook = {
-    .data = sGastlySpook_Gfx,
-    .size = 3584,
-    .tag = FLDEFF_TILE_TAG_GASTLY_SPOOK,
+// 7 frames of 32x32; each sprite only holds its current frame (16 tiles)
+static const struct SpriteFrameImage sPicTable_GastlySpook[] = {
+    overworld_ascending_frames(sGastlySpook_Gfx, 4, 4),
 };
 
 static const u16 sGastlySpook_Pal[] = INCBIN_U16("graphics/pokemon/gastly/overworld_normal.gbapal");
@@ -753,11 +787,11 @@ static const struct SpritePalette sSpritePalette_GastlySpook = {
 static void SpriteCallback_GastlySpook(struct Sprite *sprite);
 
 static const struct SpriteTemplate sSpriteTemplate_GastlySpook = {
-    .tileTag = FLDEFF_TILE_TAG_GASTLY_SPOOK,
+    .tileTag = TAG_NONE,
     .paletteTag = FLDEFF_PAL_TAG_GASTLY_SPOOK,
     .oam = &sOamData_GastlySpook,
     .anims = sAnims_GastlySpook,
-    .images = NULL,
+    .images = sPicTable_GastlySpook,
     .affineAnims = gDummySpriteAffineAnimTable,
     .callback = SpriteCallback_GastlySpook,
 };
@@ -948,11 +982,11 @@ static const struct MapLightSource sMapLightSources[] = {
         .trackingLocalId = 0,
         .flagId          = 0,
     },
-    // Flashlight Scientist at (24, 35)
+    // Flashlight Scientist at (37, 35)
     {
         .mapGroup        = MAP_GROUP(MAP_HAUNTED_WOODS),
         .mapNum          = MAP_NUM(MAP_HAUNTED_WOODS),
-        .x               = 24,
+        .x               = 37,
         .y               = 35,
         .type            = LIGHT_TYPE_FLASHLIGHT,
         .shape           = LIGHT_SHAPE_CONE,
@@ -984,19 +1018,7 @@ static const struct MapLightSource sMapLightSources[] = {
         .trackingLocalId = 0,
         .flagId          = 0,
     },
-    // Firefly Swarm at (31, 3)
-    {
-        .mapGroup        = MAP_GROUP(MAP_HAUNTED_WOODS),
-        .mapNum          = MAP_NUM(MAP_HAUNTED_WOODS),
-        .x               = 31,
-        .y               = 3,
-        .type            = LIGHT_TYPE_FIREFLIES,
-        .shape           = LIGHT_SHAPE_FIREFLIES,
-        .colorTint       = LIGHT_COLOR_AMBER,
-        .trackingLocalId = 0,
-        .flagId          = 0,
-    },
-        // Firefly Swarm at (7, 14)
+    // Firefly Swarm at (7, 14)
     {
         .mapGroup        = MAP_GROUP(MAP_HAUNTED_WOODS),
         .mapNum          = MAP_NUM(MAP_HAUNTED_WOODS),
@@ -1008,12 +1030,12 @@ static const struct MapLightSource sMapLightSources[] = {
         .trackingLocalId = 0,
         .flagId          = 0,
     },
-    // Flashlight Trainer (Camper Chris) at (48, 24)
+    // Flashlight Trainer (Camper Chris) at (48, 25)
     {
         .mapGroup        = MAP_GROUP(MAP_HAUNTED_WOODS),
         .mapNum          = MAP_NUM(MAP_HAUNTED_WOODS),
         .x               = 48,
-        .y               = 24,
+        .y               = 25,
         .type            = LIGHT_TYPE_FLASHLIGHT,
         .shape           = LIGHT_SHAPE_CONE,
         .colorTint       = LIGHT_COLOR_NONE,
@@ -1144,6 +1166,28 @@ static bool8 IsHauntedWoodsFlameMap(void)
         && gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_HAUNTED_WOODS);
 }
 
+// sizeVar: 0 = 100%, 1 = 50%, 2 = 150%. Only 150% outgrows the 64px frame, so
+// only it pays for double-size; CalcCenterToCornerVec keeps the light centred
+// when the bounding box changes.
+static void SetLightCircleSize(struct Sprite *sprite, u16 sizeVar)
+{
+    u8 affineMode = (sizeVar == 2) ? ST_OAM_AFFINE_DOUBLE : ST_OAM_AFFINE_NORMAL;
+
+    if (sprite->oam.affineMode != affineMode)
+    {
+        sprite->oam.affineMode = affineMode;
+        CalcCenterToCornerVec(sprite, sprite->oam.shape, sprite->oam.size, affineMode);
+    }
+
+    sprite->data[5] = sizeVar;
+    if (sizeVar == 1)
+        StartSpriteAffineAnim(sprite, LIGHT_ANIM_FLAME_50);
+    else if (sizeVar == 2)
+        StartSpriteAffineAnim(sprite, LIGHT_ANIM_FLAME_150);
+    else
+        StartSpriteAffineAnim(sprite, LIGHT_ANIM_FLAME_100);
+}
+
 static void SpriteCallback_MapLightSource(struct Sprite *sprite)
 {
     s16 screenX;
@@ -1223,7 +1267,7 @@ static void SpriteCallback_MapLightSource(struct Sprite *sprite)
             sprite->x2 = targetSprite->x2;
             sprite->y2 = targetSprite->y2;
 
-            if (direction < LIGHT_CONE_ANIM_GLOW)
+            if (direction < ARRAY_COUNT(sAnims_LightCone))
                 StartSpriteAnimIfDifferent(sprite, direction);
         }
         else if (sprite->data[2] == LIGHT_TYPE_FLASHLIGHT && sprite->data[3] == 1) // Flashlight Ambient Glow
@@ -1232,8 +1276,6 @@ static void SpriteCallback_MapLightSource(struct Sprite *sprite)
             sprite->y = targetSprite->y;
             sprite->x2 = targetSprite->x2;
             sprite->y2 = targetSprite->y2;
-
-            StartSpriteAnimIfDifferent(sprite, LIGHT_CONE_ANIM_GLOW);
         }
         else
         {
@@ -1242,7 +1284,9 @@ static void SpriteCallback_MapLightSource(struct Sprite *sprite)
             sprite->x2 = targetSprite->x2;
             sprite->y2 = targetSprite->y2;
 
-            if (direction < ARRAY_COUNT(sAnims_LightCone))
+            // Only cone sprites have directional anims; a tracked circle's
+            // table has a single entry.
+            if (sprite->anims == sAnims_LightCone && direction < ARRAY_COUNT(sAnims_LightCone))
                 StartSpriteAnimIfDifferent(sprite, direction);
         }
     }
@@ -1258,15 +1302,7 @@ static void SpriteCallback_MapLightSource(struct Sprite *sprite)
             bool8 isControlMap = IsHauntedWoodsFlameMap();
             u16 sizeVar = isControlMap ? VarGet(VAR_HAUNTED_WOODS_LIGHT_SIZE) : 0;
             if (sizeVar != sprite->data[5])
-            {
-                sprite->data[5] = sizeVar;
-                if (sizeVar == 1)
-                    StartSpriteAffineAnim(sprite, LIGHT_ANIM_FLAME_50);
-                else if (sizeVar == 2)
-                    StartSpriteAffineAnim(sprite, LIGHT_ANIM_FLAME_150);
-                else
-                    StartSpriteAffineAnim(sprite, LIGHT_ANIM_FLAME_100);
-            }
+                SetLightCircleSize(sprite, sizeVar);
 
             // Organic flame flicker and jitter
             sprite->data[3]++;
@@ -2665,8 +2701,6 @@ static void SpawnGastlySpook(void)
     if (sGastlySpookActive)
         return;
 
-    if (GetSpriteTileStartByTag(FLDEFF_TILE_TAG_GASTLY_SPOOK) == 0xFFFF)
-        LoadSpriteSheet(&sSpriteSheet_GastlySpook);
     {
         u8 palIndex = IndexOfSpritePaletteTag(FLDEFF_PAL_TAG_GASTLY_SPOOK);
         if (palIndex == 0xFF)
@@ -2730,7 +2764,6 @@ static void DestroyGastlySpook(void)
         }
     }
 
-    FreeSpriteTilesByTag(FLDEFF_TILE_TAG_GASTLY_SPOOK);
     FreeSpritePaletteByTag(FLDEFF_PAL_TAG_GASTLY_SPOOK);
     sGastlySpookActive = FALSE;
 }
@@ -3346,13 +3379,66 @@ static void DestroyMapBoundLightSources(void)
         }
     }
 
+    // Firefly/bug sprites stream their frames, so DestroySprite already freed
+    // their tiles; only the shared sheets need freeing here.
     FreeSpriteTilesByTag(FLDEFF_TILE_TAG_LIGHT_CIRCLE);
     FreeSpriteTilesByTag(FLDEFF_TILE_TAG_LIGHT_CONE);
-    FreeSpriteTilesByTag(FLDEFF_TILE_TAG_FIREFLIES);
+    FreeSpriteTilesByTag(FLDEFF_TILE_TAG_LIGHT_GLOW);
     FreeSpritePaletteByTag(FLDEFF_PAL_TAG_LIGHT_CIRCLE);
     FreeSpritePaletteByTag(FLDEFF_PAL_TAG_LIGHT_AMBER);
     FreeSpritePaletteByTag(FLDEFF_PAL_TAG_LIGHT_BUGS);
     sMapLightsActive = FALSE;
+}
+
+// Light graphics are loaded on first use rather than up front, so a map only
+// pays tile VRAM for the light types it actually spawns. Returns FALSE if the
+// sheet could not be allocated; callers skip the sprite instead of creating one
+// that would point at unowned tiles and draw garbage.
+static bool8 LoadLightSheet(const struct SpriteSheet *sheet)
+{
+    if (GetSpriteTileStartByTag(sheet->tag) != TAG_NONE)
+        return TRUE;
+
+    LoadSpriteSheet(sheet);
+    assertf(GetSpriteTileStartByTag(sheet->tag) != TAG_NONE, "Out of sprite tile VRAM loading light sheet tag %d", sheet->tag)
+    {
+        return FALSE;
+    }
+    return TRUE;
+}
+
+static void LoadLightWindowPalette(void)
+{
+    if (IndexOfSpritePaletteTag(FLDEFF_PAL_TAG_LIGHT_CIRCLE) == 0xFF)
+        LoadSpritePalette(&sSpritePalette_LightCircle);
+}
+
+static bool8 LoadLightConeGfx(void)
+{
+    LoadLightWindowPalette();
+    return LoadLightSheet(&sSpriteSheet_LightCone) && LoadLightSheet(&sSpriteSheet_LightGlow);
+}
+
+static bool8 LoadLightCircleGfx(void)
+{
+    LoadLightWindowPalette();
+    return LoadLightSheet(&sSpriteSheet_LightCircle);
+}
+
+static void LoadFirefliesPalettes(void)
+{
+    LoadLightWindowPalette();
+    if (IndexOfSpritePaletteTag(FLDEFF_PAL_TAG_LIGHT_AMBER) == 0xFF)
+        LoadSpritePalette(&sSpritePalette_Fireflies);
+}
+
+static void LoadBugsPalette(void)
+{
+    u8 bugPalIndex = IndexOfSpritePaletteTag(FLDEFF_PAL_TAG_LIGHT_BUGS);
+    if (bugPalIndex == 0xFF)
+        FieldEffectScript_LoadFadedPal(&sSpritePalette_Bugs);
+    else
+        UpdateSpritePaletteWithWeather(bugPalIndex, TRUE);
 }
 
 static void SpawnMapBoundLightSources(u8 mapGroup, u8 mapNum)
@@ -3401,24 +3487,9 @@ static void SpawnMapBoundLightSources(u8 mapGroup, u8 mapNum)
     if (!hasMatchingLights && !isDarkMap)
         return;
 
-    if (GetSpriteTileStartByTag(FLDEFF_TILE_TAG_LIGHT_CIRCLE) == 0xFFFF)
-        LoadSpriteSheet(&sSpriteSheet_LightCircle);
-    if (GetSpriteTileStartByTag(FLDEFF_TILE_TAG_LIGHT_CONE) == 0xFFFF)
-        LoadSpriteSheet(&sSpriteSheet_LightCone);
-    if (GetSpriteTileStartByTag(FLDEFF_TILE_TAG_FIREFLIES) == 0xFFFF)
-        LoadSpriteSheet(&sSpriteSheet_Fireflies);
-
-    if (IndexOfSpritePaletteTag(FLDEFF_PAL_TAG_LIGHT_CIRCLE) == 0xFF)
-        LoadSpritePalette(&sSpritePalette_LightCircle);
-    if (IndexOfSpritePaletteTag(FLDEFF_PAL_TAG_LIGHT_AMBER) == 0xFF)
-        LoadSpritePalette(&sSpritePalette_Fireflies);
-    {
-        u8 bugPalIndex = IndexOfSpritePaletteTag(FLDEFF_PAL_TAG_LIGHT_BUGS);
-        if (bugPalIndex == 0xFF)
-            FieldEffectScript_LoadFadedPal(&sSpritePalette_Bugs);
-        else
-            UpdateSpritePaletteWithWeather(bugPalIndex, TRUE);
-    }
+    // A dark map always needs the window palette, even with no light sprites,
+    // since the OBJ window is enabled below.
+    LoadLightWindowPalette();
 
     if (isDarkMap)
     {
@@ -3426,7 +3497,8 @@ static void SpawnMapBoundLightSources(u8 mapGroup, u8 mapNum)
         SetGpuRegBits(REG_OFFSET_DISPCNT, DISPCNT_OBJWIN_ON);
         SetGpuRegBits(REG_OFFSET_WINOUT, WINOUT_WINOBJ_BG_ALL | WINOUT_WINOBJ_OBJ);
 
-        if ((CheckBagHasItem(ITEM_FLASHLIGHT, 1) || FlagGet(FLAG_RECEIVED_FLASHLIGHT)) && !FlagGet(FLAG_FLASHLIGHT_DISABLED))
+        if ((CheckBagHasItem(ITEM_FLASHLIGHT, 1) || FlagGet(FLAG_RECEIVED_FLASHLIGHT)) && !FlagGet(FLAG_FLASHLIGHT_DISABLED)
+         && LoadLightConeGfx())
         {
             // Player Flashlight Beam (data[3] = 0)
             if (count < MAX_MAP_LIGHTS)
@@ -3446,7 +3518,7 @@ static void SpawnMapBoundLightSources(u8 mapGroup, u8 mapNum)
             // Player Flashlight Ambient Glow (data[3] = 1)
             if (count < MAX_MAP_LIGHTS)
             {
-                u8 glowSpriteId = CreateSprite(&sSpriteTemplate_LightCone, 120, 80, 0);
+                u8 glowSpriteId = CreateSprite(&sSpriteTemplate_LightGlow, 120, 80, 0);
                 if (glowSpriteId != MAX_SPRITES)
                 {
                     gSprites[glowSpriteId].coordOffsetEnabled = TRUE;
@@ -3454,7 +3526,6 @@ static void SpawnMapBoundLightSources(u8 mapGroup, u8 mapNum)
                     gSprites[glowSpriteId].data[2] = LIGHT_TYPE_FLASHLIGHT;
                     gSprites[glowSpriteId].data[3] = 1; // Glow
                     gSprites[glowSpriteId].invisible = TRUE;
-                    StartSpriteAnim(&gSprites[glowSpriteId], LIGHT_CONE_ANIM_GLOW);
                     sLightSpriteIds[count++] = glowSpriteId;
                 }
             }
@@ -3477,6 +3548,8 @@ static void SpawnMapBoundLightSources(u8 mapGroup, u8 mapNum)
 
                 if (sMapLightSources[i].type == LIGHT_TYPE_FIREFLIES)
                 {
+                    LoadFirefliesPalettes();
+
                     // Capacity is checked before CreateSprite, not after: a
                     // sprite created once the table is full would never be
                     // recorded in sLightSpriteIds, so nothing would ever destroy
@@ -3507,6 +3580,8 @@ static void SpawnMapBoundLightSources(u8 mapGroup, u8 mapNum)
                 }
                 else if (sMapLightSources[i].type == LIGHT_TYPE_BUGS)
                 {
+                    LoadBugsPalette();
+
                     if (count < MAX_MAP_LIGHTS)
                     {
                         u8 bugSpriteId = CreateSprite(&sSpriteTemplate_Bugs_Color, x, y, 1);
@@ -3519,7 +3594,7 @@ static void SpawnMapBoundLightSources(u8 mapGroup, u8 mapNum)
                         }
                     }
                 }
-                else if (sMapLightSources[i].type == LIGHT_TYPE_FLASHLIGHT)
+                else if (sMapLightSources[i].type == LIGHT_TYPE_FLASHLIGHT && LoadLightConeGfx())
                 {
                     u8 objEventId;
                     s16 beamX = x;
@@ -3569,19 +3644,19 @@ static void SpawnMapBoundLightSources(u8 mapGroup, u8 mapNum)
                     // Ambient Glow on NPC (data[3] = 1)
                     if (count < MAX_MAP_LIGHTS)
                     {
-                        glowSpriteId = CreateSprite(&sSpriteTemplate_LightCone, x, y, 0);
+                        glowSpriteId = CreateSprite(&sSpriteTemplate_LightGlow, x, y, 0);
                         if (glowSpriteId != MAX_SPRITES)
                         {
                             gSprites[glowSpriteId].coordOffsetEnabled = TRUE;
                             gSprites[glowSpriteId].data[1] = sMapLightSources[i].trackingLocalId;
                             gSprites[glowSpriteId].data[2] = LIGHT_TYPE_FLASHLIGHT;
                             gSprites[glowSpriteId].data[3] = 1; // Glow
-                            StartSpriteAnim(&gSprites[glowSpriteId], LIGHT_CONE_ANIM_GLOW);
                             sLightSpriteIds[count++] = glowSpriteId;
                         }
                     }
                 }
-                else if (count < MAX_MAP_LIGHTS)
+                else if (sMapLightSources[i].type != LIGHT_TYPE_FLASHLIGHT
+                      && count < MAX_MAP_LIGHTS && LoadLightCircleGfx())
                 {
                     u8 spriteId = CreateSprite(&sSpriteTemplate_LightCircle, x, y, 0);
                     if (spriteId != MAX_SPRITES)
@@ -3589,20 +3664,13 @@ static void SpawnMapBoundLightSources(u8 mapGroup, u8 mapNum)
                         // Size var is a Haunted Woods debug control, so only
                         // honour it there -- see IsHauntedWoodsFlameMap.
                         u16 sizeVar = IsHauntedWoodsFlameMap() ? VarGet(VAR_HAUNTED_WOODS_LIGHT_SIZE) : 0;
-                        u8 anim = LIGHT_ANIM_FLAME_100;
 
                         gSprites[spriteId].coordOffsetEnabled = TRUE;
                         gSprites[spriteId].data[1] = sMapLightSources[i].trackingLocalId;
                         gSprites[spriteId].data[2] = sMapLightSources[i].type;
                         gSprites[spriteId].data[3] = 0;
 
-                        if (sizeVar == 1)
-                            anim = LIGHT_ANIM_FLAME_50;
-                        else if (sizeVar == 2)
-                            anim = LIGHT_ANIM_FLAME_150;
-
-                        gSprites[spriteId].data[5] = sizeVar;
-                        StartSpriteAffineAnim(&gSprites[spriteId], anim);
+                        SetLightCircleSize(&gSprites[spriteId], sizeVar);
 
                         sLightSpriteIds[count++] = spriteId;
                     }
@@ -3787,6 +3855,36 @@ void DestroyMapLightSources(void)
         DestroyRattataScurry();
 }
 
+// Forgets every tracked sprite ID without touching gSprites. Must run right
+// after ResetSpriteData() (see ResumeMap): at that point every light/ambient
+// sprite is already gone, but the IDs in these EWRAM arrays and the *Active
+// flags survive. Without this, the next InitMapLightSources would call
+// DestroySprite on those stale IDs -- which by then belong to rain drops, NPCs
+// or other newly created sprites -- corrupting them and leaking slots.
+void ResetMapLightSourcesState(void)
+{
+    memset(sLightSpriteIds, MAX_SPRITES, sizeof(sLightSpriteIds));
+    memset(sAutumnLeafSpriteIds, MAX_SPRITES, sizeof(sAutumnLeafSpriteIds));
+    memset(sFlyingPidgeySpriteIds, MAX_SPRITES, sizeof(sFlyingPidgeySpriteIds));
+    memset(sTreePidgeySpriteIds, MAX_SPRITES, sizeof(sTreePidgeySpriteIds));
+    memset(sMagikarpSplashSpriteIds, MAX_SPRITES, sizeof(sMagikarpSplashSpriteIds));
+    memset(sWingullSkimSpriteIds, MAX_SPRITES, sizeof(sWingullSkimSpriteIds));
+    memset(sGastlySpookSpriteIds, MAX_SPRITES, sizeof(sGastlySpookSpriteIds));
+    memset(sKrabbyBurrowSpriteIds, MAX_SPRITES, sizeof(sKrabbyBurrowSpriteIds));
+    memset(sRattataScurrySpriteIds, MAX_SPRITES, sizeof(sRattataScurrySpriteIds));
+
+    sMapLightsActive = FALSE;
+    sAutumnLeavesActive = FALSE;
+    sAutumnLeavesWindingOut = FALSE;
+    sFlyingPidgeyActive = FALSE;
+    sTreePidgeyActive = FALSE;
+    sMagikarpSplashActive = FALSE;
+    sWingullSkimActive = FALSE;
+    sGastlySpookActive = FALSE;
+    sKrabbyBurrowActive = FALSE;
+    sRattataScurryActive = FALSE;
+}
+
 // ============================================================================
 // UNUSED -- kept for future use.
 //
@@ -3908,20 +4006,14 @@ void UpdateMapLightSourcesVisibility(bool8 visible)
 */
 
 // ============================================================================
-// UNUSED -- kept for future use.
-//
 // Script-callable wrapper around InitMapLightSources: tears every effect down
-// and respawns it from the table for the current map. The point of exposing it
-// as a special is letting a map script refresh the lights after it changes
-// something the spawn path reads but the sprites don't poll -- most importantly
-// a light's gating flag (struct MapLightSource.flagId), since that is only
-// evaluated at spawn time. Toggling such a flag mid-map has no visible effect
-// until something respawns the lights.
-//
-// To re-enable: uncomment this and its prototype in include/field_light_sources.h,
-// then add it to the specials table in data/specials.inc, e.g.
-//     def_special Special_UpdateMapLightSources
-// and call it from Poryscript as `special(Special_UpdateMapLightSources)`.
+// and respawns it from the table for the current map. Registered as a special
+// (data/specials.inc) and used by HauntedWoods's debug toggle scripts to make
+// their FLAG_HAUNTED_WOODS_LIGHT_DISABLED / VAR_HAUNTED_WOODS_LIGHT_SIZE /
+// FLAG_HAUNTED_WOODS_LIGHT_MOVE changes take effect immediately -- those are
+// only evaluated at spawn time (see struct MapLightSource.flagId and
+// IsHauntedWoodsFlameMap above), so toggling them mid-map has no visible
+// effect until something respawns the lights.
 void Special_UpdateMapLightSources(void)
 {
     InitMapLightSources();
@@ -3975,10 +4067,9 @@ void ActivateTrainerLight(struct ObjectEvent *trainerObj)
     if (alreadyActive)
         return;
 
-    // Defensive loading of cone sprite sheet, palette, and window registers
-    if (GetSpriteTileStartByTag(FLDEFF_TILE_TAG_LIGHT_CONE) == TAG_NONE)
-        LoadSpriteSheet(&sSpriteSheet_LightCone);
-    LoadSpritePalette(&sSpritePalette_LightCircle);
+    // Defensive loading of cone/glow sheets, palette, and window registers
+    if (!LoadLightConeGfx())
+        return;
 
     SetGpuRegBits(REG_OFFSET_DISPCNT, DISPCNT_OBJWIN_ON);
     SetGpuRegBits(REG_OFFSET_WINOUT, WINOUT_WINOBJ_BG_ALL | WINOUT_WINOBJ_OBJ);
@@ -4032,8 +4123,8 @@ void ActivateTrainerLight(struct ObjectEvent *trainerObj)
     }
     if (i < MAX_MAP_LIGHTS)
     {
-        glowSpriteId = CreateSprite(&sSpriteTemplate_LightCone, 
-                                    gSprites[trainerObj->spriteId].x, 
+        glowSpriteId = CreateSprite(&sSpriteTemplate_LightGlow,
+                                    gSprites[trainerObj->spriteId].x,
                                     gSprites[trainerObj->spriteId].y, 0);
         if (glowSpriteId != MAX_SPRITES)
         {
@@ -4041,7 +4132,6 @@ void ActivateTrainerLight(struct ObjectEvent *trainerObj)
             gSprites[glowSpriteId].data[1] = trainerObj->localId;
             gSprites[glowSpriteId].data[2] = LIGHT_TYPE_FLASHLIGHT;
             gSprites[glowSpriteId].data[3] = 1; // Glow
-            StartSpriteAnim(&gSprites[glowSpriteId], LIGHT_CONE_ANIM_GLOW);
 
             sLightSpriteIds[i] = glowSpriteId;
             sMapLightsActive = TRUE;

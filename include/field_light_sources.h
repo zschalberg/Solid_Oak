@@ -64,6 +64,7 @@ struct MapLightSource
 
 void InitMapLightSources(void);
 void DestroyMapLightSources(void);
+void ResetMapLightSourcesState(void);
 void ActivateTrainerLight(struct ObjectEvent *trainerObj);
 void OnMapConnectionTransition(u8 mapGroup, u8 mapNum);
 void Special_UpdateMapLightSources(void);

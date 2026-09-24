@@ -13,6 +13,7 @@
 #include "constants/event_objects.h"
 #include "constants/songs.h"
 #include "tilesets.h"
+#include "overworld.h"
 
 #define OBJ_EVENT_PAL_TAG_NONE 0x11FF // duplicate of define in event_object_movement.c
 #define PAL_TAG_REFLECTION_OFFSET 0x2000 // reflection tag value is paletteTag + 0x2000
@@ -330,6 +331,10 @@ u32 FldEff_Shadow(void)
     const struct ObjectEventGraphicsInfo *graphicsInfo;
     u8 spriteId;
     s32 i;
+
+    if (!CurrentMapHasShadows())
+        return 0;
+
     for (i = MAX_SPRITES - 1; i > -1; i--) // Search backwards, because of CreateSpriteAtEnd
     {
         // Return early if a shadow sprite already exists
@@ -394,6 +399,7 @@ void UpdateShadowFieldEffect(struct Sprite *sprite)
          || objectEvent->inHotSprings
          || objectEvent->inSandPile
          || gWeatherPtr->noShadows
+         || !CurrentMapHasShadows()
          || MetatileBehavior_IsPokeGrass(objectEvent->currentMetatileBehavior)
          || MetatileBehavior_IsSurfable(objectEvent->currentMetatileBehavior)
          || MetatileBehavior_IsSurfable(objectEvent->previousMetatileBehavior)
