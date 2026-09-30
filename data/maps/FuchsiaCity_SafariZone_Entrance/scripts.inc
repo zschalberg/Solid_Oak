@@ -96,7 +96,11 @@ FuchsiaCity_SafariZone_Entrance_EventScript_EntryTriggerLeft::
 
 FuchsiaCity_SafariZone_Entrance_EventScript_AskEnterSafariZone::
 	textcolor NPC_TEXT_COLOR_MALE
-	goto_if_set FLAG_RESERVE_CONTEST_ACTIVE, FuchsiaCity_SafariZone_Entrance_EventScript_PassThroughGate
+	goto_if_unset FLAG_RESERVE_CONTEST_ACTIVE, FuchsiaCity_SafariZone_Entrance_EventScript_MustRegisterFirst
+	goto FuchsiaCity_SafariZone_Entrance_EventScript_PassThroughGate
+	end
+
+FuchsiaCity_SafariZone_Entrance_EventScript_MustRegisterFirst::
 	msgbox FuchsiaCity_SafariZone_Entrance_Text_MustRegisterFirst, MSGBOX_DEFAULT
 	goto FuchsiaCity_SafariZone_Entrance_EventScript_ForcePlayerBack
 	end
@@ -153,24 +157,70 @@ FuchsiaCity_SafariZone_Entrance_EventScript_ReserveContestIntro::
 	special GetReserveContestAttemptsRemaining
 	goto_if_eq VAR_RESULT, 0, FuchsiaCity_SafariZone_Entrance_EventScript_NoAttemptsLeft
 	special CheckCanRegisterReserveContest
-	goto_if_eq VAR_RESULT, FALSE, FuchsiaCity_SafariZone_Entrance_EventScript_MustHaveOneMon
+	goto_if_eq VAR_RESULT, FALSE, FuchsiaCity_SafariZone_Entrance_EventScript_NoEligibleMons
+	getpartysize
+	goto_if_gt VAR_RESULT, 1, FuchsiaCity_SafariZone_Entrance_EventScript_ChooseMon
+	setvar VAR_0x8004, 0
+	special ValidateReserveContestChosenMon
+	goto_if_ne VAR_RESULT, 0, FuchsiaCity_SafariZone_Entrance_EventScript_MonRefused
+	special SavePlayerPartyForReserveContest
+	goto FuchsiaCity_SafariZone_Entrance_EventScript_CategorySelect
+
+FuchsiaCity_SafariZone_Entrance_EventScript_ChooseMon::
+	msgbox FuchsiaCity_SafariZone_Entrance_Text_ChooseMonPrompt, MSGBOX_DEFAULT
+FuchsiaCity_SafariZone_Entrance_EventScript_ChooseMonLoop::
+	special ChoosePartyMon
+	waitstate
+	goto_if_eq VAR_0x8004, PARTY_NOTHING_CHOSEN, FuchsiaCity_SafariZone_Entrance_EventScript_AttendantEnd
+	special ValidateReserveContestChosenMon
+	goto_if_ne VAR_RESULT, 0, FuchsiaCity_SafariZone_Entrance_EventScript_MonRefused
+	special SavePlayerPartyForReserveContest
+	goto FuchsiaCity_SafariZone_Entrance_EventScript_CategorySelect
+
+FuchsiaCity_SafariZone_Entrance_EventScript_MonRefused::
+	goto_if_eq VAR_RESULT, 2, FuchsiaCity_SafariZone_Entrance_EventScript_EggRefused
+	goto_if_eq VAR_RESULT, 3, FuchsiaCity_SafariZone_Entrance_EventScript_FaintedRefused
+	goto_if_eq VAR_RESULT, 4, FuchsiaCity_SafariZone_Entrance_EventScript_ResearchBallRefused
+	msgbox FuchsiaCity_SafariZone_Entrance_Text_MonCantGo, MSGBOX_DEFAULT
+	goto FuchsiaCity_SafariZone_Entrance_EventScript_MonRefusedRetry
+
+FuchsiaCity_SafariZone_Entrance_EventScript_EggRefused::
+	msgbox FuchsiaCity_SafariZone_Entrance_Text_EggRefused, MSGBOX_DEFAULT
+	goto FuchsiaCity_SafariZone_Entrance_EventScript_MonRefusedRetry
+
+FuchsiaCity_SafariZone_Entrance_EventScript_FaintedRefused::
+	msgbox FuchsiaCity_SafariZone_Entrance_Text_FaintedRefused, MSGBOX_DEFAULT
+	goto FuchsiaCity_SafariZone_Entrance_EventScript_MonRefusedRetry
+
+FuchsiaCity_SafariZone_Entrance_EventScript_ResearchBallRefused::
+	msgbox FuchsiaCity_SafariZone_Entrance_Text_ResearchBallRefused, MSGBOX_DEFAULT
+	goto FuchsiaCity_SafariZone_Entrance_EventScript_MonRefusedRetry
+
+FuchsiaCity_SafariZone_Entrance_EventScript_MonRefusedRetry::
+	getpartysize
+	goto_if_gt VAR_RESULT, 1, FuchsiaCity_SafariZone_Entrance_EventScript_ChooseMonLoop
+	release
+	end
+
+FuchsiaCity_SafariZone_Entrance_EventScript_NoEligibleMons::
+	msgbox FuchsiaCity_SafariZone_Entrance_Text_NoEligibleMons, MSGBOX_DEFAULT
+	release
+	end
+
+FuchsiaCity_SafariZone_Entrance_EventScript_CategorySelect::
 	msgbox FuchsiaCity_SafariZone_Entrance_Text_ReserveContestExplain, MSGBOX_DEFAULT
 	multichoice 0, 0, MULTI_RESERVE_CONTEST_CATEGORY, FALSE
-	goto_if_eq VAR_RESULT, MULTI_B_PRESSED, FuchsiaCity_SafariZone_Entrance_EventScript_AttendantEnd
-	@ MULTI_RESERVE_CONTEST_CATEGORY's list is Size(0)/Vitality(1)/Rarity(2)/Cancel(3) -
-	@ explicitly picking "Cancel" returns index 3, not MULTI_B_PRESSED, so it must be
-	@ checked separately or the session starts anyway with an invalid category.
-	goto_if_eq VAR_RESULT, 3, FuchsiaCity_SafariZone_Entrance_EventScript_AttendantEnd
+	goto_if_eq VAR_RESULT, MULTI_B_PRESSED, FuchsiaCity_SafariZone_Entrance_EventScript_CategoryCancelled
+	goto_if_eq VAR_RESULT, 3, FuchsiaCity_SafariZone_Entrance_EventScript_CategoryCancelled
 	copyvar VAR_0x8004, VAR_RESULT
 	special StartReserveContestSession
 	msgbox FuchsiaCity_SafariZone_Entrance_Text_SessionStarted, MSGBOX_DEFAULT
 	release
 	end
 
-FuchsiaCity_SafariZone_Entrance_EventScript_MustHaveOneMon::
-	msgbox FuchsiaCity_SafariZone_Entrance_Text_MustHaveOneMonInParty, MSGBOX_DEFAULT
-	release
-	end
+FuchsiaCity_SafariZone_Entrance_EventScript_CategoryCancelled::
+	special RestorePlayerPartyFromReserveContest
+	goto FuchsiaCity_SafariZone_Entrance_EventScript_AttendantEnd
 
 FuchsiaCity_SafariZone_Entrance_EventScript_AttendantActiveSession::
 	goto_if_unset FLAG_RESERVE_CONTEST_CAUGHT, FuchsiaCity_SafariZone_Entrance_EventScript_NoSpecimenCaughtYet
@@ -189,7 +239,13 @@ FuchsiaCity_SafariZone_Entrance_EventScript_AttendantActiveSession::
 FuchsiaCity_SafariZone_Entrance_EventScript_KeepMonChoice::
 	setvar VAR_0x8004, 0
 	special FinalizeReserveContestCatch
+	goto_if_eq VAR_RESULT, 1, FuchsiaCity_SafariZone_Entrance_EventScript_KeptMonSentToPC
 	msgbox FuchsiaCity_SafariZone_Entrance_Text_KeptMonAddedToParty, MSGBOX_DEFAULT
+	release
+	end
+
+FuchsiaCity_SafariZone_Entrance_EventScript_KeptMonSentToPC::
+	msgbox FuchsiaCity_SafariZone_Entrance_Text_KeptMonSentToPC, MSGBOX_DEFAULT
 	release
 	end
 

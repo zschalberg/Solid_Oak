@@ -349,18 +349,74 @@ script FuchsiaCity_Reserve_EventScript_Worker2Start {
     }
     specialvar(VAR_RESULT, CheckCanRegisterReserveContest)
     if (var(VAR_RESULT) == FALSE) {
-        msgbox("You'll need exactly one POKéMON\n"
-               "in your party before you head\l"
-               "out. Wouldn't want you catching\l"
-               "over your limit.")
+        msgbox("You don't have any eligible\n"
+               "POKéMON to take on an\l"
+               "expedition right now.")
         closemessage
         release
         end
     }
+    getpartysize
+    if (var(VAR_RESULT) > 1) {
+        msgbox("Choose one POKéMON to take\n"
+               "with you on the expedition.\p"
+               "The rest will be safely looked\n"
+               "after here.")
+        goto(FuchsiaCity_Reserve_EventScript_Worker2ChooseMonLoop)
+    } else {
+        setvar(VAR_0x8004, 0)
+        special(ValidateReserveContestChosenMon)
+        if (var(VAR_RESULT) != 0) {
+            goto(FuchsiaCity_Reserve_EventScript_Worker2MonRefused)
+        }
+        special(SavePlayerPartyForReserveContest)
+        msgbox("Pick what you're cataloguing\n"
+           "this time.")
+        closemessage
+        goto(FuchsiaCity_Reserve_EventScript_Worker2Category)
+    }
+}
+
+script FuchsiaCity_Reserve_EventScript_Worker2ChooseMonLoop {
+    special(ChoosePartyMon)
+    waitstate
+    if (var(VAR_0x8004) == PARTY_NOTHING_CHOSEN) {
+        goto(FuchsiaCity_Reserve_EventScript_Worker2Cancelled)
+    }
+    special(ValidateReserveContestChosenMon)
+    if (var(VAR_RESULT) != 0) {
+        goto(FuchsiaCity_Reserve_EventScript_Worker2MonRefused)
+    }
+    special(SavePlayerPartyForReserveContest)
     msgbox("Pick what you're cataloguing\n"
            "this time.")
     closemessage
     goto(FuchsiaCity_Reserve_EventScript_Worker2Category)
+}
+
+script FuchsiaCity_Reserve_EventScript_Worker2MonRefused {
+    if (var(VAR_RESULT) == 2) {
+        msgbox("An EGG cannot be taken on an\n"
+               "expedition.\p"
+               "Please choose a different POKéMON.")
+    } elif (var(VAR_RESULT) == 3) {
+        msgbox("That POKéMON doesn't have the\n"
+               "energy to battle!\p"
+               "Please choose a different POKéMON.")
+    } elif (var(VAR_RESULT) == 4) {
+        msgbox("A POKéMON in a RESEARCH BALL\n"
+               "cannot lead an expedition!\p"
+               "Please choose a different POKéMON.")
+    } else {
+        msgbox("That POKéMON cannot be taken on\n"
+               "an expedition.\p"
+               "Please choose a different POKéMON.")
+    }
+    getpartysize
+    if (var(VAR_RESULT) > 1) {
+        goto(FuchsiaCity_Reserve_EventScript_Worker2ChooseMonLoop)
+    }
+    release
     end
 }
 
@@ -383,6 +439,8 @@ FuchsiaCity_Reserve_EventScript_Worker2Category::
 	end
 
 FuchsiaCity_Reserve_EventScript_Worker2Cancelled::
+	special RestorePlayerPartyFromReserveContest
+	msgbox FuchsiaCity_Reserve_Text_Worker2CancelledMsg, MSGBOX_DEFAULT
 	release
 	end
 
@@ -405,7 +463,13 @@ FuchsiaCity_Reserve_EventScript_EvaluateAndFinalize::
 FuchsiaCity_Reserve_EventScript_EvaluateAndFinalize_Keep::
 	setvar VAR_0x8004, 0
 	special FinalizeReserveContestCatch
+	compare VAR_RESULT, 1
+	goto_if_eq FuchsiaCity_Reserve_EventScript_EvaluateAndFinalize_Keep_PC
 	msgbox FuchsiaCity_Reserve_Text_CataloguedAndKept, MSGBOX_DEFAULT
+	return
+
+FuchsiaCity_Reserve_EventScript_EvaluateAndFinalize_Keep_PC::
+	msgbox FuchsiaCity_Reserve_Text_CataloguedAndSentToPC, MSGBOX_DEFAULT
 	return
 
 FuchsiaCity_Reserve_EventScript_Worker2ActiveSession::
@@ -547,6 +611,15 @@ FuchsiaCity_Reserve_Text_CataloguedAndTurnedIn:
 
 FuchsiaCity_Reserve_Text_CataloguedAndKept:
 	.string "Catalogued. It's yours to keep.$"
+
+FuchsiaCity_Reserve_Text_CataloguedAndSentToPC:
+	.string "Catalogued. Your party was full,\n"
+	.string "so {STR_VAR_1} was sent to\l"
+	.string "BOX “{STR_VAR_2}”!$"
+
+FuchsiaCity_Reserve_Text_Worker2CancelledMsg:
+	.string "Come find us whenever you're\n"
+	.string "ready for an expedition.$"
 
 FuchsiaCity_Reserve_Text_NoSpecimenCaughtYet:
 	.string "Nothing caught on this\n"

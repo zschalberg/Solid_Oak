@@ -22,6 +22,7 @@ script SSMinnow_1F_EventScript_AgathaCutscene {
     msgbox("Alright Sammy, let's go see\n"
            "what the professor wants.")
     closemessage
+    clearmugshot
     // Open the door at (16, 6) where Room 6 is located
     opendoor(16, 8)
     waitdooranim

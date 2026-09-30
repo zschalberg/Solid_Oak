@@ -1,7 +1,9 @@
 #include "global.h"
 #include "sprite.h"
 #include "mugshot.h"
+#include "field_message_box.h"
 #include "constants/mugshots.h"
+#include "constants/speaker_names.h"
 
 #define MUGSHOT_TILE_TAG(pos)    (0x5500 + (pos))
 #define MUGSHOT_PALETTE_TAG(pos) (0x5500 + (pos))
@@ -9,12 +11,14 @@
 // Centering coordinates above dialogue box
 #define MUGSHOT_LEFT_X   36
 #define MUGSHOT_RIGHT_X  204
-#define MUGSHOT_Y        80
+// Sprite center; puts the portrait's bottom edge on the dialogue frame's top outline (y=115)
+#define MUGSHOT_Y        83
 
 struct MugshotData
 {
     const u32 *gfx;
     const u16 *pal;
+    u8 speakerName; // SP_NAME_* shown in the name plate while this portrait is up
 };
 
 // Graphics declarations
@@ -39,16 +43,17 @@ static const u16 sMugshotPal_MrFujiSad[] = INCBIN_U16("graphics/mugshots/mr_fuji
 // Table mapping MUGSHOT_* constants to file references
 static const struct MugshotData sMugshots[] =
 {
-    [MUGSHOT_PROF_OAK]        = { sMugshotPic_ProfOak, sMugshotPal_ProfOak },
-    [MUGSHOT_AGATHA]          = { sMugshotPic_Agatha, sMugshotPal_Agatha },
-    [MUGSHOT_PROF_ARBOR]      = { sMugshotPic_ProfArbor, sMugshotPal_ProfArbor },
-    [MUGSHOT_AGATHA_UPDATED]  = { sMugshotPic_AgathaUpdated, sMugshotPal_AgathaUpdated },
-    [MUGSHOT_MR_FUJI]         = { sMugshotPic_MrFuji, sMugshotPal_MrFuji },
-    [MUGSHOT_MR_FUJI_SAD]     = { sMugshotPic_MrFujiSad, sMugshotPal_MrFujiSad },
+    [MUGSHOT_PROF_OAK]        = { sMugshotPic_ProfOak, sMugshotPal_ProfOak, SP_NAME_PLAYER },
+    [MUGSHOT_AGATHA]          = { sMugshotPic_AgathaUpdated, sMugshotPal_AgathaUpdated, SP_NAME_AGATHA },
+    [MUGSHOT_PROF_ARBOR]      = { sMugshotPic_ProfArbor, sMugshotPal_ProfArbor, SP_NAME_PROF_ARBOR },
+    [MUGSHOT_AGATHA_UPDATED]  = { sMugshotPic_AgathaUpdated, sMugshotPal_AgathaUpdated, SP_NAME_AGATHA },
+    [MUGSHOT_MR_FUJI]         = { sMugshotPic_MrFuji, sMugshotPal_MrFuji, SP_NAME_MR_FUJI },
+    [MUGSHOT_MR_FUJI_SAD]     = { sMugshotPic_MrFujiSad, sMugshotPal_MrFujiSad, SP_NAME_MR_FUJI },
 };
 
 static EWRAM_DATA u8 sMugshotSpriteIds[2] = {0, 0};
 static EWRAM_DATA bool8 sMugshotActive[2] = {FALSE, FALSE};
+static EWRAM_DATA u16 sMugshotIds[2] = {0, 0};
 
 static const struct OamData sOamData_Mugshot =
 {
@@ -62,7 +67,7 @@ static const struct OamData sOamData_Mugshot =
     .matrixNum = 0,
     .size = SPRITE_SIZE(64x64),
     .tileNum = 0,
-    .priority = 0, // Render on top of standard background layers
+    .priority = 1, // Above the map, but behind BG0 so the dialogue box and name plate overlap it
     .paletteNum = 0,
 };
 
@@ -122,6 +127,7 @@ void ShowMugshot(u16 mugshotId, u8 position)
     // Render OBJ sprite
     sMugshotSpriteIds[position] = CreateSprite(&template, x, MUGSHOT_Y, 0);
     sMugshotActive[position] = (sMugshotSpriteIds[position] != MAX_SPRITES);
+    sMugshotIds[position] = mugshotId;
 
     // If sprite slot allocation failed, release VRAM tiles/palette immediately
     if (sMugshotSpriteIds[position] == MAX_SPRITES)
@@ -129,6 +135,22 @@ void ShowMugshot(u16 mugshotId, u8 position)
         FreeSpriteTilesByTag(MUGSHOT_TILE_TAG(position));
         FreeSpritePaletteByTag(MUGSHOT_PALETTE_TAG(position));
     }
+    SetSpeakerPosition(position);
+    RefreshSpeakerFromMugshots();
+}
+
+bool8 IsMugshotActive(u8 position)
+{
+    if (position > MUGSHOT_RIGHT)
+        return FALSE;
+    return sMugshotActive[position];
+}
+
+u8 GetMugshotSpeakerAt(u8 position)
+{
+    if (!IsMugshotActive(position))
+        return SP_NAME_NONE;
+    return sMugshots[sMugshotIds[position]].speakerName;
 }
 
 void ClearMugshotAt(u8 position)
@@ -143,6 +165,11 @@ void ClearMugshotAt(u8 position)
         FreeSpritePaletteByTag(MUGSHOT_PALETTE_TAG(position));
         sMugshotSpriteIds[position] = MAX_SPRITES;
         sMugshotActive[position] = FALSE;
+        if (position == MUGSHOT_RIGHT)
+            SetSpeakerPosition(MUGSHOT_LEFT);
+        else if (position == MUGSHOT_LEFT && IsMugshotActive(MUGSHOT_RIGHT))
+            SetSpeakerPosition(MUGSHOT_RIGHT);
+        RefreshSpeakerFromMugshots();
     }
 }
 

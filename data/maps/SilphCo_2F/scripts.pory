@@ -74,6 +74,8 @@ script SilphCoScientist_Give_Protoball {
             "Go out and catch some Pokemon and \n"
             "bring them back here for testing.\p"
             "Any 2 Pokemon will do!")
+    closemessage
+    clearmugshot
     setflag(FLAG_QUEST_SILPH_TESTING_COMPLETED)
     setflag(FLAG_QUEST_REDPROTOBALL_ACTIVE)
     quest_complete_toast("SILPH TESTING")

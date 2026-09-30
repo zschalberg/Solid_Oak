@@ -2478,12 +2478,19 @@
 	.2byte \battlePartner
 	.endm
 
-	@ Manually buffer a string as the speaker's name for namebox.
-	@ The next shown message/msgbox will include a namebox, if the provided string is not NULL.
-	@ An SP_NAME_* constant can also be used, it'll take the name from gSpeakerNamesTable instead.
+	@ Sets the speaker's name shown in a plate on the top-left edge of the message box.
+	@ Applies to every message until the box closes (closemessage/release), or until SP_NAME_NONE.
+	@ Takes a string label or an SP_NAME_* constant (see include/constants/speaker_names.h).
 	.macro setspeaker name:req
 	callnative SetSpeaker
 	.4byte \name
+	.endm
+
+	@ Sets which portrait the name plate anchors beneath (MUGSHOT_LEFT or MUGSHOT_RIGHT)
+	@ and updates the speaker to that portrait unless explicitly overridden.
+	.macro setspeakerside side:req
+	callnative SetSpeakerSide
+	.4byte \side
 	.endm
 
 	.macro setmultitrainerbattle trainer_a:req, lose_text_a:req, trainer_b:req, lose_text_b:req, partnerId:req

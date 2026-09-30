@@ -18,6 +18,7 @@ script Fishing_Village_New_Boss_Battle {
         textcolor(NPC_TEXT_COLOR_MALE)
         msgbox("I should let Fuji know about this.")
         closemessage
+        clearmugshot
     }
 }
     end

@@ -1065,6 +1065,7 @@ enum __attribute__((packed)) Item
     ITEM_HM_ROCK_CLIMB = 882,
 
     ITEM_FLASHLIGHT = 883,
+    ITEM_FIELD_NOTEBOOK = 884,
 
     ITEMS_COUNT,
     ITEM_FIELD_ARROW = ITEMS_COUNT,

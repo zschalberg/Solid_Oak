@@ -1232,8 +1232,9 @@ static void AccuracyCheck(bool32 recalcDragonDarts, const u8 *nextInstr, const u
         }
         else
         {
+            gBattleScripting.battler = gBattlerTarget;
             gBattlescriptCurrInstr = failInstr == BattleScript_ButItFailed
-                ? BattleScript_TargetAvoidsAttackEnd
+                ? BattleScript_MoveMissedPause
                 : failInstr;
         }
 

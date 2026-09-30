@@ -471,13 +471,28 @@ FuchsiaCity_Reserve_EventScript_Worker2Start::
 # 351 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	compare VAR_RESULT, FALSE
 	goto_if_eq FuchsiaCity_Reserve_EventScript_Worker2Start_5
+# 359 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	getpartysize
 # 360 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	msgbox FuchsiaCity_Reserve_EventScript_Worker2Start_Text_2
-# 362 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	compare VAR_RESULT, 1
+	goto_if_gt FuchsiaCity_Reserve_EventScript_Worker2Start_7
+# 367 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	setvar VAR_0x8004, 0
+# 368 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	special ValidateReserveContestChosenMon
+# 369 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	compare VAR_RESULT, 0
+	goto_if_ne FuchsiaCity_Reserve_EventScript_Worker2Start_11
+FuchsiaCity_Reserve_EventScript_Worker2Start_10:
+# 372 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	special SavePlayerPartyForReserveContest
+# 373 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	msgbox FuchsiaCity_Reserve_EventScript_Worker2Start_Text_3
+# 375 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	closemessage
-# 363 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 376 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	goto FuchsiaCity_Reserve_EventScript_Worker2Category
-	end
+	return
 
 FuchsiaCity_Reserve_EventScript_Worker2Start_2:
 # 343 "data/maps/FuchsiaCity_Reserve/scripts.pory"
@@ -491,419 +506,545 @@ FuchsiaCity_Reserve_EventScript_Worker2Start_2:
 FuchsiaCity_Reserve_EventScript_Worker2Start_5:
 # 352 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	msgbox FuchsiaCity_Reserve_EventScript_Worker2Start_Text_1
-# 356 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 355 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	closemessage
-# 357 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 356 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	release
 	end
 
+FuchsiaCity_Reserve_EventScript_Worker2Start_7:
+# 361 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	msgbox FuchsiaCity_Reserve_EventScript_Worker2Start_Text_2
+# 365 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	goto FuchsiaCity_Reserve_EventScript_Worker2ChooseMonLoop
+	return
 
-# 367 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
-# 368 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_EventScript_Worker2Category::
-# 369 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	multichoice 0, 0, MULTI_RESERVE_CONTEST_CATEGORY, FALSE
+FuchsiaCity_Reserve_EventScript_Worker2Start_11:
 # 370 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	compare VAR_RESULT, MULTI_B_PRESSED
-# 371 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	goto_if_eq FuchsiaCity_Reserve_EventScript_Worker2Cancelled
-# 372 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	@ MULTI_RESERVE_CONTEST_CATEGORY's list is Size(0)/Vitality(1)/Rarity(2)/Cancel(3) -
-# 373 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	@ explicitly picking "Cancel" returns index 3, not MULTI_B_PRESSED, so it must be
-# 374 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	@ checked separately or the session starts anyway with an invalid category.
-# 375 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	compare VAR_RESULT, 3
-# 376 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	goto_if_eq FuchsiaCity_Reserve_EventScript_Worker2Cancelled
-# 377 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	copyvar VAR_0x8004, VAR_RESULT
-# 378 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	special StartReserveContestSession
-# 379 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	msgbox FuchsiaCity_Reserve_Text_ExpeditionStarted, MSGBOX_DEFAULT
-# 380 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	closemessage
+	goto FuchsiaCity_Reserve_EventScript_Worker2MonRefused
+	goto FuchsiaCity_Reserve_EventScript_Worker2Start_10
+
+
+FuchsiaCity_Reserve_EventScript_Worker2ChooseMonLoop::
 # 381 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	warp MAP_SAFARI_ZONE_CENTER, 26, 30
+	special ChoosePartyMon
 # 382 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	waitstate
 # 383 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	end
-# 384 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
-# 385 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_EventScript_Worker2Cancelled::
+	compare VAR_0x8004, PARTY_NOTHING_CHOSEN
+	goto_if_eq FuchsiaCity_Reserve_EventScript_Worker2ChooseMonLoop_2
+FuchsiaCity_Reserve_EventScript_Worker2ChooseMonLoop_1:
 # 386 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	release
+	special ValidateReserveContestChosenMon
 # 387 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	end
-# 388 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
-# 389 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-@ Shared by the manual "check on my expedition" path (Worker2ActiveSession,
+	compare VAR_RESULT, 0
+	goto_if_ne FuchsiaCity_Reserve_EventScript_Worker2ChooseMonLoop_5
+FuchsiaCity_Reserve_EventScript_Worker2ChooseMonLoop_4:
 # 390 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-@ talking to Worker 2 directly) and the automatic one (ReturnFromExpedition,
+	special SavePlayerPartyForReserveContest
 # 391 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-@ triggered by walking back out of the Safari Zone). Only valid to call once
-# 392 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-@ FLAG_RESERVE_CONTEST_CAUGHT is already known set. Always ends the session -
+	msgbox FuchsiaCity_Reserve_EventScript_Worker2Start_Text_3
 # 393 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-@ FinalizeReserveContestCatch clears FLAG_RESERVE_CONTEST_ACTIVE either way.
+	closemessage
 # 394 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_EventScript_EvaluateAndFinalize::
-# 395 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	msgbox FuchsiaCity_Reserve_Text_WelcomeBackLetUsEvaluate, MSGBOX_DEFAULT
-# 396 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	special EvaluateReserveContestCatch
-# 397 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	msgbox gStringVar4, MSGBOX_DEFAULT
+	goto FuchsiaCity_Reserve_EventScript_Worker2Category
+	return
+
+FuchsiaCity_Reserve_EventScript_Worker2ChooseMonLoop_2:
+# 384 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	goto FuchsiaCity_Reserve_EventScript_Worker2Cancelled
+	goto FuchsiaCity_Reserve_EventScript_Worker2ChooseMonLoop_1
+
+FuchsiaCity_Reserve_EventScript_Worker2ChooseMonLoop_5:
+# 388 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	goto FuchsiaCity_Reserve_EventScript_Worker2MonRefused
+	goto FuchsiaCity_Reserve_EventScript_Worker2ChooseMonLoop_4
+
+
+FuchsiaCity_Reserve_EventScript_Worker2MonRefused::
 # 398 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	msgbox FuchsiaCity_Reserve_Text_WouldYouLikeToKeepMon, MSGBOX_YESNO
-# 399 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	goto_if_eq VAR_RESULT, YES, FuchsiaCity_Reserve_EventScript_EvaluateAndFinalize_Keep
-# 400 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	setvar VAR_0x8004, 1
-# 401 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	special FinalizeReserveContestCatch
+	compare VAR_RESULT, 2
+	goto_if_eq FuchsiaCity_Reserve_EventScript_Worker2MonRefused_2
 # 402 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	msgbox FuchsiaCity_Reserve_Text_CataloguedAndTurnedIn, MSGBOX_DEFAULT
-# 403 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	return
-# 404 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
-# 405 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_EventScript_EvaluateAndFinalize_Keep::
+	compare VAR_RESULT, 3
+	goto_if_eq FuchsiaCity_Reserve_EventScript_Worker2MonRefused_3
 # 406 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	setvar VAR_0x8004, 0
-# 407 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	special FinalizeReserveContestCatch
-# 408 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	msgbox FuchsiaCity_Reserve_Text_CataloguedAndKept, MSGBOX_DEFAULT
-# 409 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	return
-# 410 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
+	compare VAR_RESULT, 4
+	goto_if_eq FuchsiaCity_Reserve_EventScript_Worker2MonRefused_4
 # 411 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_EventScript_Worker2ActiveSession::
-# 412 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	goto_if_unset FLAG_RESERVE_CONTEST_CAUGHT, FuchsiaCity_Reserve_EventScript_Worker2NoSpecimenYet
-# 413 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	call FuchsiaCity_Reserve_EventScript_EvaluateAndFinalize
-# 414 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	release
+	msgbox FuchsiaCity_Reserve_EventScript_Worker2MonRefused_Text_3
+FuchsiaCity_Reserve_EventScript_Worker2MonRefused_1:
 # 415 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	end
+	getpartysize
 # 416 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
-# 417 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_EventScript_Worker2NoSpecimenYet::
-# 418 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	msgbox FuchsiaCity_Reserve_Text_NoSpecimenCaughtYet, MSGBOX_DEFAULT
+	compare VAR_RESULT, 1
+	goto_if_gt FuchsiaCity_Reserve_EventScript_Worker2MonRefused_10
+FuchsiaCity_Reserve_EventScript_Worker2MonRefused_9:
 # 419 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	release
-# 420 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	end
-# 421 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 
-# 422 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-@ Fires automatically on every entry into this room (see
+FuchsiaCity_Reserve_EventScript_Worker2MonRefused_2:
+# 399 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	msgbox FuchsiaCity_Reserve_EventScript_Worker2MonRefused_Text_0
+	goto FuchsiaCity_Reserve_EventScript_Worker2MonRefused_1
+
+FuchsiaCity_Reserve_EventScript_Worker2MonRefused_3:
+# 403 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	msgbox FuchsiaCity_Reserve_EventScript_Worker2MonRefused_Text_1
+	goto FuchsiaCity_Reserve_EventScript_Worker2MonRefused_1
+
+FuchsiaCity_Reserve_EventScript_Worker2MonRefused_4:
+# 407 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	msgbox FuchsiaCity_Reserve_EventScript_Worker2MonRefused_Text_2
+	goto FuchsiaCity_Reserve_EventScript_Worker2MonRefused_1
+
+FuchsiaCity_Reserve_EventScript_Worker2MonRefused_10:
+# 417 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	goto FuchsiaCity_Reserve_EventScript_Worker2ChooseMonLoop
+	goto FuchsiaCity_Reserve_EventScript_Worker2MonRefused_9
+
+
 # 423 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-@ MAP_SCRIPT_ON_FRAME_TABLE, VAR_TEMP_0 is the standard "run once per map
+
 # 424 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-@ visit" scratch var, reset on every fresh map load) - if an expedition is
+FuchsiaCity_Reserve_EventScript_Worker2Category::
 # 425 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-@ active, that's treated as "coming back", whether the player is walking in
+	multichoice 0, 0, MULTI_RESERVE_CONTEST_CATEGORY, FALSE
 # 426 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-@ from the Safari Zone exit or just from the city door. The expedition ends
+	compare VAR_RESULT, MULTI_B_PRESSED
 # 427 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-@ right here, whether or not anything was caught, instead of requiring a
+	goto_if_eq FuchsiaCity_Reserve_EventScript_Worker2Cancelled
 # 428 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-@ separate trip to talk to Worker 2 again.
+	@ MULTI_RESERVE_CONTEST_CATEGORY's list is Size(0)/Vitality(1)/Rarity(2)/Cancel(3) -
 # 429 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_EventScript_ReturnFromExpedition::
+	@ explicitly picking "Cancel" returns index 3, not MULTI_B_PRESSED, so it must be
 # 430 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	setvar VAR_TEMP_0, 1
+	@ checked separately or the session starts anyway with an invalid category.
 # 431 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	goto_if_unset FLAG_RESERVE_CONTEST_ACTIVE, FuchsiaCity_Reserve_EventScript_ReturnFromExpedition_End
+	compare VAR_RESULT, 3
 # 432 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	lockall
+	goto_if_eq FuchsiaCity_Reserve_EventScript_Worker2Cancelled
 # 433 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	goto_if_unset FLAG_RESERVE_CONTEST_CAUGHT, FuchsiaCity_Reserve_EventScript_ReturnFromExpedition_NothingCaught
+	copyvar VAR_0x8004, VAR_RESULT
 # 434 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	call FuchsiaCity_Reserve_EventScript_EvaluateAndFinalize
+	special StartReserveContestSession
 # 435 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	releaseall
+	msgbox FuchsiaCity_Reserve_Text_ExpeditionStarted, MSGBOX_DEFAULT
 # 436 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	end
+	closemessage
 # 437 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
+	warp MAP_SAFARI_ZONE_CENTER, 26, 30
 # 438 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_EventScript_ReturnFromExpedition_NothingCaught::
+	waitstate
 # 439 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	msgbox FuchsiaCity_Reserve_Text_ExpeditionEndedNothingCaught, MSGBOX_DEFAULT
+	end
 # 440 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	setvar VAR_0x8004, 0
+
 # 441 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	special FinalizeReserveContestCatch
+FuchsiaCity_Reserve_EventScript_Worker2Cancelled::
 # 442 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	releaseall
+	special RestorePlayerPartyFromReserveContest
 # 443 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	end
+	msgbox FuchsiaCity_Reserve_Text_Worker2CancelledMsg, MSGBOX_DEFAULT
 # 444 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
+	release
 # 445 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_EventScript_ReturnFromExpedition_End::
-# 446 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	end
+# 446 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+
 # 447 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
+@ Shared by the manual "check on my expedition" path (Worker2ActiveSession,
 # 448 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-@ ============================================================================
+@ talking to Worker 2 directly) and the automatic one (ReturnFromExpedition,
 # 449 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-@ TEXT
+@ triggered by walking back out of the Safari Zone). Only valid to call once
 # 450 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-@ ============================================================================
+@ FLAG_RESERVE_CONTEST_CAUGHT is already known set. Always ends the session -
 # 451 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
+@ FinalizeReserveContestCatch clears FLAG_RESERVE_CONTEST_ACTIVE either way.
 # 452 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_Text_Worker1Welcome:
+FuchsiaCity_Reserve_EventScript_EvaluateAndFinalize::
 # 453 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Every specimen you bring in gets\n"
+	msgbox FuchsiaCity_Reserve_Text_WelcomeBackLetUsEvaluate, MSGBOX_DEFAULT
 # 454 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "logged and turned into Research\l"
+	special EvaluateReserveContestCatch
 # 455 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Coins.\p"
+	msgbox gStringVar4, MSGBOX_DEFAULT
 # 456 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Spend them on box space for\n"
+	msgbox FuchsiaCity_Reserve_Text_WouldYouLikeToKeepMon, MSGBOX_YESNO
 # 457 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Fuji's Sanctuary, Evolution\l"
+	goto_if_eq VAR_RESULT, YES, FuchsiaCity_Reserve_EventScript_EvaluateAndFinalize_Keep
 # 458 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Stones, or other research gear\l"
+	setvar VAR_0x8004, 1
 # 459 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "as we stock it.$"
+	special FinalizeReserveContestCatch
 # 460 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
+	msgbox FuchsiaCity_Reserve_Text_CataloguedAndTurnedIn, MSGBOX_DEFAULT
 # 461 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_Text_TurnInPrompt:
+	return
 # 462 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Which POKéMON are you\n"
+
 # 463 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "turning in?$"
+FuchsiaCity_Reserve_EventScript_EvaluateAndFinalize_Keep::
 # 464 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
+	setvar VAR_0x8004, 0
 # 465 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_Text_WarningNotResearchBall:
+	special FinalizeReserveContestCatch
 # 466 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "That one wasn't caught in a\n"
+	compare VAR_RESULT, 1
 # 467 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "RESEARCH BALL. We can still log\l"
+	goto_if_eq FuchsiaCity_Reserve_EventScript_EvaluateAndFinalize_Keep_PC
 # 468 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "it, but the Pokemon will not be\l"
+	msgbox FuchsiaCity_Reserve_Text_CataloguedAndKept, MSGBOX_DEFAULT
 # 469 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "returned.\p"
+	return
 # 470 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Turn it in anyway?$"
+
 # 471 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
+FuchsiaCity_Reserve_EventScript_EvaluateAndFinalize_Keep_PC::
 # 472 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_Text_EvaluationResult:
+	msgbox FuchsiaCity_Reserve_Text_CataloguedAndSentToPC, MSGBOX_DEFAULT
 # 473 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "{STR_VAR_3}\p"
+	return
 # 474 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Turn in {STR_VAR_1}?$"
+
 # 475 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
+FuchsiaCity_Reserve_EventScript_Worker2ActiveSession::
 # 476 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_Text_NewFamilyBonusMsg:
+	goto_if_unset FLAG_RESERVE_CONTEST_CAUGHT, FuchsiaCity_Reserve_EventScript_Worker2NoSpecimenYet
 # 477 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "First entry for this family.\n"
+	call FuchsiaCity_Reserve_EventScript_EvaluateAndFinalize
 # 478 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "That's worth extra.$"
+	release
 # 479 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
+	end
 # 480 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_Text_TurnInSuccess:
+
 # 481 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Logged. {STR_VAR_3} Research\n"
+FuchsiaCity_Reserve_EventScript_Worker2NoSpecimenYet::
 # 482 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Coins added.$"
+	msgbox FuchsiaCity_Reserve_Text_NoSpecimenCaughtYet, MSGBOX_DEFAULT
 # 483 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
+	release
 # 484 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_Text_NewPokemonAvailable:
+	end
 # 485 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "That's enough entries to widen\n"
+
 # 486 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "the reserve's range.\p"
+@ Fires automatically on every entry into this room (see
 # 487 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "New POKéMON should be showing\n"
+@ MAP_SCRIPT_ON_FRAME_TABLE, VAR_TEMP_0 is the standard "run once per map
 # 488 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "up out there now.$"
+@ visit" scratch var, reset on every fresh map load) - if an expedition is
 # 489 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
+@ active, that's treated as "coming back", whether the player is walking in
 # 490 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_Text_TurnInLastMonRefusedMsg:
+@ from the Safari Zone exit or just from the city door. The expedition ends
 # 491 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Can't take your only POKéMON.\n"
+@ right here, whether or not anything was caught, instead of requiring a
 # 492 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "You'd have nothing to research\l"
+@ separate trip to talk to Worker 2 again.
 # 493 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "with.$"
+FuchsiaCity_Reserve_EventScript_ReturnFromExpedition::
 # 494 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
+	setvar VAR_TEMP_0, 1
 # 495 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_Text_TurnInEggRefusedMsg:
+	goto_if_unset FLAG_RESERVE_CONTEST_ACTIVE, FuchsiaCity_Reserve_EventScript_ReturnFromExpedition_End
 # 496 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "That's still an egg. Come back\n"
+	lockall
 # 497 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "once it's hatched.$"
+	goto_if_unset FLAG_RESERVE_CONTEST_CAUGHT, FuchsiaCity_Reserve_EventScript_ReturnFromExpedition_NothingCaught
 # 498 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
+	call FuchsiaCity_Reserve_EventScript_EvaluateAndFinalize
 # 499 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_Text_ExchangeShopComingSoon:
+	releaseall
 # 500 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "The exchange shop isn't stocked\n"
+	end
 # 501 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "yet. Check back once we've got\l"
+
 # 502 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "inventory worth selling.$"
+FuchsiaCity_Reserve_EventScript_ReturnFromExpedition_NothingCaught::
 # 503 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
+	msgbox FuchsiaCity_Reserve_Text_ExpeditionEndedNothingCaught, MSGBOX_DEFAULT
 # 504 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_Text_TransferPrompt:
+	setvar VAR_0x8004, 0
 # 505 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Which POKéMON gets a proper\n"
+	special FinalizeReserveContestCatch
 # 506 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "POKé BALL?$"
+	releaseall
 # 507 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
+	end
 # 508 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_Text_TransferEggRefusedMsg:
+
 # 509 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Eggs don't need re-balling.$"
+FuchsiaCity_Reserve_EventScript_ReturnFromExpedition_End::
 # 510 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
+	end
 # 511 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_Text_TransferNotResearchBallMsg:
+
 # 512 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "That one's already in a\n"
+@ ============================================================================
 # 513 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "standard POKé BALL.$"
+@ TEXT
 # 514 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
+@ ============================================================================
 # 515 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_Text_TransferSuccess:
+
 # 516 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Done. Transferred to a\n"
+FuchsiaCity_Reserve_Text_Worker1Welcome:
 # 517 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "POKé BALL.$"
+	.string "Every specimen you bring in gets\n"
 # 518 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
+	.string "logged and turned into Research\l"
 # 519 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_Text_NotEnoughCoinsTransferMsg:
+	.string "Coins.\p"
 # 520 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "That's 500 Research Coins.\n"
+	.string "Spend them on box space for\n"
 # 521 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "You're short.$"
+	.string "Fuji's Sanctuary, Evolution\l"
 # 522 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
+	.string "Stones, or other research gear\l"
 # 523 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_Text_Worker1Info:
+	.string "as we stock it.$"
 # 524 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Research Balls give a research\n"
+
 # 525 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "bonus when you turn a catch in -\l"
+FuchsiaCity_Reserve_Text_TurnInPrompt:
 # 526 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "no penalty on the coin count.\p"
+	.string "Which POKéMON are you\n"
 # 527 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Standard balls still count, just\n"
+	.string "turning in?$"
 # 528 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "at a lower rate.$"
+
 # 529 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
+FuchsiaCity_Reserve_Text_WarningNotResearchBall:
 # 530 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_Text_Worker1End:
+	.string "That one wasn't caught in a\n"
 # 531 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Come back any time.$"
+	.string "RESEARCH BALL. We can still log\l"
 # 532 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
+	.string "it, but the Pokemon will not be\l"
 # 533 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_Text_ExpeditionStarted:
+	.string "returned.\p"
 # 534 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Good luck out there.\n"
+	.string "Turn it in anyway?$"
 # 535 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Bring back what you catch.$"
-# 536 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 
+# 536 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+FuchsiaCity_Reserve_Text_EvaluationResult:
 # 537 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_Text_WelcomeBackLetUsEvaluate:
+	.string "{STR_VAR_3}\p"
 # 538 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Let's see what you brought.$"
+	.string "Turn in {STR_VAR_1}?$"
 # 539 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 
 # 540 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_Text_WouldYouLikeToKeepMon:
+FuchsiaCity_Reserve_Text_NewFamilyBonusMsg:
 # 541 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Want to keep this one, or should\n"
+	.string "First entry for this family.\n"
 # 542 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "we log it and take it in?$"
+	.string "That's worth extra.$"
 # 543 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 
 # 544 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_Text_CataloguedAndTurnedIn:
+FuchsiaCity_Reserve_Text_TurnInSuccess:
 # 545 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Catalogued and logged.\n"
+	.string "Logged. {STR_VAR_3} Research\n"
 # 546 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Thank you for this.$"
+	.string "Coins added.$"
 # 547 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 
 # 548 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_Text_CataloguedAndKept:
+FuchsiaCity_Reserve_Text_NewPokemonAvailable:
 # 549 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Catalogued. It's yours to keep.$"
+	.string "That's enough entries to widen\n"
 # 550 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-
+	.string "the reserve's range.\p"
 # 551 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_Text_NoSpecimenCaughtYet:
+	.string "New POKéMON should be showing\n"
 # 552 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Nothing caught on this\n"
+	.string "up out there now.$"
 # 553 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "expedition yet.$"
-# 554 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 
+# 554 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+FuchsiaCity_Reserve_Text_TurnInLastMonRefusedMsg:
 # 555 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_Text_ExpeditionEndedNothingCaught:
+	.string "Can't take your only POKéMON.\n"
 # 556 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "Back already, and nothing to\n"
+	.string "You'd have nothing to research\l"
 # 557 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "show for it.\p"
+	.string "with.$"
 # 558 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "That's fine. Come find us again\n"
+
 # 559 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "whenever you're ready for another\l"
+FuchsiaCity_Reserve_Text_TurnInEggRefusedMsg:
 # 560 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "expedition.$"
+	.string "That's still an egg. Come back\n"
+# 561 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	.string "once it's hatched.$"
+# 562 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 
 # 563 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-FuchsiaCity_Reserve_JumpInPlace:
+FuchsiaCity_Reserve_Text_ExchangeShopComingSoon:
 # 564 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	emote_exclamation_mark
+	.string "The exchange shop isn't stocked\n"
 # 565 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	.string "yet. Check back once we've got\l"
+# 566 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	.string "inventory worth selling.$"
+# 567 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+
+# 568 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+FuchsiaCity_Reserve_Text_TransferPrompt:
+# 569 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	.string "Which POKéMON gets a proper\n"
+# 570 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	.string "POKé BALL?$"
+# 571 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+
+# 572 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+FuchsiaCity_Reserve_Text_TransferEggRefusedMsg:
+# 573 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	.string "Eggs don't need re-balling.$"
+# 574 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+
+# 575 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+FuchsiaCity_Reserve_Text_TransferNotResearchBallMsg:
+# 576 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	.string "That one's already in a\n"
+# 577 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	.string "standard POKé BALL.$"
+# 578 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+
+# 579 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+FuchsiaCity_Reserve_Text_TransferSuccess:
+# 580 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	.string "Done. Transferred to a\n"
+# 581 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	.string "POKé BALL.$"
+# 582 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+
+# 583 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+FuchsiaCity_Reserve_Text_NotEnoughCoinsTransferMsg:
+# 584 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	.string "That's 500 Research Coins.\n"
+# 585 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	.string "You're short.$"
+# 586 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+
+# 587 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+FuchsiaCity_Reserve_Text_Worker1Info:
+# 588 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	.string "Research Balls give a research\n"
+# 589 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	.string "bonus when you turn a catch in -\l"
+# 590 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	.string "no penalty on the coin count.\p"
+# 591 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	.string "Standard balls still count, just\n"
+# 592 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	.string "at a lower rate.$"
+# 593 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+
+# 594 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+FuchsiaCity_Reserve_Text_Worker1End:
+# 595 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	.string "Come back any time.$"
+# 596 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+
+# 597 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+FuchsiaCity_Reserve_Text_ExpeditionStarted:
+# 598 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	.string "Good luck out there.\n"
+# 599 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	.string "Bring back what you catch.$"
+# 600 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+
+# 601 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+FuchsiaCity_Reserve_Text_WelcomeBackLetUsEvaluate:
+# 602 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	.string "Let's see what you brought.$"
+# 603 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+
+# 604 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+FuchsiaCity_Reserve_Text_WouldYouLikeToKeepMon:
+# 605 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	.string "Want to keep this one, or should\n"
+# 606 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	.string "we log it and take it in?$"
+# 607 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+
+# 608 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+FuchsiaCity_Reserve_Text_CataloguedAndTurnedIn:
+# 609 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	.string "Catalogued and logged.\n"
+# 610 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	.string "Thank you for this.$"
+# 611 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+
+# 612 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+FuchsiaCity_Reserve_Text_CataloguedAndKept:
+# 613 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	.string "Catalogued. It's yours to keep.$"
+# 614 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+
+# 615 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+FuchsiaCity_Reserve_Text_CataloguedAndSentToPC:
+# 616 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	.string "Catalogued. Your party was full,\n"
+# 617 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	.string "so {STR_VAR_1} was sent to\l"
+# 618 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	.string "BOX “{STR_VAR_2}”!$"
+# 619 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+
+# 620 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+FuchsiaCity_Reserve_Text_Worker2CancelledMsg:
+# 621 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	.string "Come find us whenever you're\n"
+# 622 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	.string "ready for an expedition.$"
+# 623 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+
+# 624 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+FuchsiaCity_Reserve_Text_NoSpecimenCaughtYet:
+# 625 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	.string "Nothing caught on this\n"
+# 626 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	.string "expedition yet.$"
+# 627 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+
+# 628 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+FuchsiaCity_Reserve_Text_ExpeditionEndedNothingCaught:
+# 629 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	.string "Back already, and nothing to\n"
+# 630 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	.string "show for it.\p"
+# 631 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	.string "That's fine. Come find us again\n"
+# 632 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	.string "whenever you're ready for another\l"
+# 633 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	.string "expedition.$"
+
+# 636 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+FuchsiaCity_Reserve_JumpInPlace:
+# 637 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	emote_exclamation_mark
+# 638 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	jump_in_place_down
 	step_end
 
-# 568 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 641 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 FuchsiaCity_Reserve_FaceRight:
-# 569 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 642 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	face_right
 	step_end
 
-# 572 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 645 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 FuchsiaCity_Reserve_FaceLeft:
-# 573 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 646 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	face_left
 	step_end
 
@@ -1023,12 +1164,42 @@ FuchsiaCity_Reserve_EventScript_Worker2Start_Text_0:
 
 FuchsiaCity_Reserve_EventScript_Worker2Start_Text_1:
 # 352 "data/maps/FuchsiaCity_Reserve/scripts.pory"
-	.string "You'll need exactly one POKéMON\n"
-	.string "in your party before you head\l"
-	.string "out. Wouldn't want you catching\l"
-	.string "over your limit.$"
+	.string "You don't have any eligible\n"
+	.string "POKéMON to take on an\l"
+	.string "expedition right now.$"
 
 FuchsiaCity_Reserve_EventScript_Worker2Start_Text_2:
-# 360 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+# 361 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	.string "Choose one POKéMON to take\n"
+	.string "with you on the expedition.\p"
+	.string "The rest will be safely looked\n"
+	.string "after here.$"
+
+FuchsiaCity_Reserve_EventScript_Worker2Start_Text_3:
+# 373 "data/maps/FuchsiaCity_Reserve/scripts.pory"
 	.string "Pick what you're cataloguing\n"
 	.string "this time.$"
+
+FuchsiaCity_Reserve_EventScript_Worker2MonRefused_Text_0:
+# 399 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	.string "An EGG cannot be taken on an\n"
+	.string "expedition.\p"
+	.string "Please choose a different POKéMON.$"
+
+FuchsiaCity_Reserve_EventScript_Worker2MonRefused_Text_1:
+# 403 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	.string "That POKéMON doesn't have the\n"
+	.string "energy to battle!\p"
+	.string "Please choose a different POKéMON.$"
+
+FuchsiaCity_Reserve_EventScript_Worker2MonRefused_Text_2:
+# 407 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	.string "A POKéMON in a RESEARCH BALL\n"
+	.string "cannot lead an expedition!\p"
+	.string "Please choose a different POKéMON.$"
+
+FuchsiaCity_Reserve_EventScript_Worker2MonRefused_Text_3:
+# 411 "data/maps/FuchsiaCity_Reserve/scripts.pory"
+	.string "That POKéMON cannot be taken on\n"
+	.string "an expedition.\p"
+	.string "Please choose a different POKéMON.$"

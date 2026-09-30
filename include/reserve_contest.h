@@ -7,8 +7,11 @@
 
 void ResetReserveContestAttempts(void);
 void EndReserveContestSession(void);
-void GetReserveContestAttemptsRemaining(void);
-void CheckCanRegisterReserveContest(void);
+u8 GetReserveContestAttemptsRemaining(void);
+bool8 CheckCanRegisterReserveContest(void);
+void ValidateReserveContestChosenMon(void);
+void SavePlayerPartyForReserveContest(void);
+void RestorePlayerPartyFromReserveContest(void);
 void StartReserveContestSession(void);
 void GetReserveContestCatchNicknames(void);
 void OpenReserveContestSpecimenSummary(void);

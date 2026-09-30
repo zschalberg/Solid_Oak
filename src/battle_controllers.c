@@ -2563,6 +2563,8 @@ void BtlController_HandleDrawTrainerPic(enum BattlerId battler, enum TrainerPicI
         }
         gSprites[gBattleStruct->trainerSlideSpriteIds[battler]].x2 = DISPLAY_WIDTH;
         gSprites[gBattleStruct->trainerSlideSpriteIds[battler]].sSpeedX = -2;
+        if (IsControllerPlayer(battler) && !(gBattleTypeFlags & BATTLE_TYPE_SAFARI))
+            gSprites[gBattleStruct->trainerSlideSpriteIds[battler]].invisible = TRUE;
     }
     if (B_FAST_INTRO_NO_SLIDE || gTestRunnerHeadless)
         gSprites[gBattleStruct->trainerSlideSpriteIds[battler]].callback = SpriteCB_TrainerSpawn;

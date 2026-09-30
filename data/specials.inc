@@ -407,6 +407,9 @@ gSpecials::
 	def_special CountRedProtoballCaughtMons
 	def_special Special_UpdateMapLightSources
 	def_special PlayInteractedMonCry
+	def_special ValidateReserveContestChosenMon
+	def_special SavePlayerPartyForReserveContest
+	def_special RestorePlayerPartyFromReserveContest
 gSpecialsEnd::
 
 

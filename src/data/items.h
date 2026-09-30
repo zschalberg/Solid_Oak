@@ -7405,6 +7405,22 @@ const struct ItemInfo gItemsInfo[] =
         .iconPalette = gItemIconPalette_DowsingMachine,
     },
 
+    [ITEM_FIELD_NOTEBOOK] =
+    {
+        .name = ITEM_NAME("Field Notebook"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "Research notes that\n"
+            "reveal levels as\n"
+            "species are studied."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_FameChecker,
+        .iconPalette = gItemIconPalette_FameChecker,
+    },
+
 // Gems
     #if I_PRICE >= GEN_9
         #define GEM_PRICE 15000

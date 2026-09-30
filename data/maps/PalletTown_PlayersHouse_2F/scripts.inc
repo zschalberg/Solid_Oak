@@ -69,6 +69,7 @@ PalletTown_PlayersHouse_2F_EventScript_Sign::
 	textcolor NPC_TEXT_COLOR_FEMALE
 	msgbox PalletTown_PlayersHouse_2F_Text_AgathaTest1, MSGBOX_DEFAULT
 	textcolor NPC_TEXT_COLOR_MALE
+	setspeaker SP_NAME_PLAYER
 	msgbox PalletTown_PlayersHouse_2F_Text_OakTest1, MSGBOX_DEFAULT
 	releaseall
 	end

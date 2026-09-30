@@ -46,79 +46,81 @@ Fishing_Village_New_Boss_Battle_4:
 	msgbox Fishing_Village_New_Boss_Battle_Text_0
 # 20 "data/maps/Fishing_Village_New/scripts.pory"
 	closemessage
+# 21 "data/maps/Fishing_Village_New/scripts.pory"
+	clearmugshot
 	goto Fishing_Village_New_Boss_Battle_1
 
 
 Fishing_Village_New_Sailor::
-# 27 "data/maps/Fishing_Village_New/scripts.pory"
-	lockall
 # 28 "data/maps/Fishing_Village_New/scripts.pory"
-	faceplayer
+	lockall
 # 29 "data/maps/Fishing_Village_New/scripts.pory"
+	faceplayer
+# 30 "data/maps/Fishing_Village_New/scripts.pory"
 	msgbox Fishing_Village_New_Sailor_Text_0
-# 33 "data/maps/Fishing_Village_New/scripts.pory"
+# 34 "data/maps/Fishing_Village_New/scripts.pory"
 	releaseall
 	end
 
 
 Fishing_Village_New_Fisherman::
-# 37 "data/maps/Fishing_Village_New/scripts.pory"
-	lockall
 # 38 "data/maps/Fishing_Village_New/scripts.pory"
-	faceplayer
+	lockall
 # 39 "data/maps/Fishing_Village_New/scripts.pory"
+	faceplayer
+# 40 "data/maps/Fishing_Village_New/scripts.pory"
 	msgbox Fishing_Village_New_Fisherman_Text_0
-# 41 "data/maps/Fishing_Village_New/scripts.pory"
+# 42 "data/maps/Fishing_Village_New/scripts.pory"
 	releaseall
 	end
 
 
 Fishing_Village_New_Old_Man::
-# 45 "data/maps/Fishing_Village_New/scripts.pory"
-	lockall
 # 46 "data/maps/Fishing_Village_New/scripts.pory"
-	faceplayer
+	lockall
 # 47 "data/maps/Fishing_Village_New/scripts.pory"
+	faceplayer
+# 48 "data/maps/Fishing_Village_New/scripts.pory"
 	msgbox Fishing_Village_New_Old_Man_Text_0
-# 50 "data/maps/Fishing_Village_New/scripts.pory"
+# 51 "data/maps/Fishing_Village_New/scripts.pory"
 	releaseall
 	end
 
 
 Fishing_Village_New_Old_Man_Unresponsive::
-# 54 "data/maps/Fishing_Village_New/scripts.pory"
-	lockall
 # 55 "data/maps/Fishing_Village_New/scripts.pory"
-	msgbox Fishing_Village_New_Old_Man_Unresponsive_Text_0
+	lockall
 # 56 "data/maps/Fishing_Village_New/scripts.pory"
+	msgbox Fishing_Village_New_Old_Man_Unresponsive_Text_0
+# 57 "data/maps/Fishing_Village_New/scripts.pory"
 	releaseall
 	end
 
 
 Fishing_Village_New_MapScripts::
-# 64 "data/maps/Fishing_Village_New/scripts.pory"
+# 65 "data/maps/Fishing_Village_New/scripts.pory"
 	map_script MAP_SCRIPT_ON_LOAD, Fishing_Village_New_OnLoad
 	.byte 0
 
 
 Fishing_Village_New_OnLoad::
-# 68 "data/maps/Fishing_Village_New/scripts.pory"
+# 69 "data/maps/Fishing_Village_New/scripts.pory"
 	special UpdateFishingVillageTiles
-# 73 "data/maps/Fishing_Village_New/scripts.pory"
+# 74 "data/maps/Fishing_Village_New/scripts.pory"
 	goto_if_unset FLAG_KRABBY_QUEST_COMPLETE, Fishing_Village_New_OnLoad_2
-# 73 "data/maps/Fishing_Village_New/scripts.pory"
+# 74 "data/maps/Fishing_Village_New/scripts.pory"
 	goto_if_set FLAG_ZONE_1_RESOLVED, Fishing_Village_New_OnLoad_2
-# 77 "data/maps/Fishing_Village_New/scripts.pory"
-	clearflag FLAG_HIDE_FISHING_VILLAGE_BOSS
 # 78 "data/maps/Fishing_Village_New/scripts.pory"
+	clearflag FLAG_HIDE_FISHING_VILLAGE_BOSS
+# 79 "data/maps/Fishing_Village_New/scripts.pory"
 	clearflag FLAG_HIDE_FISHING_VILLAGE_OLD_MAN
 Fishing_Village_New_OnLoad_1:
 	end
 
 Fishing_Village_New_OnLoad_2:
-# 74 "data/maps/Fishing_Village_New/scripts.pory"
-	setflag FLAG_HIDE_FISHING_VILLAGE_BOSS
 # 75 "data/maps/Fishing_Village_New/scripts.pory"
+	setflag FLAG_HIDE_FISHING_VILLAGE_BOSS
+# 76 "data/maps/Fishing_Village_New/scripts.pory"
 	setflag FLAG_HIDE_FISHING_VILLAGE_OLD_MAN
 	goto Fishing_Village_New_OnLoad_1
 
@@ -128,23 +130,23 @@ Fishing_Village_New_Boss_Battle_Text_0:
 	.string "I should let Fuji know about this.$"
 
 Fishing_Village_New_Sailor_Text_0:
-# 29 "data/maps/Fishing_Village_New/scripts.pory"
+# 30 "data/maps/Fishing_Village_New/scripts.pory"
 	.string "The TENTACOOL have been gathering.\p"
 	.string "They're more of a nuisance than a\n"
 	.string "threat. It's the TENTACRUEL that\l"
 	.string "you need to watch out for.$"
 
 Fishing_Village_New_Fisherman_Text_0:
-# 39 "data/maps/Fishing_Village_New/scripts.pory"
+# 40 "data/maps/Fishing_Village_New/scripts.pory"
 	.string "This is the best fishing\n"
 	.string "spot in all of Kanto.$"
 
 Fishing_Village_New_Old_Man_Text_0:
-# 47 "data/maps/Fishing_Village_New/scripts.pory"
+# 48 "data/maps/Fishing_Village_New/scripts.pory"
 	.string "It's a beautiful day.\p"
 	.string "I'm not too worried about the \n"
 	.string "TENTACOOL. They don't bother me.$"
 
 Fishing_Village_New_Old_Man_Unresponsive_Text_0:
-# 55 "data/maps/Fishing_Village_New/scripts.pory"
+# 56 "data/maps/Fishing_Village_New/scripts.pory"
 	.string "The man is unresponsive.$"

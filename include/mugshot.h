@@ -5,5 +5,7 @@ void InitMugshot(void);
 void ShowMugshot(u16 mugshotId, u8 position);
 void ClearMugshot(void);
 void ClearMugshotAt(u8 position);
+bool8 IsMugshotActive(u8 position);
+u8 GetMugshotSpeakerAt(u8 position);
 
 #endif // GUARD_MUGSHOT_H

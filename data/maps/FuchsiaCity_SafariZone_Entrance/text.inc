@@ -92,9 +92,9 @@ FuchsiaCity_SafariZone_Entrance_Text_WelcomeBackLetUsEvaluate::
     .string "Let's evaluate your specimen!$"
 
 FuchsiaCity_SafariZone_Entrance_Text_WouldYouLikeToKeepMon::
-    .string "Would you like to keep {STR_VAR_1} in\n"
-    .string "a standard POKé BALL for your\l"
-    .string "team, or turn it in for COINS?$"
+    .string "Would you like to keep {STR_VAR_1}\n"
+    .string "for your team, or turn it in for\l"
+    .string "COINS?$"
 
 FuchsiaCity_SafariZone_Entrance_Text_TurnInAwardedCoins::
     .string "Thank you for contributing your\n"
@@ -103,8 +103,43 @@ FuchsiaCity_SafariZone_Entrance_Text_TurnInAwardedCoins::
     .string "your research submission!$"
 
 FuchsiaCity_SafariZone_Entrance_Text_KeptMonAddedToParty::
-    .string "{STR_VAR_1}'s ball was converted\n"
-    .string "to a standard POKé BALL!$"
+    .string "{STR_VAR_1} was added to your\n"
+    .string "party!$"
+
+FuchsiaCity_SafariZone_Entrance_Text_KeptMonSentToPC::
+    .string "Your party was full, so {STR_VAR_1}\n"
+    .string "was sent to BOX “{STR_VAR_2}”!$"
+
+FuchsiaCity_SafariZone_Entrance_Text_ChooseMonPrompt::
+    .string "Please choose one POKéMON to take\n"
+    .string "with you on your expedition.\p"
+    .string "The rest of your team will be safely\n"
+    .string "looked after while you're inside.$"
+
+FuchsiaCity_SafariZone_Entrance_Text_EggRefused::
+    .string "An EGG cannot be taken on an\n"
+    .string "expedition.\p"
+    .string "Please choose a different POKéMON.$"
+
+FuchsiaCity_SafariZone_Entrance_Text_FaintedRefused::
+    .string "That POKéMON doesn't have the\n"
+    .string "energy to battle!\p"
+    .string "Please choose a different POKéMON.$"
+
+FuchsiaCity_SafariZone_Entrance_Text_ResearchBallRefused::
+    .string "A POKéMON in a RESEARCH BALL\n"
+    .string "cannot lead an expedition!\p"
+    .string "Please choose a different POKéMON.$"
+
+FuchsiaCity_SafariZone_Entrance_Text_MonCantGo::
+    .string "That POKéMON cannot be taken on\n"
+    .string "an expedition.\p"
+    .string "Please choose a different POKéMON.$"
+
+FuchsiaCity_SafariZone_Entrance_Text_NoEligibleMons::
+    .string "You don't have any eligible\n"
+    .string "POKéMON to take on an\l"
+    .string "expedition right now.$"
 
 FuchsiaCity_SafariZone_Entrance_Text_NoSpecimenCaughtYet::
     .string "You haven't caught a specimen\n"

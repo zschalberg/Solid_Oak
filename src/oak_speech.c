@@ -40,8 +40,8 @@ struct OakSpeechResources
     void *trainerPicTilemap;
     u16 shrinkTimer;
     u8 textSpeed;
-    u8 bg2TilemapBuffer[0x400];
-    u8 bg1TilemapBuffer[0x800];
+    u8 ALIGNED(4) bg2TilemapBuffer[0x400];
+    u8 ALIGNED(4) bg1TilemapBuffer[0x800];
 };
 
 static EWRAM_DATA struct OakSpeechResources *sOakSpeechResources = NULL;
@@ -707,6 +707,8 @@ static void Task_OakSpeech_FreeResources(u8 taskId)
 {
     FreeAllWindowBuffers();
     DestroyMonSpritesGfxManager(MON_SPR_GFX_MANAGER_A);
+    if (sOakSpeechResources->oakSpeechBackgroundTiles)
+        Free(sOakSpeechResources->oakSpeechBackgroundTiles);
     Free(sOakSpeechResources);
     sOakSpeechResources = NULL;
     gTextFlags.canABSpeedUpPrint = FALSE;

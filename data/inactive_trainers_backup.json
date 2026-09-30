@@ -1,0 +1,4122 @@
+[
+  {
+    "map": "BattlePyramidSquare01",
+    "object_idx": 0,
+    "x": 2,
+    "y": 3,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "BattlePyramidSquare01",
+    "object_idx": 1,
+    "x": 5,
+    "y": 3,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "BattlePyramidSquare01",
+    "object_idx": 2,
+    "x": 2,
+    "y": 6,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "5"
+  },
+  {
+    "map": "BattlePyramidSquare01",
+    "object_idx": 3,
+    "x": 6,
+    "y": 6,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "BattlePyramidSquare02",
+    "object_idx": 0,
+    "x": 2,
+    "y": 1,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "5"
+  },
+  {
+    "map": "BattlePyramidSquare02",
+    "object_idx": 1,
+    "x": 5,
+    "y": 6,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "5"
+  },
+  {
+    "map": "BattlePyramidSquare02",
+    "object_idx": 2,
+    "x": 2,
+    "y": 6,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "5"
+  },
+  {
+    "map": "BattlePyramidSquare02",
+    "object_idx": 3,
+    "x": 5,
+    "y": 1,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "5"
+  },
+  {
+    "map": "BattlePyramidSquare03",
+    "object_idx": 0,
+    "x": 2,
+    "y": 1,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "5"
+  },
+  {
+    "map": "BattlePyramidSquare03",
+    "object_idx": 1,
+    "x": 6,
+    "y": 1,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "BattlePyramidSquare03",
+    "object_idx": 2,
+    "x": 6,
+    "y": 4,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "BattlePyramidSquare03",
+    "object_idx": 3,
+    "x": 3,
+    "y": 4,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "BattlePyramidSquare04",
+    "object_idx": 0,
+    "x": 7,
+    "y": 2,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "5"
+  },
+  {
+    "map": "BattlePyramidSquare04",
+    "object_idx": 1,
+    "x": 7,
+    "y": 7,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "5"
+  },
+  {
+    "map": "BattlePyramidSquare04",
+    "object_idx": 2,
+    "x": 1,
+    "y": 4,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "6"
+  },
+  {
+    "map": "BattlePyramidSquare04",
+    "object_idx": 3,
+    "x": 6,
+    "y": 4,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "6"
+  },
+  {
+    "map": "BattlePyramidSquare05",
+    "object_idx": 0,
+    "x": 6,
+    "y": 4,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "BattlePyramidSquare05",
+    "object_idx": 1,
+    "x": 3,
+    "y": 7,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "5"
+  },
+  {
+    "map": "BattlePyramidSquare05",
+    "object_idx": 2,
+    "x": 3,
+    "y": 1,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "5"
+  },
+  {
+    "map": "BattlePyramidSquare05",
+    "object_idx": 3,
+    "x": 6,
+    "y": 0,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "BattlePyramidSquare06",
+    "object_idx": 0,
+    "x": 5,
+    "y": 2,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "BattlePyramidSquare06",
+    "object_idx": 1,
+    "x": 2,
+    "y": 5,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "BattlePyramidSquare06",
+    "object_idx": 2,
+    "x": 5,
+    "y": 5,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "BattlePyramidSquare06",
+    "object_idx": 3,
+    "x": 2,
+    "y": 2,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "BattlePyramidSquare07",
+    "object_idx": 0,
+    "x": 0,
+    "y": 6,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "6"
+  },
+  {
+    "map": "BattlePyramidSquare07",
+    "object_idx": 1,
+    "x": 4,
+    "y": 0,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "BattlePyramidSquare07",
+    "object_idx": 2,
+    "x": 6,
+    "y": 0,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "BattlePyramidSquare07",
+    "object_idx": 3,
+    "x": 4,
+    "y": 4,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "BattlePyramidSquare08",
+    "object_idx": 0,
+    "x": 1,
+    "y": 2,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "5"
+  },
+  {
+    "map": "BattlePyramidSquare08",
+    "object_idx": 1,
+    "x": 6,
+    "y": 5,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "5"
+  },
+  {
+    "map": "BattlePyramidSquare08",
+    "object_idx": 2,
+    "x": 1,
+    "y": 5,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "5"
+  },
+  {
+    "map": "BattlePyramidSquare08",
+    "object_idx": 3,
+    "x": 6,
+    "y": 2,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "5"
+  },
+  {
+    "map": "BattlePyramidSquare09",
+    "object_idx": 0,
+    "x": 3,
+    "y": 0,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "5"
+  },
+  {
+    "map": "BattlePyramidSquare09",
+    "object_idx": 1,
+    "x": 6,
+    "y": 4,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "BattlePyramidSquare09",
+    "object_idx": 2,
+    "x": 6,
+    "y": 0,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "BattlePyramidSquare09",
+    "object_idx": 3,
+    "x": 3,
+    "y": 5,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "5"
+  },
+  {
+    "map": "BattlePyramidSquare10",
+    "object_idx": 0,
+    "x": 3,
+    "y": 0,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "BattlePyramidSquare10",
+    "object_idx": 1,
+    "x": 0,
+    "y": 3,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "BattlePyramidSquare10",
+    "object_idx": 2,
+    "x": 6,
+    "y": 5,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "6"
+  },
+  {
+    "map": "BattlePyramidSquare10",
+    "object_idx": 3,
+    "x": 0,
+    "y": 5,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "7"
+  },
+  {
+    "map": "BattlePyramidSquare11",
+    "object_idx": 0,
+    "x": 3,
+    "y": 2,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "5"
+  },
+  {
+    "map": "BattlePyramidSquare11",
+    "object_idx": 1,
+    "x": 3,
+    "y": 6,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "BattlePyramidSquare11",
+    "object_idx": 2,
+    "x": 6,
+    "y": 4,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "BattlePyramidSquare11",
+    "object_idx": 3,
+    "x": 6,
+    "y": 7,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "BattlePyramidSquare12",
+    "object_idx": 0,
+    "x": 7,
+    "y": 5,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "7"
+  },
+  {
+    "map": "BattlePyramidSquare12",
+    "object_idx": 1,
+    "x": 0,
+    "y": 5,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "7"
+  },
+  {
+    "map": "BattlePyramidSquare12",
+    "object_idx": 2,
+    "x": 3,
+    "y": 0,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "6"
+  },
+  {
+    "map": "BattlePyramidSquare12",
+    "object_idx": 3,
+    "x": 3,
+    "y": 3,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "BattlePyramidSquare13",
+    "object_idx": 0,
+    "x": 5,
+    "y": 1,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "6"
+  },
+  {
+    "map": "BattlePyramidSquare13",
+    "object_idx": 1,
+    "x": 5,
+    "y": 6,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "6"
+  },
+  {
+    "map": "BattlePyramidSquare13",
+    "object_idx": 2,
+    "x": 1,
+    "y": 1,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "6"
+  },
+  {
+    "map": "BattlePyramidSquare13",
+    "object_idx": 3,
+    "x": 1,
+    "y": 6,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "6"
+  },
+  {
+    "map": "BattlePyramidSquare14",
+    "object_idx": 0,
+    "x": 7,
+    "y": 1,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "7"
+  },
+  {
+    "map": "BattlePyramidSquare14",
+    "object_idx": 1,
+    "x": 1,
+    "y": 1,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "6"
+  },
+  {
+    "map": "BattlePyramidSquare14",
+    "object_idx": 2,
+    "x": 6,
+    "y": 5,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "6"
+  },
+  {
+    "map": "BattlePyramidSquare14",
+    "object_idx": 3,
+    "x": 0,
+    "y": 5,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "7"
+  },
+  {
+    "map": "BattlePyramidSquare15",
+    "object_idx": 0,
+    "x": 2,
+    "y": 5,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "5"
+  },
+  {
+    "map": "BattlePyramidSquare15",
+    "object_idx": 1,
+    "x": 2,
+    "y": 1,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "6"
+  },
+  {
+    "map": "BattlePyramidSquare15",
+    "object_idx": 2,
+    "x": 6,
+    "y": 4,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "BattlePyramidSquare15",
+    "object_idx": 3,
+    "x": 6,
+    "y": 0,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "BattlePyramidSquare16",
+    "object_idx": 0,
+    "x": 0,
+    "y": 6,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "6"
+  },
+  {
+    "map": "BattlePyramidSquare16",
+    "object_idx": 1,
+    "x": 1,
+    "y": 0,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "6"
+  },
+  {
+    "map": "BattlePyramidSquare16",
+    "object_idx": 2,
+    "x": 6,
+    "y": 7,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "6"
+  },
+  {
+    "map": "BattlePyramidSquare16",
+    "object_idx": 3,
+    "x": 6,
+    "y": 0,
+    "script": "BattlePyramid_TrainerBattle",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "6"
+  },
+  {
+    "map": "CeladonCity_GameCorner",
+    "object_idx": 10,
+    "x": 11,
+    "y": 2,
+    "script": "CeladonCity_GameCorner_EventScript_RocketGrunt",
+    "trainer_id": "TRAINER_TEAM_ROCKET_GRUNT_7",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "0"
+  },
+  {
+    "map": "CeladonCity_Gym",
+    "object_idx": 0,
+    "x": 3,
+    "y": 11,
+    "script": "CeladonCity_Gym_EventScript_Kay",
+    "trainer_id": "TRAINER_LASS_KAY",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "CeladonCity_Gym",
+    "object_idx": 1,
+    "x": 9,
+    "y": 10,
+    "script": "CeladonCity_Gym_EventScript_Bridget",
+    "trainer_id": "TRAINER_BEAUTY_BRIDGET",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "CeladonCity_Gym",
+    "object_idx": 2,
+    "x": 10,
+    "y": 7,
+    "script": "CeladonCity_Gym_EventScript_Tina",
+    "trainer_id": "TRAINER_PICNICKER_TINA",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "CeladonCity_Gym",
+    "object_idx": 3,
+    "x": 2,
+    "y": 6,
+    "script": "CeladonCity_Gym_EventScript_Tamia",
+    "trainer_id": "TRAINER_BEAUTY_TAMIA",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "CeladonCity_Gym",
+    "object_idx": 4,
+    "x": 5,
+    "y": 4,
+    "script": "CeladonCity_Gym_EventScript_Lori",
+    "trainer_id": "TRAINER_BEAUTY_LORI",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "CeladonCity_Gym",
+    "object_idx": 5,
+    "x": 7,
+    "y": 4,
+    "script": "CeladonCity_Gym_EventScript_Lisa",
+    "trainer_id": "TRAINER_LASS_LISA",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "CeladonCity_Gym",
+    "object_idx": 7,
+    "x": 8,
+    "y": 7,
+    "script": "CeladonCity_Gym_EventScript_Mary",
+    "trainer_id": "TRAINER_COOLTRAINER_MARY",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "CeruleanCity_Gym",
+    "object_idx": 0,
+    "x": 10,
+    "y": 12,
+    "script": "CeruleanCity_Gym_EventScript_Luis",
+    "trainer_id": "TRAINER_SWIMMER_MALE_LUIS",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "CeruleanCity_Gym",
+    "object_idx": 1,
+    "x": 4,
+    "y": 7,
+    "script": "CeruleanCity_Gym_EventScript_Diana",
+    "trainer_id": "TRAINER_PICNICKER_DIANA",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "CinnabarIsland_Gym",
+    "object_idx": 0,
+    "x": 25,
+    "y": 11,
+    "script": "CinnabarIsland_Gym_EventScript_Quinn",
+    "trainer_id": "TRAINER_BURGLAR_QUINN",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "0"
+  },
+  {
+    "map": "CinnabarIsland_Gym",
+    "object_idx": 1,
+    "x": 25,
+    "y": 4,
+    "script": "CinnabarIsland_Gym_EventScript_Erik",
+    "trainer_id": "TRAINER_SUPER_NERD_ERIK",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "0"
+  },
+  {
+    "map": "CinnabarIsland_Gym",
+    "object_idx": 2,
+    "x": 17,
+    "y": 5,
+    "script": "CinnabarIsland_Gym_EventScript_Avery",
+    "trainer_id": "TRAINER_SUPER_NERD_AVERY",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "0"
+  },
+  {
+    "map": "CinnabarIsland_Gym",
+    "object_idx": 3,
+    "x": 16,
+    "y": 11,
+    "script": "CinnabarIsland_Gym_EventScript_Ramon",
+    "trainer_id": "TRAINER_BURGLAR_RAMON",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "0"
+  },
+  {
+    "map": "CinnabarIsland_Gym",
+    "object_idx": 4,
+    "x": 16,
+    "y": 18,
+    "script": "CinnabarIsland_Gym_EventScript_Derek",
+    "trainer_id": "TRAINER_SUPER_NERD_DEREK",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "0"
+  },
+  {
+    "map": "CinnabarIsland_Gym",
+    "object_idx": 5,
+    "x": 4,
+    "y": 19,
+    "script": "CinnabarIsland_Gym_EventScript_Dusty",
+    "trainer_id": "TRAINER_BURGLAR_DUSTY",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "0"
+  },
+  {
+    "map": "CinnabarIsland_Gym",
+    "object_idx": 6,
+    "x": 4,
+    "y": 11,
+    "script": "CinnabarIsland_Gym_EventScript_Zac",
+    "trainer_id": "TRAINER_SUPER_NERD_ZAC",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "0"
+  },
+  {
+    "map": "FiveIsland_LostCave_Room1",
+    "object_idx": 0,
+    "x": 5,
+    "y": 4,
+    "script": "FiveIsland_LostCave_Room1_EventScript_Lawson",
+    "trainer_id": "TRAINER_RUIN_MANIAC_LAWSON",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "FiveIsland_LostCave_Room4",
+    "object_idx": 0,
+    "x": 6,
+    "y": 4,
+    "script": "FiveIsland_LostCave_Room4_EventScript_Laura",
+    "trainer_id": "TRAINER_PSYCHIC_LAURA",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "FiveIsland_Meadow",
+    "object_idx": 0,
+    "x": 18,
+    "y": 18,
+    "script": "FiveIsland_Meadow_EventScript_Rocket3",
+    "trainer_id": "TRAINER_TEAM_ROCKET_GRUNT_51",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "FiveIsland_Meadow",
+    "object_idx": 1,
+    "x": 17,
+    "y": 5,
+    "script": "FiveIsland_Meadow_EventScript_Rocket1",
+    "trainer_id": "TRAINER_TEAM_ROCKET_GRUNT_49",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "5"
+  },
+  {
+    "map": "FiveIsland_Meadow",
+    "object_idx": 2,
+    "x": 11,
+    "y": 27,
+    "script": "FiveIsland_Meadow_EventScript_Rocket2",
+    "trainer_id": "TRAINER_TEAM_ROCKET_GRUNT_50",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "FiveIsland_MemorialPillar",
+    "object_idx": 1,
+    "x": 12,
+    "y": 6,
+    "script": "FiveIsland_MemorialPillar_EventScript_Milo",
+    "trainer_id": "TRAINER_BIRD_KEEPER_MILO",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "FiveIsland_MemorialPillar",
+    "object_idx": 2,
+    "x": 14,
+    "y": 17,
+    "script": "FiveIsland_MemorialPillar_EventScript_Chaz",
+    "trainer_id": "TRAINER_BIRD_KEEPER_CHAZ",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "FiveIsland_MemorialPillar",
+    "object_idx": 3,
+    "x": 17,
+    "y": 31,
+    "script": "FiveIsland_MemorialPillar_EventScript_Harold",
+    "trainer_id": "TRAINER_BIRD_KEEPER_HAROLD",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "FiveIsland_ResortGorgeous",
+    "object_idx": 0,
+    "x": 44,
+    "y": 10,
+    "script": "FiveIsland_ResortGorgeous_EventScript_Daisy",
+    "trainer_id": "TRAINER_PAINTER_DAISY",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "FiveIsland_ResortGorgeous",
+    "object_idx": 1,
+    "x": 33,
+    "y": 12,
+    "script": "FiveIsland_ResortGorgeous_EventScript_Celina",
+    "trainer_id": "TRAINER_PAINTER_CELINA",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "FiveIsland_ResortGorgeous",
+    "object_idx": 2,
+    "x": 12,
+    "y": 10,
+    "script": "FiveIsland_ResortGorgeous_EventScript_Rayna",
+    "trainer_id": "TRAINER_PAINTER_RAYNA",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "FiveIsland_ResortGorgeous",
+    "object_idx": 3,
+    "x": 23,
+    "y": 9,
+    "script": "FiveIsland_ResortGorgeous_EventScript_Jacki",
+    "trainer_id": "TRAINER_LADY_JACKI",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "FiveIsland_ResortGorgeous",
+    "object_idx": 4,
+    "x": 33,
+    "y": 8,
+    "script": "FiveIsland_ResortGorgeous_EventScript_Gillian",
+    "trainer_id": "TRAINER_LADY_GILLIAN",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "FiveIsland_ResortGorgeous",
+    "object_idx": 5,
+    "x": 33,
+    "y": 3,
+    "script": "FiveIsland_ResortGorgeous_EventScript_Destin",
+    "trainer_id": "TRAINER_YOUNGSTER_DESTIN",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "FiveIsland_ResortGorgeous",
+    "object_idx": 6,
+    "x": 56,
+    "y": 7,
+    "script": "FiveIsland_ResortGorgeous_EventScript_Toby",
+    "trainer_id": "TRAINER_SWIMMER_MALE_TOBY",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "FiveIsland_RocketWarehouse",
+    "object_idx": 0,
+    "x": 15,
+    "y": 11,
+    "script": "FiveIsland_RocketWarehouse_EventScript_Grunt2",
+    "trainer_id": "TRAINER_TEAM_ROCKET_GRUNT_47",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "FiveIsland_RocketWarehouse",
+    "object_idx": 1,
+    "x": 17,
+    "y": 15,
+    "script": "FiveIsland_RocketWarehouse_EventScript_Grunt3",
+    "trainer_id": "TRAINER_TEAM_ROCKET_GRUNT_48",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "FiveIsland_RocketWarehouse",
+    "object_idx": 2,
+    "x": 27,
+    "y": 16,
+    "script": "FiveIsland_RocketWarehouse_EventScript_Admin1",
+    "trainer_id": "TRAINER_TEAM_ROCKET_ADMIN",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "FiveIsland_RocketWarehouse",
+    "object_idx": 3,
+    "x": 25,
+    "y": 11,
+    "script": "FiveIsland_RocketWarehouse_EventScript_Admin2",
+    "trainer_id": "TRAINER_TEAM_ROCKET_ADMIN_2",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "FiveIsland_RocketWarehouse",
+    "object_idx": 4,
+    "x": 6,
+    "y": 6,
+    "script": "FiveIsland_RocketWarehouse_EventScript_Grunt1",
+    "trainer_id": "TRAINER_TEAM_ROCKET_GRUNT_42",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "FiveIsland_RocketWarehouse",
+    "object_idx": 5,
+    "x": 27,
+    "y": 4,
+    "script": "FiveIsland_RocketWarehouse_EventScript_Gideon",
+    "trainer_id": "TRAINER_SCIENTIST_GIDEON",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "0"
+  },
+  {
+    "map": "FiveIsland_WaterLabyrinth",
+    "object_idx": 1,
+    "x": 9,
+    "y": 7,
+    "script": "FiveIsland_WaterLabyrinth_EventScript_Alize",
+    "trainer_id": "TRAINER_PKMN_BREEDER_ALIZE",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "FuchsiaCity_Gym",
+    "object_idx": 0,
+    "x": 12,
+    "y": 16,
+    "script": "FuchsiaCity_Gym_EventScript_Kayden",
+    "trainer_id": "TRAINER_JUGGLER_KAYDEN",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "FuchsiaCity_Gym",
+    "object_idx": 1,
+    "x": 2,
+    "y": 9,
+    "script": "FuchsiaCity_Gym_EventScript_Shawn",
+    "trainer_id": "TRAINER_JUGGLER_SHAWN",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "FuchsiaCity_Gym",
+    "object_idx": 2,
+    "x": 11,
+    "y": 11,
+    "script": "FuchsiaCity_Gym_EventScript_Kirk",
+    "trainer_id": "TRAINER_JUGGLER_KIRK",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "FuchsiaCity_Gym",
+    "object_idx": 3,
+    "x": 13,
+    "y": 4,
+    "script": "FuchsiaCity_Gym_EventScript_Edgar",
+    "trainer_id": "TRAINER_TAMER_EDGAR",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "FuchsiaCity_Gym",
+    "object_idx": 4,
+    "x": 4,
+    "y": 6,
+    "script": "FuchsiaCity_Gym_EventScript_Phil",
+    "trainer_id": "TRAINER_TAMER_PHIL",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "FuchsiaCity_Gym",
+    "object_idx": 5,
+    "x": 2,
+    "y": 16,
+    "script": "FuchsiaCity_Gym_EventScript_Nate",
+    "trainer_id": "TRAINER_JUGGLER_NATE",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "HauntedWoods",
+    "object_idx": 3,
+    "x": 25,
+    "y": 18,
+    "script": "NULL",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "HauntedWoods",
+    "object_idx": 4,
+    "x": 13,
+    "y": 21,
+    "script": "NULL",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "HauntedWoods",
+    "object_idx": 5,
+    "x": 15,
+    "y": 36,
+    "script": "NULL",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "HauntedWoods",
+    "object_idx": 6,
+    "x": 37,
+    "y": 8,
+    "script": "NULL",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "5"
+  },
+  {
+    "map": "HauntedWoods",
+    "object_idx": 7,
+    "x": 14,
+    "y": 6,
+    "script": "NULL",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "5"
+  },
+  {
+    "map": "Lavender_Cemetary_Map",
+    "object_idx": 1,
+    "x": 15,
+    "y": 14,
+    "script": "NULL",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "Lavender_Cemetary_Map",
+    "object_idx": 2,
+    "x": 41,
+    "y": 20,
+    "script": "NULL",
+    "trainer_id": null,
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "MtEmber_Exterior",
+    "object_idx": 3,
+    "x": 22,
+    "y": 35,
+    "script": "MtEmber_Exterior_EventScript_Jocelyn",
+    "trainer_id": "TRAINER_CRUSH_GIRL_JOCELYN",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "MtEmber_Exterior",
+    "object_idx": 4,
+    "x": 15,
+    "y": 28,
+    "script": "MtEmber_Exterior_EventScript_Logan",
+    "trainer_id": "TRAINER_PKMN_RANGER_LOGAN",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "5"
+  },
+  {
+    "map": "MtEmber_Exterior",
+    "object_idx": 5,
+    "x": 14,
+    "y": 42,
+    "script": "MtEmber_Exterior_EventScript_Beth",
+    "trainer_id": "TRAINER_PKMN_RANGER_BETH",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "MtMoon_1F",
+    "object_idx": 0,
+    "x": 20,
+    "y": 26,
+    "script": "MtMoon_1F_EventScript_Iris",
+    "trainer_id": "TRAINER_LASS_IRIS",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "MtMoon_1F",
+    "object_idx": 1,
+    "x": 36,
+    "y": 30,
+    "script": "MtMoon_1F_EventScript_Robby",
+    "trainer_id": "TRAINER_BUG_CATCHER_ROBBY",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "MtMoon_1F",
+    "object_idx": 2,
+    "x": 30,
+    "y": 35,
+    "script": "MtMoon_1F_EventScript_Jovan",
+    "trainer_id": "TRAINER_SUPER_NERD_JOVAN",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "MtMoon_1F",
+    "object_idx": 3,
+    "x": 33,
+    "y": 4,
+    "script": "MtMoon_1F_EventScript_Miriam",
+    "trainer_id": "TRAINER_LASS_MIRIAM",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "MtMoon_1F",
+    "object_idx": 4,
+    "x": 7,
+    "y": 26,
+    "script": "MtMoon_1F_EventScript_Kent",
+    "trainer_id": "TRAINER_BUG_CATCHER_KENT",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "MtMoon_1F",
+    "object_idx": 5,
+    "x": 13,
+    "y": 17,
+    "script": "MtMoon_1F_EventScript_Josh",
+    "trainer_id": "TRAINER_YOUNGSTER_JOSH",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "MtMoon_1F",
+    "object_idx": 6,
+    "x": 7,
+    "y": 10,
+    "script": "MtMoon_1F_EventScript_Marcos",
+    "trainer_id": "TRAINER_HIKER_MARCOS",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "MtMoon_B2F",
+    "object_idx": 3,
+    "x": 37,
+    "y": 21,
+    "script": "MtMoon_B2F_EventScript_Grunt4",
+    "trainer_id": "TRAINER_TEAM_ROCKET_GRUNT_4",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "MtMoon_B2F",
+    "object_idx": 4,
+    "x": 12,
+    "y": 20,
+    "script": "MtMoon_B2F_EventScript_Grunt1",
+    "trainer_id": "TRAINER_TEAM_ROCKET_GRUNT",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "MtMoon_B2F",
+    "object_idx": 5,
+    "x": 35,
+    "y": 12,
+    "script": "MtMoon_B2F_EventScript_Grunt3",
+    "trainer_id": "TRAINER_TEAM_ROCKET_GRUNT_3",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "MtMoon_B2F",
+    "object_idx": 6,
+    "x": 18,
+    "y": 27,
+    "script": "MtMoon_B2F_EventScript_Grunt2",
+    "trainer_id": "TRAINER_TEAM_ROCKET_GRUNT_2",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "OneIsland_KindleRoad",
+    "object_idx": 0,
+    "x": 11,
+    "y": 32,
+    "script": "OneIsland_KindleRoad_EventScript_Maria",
+    "trainer_id": "TRAINER_SWIMMER_FEMALE_MARIA",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "OneIsland_KindleRoad",
+    "object_idx": 1,
+    "x": 17,
+    "y": 132,
+    "script": "OneIsland_KindleRoad_EventScript_Abigail",
+    "trainer_id": "TRAINER_SWIMMER_FEMALE_ABIGAIL",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "OneIsland_KindleRoad",
+    "object_idx": 2,
+    "x": 7,
+    "y": 39,
+    "script": "OneIsland_KindleRoad_EventScript_Finn",
+    "trainer_id": "TRAINER_SWIMMER_MALE_FINN",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "OneIsland_KindleRoad",
+    "object_idx": 3,
+    "x": 19,
+    "y": 79,
+    "script": "OneIsland_KindleRoad_EventScript_Garrett",
+    "trainer_id": "TRAINER_SWIMMER_MALE_GARRETT",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "OneIsland_KindleRoad",
+    "object_idx": 4,
+    "x": 15,
+    "y": 25,
+    "script": "OneIsland_KindleRoad_EventScript_Tommy",
+    "trainer_id": "TRAINER_FISHERMAN_TOMMY",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "0"
+  },
+  {
+    "map": "OneIsland_KindleRoad",
+    "object_idx": 5,
+    "x": 9,
+    "y": 53,
+    "script": "OneIsland_KindleRoad_EventScript_Sharon",
+    "trainer_id": "TRAINER_CRUSH_GIRL_SHARON",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "OneIsland_KindleRoad",
+    "object_idx": 6,
+    "x": 18,
+    "y": 105,
+    "script": "OneIsland_KindleRoad_EventScript_Tanya",
+    "trainer_id": "TRAINER_CRUSH_GIRL_TANYA",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "OneIsland_KindleRoad",
+    "object_idx": 7,
+    "x": 16,
+    "y": 64,
+    "script": "OneIsland_KindleRoad_EventScript_Shea",
+    "trainer_id": "TRAINER_BLACK_BELT_SHEA",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "OneIsland_KindleRoad",
+    "object_idx": 8,
+    "x": 11,
+    "y": 64,
+    "script": "OneIsland_KindleRoad_EventScript_Hugh",
+    "trainer_id": "TRAINER_BLACK_BELT_HUGH",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "OneIsland_KindleRoad",
+    "object_idx": 9,
+    "x": 11,
+    "y": 89,
+    "script": "OneIsland_KindleRoad_EventScript_Bryce",
+    "trainer_id": "TRAINER_CAMPER_BRYCE",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "OneIsland_KindleRoad",
+    "object_idx": 10,
+    "x": 9,
+    "y": 108,
+    "script": "OneIsland_KindleRoad_EventScript_Claire",
+    "trainer_id": "TRAINER_PICNICKER_CLAIRE",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "OneIsland_KindleRoad",
+    "object_idx": 11,
+    "x": 8,
+    "y": 68,
+    "script": "OneIsland_KindleRoad_EventScript_Mik",
+    "trainer_id": "TRAINER_CRUSH_KIN_MIK_KIA",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "OneIsland_KindleRoad",
+    "object_idx": 12,
+    "x": 9,
+    "y": 68,
+    "script": "OneIsland_KindleRoad_EventScript_Kia",
+    "trainer_id": "TRAINER_CRUSH_KIN_MIK_KIA",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "OneIsland_TreasureBeach",
+    "object_idx": 0,
+    "x": 8,
+    "y": 11,
+    "script": "OneIsland_TreasureBeach_EventScript_Amara",
+    "trainer_id": "TRAINER_SWIMMER_FEMALE_AMARA",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "PewterCity_Gym",
+    "object_idx": 1,
+    "x": 3,
+    "y": 8,
+    "script": "PewterCity_Gym_EventScript_Liam",
+    "trainer_id": "TRAINER_CAMPER_LIAM",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "PokemonMansion_1F",
+    "object_idx": 0,
+    "x": 22,
+    "y": 24,
+    "script": "PokemonMansion_1F_EventScript_Ted",
+    "trainer_id": "TRAINER_SCIENTIST_TED",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "PokemonMansion_1F",
+    "object_idx": 4,
+    "x": 8,
+    "y": 8,
+    "script": "PokemonMansion_1F_EventScript_Johnson",
+    "trainer_id": "TRAINER_YOUNGSTER_JOHNSON",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "PokemonMansion_2F",
+    "object_idx": 0,
+    "x": 5,
+    "y": 23,
+    "script": "PokemonMansion_2F_EventScript_Arnie",
+    "trainer_id": "TRAINER_BURGLAR_ARNIE",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "PokemonMansion_3F",
+    "object_idx": 0,
+    "x": 7,
+    "y": 13,
+    "script": "PokemonMansion_3F_EventScript_Simon",
+    "trainer_id": "TRAINER_BURGLAR_SIMON",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "PokemonMansion_3F",
+    "object_idx": 1,
+    "x": 22,
+    "y": 13,
+    "script": "PokemonMansion_3F_EventScript_Braydon",
+    "trainer_id": "TRAINER_SCIENTIST_BRAYDON",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "PokemonMansion_B1F",
+    "object_idx": 1,
+    "x": 20,
+    "y": 25,
+    "script": "PokemonMansion_B1F_EventScript_Lewis",
+    "trainer_id": "TRAINER_BURGLAR_LEWIS",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "PokemonMansion_B1F",
+    "object_idx": 2,
+    "x": 34,
+    "y": 13,
+    "script": "PokemonMansion_B1F_EventScript_Ivan",
+    "trainer_id": "TRAINER_SCIENTIST_IVAN",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "6"
+  },
+  {
+    "map": "PokemonTower_3F",
+    "object_idx": 0,
+    "x": 10,
+    "y": 14,
+    "script": "PokemonTower_3F_EventScript_Patricia",
+    "trainer_id": "TRAINER_CHANNELER_PATRICIA",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "PokemonTower_3F",
+    "object_idx": 1,
+    "x": 9,
+    "y": 9,
+    "script": "PokemonTower_3F_EventScript_Carly",
+    "trainer_id": "TRAINER_CHANNELER_CARLY",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "PokemonTower_3F",
+    "object_idx": 2,
+    "x": 12,
+    "y": 4,
+    "script": "PokemonTower_3F_EventScript_Hope",
+    "trainer_id": "TRAINER_CHANNELER_HOPE",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "PokemonTower_4F",
+    "object_idx": 0,
+    "x": 17,
+    "y": 7,
+    "script": "PokemonTower_4F_EventScript_Laurel",
+    "trainer_id": "TRAINER_CHANNELER_LAUREL",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "PokemonTower_4F",
+    "object_idx": 1,
+    "x": 15,
+    "y": 13,
+    "script": "PokemonTower_4F_EventScript_Jody",
+    "trainer_id": "TRAINER_CHANNELER_JODY",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "5"
+  },
+  {
+    "map": "PokemonTower_4F",
+    "object_idx": 2,
+    "x": 4,
+    "y": 12,
+    "script": "PokemonTower_4F_EventScript_Paula",
+    "trainer_id": "TRAINER_CHANNELER_PAULA",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "PokemonTower_5F",
+    "object_idx": 0,
+    "x": 11,
+    "y": 4,
+    "script": "PokemonTower_5F_EventScript_Ruth",
+    "trainer_id": "TRAINER_CHANNELER_RUTH",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "PokemonTower_5F",
+    "object_idx": 1,
+    "x": 19,
+    "y": 7,
+    "script": "PokemonTower_5F_EventScript_Tammy",
+    "trainer_id": "TRAINER_CHANNELER_TAMMY",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "PokemonTower_5F",
+    "object_idx": 2,
+    "x": 7,
+    "y": 12,
+    "script": "PokemonTower_5F_EventScript_Karina",
+    "trainer_id": "TRAINER_CHANNELER_KARINA",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "PokemonTower_5F",
+    "object_idx": 3,
+    "x": 11,
+    "y": 16,
+    "script": "PokemonTower_5F_EventScript_Janae",
+    "trainer_id": "TRAINER_CHANNELER_JANAE",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "PokemonTower_6F",
+    "object_idx": 0,
+    "x": 13,
+    "y": 10,
+    "script": "PokemonTower_6F_EventScript_Angelica",
+    "trainer_id": "TRAINER_CHANNELER_ANGELICA",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "PokemonTower_6F",
+    "object_idx": 1,
+    "x": 18,
+    "y": 6,
+    "script": "PokemonTower_6F_EventScript_Jennifer",
+    "trainer_id": "TRAINER_CHANNELER_JENNIFER",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "PokemonTower_6F",
+    "object_idx": 2,
+    "x": 9,
+    "y": 6,
+    "script": "PokemonTower_6F_EventScript_Emilia",
+    "trainer_id": "TRAINER_CHANNELER_EMILIA",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "PokemonTower_7F",
+    "object_idx": 1,
+    "x": 9,
+    "y": 10,
+    "script": "PokemonTower_7F_EventScript_Grunt1",
+    "trainer_id": "TRAINER_TEAM_ROCKET_GRUNT_19",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "PokemonTower_7F",
+    "object_idx": 2,
+    "x": 13,
+    "y": 8,
+    "script": "PokemonTower_7F_EventScript_Grunt2",
+    "trainer_id": "TRAINER_TEAM_ROCKET_GRUNT_20",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "PokemonTower_7F",
+    "object_idx": 3,
+    "x": 9,
+    "y": 6,
+    "script": "PokemonTower_7F_EventScript_Grunt3",
+    "trainer_id": "TRAINER_TEAM_ROCKET_GRUNT_21",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "RocketHideout_B1F",
+    "object_idx": 0,
+    "x": 4,
+    "y": 9,
+    "script": "RocketHideout_B1F_EventScript_Grunt2",
+    "trainer_id": "TRAINER_TEAM_ROCKET_GRUNT_9",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "5"
+  },
+  {
+    "map": "RocketHideout_B1F",
+    "object_idx": 1,
+    "x": 24,
+    "y": 12,
+    "script": "RocketHideout_B1F_EventScript_Grunt1",
+    "trainer_id": "TRAINER_TEAM_ROCKET_GRUNT_8",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "RocketHideout_B1F",
+    "object_idx": 2,
+    "x": 6,
+    "y": 32,
+    "script": "RocketHideout_B1F_EventScript_Grunt4",
+    "trainer_id": "TRAINER_TEAM_ROCKET_GRUNT_11",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "RocketHideout_B1F",
+    "object_idx": 3,
+    "x": 10,
+    "y": 22,
+    "script": "RocketHideout_B1F_EventScript_Grunt3",
+    "trainer_id": "TRAINER_TEAM_ROCKET_GRUNT_10",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "RocketHideout_B1F",
+    "object_idx": 4,
+    "x": 21,
+    "y": 27,
+    "script": "RocketHideout_B1F_EventScript_Grunt5",
+    "trainer_id": "TRAINER_TEAM_ROCKET_GRUNT_12",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "RocketHideout_B2F",
+    "object_idx": 0,
+    "x": 20,
+    "y": 6,
+    "script": "RocketHideout_B2F_EventScript_Grunt",
+    "trainer_id": "TRAINER_TEAM_ROCKET_GRUNT_13",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "RocketHideout_B3F",
+    "object_idx": 0,
+    "x": 19,
+    "y": 9,
+    "script": "RocketHideout_B3F_EventScript_Grunt2",
+    "trainer_id": "TRAINER_TEAM_ROCKET_GRUNT_15",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "RocketHideout_B3F",
+    "object_idx": 1,
+    "x": 2,
+    "y": 20,
+    "script": "RocketHideout_B3F_EventScript_Grunt1",
+    "trainer_id": "TRAINER_TEAM_ROCKET_GRUNT_14",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "RocketHideout_B4F",
+    "object_idx": 2,
+    "x": 4,
+    "y": 2,
+    "script": "RocketHideout_B4F_EventScript_Grunt1",
+    "trainer_id": "TRAINER_TEAM_ROCKET_GRUNT_18",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "RocketHideout_B4F",
+    "object_idx": 4,
+    "x": 19,
+    "y": 14,
+    "script": "RocketHideout_B4F_EventScript_Grunt3",
+    "trainer_id": "TRAINER_TEAM_ROCKET_GRUNT_17",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "0"
+  },
+  {
+    "map": "RocketHideout_B4F",
+    "object_idx": 5,
+    "x": 16,
+    "y": 14,
+    "script": "RocketHideout_B4F_EventScript_Grunt2",
+    "trainer_id": "TRAINER_TEAM_ROCKET_GRUNT_16",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "0"
+  },
+  {
+    "map": "RockTunnel_1F",
+    "object_idx": 0,
+    "x": 26,
+    "y": 28,
+    "script": "RockTunnel_1F_EventScript_Dana",
+    "trainer_id": "TRAINER_PICNICKER_DANA",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "RockTunnel_1F",
+    "object_idx": 1,
+    "x": 39,
+    "y": 27,
+    "script": "RockTunnel_1F_EventScript_Ariana",
+    "trainer_id": "TRAINER_PICNICKER_ARIANA",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "RockTunnel_1F",
+    "object_idx": 2,
+    "x": 45,
+    "y": 24,
+    "script": "RockTunnel_1F_EventScript_Leah",
+    "trainer_id": "TRAINER_PICNICKER_LEAH",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "5"
+  },
+  {
+    "map": "RockTunnel_1F",
+    "object_idx": 3,
+    "x": 20,
+    "y": 17,
+    "script": "RockTunnel_1F_EventScript_Lucas",
+    "trainer_id": "TRAINER_HIKER_LUCAS",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "RockTunnel_1F",
+    "object_idx": 4,
+    "x": 5,
+    "y": 20,
+    "script": "RockTunnel_1F_EventScript_Oliver",
+    "trainer_id": "TRAINER_HIKER_OLIVER",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "RockTunnel_1F",
+    "object_idx": 5,
+    "x": 7,
+    "y": 5,
+    "script": "RockTunnel_1F_EventScript_Lenny",
+    "trainer_id": "TRAINER_HIKER_LENNY",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "RockTunnel_1F",
+    "object_idx": 6,
+    "x": 27,
+    "y": 10,
+    "script": "RockTunnel_1F_EventScript_Ashton",
+    "trainer_id": "TRAINER_POKEMANIAC_ASHTON",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "RockTunnel_B1F",
+    "object_idx": 0,
+    "x": 2,
+    "y": 6,
+    "script": "RockTunnel_B1F_EventScript_Cooper",
+    "trainer_id": "TRAINER_POKEMANIAC_COOPER",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "RockTunnel_B1F",
+    "object_idx": 1,
+    "x": 5,
+    "y": 11,
+    "script": "RockTunnel_B1F_EventScript_Dudley",
+    "trainer_id": "TRAINER_HIKER_DUDLEY",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "RockTunnel_B1F",
+    "object_idx": 2,
+    "x": 11,
+    "y": 15,
+    "script": "RockTunnel_B1F_EventScript_Sofia",
+    "trainer_id": "TRAINER_PICNICKER_SOFIA",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "RockTunnel_B1F",
+    "object_idx": 3,
+    "x": 36,
+    "y": 11,
+    "script": "RockTunnel_B1F_EventScript_Allen",
+    "trainer_id": "TRAINER_HIKER_ALLEN",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "RockTunnel_B1F",
+    "object_idx": 4,
+    "x": 41,
+    "y": 5,
+    "script": "RockTunnel_B1F_EventScript_Eric",
+    "trainer_id": "TRAINER_HIKER_ERIC",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "RockTunnel_B1F",
+    "object_idx": 5,
+    "x": 23,
+    "y": 23,
+    "script": "RockTunnel_B1F_EventScript_Steve",
+    "trainer_id": "TRAINER_POKEMANIAC_STEVE",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "RockTunnel_B1F",
+    "object_idx": 6,
+    "x": 15,
+    "y": 33,
+    "script": "RockTunnel_B1F_EventScript_Martha",
+    "trainer_id": "TRAINER_PICNICKER_MARTHA",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "RockTunnel_B1F",
+    "object_idx": 7,
+    "x": 29,
+    "y": 35,
+    "script": "RockTunnel_B1F_EventScript_Winston",
+    "trainer_id": "TRAINER_POKEMANIAC_WINSTON",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "Route10",
+    "object_idx": 0,
+    "x": 7,
+    "y": 60,
+    "script": "Route10_EventScript_Carol",
+    "trainer_id": "TRAINER_PICNICKER_CAROL",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "Route10",
+    "object_idx": 1,
+    "x": 8,
+    "y": 58,
+    "script": "Route10_EventScript_Clark",
+    "trainer_id": "TRAINER_HIKER_CLARK",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "Route10",
+    "object_idx": 2,
+    "x": 21,
+    "y": 69,
+    "script": "Route10_EventScript_Herman",
+    "trainer_id": "TRAINER_POKEMANIAC_HERMAN",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "Route10",
+    "object_idx": 3,
+    "x": 4,
+    "y": 68,
+    "script": "Route10_EventScript_Trent",
+    "trainer_id": "TRAINER_HIKER_TRENT",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "Route10",
+    "object_idx": 4,
+    "x": 13,
+    "y": 44,
+    "script": "Route10_EventScript_Mark",
+    "trainer_id": "TRAINER_POKEMANIAC_MARK",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "5"
+  },
+  {
+    "map": "Route10",
+    "object_idx": 5,
+    "x": 9,
+    "y": 27,
+    "script": "Route10_EventScript_Heidi",
+    "trainer_id": "TRAINER_PICNICKER_HEIDI",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "Route16",
+    "object_idx": 0,
+    "x": 16,
+    "y": 12,
+    "script": "Route16_EventScript_Lao",
+    "trainer_id": "TRAINER_BIKER_LAO",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "Route16",
+    "object_idx": 1,
+    "x": 14,
+    "y": 14,
+    "script": "Route16_EventScript_Koji",
+    "trainer_id": "TRAINER_CUE_BALL_KOJI",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "Route16",
+    "object_idx": 2,
+    "x": 12,
+    "y": 12,
+    "script": "Route16_EventScript_Luke",
+    "trainer_id": "TRAINER_CUE_BALL_LUKE",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "Route16",
+    "object_idx": 3,
+    "x": 8,
+    "y": 12,
+    "script": "Route16_EventScript_Ruben",
+    "trainer_id": "TRAINER_BIKER_RUBEN",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "Route16",
+    "object_idx": 4,
+    "x": 10,
+    "y": 14,
+    "script": "Route16_EventScript_Hideo",
+    "trainer_id": "TRAINER_BIKER_HIDEO",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "Route16",
+    "object_idx": 5,
+    "x": 6,
+    "y": 14,
+    "script": "Route16_EventScript_Camron",
+    "trainer_id": "TRAINER_CUE_BALL_CAMRON",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "Route16",
+    "object_idx": 7,
+    "x": 30,
+    "y": 5,
+    "script": "Route16_EventScript_Lea",
+    "trainer_id": "TRAINER_YOUNG_COUPLE_LEA_JED",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "Route16",
+    "object_idx": 8,
+    "x": 31,
+    "y": 5,
+    "script": "Route16_EventScript_Jed",
+    "trainer_id": "TRAINER_YOUNG_COUPLE_LEA_JED",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "Route17",
+    "object_idx": 0,
+    "x": 4,
+    "y": 18,
+    "script": "Route17_EventScript_Virgil",
+    "trainer_id": "TRAINER_BIKER_VIRGIL",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "Route17",
+    "object_idx": 1,
+    "x": 11,
+    "y": 15,
+    "script": "Route17_EventScript_Isaiah",
+    "trainer_id": "TRAINER_CUE_BALL_ISAIAH",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "Route17",
+    "object_idx": 2,
+    "x": 15,
+    "y": 24,
+    "script": "Route17_EventScript_Raul",
+    "trainer_id": "TRAINER_CUE_BALL_RAUL",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "Route17",
+    "object_idx": 3,
+    "x": 18,
+    "y": 41,
+    "script": "Route17_EventScript_Nikolas",
+    "trainer_id": "TRAINER_BIKER_NIKOLAS",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "Route17",
+    "object_idx": 4,
+    "x": 7,
+    "y": 38,
+    "script": "Route17_EventScript_Billy",
+    "trainer_id": "TRAINER_BIKER_BILLY",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "5"
+  },
+  {
+    "map": "Route17",
+    "object_idx": 5,
+    "x": 2,
+    "y": 61,
+    "script": "Route17_EventScript_Jamal",
+    "trainer_id": "TRAINER_CUE_BALL_JAMAL",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "Route17",
+    "object_idx": 6,
+    "x": 21,
+    "y": 61,
+    "script": "Route17_EventScript_Zeek",
+    "trainer_id": "TRAINER_CUE_BALL_ZEEK",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "Route17",
+    "object_idx": 7,
+    "x": 18,
+    "y": 94,
+    "script": "Route17_EventScript_Corey",
+    "trainer_id": "TRAINER_CUE_BALL_COREY",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "Route17",
+    "object_idx": 8,
+    "x": 16,
+    "y": 134,
+    "script": "Route17_EventScript_William",
+    "trainer_id": "TRAINER_BIKER_WILLIAM",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "Route17",
+    "object_idx": 9,
+    "x": 4,
+    "y": 116,
+    "script": "Route17_EventScript_Jaxon",
+    "trainer_id": "TRAINER_BIKER_JAXON",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "Route18",
+    "object_idx": 0,
+    "x": 46,
+    "y": 14,
+    "script": "Route18_EventScript_Jacob",
+    "trainer_id": "TRAINER_BIRD_KEEPER_JACOB",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "Route18",
+    "object_idx": 1,
+    "x": 41,
+    "y": 15,
+    "script": "Route18_EventScript_Ramiro",
+    "trainer_id": "TRAINER_BIRD_KEEPER_RAMIRO",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "Route18",
+    "object_idx": 2,
+    "x": 39,
+    "y": 12,
+    "script": "Route18_EventScript_Wilton",
+    "trainer_id": "TRAINER_BIRD_KEEPER_WILTON",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "6"
+  },
+  {
+    "map": "Route19",
+    "object_idx": 0,
+    "x": 13,
+    "y": 21,
+    "script": "Route19_EventScript_Reece",
+    "trainer_id": "TRAINER_SWIMMER_MALE_REECE",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "Route19",
+    "object_idx": 1,
+    "x": 10,
+    "y": 21,
+    "script": "Route19_EventScript_Richard",
+    "trainer_id": "TRAINER_SWIMMER_MALE_RICHARD",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "Route19",
+    "object_idx": 2,
+    "x": 10,
+    "y": 25,
+    "script": "Route19_EventScript_Tony",
+    "trainer_id": "TRAINER_SWIMMER_MALE_TONY",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "Route19",
+    "object_idx": 3,
+    "x": 18,
+    "y": 33,
+    "script": "Route19_EventScript_Matthew",
+    "trainer_id": "TRAINER_SWIMMER_MALE_MATTHEW",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "Route19",
+    "object_idx": 4,
+    "x": 8,
+    "y": 27,
+    "script": "Route19_EventScript_Douglas",
+    "trainer_id": "TRAINER_SWIMMER_MALE_DOUGLAS",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "Route19",
+    "object_idx": 5,
+    "x": 16,
+    "y": 26,
+    "script": "Route19_EventScript_David",
+    "trainer_id": "TRAINER_SWIMMER_MALE_DAVID",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "6"
+  },
+  {
+    "map": "Route19",
+    "object_idx": 6,
+    "x": 11,
+    "y": 47,
+    "script": "Route19_EventScript_Axle",
+    "trainer_id": "TRAINER_SWIMMER_MALE_AXLE",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "Route19",
+    "object_idx": 7,
+    "x": 14,
+    "y": 48,
+    "script": "Route19_EventScript_Alice",
+    "trainer_id": "TRAINER_SWIMMER_FEMALE_ALICE",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "Route19",
+    "object_idx": 8,
+    "x": 12,
+    "y": 49,
+    "script": "Route19_EventScript_Connie",
+    "trainer_id": "TRAINER_SWIMMER_FEMALE_CONNIE",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "Route19",
+    "object_idx": 9,
+    "x": 9,
+    "y": 48,
+    "script": "Route19_EventScript_Anya",
+    "trainer_id": "TRAINER_SWIMMER_FEMALE_ANYA",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "Route19",
+    "object_idx": 10,
+    "x": 8,
+    "y": 41,
+    "script": "Route19_EventScript_Lia",
+    "trainer_id": "TRAINER_SIS_AND_BRO_LIA_LUC",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "Route19",
+    "object_idx": 11,
+    "x": 9,
+    "y": 41,
+    "script": "Route19_EventScript_Luc",
+    "trainer_id": "TRAINER_SIS_AND_BRO_LIA_LUC",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "Route20",
+    "object_idx": 0,
+    "x": 8,
+    "y": 11,
+    "script": "Route20_EventScript_Melissa",
+    "trainer_id": "TRAINER_SWIMMER_FEMALE_MELISSA",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "Route20",
+    "object_idx": 1,
+    "x": 16,
+    "y": 14,
+    "script": "Route20_EventScript_Missy",
+    "trainer_id": "TRAINER_PICNICKER_MISSY",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "Route20",
+    "object_idx": 2,
+    "x": 34,
+    "y": 7,
+    "script": "Route20_EventScript_Nora",
+    "trainer_id": "TRAINER_SWIMMER_FEMALE_NORA",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "Route20",
+    "object_idx": 3,
+    "x": 43,
+    "y": 9,
+    "script": "Route20_EventScript_Roger",
+    "trainer_id": "TRAINER_BIRD_KEEPER_ROGER",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "Route20",
+    "object_idx": 4,
+    "x": 23,
+    "y": 10,
+    "script": "Route20_EventScript_Dean",
+    "trainer_id": "TRAINER_SWIMMER_MALE_DEAN",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "Route20",
+    "object_idx": 5,
+    "x": 73,
+    "y": 16,
+    "script": "Route20_EventScript_Irene",
+    "trainer_id": "TRAINER_PICNICKER_IRENE",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "Route20",
+    "object_idx": 6,
+    "x": 111,
+    "y": 9,
+    "script": "Route20_EventScript_Barry",
+    "trainer_id": "TRAINER_SWIMMER_MALE_BARRY",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "Route20",
+    "object_idx": 7,
+    "x": 106,
+    "y": 11,
+    "script": "Route20_EventScript_Darrin",
+    "trainer_id": "TRAINER_SWIMMER_MALE_DARRIN",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "Route20",
+    "object_idx": 8,
+    "x": 93,
+    "y": 10,
+    "script": "Route20_EventScript_Shirley",
+    "trainer_id": "TRAINER_SWIMMER_FEMALE_SHIRLEY",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "5"
+  },
+  {
+    "map": "Route20",
+    "object_idx": 9,
+    "x": 54,
+    "y": 11,
+    "script": "Route20_EventScript_Tiffany",
+    "trainer_id": "TRAINER_SWIMMER_FEMALE_TIFFANY",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "Route21_North",
+    "object_idx": 0,
+    "x": 7,
+    "y": 27,
+    "script": "Route21_North_EventScript_Ronald",
+    "trainer_id": "TRAINER_FISHERMAN_RONALD",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "0"
+  },
+  {
+    "map": "Route21_North",
+    "object_idx": 1,
+    "x": 16,
+    "y": 26,
+    "script": "Route21_North_EventScript_Wade",
+    "trainer_id": "TRAINER_FISHERMAN_WADE",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "0"
+  },
+  {
+    "map": "Route21_North",
+    "object_idx": 2,
+    "x": 12,
+    "y": 44,
+    "script": "Route21_North_EventScript_Spencer",
+    "trainer_id": "TRAINER_SWIMMER_MALE_SPENCER",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "Route21_North",
+    "object_idx": 3,
+    "x": 14,
+    "y": 35,
+    "script": "Route21_North_EventScript_Lil",
+    "trainer_id": "TRAINER_SIS_AND_BRO_LIL_IAN",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "Route21_North",
+    "object_idx": 4,
+    "x": 15,
+    "y": 35,
+    "script": "Route21_North_EventScript_Ian",
+    "trainer_id": "TRAINER_SIS_AND_BRO_LIL_IAN",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "Route21_South",
+    "object_idx": 0,
+    "x": 11,
+    "y": 8,
+    "script": "Route21_South_EventScript_Claude",
+    "trainer_id": "TRAINER_FISHERMAN_CLAUDE",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "0"
+  },
+  {
+    "map": "Route21_South",
+    "object_idx": 1,
+    "x": 14,
+    "y": 15,
+    "script": "Route21_South_EventScript_Nolan",
+    "trainer_id": "TRAINER_FISHERMAN_NOLAN",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "0"
+  },
+  {
+    "map": "Route21_South",
+    "object_idx": 2,
+    "x": 15,
+    "y": 24,
+    "script": "Route21_South_EventScript_Jack",
+    "trainer_id": "TRAINER_SWIMMER_MALE_JACK",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "Route21_South",
+    "object_idx": 3,
+    "x": 15,
+    "y": 38,
+    "script": "Route21_South_EventScript_Jerome",
+    "trainer_id": "TRAINER_SWIMMER_MALE_JEROME",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "Route21_South",
+    "object_idx": 4,
+    "x": 10,
+    "y": 29,
+    "script": "Route21_South_EventScript_Roland",
+    "trainer_id": "TRAINER_SWIMMER_MALE_ROLAND",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "Route24",
+    "object_idx": 1,
+    "x": 12,
+    "y": 19,
+    "script": "Route24_EventScript_Ethan",
+    "trainer_id": "TRAINER_CAMPER_ETHAN",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "Route24",
+    "object_idx": 2,
+    "x": 10,
+    "y": 22,
+    "script": "Route24_EventScript_Reli",
+    "trainer_id": "TRAINER_LASS_RELI",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "Route24",
+    "object_idx": 3,
+    "x": 12,
+    "y": 25,
+    "script": "Route24_EventScript_Timmy",
+    "trainer_id": "TRAINER_YOUNGSTER_TIMMY",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "Route24",
+    "object_idx": 4,
+    "x": 10,
+    "y": 28,
+    "script": "Route24_EventScript_Ali",
+    "trainer_id": "TRAINER_LASS_ALI",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "Route24",
+    "object_idx": 5,
+    "x": 12,
+    "y": 31,
+    "script": "Route24_EventScript_Cale",
+    "trainer_id": "TRAINER_BUG_CATCHER_CALE",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "Route24",
+    "object_idx": 6,
+    "x": 5,
+    "y": 21,
+    "script": "Route24_EventScript_Shane",
+    "trainer_id": "TRAINER_CAMPER_SHANE",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "5"
+  },
+  {
+    "map": "Route25",
+    "object_idx": 0,
+    "x": 11,
+    "y": 4,
+    "script": "Route25_EventScript_Franklin",
+    "trainer_id": "TRAINER_HIKER_FRANKLIN",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "Route25",
+    "object_idx": 1,
+    "x": 18,
+    "y": 2,
+    "script": "Route25_EventScript_Joey",
+    "trainer_id": "TRAINER_YOUNGSTER_JOEY",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "Route25",
+    "object_idx": 2,
+    "x": 17,
+    "y": 7,
+    "script": "Route25_EventScript_Wayne",
+    "trainer_id": "TRAINER_HIKER_WAYNE",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "Route25",
+    "object_idx": 3,
+    "x": 22,
+    "y": 4,
+    "script": "Route25_EventScript_Dan",
+    "trainer_id": "TRAINER_YOUNGSTER_DAN",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "Route25",
+    "object_idx": 4,
+    "x": 22,
+    "y": 8,
+    "script": "Route25_EventScript_Kelsey",
+    "trainer_id": "TRAINER_PICNICKER_KELSEY",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "Route25",
+    "object_idx": 5,
+    "x": 27,
+    "y": 9,
+    "script": "Route25_EventScript_Nob",
+    "trainer_id": "TRAINER_HIKER_NOB",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "Route25",
+    "object_idx": 6,
+    "x": 28,
+    "y": 4,
+    "script": "Route25_EventScript_Flint",
+    "trainer_id": "TRAINER_CAMPER_FLINT",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "Route25",
+    "object_idx": 7,
+    "x": 36,
+    "y": 4,
+    "script": "Route25_EventScript_Chad",
+    "trainer_id": "TRAINER_YOUNGSTER_CHAD",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "Route25",
+    "object_idx": 8,
+    "x": 42,
+    "y": 5,
+    "script": "Route25_EventScript_Haley",
+    "trainer_id": "TRAINER_LASS_HALEY",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "Route3",
+    "object_idx": 1,
+    "x": 40,
+    "y": 11,
+    "script": "Route3_EventScript_Robin",
+    "trainer_id": "TRAINER_LASS_ROBIN",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "Route3",
+    "object_idx": 2,
+    "x": 32,
+    "y": 6,
+    "script": "Route3_EventScript_James",
+    "trainer_id": "TRAINER_BUG_CATCHER_JAMES",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "Route3",
+    "object_idx": 3,
+    "x": 30,
+    "y": 3,
+    "script": "Route3_EventScript_Sally",
+    "trainer_id": "TRAINER_LASS_SALLY",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "5"
+  },
+  {
+    "map": "Route3",
+    "object_idx": 4,
+    "x": 25,
+    "y": 4,
+    "script": "Route3_EventScript_Greg",
+    "trainer_id": "TRAINER_BUG_CATCHER_GREG",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "Route3",
+    "object_idx": 5,
+    "x": 29,
+    "y": 10,
+    "script": "Route3_EventScript_Calvin",
+    "trainer_id": "TRAINER_YOUNGSTER_CALVIN",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "5"
+  },
+  {
+    "map": "Route3",
+    "object_idx": 6,
+    "x": 19,
+    "y": 9,
+    "script": "Route3_EventScript_Janice",
+    "trainer_id": "TRAINER_LASS_JANICE",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "5"
+  },
+  {
+    "map": "Route3",
+    "object_idx": 7,
+    "x": 12,
+    "y": 6,
+    "script": "Route3_EventScript_Colton",
+    "trainer_id": "TRAINER_BUG_CATCHER_COLTON",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "Route3",
+    "object_idx": 8,
+    "x": 17,
+    "y": 4,
+    "script": "Route3_EventScript_Ben",
+    "trainer_id": "TRAINER_YOUNGSTER_BEN",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "Route4",
+    "object_idx": 1,
+    "x": 75,
+    "y": 3,
+    "script": "Route4_EventScript_Crissy",
+    "trainer_id": "TRAINER_LASS_CRISSY",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "Route9",
+    "object_idx": 0,
+    "x": 14,
+    "y": 10,
+    "script": "Route9_EventScript_Alicia",
+    "trainer_id": "TRAINER_PICNICKER_ALICIA",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "Route9",
+    "object_idx": 1,
+    "x": 20,
+    "y": 17,
+    "script": "Route9_EventScript_Jeremy",
+    "trainer_id": "TRAINER_HIKER_JEREMY",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "Route9",
+    "object_idx": 2,
+    "x": 61,
+    "y": 16,
+    "script": "Route9_EventScript_Alan",
+    "trainer_id": "TRAINER_HIKER_ALAN",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "Route9",
+    "object_idx": 3,
+    "x": 26,
+    "y": 7,
+    "script": "Route9_EventScript_Chris",
+    "trainer_id": "TRAINER_CAMPER_CHRIS",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "Route9",
+    "object_idx": 4,
+    "x": 26,
+    "y": 1,
+    "script": "Route9_EventScript_Brent",
+    "trainer_id": "TRAINER_BUG_CATCHER_BRENT",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "Route9",
+    "object_idx": 5,
+    "x": 49,
+    "y": 7,
+    "script": "Route9_EventScript_Conner",
+    "trainer_id": "TRAINER_BUG_CATCHER_CONNER",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "Route9",
+    "object_idx": 6,
+    "x": 53,
+    "y": 2,
+    "script": "Route9_EventScript_Brice",
+    "trainer_id": "TRAINER_HIKER_BRICE",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "Route9",
+    "object_idx": 7,
+    "x": 60,
+    "y": 9,
+    "script": "Route9_EventScript_Caitlin",
+    "trainer_id": "TRAINER_PICNICKER_CAITLIN",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "Route9",
+    "object_idx": 8,
+    "x": 36,
+    "y": 6,
+    "script": "Route9_EventScript_Drew",
+    "trainer_id": "TRAINER_CAMPER_DREW",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "5"
+  },
+  {
+    "map": "SaffronCity_Gym",
+    "object_idx": 0,
+    "x": 24,
+    "y": 18,
+    "script": "SaffronCity_Gym_EventScript_Cameron",
+    "trainer_id": "TRAINER_PSYCHIC_CAMERON",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "SaffronCity_Gym",
+    "object_idx": 1,
+    "x": 24,
+    "y": 2,
+    "script": "SaffronCity_Gym_EventScript_Johan",
+    "trainer_id": "TRAINER_PSYCHIC_JOHAN",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "SaffronCity_Gym",
+    "object_idx": 2,
+    "x": 4,
+    "y": 2,
+    "script": "SaffronCity_Gym_EventScript_Preston",
+    "trainer_id": "TRAINER_PSYCHIC_PRESTON",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "SaffronCity_Gym",
+    "object_idx": 3,
+    "x": 14,
+    "y": 2,
+    "script": "SaffronCity_Gym_EventScript_Amanda",
+    "trainer_id": "TRAINER_CHANNELER_AMANDA",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "SaffronCity_Gym",
+    "object_idx": 4,
+    "x": 4,
+    "y": 10,
+    "script": "SaffronCity_Gym_EventScript_Stacy",
+    "trainer_id": "TRAINER_CHANNELER_STACY",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "SaffronCity_Gym",
+    "object_idx": 5,
+    "x": 4,
+    "y": 18,
+    "script": "SaffronCity_Gym_EventScript_Tasha",
+    "trainer_id": "TRAINER_CHANNELER_TASHA",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "SaffronCity_Gym",
+    "object_idx": 7,
+    "x": 24,
+    "y": 10,
+    "script": "SaffronCity_Gym_EventScript_Tyron",
+    "trainer_id": "TRAINER_PSYCHIC_TYRON",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "SevenIsland_SevaultCanyon",
+    "object_idx": 0,
+    "x": 13,
+    "y": 43,
+    "script": "SevenIsland_SevaultCanyon_EventScript_Cyndy",
+    "trainer_id": "TRAINER_CRUSH_GIRL_CYNDY",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "SevenIsland_SevaultCanyon",
+    "object_idx": 1,
+    "x": 13,
+    "y": 36,
+    "script": "SevenIsland_SevaultCanyon_EventScript_Evan",
+    "trainer_id": "TRAINER_TAMER_EVAN",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "SevenIsland_SevaultCanyon",
+    "object_idx": 2,
+    "x": 3,
+    "y": 35,
+    "script": "SevenIsland_SevaultCanyon_EventScript_Jackson",
+    "trainer_id": "TRAINER_PKMN_RANGER_JACKSON",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "SevenIsland_SevaultCanyon",
+    "object_idx": 3,
+    "x": 3,
+    "y": 36,
+    "script": "SevenIsland_SevaultCanyon_EventScript_Katelyn",
+    "trainer_id": "TRAINER_PKMN_RANGER_KATELYN",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "SevenIsland_SevaultCanyon",
+    "object_idx": 4,
+    "x": 7,
+    "y": 56,
+    "script": "SevenIsland_SevaultCanyon_EventScript_Leroy",
+    "trainer_id": "TRAINER_COOLTRAINER_LEROY",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "SevenIsland_SevaultCanyon",
+    "object_idx": 5,
+    "x": 11,
+    "y": 63,
+    "script": "SevenIsland_SevaultCanyon_EventScript_Michelle",
+    "trainer_id": "TRAINER_COOLTRAINER_MICHELLE",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "SevenIsland_SevaultCanyon",
+    "object_idx": 6,
+    "x": 14,
+    "y": 13,
+    "script": "SevenIsland_SevaultCanyon_EventScript_Lex",
+    "trainer_id": "TRAINER_COOL_COUPLE_LEX_NYA",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "SevenIsland_SevaultCanyon",
+    "object_idx": 7,
+    "x": 14,
+    "y": 14,
+    "script": "SevenIsland_SevaultCanyon_EventScript_Nya",
+    "trainer_id": "TRAINER_COOL_COUPLE_LEX_NYA",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "SevenIsland_SevaultCanyon_Entrance",
+    "object_idx": 0,
+    "x": 12,
+    "y": 6,
+    "script": "SevenIsland_SevaultCanyon_Entrance_EventScript_Miah",
+    "trainer_id": "TRAINER_AROMA_LADY_MIAH",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "5"
+  },
+  {
+    "map": "SevenIsland_SevaultCanyon_Entrance",
+    "object_idx": 1,
+    "x": 3,
+    "y": 34,
+    "script": "SevenIsland_SevaultCanyon_Entrance_EventScript_Eve",
+    "trainer_id": "TRAINER_YOUNG_COUPLE_EVE_JON",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "SevenIsland_SevaultCanyon_Entrance",
+    "object_idx": 2,
+    "x": 4,
+    "y": 34,
+    "script": "SevenIsland_SevaultCanyon_Entrance_EventScript_Jon",
+    "trainer_id": "TRAINER_YOUNG_COUPLE_EVE_JON",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "SevenIsland_SevaultCanyon_Entrance",
+    "object_idx": 3,
+    "x": 11,
+    "y": 26,
+    "script": "SevenIsland_SevaultCanyon_Entrance_EventScript_Nicolas",
+    "trainer_id": "TRAINER_PKMN_RANGER_NICOLAS",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "SevenIsland_SevaultCanyon_Entrance",
+    "object_idx": 4,
+    "x": 10,
+    "y": 26,
+    "script": "SevenIsland_SevaultCanyon_Entrance_EventScript_Madeline",
+    "trainer_id": "TRAINER_PKMN_RANGER_MADELINE",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "SevenIsland_SevaultCanyon_Entrance",
+    "object_idx": 5,
+    "x": 11,
+    "y": 17,
+    "script": "SevenIsland_SevaultCanyon_Entrance_EventScript_Mason",
+    "trainer_id": "TRAINER_JUGGLER_MASON",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "SevenIsland_TanobyRuins",
+    "object_idx": 0,
+    "x": 35,
+    "y": 7,
+    "script": "SevenIsland_TanobyRuins_EventScript_Brandon",
+    "trainer_id": "TRAINER_RUIN_MANIAC_BRANDON",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "SevenIsland_TanobyRuins",
+    "object_idx": 1,
+    "x": 121,
+    "y": 11,
+    "script": "SevenIsland_TanobyRuins_EventScript_Benjamin",
+    "trainer_id": "TRAINER_RUIN_MANIAC_BENJAMIN",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "SevenIsland_TanobyRuins",
+    "object_idx": 2,
+    "x": 85,
+    "y": 8,
+    "script": "SevenIsland_TanobyRuins_EventScript_Edna",
+    "trainer_id": "TRAINER_PAINTER_EDNA",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "SevenIsland_TanobyRuins",
+    "object_idx": 3,
+    "x": 85,
+    "y": 5,
+    "script": "SevenIsland_TanobyRuins_EventScript_Clifford",
+    "trainer_id": "TRAINER_GENTLEMAN_CLIFFORD",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "SevenIsland_TrainerTower",
+    "object_idx": 0,
+    "x": 56,
+    "y": 26,
+    "script": "SevenIsland_TrainerTower_EventScript_Dario",
+    "trainer_id": "TRAINER_PSYCHIC_DARIO",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "SevenIsland_TrainerTower",
+    "object_idx": 1,
+    "x": 56,
+    "y": 29,
+    "script": "SevenIsland_TrainerTower_EventScript_Rodette",
+    "trainer_id": "TRAINER_PSYCHIC_RODETTE",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "SilphCo_10F",
+    "object_idx": 0,
+    "x": 2,
+    "y": 7,
+    "script": "SilphCo_10F_EventScript_Travis",
+    "trainer_id": "TRAINER_SCIENTIST_TRAVIS",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "SilphCo_10F",
+    "object_idx": 2,
+    "x": 0,
+    "y": 13,
+    "script": "SilphCo_10F_EventScript_Grunt",
+    "trainer_id": "TRAINER_TEAM_ROCKET_GRUNT_39",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "SilphCo_11F",
+    "object_idx": 3,
+    "x": 16,
+    "y": 12,
+    "script": "SilphCo_11F_EventScript_Grunt1",
+    "trainer_id": "TRAINER_TEAM_ROCKET_GRUNT_40",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "5"
+  },
+  {
+    "map": "SilphCo_11F",
+    "object_idx": 5,
+    "x": 2,
+    "y": 19,
+    "script": "SilphCo_11F_EventScript_Grunt2",
+    "trainer_id": "TRAINER_TEAM_ROCKET_GRUNT_41",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "5"
+  },
+  {
+    "map": "SilphCo_4F",
+    "object_idx": 0,
+    "x": 33,
+    "y": 16,
+    "script": "SilphCo_4F_EventScript_Grunt2",
+    "trainer_id": "TRAINER_TEAM_ROCKET_GRUNT_27",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "SilphCo_4F",
+    "object_idx": 1,
+    "x": 10,
+    "y": 19,
+    "script": "SilphCo_4F_EventScript_Grunt1",
+    "trainer_id": "TRAINER_TEAM_ROCKET_GRUNT_26",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "5"
+  },
+  {
+    "map": "SilphCo_4F",
+    "object_idx": 2,
+    "x": 14,
+    "y": 8,
+    "script": "SilphCo_4F_EventScript_Rodney",
+    "trainer_id": "TRAINER_SCIENTIST_RODNEY",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "SilphCo_5F",
+    "object_idx": 0,
+    "x": 35,
+    "y": 7,
+    "script": "SilphCo_5F_EventScript_Grunt2",
+    "trainer_id": "TRAINER_TEAM_ROCKET_GRUNT_29",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "SilphCo_5F",
+    "object_idx": 1,
+    "x": 23,
+    "y": 13,
+    "script": "SilphCo_5F_EventScript_Dalton",
+    "trainer_id": "TRAINER_JUGGLER_DALTON",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "SilphCo_5F",
+    "object_idx": 3,
+    "x": 11,
+    "y": 6,
+    "script": "SilphCo_5F_EventScript_Beau",
+    "trainer_id": "TRAINER_SCIENTIST_BEAU",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "SilphCo_5F",
+    "object_idx": 4,
+    "x": 9,
+    "y": 21,
+    "script": "SilphCo_5F_EventScript_Grunt1",
+    "trainer_id": "TRAINER_TEAM_ROCKET_GRUNT_28",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "SilphCo_6F",
+    "object_idx": 0,
+    "x": 21,
+    "y": 5,
+    "script": "SilphCo_6F_EventScript_Grunt1",
+    "trainer_id": "TRAINER_TEAM_ROCKET_GRUNT_30",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "SilphCo_6F",
+    "object_idx": 6,
+    "x": 9,
+    "y": 11,
+    "script": "SilphCo_6F_EventScript_Taylor",
+    "trainer_id": "TRAINER_SCIENTIST_TAYLOR",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "SilphCo_6F",
+    "object_idx": 9,
+    "x": 18,
+    "y": 17,
+    "script": "SilphCo_6F_EventScript_Grunt2",
+    "trainer_id": "TRAINER_TEAM_ROCKET_GRUNT_31",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "SilphCo_7F",
+    "object_idx": 2,
+    "x": 24,
+    "y": 5,
+    "script": "SilphCo_7F_EventScript_Grunt1",
+    "trainer_id": "TRAINER_TEAM_ROCKET_GRUNT_33",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "SilphCo_7F",
+    "object_idx": 3,
+    "x": 24,
+    "y": 15,
+    "script": "SilphCo_7F_EventScript_Grunt2",
+    "trainer_id": "TRAINER_TEAM_ROCKET_GRUNT_34",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "SilphCo_7F",
+    "object_idx": 4,
+    "x": 13,
+    "y": 4,
+    "script": "SilphCo_7F_EventScript_Grunt3",
+    "trainer_id": "TRAINER_TEAM_ROCKET_GRUNT_35",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "SilphCo_7F",
+    "object_idx": 8,
+    "x": 3,
+    "y": 13,
+    "script": "SilphCo_7F_EventScript_Joshua",
+    "trainer_id": "TRAINER_SCIENTIST_JOSHUA",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "SilphCo_8F",
+    "object_idx": 0,
+    "x": 28,
+    "y": 5,
+    "script": "SilphCo_8F_EventScript_Grunt1",
+    "trainer_id": "TRAINER_TEAM_ROCKET_GRUNT_32",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "SilphCo_8F",
+    "object_idx": 1,
+    "x": 10,
+    "y": 17,
+    "script": "SilphCo_8F_EventScript_Grunt2",
+    "trainer_id": "TRAINER_TEAM_ROCKET_GRUNT_36",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "5"
+  },
+  {
+    "map": "SilphCo_8F",
+    "object_idx": 2,
+    "x": 9,
+    "y": 4,
+    "script": "SilphCo_8F_EventScript_Parker",
+    "trainer_id": "TRAINER_SCIENTIST_PARKER",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "SilphCo_9F",
+    "object_idx": 0,
+    "x": 26,
+    "y": 16,
+    "script": "SilphCo_9F_EventScript_Ed",
+    "trainer_id": "TRAINER_SCIENTIST_ED",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "SilphCo_9F",
+    "object_idx": 1,
+    "x": 15,
+    "y": 18,
+    "script": "SilphCo_9F_EventScript_Grunt2",
+    "trainer_id": "TRAINER_TEAM_ROCKET_GRUNT_38",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "SilphCo_9F",
+    "object_idx": 3,
+    "x": 1,
+    "y": 6,
+    "script": "SilphCo_9F_EventScript_Grunt1",
+    "trainer_id": "TRAINER_TEAM_ROCKET_GRUNT_37",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "5"
+  },
+  {
+    "map": "SixIsland_GreenPath",
+    "object_idx": 0,
+    "x": 11,
+    "y": 8,
+    "script": "SixIsland_GreenPath_EventScript_Jaclyn",
+    "trainer_id": "TRAINER_PSYCHIC_JACLYN",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "SixIsland_OutcastIsland",
+    "object_idx": 0,
+    "x": 9,
+    "y": 24,
+    "script": "SixIsland_OutcastIsland_EventScript_Rocket",
+    "trainer_id": "TRAINER_TEAM_ROCKET_GRUNT_46",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "SixIsland_OutcastIsland",
+    "object_idx": 1,
+    "x": 12,
+    "y": 15,
+    "script": "SixIsland_OutcastIsland_EventScript_Tylor",
+    "trainer_id": "TRAINER_FISHERMAN_TYLOR",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "SixIsland_OutcastIsland",
+    "object_idx": 2,
+    "x": 13,
+    "y": 34,
+    "script": "SixIsland_OutcastIsland_EventScript_Mymo",
+    "trainer_id": "TRAINER_SWIMMER_MALE_MYMO",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "SixIsland_OutcastIsland",
+    "object_idx": 3,
+    "x": 14,
+    "y": 61,
+    "script": "SixIsland_OutcastIsland_EventScript_Nicole",
+    "trainer_id": "TRAINER_SWIMMER_FEMALE_NICOLE",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "SixIsland_OutcastIsland",
+    "object_idx": 4,
+    "x": 10,
+    "y": 44,
+    "script": "SixIsland_OutcastIsland_EventScript_Ava",
+    "trainer_id": "TRAINER_SIS_AND_BRO_AVA_GEB",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "SixIsland_OutcastIsland",
+    "object_idx": 5,
+    "x": 11,
+    "y": 44,
+    "script": "SixIsland_OutcastIsland_EventScript_Geb",
+    "trainer_id": "TRAINER_SIS_AND_BRO_AVA_GEB",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "SixIsland_PatternBush",
+    "object_idx": 0,
+    "x": 48,
+    "y": 15,
+    "script": "SixIsland_PatternBush_EventScript_Bethany",
+    "trainer_id": "TRAINER_PKMN_BREEDER_BETHANY",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "SixIsland_PatternBush",
+    "object_idx": 1,
+    "x": 10,
+    "y": 5,
+    "script": "SixIsland_PatternBush_EventScript_Allison",
+    "trainer_id": "TRAINER_PKMN_BREEDER_ALLISON",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "SixIsland_PatternBush",
+    "object_idx": 2,
+    "x": 51,
+    "y": 6,
+    "script": "SixIsland_PatternBush_EventScript_Garret",
+    "trainer_id": "TRAINER_BUG_CATCHER_GARRET",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "SixIsland_PatternBush",
+    "object_idx": 3,
+    "x": 12,
+    "y": 13,
+    "script": "SixIsland_PatternBush_EventScript_Jonah",
+    "trainer_id": "TRAINER_BUG_CATCHER_JONAH",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "SixIsland_PatternBush",
+    "object_idx": 4,
+    "x": 37,
+    "y": 23,
+    "script": "SixIsland_PatternBush_EventScript_Vance",
+    "trainer_id": "TRAINER_BUG_CATCHER_VANCE",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "SixIsland_PatternBush",
+    "object_idx": 5,
+    "x": 32,
+    "y": 5,
+    "script": "SixIsland_PatternBush_EventScript_Nash",
+    "trainer_id": "TRAINER_YOUNGSTER_NASH",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "SixIsland_PatternBush",
+    "object_idx": 6,
+    "x": 52,
+    "y": 20,
+    "script": "SixIsland_PatternBush_EventScript_Cordell",
+    "trainer_id": "TRAINER_YOUNGSTER_CORDELL",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "SixIsland_PatternBush",
+    "object_idx": 7,
+    "x": 8,
+    "y": 21,
+    "script": "SixIsland_PatternBush_EventScript_Dalia",
+    "trainer_id": "TRAINER_LASS_DALIA",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "5"
+  },
+  {
+    "map": "SixIsland_PatternBush",
+    "object_idx": 8,
+    "x": 39,
+    "y": 6,
+    "script": "SixIsland_PatternBush_EventScript_Joana",
+    "trainer_id": "TRAINER_LASS_JOANA",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "SixIsland_PatternBush",
+    "object_idx": 9,
+    "x": 3,
+    "y": 9,
+    "script": "SixIsland_PatternBush_EventScript_Riley",
+    "trainer_id": "TRAINER_CAMPER_RILEY",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "SixIsland_PatternBush",
+    "object_idx": 10,
+    "x": 19,
+    "y": 24,
+    "script": "SixIsland_PatternBush_EventScript_Marcy",
+    "trainer_id": "TRAINER_PICNICKER_MARCY",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "SixIsland_PatternBush",
+    "object_idx": 11,
+    "x": 30,
+    "y": 19,
+    "script": "SixIsland_PatternBush_EventScript_Layton",
+    "trainer_id": "TRAINER_RUIN_MANIAC_LAYTON",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "SixIsland_RuinValley",
+    "object_idx": 1,
+    "x": 32,
+    "y": 11,
+    "script": "SixIsland_RuinValley_EventScript_Stanly",
+    "trainer_id": "TRAINER_RUIN_MANIAC_STANLY",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "SixIsland_RuinValley",
+    "object_idx": 2,
+    "x": 33,
+    "y": 16,
+    "script": "SixIsland_RuinValley_EventScript_Foster",
+    "trainer_id": "TRAINER_RUIN_MANIAC_FOSTER",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "SixIsland_RuinValley",
+    "object_idx": 3,
+    "x": 31,
+    "y": 24,
+    "script": "SixIsland_RuinValley_EventScript_Larry",
+    "trainer_id": "TRAINER_RUIN_MANIAC_LARRY",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "SixIsland_RuinValley",
+    "object_idx": 4,
+    "x": 14,
+    "y": 10,
+    "script": "SixIsland_RuinValley_EventScript_Daryl",
+    "trainer_id": "TRAINER_HIKER_DARYL",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "SixIsland_RuinValley",
+    "object_idx": 5,
+    "x": 21,
+    "y": 29,
+    "script": "SixIsland_RuinValley_EventScript_Hector",
+    "trainer_id": "TRAINER_POKEMANIAC_HECTOR",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "SixIsland_WaterPath",
+    "object_idx": 0,
+    "x": 12,
+    "y": 13,
+    "script": "SixIsland_WaterPath_EventScript_Rose",
+    "trainer_id": "TRAINER_AROMA_LADY_ROSE",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "SixIsland_WaterPath",
+    "object_idx": 1,
+    "x": 11,
+    "y": 52,
+    "script": "SixIsland_WaterPath_EventScript_Edward",
+    "trainer_id": "TRAINER_JUGGLER_EDWARD",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "SixIsland_WaterPath",
+    "object_idx": 2,
+    "x": 13,
+    "y": 35,
+    "script": "SixIsland_WaterPath_EventScript_Samir",
+    "trainer_id": "TRAINER_SWIMMER_MALE_SAMIR",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "SixIsland_WaterPath",
+    "object_idx": 3,
+    "x": 15,
+    "y": 45,
+    "script": "SixIsland_WaterPath_EventScript_Denise",
+    "trainer_id": "TRAINER_SWIMMER_FEMALE_DENISE",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "SixIsland_WaterPath",
+    "object_idx": 4,
+    "x": 6,
+    "y": 21,
+    "script": "SixIsland_WaterPath_EventScript_Miu",
+    "trainer_id": "TRAINER_TWINS_MIU_MIA",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "SixIsland_WaterPath",
+    "object_idx": 5,
+    "x": 7,
+    "y": 21,
+    "script": "SixIsland_WaterPath_EventScript_Mia",
+    "trainer_id": "TRAINER_TWINS_MIU_MIA",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "SixIsland_WaterPath",
+    "object_idx": 6,
+    "x": 11,
+    "y": 76,
+    "script": "SixIsland_WaterPath_EventScript_Earl",
+    "trainer_id": "TRAINER_HIKER_EARL",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "SSAnne_1F_Room5",
+    "object_idx": 0,
+    "x": 2,
+    "y": 6,
+    "script": "SSAnne_1F_Room5_EventScript_Arthur",
+    "trainer_id": "TRAINER_GENTLEMAN_ARTHUR",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "SSAnne_1F_Room7",
+    "object_idx": 0,
+    "x": 4,
+    "y": 3,
+    "script": "SSAnne_1F_Room7_EventScript_Thomas",
+    "trainer_id": "TRAINER_GENTLEMAN_THOMAS",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "SSAnne_2F_Room2",
+    "object_idx": 0,
+    "x": 5,
+    "y": 5,
+    "script": "SSAnne_2F_Room2_EventScript_Dale",
+    "trainer_id": "TRAINER_FISHERMAN_DALE",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "SSAnne_2F_Room2",
+    "object_idx": 1,
+    "x": 1,
+    "y": 4,
+    "script": "SSAnne_2F_Room2_EventScript_Brooks",
+    "trainer_id": "TRAINER_GENTLEMAN_BROOKS",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "SSAnne_2F_Room4",
+    "object_idx": 0,
+    "x": 0,
+    "y": 5,
+    "script": "SSAnne_2F_Room4_EventScript_Lamar",
+    "trainer_id": "TRAINER_GENTLEMAN_LAMAR",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "SSAnne_2F_Room4",
+    "object_idx": 1,
+    "x": 3,
+    "y": 3,
+    "script": "SSAnne_2F_Room4_EventScript_Dawn",
+    "trainer_id": "TRAINER_LASS_DAWN",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "SSAnne_B1F_Room1",
+    "object_idx": 0,
+    "x": 5,
+    "y": 2,
+    "script": "SSAnne_B1F_Room1_EventScript_Barny",
+    "trainer_id": "TRAINER_FISHERMAN_BARNY",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "SSAnne_B1F_Room1",
+    "object_idx": 1,
+    "x": 3,
+    "y": 2,
+    "script": "SSAnne_B1F_Room1_EventScript_Phillip",
+    "trainer_id": "TRAINER_SAILOR_PHILLIP",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "SSAnne_B1F_Room3",
+    "object_idx": 0,
+    "x": 4,
+    "y": 4,
+    "script": "SSAnne_B1F_Room3_EventScript_Dylan",
+    "trainer_id": "TRAINER_SAILOR_DYLAN",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "SSAnne_B1F_Room4",
+    "object_idx": 0,
+    "x": 3,
+    "y": 3,
+    "script": "SSAnne_B1F_Room4_EventScript_Duncan",
+    "trainer_id": "TRAINER_SAILOR_DUNCAN",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "SSAnne_B1F_Room4",
+    "object_idx": 1,
+    "x": 2,
+    "y": 6,
+    "script": "SSAnne_B1F_Room4_EventScript_Leonard",
+    "trainer_id": "TRAINER_SAILOR_LEONARD",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "ThreeIsland_BondBridge",
+    "object_idx": 0,
+    "x": 27,
+    "y": 10,
+    "script": "ThreeIsland_BondBridge_EventScript_Nikki",
+    "trainer_id": "TRAINER_AROMA_LADY_NIKKI",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "5"
+  },
+  {
+    "map": "ThreeIsland_BondBridge",
+    "object_idx": 1,
+    "x": 68,
+    "y": 10,
+    "script": "ThreeIsland_BondBridge_EventScript_Violet",
+    "trainer_id": "TRAINER_AROMA_LADY_VIOLET",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "ThreeIsland_BondBridge",
+    "object_idx": 2,
+    "x": 33,
+    "y": 13,
+    "script": "ThreeIsland_BondBridge_EventScript_Amira",
+    "trainer_id": "TRAINER_TUBER_AMIRA",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "ThreeIsland_BondBridge",
+    "object_idx": 3,
+    "x": 50,
+    "y": 11,
+    "script": "ThreeIsland_BondBridge_EventScript_Alexis",
+    "trainer_id": "TRAINER_TUBER_ALEXIS",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "ThreeIsland_BondBridge",
+    "object_idx": 4,
+    "x": 36,
+    "y": 4,
+    "script": "ThreeIsland_BondBridge_EventScript_Tisha",
+    "trainer_id": "TRAINER_SWIMMER_FEMALE_TISHA",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "ThreeIsland_BondBridge",
+    "object_idx": 5,
+    "x": 77,
+    "y": 5,
+    "script": "ThreeIsland_BondBridge_EventScript_Joy",
+    "trainer_id": "TRAINER_TWINS_JOY_MEG",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "ThreeIsland_BondBridge",
+    "object_idx": 6,
+    "x": 78,
+    "y": 5,
+    "script": "ThreeIsland_BondBridge_EventScript_Meg",
+    "trainer_id": "TRAINER_TWINS_JOY_MEG",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "VictoryRoad_1F",
+    "object_idx": 0,
+    "x": 5,
+    "y": 2,
+    "script": "VictoryRoad_1F_EventScript_Rolando",
+    "trainer_id": "TRAINER_COOLTRAINER_ROLANDO",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "VictoryRoad_1F",
+    "object_idx": 1,
+    "x": 14,
+    "y": 6,
+    "script": "VictoryRoad_1F_EventScript_Naomi",
+    "trainer_id": "TRAINER_COOLTRAINER_NAOMI",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "VictoryRoad_2F",
+    "object_idx": 0,
+    "x": 7,
+    "y": 4,
+    "script": "VictoryRoad_2F_EventScript_Dawson",
+    "trainer_id": "TRAINER_POKEMANIAC_DAWSON",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "VictoryRoad_2F",
+    "object_idx": 1,
+    "x": 20,
+    "y": 11,
+    "script": "VictoryRoad_2F_EventScript_Daisuke",
+    "trainer_id": "TRAINER_BLACK_BELT_DAISUKE",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "VictoryRoad_2F",
+    "object_idx": 2,
+    "x": 31,
+    "y": 16,
+    "script": "VictoryRoad_2F_EventScript_Nelson",
+    "trainer_id": "TRAINER_JUGGLER_NELSON",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "VictoryRoad_2F",
+    "object_idx": 3,
+    "x": 26,
+    "y": 6,
+    "script": "VictoryRoad_2F_EventScript_Vincent",
+    "trainer_id": "TRAINER_TAMER_VINCENT",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "VictoryRoad_2F",
+    "object_idx": 4,
+    "x": 36,
+    "y": 5,
+    "script": "VictoryRoad_2F_EventScript_Gregory",
+    "trainer_id": "TRAINER_JUGGLER_GREGORY",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "VictoryRoad_3F",
+    "object_idx": 0,
+    "x": 40,
+    "y": 7,
+    "script": "VictoryRoad_3F_EventScript_George",
+    "trainer_id": "TRAINER_COOLTRAINER_GEORGE",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "VictoryRoad_3F",
+    "object_idx": 1,
+    "x": 21,
+    "y": 5,
+    "script": "VictoryRoad_3F_EventScript_Alexa",
+    "trainer_id": "TRAINER_COOLTRAINER_ALEXA",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "VictoryRoad_3F",
+    "object_idx": 2,
+    "x": 10,
+    "y": 17,
+    "script": "VictoryRoad_3F_EventScript_Colby",
+    "trainer_id": "TRAINER_COOLTRAINER_COLBY",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "5"
+  },
+  {
+    "map": "VictoryRoad_3F",
+    "object_idx": 3,
+    "x": 11,
+    "y": 16,
+    "script": "VictoryRoad_3F_EventScript_Caroline",
+    "trainer_id": "TRAINER_COOLTRAINER_CAROLINE",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "5"
+  },
+  {
+    "map": "VictoryRoad_3F",
+    "object_idx": 10,
+    "x": 38,
+    "y": 13,
+    "script": "VictoryRoad_3F_EventScript_Ray",
+    "trainer_id": "TRAINER_COOL_COUPLE_RAY_TYRA",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "VictoryRoad_3F",
+    "object_idx": 11,
+    "x": 39,
+    "y": 13,
+    "script": "VictoryRoad_3F_EventScript_Tyra",
+    "trainer_id": "TRAINER_COOL_COUPLE_RAY_TYRA",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "ViridianCity_Gym",
+    "object_idx": 0,
+    "x": 10,
+    "y": 2,
+    "script": "ViridianCity_Gym_EventScript_Takashi",
+    "trainer_id": "TRAINER_BLACK_BELT_TAKASHI",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "ViridianCity_Gym",
+    "object_idx": 1,
+    "x": 12,
+    "y": 10,
+    "script": "ViridianCity_Gym_EventScript_Yuji",
+    "trainer_id": "TRAINER_COOLTRAINER_YUJI",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "ViridianCity_Gym",
+    "object_idx": 2,
+    "x": 11,
+    "y": 14,
+    "script": "ViridianCity_Gym_EventScript_Atsushi",
+    "trainer_id": "TRAINER_BLACK_BELT_ATSUSHI",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "ViridianCity_Gym",
+    "object_idx": 3,
+    "x": 10,
+    "y": 10,
+    "script": "ViridianCity_Gym_EventScript_Jason",
+    "trainer_id": "TRAINER_TAMER_JASON",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "ViridianCity_Gym",
+    "object_idx": 4,
+    "x": 2,
+    "y": 21,
+    "script": "ViridianCity_Gym_EventScript_Cole",
+    "trainer_id": "TRAINER_TAMER_COLE",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "ViridianCity_Gym",
+    "object_idx": 5,
+    "x": 3,
+    "y": 11,
+    "script": "ViridianCity_Gym_EventScript_Kiyo",
+    "trainer_id": "TRAINER_BLACK_BELT_KIYO",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "2"
+  },
+  {
+    "map": "ViridianCity_Gym",
+    "object_idx": 6,
+    "x": 6,
+    "y": 8,
+    "script": "ViridianCity_Gym_EventScript_Samuel",
+    "trainer_id": "TRAINER_COOLTRAINER_SAMUEL",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "ViridianCity_Gym",
+    "object_idx": 8,
+    "x": 13,
+    "y": 7,
+    "script": "ViridianCity_Gym_EventScript_Warren",
+    "trainer_id": "TRAINER_COOLTRAINER_WARREN",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "3"
+  },
+  {
+    "map": "ViridianForest",
+    "object_idx": 2,
+    "x": 47,
+    "y": 45,
+    "script": "ViridianForest_EventScript_Rick",
+    "trainer_id": "TRAINER_BUG_CATCHER_RICK",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "5"
+  },
+  {
+    "map": "ViridianForest",
+    "object_idx": 3,
+    "x": 47,
+    "y": 29,
+    "script": "ViridianForest_EventScript_Doug",
+    "trainer_id": "TRAINER_BUG_CATCHER_DOUG",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "ViridianForest",
+    "object_idx": 4,
+    "x": 7,
+    "y": 22,
+    "script": "ViridianForest_EventScript_Sammy",
+    "trainer_id": "TRAINER_BUG_CATCHER_SAMMY",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "4"
+  },
+  {
+    "map": "ViridianForest",
+    "object_idx": 8,
+    "x": 43,
+    "y": 6,
+    "script": "ViridianForest_EventScript_Anthony",
+    "trainer_id": "TRAINER_BUG_CATCHER_ANTHONY",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  },
+  {
+    "map": "ViridianForest",
+    "object_idx": 9,
+    "x": 16,
+    "y": 5,
+    "script": "ViridianForest_EventScript_Charlie",
+    "trainer_id": "TRAINER_BUG_CATCHER_CHARLIE",
+    "original_trainer_type": "TRAINER_TYPE_NORMAL",
+    "original_sight": "1"
+  }
+]

@@ -29,6 +29,7 @@
 #include "item_icon.h"
 #include "item_use.h"
 #include "event_data.h"
+#include "level_reveal.h"
 #include "test_runner.h"
 #include "research_turnin.h"
 #include "constants/battle_anim.h"
@@ -872,29 +873,72 @@ void InitBattlerHealthboxCoords(enum BattlerId battler)
     UpdateSpritePos(gHealthboxSpriteIds[battler], x, y);
 }
 
-static void UpdateLvlInHealthbox(u8 healthboxSpriteId, u8 lvl)
+// Highest level among the player's side's active, conscious Pokemon, or 0 if
+// there are none. Opponents' strength hints are measured against it.
+static u8 GetPlayerSideCompareLevel(void)
+{
+    enum BattlerId battler;
+    u8 highest = 0;
+
+    for (battler = 0; battler < gBattlersCount; battler++)
+    {
+        struct Pokemon *mon;
+        u8 level;
+
+        if (!IsOnPlayerSide(battler))
+            continue;
+        mon = GetBattlerMon(battler);
+        if (GetMonData(mon, MON_DATA_SPECIES) == SPECIES_NONE || GetMonData(mon, MON_DATA_HP) == 0)
+            continue;
+        level = GetMonData(mon, MON_DATA_LEVEL);
+        if (level > highest)
+            highest = level;
+    }
+    return highest;
+}
+
+static void UpdateLvlInHealthbox(u8 healthboxSpriteId, struct Pokemon *mon)
 {
     u8 text[16];
     enum BattlerId battler = gSprites[healthboxSpriteId].hMain_Battler;
     u32 spriteId = gSprites[healthboxSpriteId].oam.affineParam;
+    u8 lvl = GetMonData(mon, MON_DATA_LEVEL);
+    u16 species = GetMonData(mon, MON_DATA_SPECIES);
+    u32 personality = GetMonData(mon, MON_DATA_PERSONALITY);
+    u8 tier = GetLevelRevealTier(species, IsOnPlayerSide(battler));
+    bool32 hasIndicator = (GetIndicatorPalTag(battler) != TAG_NONE);
+    u8 *end;
 
     // Don't print Lv char if mon has a gimmick with an indicator active.
-    if (GetIndicatorPalTag(battler) != TAG_NONE)
+    end = BufferRevealedLevel(text, species, personality, lvl, tier, !hasIndicator);
+
+    // While an opponent's level is hidden, hint whether it outclasses the
+    // player's side.
+    if (!IsOnPlayerSide(battler) && tier == LEVEL_REVEAL_SIZE)
     {
-        ConvertIntToDecimalStringN(text, lvl, STR_CONV_MODE_LEFT_ALIGN, 3);
-        UpdateIndicatorLevelData(healthboxSpriteId, lvl);
+        u8 playerLevel = GetPlayerSideCompareLevel();
+        if (playerLevel != 0)
+            BufferStrengthHint(end, lvl, playerLevel);
+    }
+
+    u32 width = GetStringWidth(FONT_SMALL, text, 0);
+
+    if (hasIndicator)
+    {
+        // The indicator is offset by the level's digit count, so place it
+        // from the width of the text actually shown (e.g. "XL" or "1?").
+        if (width <= 5)
+            UpdateIndicatorLevelData(healthboxSpriteId, 1);
+        else if (width <= 10)
+            UpdateIndicatorLevelData(healthboxSpriteId, 10);
+        else
+            UpdateIndicatorLevelData(healthboxSpriteId, 100);
         UpdateIndicatorVisibilityAndType(healthboxSpriteId, FALSE);
     }
     else
     {
-        text[0] = CHAR_EXTRA_SYMBOL;
-        text[1] = CHAR_LV_2;
-
-        ConvertIntToDecimalStringN(text + 2, lvl, STR_CONV_MODE_LEFT_ALIGN, 3);
         UpdateIndicatorVisibilityAndType(healthboxSpriteId, TRUE);
     }
-
-    u32 width = GetStringWidth(FONT_SMALL, text, 0);
 
     if (IsOnPlayerSide(battler))
     {
@@ -1993,6 +2037,19 @@ static void UpdateLeftNoOfBallsTextOnHealthbox(u8 healthboxSpriteId)
     gSprites[healthboxSpriteId2].data[1] = savedValue2;
 }
 
+// A new or leveled-up Pokemon on the player's side changes what the
+// opponents' strength arrows compare against, so redraw their levels.
+static void RefreshOpponentStrengthHints(void)
+{
+    enum BattlerId battler;
+
+    for (battler = 0; battler < gBattlersCount; battler++)
+    {
+        if (!IsOnPlayerSide(battler) && IsBattlerSpritePresent(battler))
+            UpdateLvlInHealthbox(gHealthboxSpriteIds[battler], GetBattlerMon(battler));
+    }
+}
+
 void UpdateHealthboxAttribute(u8 healthboxSpriteId, struct Pokemon *mon, u8 elementId)
 {
     enum BattlerId battler = gSprites[healthboxSpriteId].hMain_Battler;
@@ -2004,7 +2061,10 @@ void UpdateHealthboxAttribute(u8 healthboxSpriteId, struct Pokemon *mon, u8 elem
         u8 isDoubles = GetBattlerCoordsIndex(battler) == BATTLE_COORDS_DOUBLES;
 
         if (elementId == HEALTHBOX_LEVEL || elementId == HEALTHBOX_ALL)
-            UpdateLvlInHealthbox(healthboxSpriteId, GetMonData(mon, MON_DATA_LEVEL));
+        {
+            UpdateLvlInHealthbox(healthboxSpriteId, mon);
+            RefreshOpponentStrengthHints();
+        }
 
         if (elementId == HEALTHBOX_ALL)
             UpdateHpTextInHealthbox(healthboxSpriteId, HP_BOTH, currHp, maxHp);
@@ -2049,7 +2109,7 @@ void UpdateHealthboxAttribute(u8 healthboxSpriteId, struct Pokemon *mon, u8 elem
     else
     {
         if (elementId == HEALTHBOX_LEVEL || elementId == HEALTHBOX_ALL)
-            UpdateLvlInHealthbox(healthboxSpriteId, GetMonData(mon, MON_DATA_LEVEL));
+            UpdateLvlInHealthbox(healthboxSpriteId, mon);
         if (gBattleSpritesDataPtr->battlerData[battler].hpNumbersNoBars)
         {
             if (elementId == HEALTHBOX_ALL)

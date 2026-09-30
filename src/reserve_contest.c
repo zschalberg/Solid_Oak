@@ -53,24 +53,169 @@ static const u8 sText_RarityLegendary[] = _("Legendary");
 static const u8 sText_ShinySuffix[] = _(" (Shiny!)");
 static const u8 sText_RarityScore[] = _("Rarity Score: ");
 
+static EWRAM_DATA struct Pokemon sReserveContestSavedParty[PARTY_SIZE];
+static EWRAM_DATA u8 sReserveContestSavedPartyCount = 0;
+static EWRAM_DATA u8 sReserveContestChosenSlot = 0;
+
+static void RestorePlayerParty(bool8 keptSpecimen);
+
 void ResetReserveContestAttempts(void)
 {
     VarSet(VAR_RESERVE_CONTEST_ATTEMPTS, 3);
 }
 
-void GetReserveContestAttemptsRemaining(void)
+u8 GetReserveContestAttemptsRemaining(void)
 {
     gSpecialVar_Result = VarGet(VAR_RESERVE_CONTEST_ATTEMPTS);
+    return gSpecialVar_Result;
 }
 
-void CheckCanRegisterReserveContest(void)
+bool8 CheckCanRegisterReserveContest(void)
 {
     u8 partyCount = CalculatePlayerPartyCount();
+    u8 i;
+    bool8 hasValidMon = FALSE;
 
-    if (partyCount == 1)
-        gSpecialVar_Result = TRUE;
-    else
-        gSpecialVar_Result = FALSE;
+    for (i = 0; i < partyCount; i++)
+    {
+        if (!GetMonData(&gPlayerParty[i], MON_DATA_IS_EGG)
+         && GetMonData(&gPlayerParty[i], MON_DATA_HP) > 0
+         && GetMonData(&gPlayerParty[i], MON_DATA_POKEBALL) != BALL_RESEARCH)
+        {
+            hasValidMon = TRUE;
+            break;
+        }
+    }
+
+    gSpecialVar_Result = hasValidMon;
+    return gSpecialVar_Result;
+}
+
+void ValidateReserveContestChosenMon(void)
+{
+    u8 slot = gSpecialVar_0x8004;
+
+    if (slot >= gPlayerPartyCount || slot >= PARTY_SIZE)
+    {
+        gSpecialVar_Result = 1; // Invalid / cancel
+        return;
+    }
+
+    if (GetMonData(&gPlayerParty[slot], MON_DATA_IS_EGG))
+    {
+        gSpecialVar_Result = 2; // Egg
+        return;
+    }
+
+    if (GetMonData(&gPlayerParty[slot], MON_DATA_HP) == 0)
+    {
+        gSpecialVar_Result = 3; // Fainted
+        return;
+    }
+
+    if (GetMonData(&gPlayerParty[slot], MON_DATA_POKEBALL) == BALL_RESEARCH)
+    {
+        gSpecialVar_Result = 4; // Research Ball
+        return;
+    }
+
+    gSpecialVar_Result = 0; // Valid
+}
+
+void SavePlayerPartyForReserveContest(void)
+{
+    u8 slot = gSpecialVar_0x8004;
+    u8 i;
+
+    if (slot >= gPlayerPartyCount || slot >= PARTY_SIZE)
+        slot = 0;
+
+    sReserveContestSavedPartyCount = gPlayerPartyCount;
+    sReserveContestChosenSlot = slot;
+
+    for (i = 0; i < PARTY_SIZE; i++)
+        sReserveContestSavedParty[i] = gPlayerParty[i];
+
+    // Put chosen mon into slot 0
+    gPlayerParty[0] = sReserveContestSavedParty[slot];
+
+    // Zero out remaining slots
+    for (i = 1; i < PARTY_SIZE; i++)
+        ZeroMonData(&gPlayerParty[i]);
+
+    gPlayerPartyCount = 1;
+    CalculatePlayerPartyCount();
+}
+
+static void RestorePlayerParty(bool8 keptSpecimen)
+{
+    u8 i;
+    struct Pokemon keptMon;
+    bool8 hasKeptMon = FALSE;
+
+    if (sReserveContestSavedPartyCount == 0)
+        return;
+
+    if (keptSpecimen && gPlayerPartyCount >= 2 && GetMonData(&gPlayerParty[1], MON_DATA_POKEBALL) == BALL_RESEARCH)
+    {
+        keptMon = gPlayerParty[1];
+        hasKeptMon = TRUE;
+    }
+
+    // Preserve any state changes to the chosen partner mon (EXP, HP, status, held item)
+    sReserveContestSavedParty[sReserveContestChosenSlot] = gPlayerParty[0];
+
+    // If partner fainted (e.g. whiteout), heal all party members
+    if (GetMonData(&gPlayerParty[0], MON_DATA_HP) == 0)
+    {
+        for (i = 0; i < sReserveContestSavedPartyCount; i++)
+            HealPokemon(&sReserveContestSavedParty[i]);
+    }
+
+    // Restore saved party
+    for (i = 0; i < sReserveContestSavedPartyCount; i++)
+        gPlayerParty[i] = sReserveContestSavedParty[i];
+
+    for (i = sReserveContestSavedPartyCount; i < PARTY_SIZE; i++)
+        ZeroMonData(&gPlayerParty[i]);
+
+    gPlayerPartyCount = sReserveContestSavedPartyCount;
+
+    if (hasKeptMon)
+    {
+        if (sReserveContestSavedPartyCount < PARTY_SIZE)
+        {
+            gPlayerParty[sReserveContestSavedPartyCount] = keptMon;
+            gPlayerPartyCount++;
+            gSpecialVar_Result = 0; // Kept in party
+        }
+        else
+        {
+            u8 pcResult = CopyMonToPC(&keptMon);
+            if (pcResult == MON_GIVEN_TO_PC)
+            {
+                GetMonNickname(&keptMon, gStringVar1);
+                StringCopy(gStringVar2, GetBoxNamePtr(VarGet(VAR_PC_BOX_TO_SEND_MON)));
+                gSpecialVar_Result = 1; // Sent to PC
+            }
+            else
+            {
+                gSpecialVar_Result = 2; // Box full
+            }
+        }
+    }
+
+    CalculatePlayerPartyCount();
+
+    sReserveContestSavedPartyCount = 0;
+    sReserveContestChosenSlot = 0;
+    for (i = 0; i < PARTY_SIZE; i++)
+        ZeroMonData(&sReserveContestSavedParty[i]);
+}
+
+void RestorePlayerPartyFromReserveContest(void)
+{
+    RestorePlayerParty(FALSE);
 }
 
 void StartReserveContestSession(void)
@@ -129,31 +274,31 @@ void ProcessReserveContestSpecimenChoice(void)
 
     if (gPlayerPartyCount >= 3)
     {
-        if (gSpecialVar_0x8004 == 0) // Keep Mon 1
-        {
-            GetMonNickname(&gPlayerParty[1], gStringVar1);
-            GetMonNickname(&gPlayerParty[2], gStringVar2);
+        u8 keepSlot = (gSpecialVar_0x8004 == 0) ? 1 : 2;
+        u8 discardSlot = (gSpecialVar_0x8004 == 0) ? 2 : 1;
 
-            // Discard Mon 2 - ball economy: released for good, ball frees back to the bag.
-            gSpecialVar_0x8009 = FreeMonBall(&gPlayerParty[2]) ? FALSE : TRUE;
-            ZeroMonData(&gPlayerParty[2]);
-            CompactPartySlots();
-            CalculatePlayerPartyCount();
+        // Safety: NEVER discard a Pokémon that is not caught in a Research Ball!
+        if (GetMonData(&gPlayerParty[discardSlot], MON_DATA_POKEBALL) != BALL_RESEARCH)
+        {
+            gSpecialVar_Result = FALSE;
+            return;
         }
-        else // Keep Mon 2
+
+        GetMonNickname(&gPlayerParty[keepSlot], gStringVar1);
+        GetMonNickname(&gPlayerParty[discardSlot], gStringVar2);
+
+        // Discard mon - ball economy: released for good, ball frees back to the bag.
+        gSpecialVar_0x8009 = FreeMonBall(&gPlayerParty[discardSlot]) ? FALSE : TRUE;
+
+        if (discardSlot == 1)
         {
-            GetMonNickname(&gPlayerParty[2], gStringVar1);
-            GetMonNickname(&gPlayerParty[1], gStringVar2);
-
-            // Discard Mon 1 - ball economy: released for good, ball frees back to the bag.
-            gSpecialVar_0x8009 = FreeMonBall(&gPlayerParty[1]) ? FALSE : TRUE;
-
             // Move Mon 2 to Mon 1 slot and discard slot 2
             gPlayerParty[1] = gPlayerParty[2];
-            ZeroMonData(&gPlayerParty[2]);
-            CompactPartySlots();
-            CalculatePlayerPartyCount();
         }
+        ZeroMonData(&gPlayerParty[2]);
+        CompactPartySlots();
+        CalculatePlayerPartyCount();
+
         gSpecialVar_Result = TRUE;
     }
     else
@@ -264,15 +409,15 @@ void EvaluateReserveContestCatch(void)
 void FinalizeReserveContestCatch(void)
 {
     // gSpecialVar_0x8004 == 0 (Keep), 1 (Turn-In)
-    if (gPlayerPartyCount >= 2)
+    // Safety: only operate on slot 1 if it is a Research Ball specimen
+    if (gPlayerPartyCount >= 2 && GetMonData(&gPlayerParty[1], MON_DATA_POKEBALL) == BALL_RESEARCH)
     {
         GetMonNickname(&gPlayerParty[1], gStringVar1);
 
         if (gSpecialVar_0x8004 == 0) // Keep
         {
-            u16 pokeBall = BALL_POKE;
-            SetMonData(&gPlayerParty[1], MON_DATA_POKEBALL, &pokeBall);
-            gSpecialVar_Result = TRUE;
+            // The specimen stays in BALL_RESEARCH! Restore saved party and add specimen (or send to PC)
+            RestorePlayerParty(TRUE);
         }
         else // Turn-In
         {
@@ -292,8 +437,13 @@ void FinalizeReserveContestCatch(void)
             ZeroMonData(&gPlayerParty[1]);
             CompactPartySlots();
             CalculatePlayerPartyCount();
+            RestorePlayerParty(FALSE);
             gSpecialVar_Result = FALSE;
         }
+    }
+    else
+    {
+        RestorePlayerParty(FALSE);
     }
 
     EndReserveContestSession();
@@ -312,6 +462,12 @@ void EndReserveContestSession(void)
 
         if (held > owned)
             RemoveBagItem(ITEM_RESEARCH_BALL, held - owned);
+
+        // If party backup is still held (e.g. session was abandoned or whited out), restore it
+        if (sReserveContestSavedPartyCount > 0)
+        {
+            RestorePlayerParty(FALSE);
+        }
     }
 
     VarSet(VAR_RESERVE_CONTEST_BALLS_HELD, 0);

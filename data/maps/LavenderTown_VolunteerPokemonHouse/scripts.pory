@@ -42,7 +42,7 @@ script LavenderTown_VolunteerPokemonHouse_EventScript_FujiIntro {
     msgbox("We've been waiting.")
     closemessage
     clearmugshot
-    //showmugshot(MUGSHOT_MR_FUJI, MUGSHOT_LEFT)
+    showmugshot(MUGSHOT_MR_FUJI, MUGSHOT_LEFT)
     textcolor(NPC_TEXT_COLOR_MALE)
     msgbox("My research is focused on POKéMON\n"
             "and their habitiats.\p"
@@ -64,7 +64,7 @@ script LavenderTown_VolunteerPokemonHouse_EventScript_FujiIntro {
     closemessage
     applymovement(LOCALID_FUJI, LavenderTown_VolunteerPokemonHouse_Movement_FaceDown)
     waitmovement(0)
-    //showmugshot(MUGSHOT_MR_FUJI, MUGSHOT_LEFT)
+    showmugshot(MUGSHOT_MR_FUJI, MUGSHOT_LEFT)
     msgbox("These are RESEARCH BALLS.\p"
            "I developed them for\n"
            "fieldwork like this.\p"
@@ -78,7 +78,7 @@ script LavenderTown_VolunteerPokemonHouse_EventScript_FujiIntro {
     closemessage
     // Ball economy: Research Balls are now a finite, reusable resource - see include/ball_economy.h.
     giveitem(ITEM_RESEARCH_BALL, 2)
-    //showmugshot(MUGSHOT_MR_FUJI, MUGSHOT_LEFT)
+    showmugshot(MUGSHOT_MR_FUJI, MUGSHOT_LEFT)
     textcolor(NPC_TEXT_COLOR_MALE)
     applymovement(LOCALID_FUJI, LavenderTown_VolunteerPokemonHouse_Movement_FaceRight)
     waitmovement(0)
@@ -99,15 +99,17 @@ script LavenderTown_VolunteerPokemonHouse_EventScript_FujiIntro {
     msgbox("She'll find her own way.\p"
            "She always does.")
     closemessage
+    clearmugshot
     applymovement(LOCALID_FUJI, LavenderTown_VolunteerPokemonHouse_Movement_FaceDown)
     waitmovement(0)
-    //showmugshot(MUGSHOT_MR_FUJI, MUGSHOT_LEFT)
+    showmugshot(MUGSHOT_MR_FUJI, MUGSHOT_LEFT)
     textcolor(NPC_TEXT_COLOR_MALE)
     msgbox("Start with the shallows\n"
            "south of FUCHSIA.\p"
            "Look for the heaviest ones.\n"
            "They'll be the oldest.")
     closemessage
+    clearmugshot
     setflag(FLAG_KRABBY_QUEST_ACTIVE)
     setflag(FLAG_HIDE_LAVENDER_FUJI)
     // Re-arm Fuchsia's Reserve intro check: if the player already visited
@@ -127,7 +129,7 @@ script LavenderTown_VolunteerPokemonHouse_EventScript_MrFuji {
     lock
     faceplayer
     if (var(VAR_ACT1_LAVENDER) == 3) {
-        //showmugshot(MUGSHOT_MR_FUJI, MUGSHOT_LEFT)
+        showmugshot(MUGSHOT_MR_FUJI, MUGSHOT_LEFT)
         textcolor(NPC_TEXT_COLOR_MALE)
         msgbox("I'll meet you in PEWTER CITY.\p"
                "I have a colleague at the university\n"
@@ -137,7 +139,7 @@ script LavenderTown_VolunteerPokemonHouse_EventScript_MrFuji {
         closemessage
     } else {
         if (flag(FLAG_KRABBY_QUEST_ACTIVE)) {
-            //showmugshot(MUGSHOT_MR_FUJI, MUGSHOT_LEFT)
+            showmugshot(MUGSHOT_MR_FUJI, MUGSHOT_LEFT)
             textcolor(NPC_TEXT_COLOR_MALE)
             msgbox("Have you found any KRABBY yet?\p"
                    "The shallows south of FUCHSIA\n"
@@ -146,6 +148,8 @@ script LavenderTown_VolunteerPokemonHouse_EventScript_MrFuji {
                    "Those are the ones I want.")
             closemessage
         } else {
+            showmugshot(MUGSHOT_MR_FUJI, MUGSHOT_LEFT)
+            textcolor(NPC_TEXT_COLOR_MALE)
             msgbox("Ah. Come in, please.")
             closemessage
         }
@@ -158,6 +162,7 @@ script LavenderTown_VolunteerPokemonHouse_EventScript_Scientist {
     if (!flag(FLAG_HEARD_LAVENDER_STORAGE_SPEECH)) {
         lockall
         applymovement(LOCALID_SCIENTIST, LavenderTown_VolunteerPokemonHouse_Movement_FaceLeft)
+        setspeaker("Fuji's Aide")
         msgbox("Before you go, if you need to store\n"
                 "any POKéMON, Mr. Fuji also cares\l"
                 "for them here in the lab.\p"
@@ -199,19 +204,19 @@ script LavenderTown_VolunteerPokemonHouse_EventScript_FujiReturn {
     addobject(LOCALID_FUJI)
     applymovement(LOCALID_FUJI, LavenderTown_VolunteerPokemonHouse_Movement_FaceDown)
     waitmovement(0)
-    //showmugshot(MUGSHOT_MR_FUJI, MUGSHOT_LEFT)
+    showmugshot(MUGSHOT_MR_FUJI, MUGSHOT_LEFT)
     textcolor(NPC_TEXT_COLOR_MALE)
     msgbox("Ah, you're back.")
     closemessage
     applymovement(OBJ_EVENT_ID_PLAYER, LavenderTown_VolunteerPokemonHouse_Movement_Player)
     waitmovement(0)
-    //showmugshot(MUGSHOT_MR_FUJI, MUGSHOT_LEFT)
+    showmugshot(MUGSHOT_MR_FUJI, MUGSHOT_LEFT)
     textcolor(NPC_TEXT_COLOR_MALE)
     msgbox(
            "I was just going over the data from\n"
            "the Krabby you collected.")
     closemessage
-    //clearmugshot
+    clearmugshot
     showmugshot(MUGSHOT_PROF_OAK, MUGSHOT_RIGHT)
     textcolor(NPC_TEXT_COLOR_MALE)
     msgbox("Professor, TENTACRUEL attacked the\n"
@@ -220,7 +225,7 @@ script LavenderTown_VolunteerPokemonHouse_EventScript_FujiReturn {
            )
     closemessage
     clearmugshot
-    //showmugshot(MUGSHOT_MR_FUJI, MUGSHOT_LEFT)
+    showmugshot(MUGSHOT_MR_FUJI, MUGSHOT_LEFT)
     textcolor(NPC_TEXT_COLOR_MALE)
     msgbox("Hmm. That is troubling. I wonder if\n"
                "the KRABBY were retreating from the\l"
@@ -233,10 +238,10 @@ script LavenderTown_VolunteerPokemonHouse_EventScript_FujiReturn {
                "aggressive but usually only attack\l"
                "humans when they feel threatened.")
     closemessage
-    //clearmugshot
+    clearmugshot
     applymovement(LOCALID_FUJI, LavenderTown_VolunteerPokemonHouse_Movement_WalkUp_WalkDown)
     waitmovement(0)
-    //showmugshot(MUGSHOT_MR_FUJI, MUGSHOT_LEFT)
+    showmugshot(MUGSHOT_MR_FUJI, MUGSHOT_LEFT)
     textcolor(NPC_TEXT_COLOR_MALE)
     msgbox("I have some notes I need to review.\n"
     "I have a theory but we will need\l"
@@ -251,24 +256,24 @@ script LavenderTown_VolunteerPokemonHouse_EventScript_FujiReturn {
     "meet me in PEWTER CITY. I will be\l"
     "there consulting with a colleague.")
     closemessage
-    //clearmugshot
+    clearmugshot
     applymovement(OBJ_EVENT_ID_PLAYER, LavenderTown_VolunteerPokemonHouse_Movement_FaceDown)
     waitmovement(0)
-    //showmugshot(MUGSHOT_MR_FUJI, MUGSHOT_LEFT)
+    showmugshot(MUGSHOT_MR_FUJI, MUGSHOT_LEFT)
     textcolor(NPC_TEXT_COLOR_MALE)
     msgbox("And Oak...")
     closemessage
-    //clearmugshot
+    clearmugshot
     applymovement(OBJ_EVENT_ID_PLAYER, LavenderTown_VolunteerPokemonHouse_Movement_FaceUp)
     waitmovement(0)
-    //showmugshot(MUGSHOT_MR_FUJI, MUGSHOT_LEFT)
+    showmugshot(MUGSHOT_MR_FUJI, MUGSHOT_LEFT)
     textcolor(NPC_TEXT_COLOR_MALE)
     msgbox("Do be careful out there.\p"
            "If my theory is correct, these\n"
            "POKéMON may be more dangerous than\l"
            "we realize.")
     closemessage
-    //clearmugshot
+    clearmugshot
     setflag(FLAG_QUEST_FISHING_VILLAGE_COMPLETED)
     setflag(FLAG_QUEST_ZONE2_ACTIVE)
     quest_complete_toast("DANGEROUS WATERS")
@@ -318,6 +323,7 @@ script LavenderTown_VolunteerPokemonHouse_EventScript_LittleBoy {
 script LavenderTown_VolunteerPokemonHouse_EventScript_Youngster {
     lock
     faceplayer
+    setspeaker("Youngster")
     msgbox("Mr. Fuji says you're a real\n"
            "researcher.\p"
            "Do researchers get to name\n"

@@ -12,6 +12,7 @@
 #include "graphics.h"
 #include "help_system.h"
 #include "item.h"
+#include "level_reveal.h"
 #include "link.h"
 #include "malloc.h"
 #include "menu_helpers.h"
@@ -1584,6 +1585,14 @@ static u8 PokeSum_Setup_BufferStrings(void)
     return FALSE;
 }
 
+static const u8 sText_UnknownExp[] = _("?????");
+
+// Every mon shown here belongs to the player (party, storage or a trade offer).
+static u8 GetSummaryLevelRevealTier(void)
+{
+    return GetLevelRevealTier(GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_SPECIES), TRUE);
+}
+
 static void BufferMonInfo(void)
 {
     u8 tempStr[20];
@@ -1639,9 +1648,11 @@ static void BufferMonInfo(void)
     otId = GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_OT_ID) & 0xffff;
     ConvertIntToDecimalStringN(sMonSummaryScreen->otIdStrBuf, otId, STR_CONV_MODE_LEADING_ZEROS, 5);
 
-    ConvertIntToDecimalStringN(tempStr, GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_LEVEL), STR_CONV_MODE_LEFT_ALIGN, 3);
-    StringCopy(sMonSummaryScreen->levelStrBuf, gText_Lv);
-    StringAppendN(sMonSummaryScreen->levelStrBuf, tempStr, 4);
+    BufferRevealedLevel(sMonSummaryScreen->levelStrBuf,
+                        GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_SPECIES),
+                        GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_PERSONALITY),
+                        GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_LEVEL),
+                        GetSummaryLevelRevealTier(), TRUE);
 
     heldItem = GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_HELD_ITEM);
 
@@ -1843,6 +1854,14 @@ static void BufferMonSkills(void)
     }
 
     ConvertIntToDecimalStringN(sMonSummaryScreen->expToNextLevelStrBuf, expToNextLevel, STR_CONV_MODE_LEFT_ALIGN, 7);
+
+    if (GetSummaryLevelRevealTier() < LEVEL_REVEAL_FULL)
+    {
+        StringCopy(sMonSummaryScreen->expPointsStrBuf, sText_UnknownExp);
+        StringCopy(sMonSummaryScreen->expToNextLevelStrBuf, sText_UnknownExp);
+        sMonSummaryScreen->expStrXpos = GetNumberRightAlign63(sMonSummaryScreen->expPointsStrBuf);
+    }
+
     sMonSummaryScreen->toNextLevelXpos = GetNumberRightAlign63(sMonSummaryScreen->expToNextLevelStrBuf);
 
     ability = GetAbilityBySpecies(GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_SPECIES), GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_ABILITY_NUM));
@@ -4360,6 +4379,8 @@ static void UpdateExpBarObjs(void)
     {
         totalExpToNextLevel = gExperienceTables[gSpeciesInfo[species].growthRate][level + 1] - gExperienceTables[gSpeciesInfo[species].growthRate][level];
         curExpToNextLevel = exp - gExperienceTables[gSpeciesInfo[species].growthRate][level];
+        if (GetSummaryLevelRevealTier() < LEVEL_REVEAL_FULL)
+            curExpToNextLevel = 0;
         pointsPerTile = ((totalExpToNextLevel << 2) / 8);
         totalPoints = (curExpToNextLevel << 2);
 

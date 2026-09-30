@@ -56,6 +56,7 @@
 #include "roamer.h"
 #include "rtc.h"
 #include "safari_zone.h"
+#include "reserve_contest.h"
 #include "save_location.h"
 #include "scanline_effect.h"
 #include "script_pokemon_util.h"
@@ -401,6 +402,7 @@ static void Overworld_ResetStateAfterWhitingOut(void)
     FlagClear(FLAG_SYS_QL_DEPARTED);
     VarSet(VAR_QL_ENTRANCE, 0);
     FollowerNPC_TryRemoveFollowerOnWhiteOut();
+    EndReserveContestSession();
 }
 
 static void Overworld_ResetStateOnContinue(void)

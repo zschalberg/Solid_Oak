@@ -9,6 +9,7 @@ script SSAnne_1F_Room1_EventScript_Journal {
     lock
     msgbox("Obtained the JOURNAL!")
     playfanfare(MUS_OBTAIN_KEY_ITEM)
+    giveitem(ITEM_FIELD_NOTEBOOK, 1)
     waitfanfare
     setflag(FLAG_SYS_POKEDEX_GET)
     special(EnableNationalPokedex)
@@ -41,6 +42,7 @@ script SSAnne_1F_Room1_EventScript_DoorTrigger {
         textcolor(NPC_TEXT_COLOR_MALE)
         msgbox("I should grab my journal\nbefore I go.")
         closemessage
+        clearmugshot
         applymovement(OBJ_EVENT_ID_PLAYER, SSAnne_1F_Room1_Movement_PlayerWalkSouth)
         waitmovement(0)
     } else {
@@ -57,6 +59,7 @@ script SSAnne_1F_Room1_EventScript_DoorTrigger {
         textcolor(NPC_TEXT_COLOR_FEMALE)
         msgbox("There you are Sammy!\nThe Professor is looking for us!")
         closemessage
+        clearmugshot
         
         applymovement(2, SSAnne_1F_Room1_Movement_AgathaExit)
         playse(SE_DOOR)

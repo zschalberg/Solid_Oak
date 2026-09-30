@@ -8,7 +8,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Build
 
-**Always build via WSL (Ubuntu/Debian)**. The project builds 2x faster than msys2 and 5–6x faster than Cygwin. After making changes, verify the build succeeds before declaring work done.
+**Always build via WSL (Ubuntu/Debian)**. The project builds 2x faster than msys2 and 5–6x faster than Cygwin. After making changes, verify the build succeeds before declaring work done. From a Windows shell: `wsl -e bash -lc 'make firered -j$(nproc)'`.
+
+Never commit unless explicitly told to. Follow `pret/pokefirered` formatting conventions and keep existing comments. When a request is ambiguous, ask rather than guess (from `.agents/AGENTS.md`).
 
 ```bash
 # Standard build (primary target)
@@ -18,7 +20,8 @@ make firered
 make leafgreen
 make debug       # -g symbols, -Og
 make release     # LTO enabled
-make check       # headless test suite
+make check       # headless test suite (mgba-rom-test, tests in test/)
+make check TESTS="Spikes"   # run only tests whose name starts with the filter
 make clean       # remove build artifacts
 make syms        # generate symbol map
 ```
@@ -33,13 +36,16 @@ Required WSL packages: `build-essential binutils-arm-none-eabi libpng-dev python
 ## Architecture
 
 ### Build Pipeline
-`.c` / `.pory` / `.png` / JSON → preprocessed → compiled (ARM GCC 15 via `$GCCARM15`) → linked → `pokefirered.gba`. Separate `.mk` files handle graphics (`graphics_file_rules.mk`), audio (`audio_rules.mk`), trainers, maps, JSON data, and tilesets.
+`.c` / `.pory` / `.png` / JSON → preprocessed → compiled (`$GCCARM15` toolchain if set, otherwise the system `arm-none-eabi-gcc`) → linked → `pokefirered.gba`. Separate `.mk` files handle graphics (`graphics_file_rules.mk`), audio (`audio_rules.mk`), trainers, maps, JSON data, and tilesets.
 
 ### Script System
-Map event scripts are written in **Poryscript** (`.pory` files in `data/scripts/`), compiled to `.inc` via the `poryscript` tool using `command_config.json`. These are not hand-written assembly.
+Most map scripts are **Poryscript**: every `data/**/*.pory` (mainly `data/maps/<Map>/scripts.pory`) is compiled to a sibling `.inc` by `tools/poryscript/poryscript` with `tools/poryscript/command_config.json`. Both files are tracked: when a `.pory` exists, edit it, never the generated `.inc`. Maps without a `.pory` (e.g. `PalletTown_PlayersHouse_2F`) use hand-written `.inc` assembly. Script macros are defined in `asm/macros/event.inc`. Any `include/constants/*.h` used in scripts must be `#include`d in `data/event_scripts.s`.
 
 ### Mugshots (NPC Portraits)
-64×64 speaker portraits above dialogue. PNG files go in `graphics/mugshots/` and are auto-converted by `tools/convert_mugshot.py` (requires Pillow) during build. Script commands: `showmugshot` / `clearmugshot`. Supports simultaneous double-portraits (left @X=36, right @X=204).
+64×64 speaker portraits above dialogue (`src/mugshot.c`). PNG files go in `graphics/mugshots/` and are auto-converted by `scratch/convert_mugshot.py` (requires Pillow) during build. To add one: PNG + `INCBIN` + `sMugshots[]` entry in `src/mugshot.c`, plus a `MUGSHOT_*` constant in `include/constants/mugshots.h`. Script commands: `showmugshot` / `clearmugshot`. Supports simultaneous double-portraits (left @X=36, right @X=204). Portraits use OAM priority 1, which draws them behind BG0, and their bottom edge sits on the dialogue box's top outline. Portraits are cleared when the message box closes.
+
+### Speaker Name Plate
+A name plate on the top-left edge of the dialogue box (`src/field_message_box.c`, BG0 window at tile row 13, baseBlock `0x2C0`. BG0 tiles must stay below `0x300`, because BG2's tilemap starts at `0xE000`). Each `sMugshots[]` entry has an `SP_NAME_*` speaker, so `showmugshot` names the speaker automatically (left portrait wins; right portrait only if it's alone). `setspeaker(SP_NAME_*)` or `setspeaker("Text")` overrides that and names NPCs who have no portrait. `SP_NAME_NONE` hides the plate. The name is cleared on `closemessage`/`release`. Presets live in `include/constants/speaker_names.h` and `sSpeakerNamesTable`. `SP_NAME_PLAYER` uses the player's chosen name (the `MUGSHOT_PROF_OAK` portrait is the player).
 
 ### Data-Driven Systems
 Many systems are defined in JSON under `src/data/pokemon/` (species info, learnsets, egg moves, special movesets) and compiled via `json_data_rules.mk`. The `tools/learnset_helpers/` Python scripts generate teachable learnsets and TM data from JSON — don't edit those C structs directly.
@@ -79,19 +85,20 @@ Pre-battle team preview with sprite sheets. `gSpecialVar_0x8008` controls select
 Binary seen/caught flags upgraded to 8-bit counters (max 255) for the first 400 species. Player's own Pokemon don't increment Seen count. Exposed via `GetSpeciesSeenCount` / `GetSpeciesCaughtCount` script specials.
 
 ### Quest-Gated Evolutions
-Gengar and Slowpoke evolutions are blocked until corresponding quest flags are set. See `config/species_enabled.h` and relevant quest flag constants.
+Gengar and Slowpoke evolutions are blocked until corresponding quest flags are set. See `include/config/species_enabled.h` and relevant quest flag constants.
 
 ## Key File Locations
 
 | System | Location |
 |--------|----------|
 | Battle mechanics | `src/battle*.c`, `include/battle*.h`, `data/battle_scripts_*.s` |
-| Catch / ball logic | `src/ball.c`, `src/battle_controller_player.c` |
-| Level scaling | `src/battle_controller_*.c` |
-| Mugshot system | `tools/convert_mugshot.py`, `graphics/mugshots/`, `src/field_message_box.c` |
-| Quest Log scripts | `data/scripts/` (`.pory` files) |
-| Crafting (Workbench) | `data/scripts/workbench*.pory` |
-| Size system | `src/battle.c` (scaling), `src/pokedex_plus_hgss.c` (records) |
+| Catch / ball logic | `src/ball_economy.c`, `src/battle_controller_player.c`, `src/battle_script_commands.c` |
+| Level scaling | `src/battle_main.c` (trainers), `src/wild_encounter.c` (wilds) |
+| Mugshots / name plate | `src/mugshot.c`, `src/field_message_box.c`, `graphics/mugshots/` |
+| Map scripts | `data/maps/<Map>/scripts.pory` (or `.inc`), shared scripts in `data/scripts/` |
+| Crafting (Workbench) | `data/scripts/workbench.inc` |
+| Size system | `src/pokemon_size_record.c`, `src/battle_util.c`, `src/pokedex_plus_hgss.c` (records) |
+| Research turn-in | `src/research_turnin.c`, `data/scripts/research_ball_return.inc` |
 | Learnset generation | `tools/learnset_helpers/`, `src/data/pokemon/` |
 | Constants & flags | `constants/`, `include/constants/` |
 | Feature documentation | `docs/features.md` |

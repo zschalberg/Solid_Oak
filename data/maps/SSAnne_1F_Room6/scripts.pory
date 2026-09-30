@@ -60,6 +60,7 @@ script SSAnne_1F_Room6_EventScript_FinishStarterSelection{
     textcolor(NPC_TEXT_COLOR_MALE)
     msgbox("Alright, don't take too long.")
     closemessage
+    clearmugshot
     applymovement(LOCALID_AGATHA, SSMinnow_1F_Room6_Movement_Agatha_Leaves)
     waitmovement(0)
     removeobject(LOCALID_AGATHA)

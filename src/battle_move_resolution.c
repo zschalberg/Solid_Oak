@@ -1782,6 +1782,7 @@ static enum CancelerResult CancelerTargetFailure(struct BattleContext *ctx)
         {
             gBattleStruct->moveResultFlags[ctx->battlerDef] |= MOVE_RESULT_FAILED;
             gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_AVOIDED_ATK;
+            gBattleScripting.battler = ctx->battlerDef;
             if (GetMoveEffect(ctx->move) == EFFECT_FLING)
                 BattleScriptCall(BattleScript_TargetAvoidsAttackConsumeFlingItem);
             else
@@ -1793,6 +1794,7 @@ static enum CancelerResult CancelerTargetFailure(struct BattleContext *ctx)
             SetOrClearRageVolatile();
             gBattleStruct->moveResultFlags[ctx->battlerDef] |= MOVE_RESULT_MISSED;
             gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_PROTECTED;
+            gBattleScripting.battler = ctx->battlerDef;
             if (GetMoveEffect(ctx->move) == EFFECT_FLING)
                 BattleScriptCall(BattleScript_TargetAvoidsAttackConsumeFlingItem);
             else

@@ -221,6 +221,11 @@
 #define CHAR_BULLSEYE          0x15
 #define CHAR_TRIANGLE          0x16
 #define CHAR_CROSS_X           0x17
+// Compact strength arrows, only drawn in FONT_SMALL (see level_reveal.c)
+#define CHAR_STRENGTH_UP       0x19
+#define CHAR_STRENGTH_DOWN     0x1A
+#define CHAR_STRENGTH_UP_2     0x1B
+#define CHAR_STRENGTH_DOWN_2   0x1C
 
 #define EXT_CTRL_CODE_COLOR                  0x01
 #define EXT_CTRL_CODE_HIGHLIGHT              0x02

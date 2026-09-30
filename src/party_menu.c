@@ -33,6 +33,7 @@
 #include "item_menu.h"
 #include "item_use.h"
 #include "item.h"
+#include "level_reveal.h"
 #include "link_rfu.h"
 #include "link.h"
 #include "load_save.h"
@@ -238,7 +239,7 @@ static bool8 IsMonAllowedInMinigame(u8 slot);
 static void DisplayPartyPokemonDataToTeachMove(u8 slot, enum Move move);
 static void DisplayPartyPokemonBarDetail(u8 windowId, const u8 *str, u8 color, const u8 *dimensions);
 static void DisplayPartyPokemonBarDetailToFit(u8 windowId, const u8 *str, u8 color, const u8 *align, u32 width);
-static void DisplayPartyPokemonLevel(u8 level, struct PartyMenuBox *menuBox);
+static void DisplayPartyPokemonLevel(u8 level, u16 species, u32 personality, struct PartyMenuBox *menuBox);
 static void DisplayPartyPokemonGender(u8 gender, enum Species species, u8 *nickname, struct PartyMenuBox *menuBox);
 static void DisplayPartyPokemonHP(u16 hp, struct PartyMenuBox *menuBox);
 static void DisplayPartyPokemonMaxHP(u16 maxhp, struct PartyMenuBox *menuBox);
@@ -1122,7 +1123,7 @@ static void DisplayPartyPokemonDataForMultiBattle(u8 slot)
             ConvertInternationalString(gStringVar1, LANGUAGE_JAPANESE);
 
         DisplayPartyPokemonBarDetailToFit(menuBox->windowId, gStringVar1, 0, menuBox->infoRects->dimensions, 50);
-        DisplayPartyPokemonLevel(gMultiPartnerParty[actualSlot].level, menuBox);
+        DisplayPartyPokemonLevel(gMultiPartnerParty[actualSlot].level, gMultiPartnerParty[actualSlot].species, gMultiPartnerParty[actualSlot].personality, menuBox);
         DisplayPartyPokemonGender(gMultiPartnerParty[actualSlot].gender, gMultiPartnerParty[actualSlot].species, gMultiPartnerParty[actualSlot].nickname, menuBox);
         DisplayPartyPokemonHP(gMultiPartnerParty[actualSlot].hp, menuBox);
         DisplayPartyPokemonMaxHP(gMultiPartnerParty[actualSlot].maxhp, menuBox);
@@ -2587,16 +2588,14 @@ static void DisplayPartyPokemonLevelCheck(struct Pokemon *mon, struct PartyMenuB
             if (drawMenuBoxOrText != DRAW_TEXT_ONLY)
                 menuBox->infoRects->blitFunc(menuBox->windowId, menuBox->infoRects->dimensions[4] / 8, (menuBox->infoRects->dimensions[5] / 8) + 1, menuBox->infoRects->dimensions[6] / 8, menuBox->infoRects->dimensions[7] / 8, FALSE);
             if (drawMenuBoxOrText != DRAW_MENU_BOX_ONLY)
-                DisplayPartyPokemonLevel(GetMonData(mon, MON_DATA_LEVEL), menuBox);
+                DisplayPartyPokemonLevel(GetMonData(mon, MON_DATA_LEVEL), GetMonData(mon, MON_DATA_SPECIES), GetMonData(mon, MON_DATA_PERSONALITY), menuBox);
         }
     }
 }
 
-static void DisplayPartyPokemonLevel(u8 level, struct PartyMenuBox *menuBox)
+static void DisplayPartyPokemonLevel(u8 level, u16 species, u32 personality, struct PartyMenuBox *menuBox)
 {
-    ConvertIntToDecimalStringN(gStringVar2, level, STR_CONV_MODE_LEFT_ALIGN, 3);
-    StringCopy(gStringVar1, gText_Lv);
-    StringAppend(gStringVar1, gStringVar2);
+    BufferRevealedLevel(gStringVar1, species, personality, level, GetLevelRevealTier(species, TRUE), TRUE);
     DisplayPartyPokemonBarDetail(menuBox->windowId, gStringVar1, 0, &menuBox->infoRects->dimensions[4]);
 }
 
@@ -3525,6 +3524,15 @@ static void SwitchSelectedMons(u8 taskId)
     if (gPartyMenu.slotId2 == gPartyMenu.slotId)
     {
         FinishTwoMonAction(taskId);
+    }
+    else if ((gPartyMenu.slotId == 0 || gPartyMenu.slotId2 == 0)
+          && (GetMonData(&gPlayerParty[gPartyMenu.slotId], MON_DATA_POKEBALL) == BALL_RESEARCH
+           || GetMonData(&gPlayerParty[gPartyMenu.slotId2], MON_DATA_POKEBALL) == BALL_RESEARCH))
+    {
+        PlaySE(SE_FAILURE);
+        DisplayPartyMenuMessage(sText_ResearchBallCantLead, FALSE);
+        ScheduleBgCopyTilemapToVram(2);
+        gTasks[taskId].func = Task_ReturnToChooseMonAfterText;
     }
     else
     {

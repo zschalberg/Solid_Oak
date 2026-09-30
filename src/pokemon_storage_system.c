@@ -15,6 +15,7 @@
 #include "item_icon.h"
 #include "item_menu.h"
 #include "item.h"
+#include "level_reveal.h"
 #include "mail.h"
 #include "malloc.h"
 #include "menu.h"
@@ -6912,10 +6913,9 @@ static void SetDisplayMonData(void *pokemon, u8 mode)
         *(txtPtr++) = TEXT_COLOR_WHITE;
         *(txtPtr++) = TEXT_COLOR_LIGHT_GRAY;
         *(txtPtr++) = CHAR_SPACE;
-        *(txtPtr++) = CHAR_EXTRA_SYMBOL;
-        *(txtPtr++) = CHAR_LV_2;
-
-        txtPtr = ConvertIntToDecimalStringN(txtPtr, gStorage->displayMonLevel, STR_CONV_MODE_LEFT_ALIGN, 3);
+        txtPtr = BufferRevealedLevel(txtPtr, gStorage->displayMonSpecies, gStorage->displayMonPersonality,
+                                     gStorage->displayMonLevel,
+                                     GetLevelRevealTier(gStorage->displayMonSpecies, TRUE), TRUE);
         txtPtr[0] = CHAR_SPACE;
         txtPtr[1] = EOS;
 

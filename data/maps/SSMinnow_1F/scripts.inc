@@ -22,86 +22,88 @@ SSMinnow_1F_EventScript_AgathaCutscene::
 	msgbox SSMinnow_1F_EventScript_AgathaCutscene_Text_0
 # 24 "data/maps/SSMinnow_1F/scripts.pory"
 	closemessage
-# 26 "data/maps/SSMinnow_1F/scripts.pory"
-	opendoor 16, 8
+# 25 "data/maps/SSMinnow_1F/scripts.pory"
+	clearmugshot
 # 27 "data/maps/SSMinnow_1F/scripts.pory"
+	opendoor 16, 8
+# 28 "data/maps/SSMinnow_1F/scripts.pory"
 	waitdooranim
-# 29 "data/maps/SSMinnow_1F/scripts.pory"
-	applymovement 1, SSMinnow_1F_Movement_AgathaLead
 # 30 "data/maps/SSMinnow_1F/scripts.pory"
-	applymovement OBJ_EVENT_ID_PLAYER, SSMinnow_1F_Movement_PlayerFollow
+	applymovement 1, SSMinnow_1F_Movement_AgathaLead
 # 31 "data/maps/SSMinnow_1F/scripts.pory"
+	applymovement OBJ_EVENT_ID_PLAYER, SSMinnow_1F_Movement_PlayerFollow
+# 32 "data/maps/SSMinnow_1F/scripts.pory"
 	waitmovement 0
-# 33 "data/maps/SSMinnow_1F/scripts.pory"
-	closedoor 16, 8
 # 34 "data/maps/SSMinnow_1F/scripts.pory"
+	closedoor 16, 8
+# 35 "data/maps/SSMinnow_1F/scripts.pory"
 	waitdooranim
-# 36 "data/maps/SSMinnow_1F/scripts.pory"
-	warp MAP_SSANNE_1F_ROOM6, 2, 2
 # 37 "data/maps/SSMinnow_1F/scripts.pory"
-	setflag FLAG_AGATHA_AND_JOURNAL
+	warp MAP_SSANNE_1F_ROOM6, 2, 2
 # 38 "data/maps/SSMinnow_1F/scripts.pory"
+	setflag FLAG_AGATHA_AND_JOURNAL
+# 39 "data/maps/SSMinnow_1F/scripts.pory"
 	releaseall
 	end
 
 
-# 42 "data/maps/SSMinnow_1F/scripts.pory"
+# 43 "data/maps/SSMinnow_1F/scripts.pory"
 SSMinnow_1F_Movement_AgathaLead:
-# 43 "data/maps/SSMinnow_1F/scripts.pory"
-	walk_right
-# 43 "data/maps/SSMinnow_1F/scripts.pory"
-	walk_right
-# 43 "data/maps/SSMinnow_1F/scripts.pory"
-	walk_right
-# 43 "data/maps/SSMinnow_1F/scripts.pory"
-	walk_right
-# 43 "data/maps/SSMinnow_1F/scripts.pory"
-	walk_right
-# 43 "data/maps/SSMinnow_1F/scripts.pory"
-	walk_right
-# 43 "data/maps/SSMinnow_1F/scripts.pory"
-	walk_right
-# 43 "data/maps/SSMinnow_1F/scripts.pory"
-	walk_right
-# 43 "data/maps/SSMinnow_1F/scripts.pory"
-	walk_right
-# 43 "data/maps/SSMinnow_1F/scripts.pory"
-	walk_right
-# 43 "data/maps/SSMinnow_1F/scripts.pory"
+# 44 "data/maps/SSMinnow_1F/scripts.pory"
 	walk_right
 # 44 "data/maps/SSMinnow_1F/scripts.pory"
-	walk_down
+	walk_right
+# 44 "data/maps/SSMinnow_1F/scripts.pory"
+	walk_right
+# 44 "data/maps/SSMinnow_1F/scripts.pory"
+	walk_right
+# 44 "data/maps/SSMinnow_1F/scripts.pory"
+	walk_right
+# 44 "data/maps/SSMinnow_1F/scripts.pory"
+	walk_right
+# 44 "data/maps/SSMinnow_1F/scripts.pory"
+	walk_right
+# 44 "data/maps/SSMinnow_1F/scripts.pory"
+	walk_right
+# 44 "data/maps/SSMinnow_1F/scripts.pory"
+	walk_right
+# 44 "data/maps/SSMinnow_1F/scripts.pory"
+	walk_right
+# 44 "data/maps/SSMinnow_1F/scripts.pory"
+	walk_right
 # 45 "data/maps/SSMinnow_1F/scripts.pory"
+	walk_down
+# 46 "data/maps/SSMinnow_1F/scripts.pory"
 	set_invisible
 	step_end
 
-# 47 "data/maps/SSMinnow_1F/scripts.pory"
+# 48 "data/maps/SSMinnow_1F/scripts.pory"
 SSMinnow_1F_Movement_PlayerFollow:
-# 49 "data/maps/SSMinnow_1F/scripts.pory"
-	walk_right
-# 49 "data/maps/SSMinnow_1F/scripts.pory"
-	walk_right
-# 49 "data/maps/SSMinnow_1F/scripts.pory"
-	walk_right
-# 49 "data/maps/SSMinnow_1F/scripts.pory"
-	walk_right
-# 49 "data/maps/SSMinnow_1F/scripts.pory"
-	walk_right
-# 49 "data/maps/SSMinnow_1F/scripts.pory"
-	walk_right
-# 49 "data/maps/SSMinnow_1F/scripts.pory"
-	walk_right
-# 49 "data/maps/SSMinnow_1F/scripts.pory"
-	walk_right
-# 49 "data/maps/SSMinnow_1F/scripts.pory"
-	walk_right
-# 49 "data/maps/SSMinnow_1F/scripts.pory"
-	walk_right
-# 49 "data/maps/SSMinnow_1F/scripts.pory"
-	walk_right
-# 49 "data/maps/SSMinnow_1F/scripts.pory"
+# 50 "data/maps/SSMinnow_1F/scripts.pory"
 	walk_right
 # 50 "data/maps/SSMinnow_1F/scripts.pory"
+	walk_right
+# 50 "data/maps/SSMinnow_1F/scripts.pory"
+	walk_right
+# 50 "data/maps/SSMinnow_1F/scripts.pory"
+	walk_right
+# 50 "data/maps/SSMinnow_1F/scripts.pory"
+	walk_right
+# 50 "data/maps/SSMinnow_1F/scripts.pory"
+	walk_right
+# 50 "data/maps/SSMinnow_1F/scripts.pory"
+	walk_right
+# 50 "data/maps/SSMinnow_1F/scripts.pory"
+	walk_right
+# 50 "data/maps/SSMinnow_1F/scripts.pory"
+	walk_right
+# 50 "data/maps/SSMinnow_1F/scripts.pory"
+	walk_right
+# 50 "data/maps/SSMinnow_1F/scripts.pory"
+	walk_right
+# 50 "data/maps/SSMinnow_1F/scripts.pory"
+	walk_right
+# 51 "data/maps/SSMinnow_1F/scripts.pory"
 	walk_down
 	step_end
 

@@ -94,6 +94,7 @@ static bool8 sSavingComplete;
 static void BuildLinkModeStartMenu(void);
 static void BuildUnionRoomStartMenu(void);
 static void BuildSafariZoneStartMenu(void);
+static void BuildReserveContestStartMenu(void);
 static void BuildNormalStartMenu(void);
 static void BuildBattlePikeStartMenu(void);
 static void BuildBattlePyramidStartMenu(void);
@@ -297,6 +298,8 @@ static void BuildStartMenuActions(void)
         BuildUnionRoomStartMenu();
     else if (GetSafariZoneFlag() == TRUE)
         BuildSafariZoneStartMenu();
+    else if (FlagGet(FLAG_RESERVE_CONTEST_ACTIVE))
+        BuildReserveContestStartMenu();
     else if (InBattlePike())
         BuildBattlePikeStartMenu();
     else if (CurrentBattlePyramidLocation() != PYRAMID_LOCATION_NONE)
@@ -348,6 +351,22 @@ static void BuildSafariZoneStartMenu(void)
     AddStartMenuAction(MENU_ACTION_RETIRE_SAFARI);
     AddStartMenuAction(MENU_ACTION_POKEDEX);
     AddStartMenuAction(MENU_ACTION_POKEMON);
+    AddStartMenuAction(MENU_ACTION_BAG);
+    AddStartMenuAction(MENU_ACTION_PLAYER);
+    AddStartMenuAction(MENU_ACTION_OPTION);
+    AddStartMenuAction(MENU_ACTION_EXIT);
+}
+
+static void BuildReserveContestStartMenu(void)
+{
+    if (DEBUG_OVERWORLD_MENU && DEBUG_OVERWORLD_IN_MENU)
+        AddStartMenuAction(MENU_ACTION_DEBUG);
+    if (FlagGet(FLAG_SYS_POKEDEX_GET) == TRUE)
+        AddStartMenuAction(MENU_ACTION_POKEDEX);
+    if (DN_FLAG_DEXNAV_GET != 0 && FlagGet(DN_FLAG_DEXNAV_GET))
+        AddStartMenuAction(MENU_ACTION_DEXNAV);
+    if (FlagGet(FLAG_SYS_POKEMON_GET) == TRUE)
+        AddStartMenuAction(MENU_ACTION_POKEMON);
     AddStartMenuAction(MENU_ACTION_BAG);
     AddStartMenuAction(MENU_ACTION_PLAYER);
     AddStartMenuAction(MENU_ACTION_OPTION);
