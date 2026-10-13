@@ -36,27 +36,35 @@ python3 tools/check_dialogue.py <file-or-directory>
 ```
 It reads the generated `.inc`, so regenerate first. It reports CUTOFF, HIDDEN_LINE, ARROW_CLIP, SCROLL_LINE1 and TRAILING. Warnings prefixed with `?` involve `{STR_VAR_x}` and need a judgement call. Fix every real issue and re-run until it prints `0 issue(s)`. If the checker disagrees with your own estimate, the checker wins. It uses the real font width table from `src/fonts.c`.
 
-## Mugshots (speaker portraits)
+## Mugshots and name plates
 
-There are **no name plates** in this project. Speakers are identified only by their mugshot and text color. Do not invent name plate commands. If the user asks for one, say it does not exist yet.
+Speakers are shown with a 64x64 **mugshot** above the box and a **name plate** (a small plate on the top edge of the message box, under the speaking portrait). Both exist in the engine (`src/mugshot.c`, `src/field_message_box.c`, `include/constants/speaker_names.h`).
 
 Commands (Poryscript call syntax; `.inc` syntax omits parentheses):
 ```
-showmugshot(MUGSHOT_PROF_ARBOR, MUGSHOT_RIGHT)   // id, position
+showmugshot(MUGSHOT_PROF_ARBOR, MUGSHOT_RIGHT)   // portrait id, position
+setspeaker(SP_NAME_PROF_ARBOR)                   // name plate: SP_NAME_* preset, or a string like "Fuji's Aide"
+setspeakerside(MUGSHOT_LEFT)                     // which portrait the plate sits under (when two are up)
 clearmugshot
 ```
-- IDs (`include/constants/mugshots.h`): `MUGSHOT_PROF_OAK`, `MUGSHOT_AGATHA`, `MUGSHOT_AGATHA_UPDATED`, `MUGSHOT_PROF_ARBOR`, `MUGSHOT_MR_FUJI`, `MUGSHOT_MR_FUJI_SAD`. A new portrait needs a PNG in `graphics/mugshots/` plus entries in `include/constants/mugshots.h` and `src/mugshot.c`; ask before adding one.
-- Positions: `MUGSHOT_LEFT` (x=36) and `MUGSHOT_RIGHT` (x=204). Two can be on screen at once. Use RIGHT for the main speaker unless the scene already uses LEFT/RIGHT for a pair (Agatha is typically LEFT, the other speaker RIGHT).
-- Standard sequence, as used in `SilphCo_2F`, `VermilionCity`, `FuchsiaCity_Reserve`:
+- Mugshot IDs (`include/constants/mugshots.h`): `MUGSHOT_PROF_OAK`, `MUGSHOT_AGATHA`, `MUGSHOT_AGATHA_UPDATED`, `MUGSHOT_PROF_ARBOR`, `MUGSHOT_MR_FUJI`, `MUGSHOT_MR_FUJI_SAD`. Positions: `MUGSHOT_LEFT` (x=36) and `MUGSHOT_RIGHT` (x=204); two can be up at once.
+- Name presets (`speaker_names.h`): `SP_NAME_PLAYER` (the player's name; the Oak portrait uses this), `SP_NAME_AGATHA`, `SP_NAME_MR_FUJI`, `SP_NAME_PROF_ARBOR`, `SP_NAME_SAMUEL`. For one-off NPCs pass a string: `setspeaker("Youngster")`. Names are limited to 19 characters and the plate caps at 96px wide, so keep them short.
+- **`showmugshot` names the speaker automatically** from the `speakerName` field in the `sMugshots[]` table, so a portrait needs no `setspeaker`. When two portraits are up, the most recently shown one is the speaker; use `setspeakerside` or `setspeaker` to switch.
+- **`setspeaker` is for speakers with no portrait, or to override.** The plate then sits at the left by default. Passing a preset that matches an active portrait moves the plate under that portrait.
+- **The name plate resets at every `closemessage` / `release` / `releaseall`**, even if the portrait is still up. Re-issue `setspeaker` (or `showmugshot`) before the next `msgbox` after each `closemessage`, or the next box has no plate. (Mugshots themselves are *not* cleared by `closemessage`; only `release`, `releaseall` and `clearmugshot` clear them.)
+- No plate is drawn for signposts (`MSGBOX_SIGN`) or during Quest Log playback.
+- Standard sequence (see `FuchsiaCity`, `SilphCo_2F`):
   ```
-  showmugshot(MUGSHOT_X, MUGSHOT_RIGHT)
-  textcolor(NPC_TEXT_COLOR_MALE)
+  showmugshot(MUGSHOT_AGATHA, MUGSHOT_LEFT)
+  textcolor(NPC_TEXT_COLOR_FEMALE)
+  setspeaker(SP_NAME_AGATHA)
   msgbox("...")
   closemessage
   clearmugshot
   ```
-- **`closemessage` (and `release`/`releaseall`) hides the message box, and hiding it clears every mugshot.** So if a speaker has several `msgbox` calls separated by a `closemessage` (or by `faceplayer`, movement, etc.), you must `showmugshot` again after each `closemessage`, or the portrait disappears for the later boxes. Conversely, the explicit `clearmugshot` after `closemessage` is redundant but is the project convention; keep it. Always end a speaker's block with `closemessage` + `clearmugshot` before silent actions, movement, flag changes or toasts, and make sure every early-exit path (`release`, `end`, `goto`) clears it too.
-- When swapping speakers, `clearmugshot` the first before showing the second unless both are meant to stay up as a left/right pair.
+- Always `closemessage` + `clearmugshot` at the end of a speaker's block, before silent actions, movement, flag changes or toasts, and on every early-exit path. When swapping speakers, `clearmugshot` the first before showing the second unless both are meant to stay up as a left/right pair.
+- A speaker with no portrait (e.g. Mr. Fuji where his `showmugshot` is commented out) still gets a plate via `setspeaker(SP_NAME_MR_FUJI)`; remember it must be repeated after each `closemessage`.
+- **Adding a new speaker preset:** add `SP_NAME_X` before `SP_NAME_COUNT` in `speaker_names.h` and bump `SP_NAME_COUNT`; add the string and a table entry in `sSpeakerNamesTable` in `src/field_message_box.c`; for a new portrait also add the PNG in `graphics/mugshots/`, the `MUGSHOT_` id and the `sMugshots[]` entry (with its `speakerName`). Ask before adding engine or graphics entries.
 
 ## Text color
 
@@ -79,7 +87,7 @@ The color resets to default when player field input is processed, so set it in e
 
 **Writing dialogue**
 1. Read the target file and a nearby scene to copy its pattern.
-2. Write the script with mugshot, text color, breaks and cleanup in place.
+2. Write the script with mugshot, name plate, text color, breaks and cleanup in place.
 3. Regenerate the `.inc` if it came from a `.pory`, then run the checker. Fix and repeat until clean.
 4. Report what you added/changed in a few lines, including any checker warnings you accepted and why.
 
@@ -87,7 +95,7 @@ The color resets to default when player field input is processed, so set it in e
 1. Run `python3 tools/check_dialogue.py <path>` for width/line problems.
 2. Grep for the mugshot/color problems the checker cannot see:
    `grep -n "showmugshot\|clearmugshot\|closemessage\|textcolor\|msgbox\|release" <file>`
-   Look for: `showmugshot` with no `clearmugshot` on some path; multiple `msgbox` calls after one `showmugshot` with a `closemessage` in between (portrait lost); missing `textcolor` before a speaking mugshot; the wrong color for the speaker; a lock without a release.
+   Look for: `showmugshot` with no `clearmugshot` on some path; a `msgbox` after a `closemessage` with no `setspeaker`/`showmugshot` before it (no name plate); a speaker with a plate but the wrong name or side; missing `textcolor` before a speaking mugshot; the wrong color for the speaker; a lock without a release.
 3. Fix the issues, or if the fix is a design choice (e.g. whether a line should keep its portrait), list it and ask.
 
 Prefer the smallest change that fixes a problem, keep the author's wording, and flag typos rather than silently rewriting lines.
