@@ -257,63 +257,84 @@ SaffronCity_EventScript_AgathaAmbushTrigger::
 # 151 "data/maps/SaffronCity/scripts.pory"
 	setflag B_FLAG_NO_WHITEOUT
 # 152 "data/maps/SaffronCity/scripts.pory"
-	trainerbattle_no_intro TRAINER_AGATHA_SILPH, SaffronCity_Text_AgathaAmbushDefeat
-# 153 "data/maps/SaffronCity/scripts.pory"
-	clearflag FLAG_SCALE_BOSS_BATTLE
+	compare VAR_STARTER_MON, 0
+	goto_if_eq SaffronCity_EventScript_AgathaAmbushTrigger_2
+# 152 "data/maps/SaffronCity/scripts.pory"
+	goto_if_set FLAG_0x8D7, SaffronCity_EventScript_AgathaAmbushTrigger_2
 # 154 "data/maps/SaffronCity/scripts.pory"
-	setvar VAR_SCALE_LEVEL_OFFSET, 0
-# 155 "data/maps/SaffronCity/scripts.pory"
-	clearflag B_FLAG_NO_WHITEOUT
-# 156 "data/maps/SaffronCity/scripts.pory"
-	special HealPlayerParty
+	compare VAR_STARTER_MON, 1
+	goto_if_eq SaffronCity_EventScript_AgathaAmbushTrigger_3
+# 154 "data/maps/SaffronCity/scripts.pory"
+	goto_if_set FLAG_0x8D8, SaffronCity_EventScript_AgathaAmbushTrigger_3
 # 157 "data/maps/SaffronCity/scripts.pory"
-	specialvar VAR_RESULT, GetBattleOutcome
-# 158 "data/maps/SaffronCity/scripts.pory"
-	showmugshot MUGSHOT_AGATHA, MUGSHOT_LEFT
-# 159 "data/maps/SaffronCity/scripts.pory"
-	textcolor NPC_TEXT_COLOR_FEMALE
-# 160 "data/maps/SaffronCity/scripts.pory"
-	compare VAR_RESULT, B_OUTCOME_WON
-	goto_if_ne SaffronCity_EventScript_AgathaAmbushTrigger_2
+	trainerbattle_no_intro TRAINER_AGATHA_SILPH_GROWLITHE, SaffronCity_Text_AgathaAmbushDefeat
 SaffronCity_EventScript_AgathaAmbushTrigger_1:
+# 159 "data/maps/SaffronCity/scripts.pory"
+	clearflag FLAG_SCALE_BOSS_BATTLE
+# 160 "data/maps/SaffronCity/scripts.pory"
+	setvar VAR_SCALE_LEVEL_OFFSET, 0
+# 161 "data/maps/SaffronCity/scripts.pory"
+	clearflag B_FLAG_NO_WHITEOUT
+# 162 "data/maps/SaffronCity/scripts.pory"
+	special HealPlayerParty
 # 163 "data/maps/SaffronCity/scripts.pory"
-	msgbox SaffronCity_Text_AgathaAmbushPostBattle
+	specialvar VAR_RESULT, GetBattleOutcome
 # 164 "data/maps/SaffronCity/scripts.pory"
-	closemessage
+	showmugshot MUGSHOT_AGATHA, MUGSHOT_LEFT
 # 165 "data/maps/SaffronCity/scripts.pory"
-	clearmugshot
+	textcolor NPC_TEXT_COLOR_FEMALE
 # 166 "data/maps/SaffronCity/scripts.pory"
-	playbgm MUS_RIVAL_EXIT, 0
-# 167 "data/maps/SaffronCity/scripts.pory"
-	applymovement 9, SaffronCity_Movement_AgathaAmbushExit
-# 168 "data/maps/SaffronCity/scripts.pory"
-	waitmovement 0
+	compare VAR_RESULT, B_OUTCOME_WON
+	goto_if_ne SaffronCity_EventScript_AgathaAmbushTrigger_12
+SaffronCity_EventScript_AgathaAmbushTrigger_11:
 # 169 "data/maps/SaffronCity/scripts.pory"
-	removeobject 9
+	msgbox SaffronCity_Text_AgathaAmbushPostBattle
 # 170 "data/maps/SaffronCity/scripts.pory"
-	setflag FLAG_HIDE_SAFFRON_AGATHA_AMBUSH
+	closemessage
 # 171 "data/maps/SaffronCity/scripts.pory"
-	fadedefaultbgm
+	clearmugshot
 # 172 "data/maps/SaffronCity/scripts.pory"
-	setvar VAR_SCENE_SILPH, 4
+	playbgm MUS_RIVAL_EXIT, 0
 # 173 "data/maps/SaffronCity/scripts.pory"
+	applymovement 9, SaffronCity_Movement_AgathaAmbushExit
+# 174 "data/maps/SaffronCity/scripts.pory"
+	waitmovement 0
+# 175 "data/maps/SaffronCity/scripts.pory"
+	removeobject 9
+# 176 "data/maps/SaffronCity/scripts.pory"
+	setflag FLAG_HIDE_SAFFRON_AGATHA_AMBUSH
+# 177 "data/maps/SaffronCity/scripts.pory"
+	fadedefaultbgm
+# 178 "data/maps/SaffronCity/scripts.pory"
+	setvar VAR_SCENE_SILPH, 4
+# 179 "data/maps/SaffronCity/scripts.pory"
 	releaseall
 	end
 
 SaffronCity_EventScript_AgathaAmbushTrigger_2:
-# 161 "data/maps/SaffronCity/scripts.pory"
-	msgbox SaffronCity_Text_AgathaAmbushVictory
+# 153 "data/maps/SaffronCity/scripts.pory"
+	trainerbattle_no_intro TRAINER_AGATHA_SILPH_NIDORAN, SaffronCity_Text_AgathaAmbushDefeat
 	goto SaffronCity_EventScript_AgathaAmbushTrigger_1
 
+SaffronCity_EventScript_AgathaAmbushTrigger_3:
+# 155 "data/maps/SaffronCity/scripts.pory"
+	trainerbattle_no_intro TRAINER_AGATHA_SILPH_EXEGGCUTE, SaffronCity_Text_AgathaAmbushDefeat
+	goto SaffronCity_EventScript_AgathaAmbushTrigger_1
 
-# 177 "data/maps/SaffronCity/scripts.pory"
+SaffronCity_EventScript_AgathaAmbushTrigger_12:
+# 167 "data/maps/SaffronCity/scripts.pory"
+	msgbox SaffronCity_Text_AgathaAmbushVictory
+	goto SaffronCity_EventScript_AgathaAmbushTrigger_11
+
+
+# 183 "data/maps/SaffronCity/scripts.pory"
 SaffronCity_Movement_AgathaAmbushEnter:
-# 178 "data/maps/SaffronCity/scripts.pory"
+# 184 "data/maps/SaffronCity/scripts.pory"
 	walk_up
 	step_end
 
-# 181 "data/maps/SaffronCity/scripts.pory"
+# 187 "data/maps/SaffronCity/scripts.pory"
 SaffronCity_Movement_AgathaAmbushExit:
-# 182 "data/maps/SaffronCity/scripts.pory"
+# 188 "data/maps/SaffronCity/scripts.pory"
 	walk_down
 	step_end

@@ -210,6 +210,21 @@
       "trainer_sight_or_berry_tree_id": "0",
       "script": "VermilionCity_EventScript_PsyduckNPC",
       "flag": "0"
+    },
+    {
+      "local_id": "LOCALID_VERMILION_AGATHA",
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_AGATHA",
+      "x": 29,
+      "y": 0,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "0x0",
+      "flag": "FLAG_HIDE_VERMILION_AGATHA"
     }
   ],
   "warp_events": [
@@ -284,7 +299,35 @@
       "dest_warp_id": "1"
     }
   ],
-  "coord_events": [],
+  "coord_events": [
+    {
+      "type": "trigger",
+      "x": 28,
+      "y": 3,
+      "elevation": 3,
+      "var": "VAR_VERMILION_AGATHA_STATE",
+      "var_value": "0",
+      "script": "VermilionCity_EventScript_AgathaTriggerLeft"
+    },
+    {
+      "type": "trigger",
+      "x": 29,
+      "y": 3,
+      "elevation": 3,
+      "var": "VAR_VERMILION_AGATHA_STATE",
+      "var_value": "0",
+      "script": "VermilionCity_EventScript_AgathaTriggerMid"
+    },
+    {
+      "type": "trigger",
+      "x": 30,
+      "y": 3,
+      "elevation": 3,
+      "var": "VAR_VERMILION_AGATHA_STATE",
+      "var_value": "0",
+      "script": "VermilionCity_EventScript_AgathaTriggerRight"
+    }
+  ],
   "bg_events": [
     {
       "type": "sign",

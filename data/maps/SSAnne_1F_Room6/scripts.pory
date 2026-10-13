@@ -1,3 +1,6 @@
+const LOCALID_GROWLITHE = 2
+const LOCALID_NIDORAN_M = 3
+const LOCALID_EXEGGCUTE = 4
 const LOCALID_AGATHA = 6
 // 2. Map scripts table
 mapscripts SSAnne_1F_Room6_MapScripts {
@@ -54,19 +57,101 @@ script SSAnne_1F_Room6_EventScript_FinishStarterSelection{
     msgbox("Oh, no thanks, Professor.\p"
            "All of these ones look a bit too\n"
            "weak for me.\p"
-           "I'll go out and get one for myself.")
+           "I'll go out and catch one\n"
+           "for myself.")
     closemessage
     showmugshot(MUGSHOT_PROF_ARBOR, MUGSHOT_RIGHT)
     textcolor(NPC_TEXT_COLOR_MALE)
-    msgbox("Alright, don't take too long.")
+    msgbox("Now, Agatha, don't be reckless.\p"
+           "The wilds outside are dangerous,\n"
+           "and Silph expects both of my\l"
+           "assistants to carry a partner for\l"
+           "the field tests.\p"
+           "You are not setting foot off this\n"
+           "ship empty-handed. Take one.")
+    closemessage
+    showmugshot(MUGSHOT_AGATHA, MUGSHOT_LEFT)
+    textcolor(NPC_TEXT_COLOR_FEMALE)
+    msgbox("...Tch. Fine, if you're going to\n"
+           "insist, Professor.\p"
+           "I suppose I can take one off your\n"
+           "hands.")
+    closemessage
+    clearmugshot
+    applymovement(LOCALID_AGATHA, SSAnne_1F_Room6_Movement_Agatha_StepToTable)
+    waitmovement(0)
+    applymovement(OBJ_EVENT_ID_PLAYER, SSAnne_1F_Room6_Movement_Player_FaceUp)
+    waitmovement(0)
+    if (flag(FLAG_0x8D7)) {
+        setvar(VAR_STARTER_MON, 0)
+        showmugshot(MUGSHOT_AGATHA, MUGSHOT_LEFT)
+        textcolor(NPC_TEXT_COLOR_FEMALE)
+        msgbox("Sammy took the GROWLITHE, huh?\p"
+               "Fine, then I'll take this NIDORAN♂.\n"
+               "At least it looks like it has\l"
+               "some venom in it.")
+        closemessage
+        clearmugshot
+        textcolor(NPC_TEXT_COLOR_NEUTRAL)
+        playfanfare(MUS_OBTAIN_KEY_ITEM)
+        message("Agatha received NIDORAN♂\nfrom PROFESSOR ARBOR!")
+        waitmessage
+        waitfanfare
+        closemessage
+        removeobject(LOCALID_NIDORAN_M)
+        setflag(FLAG_0x8D8)
+    } elif (flag(FLAG_0x8D8)) {
+        setvar(VAR_STARTER_MON, 1)
+        showmugshot(MUGSHOT_AGATHA, MUGSHOT_LEFT)
+        textcolor(NPC_TEXT_COLOR_FEMALE)
+        msgbox("Sammy went with NIDORAN♂, huh?\p"
+               "Fine, then I'll take EXEGGCUTE.\n"
+               "Odd little thing, but I'll make\l"
+               "sure it learns how to fight.")
+        closemessage
+        clearmugshot
+        textcolor(NPC_TEXT_COLOR_NEUTRAL)
+        playfanfare(MUS_OBTAIN_KEY_ITEM)
+        message("Agatha received EXEGGCUTE\nfrom PROFESSOR ARBOR!")
+        waitmessage
+        waitfanfare
+        closemessage
+        removeobject(LOCALID_EXEGGCUTE)
+        setflag(FLAG_0x8D9)
+    } else {
+        setvar(VAR_STARTER_MON, 2)
+        showmugshot(MUGSHOT_AGATHA, MUGSHOT_LEFT)
+        textcolor(NPC_TEXT_COLOR_FEMALE)
+        msgbox("Sammy picked EXEGGCUTE, huh?\p"
+               "Fine, then I'll take GROWLITHE.\n"
+               "It looks fiery enough to keep\l"
+               "up with me.")
+        closemessage
+        clearmugshot
+        textcolor(NPC_TEXT_COLOR_NEUTRAL)
+        playfanfare(MUS_OBTAIN_KEY_ITEM)
+        message("Agatha received GROWLITHE\nfrom PROFESSOR ARBOR!")
+        waitmessage
+        waitfanfare
+        closemessage
+        removeobject(LOCALID_GROWLITHE)
+        setflag(FLAG_0x8D7)
+    }
+    applymovement(LOCALID_AGATHA, SSAnne_1F_Room6_Movement_Agatha_FaceDown)
+    waitmovement(0)
+    showmugshot(MUGSHOT_AGATHA, MUGSHOT_LEFT)
+    textcolor(NPC_TEXT_COLOR_FEMALE)
+    msgbox("Don't fall behind out there, Sammy!\n"
+           "I'll see you in Vermilion!")
     closemessage
     clearmugshot
     applymovement(LOCALID_AGATHA, SSMinnow_1F_Room6_Movement_Agatha_Leaves)
     waitmovement(0)
     removeobject(LOCALID_AGATHA)
     showmugshot(MUGSHOT_PROF_ARBOR, MUGSHOT_RIGHT)
+    textcolor(NPC_TEXT_COLOR_MALE)
     msgbox("She'll be fine. She always is.\p"
-    "Gather your things. I'll find you\n"
+           "Gather your things. I'll find you\n"
            "in the city once you're off the ship.")
     closemessage
     clearmugshot
@@ -111,8 +196,18 @@ movement SSMinnow_1F_Room6_Movement_Agatha {
     walk_right * 1       
     face_down
 }
+movement SSAnne_1F_Room6_Movement_Agatha_StepToTable {
+    walk_down
+    face_left
+}
+movement SSAnne_1F_Room6_Movement_Agatha_FaceDown {
+    face_down
+}
+movement SSAnne_1F_Room6_Movement_Player_FaceUp {
+    face_up
+}
 movement SSMinnow_1F_Room6_Movement_Agatha_Leaves {
-    walk_up * 1
+    walk_up * 2
     set_invisible        
 }
 
@@ -173,6 +268,7 @@ SSAnne_1F_Room6_EventScript_ChooseGrowlithe::
 	end
 
 SSAnne_1F_Room6_EventScript_GiveGrowlitheParty::
+	setvar VAR_STARTER_MON, 0
 	setflag FLAG_0x8D7
 	removeobject 2
 	playfanfare MUS_LEVEL_UP
@@ -188,6 +284,7 @@ SSAnne_1F_Room6_EventScript_GiveGrowlitheParty::
 	end
 
 SSAnne_1F_Room6_EventScript_GiveGrowlithePC::
+	setvar VAR_STARTER_MON, 0
 	setflag FLAG_0x8D7
 	removeobject 2
 	playfanfare MUS_LEVEL_UP
@@ -239,6 +336,7 @@ SSAnne_1F_Room6_EventScript_ChooseNidoranM::
 	end
 
 SSAnne_1F_Room6_EventScript_GiveNidoranMParty::
+	setvar VAR_STARTER_MON, 1
 	setflag FLAG_0x8D8
 	removeobject 3
 	playfanfare MUS_LEVEL_UP
@@ -254,6 +352,7 @@ SSAnne_1F_Room6_EventScript_GiveNidoranMParty::
 	end
 
 SSAnne_1F_Room6_EventScript_GiveNidoranMPC::
+	setvar VAR_STARTER_MON, 1
 	setflag FLAG_0x8D8
 	removeobject 3
 	playfanfare MUS_LEVEL_UP
@@ -305,6 +404,7 @@ SSAnne_1F_Room6_EventScript_ChooseExeggcute::
 	end
 
 SSAnne_1F_Room6_EventScript_GiveExeggcuteParty::
+	setvar VAR_STARTER_MON, 2
 	setflag FLAG_0x8D9
 	removeobject 4
 	playfanfare MUS_LEVEL_UP
@@ -320,6 +420,7 @@ SSAnne_1F_Room6_EventScript_GiveExeggcuteParty::
 	end
 
 SSAnne_1F_Room6_EventScript_GiveExeggcutePC::
+	setvar VAR_STARTER_MON, 2
 	setflag FLAG_0x8D9
 	removeobject 4
 	playfanfare MUS_LEVEL_UP

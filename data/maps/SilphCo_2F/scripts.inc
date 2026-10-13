@@ -167,68 +167,68 @@ SilphCoScientist_EventScript_ProtoballTurnIn::
 # 146 "data/maps/SilphCo_2F/scripts.pory"
 	specialvar VAR_RESULT, GetPlayerFacingDirection
 # 147 "data/maps/SilphCo_2F/scripts.pory"
-	compare VAR_RESULT, DIR_WEST
+	compare VAR_RESULT, DIR_NORTH
 	goto_if_eq SilphCoScientist_EventScript_ProtoballTurnIn_5
-# 150 "data/maps/SilphCo_2F/scripts.pory"
+# 149 "data/maps/SilphCo_2F/scripts.pory"
 	compare VAR_RESULT, DIR_SOUTH
 	goto_if_eq SilphCoScientist_EventScript_ProtoballTurnIn_6
-# 153 "data/maps/SilphCo_2F/scripts.pory"
-	compare VAR_RESULT, DIR_EAST
+# 151 "data/maps/SilphCo_2F/scripts.pory"
+	compare VAR_RESULT, DIR_WEST
 	goto_if_eq SilphCoScientist_EventScript_ProtoballTurnIn_7
-# 157 "data/maps/SilphCo_2F/scripts.pory"
-	applymovement OBJ_EVENT_ID_PLAYER, SilphCo_Movement_ToDoor
-# 158 "data/maps/SilphCo_2F/scripts.pory"
-	applymovement 1, SilphCo_Movement_ToDoor
+# 154 "data/maps/SilphCo_2F/scripts.pory"
+	applymovement OBJ_EVENT_ID_PLAYER, SilphCo_Movement_PlayerFacingEast
 SilphCoScientist_EventScript_ProtoballTurnIn_4:
-# 160 "data/maps/SilphCo_2F/scripts.pory"
+# 156 "data/maps/SilphCo_2F/scripts.pory"
+	applymovement 1, SilphCo_Movement_ToDoor
+# 157 "data/maps/SilphCo_2F/scripts.pory"
 	waitmovement 1
-# 161 "data/maps/SilphCo_2F/scripts.pory"
+# 158 "data/maps/SilphCo_2F/scripts.pory"
 	waitmovement OBJ_EVENT_ID_PLAYER
-# 162 "data/maps/SilphCo_2F/scripts.pory"
+# 159 "data/maps/SilphCo_2F/scripts.pory"
 	setflag FLAG_SILPH_2F_DOOR_1
-# 163 "data/maps/SilphCo_2F/scripts.pory"
+# 160 "data/maps/SilphCo_2F/scripts.pory"
 	call EventScript_Open2FDoor1
-# 164 "data/maps/SilphCo_2F/scripts.pory"
+# 161 "data/maps/SilphCo_2F/scripts.pory"
 	playse SE_UNLOCK
-# 165 "data/maps/SilphCo_2F/scripts.pory"
+# 162 "data/maps/SilphCo_2F/scripts.pory"
 	special DrawWholeMapView
-# 166 "data/maps/SilphCo_2F/scripts.pory"
+# 163 "data/maps/SilphCo_2F/scripts.pory"
 	waitse
-# 167 "data/maps/SilphCo_2F/scripts.pory"
+# 164 "data/maps/SilphCo_2F/scripts.pory"
 	applymovement 1, SilphCo_Movement_ToWorkbench
-# 168 "data/maps/SilphCo_2F/scripts.pory"
+# 165 "data/maps/SilphCo_2F/scripts.pory"
 	applymovement OBJ_EVENT_ID_PLAYER, SilphCo_Movement_PlayerToWorkbench
-# 169 "data/maps/SilphCo_2F/scripts.pory"
+# 166 "data/maps/SilphCo_2F/scripts.pory"
 	waitmovement 1
-# 170 "data/maps/SilphCo_2F/scripts.pory"
+# 167 "data/maps/SilphCo_2F/scripts.pory"
 	waitmovement OBJ_EVENT_ID_PLAYER
-# 171 "data/maps/SilphCo_2F/scripts.pory"
+# 168 "data/maps/SilphCo_2F/scripts.pory"
 	showmugshot MUGSHOT_PROF_ARBOR, MUGSHOT_RIGHT
-# 172 "data/maps/SilphCo_2F/scripts.pory"
+# 169 "data/maps/SilphCo_2F/scripts.pory"
 	textcolor NPC_TEXT_COLOR_MALE
-# 173 "data/maps/SilphCo_2F/scripts.pory"
+# 170 "data/maps/SilphCo_2F/scripts.pory"
 	msgbox SilphCoScientist_EventScript_ProtoballTurnIn_Text_3
-# 176 "data/maps/SilphCo_2F/scripts.pory"
+# 173 "data/maps/SilphCo_2F/scripts.pory"
 	removeitem ITEM_BLUE_APRICORN, 2
-# 177 "data/maps/SilphCo_2F/scripts.pory"
+# 174 "data/maps/SilphCo_2F/scripts.pory"
 	special UpgradeRedProtoballCaughtMons
-# 178 "data/maps/SilphCo_2F/scripts.pory"
+# 175 "data/maps/SilphCo_2F/scripts.pory"
 	msgbox SilphCoScientist_EventScript_ProtoballTurnIn_Text_4
-# 181 "data/maps/SilphCo_2F/scripts.pory"
+# 178 "data/maps/SilphCo_2F/scripts.pory"
 	closemessage
-# 182 "data/maps/SilphCo_2F/scripts.pory"
+# 179 "data/maps/SilphCo_2F/scripts.pory"
 	clearmugshot
-# 184 "data/maps/SilphCo_2F/scripts.pory"
+# 181 "data/maps/SilphCo_2F/scripts.pory"
 	setvar VAR_SCENE_SILPH, 3
-# 185 "data/maps/SilphCo_2F/scripts.pory"
+# 182 "data/maps/SilphCo_2F/scripts.pory"
 	setflag FLAG_QUEST_REDPROTOBALL_COMPLETED
-# 186 "data/maps/SilphCo_2F/scripts.pory"
+# 183 "data/maps/SilphCo_2F/scripts.pory"
 	quest_complete_toast
-# 187 "data/maps/SilphCo_2F/scripts.pory"
+# 184 "data/maps/SilphCo_2F/scripts.pory"
 	setflag FLAG_QUEST_SILPH_FOLLOWUP_ACTIVE
-# 188 "data/maps/SilphCo_2F/scripts.pory"
+# 185 "data/maps/SilphCo_2F/scripts.pory"
 	quest_start_toast
-# 189 "data/maps/SilphCo_2F/scripts.pory"
+# 186 "data/maps/SilphCo_2F/scripts.pory"
 	releaseall
 	end
 
@@ -249,143 +249,151 @@ SilphCoScientist_EventScript_ProtoballTurnIn_2:
 
 SilphCoScientist_EventScript_ProtoballTurnIn_5:
 # 148 "data/maps/SilphCo_2F/scripts.pory"
-	applymovement OBJ_EVENT_ID_PLAYER, SilphCo_Movement_FromEast
-# 149 "data/maps/SilphCo_2F/scripts.pory"
-	applymovement 1, SilphCo_Movement_ToDoor
+	applymovement OBJ_EVENT_ID_PLAYER, SilphCo_Movement_PlayerFacingNorth
 	goto SilphCoScientist_EventScript_ProtoballTurnIn_4
 
 SilphCoScientist_EventScript_ProtoballTurnIn_6:
-# 151 "data/maps/SilphCo_2F/scripts.pory"
-	applymovement OBJ_EVENT_ID_PLAYER, SilphCo_Movement_FromSouth
-# 152 "data/maps/SilphCo_2F/scripts.pory"
-	applymovement 1, SilphCo_Movement_ToDoor
+# 150 "data/maps/SilphCo_2F/scripts.pory"
+	applymovement OBJ_EVENT_ID_PLAYER, SilphCo_Movement_PlayerFacingSouth
 	goto SilphCoScientist_EventScript_ProtoballTurnIn_4
 
 SilphCoScientist_EventScript_ProtoballTurnIn_7:
-# 154 "data/maps/SilphCo_2F/scripts.pory"
-	applymovement OBJ_EVENT_ID_PLAYER, SilphCo_Movement_FromWest
-# 155 "data/maps/SilphCo_2F/scripts.pory"
-	applymovement 1, SilphCo_Movement_ToDoor
+# 152 "data/maps/SilphCo_2F/scripts.pory"
+	applymovement OBJ_EVENT_ID_PLAYER, SilphCo_Movement_PlayerFacingWest
 	goto SilphCoScientist_EventScript_ProtoballTurnIn_4
 
 
-# 193 "data/maps/SilphCo_2F/scripts.pory"
+# 190 "data/maps/SilphCo_2F/scripts.pory"
 SilphCo_Movement_ToDoor:
-# 194 "data/maps/SilphCo_2F/scripts.pory"
+# 191 "data/maps/SilphCo_2F/scripts.pory"
 	walk_down
-# 194 "data/maps/SilphCo_2F/scripts.pory"
+# 191 "data/maps/SilphCo_2F/scripts.pory"
 	walk_down
-# 194 "data/maps/SilphCo_2F/scripts.pory"
+# 191 "data/maps/SilphCo_2F/scripts.pory"
 	walk_down
-# 195 "data/maps/SilphCo_2F/scripts.pory"
+# 192 "data/maps/SilphCo_2F/scripts.pory"
 	delay_16
 	step_end
 
-# 198 "data/maps/SilphCo_2F/scripts.pory"
+# 195 "data/maps/SilphCo_2F/scripts.pory"
 SilphCo_Movement_ToWorkbench:
-# 199 "data/maps/SilphCo_2F/scripts.pory"
+# 196 "data/maps/SilphCo_2F/scripts.pory"
 	walk_down
-# 199 "data/maps/SilphCo_2F/scripts.pory"
+# 196 "data/maps/SilphCo_2F/scripts.pory"
 	walk_down
-# 199 "data/maps/SilphCo_2F/scripts.pory"
+# 196 "data/maps/SilphCo_2F/scripts.pory"
 	walk_down
-# 199 "data/maps/SilphCo_2F/scripts.pory"
+# 196 "data/maps/SilphCo_2F/scripts.pory"
 	walk_down
-# 199 "data/maps/SilphCo_2F/scripts.pory"
+# 196 "data/maps/SilphCo_2F/scripts.pory"
 	walk_down
-# 199 "data/maps/SilphCo_2F/scripts.pory"
+# 196 "data/maps/SilphCo_2F/scripts.pory"
 	walk_down
-# 199 "data/maps/SilphCo_2F/scripts.pory"
+# 196 "data/maps/SilphCo_2F/scripts.pory"
 	walk_down
-# 200 "data/maps/SilphCo_2F/scripts.pory"
+# 197 "data/maps/SilphCo_2F/scripts.pory"
 	walk_right
-# 200 "data/maps/SilphCo_2F/scripts.pory"
+# 197 "data/maps/SilphCo_2F/scripts.pory"
 	walk_right
-# 200 "data/maps/SilphCo_2F/scripts.pory"
+# 197 "data/maps/SilphCo_2F/scripts.pory"
 	walk_right
-# 200 "data/maps/SilphCo_2F/scripts.pory"
+# 197 "data/maps/SilphCo_2F/scripts.pory"
 	walk_right
-# 200 "data/maps/SilphCo_2F/scripts.pory"
+# 197 "data/maps/SilphCo_2F/scripts.pory"
 	walk_right
-# 200 "data/maps/SilphCo_2F/scripts.pory"
+# 197 "data/maps/SilphCo_2F/scripts.pory"
 	walk_right
-# 201 "data/maps/SilphCo_2F/scripts.pory"
+# 198 "data/maps/SilphCo_2F/scripts.pory"
 	face_down
-# 202 "data/maps/SilphCo_2F/scripts.pory"
+# 199 "data/maps/SilphCo_2F/scripts.pory"
 	delay_16
-# 202 "data/maps/SilphCo_2F/scripts.pory"
+# 199 "data/maps/SilphCo_2F/scripts.pory"
 	delay_16
-# 202 "data/maps/SilphCo_2F/scripts.pory"
+# 199 "data/maps/SilphCo_2F/scripts.pory"
 	delay_16
-# 202 "data/maps/SilphCo_2F/scripts.pory"
+# 199 "data/maps/SilphCo_2F/scripts.pory"
 	delay_16
-# 203 "data/maps/SilphCo_2F/scripts.pory"
+# 200 "data/maps/SilphCo_2F/scripts.pory"
 	face_left
 	step_end
 
-# 206 "data/maps/SilphCo_2F/scripts.pory"
-SilphCo_Movement_FromEast:
-# 207 "data/maps/SilphCo_2F/scripts.pory"
+# 203 "data/maps/SilphCo_2F/scripts.pory"
+SilphCo_Movement_PlayerFacingNorth:
+# 204 "data/maps/SilphCo_2F/scripts.pory"
 	walk_left
-# 208 "data/maps/SilphCo_2F/scripts.pory"
+# 205 "data/maps/SilphCo_2F/scripts.pory"
 	walk_down
+# 206 "data/maps/SilphCo_2F/scripts.pory"
+	walk_right
+# 207 "data/maps/SilphCo_2F/scripts.pory"
+	face_down
 # 208 "data/maps/SilphCo_2F/scripts.pory"
-	walk_down
-# 209 "data/maps/SilphCo_2F/scripts.pory"
 	delay_16
 	step_end
 
+# 211 "data/maps/SilphCo_2F/scripts.pory"
+SilphCo_Movement_PlayerFacingSouth:
 # 212 "data/maps/SilphCo_2F/scripts.pory"
-SilphCo_Movement_FromWest:
+	delay_16
 # 213 "data/maps/SilphCo_2F/scripts.pory"
-	walk_right
-# 214 "data/maps/SilphCo_2F/scripts.pory"
 	walk_down
-# 214 "data/maps/SilphCo_2F/scripts.pory"
+# 213 "data/maps/SilphCo_2F/scripts.pory"
 	walk_down
-# 215 "data/maps/SilphCo_2F/scripts.pory"
-	delay_16
+# 213 "data/maps/SilphCo_2F/scripts.pory"
+	walk_down
 	step_end
 
+# 216 "data/maps/SilphCo_2F/scripts.pory"
+SilphCo_Movement_PlayerFacingWest:
+# 217 "data/maps/SilphCo_2F/scripts.pory"
+	delay_16
 # 218 "data/maps/SilphCo_2F/scripts.pory"
-SilphCo_Movement_FromSouth:
+	walk_left
 # 219 "data/maps/SilphCo_2F/scripts.pory"
-	slide_left
-# 220 "data/maps/SilphCo_2F/scripts.pory"
-	walk_right
-# 221 "data/maps/SilphCo_2F/scripts.pory"
 	walk_down
-# 222 "data/maps/SilphCo_2F/scripts.pory"
-	delay_16
+# 219 "data/maps/SilphCo_2F/scripts.pory"
+	walk_down
 	step_end
 
+# 222 "data/maps/SilphCo_2F/scripts.pory"
+SilphCo_Movement_PlayerFacingEast:
+# 223 "data/maps/SilphCo_2F/scripts.pory"
+	delay_16
+# 224 "data/maps/SilphCo_2F/scripts.pory"
+	walk_right
 # 225 "data/maps/SilphCo_2F/scripts.pory"
+	walk_down
+# 225 "data/maps/SilphCo_2F/scripts.pory"
+	walk_down
+	step_end
+
+# 228 "data/maps/SilphCo_2F/scripts.pory"
 SilphCo_Movement_PlayerToWorkbench:
-# 226 "data/maps/SilphCo_2F/scripts.pory"
+# 229 "data/maps/SilphCo_2F/scripts.pory"
 	walk_down
-# 226 "data/maps/SilphCo_2F/scripts.pory"
+# 229 "data/maps/SilphCo_2F/scripts.pory"
 	walk_down
-# 226 "data/maps/SilphCo_2F/scripts.pory"
+# 229 "data/maps/SilphCo_2F/scripts.pory"
 	walk_down
-# 226 "data/maps/SilphCo_2F/scripts.pory"
+# 229 "data/maps/SilphCo_2F/scripts.pory"
 	walk_down
-# 226 "data/maps/SilphCo_2F/scripts.pory"
+# 229 "data/maps/SilphCo_2F/scripts.pory"
 	walk_down
-# 226 "data/maps/SilphCo_2F/scripts.pory"
+# 229 "data/maps/SilphCo_2F/scripts.pory"
 	walk_down
-# 226 "data/maps/SilphCo_2F/scripts.pory"
+# 229 "data/maps/SilphCo_2F/scripts.pory"
 	walk_down
-# 226 "data/maps/SilphCo_2F/scripts.pory"
+# 229 "data/maps/SilphCo_2F/scripts.pory"
 	walk_down
-# 227 "data/maps/SilphCo_2F/scripts.pory"
+# 230 "data/maps/SilphCo_2F/scripts.pory"
 	walk_right
-# 227 "data/maps/SilphCo_2F/scripts.pory"
+# 230 "data/maps/SilphCo_2F/scripts.pory"
 	walk_right
-# 227 "data/maps/SilphCo_2F/scripts.pory"
+# 230 "data/maps/SilphCo_2F/scripts.pory"
 	walk_right
-# 227 "data/maps/SilphCo_2F/scripts.pory"
+# 230 "data/maps/SilphCo_2F/scripts.pory"
 	walk_right
-# 227 "data/maps/SilphCo_2F/scripts.pory"
+# 230 "data/maps/SilphCo_2F/scripts.pory"
 	walk_right
 	step_end
 
@@ -466,13 +474,13 @@ SilphCoScientist_EventScript_ProtoballTurnIn_Text_2:
 	.string "Come with me.$"
 
 SilphCoScientist_EventScript_ProtoballTurnIn_Text_3:
-# 173 "data/maps/SilphCo_2F/scripts.pory"
+# 170 "data/maps/SilphCo_2F/scripts.pory"
 	.string "While we've got you here, let's\n"
 	.string "upgrade those PROTOBALLS with what\l"
 	.string "we learned from the field test.$"
 
 SilphCoScientist_EventScript_ProtoballTurnIn_Text_4:
-# 178 "data/maps/SilphCo_2F/scripts.pory"
+# 175 "data/maps/SilphCo_2F/scripts.pory"
 	.string "There - those are BLU PROTOBALLS\n"
 	.string "now. Should hold up against\l"
 	.string "tougher Pokemon.$"

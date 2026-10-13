@@ -274,6 +274,46 @@ HauntedWoods_EventScript_FlashlightTrainer::
 	end
 
 
+HauntedWoods_EventScript_FlashlightTrainerWes::
+# 306 "data/maps/HauntedWoods/scripts.pory"
+	trainerbattle_single TRAINER_PSYCHIC_WES, HauntedWoods_Text_FlashlightTrainerWesIntro, HauntedWoods_Text_FlashlightTrainerWesDefeat
+# 307 "data/maps/HauntedWoods/scripts.pory"
+	msgbox HauntedWoods_Text_FlashlightTrainerWesPostBattle, MSGBOX_AUTOCLOSE
+	end
+
+
+HauntedWoods_EventScript_FlashlightTrainerIrene::
+# 329 "data/maps/HauntedWoods/scripts.pory"
+	trainerbattle_single TRAINER_CHANNELER_IRENE, HauntedWoods_Text_FlashlightTrainerIreneIntro, HauntedWoods_Text_FlashlightTrainerIreneDefeat
+# 330 "data/maps/HauntedWoods/scripts.pory"
+	msgbox HauntedWoods_Text_FlashlightTrainerIrenePostBattle, MSGBOX_AUTOCLOSE
+	end
+
+
+HauntedWoods_EventScript_FlashlightTrainerTodd::
+# 352 "data/maps/HauntedWoods/scripts.pory"
+	trainerbattle_single TRAINER_CAMPER_TODD, HauntedWoods_Text_FlashlightTrainerToddIntro, HauntedWoods_Text_FlashlightTrainerToddDefeat
+# 353 "data/maps/HauntedWoods/scripts.pory"
+	msgbox HauntedWoods_Text_FlashlightTrainerToddPostBattle, MSGBOX_AUTOCLOSE
+	end
+
+
+HauntedWoods_EventScript_FlashlightTrainerMiles::
+# 375 "data/maps/HauntedWoods/scripts.pory"
+	trainerbattle_single TRAINER_BUG_CATCHER_MILES, HauntedWoods_Text_FlashlightTrainerMilesIntro, HauntedWoods_Text_FlashlightTrainerMilesDefeat
+# 376 "data/maps/HauntedWoods/scripts.pory"
+	msgbox HauntedWoods_Text_FlashlightTrainerMilesPostBattle, MSGBOX_AUTOCLOSE
+	end
+
+
+HauntedWoods_EventScript_FlashlightTrainerRosa::
+# 398 "data/maps/HauntedWoods/scripts.pory"
+	trainerbattle_single TRAINER_CHANNELER_ROSA, HauntedWoods_Text_FlashlightTrainerRosaIntro, HauntedWoods_Text_FlashlightTrainerRosaDefeat
+# 399 "data/maps/HauntedWoods/scripts.pory"
+	msgbox HauntedWoods_Text_FlashlightTrainerRosaPostBattle, MSGBOX_AUTOCLOSE
+	end
+
+
 HauntedWoods_Text_KeeperIntro::
 # 85 "data/maps/HauntedWoods/scripts.pory"
 	.string "I keep vigil over this spectral\n"
@@ -435,3 +475,74 @@ HauntedWoods_Text_FlashlightTrainerPostBattle::
 	.string "It's dangerous to explore the woods\n"
 	.string "without a light.\p"
 	.string "Keep your wits about you!$"
+
+HauntedWoods_Text_FlashlightTrainerWesIntro::
+# 312 "data/maps/HauntedWoods/scripts.pory"
+	.string "Click!\n"
+	.string "My flashlight found you!$"
+
+HauntedWoods_Text_FlashlightTrainerWesDefeat::
+# 318 "data/maps/HauntedWoods/scripts.pory"
+	.string "My Kadabra didn't see that coming!$"
+
+HauntedWoods_Text_FlashlightTrainerWesPostBattle::
+# 323 "data/maps/HauntedWoods/scripts.pory"
+	.string "These woods play tricks on the mind\n"
+	.string "without a light to guide you.$"
+
+HauntedWoods_Text_FlashlightTrainerIreneIntro::
+# 335 "data/maps/HauntedWoods/scripts.pory"
+	.string "Click!\n"
+	.string "My beam caught your shadow!$"
+
+HauntedWoods_Text_FlashlightTrainerIreneDefeat::
+# 341 "data/maps/HauntedWoods/scripts.pory"
+	.string "My Shuppet has faded away...$"
+
+HauntedWoods_Text_FlashlightTrainerIrenePostBattle::
+# 346 "data/maps/HauntedWoods/scripts.pory"
+	.string "Spirits linger in this fog.\n"
+	.string "Keep your light close.$"
+
+HauntedWoods_Text_FlashlightTrainerToddIntro::
+# 358 "data/maps/HauntedWoods/scripts.pory"
+	.string "Click!\n"
+	.string "Gotcha! Nowhere to hide now!$"
+
+HauntedWoods_Text_FlashlightTrainerToddDefeat::
+# 364 "data/maps/HauntedWoods/scripts.pory"
+	.string "My Nuzleaf got knocked flat!$"
+
+HauntedWoods_Text_FlashlightTrainerToddPostBattle::
+# 369 "data/maps/HauntedWoods/scripts.pory"
+	.string "Camping out here gets eerie once\n"
+	.string "the sun goes down.$"
+
+HauntedWoods_Text_FlashlightTrainerMilesIntro::
+# 381 "data/maps/HauntedWoods/scripts.pory"
+	.string "Click!\n"
+	.string "Caught something better than a bug!$"
+
+HauntedWoods_Text_FlashlightTrainerMilesDefeat::
+# 387 "data/maps/HauntedWoods/scripts.pory"
+	.string "My Ariados got tangled up in that!$"
+
+HauntedWoods_Text_FlashlightTrainerMilesPostBattle::
+# 392 "data/maps/HauntedWoods/scripts.pory"
+	.string "Bugs love this misty place.\n"
+	.string "So do worse things, though...$"
+
+HauntedWoods_Text_FlashlightTrainerRosaIntro::
+# 404 "data/maps/HauntedWoods/scripts.pory"
+	.string "Click!\n"
+	.string "I can see you clear as day now!$"
+
+HauntedWoods_Text_FlashlightTrainerRosaDefeat::
+# 410 "data/maps/HauntedWoods/scripts.pory"
+	.string "My Haunter slipped back into\n"
+	.string "the shadows...$"
+
+HauntedWoods_Text_FlashlightTrainerRosaPostBattle::
+# 416 "data/maps/HauntedWoods/scripts.pory"
+	.string "The dead rest uneasy here.\n"
+	.string "Don't linger too long.$"

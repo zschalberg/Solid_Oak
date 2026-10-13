@@ -63,7 +63,7 @@ static bool32 IsSpeciesBabyMon(enum Species species)
         && !info->isMythical;
 }
 
-static enum Species GetFamilyBaseSpecies(enum Species species)
+enum Species GetFamilyBaseSpecies(enum Species species)
 {
     enum Species baseSpecies = GET_BASE_SPECIES_ID(species);
     enum Species preEvo;

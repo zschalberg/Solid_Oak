@@ -149,7 +149,13 @@ script SaffronCity_EventScript_AgathaAmbushTrigger {
     setflag(FLAG_SCALE_BOSS_BATTLE)
     setvar(VAR_SCALE_LEVEL_OFFSET, -1)
     setflag(B_FLAG_NO_WHITEOUT)
-    trainerbattle_no_intro(TRAINER_AGATHA_SILPH, SaffronCity_Text_AgathaAmbushDefeat)
+    if (var(VAR_STARTER_MON) == 0 || flag(FLAG_0x8D7)) {
+        trainerbattle_no_intro(TRAINER_AGATHA_SILPH_NIDORAN, SaffronCity_Text_AgathaAmbushDefeat)
+    } elif (var(VAR_STARTER_MON) == 1 || flag(FLAG_0x8D8)) {
+        trainerbattle_no_intro(TRAINER_AGATHA_SILPH_EXEGGCUTE, SaffronCity_Text_AgathaAmbushDefeat)
+    } else {
+        trainerbattle_no_intro(TRAINER_AGATHA_SILPH_GROWLITHE, SaffronCity_Text_AgathaAmbushDefeat)
+    }
     clearflag(FLAG_SCALE_BOSS_BATTLE)
     setvar(VAR_SCALE_LEVEL_OFFSET, 0)
     clearflag(B_FLAG_NO_WHITEOUT)

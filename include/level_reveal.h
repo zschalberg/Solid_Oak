@@ -13,6 +13,7 @@ enum LevelRevealTier
 };
 
 u8 GetLevelRevealTier(u16 species, bool32 isPlayerMon);
+void RecordMonRaised(struct Pokemon *mon);
 u8 *BufferRevealedLevel(u8 *dest, u16 species, u32 personality, u8 level, u8 tier, bool32 withLvPrefix);
 u8 *BufferStrengthHint(u8 *dest, u8 level, u8 compareLevel);
 

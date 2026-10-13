@@ -540,7 +540,7 @@
 #define FLAG_HIDE_FUCHSIA_FUJI             0x206
 #define FLAG_HIDE_FUCHSIA_AGATHA           0x207
 #define FLAG_DOJO_AKIO_DEFEATED          0x208
-#define FLAG_0x209               0x209
+#define FLAG_HIDE_VERMILION_AGATHA         0x209
 #define FLAG_HIDE_LAVENDER_FUJI               0x20A
 #define FLAG_ZONE_1_RESOLVED             0x20B
 #define FLAG_0x20C               0x20C
@@ -1312,7 +1312,7 @@
 #define FLAG_DOJO_SAFFRON_WHITE_REWARD   0x4F0
 #define FLAG_DOJO_SAFFRON_BLUE_REWARD    0x4F1
 #define FLAG_DOJO_SAFFRON_BLACK_REWARD   0x4F2
-#define FLAG_0x4F3               0x4F3
+#define FLAG_DEFEATED_AGATHA_VERMILION   0x4F3
 #define FLAG_0x4F4               0x4F4
 #define FLAG_0x4F5               0x4F5
 #define FLAG_0x4F6               0x4F6

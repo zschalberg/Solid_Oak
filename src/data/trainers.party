@@ -653,8 +653,8 @@ IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
  * ============================================================================
  */
 
-/* Agatha (Saffron City / Silph Co. Ambush) */
-=== TRAINER_AGATHA_SILPH ===
+/* Agatha (Vermilion City - Route 6 North Exit) */
+=== TRAINER_AGATHA_VERMILION_NIDORAN ===
 Name: AGATHA
 Class: Rival
 Pic: Elite Four Agatha
@@ -663,15 +663,62 @@ Music: Female
 Double Battle: No
 AI: Check Bad Move / Try To Faint / Check Viability
 
-Gastly
+Nidoran M
+Level: 5
+IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+- Leer
+- Tackle
+
+=== TRAINER_AGATHA_VERMILION_EXEGGCUTE ===
+Name: AGATHA
+Class: Rival
+Pic: Elite Four Agatha
+Gender: Female
+Music: Female
+Double Battle: No
+AI: Check Bad Move / Try To Faint / Check Viability
+
+Exeggcute
+Level: 5
+IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+- Barrage
+- Hypnosis
+
+=== TRAINER_AGATHA_VERMILION_GROWLITHE ===
+Name: AGATHA
+Class: Rival
+Pic: Elite Four Agatha
+Gender: Female
+Music: Female
+Double Battle: No
+AI: Check Bad Move / Try To Faint / Check Viability
+
+Growlithe
+Level: 5
+IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+- Ember
+- Leer
+- Growl
+
+/* Agatha (Saffron City / Silph Co. Ambush) */
+=== TRAINER_AGATHA_SILPH_NIDORAN ===
+Name: AGATHA
+Class: Rival
+Pic: Elite Four Agatha
+Gender: Female
+Music: Female
+Double Battle: No
+AI: Check Bad Move / Try To Faint / Check Viability
+
+Nidoran M
 Level: 20
 IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
-- Lick
-- Hypnosis
-- Night Shade
-- Curse
+- Horn Attack
+- Poison Sting
+- Double Kick
+- Focus Energy
 
-Nincada 
+Nincada
 Level: 20
 IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
 - Protect
@@ -686,6 +733,73 @@ IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
 - Toxic
 - Quick Attack
 - Dig
+
+=== TRAINER_AGATHA_SILPH_EXEGGCUTE ===
+Name: AGATHA
+Class: Rival
+Pic: Elite Four Agatha
+Gender: Female
+Music: Female
+Double Battle: No
+AI: Check Bad Move / Try To Faint / Check Viability
+
+Exeggcute
+Level: 20
+IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+- Barrage
+- Hypnosis
+- Leech Seed
+- Reflect
+
+Nincada
+Level: 20
+IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+- Protect
+- Leech Life
+- Sand Attack
+- Shadow Ball
+
+Cyndaquil
+Level: 20
+IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+- Flame Wheel
+- Toxic
+- Quick Attack
+- Dig
+
+=== TRAINER_AGATHA_SILPH_GROWLITHE ===
+Name: AGATHA
+Class: Rival
+Pic: Elite Four Agatha
+Gender: Female
+Music: Female
+Double Battle: No
+AI: Check Bad Move / Try To Faint / Check Viability
+
+Growlithe
+Level: 20
+IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+- Ember
+- Bite
+- Roar
+- Leer
+
+Nincada
+Level: 20
+IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+- Protect
+- Leech Life
+- Sand Attack
+- Shadow Ball
+
+Cyndaquil
+Level: 20
+IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+- Flame Wheel
+- Toxic
+- Quick Attack
+- Dig
+
 
 
 /* Agatha (Elite Four - First Battle) */
@@ -1710,5 +1824,138 @@ Double Battle: No
 AI: Check Bad Move
 
 Ekans
+Level: 15
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+/* Flashlight Trainer (Psychic) at (37, 8) | Companion: OW_MON at (37, 9) */
+=== TRAINER_PSYCHIC_WES ===
+Name: WES
+Class: Psychic
+Pic: Psychic M
+Gender: Male
+Music: Male
+Double Battle: No
+AI: Check Bad Move
+
+Kadabra
+Level: 15
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+/* Flashlight Trainer (Channeler) at (25, 18) | Companion: OW_MON at (25, 17) */
+=== TRAINER_CHANNELER_IRENE ===
+Name: IRENE
+Class: Channeler
+Pic: Channeler
+Gender: Female
+Music: Female
+Double Battle: No
+AI: Check Bad Move
+
+Shuppet
+Level: 15
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+/* Flashlight Trainer (Camper) at (15, 36) | Companion: OW_MON at (15, 35) */
+=== TRAINER_CAMPER_TODD ===
+Name: TODD
+Class: Camper
+Pic: Camper
+Gender: Male
+Music: Male
+Double Battle: No
+AI: Check Bad Move
+
+Nuzleaf
+Level: 15
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+/* Flashlight Trainer (Bug Catcher) at (13, 21) | Companion: OW_MON at (13, 20) */
+=== TRAINER_BUG_CATCHER_MILES ===
+Name: MILES
+Class: Bug Catcher
+Pic: Bug Catcher
+Gender: Male
+Music: Male
+Double Battle: No
+AI: Check Bad Move
+
+Ariados
+Level: 15
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+/* Flashlight Trainer (Channeler) at (14, 6) | Companion: OW_MON at (13, 6) */
+=== TRAINER_CHANNELER_ROSA ===
+Name: ROSA
+Class: Channeler
+Pic: Channeler
+Gender: Female
+Music: Female
+Double Battle: No
+AI: Check Bad Move
+
+Haunter
+Level: 15
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+/*
+ * ============================================================================
+ * LAVENDER CEMETARY 
+ * East of Lavendar, replaces Lavendar Tower
+ * ============================================================================
+ */
+
+ /* JOHN (Bug Catcher) at (3, 25) | Companion: OW_MON at (3, 26) */
+=== TRAINER_BUG_CATCHER_JOHN ===
+Name: JOHN
+Class: Bug Catcher
+Pic: Bug Catcher
+Gender: Male
+Music: Male
+Double Battle: No
+AI: Check Bad Move
+
+Nincada
+Level: 15
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+ /* JACOB (Gentleman) at (3, 25) | Companion: OW_MON at (3, 26) */
+=== TRAINER_GENTLEMAN_JACOB ===
+Name: JACOB
+Class: Gentleman
+Pic: Gentleman
+Gender: Male
+Music: Male
+Double Battle: No
+AI: Check Bad Move
+
+Houndour
+Level: 15
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+ /* SCHMIDT (Psychic) at (3, 25) | Companion: OW_MON at (3, 26) */
+=== TRAINER_PSYCHIC_SCHMIDT ===
+Name: SCHMIDT
+Class: Psychic
+Pic: Psychic M
+Gender: Male
+Music: Male
+Double Battle: No
+AI: Check Bad Move
+
+Kadabra
+Level: 16
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+/* DALE (Camper) at (15, 14) | Companion: OW_MON at (16, 14) */
+=== TRAINER_CAMPER_DALE ===
+Name: DALE
+Class: Camper
+Pic: Camper
+Gender: Male
+Music: Male
+Double Battle: No
+AI: Check Bad Move
+
+Spinda
 Level: 15
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe

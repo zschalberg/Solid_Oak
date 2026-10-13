@@ -12,6 +12,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Never commit unless explicitly told to. Follow `pret/pokefirered` formatting conventions and keep existing comments. When a request is ambiguous, ask rather than guess (from `.agents/AGENTS.md`).
 
+### Dialogue & AI Decisions (Placeholders)
+- **AI-generated dialogue is strictly placeholder**: Whenever Claude/AI writes, drafts, or makes decisions on dialogue, NPC speech, quest text, flavor text, or storyline elements, treat it purely as a temporary placeholder. Final creative decisions are left to the human developer.
+- **Consistent Tagging Pattern**: Flag every AI-authored or AI-decided dialogue line or text block with the exact tag `[AI-DIALOG]`:
+  - In Poryscript (`.pory`) and C (`.c`): `// TODO: [AI-DIALOG] <optional context/note>`
+  - In ASM (`.inc`, `.s`): `@ TODO: [AI-DIALOG] <optional context/note>`
+- **Filterable / Searchable**: Always use the exact tag `[AI-DIALOG]` so placeholders can be reliably filtered across the codebase (e.g. `git grep "\[AI-DIALOG\]"`).
+- **Other AI Decisions**: For any other non-dialogue design decisions made by the AI that require human review, flag them with `// TODO: [AI-DECISION] <context>`.
+
 ```bash
 # Standard build (primary target)
 make firered

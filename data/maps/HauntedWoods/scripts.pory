@@ -302,4 +302,120 @@ text HauntedWoods_Text_FlashlightTrainerPostBattle {
     "Keep your wits about you!"
 }
 
+script HauntedWoods_EventScript_FlashlightTrainerWes {
+    trainerbattle_single(TRAINER_PSYCHIC_WES, HauntedWoods_Text_FlashlightTrainerWesIntro, HauntedWoods_Text_FlashlightTrainerWesDefeat)
+    msgbox(HauntedWoods_Text_FlashlightTrainerWesPostBattle, MSGBOX_AUTOCLOSE)
+    end
+}
+
+// TODO: [AI-DIALOG] placeholder trainer dialogue, pending final writing
+text HauntedWoods_Text_FlashlightTrainerWesIntro {
+    "Click!\n"
+    "My flashlight found you!"
+}
+
+// TODO: [AI-DIALOG] placeholder trainer dialogue, pending final writing
+text HauntedWoods_Text_FlashlightTrainerWesDefeat {
+    "My Kadabra didn't see that coming!"
+}
+
+// TODO: [AI-DIALOG] placeholder trainer dialogue, pending final writing
+text HauntedWoods_Text_FlashlightTrainerWesPostBattle {
+    "These woods play tricks on the mind\n"
+    "without a light to guide you."
+}
+
+script HauntedWoods_EventScript_FlashlightTrainerIrene {
+    trainerbattle_single(TRAINER_CHANNELER_IRENE, HauntedWoods_Text_FlashlightTrainerIreneIntro, HauntedWoods_Text_FlashlightTrainerIreneDefeat)
+    msgbox(HauntedWoods_Text_FlashlightTrainerIrenePostBattle, MSGBOX_AUTOCLOSE)
+    end
+}
+
+// TODO: [AI-DIALOG] placeholder trainer dialogue, pending final writing
+text HauntedWoods_Text_FlashlightTrainerIreneIntro {
+    "Click!\n"
+    "My beam caught your shadow!"
+}
+
+// TODO: [AI-DIALOG] placeholder trainer dialogue, pending final writing
+text HauntedWoods_Text_FlashlightTrainerIreneDefeat {
+    "My Shuppet has faded away..."
+}
+
+// TODO: [AI-DIALOG] placeholder trainer dialogue, pending final writing
+text HauntedWoods_Text_FlashlightTrainerIrenePostBattle {
+    "Spirits linger in this fog.\n"
+    "Keep your light close."
+}
+
+script HauntedWoods_EventScript_FlashlightTrainerTodd {
+    trainerbattle_single(TRAINER_CAMPER_TODD, HauntedWoods_Text_FlashlightTrainerToddIntro, HauntedWoods_Text_FlashlightTrainerToddDefeat)
+    msgbox(HauntedWoods_Text_FlashlightTrainerToddPostBattle, MSGBOX_AUTOCLOSE)
+    end
+}
+
+// TODO: [AI-DIALOG] placeholder trainer dialogue, pending final writing
+text HauntedWoods_Text_FlashlightTrainerToddIntro {
+    "Click!\n"
+    "Gotcha! Nowhere to hide now!"
+}
+
+// TODO: [AI-DIALOG] placeholder trainer dialogue, pending final writing
+text HauntedWoods_Text_FlashlightTrainerToddDefeat {
+    "My Nuzleaf got knocked flat!"
+}
+
+// TODO: [AI-DIALOG] placeholder trainer dialogue, pending final writing
+text HauntedWoods_Text_FlashlightTrainerToddPostBattle {
+    "Camping out here gets eerie once\n"
+    "the sun goes down."
+}
+
+script HauntedWoods_EventScript_FlashlightTrainerMiles {
+    trainerbattle_single(TRAINER_BUG_CATCHER_MILES, HauntedWoods_Text_FlashlightTrainerMilesIntro, HauntedWoods_Text_FlashlightTrainerMilesDefeat)
+    msgbox(HauntedWoods_Text_FlashlightTrainerMilesPostBattle, MSGBOX_AUTOCLOSE)
+    end
+}
+
+// TODO: [AI-DIALOG] placeholder trainer dialogue, pending final writing
+text HauntedWoods_Text_FlashlightTrainerMilesIntro {
+    "Click!\n"
+    "Caught something better than a bug!"
+}
+
+// TODO: [AI-DIALOG] placeholder trainer dialogue, pending final writing
+text HauntedWoods_Text_FlashlightTrainerMilesDefeat {
+    "My Ariados got tangled up in that!"
+}
+
+// TODO: [AI-DIALOG] placeholder trainer dialogue, pending final writing
+text HauntedWoods_Text_FlashlightTrainerMilesPostBattle {
+    "Bugs love this misty place.\n"
+    "So do worse things, though..."
+}
+
+script HauntedWoods_EventScript_FlashlightTrainerRosa {
+    trainerbattle_single(TRAINER_CHANNELER_ROSA, HauntedWoods_Text_FlashlightTrainerRosaIntro, HauntedWoods_Text_FlashlightTrainerRosaDefeat)
+    msgbox(HauntedWoods_Text_FlashlightTrainerRosaPostBattle, MSGBOX_AUTOCLOSE)
+    end
+}
+
+// TODO: [AI-DIALOG] placeholder trainer dialogue, pending final writing
+text HauntedWoods_Text_FlashlightTrainerRosaIntro {
+    "Click!\n"
+    "I can see you clear as day now!"
+}
+
+// TODO: [AI-DIALOG] placeholder trainer dialogue, pending final writing
+text HauntedWoods_Text_FlashlightTrainerRosaDefeat {
+    "My Haunter slipped back into\n"
+    "the shadows..."
+}
+
+// TODO: [AI-DIALOG] placeholder trainer dialogue, pending final writing
+text HauntedWoods_Text_FlashlightTrainerRosaPostBattle {
+    "The dead rest uneasy here.\n"
+    "Don't linger too long."
+}
+
 

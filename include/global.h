@@ -1088,7 +1088,11 @@ struct SaveBlock1
     // difficulty by design, so this isn't tied to FLAG_BADGE0X_GET; it's a
     // standalone 0-NUM_BADGES counter until a real progression signal is chosen.
     u8 catchMalusBadgeCount;
-    u8 unused2[1180 - (DEX_COUNTS_MAX_SPECIES * 2) - NUM_DEX_FLAG_BYTES - 1];
+    // Per evolutionary family (indexed by the base species' national dex
+    // number), a nibble holding the most levels the player has raised one of
+    // its members, in units of RAISED_LEVELS_PER_UNIT. See level_reveal.c.
+    u8 familyRaisedLevels[DEX_COUNTS_MAX_SPECIES / 2];
+    u8 unused2[1180 - (DEX_COUNTS_MAX_SPECIES * 2) - NUM_DEX_FLAG_BYTES - 1 - (DEX_COUNTS_MAX_SPECIES / 2)];
 };
 
 struct MapPosition

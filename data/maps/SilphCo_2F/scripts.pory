@@ -144,19 +144,16 @@ script SilphCoScientist_EventScript_ProtoballTurnIn {
     closemessage
     clearmugshot
     specialvar(VAR_RESULT, GetPlayerFacingDirection)
-    if (var(VAR_RESULT) == DIR_WEST) {
-        applymovement(OBJ_EVENT_ID_PLAYER, SilphCo_Movement_FromEast)
-        applymovement(SilphCoScientist, SilphCo_Movement_ToDoor)
+    if (var(VAR_RESULT) == DIR_NORTH) {
+        applymovement(OBJ_EVENT_ID_PLAYER, SilphCo_Movement_PlayerFacingNorth)
     } elif (var(VAR_RESULT) == DIR_SOUTH) {
-        applymovement(OBJ_EVENT_ID_PLAYER, SilphCo_Movement_FromSouth)
-        applymovement(SilphCoScientist, SilphCo_Movement_ToDoor)
-    } elif (var(VAR_RESULT) == DIR_EAST) {
-        applymovement(OBJ_EVENT_ID_PLAYER, SilphCo_Movement_FromWest)
-        applymovement(SilphCoScientist, SilphCo_Movement_ToDoor)
+        applymovement(OBJ_EVENT_ID_PLAYER, SilphCo_Movement_PlayerFacingSouth)
+    } elif (var(VAR_RESULT) == DIR_WEST) {
+        applymovement(OBJ_EVENT_ID_PLAYER, SilphCo_Movement_PlayerFacingWest)
     } else {
-        applymovement(OBJ_EVENT_ID_PLAYER, SilphCo_Movement_ToDoor)
-        applymovement(SilphCoScientist, SilphCo_Movement_ToDoor)
+        applymovement(OBJ_EVENT_ID_PLAYER, SilphCo_Movement_PlayerFacingEast)
     }
+    applymovement(SilphCoScientist, SilphCo_Movement_ToDoor)
     waitmovement(SilphCoScientist)
     waitmovement(OBJ_EVENT_ID_PLAYER)
     setflag(FLAG_SILPH_2F_DOOR_1)
@@ -203,23 +200,29 @@ movement SilphCo_Movement_ToWorkbench {
     face_left
 }
 
-movement SilphCo_Movement_FromEast {
+movement SilphCo_Movement_PlayerFacingNorth {
+    walk_left
+    walk_down
+    walk_right
+    face_down
+    delay_16
+}
+
+movement SilphCo_Movement_PlayerFacingSouth {
+    delay_16
+    walk_down * 3
+}
+
+movement SilphCo_Movement_PlayerFacingWest {
+    delay_16
     walk_left
     walk_down * 2
-    delay_16
 }
 
-movement SilphCo_Movement_FromWest {
+movement SilphCo_Movement_PlayerFacingEast {
+    delay_16
     walk_right
     walk_down * 2
-    delay_16
-}
-
-movement SilphCo_Movement_FromSouth {
-    slide_left
-    walk_right
-    walk_down
-    delay_16
 }
 
 movement SilphCo_Movement_PlayerToWorkbench {

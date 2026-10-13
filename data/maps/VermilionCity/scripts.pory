@@ -26,6 +26,7 @@ VermilionCity_Movement_ExitSSAnne::
 VermilionCity_OnTransition::
 	setworldmapflag FLAG_WORLD_MAP_VERMILION_CITY
 	call_if_set FLAG_TALKED_TO_OAKS_AIDE_IN_VERMILION, VermilionCity_EventScript_HideOaksAide
+	setflag FLAG_HIDE_VERMILION_AGATHA
 	end
 
 VermilionCity_EventScript_HideOaksAide::
@@ -478,3 +479,119 @@ VermilionCity_EventScript_PsyduckNPC::
 	release
 	end
 `
+
+const LOCALID_VERMILION_AGATHA = 14
+
+script VermilionCity_EventScript_AgathaTriggerLeft {
+    lockall
+    setvar(VAR_TEMP_1, 0)
+    goto(VermilionCity_EventScript_AgathaEncounter)
+}
+
+script VermilionCity_EventScript_AgathaTriggerMid {
+    lockall
+    setvar(VAR_TEMP_1, 1)
+    goto(VermilionCity_EventScript_AgathaEncounter)
+}
+
+script VermilionCity_EventScript_AgathaTriggerRight {
+    lockall
+    setvar(VAR_TEMP_1, 2)
+    goto(VermilionCity_EventScript_AgathaEncounter)
+}
+
+script VermilionCity_EventScript_AgathaEncounter {
+    if (!flag(FLAG_SYS_POKEMON_GET)) {
+        releaseall
+        end
+    }
+    if (var(VAR_TEMP_1) == 0) {
+        setobjectxy(LOCALID_VERMILION_AGATHA, 28, 0)
+    } elif (var(VAR_TEMP_1) == 1) {
+        setobjectxy(LOCALID_VERMILION_AGATHA, 29, 0)
+    } else {
+        setobjectxy(LOCALID_VERMILION_AGATHA, 30, 0)
+    }
+    playbgm(MUS_ENCOUNTER_RIVAL, 0)
+    clearflag(FLAG_HIDE_VERMILION_AGATHA)
+    addobject(LOCALID_VERMILION_AGATHA)
+    applymovement(LOCALID_VERMILION_AGATHA, VermilionCity_Movement_AgathaEnter)
+    waitmovement(0)
+    showmugshot(MUGSHOT_AGATHA, MUGSHOT_LEFT)
+    textcolor(NPC_TEXT_COLOR_FEMALE)
+    msgbox(VermilionCity_Text_AgathaVermilionIntro)
+    closemessage
+    clearmugshot
+    setflag(B_FLAG_NO_WHITEOUT)
+    if (var(VAR_STARTER_MON) == 0 || flag(FLAG_0x8D7)) {
+        trainerbattle_no_intro(TRAINER_AGATHA_VERMILION_NIDORAN, VermilionCity_Text_AgathaVermilionDefeat)
+    } elif (var(VAR_STARTER_MON) == 1 || flag(FLAG_0x8D8)) {
+        trainerbattle_no_intro(TRAINER_AGATHA_VERMILION_EXEGGCUTE, VermilionCity_Text_AgathaVermilionDefeat)
+    } else {
+        trainerbattle_no_intro(TRAINER_AGATHA_VERMILION_GROWLITHE, VermilionCity_Text_AgathaVermilionDefeat)
+    }
+    clearflag(B_FLAG_NO_WHITEOUT)
+    special(HealPlayerParty)
+    specialvar(VAR_RESULT, GetBattleOutcome)
+    showmugshot(MUGSHOT_AGATHA, MUGSHOT_LEFT)
+    textcolor(NPC_TEXT_COLOR_FEMALE)
+    if (var(VAR_RESULT) != B_OUTCOME_WON) {
+        msgbox(VermilionCity_Text_AgathaVermilionVictory)
+    }
+    msgbox(VermilionCity_Text_AgathaVermilionPostBattle)
+    closemessage
+    clearmugshot
+    playbgm(MUS_RIVAL_EXIT, 0)
+    applymovement(LOCALID_VERMILION_AGATHA, VermilionCity_Movement_AgathaExit)
+    waitmovement(0)
+    removeobject(LOCALID_VERMILION_AGATHA)
+    setflag(FLAG_HIDE_VERMILION_AGATHA)
+    fadedefaultbgm
+    setvar(VAR_VERMILION_AGATHA_STATE, 1)
+    setflag(FLAG_DEFEATED_AGATHA_VERMILION)
+    releaseall
+    end
+}
+
+movement VermilionCity_Movement_AgathaEnter {
+    walk_down * 2
+}
+
+movement VermilionCity_Movement_AgathaExit {
+    walk_up * 3
+}
+
+text VermilionCity_Text_AgathaVermilionIntro {
+    "Sammy! There you are!\p"
+    "I was waiting for you to finish\n"
+    "fussing around with the Professor.\p"
+    "I took this POKéMON just like Arbor\n"
+    "wanted, but I'm not carrying it\l"
+    "around as a pet.\p"
+    "If it's going to travel with me,\n"
+    "it needs to know how to fight!\p"
+    "Come on, Sammy!\n"
+    "Let's see what you've got!"
+}
+
+text VermilionCity_Text_AgathaVermilionDefeat {
+    "Hmph! Not bad for your\n"
+    "first try."
+}
+
+text VermilionCity_Text_AgathaVermilionVictory {
+    "Ha! Looks like my POKéMON has\n"
+    "more spirit than yours, Sammy!"
+}
+
+text VermilionCity_Text_AgathaVermilionPostBattle {
+    "You're not half bad, Sammy.\p"
+    "Though you still have plenty\n"
+    "to learn if you want to keep\l"
+    "up with me.\p"
+    "I'm heading north to Saffron.\n"
+    "Word is, there are stronger\l"
+    "trainers up that way.\p"
+    "Don't fall behind, Sammy!\n"
+    "See you in Saffron!"
+}

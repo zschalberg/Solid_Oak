@@ -695,7 +695,25 @@ enum TrainerID
     TRAINER_BLACK_BELT_AARON_BLACK,
     TRAINER_BLACK_BELT_MIKE_BLACK,
     TRAINER_BLACK_BELT_KOICHI_BLACK,
-    TRAINER_AGATHA_SILPH,
+    TRAINER_AGATHA_VERMILION_NIDORAN,
+    TRAINER_AGATHA_VERMILION_EXEGGCUTE,
+    TRAINER_AGATHA_VERMILION_GROWLITHE,
+    TRAINER_AGATHA_SILPH_NIDORAN,
+    TRAINER_AGATHA_SILPH_EXEGGCUTE,
+    TRAINER_AGATHA_SILPH_GROWLITHE,
+
+    // Haunted Woods flashlight trainers
+    TRAINER_PSYCHIC_WES,
+    TRAINER_CHANNELER_IRENE,
+    TRAINER_CAMPER_TODD,
+    TRAINER_BUG_CATCHER_MILES,
+    TRAINER_CHANNELER_ROSA,
+
+    // Lavender Cemetary trainers
+    TRAINER_BUG_CATCHER_JOHN,
+    TRAINER_GENTLEMAN_JACOB,
+    TRAINER_PSYCHIC_SCHMIDT,
+    TRAINER_CAMPER_DALE,
     TRAINERS_COUNT,
 
     // Special Trainer Ids.
@@ -708,6 +726,8 @@ enum TrainerID
     TRAINER_LINK_OPPONENT            = 0x800,
     TRAINER_SECRET_BASE              = 0x400,
 };
+
+#define TRAINER_AGATHA_SILPH                     TRAINER_AGATHA_SILPH_NIDORAN
 
 // NOTE: Because each Trainer uses a flag to determine when they are defeated, there is
 //       only space for 25 additional trainers before trainer flag space overflows.

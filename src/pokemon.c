@@ -29,6 +29,7 @@
 #include "frontier_util.h"
 #include "graphics.h"
 #include "item.h"
+#include "level_reveal.h"
 #include "link.h"
 #include "m4a.h"
 #include "main.h"
@@ -1336,11 +1337,16 @@ void CalculateMonStats(struct Pokemon *mon)
     enum Species species = GetMonData(mon, MON_DATA_SPECIES);
     u8 friendship = GetMonData(mon, MON_DATA_FRIENDSHIP);
     s32 level = GetLevelFromMonExp(mon);
+    s32 oldLevel = GetMonData(mon, MON_DATA_LEVEL);
     s32 newMaxHP;
 
     enum Nature nature = GetMonData(mon, MON_DATA_HIDDEN_NATURE);
 
     SetMonData(mon, MON_DATA_LEVEL, &level);
+
+    // A level of 0 means the stats are being filled in for the first time.
+    if (oldLevel != 0 && level > oldLevel)
+        RecordMonRaised(mon);
 
     bool32 hyperTrained[NUM_STATS]; //In a battle test, hyper training flag indicates a fixed stat
     s32 iv[NUM_STATS];

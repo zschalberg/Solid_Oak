@@ -214,7 +214,7 @@
 // this figure, so a session never confiscates balls the player brought in.
 #define VAR_RESERVE_CONTEST_BALLS_HELD 0x409B
 #define VAR_HAUNTED_WOODS_LIGHT_SIZE       0x409C // 0: 100%, 1: 50%, 2: 150%
-#define VAR_0x409D                 0x409D
+#define VAR_VERMILION_AGATHA_STATE 0x409D
 #define VAR_0x409E                 0x409E
 #define VAR_0x409F                 0x409F
 #define VAR_0x40A0                 0x40A0

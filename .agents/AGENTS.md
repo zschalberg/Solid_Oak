@@ -8,6 +8,14 @@ This file provides guidance to agents when working with code in this repository.
 - Never commit without being explicitly told to.
 - Ask questions if there is ambiguity on a request; it is better to ask and be sure than to guess.
 
+## Dialogue & AI Decisions (Placeholders)
+- **AI-generated dialogue is strictly placeholder**: Whenever the AI writes, drafts, or makes decisions on dialogue, NPC speech, quest text, flavor text, or story narrative, treat it purely as a temporary placeholder. Final creative decisions are left to the human developer.
+- **Consistent Tagging Pattern**: Flag every AI-authored or AI-decided dialogue line or text block with the exact tag `[AI-DIALOG]`:
+  - In Poryscript (`.pory`) and C (`.c`): `// TODO: [AI-DIALOG] <optional context/note>`
+  - In ASM (`.inc`, `.s`): `@ TODO: [AI-DIALOG] <optional context/note>`
+- **Filterable / Searchable**: Always use the exact tag `[AI-DIALOG]` so placeholders can be filtered across the codebase (e.g. `git grep "\[AI-DIALOG\]"`).
+- **Other AI Decisions**: For any other non-dialogue design decisions made by the AI that require human review, flag them with `// TODO: [AI-DECISION] <context>`.
+
 ## Project Overview
 **Solid-Oak** is a Pokemon FireRed ROM hack built on the `pokefirered-expansion` framework. The setting is early Kanto before Red/Blue — the player is young Professor Oak studying Pokemon migration. The ROM is compiled to `pokefirered.gba`.
 

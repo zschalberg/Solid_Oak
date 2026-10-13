@@ -1030,7 +1030,7 @@ static const struct MapLightSource sMapLightSources[] = {
         .trackingLocalId = 0,
         .flagId          = 0,
     },
-    // Flashlight Trainer (Camper Chris) at (48, 25)
+    // Flashlight Trainer (Camper) at (48, 25)
     {
         .mapGroup        = MAP_GROUP(MAP_HAUNTED_WOODS),
         .mapNum          = MAP_NUM(MAP_HAUNTED_WOODS),
@@ -1039,8 +1039,68 @@ static const struct MapLightSource sMapLightSources[] = {
         .type            = LIGHT_TYPE_FLASHLIGHT,
         .shape           = LIGHT_SHAPE_CONE,
         .colorTint       = LIGHT_COLOR_NONE,
-        .trackingLocalId = 3, // Camper Chris NPC
+        .trackingLocalId = 3, // Camper NPC
         .flagId          = TRAINER_FLAGS_START + TRAINER_CAMPER_2,
+    },
+    // Flashlight Trainer (Channeler Irene) at (25, 18)
+    {
+        .mapGroup        = MAP_GROUP(MAP_HAUNTED_WOODS),
+        .mapNum          = MAP_NUM(MAP_HAUNTED_WOODS),
+        .x               = 25,
+        .y               = 18,
+        .type            = LIGHT_TYPE_FLASHLIGHT,
+        .shape           = LIGHT_SHAPE_CONE,
+        .colorTint       = LIGHT_COLOR_NONE,
+        .trackingLocalId = 4, // Channeler Irene NPC
+        .flagId          = TRAINER_FLAGS_START + TRAINER_CHANNELER_IRENE,
+    },
+    // Flashlight Trainer (Bug Catcher Miles) at (13, 21)
+    {
+        .mapGroup        = MAP_GROUP(MAP_HAUNTED_WOODS),
+        .mapNum          = MAP_NUM(MAP_HAUNTED_WOODS),
+        .x               = 13,
+        .y               = 21,
+        .type            = LIGHT_TYPE_FLASHLIGHT,
+        .shape           = LIGHT_SHAPE_CONE,
+        .colorTint       = LIGHT_COLOR_NONE,
+        .trackingLocalId = 5, // Bug Catcher Miles NPC
+        .flagId          = TRAINER_FLAGS_START + TRAINER_BUG_CATCHER_MILES,
+    },
+    // Flashlight Trainer (Camper Todd) at (15, 36)
+    {
+        .mapGroup        = MAP_GROUP(MAP_HAUNTED_WOODS),
+        .mapNum          = MAP_NUM(MAP_HAUNTED_WOODS),
+        .x               = 15,
+        .y               = 36,
+        .type            = LIGHT_TYPE_FLASHLIGHT,
+        .shape           = LIGHT_SHAPE_CONE,
+        .colorTint       = LIGHT_COLOR_NONE,
+        .trackingLocalId = 6, // Camper Todd NPC
+        .flagId          = TRAINER_FLAGS_START + TRAINER_CAMPER_TODD,
+    },
+    // Flashlight Trainer (Psychic Wes) at (37, 8)
+    {
+        .mapGroup        = MAP_GROUP(MAP_HAUNTED_WOODS),
+        .mapNum          = MAP_NUM(MAP_HAUNTED_WOODS),
+        .x               = 37,
+        .y               = 8,
+        .type            = LIGHT_TYPE_FLASHLIGHT,
+        .shape           = LIGHT_SHAPE_CONE,
+        .colorTint       = LIGHT_COLOR_NONE,
+        .trackingLocalId = 7, // Psychic Wes NPC
+        .flagId          = TRAINER_FLAGS_START + TRAINER_PSYCHIC_WES,
+    },
+    // Flashlight Trainer (Channeler Rosa) at (14, 6)
+    {
+        .mapGroup        = MAP_GROUP(MAP_HAUNTED_WOODS),
+        .mapNum          = MAP_NUM(MAP_HAUNTED_WOODS),
+        .x               = 14,
+        .y               = 6,
+        .type            = LIGHT_TYPE_FLASHLIGHT,
+        .shape           = LIGHT_SHAPE_CONE,
+        .colorTint       = LIGHT_COLOR_NONE,
+        .trackingLocalId = 8, // Channeler Rosa NPC
+        .flagId          = TRAINER_FLAGS_START + TRAINER_CHANNELER_ROSA,
     },
     // Bug Swarm (Normal Black/Grey Bugs) in Lavender Town at (14, 13)
     {
